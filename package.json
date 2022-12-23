@@ -1,10 +1,10 @@
 {
-  "name": "newcar",
+  "name": "@newcar/monorepo",
   "private": true,
   "scripts": {
     "build:all": "pnpm run -r build",
     "version": "lerna version",
-    "publish": "lerna publish",
+    "release": "lerna publish",
     "info": "lerna info"
   },
   "devDependencies": {
