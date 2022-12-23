@@ -1,0 +1,18 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+      "rootDir": ".",
+      "outDir": "./dist",
+      "baseUrl": ".",
+      "sourceMap": true,
+      "resolveJsonModule": true,
+      "composite": true,
+      "allowJs": false,
+      "declaration": true,
+      "declarationMap": true,
+      "allowSyntheticDefaultImports": true
+    },
+    "include": ["src/**/*", "src/type.d.ts", "../types/src/jsx.d.ts"],
+    "exclude": ["node_modules", "dist"]
+  }
+  
