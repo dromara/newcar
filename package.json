@@ -4,7 +4,7 @@
   "scripts": {
     "build:all": "pnpm run -r build",
     "version": "lerna version",
-    "release": "lerna publish",
+    "release": "lerna version --no-private && pnpm publish -r",
     "info": "lerna info"
   },
   "devDependencies": {
