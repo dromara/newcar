@@ -2,7 +2,7 @@ import { Carobj } from './index'
 
 export class Spirit extends Carobj {
   
-  #status: File[]
+  #status: HTMLImageElement[]
   #x: number
   #y: number
   #statusNow: number
@@ -18,7 +18,7 @@ export class Spirit extends Carobj {
     delete this.#status[index]
   }
 
-  set displayStatus (dis: [File, number]) {
+  set displayStatus (dis: [HTMLImageElement, number]) {
     if (typeof dis[1] === "undefined") {
       this.#status.push(dis[0]);
     } else {
@@ -30,10 +30,11 @@ export class Spirit extends Carobj {
     ctx.drawImage(
       this.#status[this.#statusNow],
       this.#x, this.#y
-    )
+    );
+    return ctx;
   }
   
-  set status(value) {
+  set status(value: number) {
     this.#statusNow = value;
   }
 

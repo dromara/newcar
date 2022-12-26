@@ -9,15 +9,15 @@ export class Carobj {
       this.#length = length;
   }
   
-  #draway () {
-    return this;
+  #draway (ctx: CanvasRenderingContext2D) {
+    return ctx;
+  }
+  
+  get draway () {
+    return this.#draway;
   }
 
   get sigh () {
     return "CarObject"
-  }
-
-  get draway () {
-    return this.#draway;
   }
 }
