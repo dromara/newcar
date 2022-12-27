@@ -7,11 +7,9 @@ export class Text extends Carobj {
   #y: number;
 
   constructor (
-    width: number,
-    length: number,
     text: string
   ) {
-    super(width, length);
+    super();
     this.#text = text;
   }
   
