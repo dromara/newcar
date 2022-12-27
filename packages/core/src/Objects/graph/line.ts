@@ -15,7 +15,7 @@ export class Line extends Carobj{
     this.#point2 = theSecondPoint;
   }
 
-  #draway (ctx: CanvasRenderingContext2D) {
+  #draway(ctx: CanvasRenderingContext2D) {
     // ......
   }
 }

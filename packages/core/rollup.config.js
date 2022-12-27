@@ -32,9 +32,9 @@ export default [
   {
     input: "./src/index.ts",
     output: {
-      format: "es",
+      format: "iife",
       sourcemap: true,
-      name: "leaf",
+      name: "newcar",
       file: "./dist/newcar.min.js",
     },
     plugins: [typescript(), ...commonPlugins, terser({ ecma: 2015 })],
@@ -43,10 +43,10 @@ export default [
   {
     input: "./src/index.ts",
     output: {
-      format: "es",
+      format: "iife",
       sourcemap: true,
-      dir: "./dist/es",
-      preserveModules: true,
+      file: "./dist/newcar.js",
+      name: "newcar",
     },
     plugins: [typescript({ outputToFilesystem: false, outDir: "./dist/es" }), ...commonPlugins],
   },

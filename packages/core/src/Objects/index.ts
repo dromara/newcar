@@ -1,33 +1,29 @@
-import { Spirit } from "./spirit";
-import { Text } from "./text"
+export class Carobj {
+  display = true; // The Object is or isnot display.
 
-class Carobj {
-
-  display: boolean   // The Object is or isnot display.
-  
   /**
    * To channel the main program to draw the object.
    * @param ctx the context of the canvas object.
    */
-  #draway (ctx: CanvasRenderingContext2D) {
+  #draway(ctx: CanvasRenderingContext2D) {
     return ctx;
   }
 
   /**
    * Set the display to false.
    */
-  hide () {
+  hide() {
     this.display = false;
   }
-  
+
   /**
    * Set the display to true.
    */
-  appear () {
+  appear() {
     this.display = true;
   }
-  
-  get draway () {
+
+  get draway() {
     return this.#draway;
   }
 
@@ -35,13 +31,7 @@ class Carobj {
    * Each Carobjs has different sighs.
    * @return The Carobj's type,one and only.
    */
-  get sigh () {
-    return "CarObject"
+  get sigh() {
+    return "CarObject";
   }
-}
-
-export {
-  Carobj,
-  Spirit,
-  Text
 }
