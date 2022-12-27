@@ -1,13 +1,14 @@
 import { Carobj } from "../index";
+import { Point } from "./point";
 
 export class Line extends Carobj{
   
-  #point1: number[]
-  #point2: number[]
+  #point1: number[] | Point
+  #point2: number[] | Point
 
   constructor (
-    theFirstPoint: number[],
-    theSecondPoint: number[]
+    theFirstPoint: number[] | Point,
+    theSecondPoint: number[] | Point
   ) {
     super();
     this.#point1 = theFirstPoint;
