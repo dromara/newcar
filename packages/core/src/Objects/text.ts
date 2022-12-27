@@ -1,48 +1,51 @@
 import { Carobj } from "./index";
 
 export class Text extends Carobj {
-  
   #text: string;
   #x: number;
   #y: number;
 
-  constructor (
-    text: string
-  ) {
+  constructor(text: string, x: number, y: number) {
     super();
     this.#text = text;
+    this.#x = x;
+    this.#y = y;
   }
-  
-  #draway (ctx: CanvasRenderingContext2D) {
+
+  #draway(ctx: CanvasRenderingContext2D) {
     ctx.fillText(this.#text, this.#x, this.#y);
     return ctx;
   }
 
-  get text () {
+  get draway() {
+    return this.#draway;
+  }
+
+  get text() {
     return this.#text;
   }
 
-  set text (value) {
+  set text(value) {
     this.#text = value;
   }
-  
-  get x () {
+
+  get x() {
     return this.#x;
   }
 
-  set x (value: number) {
+  set x(value: number) {
     this.#x = value;
   }
 
-  get y () {
+  get y() {
     return this.#y;
   }
 
-  set y (value: number) {
-    this.#y = value
+  set y(value: number) {
+    this.#y = value;
   }
 
-  get sigh () {
-    return "Text"
+  get sigh() {
+    return "Text";
   }
 }
