@@ -10,6 +10,15 @@ export class Spirit extends Carobj {
   #y: number; // The Y coordinate .
   #statusNow: number; // Current status.
 
+	constructor (
+    x: number,
+    y: number,
+  ) {
+    super();
+    this.#x = x;
+    this.#y = y;
+  }
+
   /**
    * Delete one of status.
    * @param index The index of the status.
