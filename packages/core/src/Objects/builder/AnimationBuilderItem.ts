@@ -1,10 +1,11 @@
 import { AnimationBuilder } from "./AnimationBuilder";
+import { Car } from "../../index";
 export abstract class AnimationBuilderItem {
   /**
    * Will be called on registration.
    * @param parent The parent object.
    */
-  abstract onRegister(parent: AnimationBuilder): void;
+  abstract onRegister(carInstance: Car): void;
 
   /**
    * Will be called on drawing frame.
