@@ -1,13 +1,18 @@
 import { AnimationBuilderItem } from "./AnimationBuilderItem";
 import { Car } from "../../index";
+import { Carobj } from "..";
 
 export class AnimationBuilder {
   #items: AnimationBuilderItem[] = [];
+  #carobjs: Carobj[] = [];
 
   // TODO: Implemented, but not tested.
   playOnCar(carInstance: Car) {
     for (const i of this.#items) {
       i.onRegister(carInstance);
+    }
+    for (const i of this.#carobjs) {
+      carInstance.linkObject(i);
     }
     const itemsClone = [...this.#items];
     itemsClone.sort((a, b) => a.startFrame - b.startFrame);
@@ -34,6 +39,7 @@ export class AnimationBuilder {
         i.onDrawFrame(frame - i.startFrame, this);
       }
     });
+    carInstance.start();
   }
 
   /**
@@ -43,6 +49,15 @@ export class AnimationBuilder {
    */
   addItem(builderItem: AnimationBuilderItem): AnimationBuilder {
     this.#items.push(builderItem);
+    return this;
+  }
+
+  /**
+   * Add an object to the animation.
+   * @param obj The object.
+   */
+  addObject(obj: Carobj): AnimationBuilder {
+    this.#carobjs.push(obj);
     return this;
   }
 }

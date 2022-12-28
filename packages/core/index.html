@@ -14,16 +14,22 @@
       const animation = new newcar.Car(document.getElementById("my-canvas"), 60);
       const tit = new newcar.Text("Hello World!", 10, 10);
       const width = 500, height = 500;
-      let addEveryX = 10, addEveryY = 10;
-      animation.forEvery((curFrame) => {
-        if (curFrame == 200) tit.text = "Fuck world!";
-        if (tit.x >= width || tit.x <= 0) addEveryX = -addEveryX;
-        if (tit.y >= height || tit.y <= 0) addEveryY = -addEveryY;
-        tit.x += addEveryX;
-        tit.y += addEveryY;
-      })
-      animation.linkObject(tit);
-      animation.start();
+      //let addEveryX = 10, addEveryY = 10;
+      //animation.forEvery((curFrame) => {
+      //  if (curFrame == 200) tit.text = "Fuck world!";
+      //  if (tit.x >= width || tit.x <= 0) addEveryX = -addEveryX;
+      //  if (tit.y >= height || tit.y <= 0) addEveryY = -addEveryY;
+      //  tit.x += addEveryX;
+      //  tit.y += addEveryY;
+      //})
+      //animation.linkObject(tit);
+      //animation.start();
+      new newcar.AnimationBuilder()
+        .addObject(tit)
+        .addItem(
+          newcar.MutateContent.create().bindTo(tit).startAt(200).mutateContentTo("Fuck World!").boom()
+        )
+        .playOnCar(animation);
     </script>
   </body>
 </html>

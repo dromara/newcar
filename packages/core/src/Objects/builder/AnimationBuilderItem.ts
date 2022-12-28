@@ -5,7 +5,10 @@ export abstract class AnimationBuilderItem {
    * Will be called on registration.
    * @param parent The parent object.
    */
-  abstract onRegister(carInstance: Car): void;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onRegister(_carInstance: Car): void {
+    return;
+  }
 
   /**
    * Will be called on drawing frame.

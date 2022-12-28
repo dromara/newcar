@@ -1,4 +1,6 @@
 import { type Carobj } from "./Objects/index";
+export { AnimationBuilder } from "./Objects/builder/AnimationBuilder";
+export { MutateContent } from "./Objects/builder/builder_items/MutateContent";
 
 export class Car {
   #ele: HTMLCanvasElement; // The html element of canvas.
