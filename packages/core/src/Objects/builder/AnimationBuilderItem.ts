@@ -1,6 +1,11 @@
-import { AnimationBuilder } from './AnimationBuilder';
+import { AnimationBuilder } from "./AnimationBuilder";
 export abstract class AnimationBuilderItem {
-  
+  /**
+   * Will be called on registration.
+   * @param parent The parent object.
+   */
+  abstract onRegister(parent: AnimationBuilder): void;
+
   /**
    * Will be called on drawing frame.
    * @param relativeFrameCount The frame count relative to `fstart`.
@@ -16,5 +21,4 @@ export abstract class AnimationBuilderItem {
    * Decide how long the animation lasts.
    */
   abstract get length(): number;
-
 }

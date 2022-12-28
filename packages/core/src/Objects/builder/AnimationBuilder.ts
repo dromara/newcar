@@ -2,7 +2,7 @@ import { AnimationBuilderItem } from "./AnimationBuilderItem";
 import { Car } from "../../index";
 
 export class AnimationBuilder {
-  #items: AnimationBuilderItem[];
+  #items: AnimationBuilderItem[] = [];
 
   // TODO: Implemented, but not tested.
   playOnCar(carInstance: Car) {

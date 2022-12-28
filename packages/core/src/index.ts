@@ -5,9 +5,9 @@ export class Car {
   #objects: Carobj[] = []; // The objects of animation.
   #every?: (agr0: number) => void; // Do it for every frame.
   #start?: () => void; // Do it before the animation started.
-  #fps: number; // The FPS.
+  #fps = 0; // The FPS.
   #fpsImmediate = 0; // Current number of frames.
-  #ctx: CanvasRenderingContext2D | null; // The context of canvas.
+  #ctx: CanvasRenderingContext2D | null = null; // The context of canvas.
 
   /**
    * Create a animation of newcar.

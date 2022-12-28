@@ -6,15 +6,12 @@ export class Spirit extends Carobj implements IPositionedMut {
    * You can set different types of status,the spirit only display one of all until you change it.
    */
 
-  #status: HTMLImageElement[]; // The status of the carobj, default by the first.
+  #status: HTMLImageElement[] = []; // The status of the carobj, default by the first.
   #x: number; // The X coordinate.
   #y: number; // The Y coordinate .
-  #statusNow: number; // Current status.
+  #statusNow = 0; // Current status.
 
-	constructor (
-    x: number,
-    y: number,
-  ) {
+  constructor(x: number, y: number) {
     super();
     this.#x = x;
     this.#y = y;

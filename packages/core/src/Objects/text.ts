@@ -7,8 +7,8 @@ export class Text extends Carobj {
   #size: number | string;
   #color: string;
   #fontFamily: string;
-  #align: "start" | "end" | "right" | "end" | "center";
-  #baseLine: "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom";
+  #align: "start" | "end" | "right" | "end" | "center" = "start";
+  #baseLine: "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom" = "middle";
 
   constructor(
     text: string,
@@ -42,36 +42,36 @@ export class Text extends Carobj {
     ctx.fillText(this.#text, this.#x, this.#y);
     return ctx;
   }
-	
-	get color () {
+
+  get color() {
     return this.#color;
   }
 
-  set color (value: string) {
+  set color(value: string) {
     this.#color = value;
   }
 
-  get fontFamily () {
+  get fontFamily() {
     return this.#fontFamily;
   }
 
-  set fontFamily (value: string) {
+  set fontFamily(value: string) {
     this.#fontFamily = value;
   }
-  
-  get align () {
+
+  get align() {
     return this.#align;
   }
 
-  set align (value: "start" | "end" | "right" | "end" | "center") {
+  set align(value: "start" | "end" | "right" | "end" | "center") {
     this.#align = value;
   }
-	
-	get baseLine () {
+
+  get baseLine() {
     return this.#baseLine;
   }
 
-  set baseLine (value: "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom") {
+  set baseLine(value: "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom") {
     this.#baseLine = value;
   }
 

@@ -1,6 +1,8 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
       "rootDir": ".",
       "outDir": "./dist",
       "baseUrl": ".",
