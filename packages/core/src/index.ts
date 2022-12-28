@@ -76,3 +76,4 @@ export { MutateContent } from "./Objects/builder/builder_items/MutateContent";
 export { Interpolator } from "./Objects/interpolation/Interpolator";
 export { LinearInterpolator } from "./Objects/interpolation/LinearInterpolator";
 export { Translation } from "./Objects/builder/builder_items/Translation";
+export { EaseInOutInterpolator } from "./Objects/interpolation/NonlinearInterpolators";

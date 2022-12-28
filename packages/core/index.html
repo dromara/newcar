@@ -28,7 +28,7 @@
       new newcar.AnimationBuilder()
         .addObject(tit)
         .addItem(
-          newcar.Translation.create().from(10, 10).to(100, 100).startAt(0).lastsFor(100).bindTo(tit).by(x => 1.81818 * ((x - 0.5) ** 3 + 0.44 * x + 0.125)).boom()
+          newcar.Translation.create().from(10, 10).to(100, 100).startAt(0).lastsFor(100).bindTo(tit).by(newcar.EaseInOutInterpolator).boom()
         )
         .addItem(
           newcar.MutateContent.create().bindTo(tit).startAt(200).mutateContentTo("Fuck World!").boom()
