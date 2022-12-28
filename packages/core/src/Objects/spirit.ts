@@ -7,14 +7,12 @@ export class Spirit extends Carobj implements IPositionedMut {
    */
 
   #status: HTMLImageElement[] = []; // The status of the carobj, default by the first.
-  #x: number; // The X coordinate.
-  #y: number; // The Y coordinate .
   #statusNow = 0; // Current status.
 
   constructor(x: number, y: number) {
     super();
-    this.#x = x;
-    this.#y = y;
+    this.x = x;
+    this.y = y;
   }
 
   /**
@@ -39,28 +37,12 @@ export class Spirit extends Carobj implements IPositionedMut {
   }
 
   #draway(ctx: CanvasRenderingContext2D) {
-    ctx.drawImage(this.#status[this.#statusNow], this.#x, this.#y);
+    ctx.drawImage(this.#status[this.#statusNow], this.x, this.y);
     return ctx;
   }
 
   set status(value: number) {
     this.#statusNow = value;
-  }
-
-  get x() {
-    return this.#x;
-  }
-
-  set x(value: number) {
-    this.#x = value;
-  }
-
-  get y() {
-    return this.#y;
-  }
-
-  set y(value: number) {
-    this.#y = value;
   }
 
   get sigh() {

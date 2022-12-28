@@ -2,8 +2,6 @@ import { Carobj } from "../index";
 
 export class Point extends Carobj {
   
-  #x: number
-  #y: number
   #name: string   // The name of the point.
   #displayPointName: boolean // Is or not is displaying the name of the point.
   #displayThePoint: boolean // Is or not is displaying the point.
@@ -18,8 +16,8 @@ export class Point extends Carobj {
     displayName?: boolean
   ) {
     super();
-    this.#x = x;
-    this.#y = y;
+    this.x = x;
+    this.y = y;
     this.#name = name!;
     this.#displayThePoint = display!;
     this.#displayPointName = displayName!;

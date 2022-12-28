@@ -2,8 +2,6 @@ import { Carobj } from "./index";
 
 export class Text extends Carobj {
   #text: string;
-  #x: number;
-  #y: number;
   #size: number | string;
   #color: string;
   #fontFamily: string;
@@ -22,8 +20,8 @@ export class Text extends Carobj {
   ) {
     super();
     this.#text = text;
-    this.#x = x;
-    this.#y = y;
+    this.x = x;
+    this.y = y;
     if (size) this.#size = size;
     else this.#size = "";
     if (color) this.#color = color;
@@ -39,7 +37,7 @@ export class Text extends Carobj {
     if (!(typeof this.#align === "undefined")) ctx.textAlign = this.#align;
     if (!(typeof this.#baseLine === "undefined")) ctx.textBaseline = this.#baseLine;
     ctx.fillStyle = this.#color;
-    ctx.fillText(this.#text, this.#x, this.#y);
+    ctx.fillText(this.#text, this.x, this.y);
     return ctx;
   }
 
@@ -85,22 +83,6 @@ export class Text extends Carobj {
 
   set text(value) {
     this.#text = value;
-  }
-
-  get x() {
-    return this.#x;
-  }
-
-  set x(value: number) {
-    this.#x = value;
-  }
-
-  get y() {
-    return this.#y;
-  }
-
-  set y(value: number) {
-    this.#y = value;
   }
 
   get sigh() {

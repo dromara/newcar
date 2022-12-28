@@ -1,6 +1,7 @@
 export class Carobj {
   display = true; // The Object is or isnot display.
-
+  #x: number = NaN;
+  #y: number = NaN;
   /**
    * To channel the main program to draw the object.
    * @param ctx the context of the canvas object.
@@ -33,5 +34,20 @@ export class Carobj {
    */
   get sigh() {
     return "CarObject";
+  }
+
+  get x () {
+    return this.#x;
+  }
+  set x (value: number) {
+    this.#x = value;
+  }
+
+  get y () {
+    return this.#y;
+  }
+
+  set y (value: number) {
+    this.#y = value;
   }
 }
