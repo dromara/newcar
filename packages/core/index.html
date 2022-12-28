@@ -24,8 +24,12 @@
       //})
       //animation.linkObject(tit);
       //animation.start();
+      tit.lived();
       new newcar.AnimationBuilder()
         .addObject(tit)
+        .addItem(
+          newcar.Translation.create().from(10, 10).to(100, 100).startAt(0).lastsFor(100).bindTo(tit).boom()
+        )
         .addItem(
           newcar.MutateContent.create().bindTo(tit).startAt(200).mutateContentTo("Fuck World!").boom()
         )
