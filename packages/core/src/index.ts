@@ -8,7 +8,7 @@ export class Car {
   #every?: (agr0: number) => void; // Do it for every frame.
   #start?: () => void; // Do it before the animation started.
   #fps = 0; // The FPS.
-  #fpsImmediate = 0; // Current number of frames.
+  #frameImmediately = 0; // Current number of frames.
   #ctx: CanvasRenderingContext2D | null = null; // The context of canvas.
 
   /**
@@ -47,15 +47,16 @@ export class Car {
    * Start the animation.
    */
   start() {
+    this.#frameImmediately = 0;
     if (this.#ctx === null) return;
     this.#start && this.#start();
     // eslint-disable-next-line no-constant-condition
     setInterval(() => {
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
-      this.#fpsImmediate += 1;
-      this.#every && this.#every(this.#fpsImmediate);
+      this.#frameImmediately += 1;
+      this.#every && this.#every(this.#frameImmediately);
       this.#objects.forEach((object) => {
-        if (!object.display) return;
+        if (!object.display || !object.lifeStatus) return;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         object.draway(this.#ctx!);
       });
