@@ -1,6 +1,7 @@
 import { Carobj } from "./index";
+import { IPositionedMut } from "./interfaces/Positioned";
 
-export class Spirit extends Carobj {
+export class Spirit extends Carobj implements IPositionedMut {
   /**
    * You can set different types of status,the spirit only display one of all until you change it.
    */

@@ -11,8 +11,8 @@ export class Car {
 
   /**
    * Create a animation of newcar.
-   * @param ele: The element of canvas.
-   * @param fps: The FPS of the animation.
+   * @param ele The element of canvas.
+   * @param fps The FPS of the animation.
    */
   constructor(ele: HTMLCanvasElement, fps: number) {
     this.#ele = ele;
