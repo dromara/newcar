@@ -1,18 +1,16 @@
 import { AnimationBuilderItem } from "./AnimationBuilderItem";
-import { Car } from '../../index';
+import { Car } from "../../index";
 
 export class AnimationBuilder {
-  
   #items: AnimationBuilderItem[];
 
   // TODO: Implemented, but not tested.
   playOnCar(carInstance: Car) {
     let itemsClone = [...this.#items];
     itemsClone.sort((a, b) => a.startFrame - b.startFrame);
-    carInstance.forEvery(frame => {
+    carInstance.forEvery((frame) => {
       let sliceCounter = 0;
-      for (let i of itemsClone) {
-        
+      for (const i of itemsClone) {
         // Now hold on.
         // This is a very simple algorithm.
         // If you can't understand it, you are just fool.
@@ -31,9 +29,8 @@ export class AnimationBuilder {
 
         // M⚡️U⚡️L⚡️T⚡️I⚡️P⚡️L⚡️A⚡️Y⚡️E⚡️R⚡️-⚡️S⚡️P⚡️O⚡️R⚡️T⚡️S
         i.onDrawFrame(frame - i.startFrame, this);
-
       }
-      itemsClone.slice(sliceCounter);
+      itemsClone = itemsClone.slice(sliceCounter);
     });
   }
 
@@ -42,9 +39,8 @@ export class AnimationBuilder {
    * @param builderItem The builder item.
    * @returns The reference to the builder itself.
    */
-  addItem(builderItem: AnimationBuilderItem) : AnimationBuilder {
+  addItem(builderItem: AnimationBuilderItem): AnimationBuilder {
     this.#items.push(builderItem);
     return this;
   }
-
 }
