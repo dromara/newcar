@@ -1,8 +1,8 @@
 export class Carobj {
   display = true; // The Object is or isnot display.
-  #x: number = NaN;
-  #y: number = NaN;
-  #survival: boolean = false;
+  #x = NaN;
+  #y = NaN;
+  #survival = false;
   /**
    * To channel the main program to draw the object.
    * @param ctx the context of the canvas object.
@@ -24,7 +24,7 @@ export class Carobj {
   appear() {
     this.display = true;
   }
-  
+
   killed() {
     this.#survival = false;
   }
@@ -33,7 +33,7 @@ export class Carobj {
     this.#survival = true;
   }
 
-  get lifeStatus () {
+  get lifeStatus() {
     return this.#survival;
   }
 
@@ -49,18 +49,18 @@ export class Carobj {
     return "CarObject";
   }
 
-  get x () {
+  get x() {
     return this.#x;
   }
-  set x (value: number) {
+  set x(value: number) {
     this.#x = value;
   }
 
-  get y () {
+  get y() {
     return this.#y;
   }
 
-  set y (value: number) {
+  set y(value: number) {
     this.#y = value;
   }
 }

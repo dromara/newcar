@@ -1,6 +1,8 @@
 import { type Carobj } from "./Objects/index";
+import { IRenderable } from "./Objects/interfaces/Renderable";
+import { IRendererController } from "./Objects/interfaces/RenderController";
 
-export class Car {
+export class Car implements IRenderable, IRendererController {
   #ele: HTMLCanvasElement; // The html element of canvas.
   #objects: Carobj[] = []; // The objects of animation.
   #every?: (agr0: number) => void; // Do it for every frame.
@@ -27,7 +29,7 @@ export class Car {
    * Set this.#every
    * @param command the fuction.
    */
-  forEvery(command: (agr0: number) => void) {
+  onUpdate(command: (agr0: number) => void) {
     this.#every = command;
     return this;
   }
@@ -76,4 +78,35 @@ export { MutateContent } from "./Objects/builder/builder_items/MutateContent";
 export { Interpolator } from "./Objects/interpolation/Interpolator";
 export { LinearInterpolator } from "./Objects/interpolation/LinearInterpolator";
 export { Translation } from "./Objects/builder/builder_items/Translation";
-export { EaseInOutInterpolator } from "./Objects/interpolation/NonlinearInterpolators";
+export {
+  EaseInBackInterpolator,
+  EaseInBounceInterpolator,
+  EaseInCircInterpolator,
+  EaseInCubicInterpolatorInterpolator,
+  EaseInElasticInterpolator,
+  EaseInExpoInterpolator,
+  EaseInOutBackInterpolator,
+  EaseInOutBounceInterpolator,
+  EaseInOutCircInterpolator,
+  EaseInOutElasticInterpolator,
+  EaseInOutCubicInterpolator,
+  EaseInOutExpoInterpolator,
+  EaseInOutQuadInterpolator,
+  EaseInOutQuartInterpolator,
+  EaseInOutQuintInterpolator,
+  EaseInOutSineInterpolator,
+  EaseInQuadInterpolator,
+  EaseInQuartInterpolator,
+  EaseInQuintInterpolator,
+  EaseInSineInterpolator,
+  EaseOutBackInterpolator,
+  EaseOutBounceInterpolator,
+  EaseOutCircInterpolator,
+  EaseOutCubicInterpolatorInterpolator,
+  EaseOutElasticInterpolator,
+  EaseOutExpoInterpolator,
+  EaseOutQuadInterpolator,
+  EaseOutQuartInterpolator,
+  EaseOutQuintInterpolator,
+  EaseOutSineInterpolator,
+} from "./Objects/interpolation/NonlinearInterpolators";

@@ -1,13 +1,17 @@
 import { AnimationBuilderItem } from "./AnimationBuilderItem";
-import { Car } from "../../index";
 import { Carobj } from "..";
+import { IRenderable } from "../interfaces/Renderable";
+import { IRendererController } from "../interfaces/RenderController";
 
 export class AnimationBuilder {
   #items: AnimationBuilderItem[] = [];
-  #carobjs: Carobj[] = [];
+  #carobjs: unknown[] = [];
 
-  // TODO: Implemented, but not tested.
-  playOnCar(carInstance: Car) {
+  /**
+   * Play the animation on a `Car` instance.
+   * @param carInstance The `Car` instance.
+   */
+  playOnCar<T extends IRenderable & IRendererController>(carInstance: T) {
     for (const i of this.#items) {
       i.onRegister(carInstance);
     }
@@ -16,7 +20,7 @@ export class AnimationBuilder {
     }
     const itemsClone = [...this.#items];
     itemsClone.sort((a, b) => a.startFrame - b.startFrame);
-    carInstance.forEvery((frame) => {
+    carInstance.onUpdate((frame) => {
       for (const i of itemsClone) {
         // Now hold on.
         // This is a very simple algorithm.

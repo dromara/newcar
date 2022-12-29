@@ -44,6 +44,11 @@ export class TranslationTemporaryIndeterminateVariation {
     return this;
   }
 
+  /**
+   * Set the interpolation function the animation will use.
+   * @param interpolationFunction The interpolation function the animation will use.
+   * @returns The reference to itself.
+   */
   by(interpolationFunction: (arg0: number) => number): TranslationTemporaryIndeterminateVariation {
     this.#interpolator = interpolationFunction;
     return this;
