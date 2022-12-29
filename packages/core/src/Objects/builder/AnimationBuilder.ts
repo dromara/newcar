@@ -1,26 +1,25 @@
 import { AnimationBuilderItem } from "./AnimationBuilderItem";
-import { Carobj } from "..";
 import { IRenderable } from "../interfaces/Renderable";
 import { IRendererController } from "../interfaces/RenderController";
 
 export class AnimationBuilder {
   #items: AnimationBuilderItem[] = [];
-  #carobjs: unknown[] = [];
+  #objectsToRender: unknown[] = [];
 
   /**
-   * Play the animation on a `Car` instance.
-   * @param carInstance The `Car` instance.
+   * Play the animation on a `? extends IRenderable & IRendererController` instance.
+   * @param rdInstance The `? extends IRenderable & IRendererController` instance.
    */
-  playOnCar<T extends IRenderable & IRendererController>(carInstance: T) {
+  playOnCar<T extends IRenderable & IRendererController>(rdInstance: T) {
     for (const i of this.#items) {
-      i.onRegister(carInstance);
+      i.onRegister(rdInstance);
     }
-    for (const i of this.#carobjs) {
-      carInstance.linkObject(i);
+    for (const i of this.#objectsToRender) {
+      rdInstance.linkObject(i);
     }
     const itemsClone = [...this.#items];
     itemsClone.sort((a, b) => a.startFrame - b.startFrame);
-    carInstance.onUpdate((frame) => {
+    rdInstance.onUpdate((frame) => {
       for (const i of itemsClone) {
         // Now hold on.
         // This is a very simple algorithm.
@@ -43,7 +42,7 @@ export class AnimationBuilder {
         i.onDrawFrame(frame - i.startFrame, this);
       }
     });
-    carInstance.start();
+    rdInstance.start();
   }
 
   /**
@@ -60,8 +59,8 @@ export class AnimationBuilder {
    * Add an object to the animation.
    * @param obj The object.
    */
-  addObject(obj: Carobj): AnimationBuilder {
-    this.#carobjs.push(obj);
+  addObject(obj: unknown): AnimationBuilder {
+    this.#objectsToRender.push(obj);
     return this;
   }
 }
