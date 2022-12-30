@@ -28,13 +28,16 @@
       new newcar.AnimationBuilder()
         .addObject(tit)
         .addItem(
-          newcar.Translation.create().from(10, 10).to(100, 100).startAt(0).lastsFor(100).bindTo(tit).by(newcar.EaseInOutQuintInterpolator).boom()
+          newcar.Translation.create().to(100, 100).startAt(0).lastsFor(200).bindTo(tit).by(newcar.EaseInOutQuintInterpolator).boom()
         )
         .addItem(
           newcar.MutateContent.create().bindTo(tit).startAt(200).mutateContentTo("Fuck World!").boom()
         )
         .addItem(
-          newcar.Translation.create().from(10, 10).to(100, 100).startAt(200).lastsFor(100).bindTo(tit).boom()
+          newcar.Rotation.create().to(2 * Math.PI).startAt(200).lastsFor(100).bindTo(tit).boom()
+        )
+        .addItem(
+          newcar.Scale.create().to(2, 2).startAt(300).lastsFor(100).by(newcar.EaseInOutQuadInterpolator).bindTo(tit).boom()
         )
         .playOnCar(animation);
     </script>

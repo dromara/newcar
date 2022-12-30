@@ -34,12 +34,13 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
     if (baseLine) this.#baseLine = baseLine;
   }
 
-  #draway(ctx: CanvasRenderingContext2D) {
+  override onDraw(ctx: CanvasRenderingContext2D) {
+    super.onDraw(ctx);
     ctx.font = `${this.#size} ${this.#fontFamily}`;
     if (!(typeof this.#align === "undefined")) ctx.textAlign = this.#align;
     if (!(typeof this.#baseLine === "undefined")) ctx.textBaseline = this.#baseLine;
     ctx.fillStyle = this.#color;
-    ctx.fillText(this.#text, this.x, this.y);
+    ctx.fillText(this.#text, 0, 0);
     return ctx;
   }
 
@@ -73,10 +74,6 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
 
   set baseLine(value: "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom") {
     this.#baseLine = value;
-  }
-
-  get draway() {
-    return this.#draway;
   }
 
   get text() {

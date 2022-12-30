@@ -58,7 +58,7 @@ export class Car implements IRenderable, IRendererController {
       this.#objects.forEach((object) => {
         if (!object.display || !object.lifeStatus) return;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        object.draway(this.#ctx!);
+        object.onUpdate(this.#ctx!);
       });
     }, 1000 / this.#fps);
   }
@@ -78,6 +78,8 @@ export { MutateContent } from "./Objects/builder/builder_items/MutateContent";
 export { Interpolator } from "./Objects/interpolation/Interpolator";
 export { LinearInterpolator } from "./Objects/interpolation/LinearInterpolator";
 export { Translation } from "./Objects/builder/builder_items/Translation";
+export { Rotation } from "./Objects/builder/builder_items/Rotation";
+export { Scale } from "./Objects/builder/builder_items/Scale";
 export {
   EaseInBackInterpolator,
   EaseInBounceInterpolator,

@@ -1,15 +1,34 @@
 import { IPositionedMut } from "./interfaces/Positioned";
-export class Carobj implements IPositionedMut {
+import { IRotatedMut } from "./interfaces/Rotated";
+import { IScaledMut } from "./interfaces/Scaled";
+export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   display = true; // The Object is or isnot display.
-  #x = NaN;
-  #y = NaN;
+  #x = 0;
+  #y = 0;
+  #rotation = 0;
   #survival = false;
+  #scaleX = 1;
+  #scaleY = 1;
   /**
-   * To channel the main program to draw the object.
-   * @param ctx the context of the canvas object.
+   * Get called on each frame.
+   * @param ctx The context instance of the canvas object.
    */
-  #draway(ctx: CanvasRenderingContext2D) {
+  onDraw(ctx: CanvasRenderingContext2D) {
     return ctx;
+  }
+
+  /**
+   * Actually get called on each frame. The difference to `onDraw()` is that `onDraw()` is used for inherited classes to implement their render while this will be actually called directly on each frame.
+   * We will do some transformation on this frame.
+   * @param ctx The context instance.
+   */
+  onUpdate(ctx: CanvasRenderingContext2D) {
+    ctx.save();
+    ctx.translate(this.#x, this.#y);
+    ctx.rotate(this.#rotation);
+    ctx.scale(this.#scaleX, this.#scaleY);
+    this.onDraw(ctx);
+    ctx.restore();
   }
 
   /**
@@ -38,10 +57,6 @@ export class Carobj implements IPositionedMut {
     return this.#survival;
   }
 
-  get draway() {
-    return this.#draway;
-  }
-
   /**
    * Each Carobjs has different sighs.
    * @return The Carobj's type,one and only.
@@ -63,5 +78,31 @@ export class Carobj implements IPositionedMut {
 
   set y(value: number) {
     this.#y = value;
+  }
+  set scaleX(value: number) {
+    this.#scaleX = value;
+  }
+  get scaleX(): number {
+    return this.#scaleX;
+  }
+  set scaleY(value: number) {
+    this.#scaleY = value;
+  }
+  get scaleY(): number {
+    return this.#scaleY;
+  }
+
+  /**
+   * Return the rotation of the component, in radians.
+   */
+  get rotation() {
+    return this.#rotation;
+  }
+
+  /**
+   * Set the rotation of the component. Remember, the value is in radians (which 2*pi == 360deg).
+   */
+  set rotation(value: number) {
+    this.#rotation = value;
   }
 }

@@ -72,17 +72,24 @@ export class RotateTemporaryIndeterminateVariation {
     return this;
   }
 
-  boom(): Rotate {
+  boom(): Rotation {
     if (this.#r1 === null) throw new Error("Cannot BOOM!");
     if (this.#r0 === null) throw new Error("Cannot BOOM!");
     if (this.#start === null) throw new Error("Cannot BOOM!");
     if (this.#length === null) throw new Error("Cannot BOOM!");
     if (this.#obj === null) throw new Error("Cannot BOOM!");
-    return new Rotate(this.#r0, this.#r1, this.#length, this.#start, this.#obj, this.#interpolator);
+    return new Rotation(
+      this.#r0,
+      this.#r1,
+      this.#length,
+      this.#start,
+      this.#obj,
+      this.#interpolator
+    );
   }
 }
 
-export class Rotate extends AnimationBuilderItem {
+export class Rotation extends AnimationBuilderItem {
   #obj: IRotatedMut;
   #interpolator: Interpolator;
   #length: number;

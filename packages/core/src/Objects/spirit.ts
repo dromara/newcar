@@ -36,8 +36,9 @@ export class Spirit extends Carobj implements IPositionedMut {
     }
   }
 
-  #draway(ctx: CanvasRenderingContext2D) {
-    ctx.drawImage(this.#status[this.#statusNow], this.x, this.y);
+  override onDraw(ctx: CanvasRenderingContext2D) {
+    super.onDraw(ctx);
+    ctx.drawImage(this.#status[this.#statusNow], 0, 0);
     return ctx;
   }
 
