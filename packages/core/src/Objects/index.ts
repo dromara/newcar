@@ -1,4 +1,5 @@
-export class Carobj {
+import { IPositionedMut } from "./interfaces/Positioned";
+export class Carobj implements IPositionedMut {
   display = true; // The Object is or isnot display.
   #x = NaN;
   #y = NaN;
