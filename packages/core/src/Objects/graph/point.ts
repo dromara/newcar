@@ -1,13 +1,12 @@
 import { Carobj } from "../index";
 
 export class Point extends Carobj {
-  
-  #name: string   // The name of the point.
-  #displayPointName: boolean // Is or not is displaying the name of the point.
-  #displayThePoint: boolean // Is or not is displaying the point.
-  #pointRadius: number // The radius of the point,the default is 1px.
+  #name: string; // The name of the point.
+  #displayPointName: boolean; // Is or not is displaying the name of the point.
+  #displayThePoint: boolean; // Is or not is displaying the point.
+  #pointRadius: number; // The radius of the point,the default is 1px.
 
-  constructor (
+  constructor(
     x: number,
     y: number,
     name?: string,
@@ -25,7 +24,7 @@ export class Point extends Carobj {
     else this.#pointRadius = radius;
   }
 
-  #draway (ctx: CanvasRenderingContext2D) {
+  #draway(ctx: CanvasRenderingContext2D) {
     if (this.#displayThePoint) {
       // ......
     } else if (this.#displayPointName) {
