@@ -1,6 +1,6 @@
 {
   "name": "@newcar/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./dist/newcar.min.js",
   "license": "APACHE-2.0",
   "type": "module",
