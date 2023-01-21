@@ -1,17 +1,21 @@
 import { Carobj } from "../index";
-import { Point } from "./point";
+import { type Point } from "./point";
 
 export class Line extends Carobj {
-  #point1: number[] | Point;
-  #point2: number[] | Point;
+  #point1: Point;
+  #point2: Point;
 
-  constructor(theFirstPoint: number[] | Point, theSecondPoint: number[] | Point) {
+  constructor(theFirstPoint: Point, theSecondPoint: Point) {
     super();
     this.#point1 = theFirstPoint;
     this.#point2 = theSecondPoint;
   }
 
-  #draway(ctx: CanvasRenderingContext2D) {
+  #onDraw(ctx: CanvasRenderingContext2D) {
     // ......
+  }
+
+  get primaryPoints() {
+    return [this.#point1, this.#point2];
   }
 }
