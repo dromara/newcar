@@ -11,8 +11,10 @@ export class Line extends Carobj {
     this.#point2 = theSecondPoint;
   }
 
-  #onDraw(ctx: CanvasRenderingContext2D) {
+  override onDraw(ctx: CanvasRenderingContext2D) {
+    super.onDraw(ctx);
     // ......
+    return ctx;
   }
 
   get primaryPoints() {
