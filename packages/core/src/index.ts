@@ -73,6 +73,9 @@ export class Car implements IRenderable, IRendererController {
 }
 
 export { Text } from "./Objects/text";
+export { Point } from "./Objects/graph/point";
+export { Line } from "./Objects/graph/line";
+export { LineSegment } from "./Objects/graph/lineSegment";
 export { AnimationBuilder } from "./Objects/builder/AnimationBuilder";
 export { MutateContent } from "./Objects/builder/builder_items/MutateContent";
 export { Interpolator } from "./Objects/interpolation/Interpolator";
