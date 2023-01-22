@@ -13,6 +13,11 @@
     <script>
       const animation = new newcar.Car(document.getElementById("my-canvas"), 60);
       const tit = new newcar.Text("Hello World!", 10, 10);
+      const line = new newcar.LineSegment(
+        new newcar.Point(0,0),
+        new newcar.Point(100,100)
+      )
+      animation.linkObject(line);
       tit.color = "skyblue";
       tit.size = "100px";
       const width = 500, height = 500;
@@ -27,6 +32,7 @@
       //animation.linkObject(tit);
       //animation.start();
       tit.lived();
+      line.lived();
       new newcar.AnimationBuilder()
         .addObject(tit)
         .addItem(
