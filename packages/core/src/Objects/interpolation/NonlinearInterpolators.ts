@@ -23,11 +23,11 @@ export function EaseInOutQuadInterpolator(x: number): number {
   return x < 0.5 ? 16 * x * x * x * x * x : 1 - Math.pow(-2 * x + 2, 5) / 2;
 }
 
-export function EaseInCubicInterpolatorInterpolator(x: number): number {
+export function EaseInCubicInterpolator(x: number): number {
   return x * x * x;
 }
 
-export function EaseOutCubicInterpolatorInterpolator(x: number): number {
+export function EaseOutCubicInterpolator(x: number): number {
   return 1 - Math.pow(1 - x, 3);
 }
 

@@ -20,4 +20,20 @@ export class Line extends Carobj {
   get primaryPoints() {
     return [this.#point1, this.#point2];
   }
+
+  set startX(value: number) {
+    this.#point1.x = value;
+  }
+
+  set startY(value: number) {
+    this.#point1.y = value;
+  }
+
+  set endX(value: number) {
+    this.#point2.x = value;
+  }
+
+  set endY(value: number) {
+    this.#point2.y = value;
+  }
 }

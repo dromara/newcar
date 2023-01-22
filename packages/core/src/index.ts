@@ -1,6 +1,7 @@
 import { type Carobj } from "./Objects/index";
 import { IRenderable } from "./Objects/interfaces/Renderable";
 import { IRendererController } from "./Objects/interfaces/RenderController";
+import { ChangingStatus } from "./Objects/builder/builder_items/ChangingStatus";
 
 export class Car implements IRenderable, IRendererController {
   #ele: HTMLCanvasElement; // The html element of canvas.
@@ -56,6 +57,7 @@ export class Car implements IRenderable, IRendererController {
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
       this.#frameImmediately += 1;
       this.#every && this.#every(this.#frameImmediately);
+      console.log("test2");
       this.#objects.forEach((object) => {
         if (!object.display || !object.lifeStatus) return;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -74,6 +76,7 @@ export class Car implements IRenderable, IRendererController {
 }
 
 export { Text } from "./Objects/text";
+export { Spirit } from "./Objects/spirit";
 export { Point } from "./Objects/graph/point";
 export { Line } from "./Objects/graph/line";
 export { LineSegment } from "./Objects/graph/lineSegment";
@@ -84,11 +87,12 @@ export { LinearInterpolator } from "./Objects/interpolation/LinearInterpolator";
 export { Translation } from "./Objects/builder/builder_items/Translation";
 export { Rotation } from "./Objects/builder/builder_items/Rotation";
 export { Scale } from "./Objects/builder/builder_items/Scale";
+export { ChangingStatus } from "./Objects/builder/builder_items/ChangingStatus";
 export {
   EaseInBackInterpolator,
   EaseInBounceInterpolator,
   EaseInCircInterpolator,
-  EaseInCubicInterpolatorInterpolator,
+  EaseInCubicInterpolator,
   EaseInElasticInterpolator,
   EaseInExpoInterpolator,
   EaseInOutBackInterpolator,
@@ -108,7 +112,7 @@ export {
   EaseOutBackInterpolator,
   EaseOutBounceInterpolator,
   EaseOutCircInterpolator,
-  EaseOutCubicInterpolatorInterpolator,
+  EaseOutCubicInterpolator,
   EaseOutElasticInterpolator,
   EaseOutExpoInterpolator,
   EaseOutQuadInterpolator,
