@@ -26,7 +26,8 @@ export class Point extends Carobj {
     else this.#pointRadius = pointRadius!;
   }
 
-  #onDraw(ctx: CanvasRenderingContext2D) {
+  override onDraw(ctx: CanvasRenderingContext2D) {
+    super.onDraw(ctx);
     ctx.beginPath();
     if (this.#displayPoint) {
       ctx.arc(this.x, this.y, this.#pointRadius, 0, 2 * Math.PI);
@@ -34,6 +35,7 @@ export class Point extends Carobj {
     if (this.#displayName) {
       // TODO: display the name of point.
     }
+    return ctx;
   }
 
   displayPoint() {
