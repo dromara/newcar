@@ -9,29 +9,32 @@
   </head>
   <body>
     <canvas id="my-canvas" width="500" height="500" style="border: 5px solid aqua"></canvas>
-    <img src="./materials/oc-animations/canvas0.png" id="0"/>
-    <img src="./materials/oc-animations/canvas1.png" id="1"/>
-    <img src="./materials/oc-animations/canvas2.png" id="2"/>
-    <img src="./materials/oc-animations/canvas3.png" id="3"/>
-    <img src="./materials/oc-animations/canvas4.png" id="4"/>
-    <img src="./materials/oc-animations/canvas5.png" id="5"/>
-    <img src="./materials/oc-animations/canvas6.png" id="6"/>
-    <img src="./materials/oc-animations/canvas7.png" id="7"/>
-    <img src="./materials/oc-animations/canvas8.png" id="8"/>
-    <img src="./materials/oc-animations/canvas9.png" id="9"/>
-    <img src="./materials/oc-animations/canvas10.png" id="10"/>
-    <img src="./materials/oc-animations/canvas11.png" id="11"/>
-    <img src="./materials/oc-animations/canvas12.png" id="12"/>
-    <img src="./materials/oc-animations/canvas13.png" id="13"/>
-    <img src="./materials/oc-animations/canvas14.png" id="14"/>
-    <img src="./materials/oc-animations/canvas15.png" id="15"/>
+    <img src="./materials/oc-animations/canvas0.png" id="0" />
+    <img src="./materials/oc-animations/canvas1.png" id="1" />
+    <img src="./materials/oc-animations/canvas2.png" id="2" />
+    <img src="./materials/oc-animations/canvas3.png" id="3" />
+    <img src="./materials/oc-animations/canvas4.png" id="4" />
+    <img src="./materials/oc-animations/canvas5.png" id="5" />
+    <img src="./materials/oc-animations/canvas6.png" id="6" />
+    <img src="./materials/oc-animations/canvas7.png" id="7" />
+    <img src="./materials/oc-animations/canvas8.png" id="8" />
+    <img src="./materials/oc-animations/canvas9.png" id="9" />
+    <img src="./materials/oc-animations/canvas10.png" id="10" />
+    <img src="./materials/oc-animations/canvas11.png" id="11" />
+    <img src="./materials/oc-animations/canvas12.png" id="12" />
+    <img src="./materials/oc-animations/canvas13.png" id="13" />
+    <img src="./materials/oc-animations/canvas14.png" id="14" />
+    <img src="./materials/oc-animations/canvas15.png" id="15" />
     <script>
       const animation = new newcar.Car(document.getElementById("my-canvas"), 60);
       const tit = new newcar.Text("Hello World!", 10, 10);
-      const point1 = new newcar.Point(0,0);
-      const point2 = new newcar.Point(0,0);
+      const point1 = new newcar.Point(0, 0);
+      const point2 = new newcar.Point(0, 0);
       const line = new newcar.LineSegment(point1, point2);
-      const acboxOC = new newcar.Spirit(100, 100);
+      const acboxOC = new newcar.Spirit(200, 200);
+      const curve = new newcar.Definition(x => 60 * Math.sin(0.1 * x) + 100, 0, 100);
+      const text1 = new newcar.Text("我在这里!",0,150)
+      text1.size = "50px";
       acboxOC.setStatus(document.getElementById("0"));
       acboxOC.setStatus(document.getElementById("1"));
       acboxOC.setStatus(document.getElementById("2"));
@@ -53,9 +56,11 @@
       animation.linkObject(point1);
       animation.linkObject(point2);
       animation.linkObject(acboxOC);
+      animation.linkObject(curve);
       tit.color = "skyblue";
       tit.size = "100px";
-      const width = 500, height = 500;
+      const width = 500,
+      height = 500;
       //let addEveryX = 10, addEveryY = 10;
       //animation.forEvery((curFrame) => {
       //  if (curFrame == 200) tit.text = "Fuck world!";
@@ -71,41 +76,78 @@
       //   else acboxOC.status += 1;
       // });
 
-        animation.onUpdate((curFrame) => {
-          console.log(`Now the frame is ${curFrame}`)
-        })
+      // animation.onUpdate((curFrame) => {
+      //  console.log(`Now the frame is ${curFrame}`);
+      // });
+      // animation.start();
 
       tit.lived();
       line.lived();
       acboxOC.lived();
+      curve.lived();
+      text1.lived();
       new newcar.AnimationBuilder()
         .addObject(tit)
         .addItem(
-          newcar.Translation.create().to(100, 100).startAt(0).lastsFor(200).bindTo(tit).by(newcar.EaseInOutQuintInterpolator).boom()
+          newcar.Translation.create()
+            .to(100, 100)
+            .startAt(0)
+            .lastsFor(200)
+            .bindTo(tit)
+            .by(newcar.EaseInOutQuintInterpolator)
+            .boom()
         )
         .addItem(
-          newcar.MutateContent.create().bindTo(tit).startAt(200).mutateContentTo("Fuck World!").boom()
+          newcar.MutateContent.create()
+            .bindTo(tit)
+            .startAt(200)
+            .mutateContentTo("Fuck World!")
+            .boom()
         )
         .addItem(
-          newcar.Rotation.create().to(2 * Math.PI).startAt(200).lastsFor(100).bindTo(tit).boom()
+          newcar.Rotation.create()
+            .to(2 * Math.PI)
+            .startAt(200)
+            .lastsFor(100)
+            .bindTo(tit)
+            .boom()
         )
         .addItem(
-          newcar.Scale.create().to(2, 2).startAt(300).lastsFor(100).by(newcar.EaseInOutQuadInterpolator).bindTo(tit).boom()
+          newcar.Scale.create()
+            .to(2, 2)
+            .startAt(300)
+            .lastsFor(100)
+            .by(newcar.EaseInOutQuadInterpolator)
+            .bindTo(tit)
+            .boom()
         )
 
         .addObject(point2)
         .addItem(
-          newcar.Translation.create().to(200,100).startAt(0).lastsFor(200).bindTo(point2).by(newcar.EaseInOutQuintInterpolator).boom()
+          newcar.Translation.create()
+            .to(200, 100)
+            .startAt(0)
+            .lastsFor(200)
+            .bindTo(point2)
+            .by(newcar.EaseInOutQuintInterpolator)
+            .boom()
         )
 
         .addObject(acboxOC)
         .addItem(
           newcar.ChangingStatus.create().to(15).startAt(0).lastsFor(15).bindTo(acboxOC).boom()
         )
+        .addItem(
+          newcar.Translation.create().to(0, 200).startAt(0).lastsFor(300).bindTo(acboxOC).boom()
+        )
 
-        .playOnCar(animation)
+        .addObject(curve)
+        .addItem(
+          newcar.Limit.create().to(400, 500).startAt(10).lastsFor(1000).bindTo(curve).boom()
+        )
 
-        animation.start();
+        .playOnCar(animation);
+
     </script>
   </body>
 </html>
