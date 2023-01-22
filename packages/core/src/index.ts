@@ -22,8 +22,8 @@ export class Car implements IRenderable, IRendererController {
       this.#fps = fps;
       this.#ctx = this.#ele.getContext("2d");
     }
-    return this;
     console.log("test1");
+    return this;
   }
 
   /**
