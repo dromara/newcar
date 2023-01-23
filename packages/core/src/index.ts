@@ -88,6 +88,7 @@ export { Rotation } from "./Objects/builder/builder_items/Rotation";
 export { Scale } from "./Objects/builder/builder_items/Scale";
 export { ChangingStatus } from "./Objects/builder/builder_items/ChangingStatus";
 export { Limit } from "./Objects/builder/builder_items/Limit";
+export { Round } from "./Objects/graph/round";
 export {
   EaseInBackInterpolator,
   EaseInBounceInterpolator,

@@ -33,6 +33,7 @@
       const line = new newcar.LineSegment(point1, point2);
       const acboxOC = new newcar.Spirit(200, 200);
       const curve = new newcar.Definition(x => 60 * Math.sin(0.1 * x) + 100, 0, 100);
+      const round = new newcar.Round(100, 100, 50);
       const text1 = new newcar.Text("我在这里!",0,150)
       text1.size = "50px";
       acboxOC.setStatus(document.getElementById("0"));
@@ -57,6 +58,7 @@
       animation.linkObject(point2);
       animation.linkObject(acboxOC);
       animation.linkObject(curve);
+      animation.linkObject(round);
       tit.color = "skyblue";
       tit.size = "100px";
       const width = 500,
@@ -76,16 +78,17 @@
       //   else acboxOC.status += 1;
       // });
 
-      // animation.onUpdate((curFrame) => {
-      //  console.log(`Now the frame is ${curFrame}`);
-      // });
-      // animation.start();
+      animation.onUpdate((curFrame) => {
+        console.log(`Now the frame is ${curFrame}`);
+      });
+      animation.start();
 
       tit.lived();
       line.lived();
       acboxOC.lived();
       curve.lived();
       text1.lived();
+      round.lived();
       new newcar.AnimationBuilder()
         .addObject(tit)
         .addItem(
@@ -125,7 +128,7 @@
         .addObject(point2)
         .addItem(
           newcar.Translation.create()
-            .to(200, 100)
+            .to(500, 300)
             .startAt(0)
             .lastsFor(200)
             .bindTo(point2)
@@ -135,7 +138,7 @@
 
         .addObject(acboxOC)
         .addItem(
-          newcar.ChangingStatus.create().to(15).startAt(0).lastsFor(15).bindTo(acboxOC).boom()
+          newcar.ChangingStatus.create().to(15).startAt(0).lastsFor(-1).bindTo(acboxOC).boom()
         )
         .addItem(
           newcar.Translation.create().to(0, 200).startAt(0).lastsFor(300).bindTo(acboxOC).boom()
