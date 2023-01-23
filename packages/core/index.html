@@ -135,7 +135,7 @@
 
         .addObject(acboxOC)
         .addItem(
-          newcar.ChangingStatus.create().to(15).startAt(0).lastsFor(15).bindTo(acboxOC).boom()
+          newcar.ChangingStatus.create().startAt(0).lastsFor(-1).bindTo(acboxOC).boom()
         )
         .addItem(
           newcar.Translation.create().to(0, 200).startAt(0).lastsFor(300).bindTo(acboxOC).boom()
