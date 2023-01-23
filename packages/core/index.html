@@ -33,24 +33,71 @@
       const line = new newcar.LineSegment(point1, point2);
       const acboxOC = new newcar.Spirit(200, 200);
       const curve = new newcar.Definition(x => 60 * Math.sin(0.1 * x) + 100, 0, 100);
-      const round = new newcar.Round(100, 100, 50);
       const text1 = new newcar.Text("我在这里!",0,150)
       text1.size = "50px";
       acboxOC.setStatus(document.getElementById("0"));
+      acboxOC.setStatus(document.getElementById("0"));
+      acboxOC.setStatus(document.getElementById("0"));
+      acboxOC.setStatus(document.getElementById("0"));
+      acboxOC.setStatus(document.getElementById("1"));
+      acboxOC.setStatus(document.getElementById("1"));
+      acboxOC.setStatus(document.getElementById("1"));
       acboxOC.setStatus(document.getElementById("1"));
       acboxOC.setStatus(document.getElementById("2"));
+      acboxOC.setStatus(document.getElementById("2"));
+      acboxOC.setStatus(document.getElementById("2"));
+      acboxOC.setStatus(document.getElementById("2"));
+      acboxOC.setStatus(document.getElementById("3"));
+      acboxOC.setStatus(document.getElementById("3"));
+      acboxOC.setStatus(document.getElementById("3"));
       acboxOC.setStatus(document.getElementById("3"));
       acboxOC.setStatus(document.getElementById("4"));
+      acboxOC.setStatus(document.getElementById("4"));
+      acboxOC.setStatus(document.getElementById("4"));
+      acboxOC.setStatus(document.getElementById("4"));
+      acboxOC.setStatus(document.getElementById("5"));
+      acboxOC.setStatus(document.getElementById("5"));
+      acboxOC.setStatus(document.getElementById("5"));
       acboxOC.setStatus(document.getElementById("5"));
       acboxOC.setStatus(document.getElementById("6"));
+      acboxOC.setStatus(document.getElementById("6"));
+      acboxOC.setStatus(document.getElementById("6"));
+      acboxOC.setStatus(document.getElementById("6"));
+      acboxOC.setStatus(document.getElementById("7"));
+      acboxOC.setStatus(document.getElementById("7"));
+      acboxOC.setStatus(document.getElementById("7"));
       acboxOC.setStatus(document.getElementById("7"));
       acboxOC.setStatus(document.getElementById("8"));
+      acboxOC.setStatus(document.getElementById("8"));
+      acboxOC.setStatus(document.getElementById("8"));
+      acboxOC.setStatus(document.getElementById("8"));
+      acboxOC.setStatus(document.getElementById("9"));
+      acboxOC.setStatus(document.getElementById("9"));
+      acboxOC.setStatus(document.getElementById("9"));
       acboxOC.setStatus(document.getElementById("9"));
       acboxOC.setStatus(document.getElementById("10"));
+      acboxOC.setStatus(document.getElementById("10"));
+      acboxOC.setStatus(document.getElementById("10"));
+      acboxOC.setStatus(document.getElementById("10"));
+      acboxOC.setStatus(document.getElementById("11"));
+      acboxOC.setStatus(document.getElementById("11"));
+      acboxOC.setStatus(document.getElementById("11"));
       acboxOC.setStatus(document.getElementById("11"));
       acboxOC.setStatus(document.getElementById("12"));
+      acboxOC.setStatus(document.getElementById("12"));
+      acboxOC.setStatus(document.getElementById("12"));
+      acboxOC.setStatus(document.getElementById("12"));
+      acboxOC.setStatus(document.getElementById("13"));
+      acboxOC.setStatus(document.getElementById("13"));
+      acboxOC.setStatus(document.getElementById("13"));
       acboxOC.setStatus(document.getElementById("13"));
       acboxOC.setStatus(document.getElementById("14"));
+      acboxOC.setStatus(document.getElementById("14"));
+      acboxOC.setStatus(document.getElementById("14"));
+      acboxOC.setStatus(document.getElementById("14"));
+      acboxOC.setStatus(document.getElementById("15"));
+      acboxOC.setStatus(document.getElementById("15"));
+      acboxOC.setStatus(document.getElementById("15"));
       acboxOC.setStatus(document.getElementById("15"));
       console.log(line);
       animation.linkObject(line);
@@ -58,7 +105,6 @@
       animation.linkObject(point2);
       animation.linkObject(acboxOC);
       animation.linkObject(curve);
-      animation.linkObject(round);
       tit.color = "skyblue";
       tit.size = "100px";
       const width = 500,
@@ -81,14 +127,12 @@
       animation.onUpdate((curFrame) => {
         console.log(`Now the frame is ${curFrame}`);
       });
-      animation.start();
 
       tit.lived();
       line.lived();
       acboxOC.lived();
       curve.lived();
       text1.lived();
-      round.lived();
       new newcar.AnimationBuilder()
         .addObject(tit)
         .addItem(
@@ -128,7 +172,7 @@
         .addObject(point2)
         .addItem(
           newcar.Translation.create()
-            .to(500, 300)
+            .to(200, 100)
             .startAt(0)
             .lastsFor(200)
             .bindTo(point2)
@@ -138,7 +182,7 @@
 
         .addObject(acboxOC)
         .addItem(
-          newcar.ChangingStatus.create().to(15).startAt(0).lastsFor(-1).bindTo(acboxOC).boom()
+          newcar.ChangingStatus.create().startAt(0).lastsFor(-1).bindTo(acboxOC).boom()
         )
         .addItem(
           newcar.Translation.create().to(0, 200).startAt(0).lastsFor(300).bindTo(acboxOC).boom()

@@ -1,7 +1,8 @@
 import { Carobj } from "./index";
 import { IPositionedMut } from "./interfaces/Positioned";
+import { ISpiritStatus } from "./interfaces/SpiritStatus";
 
-export class Spirit extends Carobj implements IPositionedMut {
+export class Spirit extends Carobj implements IPositionedMut, ISpiritStatus {
   /**
    * You can set different types of status,the spirit only display one of all until you change it.
    */
@@ -49,6 +50,10 @@ export class Spirit extends Carobj implements IPositionedMut {
 
   get status() {
     return this.#statusNow;
+  }
+
+  get length() {
+    return this.#status.length;
   }
 
   get sigh() {
