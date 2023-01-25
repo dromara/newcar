@@ -1,6 +1,6 @@
 import { AnimationBuilder } from "./AnimationBuilder";
-import { IRenderable } from "../interfaces/Renderable";
-import { IRendererController } from "../interfaces/RenderController";
+import { IRenderable } from "../objects/interfaces/Renderable";
+import { IRendererController } from "../objects/interfaces/RenderController";
 export abstract class AnimationBuilderItem {
   /**
    * Will be called on registration.

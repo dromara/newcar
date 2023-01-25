@@ -1,6 +1,6 @@
 import { AnimationBuilderItem } from "./AnimationBuilderItem";
-import { IRenderable } from "../interfaces/Renderable";
-import { IRendererController } from "../interfaces/RenderController";
+import { IRenderable } from "../objects/interfaces/Renderable";
+import { IRendererController } from "../objects/interfaces/RenderController";
 
 export class AnimationBuilder {
   #items: AnimationBuilderItem[] = [];

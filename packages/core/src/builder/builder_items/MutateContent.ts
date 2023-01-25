@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ITextEditable } from "../../interfaces/TextEditable";
+import { ITextEditable } from "../../objects/interfaces/TextEditable";
 import { AnimationBuilder } from "../AnimationBuilder";
 import { AnimationBuilderItem } from "../AnimationBuilderItem";
 

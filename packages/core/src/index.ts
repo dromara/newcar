@@ -1,6 +1,6 @@
-import { type Carobj } from "./Objects/index";
-import { IRenderable } from "./Objects/interfaces/Renderable";
-import { IRendererController } from "./Objects/interfaces/RenderController";
+import { type Carobj } from "./objects/index";
+import { IRenderable } from "./objects/interfaces/Renderable";
+import { IRendererController } from "./objects/interfaces/RenderController";
 
 export class Car implements IRenderable, IRendererController {
   #ele: HTMLCanvasElement; // The html element of canvas.
@@ -100,23 +100,23 @@ export class Car implements IRenderable, IRendererController {
   }
 }
 
-export { Text } from "./Objects/text";
-export { Spirit } from "./Objects/spirit";
-export { Point } from "./Objects/graph/point";
-export { Line } from "./Objects/graph/line";
-export { Definition } from "./Objects/graph/definition";
-export { LineSegment } from "./Objects/graph/lineSegment";
-export { Circle } from "./Objects/graph/circle";
-export { AnimationBuilder } from "./Objects/builder/AnimationBuilder";
-export { MutateContent } from "./Objects/builder/builder_items/MutateContent";
-export { Interpolator } from "./Objects/interpolation/Interpolator";
-export { LinearInterpolator } from "./Objects/interpolation/LinearInterpolator";
-export { Translation } from "./Objects/builder/builder_items/Translation";
-export { Rotation } from "./Objects/builder/builder_items/Rotation";
-export { Scale } from "./Objects/builder/builder_items/Scale";
-export { ChangingStatus } from "./Objects/builder/builder_items/ChangingStatus";
-export { Limit } from "./Objects/builder/builder_items/Limit";
-export { AngleCircle } from "./Objects/builder/builder_items/AngleCircle";
+export { Text } from "./objects/text";
+export { Spirit } from "./objects/spirit";
+export { Point } from "./objects/graph/point";
+export { Line } from "./objects/graph/line";
+export { Definition } from "./objects/graph/definition";
+export { LineSegment } from "./objects/graph/lineSegment";
+export { Circle } from "./objects/graph/circle";
+export { AnimationBuilder } from "./builder/AnimationBuilder";
+export { MutateContent } from "./builder/builder_items/MutateContent";
+export { Interpolator } from "./interpolation/Interpolator";
+export { LinearInterpolator } from "./interpolation/LinearInterpolator";
+export { Translation } from "./builder/builder_items/Translation";
+export { Rotation } from "./builder/builder_items/Rotation";
+export { Scale } from "./builder/builder_items/Scale";
+export { ChangingStatus } from "./builder/builder_items/ChangingStatus";
+export { Limit } from "./builder/builder_items/Limit";
+export { AngleCircle } from "./builder/builder_items/AngleCircle";
 export {
   EaseInBackInterpolator,
   EaseInBounceInterpolator,
@@ -148,4 +148,4 @@ export {
   EaseOutQuartInterpolator,
   EaseOutQuintInterpolator,
   EaseOutSineInterpolator,
-} from "./Objects/interpolation/NonlinearInterpolators";
+} from "./interpolation/NonlinearInterpolators";
