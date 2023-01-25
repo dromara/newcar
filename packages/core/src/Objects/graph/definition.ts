@@ -21,7 +21,6 @@ export class Definition extends Carobj {
       ctx.lineTo(variable, this.#imageFunction(variable));
     }
     ctx.stroke();
-    console.log("Hello World!");
     return ctx;
   }
 

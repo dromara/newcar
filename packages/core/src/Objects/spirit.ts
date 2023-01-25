@@ -45,7 +45,7 @@ export class Spirit extends Carobj implements IPositionedMut, ISpiritStatus {
 
   set status(value: number) {
     this.#statusNow = value;
-    console.log(`Change to ${this.#statusNow}`);
+    // console.log(`Change to ${this.#statusNow}`);
   }
 
   get status() {

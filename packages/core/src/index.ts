@@ -71,6 +71,33 @@ export class Car implements IRenderable, IRendererController {
   linkObject(obj: Carobj) {
     this.#objects.push(obj);
   }
+
+  /**
+   * Export the video of this newcar animation
+   * @param startTime The time of start time.
+   * @param endTime The time of end time.
+   */
+  exports(startTime: number, endTime: number) {
+    // TODO: Export the video.
+    const stream = this.#ele.captureStream();
+    const recorder = new MediaRecorder(stream, {
+      mimeType: "video/webm",
+    });
+    const data: BlobPart[] | undefined = [];
+    recorder.ondataavailable = function (event) {
+      if (event.data && event.data.size) {
+        data.push(event.data);
+      }
+    };
+    recorder.onstop = () => {
+      const url = URL.createObjectURL(new Blob(data, { type: "video/webm" }));
+      console.log(url);
+    };
+    recorder.start();
+    window.setTimeout(() => {
+      recorder.stop();
+    }, endTime * 1000);
+  }
 }
 
 export { Text } from "./Objects/text";
@@ -79,6 +106,7 @@ export { Point } from "./Objects/graph/point";
 export { Line } from "./Objects/graph/line";
 export { Definition } from "./Objects/graph/definition";
 export { LineSegment } from "./Objects/graph/lineSegment";
+export { Circle } from "./Objects/graph/circle";
 export { AnimationBuilder } from "./Objects/builder/AnimationBuilder";
 export { MutateContent } from "./Objects/builder/builder_items/MutateContent";
 export { Interpolator } from "./Objects/interpolation/Interpolator";
@@ -88,7 +116,7 @@ export { Rotation } from "./Objects/builder/builder_items/Rotation";
 export { Scale } from "./Objects/builder/builder_items/Scale";
 export { ChangingStatus } from "./Objects/builder/builder_items/ChangingStatus";
 export { Limit } from "./Objects/builder/builder_items/Limit";
-export { Round } from "./Objects/graph/round";
+export { AngleCircle } from "./Objects/builder/builder_items/AngleCircle";
 export {
   EaseInBackInterpolator,
   EaseInBounceInterpolator,
