@@ -27,15 +27,13 @@
     <img src="./materials/oc-animations/canvas15.png" id="15" />
     <script>
       const animation = new newcar.Car(document.getElementById("my-canvas"), 60);
-      const tit = new newcar.Text("Hello World!", 10, 10);
+      const tit = new newcar.Text("Hello World!", 10, 10, 100);
       const point1 = new newcar.Point(0, 0);
       const point2 = new newcar.Point(0, 0);
       const line = new newcar.LineSegment(point1, point2);
       const acboxOC = new newcar.Spirit(100, 100);
-      const curve = new newcar.Definition(x => 60 * Math.sin(0.1 * x) + 100, 0, 300);
-      const text1 = new newcar.Text("我在这里!",0,150)
-      const round1 = new newcar.Circle(100, 100, 100, 0, 0, "black", "blue")
-      text1.size = "50px";
+      const curve = new newcar.Definition((x) => 60 * Math.sin(0.1 * x) + 100, 0, 300);
+      const round1 = new newcar.Circle(100, 100, 100, 0, 0, "skyblue", "skyblue");
       acboxOC.setStatus(document.getElementById("0"));
       acboxOC.setStatus(document.getElementById("0"));
       acboxOC.setStatus(document.getElementById("0"));
@@ -101,16 +99,18 @@
       acboxOC.setStatus(document.getElementById("15"));
       acboxOC.setStatus(document.getElementById("15"));
       console.log(line);
+      tit.color = "skyblue";
+      // tit.size = "300px";
+
       animation.linkObject(line);
       animation.linkObject(point1);
       animation.linkObject(point2);
       animation.linkObject(acboxOC);
       animation.linkObject(curve);
       animation.linkObject(round1);
-      tit.color = "skyblue";
-      tit.size = "100px";
+     
       const width = 500,
-      height = 500;
+        height = 500;
       //let addEveryX = 10, addEveryY = 10;
       //animation.forEvery((curFrame) => {
       //  if (curFrame == 200) tit.text = "Fuck world!";
@@ -126,7 +126,6 @@
       line.lived();
       acboxOC.lived();
       curve.lived();
-      text1.lived();
       round1.lived();
       new newcar.AnimationBuilder()
         .addObject(tit)
@@ -176,26 +175,28 @@
         )
 
         .addObject(acboxOC)
-        .addItem(
-          newcar.ChangingStatus.create().startAt(0).lastsFor(-1).bindTo(acboxOC).boom()
-        )
+        .addItem(newcar.ChangingStatus.create().startAt(0).lastsFor(-1).bindTo(acboxOC).boom())
         .addItem(
           newcar.Translation.create().to(0, 200).startAt(0).lastsFor(300).bindTo(acboxOC).boom()
         )
 
         .addObject(curve)
-        .addItem(
-          newcar.Limit.create().to(100, 400).startAt(10).lastsFor(1000).bindTo(curve).boom()
-        )
+        .addItem(newcar.Limit.create().to(100, 400).startAt(10).lastsFor(1000).bindTo(curve).boom())
 
         .addObject(round1)
         .addItem(
-          newcar.AngleCircle.create().to(0, 0.5 * Math.PI).startAt(10).lastsFor(100).bindTo(round1).boom()
+          newcar.AngleCircle.create()
+            .to(0, 2 * Math.PI)
+            .startAt(10)
+            .lastsFor(100)
+            .bindTo(round1)
+            .by(newcar.EaseInOutQuintInterpolator)
+            .boom()
         )
 
         .playOnCar(animation);
 
-        animation.exports(0,10)
+      animation.exports(0, 10);
     </script>
     <!-- <script>
       const animation = new newcar.Car(document.getElementById("my-canvas"), 60);

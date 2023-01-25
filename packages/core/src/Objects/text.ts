@@ -4,9 +4,9 @@ import { ITextEditable } from "./interfaces/TextEditable";
 
 export class Text extends Carobj implements ITextEditable, IPositionedMut {
   #text: string;
-  #size: number | string;
+  #size: number;
   #color: string;
-  #fontFamily: string;
+  #fontFamily = "sans-serif";
   #align: "start" | "end" | "right" | "end" | "center" = "start";
   #baseLine: "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom" = "middle";
 
@@ -24,21 +24,20 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
     this.#text = text;
     this.x = x;
     this.y = y;
-    if (size) this.#size = size;
-    else this.#size = "";
-    if (color) this.#color = color;
-    else this.#color = "";
-    if (fontFamily) this.#fontFamily = fontFamily;
-    else this.#fontFamily = "";
-    if (align) this.#align = align;
-    if (baseLine) this.#baseLine = baseLine;
+    typeof size === "undefined" ? (this.#size = 10) : (this.#size = size);
+    typeof color === "undefined" ? (this.#color = "black") : (this.#color = color);
+    if (typeof fontFamily !== "undefined") this.fontFamily = fontFamily;
+    if (typeof align !== "undefined") this.#align = align;
+    if (typeof baseLine !== "undefined") this.#baseLine = baseLine;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
-    ctx.font = `${this.#size} ${this.#fontFamily}`;
-    if (!(typeof this.#align === "undefined")) ctx.textAlign = this.#align;
-    if (!(typeof this.#baseLine === "undefined")) ctx.textBaseline = this.#baseLine;
+    ctx.font = `${this.#size}px ${this.#fontFamily}`;
+    console.log(this.#size, this.#fontFamily);
+    console.log(`${this.#size}px ${this.#fontFamily}`);
+    ctx.textAlign = this.#align;
+    ctx.textBaseline = this.#baseLine;
     ctx.fillStyle = this.#color;
     ctx.fillText(this.#text, 0, 0);
     return ctx;
@@ -82,6 +81,14 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
 
   set text(value) {
     this.#text = value;
+  }
+
+  get size() {
+    return this.#size;
+  }
+
+  set size(value: number) {
+    this.#size = value;
   }
 
   get sigh() {
