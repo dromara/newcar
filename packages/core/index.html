@@ -108,7 +108,7 @@
       animation.linkObject(acboxOC);
       animation.linkObject(curve);
       animation.linkObject(round1);
-     
+
       const width = 500,
         height = 500;
       //let addEveryX = 10, addEveryY = 10;
@@ -175,9 +175,19 @@
         )
 
         .addObject(acboxOC)
-        .addItem(newcar.ChangingStatus.create().startAt(0).lastsFor(-1).bindTo(acboxOC).boom())
         .addItem(
-          newcar.Translation.create().to(0, 200).startAt(0).lastsFor(300).bindTo(acboxOC).boom()
+          newcar.ChangingStatus.create()
+          .startAt(0)
+          .lastsFor(-1)
+          .bindTo(acboxOC)
+          .boom())
+        .addItem(
+          newcar.Translation.create()
+            .to(0, 200)
+            .startAt(0)
+            .lastsFor(300)
+            .bindTo(acboxOC)
+            .boom()
         )
 
         .addObject(curve)
@@ -195,9 +205,12 @@
         )
 
         .addItem(
-          newcar.SingleFrameAction.create().at(100).run(() => {
-            console.log("Hello world!")
-          }).boom()
+          newcar.SingleFrameAction.create()
+            .at(100)
+            .run(() => {
+              console.log("Hello world!");
+            })
+            .boom()
         )
 
         .playOnCar(animation);
