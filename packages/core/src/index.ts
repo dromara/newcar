@@ -117,6 +117,7 @@ export { Scale } from "./builder/builder_items/Scale";
 export { ChangingStatus } from "./builder/builder_items/ChangingStatus";
 export { Limit } from "./builder/builder_items/Limit";
 export { AngleCircle } from "./builder/builder_items/AngleCircle";
+export { SingleFrameAction } from "./builder/builder_items/SingleFrameAction";
 export {
   EaseInBackInterpolator,
   EaseInBounceInterpolator,

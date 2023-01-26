@@ -34,8 +34,8 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
     ctx.font = `${this.#size}px ${this.#fontFamily}`;
-    console.log(this.#size, this.#fontFamily);
-    console.log(`${this.#size}px ${this.#fontFamily}`);
+    // console.log(this.#size, this.#fontFamily);
+    // console.log(`${this.#size}px ${this.#fontFamily}`);
     ctx.textAlign = this.#align;
     ctx.textBaseline = this.#baseLine;
     ctx.fillStyle = this.#color;

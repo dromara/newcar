@@ -194,6 +194,12 @@
             .boom()
         )
 
+        .addItem(
+          newcar.SingleFrameAction.create().at(100).run(() => {
+            console.log("Hello world!")
+          }).boom()
+        )
+
         .playOnCar(animation);
 
       animation.exports(0, 10);
