@@ -101,26 +101,26 @@
       tit.color = "skyblue";
       // tit.size = "300px";
 
-      const animation = new newcar.Car(document.getElementById("my-canvas"), 60)
+      const animation = new newcar.Car(document.getElementById("my-canvas"), 60);
       animation
         .addObject(tit)
         .addAnimationItem(
           newcar.Translation.create()
             .to(100, 100)
             .startAt(0)
-            .lastsFor(200)
+            .lastsFor(300)
             .bindTo(tit)
             .by(newcar.EaseInOutQuintInterpolator)
             .boom()
         )
         .addAnimationItem(
           newcar.SingleFrameAction.create()
-            .at(60)
-            .run(
-              () => animation.suspend()
-            )
+            .at(120)
+            .run(() => {
+              animation.suspend();
+            })
             .boom()
-        )
+        );
 
       animation.startPlay();
     </script>

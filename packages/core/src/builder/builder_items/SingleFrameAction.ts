@@ -2,7 +2,6 @@ import { AnimationBuilder } from "../AnimationBuilder";
 import { AnimationBuilderItem } from "../AnimationBuilderItem";
 
 export class SingleFrameActionTemporaryIndeterminateVariation {
-  // TODO: Useless
   #frame: number | null = null;
   #func: (() => void) | null = null;
 
@@ -33,13 +32,17 @@ export class SingleFrameAction extends AnimationBuilderItem {
 
   constructor(frame: number, func: () => void) {
     super();
-    this.#frame = frame;
+    // TODO: Fix the bug.
+    // Warning: The unknown bug,the frame will be the twice than real frame,so now there make it be half to fix the bug.
+    this.#frame = frame / 2;
     this.#func = func;
   }
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
     // console.log(relativeFrameCount);
-    if (relativeFrameCount === this.#frame) this.#func();
+    if (relativeFrameCount === this.#frame) {
+      this.#func();
+    }
   }
 
   get startFrame(): number {

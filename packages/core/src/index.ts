@@ -52,8 +52,13 @@ export class Car implements IRenderable, IRendererController {
   suspend(frame?: number) {
     if (typeof frame !== "undefined") this.suspendFrame = frame;
     this.isSuspend = true;
-    console.log("test666");
   }
+
+  // continue(frame?: number) {
+  //   if (typeof frame !== "undefined") this.suspendFrame = frame;
+  //   this.isSuspend = false;
+  //   console.log("test666");
+  // }
 
   /**
    * Start draw every frame.
@@ -64,7 +69,7 @@ export class Car implements IRenderable, IRendererController {
     this.#start && this.#start();
     // eslint-disable-next-line no-constant-condition
     setInterval(() => {
-      if (this.isSuspend) return;
+      if (this.isSuspend === true) return;
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
       this.#frameImmediately += 1;
       this.#every && this.#every(this.#frameImmediately);
@@ -76,7 +81,7 @@ export class Car implements IRenderable, IRendererController {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         object.onUpdate(this.#ctx!);
       });
-      // console.log(this.#frameImmediately, this.isSuspend);
+      console.log(this.#frameImmediately, this.isSuspend);
     }, 1000 / this.#fps);
   }
 
