@@ -13,6 +13,9 @@ export class Car implements IRenderable, IRendererController {
   #frameImmediately = 0; // Current number of frames.
   #ctx: CanvasRenderingContext2D | null = null; // The context of canvas.
   #animationBuilder: AnimationBuilder = new AnimationBuilder();
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  isSuspend: boolean = false; // The animation is or isnot suspend;
+  suspendFrame: number | null = null; // The frame when the animation suspended
 
   /**
    * Create a animation of newcar.
@@ -46,9 +49,10 @@ export class Car implements IRenderable, IRendererController {
     return this;
   }
 
-  test() {
-    console.log("test!");
-    return this;
+  suspend(frame?: number) {
+    if (typeof frame !== "undefined") this.suspendFrame = frame;
+    this.isSuspend = true;
+    console.log("test666");
   }
 
   /**
@@ -60,16 +64,19 @@ export class Car implements IRenderable, IRendererController {
     this.#start && this.#start();
     // eslint-disable-next-line no-constant-condition
     setInterval(() => {
+      if (this.isSuspend) return;
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
       this.#frameImmediately += 1;
       this.#every && this.#every(this.#frameImmediately);
       this.#objects.forEach((object) => {
         if (!object.display) return;
         if (this.#frameImmediately < object.liveFrame) return;
-        if (this.#frameImmediately >= object.dieFrame! || object.dieFrame !== null) return;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        // if (this.#frameImmediately >= object.dieFrame! || object.dieFrame !== null) return;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         object.onUpdate(this.#ctx!);
       });
+      // console.log(this.#frameImmediately, this.isSuspend);
     }, 1000 / this.#fps);
   }
 

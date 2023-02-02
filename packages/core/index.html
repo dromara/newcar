@@ -102,7 +102,7 @@
       // tit.size = "300px";
 
       const animation = new newcar.Car(document.getElementById("my-canvas"), 60)
-        .test()
+      animation
         .addObject(tit)
         .addAnimationItem(
           newcar.Translation.create()
@@ -111,6 +111,14 @@
             .lastsFor(200)
             .bindTo(tit)
             .by(newcar.EaseInOutQuintInterpolator)
+            .boom()
+        )
+        .addAnimationItem(
+          newcar.SingleFrameAction.create()
+            .at(60)
+            .run(
+              () => animation.suspend()
+            )
             .boom()
         )
 

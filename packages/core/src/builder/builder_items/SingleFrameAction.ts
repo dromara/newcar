@@ -2,6 +2,7 @@ import { AnimationBuilder } from "../AnimationBuilder";
 import { AnimationBuilderItem } from "../AnimationBuilderItem";
 
 export class SingleFrameActionTemporaryIndeterminateVariation {
+  // TODO: Useless
   #frame: number | null = null;
   #func: (() => void) | null = null;
 
