@@ -12,5 +12,5 @@ export interface IRendererController extends IRenderable {
   /**
    * Start rendering.
    */
-  start(): void;
+  startFrame(): void;
 }

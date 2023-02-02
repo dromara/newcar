@@ -42,7 +42,7 @@ export class AnimationBuilder {
         i.onDrawFrame(frame - i.startFrame, this);
       }
     });
-    rdInstance.start();
+    rdInstance.startFrame();
   }
 
   /**

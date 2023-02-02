@@ -6,7 +6,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #x = 0;
   #y = 0;
   #rotation = 0;
-  #survival = false;
   #scaleX = 1;
   #scaleY = 1;
   /**
@@ -43,18 +42,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
    */
   appear() {
     this.display = true;
-  }
-
-  killed() {
-    this.#survival = false;
-  }
-
-  lived() {
-    this.#survival = true;
-  }
-
-  get lifeStatus() {
-    return this.#survival;
   }
 
   /**

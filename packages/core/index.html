@@ -26,7 +26,6 @@
     <img src="./materials/oc-animations/canvas14.png" id="14" />
     <img src="./materials/oc-animations/canvas15.png" id="15" />
     <script>
-      const animation = new newcar.Car(document.getElementById("my-canvas"), 60);
       const tit = new newcar.Text("Hello World!", 10, 10, 100);
       const point1 = new newcar.Point(0, 0);
       const point2 = new newcar.Point(0, 0);
@@ -102,13 +101,22 @@
       tit.color = "skyblue";
       // tit.size = "300px";
 
-      animation.linkObject(line);
-      animation.linkObject(point1);
-      animation.linkObject(point2);
-      animation.linkObject(acboxOC);
-      animation.linkObject(curve);
-      animation.linkObject(round1);
+      const animation = new newcar.Car(document.getElementById("my-canvas"), 60)
+        .test()
+        .addObject(tit)
+        .addAnimationItem(
+          newcar.Translation.create()
+            .to(100, 100)
+            .startAt(0)
+            .lastsFor(200)
+            .bindTo(tit)
+            .by(newcar.EaseInOutQuintInterpolator)
+            .boom()
+        )
 
+      animation.startPlay();
+    </script>
+    <!-- <script>
       const width = 500,
         height = 500;
       //let addEveryX = 10, addEveryY = 10;
@@ -175,19 +183,9 @@
         )
 
         .addObject(acboxOC)
+        .addItem(newcar.ChangingStatus.create().startAt(0).lastsFor(-1).bindTo(acboxOC).boom())
         .addItem(
-          newcar.ChangingStatus.create()
-          .startAt(0)
-          .lastsFor(-1)
-          .bindTo(acboxOC)
-          .boom())
-        .addItem(
-          newcar.Translation.create()
-            .to(0, 200)
-            .startAt(0)
-            .lastsFor(300)
-            .bindTo(acboxOC)
-            .boom()
+          newcar.Translation.create().to(0, 200).startAt(0).lastsFor(300).bindTo(acboxOC).boom()
         )
 
         .addObject(curve)
@@ -216,7 +214,7 @@
         .playOnCar(animation);
 
       animation.exports(0, 10);
-    </script>
+    </script> -->
     <!-- <script>
       const animation = new newcar.Car(document.getElementById("my-canvas"), 60);
 

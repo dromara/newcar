@@ -1,6 +1,8 @@
 import { type Carobj } from "./objects/index";
 import { IRenderable } from "./objects/interfaces/Renderable";
 import { IRendererController } from "./objects/interfaces/RenderController";
+import { AnimationBuilder } from "./builder/AnimationBuilder";
+import { type AnimationBuilderItem } from "./builder/AnimationBuilderItem";
 
 export class Car implements IRenderable, IRendererController {
   #ele: HTMLCanvasElement; // The html element of canvas.
@@ -10,6 +12,7 @@ export class Car implements IRenderable, IRendererController {
   #fps = 0; // The FPS.
   #frameImmediately = 0; // Current number of frames.
   #ctx: CanvasRenderingContext2D | null = null; // The context of canvas.
+  #animationBuilder: AnimationBuilder = new AnimationBuilder();
 
   /**
    * Create a animation of newcar.
@@ -22,7 +25,6 @@ export class Car implements IRenderable, IRendererController {
       this.#fps = fps;
       this.#ctx = this.#ele.getContext("2d");
     }
-    console.log("test1");
     return this;
   }
 
@@ -44,10 +46,15 @@ export class Car implements IRenderable, IRendererController {
     return this;
   }
 
+  test() {
+    console.log("test!");
+    return this;
+  }
+
   /**
-   * Start the animation.
+   * Start draw every frame.
    */
-  start() {
+  startFrame() {
     this.#frameImmediately = 0;
     if (this.#ctx === null) return;
     this.#start && this.#start();
@@ -57,7 +64,7 @@ export class Car implements IRenderable, IRendererController {
       this.#frameImmediately += 1;
       this.#every && this.#every(this.#frameImmediately);
       this.#objects.forEach((object) => {
-        if (!object.display || !object.lifeStatus) return;
+        if (!object.display) return;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         object.onUpdate(this.#ctx!);
       });
@@ -67,36 +74,24 @@ export class Car implements IRenderable, IRendererController {
   /**
    * Link the Car Object on the animation.
    * @param obj the Carobj Object.
+   * Attention: the function only can link Car Object,which can't use animation builder.
    */
   linkObject(obj: Carobj) {
     this.#objects.push(obj);
   }
 
-  /**
-   * Export the video of this newcar animation
-   * @param startTime The time of start time.
-   * @param endTime The time of end time.
-   */
-  exports(startTime: number, endTime: number) {
-    // TODO: Export the video.
-    const stream = this.#ele.captureStream();
-    const recorder = new MediaRecorder(stream, {
-      mimeType: "video/webm",
-    });
-    const data: BlobPart[] | undefined = [];
-    recorder.ondataavailable = function (event) {
-      if (event.data && event.data.size) {
-        data.push(event.data);
-      }
-    };
-    recorder.onstop = () => {
-      const url = URL.createObjectURL(new Blob(data, { type: "video/webm" }));
-      console.log(url);
-    };
-    recorder.start();
-    window.setTimeout(() => {
-      recorder.stop();
-    }, endTime * 1000);
+  addObject(obj: Carobj) {
+    this.#animationBuilder.addObject(obj);
+    return this;
+  }
+
+  addAnimationItem(animationItem: AnimationBuilderItem) {
+    this.#animationBuilder.addItem(animationItem);
+    return this;
+  }
+
+  startPlay() {
+    this.#animationBuilder.playOnCar(this);
   }
 }
 
