@@ -8,6 +8,9 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #rotation = 0;
   #scaleX = 1;
   #scaleY = 1;
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  #liveAt: number = 1;
+  #dieAt: null | number = null;
   /**
    * Get called on each frame.
    * @param ctx The context instance of the canvas object.
@@ -77,6 +80,19 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   }
   get scaleY(): number {
     return this.#scaleY;
+  }
+
+  setLiveTime(livetime: number, dietime: number | null) {
+    this.#liveAt = livetime;
+    this.#dieAt = dietime;
+  }
+
+  get liveFrame() {
+    return this.#liveAt;
+  }
+
+  get dieFrame() {
+    return this.#dieAt;
   }
 
   /**

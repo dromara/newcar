@@ -65,6 +65,8 @@ export class Car implements IRenderable, IRendererController {
       this.#every && this.#every(this.#frameImmediately);
       this.#objects.forEach((object) => {
         if (!object.display) return;
+        if (this.#frameImmediately < object.liveFrame) return;
+        if (this.#frameImmediately >= object.dieFrame! || object.dieFrame !== null) return;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         object.onUpdate(this.#ctx!);
       });
