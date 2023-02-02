@@ -115,9 +115,9 @@
         )
         .addAnimationItem(
           newcar.SingleFrameAction.create()
-            .at(120)
+            .at(60)
             .run(() => {
-              animation.suspend();
+              animation.continue();
             })
             .boom()
         );
