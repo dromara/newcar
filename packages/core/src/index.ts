@@ -69,8 +69,8 @@ export class Car implements IRenderable, IRendererController {
     // eslint-disable-next-line no-constant-condition
     setInterval(() => {
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
+      console.log(this.#frameImmediately, this.isSuspend);
       if (!this.isSuspend) {
-        console.log(this.#frameImmediately, this.isSuspend);
         this.#frameImmediately += 1;
       }
       this.#every && this.#every(this.#frameImmediately);
