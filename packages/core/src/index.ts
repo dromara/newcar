@@ -15,7 +15,6 @@ export class Car implements IRenderable, IRendererController {
   #animationBuilder: AnimationBuilder = new AnimationBuilder();
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   isSuspend: boolean = false; // The animation is or isnot suspend;
-  suspendFrame: number | null = null; // The frame when the animation suspended
 
   /**
    * Create a animation of newcar.
@@ -50,12 +49,12 @@ export class Car implements IRenderable, IRendererController {
   }
 
   suspend(frame?: number) {
-    if (typeof frame !== "undefined") this.suspendFrame = frame;
+    if (typeof frame !== "undefined") this.#frameImmediately = frame;
     this.isSuspend = true;
   }
 
   continue(frame?: number) {
-    if (typeof frame !== "undefined") this.suspendFrame = frame;
+    if (typeof frame !== "undefined") this.#frameImmediately = frame;
     this.isSuspend = false;
   }
 
@@ -63,13 +62,13 @@ export class Car implements IRenderable, IRendererController {
    * Start draw every frame.
    */
   startFrame() {
-    this.#frameImmediately = 0;
+    // this.#frameImmediately = 0;
     if (this.#ctx === null) return;
     this.#start && this.#start();
     // eslint-disable-next-line no-constant-condition
     setInterval(() => {
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
-      console.log(this.#frameImmediately, this.isSuspend);
+      // console.log(this.#frameImmediately, this.isSuspend);
       if (!this.isSuspend) {
         this.#frameImmediately += 1;
       }

@@ -117,7 +117,7 @@
           newcar.SingleFrameAction.create()
             .at(120)
             .run(() => {
-              animation.suspend();
+              animation.suspend(20);
             })
             .boom()
         )
@@ -126,6 +126,7 @@
             .at(300)
             .run(() => {
               animation.continue();
+              console.log("test666");
             })
             .boom()
         );
