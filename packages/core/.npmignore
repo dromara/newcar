@@ -1,3 +1,4 @@
-.rollup.cache/
+.rollup.cache/**
 index.html
 material/
+node_modules/**

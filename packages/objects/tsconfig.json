@@ -12,9 +12,9 @@
     "allowJs": false,
     "declaration": true,
     "declarationMap": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2018"
   },
-  "include": ["src/**/*", "src/type.d.ts", "../types/src/jsx.d.ts"],
+  "include": ["src/**/*", "src/type.d.ts", "../types/src/jsx.d.ts", "../objects/src/interfaces", "../objects/src/graph", "../objects/src/index.ts"],
   "exclude": ["node_modules", "dist"]
 }
-  

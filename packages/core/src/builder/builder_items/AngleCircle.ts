@@ -1,4 +1,4 @@
-import { ICircleAngleMut } from "../../objects/interfaces/CircleAngle";
+import { ICircleAngleMut } from "@newcar/objects/src/interfaces/CircleAngle";
 import { AnimationBuilder } from "../AnimationBuilder";
 import { AnimationBuilderItem } from "../AnimationBuilderItem";
 import { LinearInterpolator } from "../../interpolation/LinearInterpolator";

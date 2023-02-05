@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IDefinitionImageLimit } from "../../objects/interfaces/DefinitionImageLimit";
+import { IDefinitionImageLimit } from "@newcar/objects/src/interfaces/DefinitionImageLimit";
 import { AnimationBuilder } from "../AnimationBuilder";
 import { AnimationBuilderItem } from "../AnimationBuilderItem";
 import { Interpolator } from "../../interpolation/Interpolator";

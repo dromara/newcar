@@ -1,6 +1,7 @@
 import { IPositionedMut } from "./interfaces/Positioned";
 import { IRotatedMut } from "./interfaces/Rotated";
 import { IScaledMut } from "./interfaces/Scaled";
+
 export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   display = true; // The Object is or isnot display.
   #x = 0;
@@ -109,3 +110,11 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
     this.#rotation = value;
   }
 }
+
+export { Text } from "./text";
+export { Spirit } from "./spirit";
+export { Point } from "./graph/point";
+export { Line } from "./graph/line";
+export { Definition } from "./graph/definition";
+export { LineSegment } from "./graph/lineSegment";
+export { Circle } from "./graph/circle";

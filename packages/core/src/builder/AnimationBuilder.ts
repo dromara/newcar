@@ -1,6 +1,6 @@
 import { AnimationBuilderItem } from "./AnimationBuilderItem";
-import { IRenderable } from "../objects/interfaces/Renderable";
-import { IRendererController } from "../objects/interfaces/RenderController";
+import { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
+import { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
 
 export class AnimationBuilder {
   #items: AnimationBuilderItem[] = [];

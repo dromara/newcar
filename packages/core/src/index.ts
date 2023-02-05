@@ -1,6 +1,6 @@
-import { type Carobj } from "./objects/index";
-import { IRenderable } from "./objects/interfaces/Renderable";
-import { IRendererController } from "./objects/interfaces/RenderController";
+import { type Carobj } from "node_modules/@newcar/objects";
+import { IRenderable } from "node_modules/@newcar/objects/src/interfaces/Renderable";
+import { IRendererController } from "node_modules/@newcar/objects/src/interfaces/RenderController";
 import { AnimationBuilder } from "./builder/AnimationBuilder";
 import { type AnimationBuilderItem } from "./builder/AnimationBuilderItem";
 
@@ -108,13 +108,15 @@ export class Car implements IRenderable, IRendererController {
   }
 }
 
-export { Text } from "./objects/text";
-export { Spirit } from "./objects/spirit";
-export { Point } from "./objects/graph/point";
-export { Line } from "./objects/graph/line";
-export { Definition } from "./objects/graph/definition";
-export { LineSegment } from "./objects/graph/lineSegment";
-export { Circle } from "./objects/graph/circle";
+export {
+  Text,
+  Spirit,
+  Point,
+  Line,
+  Definition,
+  LineSegment,
+  Circle,
+} from "node_modules/@newcar/objects";
 export { AnimationBuilder } from "./builder/AnimationBuilder";
 export { MutateContent } from "./builder/builder_items/MutateContent";
 export { Interpolator } from "./interpolation/Interpolator";
