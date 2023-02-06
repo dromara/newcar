@@ -4,13 +4,18 @@
   "description": "All the car objects.",
   "main": "src/index.ts",
   "scripts": {
-    "build:objects": ""
+    "build:rollup": "rollup -c",
+    "dev": "rollup -c -w",
+    "clean": "rimraf ./dist",
+    "build:cleanup": "rimraf ./dist/src",
+    "build": "run-s clean build:rollup build:cleanup"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.20.7",
+    "@babel/preset-typescript": "^7.18.6",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-node-resolve": "^15.0.1",
@@ -25,6 +30,6 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "@newcar/core": "workspace:^0.0.2"
+    "@newcar/core": "workspace:*"
   }
 }
