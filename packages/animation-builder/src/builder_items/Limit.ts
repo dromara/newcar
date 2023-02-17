@@ -2,8 +2,8 @@
 import { IDefinitionImageLimit } from "@newcar/objects/src/interfaces/DefinitionImageLimit";
 import { AnimationBuilder } from "../AnimationBuilder";
 import { AnimationBuilderItem } from "../AnimationBuilderItem";
-import { Interpolator } from "../../interpolation/Interpolator";
-import { LinearInterpolator } from "../../interpolation/LinearInterpolator";
+import { Interpolator } from "../../../core/src/interpolation/Interpolator";
+import { LinearInterpolator } from "../../../core/src/interpolation/LinearInterpolator";
 
 export class LimitTemporaryIndeterminateVariation {
   #start0: number | null = null;

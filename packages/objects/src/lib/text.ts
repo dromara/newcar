@@ -1,6 +1,6 @@
-import { Carobj } from "./index";
-import { IPositionedMut } from "./interfaces/Positioned";
-import { ITextEditable } from "./interfaces/TextEditable";
+import { Carobj } from "../index";
+import { IPositionedMut } from "../interfaces/Positioned";
+import { ITextEditable } from "../interfaces/TextEditable";
 
 export class Text extends Carobj implements ITextEditable, IPositionedMut {
   #text: string;

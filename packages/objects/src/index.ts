@@ -111,10 +111,10 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   }
 }
 
-export { Text } from "./text";
-export { Spirit } from "./spirit";
-export { Point } from "./graph/point";
-export { Line } from "./graph/line";
-export { Definition } from "./graph/definition";
-export { LineSegment } from "./graph/lineSegment";
-export { Circle } from "./graph/circle";
+export { Text } from "./lib/text";
+export { Spirit } from "./lib/spirit";
+export { Point } from "./lib/point";
+export { Line } from "./lib/line";
+export { Definition } from "./lib/definition";
+export { LineSegment } from "./lib/lineSegment";
+export { Circle } from "./lib/circle";

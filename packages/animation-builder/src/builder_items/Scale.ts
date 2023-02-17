@@ -2,8 +2,8 @@
 import { IScaledMut } from "@newcar/objects/src/interfaces/Scaled";
 import { AnimationBuilder } from "../AnimationBuilder";
 import { AnimationBuilderItem } from "../AnimationBuilderItem";
-import { Interpolator } from "../../interpolation/Interpolator";
-import { LinearInterpolator } from "../../interpolation/LinearInterpolator";
+import { Interpolator } from "../../../core/src/interpolation/Interpolator";
+import { LinearInterpolator } from "../../../core/src/interpolation/LinearInterpolator";
 
 export class ScaleTemporaryIndeterminateVariation {
   #x1: number | null = null;

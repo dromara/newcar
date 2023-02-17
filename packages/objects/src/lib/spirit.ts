@@ -1,6 +1,6 @@
-import { Carobj } from "./index";
-import { IPositionedMut } from "./interfaces/Positioned";
-import { ISpiritStatus } from "./interfaces/SpiritStatus";
+import { Carobj } from "../index";
+import { IPositionedMut } from "../interfaces/Positioned";
+import { ISpiritStatus } from "../interfaces/SpiritStatus";
 
 export class Spirit extends Carobj implements IPositionedMut, ISpiritStatus {
   /**

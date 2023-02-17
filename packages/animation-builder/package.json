@@ -1,0 +1,18 @@
+{
+  "name": "@newcar/animation-builder",
+  "version": "0.0.2",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "@newcar/objects": "workspace:^0.0.2"
+  }
+}
