@@ -2,8 +2,8 @@
 import { IRotatedMut } from "@newcar/objects/src/interfaces/Rotated";
 import { AnimationBuilder } from "../AnimationBuilder";
 import { AnimationBuilderItem } from "../AnimationBuilderItem";
-import { Interpolator } from "../../../core/src/interpolation/Interpolator";
-import { LinearInterpolator } from "../../../core/src/interpolation/LinearInterpolator";
+import { Interpolator } from "../interpolation/Interpolator";
+import { LinearInterpolator } from "../interpolation/LinearInterpolator";
 
 export class RotateTemporaryIndeterminateVariation {
   #r0: number | null = null;

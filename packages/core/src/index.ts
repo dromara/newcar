@@ -35,10 +35,12 @@ export class Car {
   }
 }
 
+export { Carobj };
 export { Text, Spirit, Point, Line, Definition, LineSegment, Circle } from "@newcar/objects";
-export { Interpolator } from "./interpolation/Interpolator";
-export { LinearInterpolator } from "./interpolation/LinearInterpolator";
+export { Interpolator } from "@newcar/animation-builder/src/interpolation/Interpolator";
+export { LinearInterpolator } from "@newcar/animation-builder/src/interpolation/LinearInterpolator";
 export { AnimationBuilder } from "@newcar/animation-builder/src/AnimationBuilder";
+export * from "@newcar/animation-builder/src/builder_items/index";
 export {
   EaseInBackInterpolator,
   EaseInBounceInterpolator,
@@ -70,4 +72,4 @@ export {
   EaseOutQuartInterpolator,
   EaseOutQuintInterpolator,
   EaseOutSineInterpolator,
-} from "./interpolation/NonlinearInterpolators";
+} from "@newcar/animation-builder/src/interpolation/NonlinearInterpolators";

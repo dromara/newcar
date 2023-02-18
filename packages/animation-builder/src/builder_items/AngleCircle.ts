@@ -1,8 +1,8 @@
 import { ICircleAngleMut } from "@newcar/objects/src/interfaces/CircleAngle";
 import { AnimationBuilder } from "../AnimationBuilder";
 import { AnimationBuilderItem } from "../AnimationBuilderItem";
-import { LinearInterpolator } from "../../../core/src/interpolation/LinearInterpolator";
-import { Interpolator } from "../../../core/src/interpolation/Interpolator";
+import { LinearInterpolator } from "../interpolation/LinearInterpolator";
+import { Interpolator } from "../interpolation/Interpolator";
 
 export class AngleCircleTemporaryIndeterminateVariation {
   #startAngle0: number | null = null;
