@@ -12,6 +12,9 @@ Newcar is a modern animation engine based on html canvas.This repo is the core o
 ## Document
 the document is writing now. [click here](https://github.com/Bug-Duck/newcar-docs) to join the transtation.
 
+## Contribution
+If you want to join the development or make a contribution, **please read the [code document](./doc/README.md)**
+
 ## License
 Apache-2.0
 

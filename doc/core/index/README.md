@@ -1,4 +1,4 @@
-# `packages/core/src/index.ts`
+# `index`
 
 ## class `Car`
 This class was the access of Newcar animation Object.

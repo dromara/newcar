@@ -1,4 +1,4 @@
-# `packages/core/src/dataSaver`
+# `dataSaver`
 
 This file is save every `Carobj` 's data and draw them on canvas according this data.
 
