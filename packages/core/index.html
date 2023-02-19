@@ -32,7 +32,7 @@
       const line = new newcar.LineSegment(point1, point2);
       const acboxOC = new newcar.Spirit(100, 100);
       const curve = new newcar.Definition((x) => 60 * Math.sin(0.1 * x) + 100, 0, 300);
-      const round1 = new newcar.Circle(100, 100, 100, 0, 0, "skyblue", "skyblue");
+      const round1 = new newcar.Circle(250, 250, 250, 0, 0, "skyblue", "skyblue");
       acboxOC.setStatus(document.getElementById("0"));
       acboxOC.setStatus(document.getElementById("0"));
       acboxOC.setStatus(document.getElementById("0"));
@@ -113,48 +113,8 @@
             .by(newcar.EaseInOutQuintInterpolator)
             .boom()
         )
-        .addAnimationItem(
-          newcar.SingleFrameAction.create()
-            .at(120)
-            .run(() => {
-              animation.suspend(20);
-            })
-            .boom()
-        )
-        .addAnimationItem(
-          newcar.SingleFrameAction.create()
-            .at(300)
-            .run(() => {
-              animation.continue();
-              console.log("test666");
-            })
-            .boom()
-        );
-
-      animation.startPlay();
-    </script>
-    <!-- <script>
-      const width = 500,
-        height = 500;
-      //let addEveryX = 10, addEveryY = 10;
-      //animation.forEvery((curFrame) => {
-      //  if (curFrame == 200) tit.text = "Fuck world!";
-      //  if (tit.x >= width || tit.x <= 0) addEveryX = -addEveryX;
-      //  if (tit.y >= height || tit.y <= 0) addEveryY = -addEveryY;
-      //  tit.x += addEveryX;
-      //  tit.y += addEveryY;
-      //})
-      //animation.linkObject(tit);
-      //animation.start();
-
-      tit.lived();
-      line.lived();
-      acboxOC.lived();
-      curve.lived();
-      round1.lived();
-      new newcar.AnimationBuilder()
         .addObject(tit)
-        .addItem(
+        .addAnimationItem(
           newcar.Translation.create()
             .to(100, 100)
             .startAt(0)
@@ -163,14 +123,14 @@
             .by(newcar.EaseInOutQuintInterpolator)
             .boom()
         )
-        .addItem(
+        .addAnimationItem(
           newcar.MutateContent.create()
             .bindTo(tit)
             .startAt(200)
             .mutateContentTo("Fuck World!")
             .boom()
         )
-        .addItem(
+        .addAnimationItem(
           newcar.Rotation.create()
             .to(2 * Math.PI)
             .startAt(200)
@@ -178,7 +138,7 @@
             .bindTo(tit)
             .boom()
         )
-        .addItem(
+        .addAnimationItem(
           newcar.Scale.create()
             .to(2, 2)
             .startAt(300)
@@ -189,7 +149,7 @@
         )
 
         .addObject(point2)
-        .addItem(
+        .addAnimationItem(
           newcar.Translation.create()
             .to(200, 100)
             .startAt(0)
@@ -200,16 +160,16 @@
         )
 
         .addObject(acboxOC)
-        .addItem(newcar.ChangingStatus.create().startAt(0).lastsFor(-1).bindTo(acboxOC).boom())
-        .addItem(
+        .addAnimationItem(newcar.ChangingStatus.create().startAt(0).lastsFor(-1).bindTo(acboxOC).boom())
+        .addAnimationItem(
           newcar.Translation.create().to(0, 200).startAt(0).lastsFor(300).bindTo(acboxOC).boom()
         )
 
         .addObject(curve)
-        .addItem(newcar.Limit.create().to(100, 400).startAt(10).lastsFor(1000).bindTo(curve).boom())
+        .addAnimationItem(newcar.Limit.create().to(100, 400).startAt(10).lastsFor(1000).bindTo(curve).boom())
 
         .addObject(round1)
-        .addItem(
+        .addAnimationItem(
           newcar.AngleCircle.create()
             .to(0, 2 * Math.PI)
             .startAt(10)
@@ -217,49 +177,9 @@
             .bindTo(round1)
             .by(newcar.EaseInOutQuintInterpolator)
             .boom()
-        )
+        )    
 
-        .addItem(
-          newcar.SingleFrameAction.create()
-            .at(100)
-            .run(() => {
-              console.log("Hello world!");
-            })
-            .boom()
-        )
-
-        .playOnCar(animation);
-
-      animation.exports(0, 10);
-    </script> -->
-    <!-- <script>
-      const animation = new newcar.Car(document.getElementById("my-canvas"), 60);
-
-      const startText = new newcar.Text("What's", 150, 200);
-      startText.size = "500px";
-
-      const curve = new newcar.Definition(x => 60 * Math.sin(0.1 * x) + 100, 0, 500)
-
-      animation.linkObject(startText);
-      animation.linkObject(curve);
-      startText.lived();
-      curve.lived();
-
-      new newcar.AnimationBuilder()
-        .addObject(startText)
-        .addItem(
-          newcar.MutateContent.create().mutateContentTo("What's the").startAt(60).bindTo(startText).boom()
-        )
-        .addItem(
-          newcar.MutateContent.create().mutateContentTo("What's the newcar").startAt(120).bindTo(startText).boom()
-        )
-
-        .addObject(curve)
-        .addItem(
-          newcar.Limit.create().to(400, 500).startAt(10).lastsFor(1000).bindTo(curve).boom()
-        )
-
-        .playOnCar(animation)
-    </script> -->
+      animation.startPlay();
+    </script>
   </body>
 </html>
