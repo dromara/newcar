@@ -1,4 +1,4 @@
-import { Carobj } from "../index";
+import { Carobj } from "./carobj";
 
 export class Point extends Carobj {
   #name: string; // The name of the point.

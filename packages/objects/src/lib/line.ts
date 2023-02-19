@@ -1,4 +1,4 @@
-import { Carobj } from "../index";
+import { Carobj } from "./carobj";
 import { type Point } from "./point";
 
 export class Line extends Carobj {

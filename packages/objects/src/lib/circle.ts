@@ -1,4 +1,4 @@
-import { Carobj } from "../index";
+import { Carobj } from "./carobj";
 
 export class Circle extends Carobj {
   #radius: number;

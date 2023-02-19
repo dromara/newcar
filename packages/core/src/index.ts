@@ -35,8 +35,8 @@ export class Car {
   }
 }
 
-export { Carobj };
 export { Text, Spirit, Point, Line, Definition, LineSegment, Circle } from "@newcar/objects";
+export { Carobj };
 export { Interpolator } from "@newcar/animation-builder/src/interpolation/Interpolator";
 export { LinearInterpolator } from "@newcar/animation-builder/src/interpolation/LinearInterpolator";
 export { AnimationBuilder } from "@newcar/animation-builder/src/AnimationBuilder";

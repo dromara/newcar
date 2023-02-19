@@ -1,4 +1,4 @@
-import { Carobj } from "../index";
+import { Carobj } from "./carobj";
 import { IPositionedMut } from "../interfaces/Positioned";
 import { ISpiritStatus } from "../interfaces/SpiritStatus";
 

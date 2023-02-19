@@ -1,4 +1,4 @@
-import { Carobj } from "../index";
+import { Carobj } from "./carobj";
 
 export class Definition extends Carobj {
   #imageFunction: (arg0: number) => number;
