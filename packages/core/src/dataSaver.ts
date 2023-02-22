@@ -63,6 +63,22 @@ export class dataSaver implements IRenderable, IRendererController {
     if (this.#ctx === null) return;
     this.#start && this.#start();
     // eslint-disable-next-line no-constant-condition
+    const draw = (children: Carobj[], father?: Carobj) => {
+      children.forEach((child) => {
+        if (typeof father === "undefined") {
+          child.onUpdate(this.#ctx!);
+        } else {
+          const oldX = child.x;
+          const oldY = child.y;
+          child.x += father.x;
+          child.y += father.y;
+          child.onUpdate(this.#ctx!);
+          child.x = oldX;
+          child.y = oldY;
+        }
+        draw(child.children, child);
+      });
+    };
     setInterval(() => {
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
       // console.log(this.#frameImmediately, this.isSuspend);
@@ -70,14 +86,7 @@ export class dataSaver implements IRenderable, IRendererController {
         this.#frameImmediately += 1;
       }
       this.#every && this.#every(this.#frameImmediately);
-      this.#objects.forEach((object) => {
-        if (!object.display) return;
-        if (this.#frameImmediately < object.liveFrame) return;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        // if (this.#frameImmediately >= object.dieFrame! || object.dieFrame !== null) return;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        object.onUpdate(this.#ctx!);
-      });
+      draw(this.#objects);
     }, 1000 / this.#fps);
   }
 

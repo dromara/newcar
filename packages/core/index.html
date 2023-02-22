@@ -32,7 +32,7 @@
       const line = new newcar.LineSegment(point1, point2);
       const acboxOC = new newcar.Spirit(100, 100);
       const curve = new newcar.Definition((x) => 60 * Math.sin(0.1 * x) + 100, 0, 300);
-      const round1 = new newcar.Circle(250, 250, 250, 0, 0, "skyblue", "skyblue");
+      const round1 = new newcar.Circle(100, 100, 100, 0, 0, "skyblue", "skyblue");
       acboxOC.setStatus(document.getElementById("0"));
       acboxOC.setStatus(document.getElementById("0"));
       acboxOC.setStatus(document.getElementById("0"));
@@ -101,9 +101,10 @@
       tit.color = "skyblue";
       // tit.size = "300px";
 
+      acboxOC.addChild(tit);
+
       const animation = new newcar.Car(document.getElementById("my-canvas"), 60);
       animation
-        .addObject(tit)
         .addAnimationItem(
           newcar.Translation.create()
             .to(100, 100)
@@ -113,16 +114,7 @@
             .by(newcar.EaseInOutQuintInterpolator)
             .boom()
         )
-        .addObject(tit)
-        .addAnimationItem(
-          newcar.Translation.create()
-            .to(100, 100)
-            .startAt(0)
-            .lastsFor(200)
-            .bindTo(tit)
-            .by(newcar.EaseInOutQuintInterpolator)
-            .boom()
-        )
+        
         .addAnimationItem(
           newcar.MutateContent.create()
             .bindTo(tit)

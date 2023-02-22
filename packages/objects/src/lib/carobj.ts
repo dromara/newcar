@@ -9,6 +9,9 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #rotation = 0;
   #scaleX = 1;
   #scaleY = 1;
+  #contextX = this.#x;
+  #contextY = this.#y;
+  #children: Carobj[] = [];
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   #liveAt: number = 1;
   #dieAt: null | number = null;
@@ -48,12 +51,28 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
     this.display = true;
   }
 
+  setContextPosition(x: number, y: number) {
+    this.#contextX = x;
+    this.#contextY = y;
+    return this;
+  }
+
+  addChild(...objects: Carobj[]) {
+    objects.forEach((obj) => {
+      this.#children.push(obj);
+    });
+  }
+
   /**
    * Each Carobjs has different sighs.
    * @return The Carobj's type,one and only.
    */
   get sigh() {
     return "CarObject";
+  }
+
+  get children() {
+    return this.#children;
   }
 
   get x() {
@@ -81,6 +100,13 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   }
   get scaleY(): number {
     return this.#scaleY;
+  }
+
+  get contextX() {
+    return this.#contextX;
+  }
+  get contextY() {
+    return this.#contextY;
   }
 
   setLiveTime(livetime: number, dietime: number | null) {
