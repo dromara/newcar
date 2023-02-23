@@ -15,6 +15,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   #liveAt: number = 1;
   #dieAt: null | number = null;
+  #operation: GlobalCompositeOperation = "source-over";
   /**
    * Get called on each frame.
    * @param ctx The context instance of the canvas object.
@@ -33,6 +34,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
     ctx.translate(this.#x, this.#y);
     ctx.rotate(this.#rotation);
     ctx.scale(this.#scaleX, this.#scaleY);
+    ctx.globalCompositeOperation = this.#operation;
     this.onDraw(ctx);
     ctx.restore();
   }
@@ -134,5 +136,13 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
    */
   set rotation(value: number) {
     this.#rotation = value;
+  }
+
+  get operation() {
+    return this.#operation;
+  }
+
+  set operation(value: GlobalCompositeOperation) {
+    this.#operation = value;
   }
 }

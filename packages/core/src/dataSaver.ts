@@ -65,18 +65,18 @@ export class dataSaver implements IRenderable, IRendererController {
     // eslint-disable-next-line no-constant-condition
     const draw = (children: Carobj[], father?: Carobj) => {
       children.forEach((child) => {
+        const oldX = child.x;
+        const oldY = child.y;
         if (typeof father === "undefined") {
           child.onUpdate(this.#ctx!);
         } else {
-          const oldX = child.x;
-          const oldY = child.y;
           child.x += father.x;
           child.y += father.y;
           child.onUpdate(this.#ctx!);
-          child.x = oldX;
-          child.y = oldY;
         }
         draw(child.children, child);
+        child.x = oldX;
+        child.y = oldY;
       });
     };
     setInterval(() => {

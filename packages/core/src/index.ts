@@ -35,6 +35,23 @@ export class Car {
   }
 }
 
+window.onload = () => {
+  console.log(
+    `   ____  ___ _      ___________ ______
+  / __ \\/ _ \\ | /| / / ___/ __  / ___/
+ / / / /  __/ |/ |/ / /__/ /_/ / /    
+/_/ /_/\\___/|__/|__/\\___/\\__,_/_/
+
+%cThe animation is powered by %c newcar %c v0.1.0  %c
+
+link: https://github.com/Bug-Duck/newcar
+ `,
+    "font-size: 14px",
+    "background-color: orange; padding: 7px",
+    "background-color: grey; padding: 7px"
+  );
+};
+
 export { Text, Spirit, Point, Line, Definition, LineSegment, Circle } from "@newcar/objects";
 export { Carobj };
 export { Interpolator } from "@newcar/animation-builder/src/interpolation/Interpolator";
