@@ -8,8 +8,44 @@
     <script src="./dist/newcar.js"></script>
   </head>
   <body>
-    <canvas id="my-canvas" width="500" height="500" style="border: 5px solid aqua"></canvas>
+    <canvas id="my-canvas" width="800" height="450" style="border: 5px solid aqua"></canvas>
     <script>
+      const { Car, Text, MutateContent, Translation, EaseInCubicInterpolator, Circle } = newcar;
+
+      const animation = new Car(
+        document.getElementById("my-canvas"),
+        120
+      )
+
+      const text1 = new Text("N", 200, 200)
+      text1.size = 100;
+      text1.color = "skyblue";
+
+      const circle1 = new Circle(0, 225, 300)
+
+
+      animation
+        .addObject(text1)
+        .addObject(circle1)
+
+      animation
+      .addAnimationItem(
+        MutateContent.create().startAt(20).mutateContentTo("NE").bindTo(text1).boom()
+      ).addAnimationItem(
+        MutateContent.create().startAt(40).mutateContentTo("NEW").bindTo(text1).boom()
+      ).addAnimationItem(
+        MutateContent.create().startAt(60).mutateContentTo("NEWC").bindTo(text1).boom()
+      ).addAnimationItem(
+        MutateContent.create().startAt(80).mutateContentTo("NEWCA").bindTo(text1).boom()
+      ).addAnimationItem(
+        MutateContent.create().startAt(100).mutateContentTo("NEWCAR").bindTo(text1).boom()
+      ).addAnimationItem(
+        Translation.create().startAt(120).lastsFor(150).to(200, 50).bindTo(text1).by(EaseInCubicInterpolator).boom()
+      ).addAnimationItem(
+        Translation.create().startAt(130).lastsFor(140).to(400, 225).bindTo(circle1).boom()
+      )
+
+      animation.startPlay();
     </script>
   </body>
 </html>

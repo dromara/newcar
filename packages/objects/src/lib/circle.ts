@@ -30,8 +30,8 @@ export class Circle extends Carobj {
 
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
-    ctx.beginPath();
     ctx.moveTo(this.contextX, this.contextY);
+    ctx.beginPath();
     ctx.arc(
       this.x - this.#radius,
       this.y - this.#radius,
