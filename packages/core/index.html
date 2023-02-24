@@ -10,6 +10,22 @@
   <body>
     <canvas id="my-canvas" width="500" height="500" style="border: 5px solid aqua"></canvas>
     <script>
+      const text = new newcar.Text("Hello world!", 100, 100);
+      const animation = new newcar.Car(
+        document.getElementById("my-canvas"),
+        60
+      );
+      animation
+        .addObject(text)
+        .addAnimationItem(
+          newcar.Translation.create()
+          .startAt(0)
+          .lastsFor(100)
+          .to(400, 400)
+          .bindTo(text)
+          .boom()
+        )
+        .startPlay()
     </script>
   </body>
 </html>
