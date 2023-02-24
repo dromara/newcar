@@ -51,25 +51,19 @@ importers:
 
   packages/animation-builder:
     specifiers:
-      '@newcar/objects': workspace:^0.0.2
+      '@newcar/objects': workspace:^0.1.0
       typescript: ^4.9.4
     dependencies:
       typescript: registry.npmmirror.com/typescript/4.9.4
     devDependencies:
       '@newcar/objects': link:../objects
 
-  packages/builder-item:
-    specifiers:
-      typescript: ^4.9.4
-    dependencies:
-      typescript: registry.npmmirror.com/typescript/4.9.4
-
   packages/core:
     specifiers:
       '@babel/core': ^7.20.7
       '@babel/preset-typescript': ^7.18.6
-      '@newcar/animation-builder': workspace:^0.0.2
-      '@newcar/objects': workspace:^0.0.2
+      '@newcar/animation-builder': workspace:^0.1.0
+      '@newcar/objects': workspace:^0.1.0
       '@rollup/plugin-babel': ^6.0.3
       '@rollup/plugin-commonjs': ^24.0.0
       '@rollup/plugin-node-resolve': ^15.0.1
@@ -3097,14 +3091,6 @@ packages:
 
   /fs.realpath/1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
-
-  /fsevents/2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
-    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
-    os: [darwin]
-    requiresBuild: true
-    dev: true
-    optional: true
 
   /function-bind/1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
@@ -7068,7 +7054,7 @@ packages:
       rollup: registry.npmmirror.com/rollup/3.8.1
       typescript: registry.npmmirror.com/typescript/4.9.4
     optionalDependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': registry.npmmirror.com/@babel/code-frame/7.18.6
     dev: true
 
   registry.npmmirror.com/rollup-plugin-sourcemaps/0.6.3_rollup@3.8.1:
@@ -7096,7 +7082,7 @@ packages:
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: registry.npmmirror.com/fsevents/2.3.2
     dev: true
 
   registry.npmmirror.com/safe-buffer/5.1.2:
