@@ -5,7 +5,7 @@ import { IRendererController } from "@newcar/objects/src/interfaces/RenderContro
 export class dataSaver implements IRenderable, IRendererController {
   #ele: HTMLCanvasElement; // The html element of canvas.
   #objects: Carobj[] = []; // The objects of animation.
-  #every?: (agr0: number) => void; // Do it for every frame.
+  #every?: ((agr0: number) => void)[] = []; // Do it for every frame.
   #start?: () => void; // Do it before the animation started.
   #fps = 0; // The FPS.
   #frameImmediately = 0; // Current number of frames.
@@ -32,7 +32,7 @@ export class dataSaver implements IRenderable, IRendererController {
    * @param command the fuction.
    */
   onUpdate(command: (agr0: number) => void) {
-    this.#every = command;
+    this.#every?.push(command);
     return this;
   }
 
@@ -85,7 +85,9 @@ export class dataSaver implements IRenderable, IRendererController {
       if (!this.isSuspend) {
         this.#frameImmediately += 1;
       }
-      this.#every && this.#every(this.#frameImmediately);
+      this.#every?.forEach((each) => {
+        each && each(this.#frameImmediately);
+      });
       draw(this.#objects);
     }, 1000 / this.#fps);
   }
