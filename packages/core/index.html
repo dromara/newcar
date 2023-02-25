@@ -10,18 +10,27 @@
   <body>
     <canvas id="my-canvas" width="800" height="450" style="border: 5px solid aqua"></canvas>
     <script>
-      const { Car, Text, MutateContent, Translation, EaseInCubicInterpolator, Circle } = newcar;
+      const { Car, MutateContent, Translation, EaseInCubicInterpolator } = newcar;
+      const { Text, Circle } = newcar.object;
 
       const animation = new Car(
         document.getElementById("my-canvas"),
         120
       )
 
-      const text1 = new Text("N", 200, 200)
+      const text1 = new Text({
+        x: 200,
+        y: 200,
+        text: "N"
+      })
       text1.size = 100;
       text1.color = "skyblue";
 
-      const circle1 = new Circle(0, 225, 300)
+      const circle1 = new Circle({
+        x: 0,
+        y: 225,
+        radius: 200
+      })
 
 
       animation
@@ -30,8 +39,6 @@
 
       animation
       .addAnimationItem(
-        MutateContent.create().startAt(20).mutateContentTo("NE").bindTo(text1).boom()
-      ).addAnimationItem(
         MutateContent.create().startAt(40).mutateContentTo("NEW").bindTo(text1).boom()
       ).addAnimationItem(
         MutateContent.create().startAt(60).mutateContentTo("NEWC").bindTo(text1).boom()
