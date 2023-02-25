@@ -5,10 +5,10 @@ export class Line extends Carobj {
   #point1: Point;
   #point2: Point;
 
-  constructor(theFirstPoint: Point, theSecondPoint: Point) {
+  constructor(datas: { points: Point[] }) {
     super();
-    this.#point1 = theFirstPoint;
-    this.#point2 = theSecondPoint;
+    this.#point1 = datas.points[0];
+    this.#point2 = datas.points[1];
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {

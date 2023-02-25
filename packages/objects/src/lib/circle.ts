@@ -7,25 +7,27 @@ export class Circle extends Carobj {
   #borderColor: string | null = null;
   #fillColor: string | undefined = undefined;
 
-  constructor(
-    x: number,
-    y: number,
-    radius: number,
-    startAngle?: number,
-    endAngle?: number,
-    borderColor?: string | null,
-    fillColor?: string | undefined
-  ) {
+  constructor(datas: {
+    x: number;
+    y: number;
+    radius: number;
+    startAngle?: number;
+    endAngle?: number;
+    borderColor?: string | null;
+    fillColor?: string | undefined;
+  }) {
     super();
-    this.#radius = radius;
-    this.x = x;
-    this.y = y;
-    typeof startAngle === "undefined" ? (this.#startAngle = 0) : (this.#startAngle = startAngle!);
-    typeof endAngle === "undefined"
+    this.#radius = datas.radius;
+    this.x = datas.x;
+    this.y = datas.y;
+    typeof datas.startAngle === "undefined"
+      ? (this.#startAngle = 0)
+      : (this.#startAngle = datas.startAngle!);
+    typeof datas.endAngle === "undefined"
       ? (this.#endAngle = 2 * Math.PI)
-      : (this.#endAngle = startAngle!);
-    if (typeof borderColor !== "undefined") this.#borderColor = borderColor;
-    if (typeof fillColor !== "undefined") this.#fillColor = fillColor;
+      : (this.#endAngle = datas.startAngle!);
+    if (typeof datas.borderColor !== "undefined") this.#borderColor = datas.borderColor;
+    if (typeof datas.fillColor !== "undefined") this.#fillColor = datas.fillColor;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {

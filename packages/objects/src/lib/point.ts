@@ -6,24 +6,24 @@ export class Point extends Carobj {
   #displayName: boolean; // Is or not is displaying the point.
   #pointRadius: number; // The radius of the point,the default is 0.5px.
 
-  constructor(
-    x: number,
-    y: number,
-    name?: string,
-    displayPoint?: boolean,
-    pointRadius?: number,
-    displayName?: boolean
-  ) {
+  constructor(datas: {
+    x: number;
+    y: number;
+    name?: string;
+    displayPoint?: boolean;
+    pointRadius?: number;
+    displayName?: boolean;
+  }) {
     super();
-    this.x = x;
-    this.y = y;
-    this.#name = name!;
-    if (typeof displayPoint === "undefined") this.#displayPoint = false;
-    else this.#displayPoint = displayPoint!;
-    if (typeof displayName === "undefined") this.#displayName = false;
-    else this.#displayName = displayName!;
-    if (typeof pointRadius === "undefined") this.#pointRadius = 1;
-    else this.#pointRadius = pointRadius!;
+    this.x = datas.x;
+    this.y = datas.y;
+    this.#name = datas.name!;
+    if (typeof datas.displayPoint === "undefined") this.#displayPoint = false;
+    else this.#displayPoint = datas.displayPoint!;
+    if (typeof datas.displayName === "undefined") this.#displayName = false;
+    else this.#displayName = datas.displayName!;
+    if (typeof datas.pointRadius === "undefined") this.#pointRadius = 1;
+    else this.#pointRadius = datas.pointRadius!;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {

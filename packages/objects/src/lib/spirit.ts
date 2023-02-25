@@ -10,10 +10,10 @@ export class Spirit extends Carobj implements IPositionedMut, ISpiritStatus {
   #status: HTMLImageElement[] = []; // The status of the carobj, default by the first.
   #statusNow = 0; // Current status.
 
-  constructor(x: number, y: number) {
+  constructor(datas: { x: number; y: number }) {
     super();
-    this.x = x;
-    this.y = y;
+    this.x = datas.x;
+    this.y = datas.y;
   }
 
   /**

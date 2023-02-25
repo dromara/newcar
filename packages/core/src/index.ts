@@ -1,6 +1,6 @@
 import { AnimationBuilder } from "@newcar/animation-builder/src/AnimationBuilder";
 import { type AnimationBuilderItem } from "@newcar/animation-builder/src/AnimationBuilderItem";
-import { Carobj } from "@newcar/objects";
+import { Carobj } from "@newcar/objects/src/lib/carobj";
 import { dataSaver } from "./DataSaver";
 
 export class Car {
@@ -56,8 +56,7 @@ link: https://github.com/Bug-Duck/newcar
   );
 };
 
-export { Text, Spirit, Point, Line, Definition, LineSegment, Circle } from "@newcar/objects";
-export { Carobj };
+export { object } from "@newcar/objects";
 export { Interpolator } from "@newcar/animation-builder/src/interpolation/Interpolator";
 export { LinearInterpolator } from "@newcar/animation-builder/src/interpolation/LinearInterpolator";
 export { AnimationBuilder } from "@newcar/animation-builder/src/AnimationBuilder";

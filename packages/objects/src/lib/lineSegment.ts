@@ -2,8 +2,8 @@ import { Line } from "./line";
 import { Point } from "./point";
 
 export class LineSegment extends Line {
-  constructor(theFirstPoint: Point, theSecondPoint: Point) {
-    super(theFirstPoint, theSecondPoint);
+  constructor(datas: { points: Point[] }) {
+    super(datas);
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {

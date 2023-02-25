@@ -5,11 +5,11 @@ export class Definition extends Carobj {
   #startVariable: number;
   #endVariable: number;
 
-  constructor(f: (arg0: number) => number, startAt: number, endAt: number) {
+  constructor(datas: { f: (arg0: number) => number; start: number; end: number }) {
     super();
-    this.#imageFunction = f;
-    this.#startVariable = startAt;
-    this.#endVariable = endAt;
+    this.#imageFunction = datas.f;
+    this.#startVariable = datas.start;
+    this.#endVariable = datas.end;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {

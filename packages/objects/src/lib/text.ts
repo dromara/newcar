@@ -7,28 +7,28 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
   #size: number;
   #color: string;
   #fontFamily = "sans-serif";
-  #align: "start" | "end" | "right" | "end" | "center" = "start";
-  #baseLine: "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom" = "middle";
+  #align: CanvasTextAlign = "start";
+  #baseline: CanvasTextBaseline = "middle";
 
-  constructor(
-    text: string,
-    x: number,
-    y: number,
-    size?: number,
-    color?: string,
-    fontFamily?: string,
-    align?: "start" | "end" | "right" | "end" | "center",
-    baseLine?: "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom"
-  ) {
+  constructor(datas: {
+    text: string;
+    x: number;
+    y: number;
+    size?: number;
+    color?: string;
+    fontFamily?: string;
+    align?: CanvasTextAlign;
+    baseline?: CanvasTextBaseline;
+  }) {
     super();
-    this.#text = text;
-    this.x = x;
-    this.y = y;
-    typeof size === "undefined" ? (this.#size = 10) : (this.#size = size);
-    typeof color === "undefined" ? (this.#color = "black") : (this.#color = color);
-    if (typeof fontFamily !== "undefined") this.fontFamily = fontFamily;
-    if (typeof align !== "undefined") this.#align = align;
-    if (typeof baseLine !== "undefined") this.#baseLine = baseLine;
+    this.#text = datas.text;
+    this.x = datas.x;
+    this.y = datas.y;
+    typeof datas.size === "undefined" ? (this.#size = 10) : (this.#size = datas.size);
+    typeof datas.color === "undefined" ? (this.#color = "black") : (this.#color = datas.color);
+    if (typeof datas.fontFamily !== "undefined") this.fontFamily = datas.fontFamily;
+    if (typeof datas.align !== "undefined") this.#align = datas.align;
+    if (typeof datas.baseline !== "undefined") this.#baseline = datas.baseline;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
@@ -37,7 +37,7 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
     // console.log(this.#size, this.#fontFamily);
     // console.log(`${this.#size}px ${this.#fontFamily}`);
     ctx.textAlign = this.#align;
-    ctx.textBaseline = this.#baseLine;
+    ctx.textBaseline = this.#baseline;
     ctx.fillStyle = this.#color;
     ctx.fillText(this.#text, 0, 0);
     return ctx;
@@ -63,16 +63,16 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
     return this.#align;
   }
 
-  set align(value: "start" | "end" | "right" | "end" | "center") {
+  set align(value: CanvasTextAlign) {
     this.#align = value;
   }
 
-  get baseLine() {
-    return this.#baseLine;
+  get baseline() {
+    return this.#baseline;
   }
 
-  set baseLine(value: "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom") {
-    this.#baseLine = value;
+  set baseline(value: CanvasTextBaseline) {
+    this.#baseline = value;
   }
 
   get text() {
