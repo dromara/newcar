@@ -1,7 +1,7 @@
 import { AnimationBuilder } from "@newcar/animation-builder/src/AnimationBuilder";
 import { type AnimationBuilderItem } from "@newcar/animation-builder/src/AnimationBuilderItem";
 import { Carobj } from "@newcar/objects";
-import { dataSaver } from "./dataSaver";
+import { dataSaver } from "./DataSaver";
 
 export class Car {
   #animationBuilder: AnimationBuilder = new AnimationBuilder();
@@ -24,6 +24,10 @@ export class Car {
 
   startPlay() {
     this.#animationBuilder.playOnCar(this.#dataSaver);
+  }
+
+  onUpdate(command: (agr0: number) => void) {
+    this.#dataSaver.onUpdate(command);
   }
 
   suspend(frame?: number) {
