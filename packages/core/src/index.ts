@@ -58,38 +58,6 @@ link: https://github.com/Bug-Duck/newcar
 
 export { object } from "@newcar/objects";
 export { Interpolator } from "@newcar/animation-builder/src/interpolation/Interpolator";
-export { LinearInterpolator } from "@newcar/animation-builder/src/interpolation/LinearInterpolator";
 export { AnimationBuilder } from "@newcar/animation-builder/src/AnimationBuilder";
 export * from "@newcar/animation-builder/src/builder_items/index";
-export {
-  EaseInBackInterpolator,
-  EaseInBounceInterpolator,
-  EaseInCircInterpolator,
-  EaseInCubicInterpolator,
-  EaseInElasticInterpolator,
-  EaseInExpoInterpolator,
-  EaseInOutBackInterpolator,
-  EaseInOutBounceInterpolator,
-  EaseInOutCircInterpolator,
-  EaseInOutElasticInterpolator,
-  EaseInOutCubicInterpolator,
-  EaseInOutExpoInterpolator,
-  EaseInOutQuadInterpolator,
-  EaseInOutQuartInterpolator,
-  EaseInOutQuintInterpolator,
-  EaseInOutSineInterpolator,
-  EaseInQuadInterpolator,
-  EaseInQuartInterpolator,
-  EaseInQuintInterpolator,
-  EaseInSineInterpolator,
-  EaseOutBackInterpolator,
-  EaseOutBounceInterpolator,
-  EaseOutCircInterpolator,
-  EaseOutCubicInterpolator,
-  EaseOutElasticInterpolator,
-  EaseOutExpoInterpolator,
-  EaseOutQuadInterpolator,
-  EaseOutQuartInterpolator,
-  EaseOutQuintInterpolator,
-  EaseOutSineInterpolator,
-} from "@newcar/animation-builder/src/interpolation/NonlinearInterpolators";
+export { interpolator } from "@newcar/animation-builder/src/interpolation/index";

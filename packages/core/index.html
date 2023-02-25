@@ -48,8 +48,6 @@
         MutateContent.create().startAt(100).mutateContentTo("NEWCAR").bindTo(text1).boom()
       ).addAnimationItem(
         Translation.create().startAt(120).lastsFor(150).to(200, 50).bindTo(text1).by(EaseInCubicInterpolator).boom()
-      ).addAnimationItem(
-        Translation.create().startAt(130).lastsFor(140).to(400, 225).bindTo(circle1).boom()
       )
 
       animation.startPlay();
