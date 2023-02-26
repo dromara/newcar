@@ -40,6 +40,7 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
     ctx.textBaseline = this.#baseline;
     ctx.fillStyle = this.#color;
     ctx.fillText(this.#text, 0, 0);
+    console.log(this.x, this.y);
     return ctx;
   }
 

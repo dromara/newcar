@@ -1,68 +1,68 @@
 import {
-  EaseInBackInterpolator,
-  EaseInBounceInterpolator,
-  EaseInCircInterpolator,
-  EaseInCubicInterpolator,
-  EaseInElasticInterpolator,
-  EaseInExpoInterpolator,
-  EaseInOutBackInterpolator,
-  EaseInOutBounceInterpolator,
-  EaseInOutCircInterpolator,
-  EaseInOutElasticInterpolator,
-  EaseInOutCubicInterpolator,
-  EaseInOutExpoInterpolator,
-  EaseInOutQuadInterpolator,
-  EaseInOutQuartInterpolator,
-  EaseInOutQuintInterpolator,
-  EaseInOutSineInterpolator,
-  EaseInQuadInterpolator,
-  EaseInQuartInterpolator,
-  EaseInQuintInterpolator,
-  EaseInSineInterpolator,
-  EaseOutBackInterpolator,
-  EaseOutBounceInterpolator,
-  EaseOutCircInterpolator,
-  EaseOutCubicInterpolator,
-  EaseOutElasticInterpolator,
-  EaseOutExpoInterpolator,
-  EaseOutQuadInterpolator,
-  EaseOutQuartInterpolator,
-  EaseOutQuintInterpolator,
-  EaseOutSineInterpolator,
+  easeInBack,
+  easeInBounce,
+  easeInCirc,
+  easeInCubic,
+  easeInElastic,
+  easeInExpo,
+  easeInOutBack,
+  easeInOutBounce,
+  easeInOutCirc,
+  easeInOutElastic,
+  easeInOutCubic,
+  easeInOutExpo,
+  easeInOutQuad,
+  easeInOutQuart,
+  easeInOutQuint,
+  easeInOutSine,
+  easeInQuad,
+  easeInQuart,
+  easeInQuint,
+  easeInSine,
+  easeOutBack,
+  easeOutBounce,
+  easeOutCirc,
+  easeOutCubic,
+  easeOutElastic,
+  easeOutExpo,
+  easeOutQuad,
+  easeOutQuart,
+  easeOutQuint,
+  easeOutSine,
 } from "./NonlinearInterpolators";
 import { LinearInterpolator } from "./LinearInterpolator";
 
 export const interpolator = ((exports: Record<string, (arg0: number) => number>) => {
-  exports.EaseInBackInterpolator = EaseInBackInterpolator;
-  exports.EaseInBounceInterpolator = EaseInBounceInterpolator;
-  exports.EaseInCircInterpolator = EaseInCircInterpolator;
-  exports.EaseInCubicInterpolator = EaseInCubicInterpolator;
-  exports.EaseInElasticInterpolator = EaseInElasticInterpolator;
-  exports.EaseInExpoInterpolator = EaseInExpoInterpolator;
-  exports.EaseInOutBackInterpolator = EaseInOutBackInterpolator;
-  exports.EaseInOutBounceInterpolator = EaseInOutBounceInterpolator;
-  exports.EaseInOutCircInterpolator = EaseInOutCircInterpolator;
-  exports.EaseInOutElasticInterpolator = EaseInOutElasticInterpolator;
-  exports.EaseInOutCubicInterpolator = EaseInOutCubicInterpolator;
-  exports.EaseInOutExpoInterpolator = EaseInOutExpoInterpolator;
-  exports.EaseInOutQuadInterpolator = EaseInOutQuadInterpolator;
-  exports.EaseInOutQuartInterpolator = EaseInOutQuartInterpolator;
-  exports.EaseInOutQuintInterpolator = EaseInOutQuintInterpolator;
-  exports.EaseInOutSineInterpolator = EaseInOutSineInterpolator;
-  exports.EaseInQuadInterpolator = EaseInQuadInterpolator;
-  exports.EaseInQuartInterpolator = EaseInQuartInterpolator;
-  exports.EaseInQuintInterpolator = EaseInQuintInterpolator;
-  exports.EaseInSineInterpolator = EaseInSineInterpolator;
-  exports.EaseOutBackInterpolator = EaseOutBackInterpolator;
-  exports.EaseOutBounceInterpolator = EaseOutBounceInterpolator;
-  exports.EaseOutCircInterpolator = EaseOutCircInterpolator;
-  exports.EaseOutCubicInterpolator = EaseOutCubicInterpolator;
-  exports.EaseOutElasticInterpolator = EaseOutElasticInterpolator;
-  exports.EaseOutExpoInterpolator = EaseOutExpoInterpolator;
-  exports.EaseOutQuadInterpolator = EaseOutQuadInterpolator;
-  exports.EaseOutQuartInterpolator = EaseOutQuartInterpolator;
-  exports.EaseOutQuintInterpolator = EaseOutQuintInterpolator;
-  exports.EaseOutSineInterpolator = EaseOutSineInterpolator;
-  exports.LinearInterpolator = LinearInterpolator;
+  exports.easeInBack = easeInBack;
+  exports.easeInBounce = easeInBounce;
+  exports.easeInCirc = easeInCirc;
+  exports.easeInCubic = easeInCubic;
+  exports.easeInElastic = easeInElastic;
+  exports.easeInExpo = easeInExpo;
+  exports.easeInOutBack = easeInOutBack;
+  exports.easeInOutBounce = easeInOutBounce;
+  exports.easeInOutCirc = easeInOutCirc;
+  exports.easeInOutElastic = easeInOutElastic;
+  exports.easeInOutCubic = easeInOutCubic;
+  exports.easeInOutExpo = easeInOutExpo;
+  exports.easeInOutQuad = easeInOutQuad;
+  exports.easeInOutQuart = easeInOutQuart;
+  exports.easeInOutQuint = easeInOutQuint;
+  exports.easeInOutSine = easeInOutSine;
+  exports.easeInQuad = easeInQuad;
+  exports.easeInQuart = easeInQuart;
+  exports.easeInQuint = easeInQuint;
+  exports.easeInSine = easeInSine;
+  exports.easeOutBack = easeOutBack;
+  exports.easeOutBounce = easeOutBounce;
+  exports.easeOutCirc = easeOutCirc;
+  exports.easeOutCubic = easeOutCubic;
+  exports.easeOutElastic = easeOutElastic;
+  exports.easeOutExpo = easeOutExpo;
+  exports.easeOutQuad = easeOutQuad;
+  exports.easeOutQuart = easeOutQuart;
+  exports.easeOutQuint = easeOutQuint;
+  exports.easeOutSine = easeOutSine;
+  exports.Linear = LinearInterpolator;
   return exports;
 })({});

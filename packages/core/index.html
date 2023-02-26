@@ -13,7 +13,9 @@
       const { Car } = newcar;
       const { Text, Circle } = newcar.object;
       const { MutateContent, Translation, SingleFrameAction } = newcar.animation;
-      const { EaseInCubicInterpolator } = newcar.interpolator;
+      const { EaseInOutQuintInterpolator } = newcar.interpolator;
+
+      console.log(EaseInOutQuintInterpolator)
 
       const animation = new Car(
         document.getElementById("my-canvas"),
@@ -51,7 +53,7 @@
       ).addAnimationItem(
         new MutateContent({startAt: (100),mutateContentTo: ("NEWCAR"), bindTo: (text1)})
       ).addAnimationItem(
-        (new Translation({startAt: 120, lastsFor: 150, to: [200, 50], bindTo: text1, by: EaseInCubicInterpolator}))
+        (new Translation({startAt: 120, lastsFor: 300, to: [200, 50], bindTo: text1, by: EaseInOutQuintInterpolator}))
       ).addAnimationItem(
         (new Translation({startAt: (130), lastsFor: (140), to:[400, 225], bindTo: (circle1)}))
       ).addAnimationItem(
