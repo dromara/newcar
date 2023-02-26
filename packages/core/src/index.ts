@@ -57,7 +57,6 @@ link: https://github.com/Bug-Duck/newcar
 };
 
 export { object } from "@newcar/objects";
-export { Interpolator } from "@newcar/animation-builder/src/interpolation/Interpolator";
 export { AnimationBuilder } from "@newcar/animation-builder/src/AnimationBuilder";
-export * from "@newcar/animation-builder/src/builder_items/index";
+export { animation } from "@newcar/animation-builder/src/builder_items/index";
 export { interpolator } from "@newcar/animation-builder/src/interpolation/index";

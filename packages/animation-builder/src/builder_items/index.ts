@@ -1,8 +1,20 @@
-export { Translation } from "./Translation";
-export { Rotation } from "./Rotation";
-export { Scale } from "./Scale";
-export { ChangingStatus } from "./ChangingStatus";
-export { Limit } from "./Limit";
-export { AngleCircle } from "./AngleCircle";
-export { SingleFrameAction } from "./SingleFrameAction";
-export { MutateContent } from "./MutateContent";
+import { Translation } from "./Translation";
+import { Rotation } from "./Rotation";
+import { Scale } from "./Scale";
+import { ChangingStatus } from "./ChangingStatus";
+import { Limit } from "./Limit";
+import { AngleCircle } from "./AngleCircle";
+import { SingleFrameAction } from "./SingleFrameAction";
+import { MutateContent } from "./MutateContent";
+
+export const animation = ((exports: Record<string, any>) => {
+  exports.Translation = Translation;
+  exports.Rotation = Rotation;
+  exports.Scale = Scale;
+  exports.ChangingStatus = ChangingStatus;
+  exports.Limit = Limit;
+  exports.AngleCircle = AngleCircle;
+  exports.SingleFrameAction = SingleFrameAction;
+  exports.MutateContent = MutateContent;
+  return exports;
+})({});

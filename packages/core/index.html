@@ -10,8 +10,10 @@
   <body>
     <canvas id="my-canvas" width="800" height="450" style="border: 5px solid aqua"></canvas>
     <script>
-      const { Car, MutateContent, Translation, EaseInCubicInterpolator, SingleFrameAction } = newcar;
+      const { Car } = newcar;
       const { Text, Circle } = newcar.object;
+      const { MutateContent, Translation, SingleFrameAction } = newcar.animation;
+      const { EaseInCubicInterpolator } = newcar.interpolator;
 
       const animation = new Car(
         document.getElementById("my-canvas"),
