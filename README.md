@@ -10,7 +10,7 @@
 Newcar is a modern animation engine based on html canvas.This repo is the core of newcar, which created by typescript. **The core can't do anything about file of newcar**.
 
 ## Document
-the document is writing now. [click here](https://github.com/Bug-Duck/newcar-docs) to join the transtation.
+Please link to [newcar-docs.netlify.app](https://newcar-docs.netlify.app)
 
 ## Contribution
 If you want to join the development or make a contribution, **please read the [code document](./doc/README.md)**
