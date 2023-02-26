@@ -10,7 +10,7 @@
   <body>
     <canvas id="my-canvas" width="800" height="450" style="border: 5px solid aqua"></canvas>
     <script>
-      const { Car, MutateContent, Translation, EaseInCubicInterpolator } = newcar;
+      const { Car, MutateContent, Translation, EaseInCubicInterpolator, SingleFrameAction } = newcar;
       const { Text, Circle } = newcar.object;
 
       const animation = new Car(
@@ -39,16 +39,22 @@
 
       animation
       .addAnimationItem(
-        MutateContent.create().startAt(40).mutateContentTo("NEW").bindTo(text1).boom()
+        new MutateContent({ startAt: (20), mutateContentTo: ("NE"), bindTo: (text1)})
       ).addAnimationItem(
-        MutateContent.create().startAt(60).mutateContentTo("NEWC").bindTo(text1).boom()
+        new MutateContent({startAt: (40),mutateContentTo: ("NEW"),bindTo: (text1)})
       ).addAnimationItem(
-        MutateContent.create().startAt(80).mutateContentTo("NEWCA").bindTo(text1).boom()
+        new MutateContent({startAt: (60),mutateContentTo: ("NEWC"), bindTo: (text1)})
       ).addAnimationItem(
-        MutateContent.create().startAt(100).mutateContentTo("NEWCAR").bindTo(text1).boom()
+        new MutateContent({startAt: (80), mutateContentTo: ("NEWCA"), bindTo: (text1)})
       ).addAnimationItem(
-        Translation.create().startAt(120).lastsFor(150).to(200, 50).bindTo(text1).by(EaseInCubicInterpolator).boom()
-      )
+        new MutateContent({startAt: (100),mutateContentTo: ("NEWCAR"), bindTo: (text1)})
+      ).addAnimationItem(
+        (new Translation({startAt: 120, lastsFor: 150, to: [200, 50], bindTo: text1, by: EaseInCubicInterpolator}))
+      ).addAnimationItem(
+        (new Translation({startAt: (130), lastsFor: (140), to:[400, 225], bindTo: (circle1)}))
+      ).addAnimationItem(
+        new SingleFrameAction({at: 130, run: () => console.log("NEWCAR Frame at 130")})
+      );
 
       animation.startPlay();
     </script>

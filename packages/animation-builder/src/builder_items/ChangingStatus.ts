@@ -5,68 +5,36 @@ import { ISpiritStatus } from "@newcar/objects/src/interfaces/SpiritStatus";
 import { AnimationBuilder } from "../AnimationBuilder";
 import { AnimationBuilderItem } from "../AnimationBuilderItem";
 
-export class ChangingStatusTemporaryIndeterminateVariation {
-  #start: number | null = null;
-  #length: number | null = null;
-  #obj: ISpiritStatus | null = null;
-
-  /**
-   * Set which frame to start.
-   * @param start The frame number.
-   */
-  startAt(start: number): ChangingStatusTemporaryIndeterminateVariation {
-    this.#start = start;
-    return this;
-  }
-
-  /**
-   * Set how long the animation lasts in frames.
-   */
-  lastsFor(frames: number): ChangingStatusTemporaryIndeterminateVariation {
-    this.#length = frames;
-    return this;
-  }
-
-  /**
-   * Bind to an object.
-   * @param obj The obejct to bind to.
-   */
-  bindTo(obj: ISpiritStatus): ChangingStatusTemporaryIndeterminateVariation {
-    this.#obj = obj;
-    return this;
-  }
-
-  boom(): ChangingStatus {
-    if (this.#start === null) throw new Error("Cannot BOOM!");
-    if (this.#length === null) throw new Error("Cannot BOOM!");
-    if (this.#obj === null) throw new Error("Cannot BOOM!");
-    return new ChangingStatus(this.#length, this.#start, this.#obj);
-  }
-}
-
 export class ChangingStatus extends AnimationBuilderItem {
-  #obj: ISpiritStatus;
-  #length: number;
-  #start: number;
+  #datas: {
+    obj: ISpiritStatus;
+    length: number;
+    start: number;
+  };
 
-  static create(): ChangingStatusTemporaryIndeterminateVariation {
-    return new ChangingStatusTemporaryIndeterminateVariation();
-  }
-
-  constructor(length: number, start: number, obj: ISpiritStatus) {
+  constructor(datas: { startAt?: number; lastsFor?: number; bindTo?: ISpiritStatus }) {
     super();
-    this.#obj = obj;
-    this.#length = length;
-    this.#start = start;
+    let flag = "";
+    if (
+      ((flag = "startAt"), datas.startAt === undefined) ||
+      ((flag = "lastsFor"), datas.lastsFor === undefined) ||
+      ((flag = "bindTo"), datas.bindTo === undefined)
+    )
+      throw new Error(`be unset data "${flag}"`);
+    this.#datas = {
+      length: datas.lastsFor - datas.startAt,
+      start: datas.startAt,
+      obj: datas.bindTo,
+    };
   }
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
-    this.#obj.status = relativeFrameCount % this.#obj.length;
+    this.#datas.obj.status = relativeFrameCount % this.#datas.obj.length;
   }
   get startFrame(): number {
-    return this.#start;
+    return this.#datas.start;
   }
   get length(): number {
-    return this.#length;
+    return this.#datas.length;
   }
 }
