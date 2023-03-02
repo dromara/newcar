@@ -7,15 +7,13 @@
 [![team](https://shields.io/badge/team-BugDuck-blue?logo=twitter&style=flat-square)](https://twitter.com/bugduckteam)
 
 ## Introduction
-Newcar is a modern animation engine based on html canvas.This repo is the core of newcar, which created by typescript. **The core can't do anything about file of newcar**.
+Newcar is a modern animation engine. This repository basically contains a renderer using HTML Canvas API to render.  **This repository cannot deal with the newcar filetype.**
 
 ## Document
-Please link to [newcar-docs.netlify.app](https://newcar-docs.netlify.app)
+The document is served on [newcar-docs.netlify.app](https://newcar-docs.netlify.app).
 
 ## Contribution
-If you want to join the development or make a contribution, **please read the [code document](./doc/README.md)**
+If you want to join the development or make a contribution, **please read the [Contribution Guide](./doc/README.md)**
 
-## License
-Apache-2.0
 
 *Copyright (c) 2022-present, BugDuck Team*
