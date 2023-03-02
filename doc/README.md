@@ -1,58 +1,40 @@
-Hi, there!
-
-There was the code document of Newcar, if you want to make a contribution, **please read this document before you start to code!**
+# NewCar Animation Engine Contribution Guide
+This is the contribution guide of Newcar. If you want to make a contribution, **please read this guide first!**
 
 # Packages
 
-The project use the monorepo, all the packages is in `./packages`.
+The project uses `monorepo`. All the packages are in the directory `/packages` (all paths appeared in this documentation are relative to the project's root directory).
+
+Here are the packages and their information:
 
 | Package Name | Introduction | index | Document |
 | --- | --- | --- | --- |
-| @newcar/core | The core of Newcar, include the class `Car` for user. | `packages/core` | [Click here](./core/README.md) |
-| @newcar/objects | The objects of animation. | `packages/objects` | [Click here]() |
-| @newcar/animation-builder | The builder of animation key frame | `packages/animation-builder` | [Click here]() |
+| @newcar/core | The core of Newcar, include the class `Car` for user. | `/packages/core` | [Click here](./core/README.md) |
+| @newcar/objects | The objects of animation. | `/packages/objects` | [Click here]() |
+| @newcar/animation-builder | The builder of animation key frame | `/packages/animation-builder` | [Click here]() |
 
 # Development
 
-About development, we use this tools:
-* pnpm
-* rollup
-* eslint
+The following tools are necessary in order to build this repository:
+* `pnpm`
+* `rollup`
+* `eslint`
 
-The test file `index.html` is in `packages/core`.
+The test file `index.html` is in the `/packages/core`.
 
-## build
-We set up some command in npm, if you want to build all part of project, you can use:
+## Building
+To build the whole project, use the following command: 
 ```shell
 $ npm run build:all
 $ # or
 $ pnpm run -r build
 ```
-The file will be output in `packages/core/dist`.
+The distributable files will appear in the directory `/packages/core/dist`, as many other open-source projects do.
 
-## run
-There I use the live-server, but if you use other local servers, it's all okay.
+## Testing
 
-You just need
+Use a static server to run the `/packages/core/index.html`.
 
-```shell
-$ npm install live-server -g
-```
+## Releasing
 
-And
-
-```shell
-$ live-server
-```
-
-Youe web browser will appear.
-
-## relaese
-
-If you want to make a new version, please commit and merge to the branch main before run the command:
-
-```shell
-$ pnpm release
-```
-
-and then, it will give your some item to choice.
+To make a new version, please add a pull request to the branch `main`.
