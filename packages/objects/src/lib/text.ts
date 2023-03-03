@@ -1,6 +1,18 @@
 import { Carobj } from "./carobj";
 import { IPositionedMut } from "../interfaces/Positioned";
 import { ITextEditable } from "../interfaces/TextEditable";
+import { type carobject } from "./carobj";
+
+export type textobject = {
+  text: string;
+  x: number;
+  y: number;
+  size?: number;
+  color?: string;
+  fontFamily?: string;
+  align?: CanvasTextAlign;
+  baseline?: CanvasTextBaseline;
+};
 
 export class Text extends Carobj implements ITextEditable, IPositionedMut {
   #text: string;
@@ -9,18 +21,8 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
   #fontFamily = "sans-serif";
   #align: CanvasTextAlign = "start";
   #baseline: CanvasTextBaseline = "middle";
-
-  constructor(datas: {
-    text: string;
-    x: number;
-    y: number;
-    size?: number;
-    color?: string;
-    fontFamily?: string;
-    align?: CanvasTextAlign;
-    baseline?: CanvasTextBaseline;
-  }) {
-    super();
+  constructor(datas: textobject & carobject) {
+    super(datas);
     this.#text = datas.text;
     this.x = datas.x;
     this.y = datas.y;

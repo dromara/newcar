@@ -1,4 +1,15 @@
 import { Carobj } from "./carobj";
+import { type carobject } from "./carobj";
+
+export type circleobject = {
+  x: number;
+  y: number;
+  radius: number;
+  startAngle?: number;
+  endAngle?: number;
+  borderColor?: string | null;
+  fillColor?: string | undefined;
+};
 
 export class Circle extends Carobj {
   #radius: number;
@@ -7,16 +18,8 @@ export class Circle extends Carobj {
   #borderColor: string | null = null;
   #fillColor: string | undefined = undefined;
 
-  constructor(datas: {
-    x: number;
-    y: number;
-    radius: number;
-    startAngle?: number;
-    endAngle?: number;
-    borderColor?: string | null;
-    fillColor?: string | undefined;
-  }) {
-    super();
+  constructor(datas: circleobject & carobject) {
+    super(datas);
     this.#radius = datas.radius;
     this.x = datas.x;
     this.y = datas.y;

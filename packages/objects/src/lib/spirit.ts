@@ -1,6 +1,9 @@
 import { Carobj } from "./carobj";
 import { IPositionedMut } from "../interfaces/Positioned";
 import { ISpiritStatus } from "../interfaces/SpiritStatus";
+import { type carobject } from "./carobj";
+
+export type spiritobject = { x: number; y: number };
 
 export class Spirit extends Carobj implements IPositionedMut, ISpiritStatus {
   /**
@@ -10,8 +13,8 @@ export class Spirit extends Carobj implements IPositionedMut, ISpiritStatus {
   #status: HTMLImageElement[] = []; // The status of the carobj, default by the first.
   #statusNow = 0; // Current status.
 
-  constructor(datas: { x: number; y: number }) {
-    super();
+  constructor(datas: spiritobject & carobject) {
+    super(datas);
     this.x = datas.x;
     this.y = datas.y;
   }

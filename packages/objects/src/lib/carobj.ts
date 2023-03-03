@@ -2,6 +2,17 @@ import { IPositionedMut } from "../interfaces/Positioned";
 import { IRotatedMut } from "../interfaces/Rotated";
 import { IScaledMut } from "../interfaces/Scaled";
 
+export type carobject = {
+  scaleX?: number;
+  scaleY?: number;
+  contextX?: number;
+  contextY?: number;
+  children?: Carobj[];
+  operation?: GlobalCompositeOperation;
+  display?: boolean;
+  rotation?: number;
+};
+
 export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   display = true; // The Object is or isnot display.
   #x = 0;
@@ -16,6 +27,18 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #liveAt: number = 1;
   #dieAt: null | number = null;
   #operation: GlobalCompositeOperation = "source-over";
+
+  constructor(datas: carobject) {
+    this.#contextX = datas.contextX!;
+    this.#contextY = datas.contextY!;
+    this.#operation = datas.operation!;
+    this.#children = datas.children!;
+    this.#scaleX = datas.scaleX!;
+    this.#scaleY = datas.scaleY!;
+    this.display = datas.display!;
+    this.#rotation = datas.rotation!;
+  }
+
   /**
    * Get called on each frame.
    * @param ctx The context instance of the canvas object.

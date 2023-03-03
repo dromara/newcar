@@ -1,4 +1,14 @@
 import { Carobj } from "./carobj";
+import { type carobject } from "./carobj";
+
+export type pointobject = {
+  x: number;
+  y: number;
+  name?: string;
+  displayPoint?: boolean;
+  pointRadius?: number;
+  displayName?: boolean;
+};
 
 export class Point extends Carobj {
   #name: string; // The name of the point.
@@ -6,15 +16,8 @@ export class Point extends Carobj {
   #displayName: boolean; // Is or not is displaying the point.
   #pointRadius: number; // The radius of the point,the default is 0.5px.
 
-  constructor(datas: {
-    x: number;
-    y: number;
-    name?: string;
-    displayPoint?: boolean;
-    pointRadius?: number;
-    displayName?: boolean;
-  }) {
-    super();
+  constructor(datas: pointobject & carobject) {
+    super(datas);
     this.x = datas.x;
     this.y = datas.y;
     this.#name = datas.name!;

@@ -1,12 +1,15 @@
 import { Carobj } from "./carobj";
 import { type Point } from "./point";
+import { type carobject } from "./carobj";
+
+export type lineobject = { points: Point[] };
 
 export class Line extends Carobj {
   #point1: Point;
   #point2: Point;
 
-  constructor(datas: { points: Point[] }) {
-    super();
+  constructor(datas: lineobject & carobject) {
+    super(datas);
     this.#point1 = datas.points[0];
     this.#point2 = datas.points[1];
   }

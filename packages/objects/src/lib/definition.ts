@@ -1,12 +1,15 @@
 import { Carobj } from "./carobj";
+import { type carobject } from "./carobj";
+
+export type definition = { f: (arg0: number) => number; start: number; end: number };
 
 export class Definition extends Carobj {
   #imageFunction: (arg0: number) => number;
   #startVariable: number;
   #endVariable: number;
 
-  constructor(datas: { f: (arg0: number) => number; start: number; end: number }) {
-    super();
+  constructor(datas: definition & carobject) {
+    super(datas);
     this.#imageFunction = datas.f;
     this.#startVariable = datas.start;
     this.#endVariable = datas.end;
