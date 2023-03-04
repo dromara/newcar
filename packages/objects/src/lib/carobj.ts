@@ -29,14 +29,14 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #operation: GlobalCompositeOperation = "source-over";
 
   constructor(datas: carobject) {
-    this.#contextX = datas.contextX!;
-    this.#contextY = datas.contextY!;
-    this.#operation = datas.operation!;
-    this.#children = datas.children!;
-    this.#scaleX = datas.scaleX!;
-    this.#scaleY = datas.scaleY!;
-    this.display = datas.display!;
-    this.#rotation = datas.rotation!;
+    typeof this.#contextX === "undefined" ? (this.#contextX = datas.contextX!) : null;
+    typeof this.#contextY === "undefined" ? (this.#contextY = datas.contextY!) : null;
+    typeof this.#scaleX === "undefined" ? (this.#scaleX = datas.scaleX!) : null;
+    typeof this.#scaleY === "undefined" ? (this.#scaleY = datas.scaleY!) : null;
+    typeof this.display === "undefined" ? (this.display = datas.display!) : null;
+    typeof this.#rotation === "undefined" ? (this.#rotation = datas.rotation!) : null;
+    typeof this.#operation === "undefined" ? (this.#operation = datas.operation!) : null;
+    typeof this.#children === "undefined" ? (this.#children = datas.children!) : null;
   }
 
   /**
