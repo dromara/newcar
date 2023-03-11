@@ -1,10 +1,13 @@
 import { AnimationBuilder } from "@newcar/animation-builder/src/AnimationBuilder";
 import { type AnimationBuilderItem } from "@newcar/animation-builder/src/AnimationBuilderItem";
+import { SoundBuilder } from "@newcar/sound-builder/src/SoundBuilder";
+import { type Sound } from "@newcar/sound-builder/src/Sound";
 import { Carobj } from "@newcar/objects/src/lib/carobj";
 import { dataSaver } from "./DataSaver";
 
 export class Car {
   #animationBuilder: AnimationBuilder = new AnimationBuilder();
+  #soundBuilder: SoundBuilder = new SoundBuilder();
   #dataSaver: dataSaver;
 
   constructor(ele: HTMLCanvasElement, fps: number) {
@@ -19,6 +22,11 @@ export class Car {
 
   addAnimationItem(animationItem: AnimationBuilderItem) {
     this.#animationBuilder.addItem(animationItem);
+    return this;
+  }
+
+  addSoundItem(sound: Sound) {
+    this.#soundBuilder.addRadio(sound);
     return this;
   }
 
@@ -57,6 +65,6 @@ link: https://github.com/Bug-Duck/newcar
 };
 
 export { object } from "@newcar/objects";
-export { AnimationBuilder } from "@newcar/animation-builder/src/AnimationBuilder";
 export { animation } from "@newcar/animation-builder/src/builder_items/index";
 export { interpolator } from "@newcar/animation-builder/src/interpolation/index";
+export { Sound } from "@newcar/sound-builder/src/Sound";
