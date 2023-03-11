@@ -14,8 +14,8 @@ export class Camera extends Carobj {
     this.y = datas.y;
   }
 
-  override onSet(ctx: CanvasRenderingContext2D, element: HTMLElement): CanvasRenderingContext2D {
-    ctx.translate(this.x, this.y);
-    return ctx;
-  }
+  // override onSet(ctx: CanvasRenderingContext2D, element: HTMLElement): CanvasRenderingContext2D {
+  //   ctx.translate(this.x, this.y);
+  //   return ctx;
+  // }
 }
