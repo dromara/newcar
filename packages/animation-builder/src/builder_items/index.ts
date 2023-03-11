@@ -6,8 +6,9 @@ import { Limit } from "./Limit";
 import { AngleCircle } from "./AngleCircle";
 import { SingleFrameAction } from "./SingleFrameAction";
 import { MutateContent } from "./MutateContent";
+import { AnimationBuilderItem } from "../AnimationBuilderItem";
 
-export const animation = ((exports: Record<string, any>) => {
+export const animation = ((exports: Record<string, unknown>) => {
   exports.Translation = Translation;
   exports.Rotation = Rotation;
   exports.Scale = Scale;
