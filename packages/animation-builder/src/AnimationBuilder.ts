@@ -4,7 +4,6 @@ import { IRendererController } from "@newcar/objects/src/interfaces/RenderContro
 
 export class AnimationBuilder {
   #items: AnimationBuilderItem[] = [];
-  #objectsToRender: unknown[] = [];
 
   /**
    * Play the animation on a `? extends IRenderable & IRendererController` instance.
@@ -13,9 +12,6 @@ export class AnimationBuilder {
   playOnCar<T extends IRenderable & IRendererController>(rdInstance: T) {
     for (const i of this.#items) {
       i.onRegister(rdInstance);
-    }
-    for (const i of this.#objectsToRender) {
-      rdInstance.linkObject(i);
     }
     const itemsClone = [...this.#items];
     itemsClone.sort((a, b) => a.startFrame - b.startFrame);
@@ -42,7 +38,6 @@ export class AnimationBuilder {
         i.onDrawFrame(frame - i.startFrame, this);
       }
     });
-    rdInstance.startFrame();
   }
 
   /**
@@ -52,15 +47,6 @@ export class AnimationBuilder {
    */
   addItem(builderItem: AnimationBuilderItem): AnimationBuilder {
     this.#items.push(builderItem);
-    return this;
-  }
-
-  /**
-   * Add an object to the animation.
-   * @param obj The object.
-   */
-  addObject(obj: unknown): AnimationBuilder {
-    this.#objectsToRender.push(obj);
     return this;
   }
 }

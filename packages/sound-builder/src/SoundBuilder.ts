@@ -3,7 +3,7 @@ import { IRendererController } from "@newcar/objects/src/interfaces/RenderContro
 import { type Sound } from "./Sound";
 
 export class SoundBuilder {
-  #audioToPlay: Sound[];
+  #audioToPlay: Sound[] = [];
 
   playOnCar<T extends IRenderable & IRendererController>(rdInstance: T) {
     rdInstance.onUpdate((curFrame) => {

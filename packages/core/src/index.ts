@@ -16,7 +16,7 @@ export class Car {
   }
 
   addObject(obj: Carobj) {
-    this.#animationBuilder.addObject(obj);
+    this.#dataSaver.linkObject(obj);
     return this;
   }
 
@@ -32,6 +32,8 @@ export class Car {
 
   startPlay() {
     this.#animationBuilder.playOnCar(this.#dataSaver);
+    this.#soundBuilder.playOnCar(this.#dataSaver);
+    this.#dataSaver.startFrame();
   }
 
   onUpdate(command: (agr0: number) => void) {
