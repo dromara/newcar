@@ -2,8 +2,8 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ISpiritStatus } from "@newcar/objects/src/interfaces/SpiritStatus";
-import { AnimationBuilder } from "../AnimationBuilder";
-import { AnimationBuilderItem } from "../AnimationBuilderItem";
+import { AnimationBuilder } from "..";
+import { AnimationBuilderItem } from "../item";
 
 export class ChangingStatus extends AnimationBuilderItem {
   #datas: {

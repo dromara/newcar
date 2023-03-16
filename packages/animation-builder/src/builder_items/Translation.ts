@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IPositionedMut } from "@newcar/objects/src/interfaces/Positioned";
-import { AnimationBuilder } from "../AnimationBuilder";
-import { AnimationBuilderItem } from "../AnimationBuilderItem";
+import { AnimationBuilder } from "..";
+import { AnimationBuilderItem } from "../item";
 import { Interpolator } from "../interpolation/Interpolator";
 import { LinearInterpolator } from "../interpolation/LinearInterpolator";
 

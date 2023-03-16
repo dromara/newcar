@@ -20,8 +20,8 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #rotation = 0;
   #scaleX = 1;
   #scaleY = 1;
-  #contextX = this.#x;
-  #contextY = this.#y;
+  #contextX;
+  #contextY;
   #children: Carobj[] = [];
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   #liveAt: number = 1;
@@ -29,14 +29,18 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #operation: GlobalCompositeOperation = "source-over";
 
   constructor(datas: carobject) {
-    typeof this.#contextX === "undefined" ? (this.#contextX = datas.contextX!) : null;
-    typeof this.#contextY === "undefined" ? (this.#contextY = datas.contextY!) : null;
-    typeof this.#scaleX === "undefined" ? (this.#scaleX = datas.scaleX!) : null;
-    typeof this.#scaleY === "undefined" ? (this.#scaleY = datas.scaleY!) : null;
-    typeof this.display === "undefined" ? (this.display = datas.display!) : null;
-    typeof this.#rotation === "undefined" ? (this.#rotation = datas.rotation!) : null;
-    typeof this.#operation === "undefined" ? (this.#operation = datas.operation!) : null;
-    typeof this.#children === "undefined" ? (this.#children = datas.children!) : null;
+    typeof datas.contextX === "undefined"
+      ? (this.#contextX = datas.contextX!)
+      : (this.#contextX = this.#x);
+    typeof datas.contextY === "undefined"
+      ? (this.#contextY = datas.contextY!)
+      : (this.#contextY = this.#y);
+    typeof datas.scaleX === "undefined" ? (this.#scaleX = datas.scaleX!) : null;
+    typeof datas.scaleY === "undefined" ? (this.#scaleY = datas.scaleY!) : null;
+    typeof datas.display === "undefined" ? (this.display = datas.display!) : null;
+    typeof datas.rotation === "undefined" ? (this.#rotation = datas.rotation!) : null;
+    typeof datas.operation === "undefined" ? (this.#operation = datas.operation!) : null;
+    typeof datas.children === "undefined" ? (this.#children = datas.children!) : null;
   }
 
   /**

@@ -1,4 +1,4 @@
-import { AnimationBuilderItem } from "./AnimationBuilderItem";
+import { AnimationBuilderItem } from "./item";
 import { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
 import { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
 

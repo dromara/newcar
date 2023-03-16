@@ -1,6 +1,6 @@
-import { AnimationBuilder } from "@newcar/animation-builder/src/AnimationBuilder";
-import { type AnimationBuilderItem } from "@newcar/animation-builder/src/AnimationBuilderItem";
-import { SoundBuilder } from "@newcar/sound-builder/src/SoundBuilder";
+import { AnimationBuilder } from "@newcar/animation-builder/src/index";
+import { type AnimationBuilderItem } from "@newcar/animation-builder/src/item";
+import { SoundBuilder } from "@newcar/sound-builder/src/index";
 import { type Sound } from "@newcar/sound-builder/src/Sound";
 import { Carobj } from "@newcar/objects/src/lib/carobj";
 import { dataSaver } from "./DataSaver";

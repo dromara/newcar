@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ITextEditable } from "@newcar/objects/src/interfaces/TextEditable";
-import { AnimationBuilder } from "../AnimationBuilder";
-import { AnimationBuilderItem } from "../AnimationBuilderItem";
+import { AnimationBuilder } from "..";
+import { AnimationBuilderItem } from "../item";
 
 export class MutateContent extends AnimationBuilderItem {
   #datas: {

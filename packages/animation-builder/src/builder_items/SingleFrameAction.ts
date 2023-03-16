@@ -1,5 +1,5 @@
-import { AnimationBuilder } from "../AnimationBuilder";
-import { AnimationBuilderItem } from "../AnimationBuilderItem";
+import { AnimationBuilder } from "..";
+import { AnimationBuilderItem } from "../item";
 
 export class SingleFrameAction extends AnimationBuilderItem {
   #datas: {
