@@ -29,18 +29,18 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #operation: GlobalCompositeOperation = "source-over";
 
   constructor(datas: carobject) {
-    typeof datas.contextX === "undefined"
+    typeof datas.contextX !== "undefined"
       ? (this.#contextX = datas.contextX!)
       : (this.#contextX = this.#x);
-    typeof datas.contextY === "undefined"
+    typeof datas.contextY !== "undefined"
       ? (this.#contextY = datas.contextY!)
       : (this.#contextY = this.#y);
-    typeof datas.scaleX === "undefined" ? (this.#scaleX = datas.scaleX!) : null;
-    typeof datas.scaleY === "undefined" ? (this.#scaleY = datas.scaleY!) : null;
-    typeof datas.display === "undefined" ? (this.display = datas.display!) : null;
-    typeof datas.rotation === "undefined" ? (this.#rotation = datas.rotation!) : null;
-    typeof datas.operation === "undefined" ? (this.#operation = datas.operation!) : null;
-    typeof datas.children === "undefined" ? (this.#children = datas.children!) : null;
+    typeof datas.scaleX !== "undefined" ? (this.#scaleX = datas.scaleX!) : null;
+    typeof datas.scaleY !== "undefined" ? (this.#scaleY = datas.scaleY!) : null;
+    typeof datas.display !== "undefined" ? (this.display = datas.display!) : null;
+    typeof datas.rotation !== "undefined" ? (this.#rotation = datas.rotation!) : null;
+    typeof datas.operation !== "undefined" ? (this.#operation = datas.operation!) : null;
+    typeof datas.children !== "undefined" ? (this.#children = datas.children!) : null;
   }
 
   /**
