@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
     <script src="../../packages/core/dist/newcar.js"></script>
+    <title>Document</title>
   </head>
   <body>
     <canvas id="my-canvas" width="800" height="450" style="border: 5px solid aqua"></canvas>
@@ -47,7 +47,7 @@
       });
 
       const text2 = new Text({
-        text: "The modern animation engine.",
+        text: "The modern animation engine",
         x: 400,
         y: 460,
         size: 20,
@@ -62,9 +62,46 @@
         children: [text1, text2, circle1, circle2],
       });
 
-      
+      // ---------------------------------------------------------------------
 
-      animation.addObject(root1);
+      const text3 = new Text({
+        x: 400,
+        y: 200,
+        size: 20,
+        align: "center",
+        text: "Have you",
+        display: false,
+      });
+      const text3plus = new Text({
+        x: 580,
+        y: 200,
+        text: "troublesome",
+        size: 50,
+        color: "red",
+        display: false,
+        align: "center",
+      })
+
+      const text4_1 = new Text({
+        x: 390,
+        y: 225,
+        align: "center",
+        text: "n",
+        color: "red"
+      })
+
+      const root2 = new Carobj({
+        x: 0,
+        y: 0,
+        children: [
+          text3,
+          text3plus,
+        ],
+      });
+
+      // ---------------------------------------------------------------------
+
+      animation.addObject(root1).addObject(root2);
 
       animation
         .addAnimationItem(new MutateContent({ startAt: 20, mutateContentTo: "NE", bindTo: text1 }))
@@ -77,6 +114,41 @@
         )
         .addAnimationItem(
           new MutateContent({ startAt: 100, mutateContentTo: "NEWCAR", bindTo: text1 })
+        )
+        .addAnimationItem(
+          new MutateContent({
+            startAt: 570,
+            mutateContentTo: "Have you ever",
+            bindTo: text3,
+          })
+        )
+        .addAnimationItem(
+          new MutateContent({
+            startAt: 580,
+            mutateContentTo: "Have you ever be vexed",
+            bindTo: text3,
+          })
+        )
+        .addAnimationItem(
+          new MutateContent({
+            startAt: 600,
+            mutateContentTo: "Have you ever be vexed that HTML Canvas",
+            bindTo: text3,
+          })
+        )
+        .addAnimationItem(
+          new MutateContent({
+            startAt: 630,
+            mutateContentTo: "Have you ever be vexed that HTML Canvas?",
+            bindTo: text3,
+          })
+        )
+        .addAnimationItem(
+          new MutateContent({
+            startAt: 640,
+            mutateContentTo: "Have you ever be vexed that HTML Canvas is                                                                   ?🤔",
+            bindTo: text3,
+          })
         )
         .addAnimationItem(
           new Translation({
@@ -124,7 +196,29 @@
           })
         )
         .addAnimationItem(
-          new SingleFrameAction({ at: 130, run: () => console.log("NEWCAR Frame at 130") })
+          new SingleFrameAction({
+            at: 560,
+            run: () => {
+              text3.appear();
+            },
+          })
+        )
+        .addAnimationItem(
+          new SingleFrameAction({
+            at: 640,
+            run: () => {
+              text3plus.appear();
+            },
+          })
+        )
+        .addAnimationItem(
+          new SingleFrameAction({
+            at: 700,
+            run: () => {
+              text3.hide();
+              text3plus.hide();
+            },
+          })
         );
 
       animation.startPlay();
