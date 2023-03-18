@@ -33,7 +33,7 @@ export class Translation extends AnimationBuilderItem {
       throw new Error(`be unset data "${flag}"`);
     datas.from = datas.from ?? [datas.bindTo.x, datas.bindTo.y];
     this.#datas = {
-      length: datas.lastsFor - datas.startAt ?? null,
+      length: datas.lastsFor ?? null,
       start: datas.startAt ?? null,
       obj: datas.bindTo ?? null,
       interpolatorx: new Interpolator(datas.from[0], datas.to[0], datas.by ?? LinearInterpolator),

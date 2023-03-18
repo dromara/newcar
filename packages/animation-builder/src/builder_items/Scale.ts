@@ -36,7 +36,7 @@ export class Scale extends AnimationBuilderItem {
       obj: datas.bindTo,
       interpolatorx: new Interpolator(datas.from[0], datas.to[0], datas.by ?? LinearInterpolator),
       interpolatory: new Interpolator(datas.from[1], datas.to[1], datas.by ?? LinearInterpolator),
-      length: datas.lastsFor - datas.startAt,
+      length: datas.lastsFor,
       start: datas.startAt,
     };
   }

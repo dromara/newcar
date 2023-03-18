@@ -35,7 +35,7 @@ export class Rotation extends AnimationBuilderItem {
       start: datas.startAt,
       obj: datas.bindTo,
       interpolator: new Interpolator(datas.from, datas.to, datas.by ?? LinearInterpolator),
-      length: datas.lastsFor - datas.startAt,
+      length: datas.lastsFor,
     };
   }
 

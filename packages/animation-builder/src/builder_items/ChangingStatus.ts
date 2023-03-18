@@ -22,7 +22,7 @@ export class ChangingStatus extends AnimationBuilderItem {
     )
       throw new Error(`be unset data "${flag}"`);
     this.#datas = {
-      length: datas.lastsFor - datas.startAt,
+      length: datas.lastsFor,
       start: datas.startAt,
       obj: datas.bindTo,
     };

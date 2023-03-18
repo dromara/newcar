@@ -32,7 +32,7 @@ export class AngleCircle extends AnimationBuilderItem {
       throw new Error(`be unset data "${flag}"`);
     datas.from = datas.from ?? [datas.bindTo.startAngle, datas.bindTo.endAngle];
     this.#datas = {
-      length: datas.lastsFor - datas.startAt,
+      length: datas.lastsFor,
       start: datas.startAt,
       obj: datas.bindTo,
       interpolatorstart: new Interpolator(
