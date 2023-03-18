@@ -37,13 +37,7 @@ export class Circle extends Carobj {
     super.onDraw(ctx);
     ctx.moveTo(this.contextX, this.contextY);
     ctx.beginPath();
-    ctx.arc(
-      this.x - this.#radius,
-      this.y - this.#radius,
-      this.#radius,
-      this.#startAngle,
-      this.#endAngle
-    );
+    ctx.arc(0, 0, this.#radius, this.#startAngle, this.#endAngle);
     if (typeof this.#fillColor !== "undefined") {
       ctx.fillStyle = this.#fillColor!;
       ctx.fill();

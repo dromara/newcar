@@ -11,7 +11,7 @@
     <canvas id="my-canvas" width="800" height="450" style="border: 5px solid aqua"></canvas>
     <script>
       const { Car } = newcar;
-      const { Text, Circle } = newcar.object;
+      const { Text, Circle, Carobj } = newcar.object;
       const { MutateContent, Translation, SingleFrameAction } = newcar.animation;
       const { easeInOutQuint, easeOutQuart } = newcar.interpolator;
 
@@ -20,13 +20,25 @@
         60
       )
 
-      const text1 = new Text({
-        x: 200,
-        y: 200,
-        text: "N"
+      const root = new Carobj({
+        x: 0,
+        y: 0,
+        children: [
+          text1,
+          text2,
+          circle1,
+          circle2
+        ]
       })
-      text1.size = 100;
-      text1.color = "skyblue";
+
+      const text1 = new Text({
+        x: 400,
+        y: 225,
+        text: "N",
+        size: 100,
+        color: "skyblue",
+        align: "center",
+      })
 
       const circle1 = new Circle({
         x: 0,
@@ -34,26 +46,27 @@
         radius: 200,
         borderColor: "skyblue",
         fillColor: "skyblue",
+        operation: "xor"
       })
-      circle1.operation = "xor";
       
       const circle2 = new Circle({
         x: 800,
-        y: 280,
+        y: 225,
         radius: 200,
         borderColor: "skyblue",
         fillColor: "skyblue",
+        operation: "xor"
       })
-      circle2.operation = "xor";
 
       const text2 = new Text({
         text: "The modern animation engine.",
-        x: 225,
-        y: 500,
+        x: 400,
+        y: 460,
         size: 20,
-        color: "skyblue"
+        color: "skyblue",
+        align: "center",
+        operation: "xor"
       })
-      text2.operation = "xor";
 
       animation
         .addObject(text1)
@@ -73,13 +86,13 @@
       ).addAnimationItem(
         new MutateContent({startAt: (100),mutateContentTo: ("NEWCAR"), bindTo: (text1)})
       ).addAnimationItem(
-        (new Translation({startAt: 120, lastsFor: 240, to: [200, 50], bindTo: text1, by: easeInOutQuint}))
+        (new Translation({startAt: 120, lastsFor: 240, to: [400, 50], bindTo: text1, by: easeInOutQuint}))
       ).addAnimationItem(
-        (new Translation({startAt: 300, lastsFor: 350, to: [280, 225], bindTo: text2, by: easeInOutQuint}))
+        (new Translation({startAt: 300, lastsFor: 450, to: [400, 225], bindTo: text2, by: easeInOutQuint}))
       ).addAnimationItem(
-        (new Translation({startAt: (245), lastsFor: (290), to:[375, 225], bindTo: (circle1), by: easeOutQuart}))
+        (new Translation({startAt: (245), lastsFor: (290), to:[300, 225], bindTo: (circle1), by: easeOutQuart}))
       ).addAnimationItem(
-        (new Translation({startAt: (245), lastsFor: (290), to:[225, 225], bindTo: (circle2), by: easeOutQuart}))
+        (new Translation({startAt: (245), lastsFor: (290), to:[500, 225], bindTo: (circle2), by: easeOutQuart}))
       ).addAnimationItem(
         new SingleFrameAction({at: 130, run: () => console.log("NEWCAR Frame at 130")})
       );
