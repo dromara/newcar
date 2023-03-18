@@ -11,6 +11,8 @@ export type carobject = {
   operation?: GlobalCompositeOperation;
   display?: boolean;
   rotation?: number;
+  live?: number;
+  die?: number;
 };
 
 export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
@@ -23,9 +25,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #contextX;
   #contextY;
   #children: Carobj[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  #liveAt: number = 1;
-  #dieAt: null | number = null;
   #operation: GlobalCompositeOperation = "source-over";
 
   constructor(datas: carobject) {
@@ -57,13 +56,15 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
    * @param ctx The context instance.
    */
   onUpdate(ctx: CanvasRenderingContext2D) {
-    ctx.save();
-    ctx.translate(this.#x, this.#y);
-    ctx.rotate(this.#rotation);
-    ctx.scale(this.#scaleX, this.#scaleY);
-    ctx.globalCompositeOperation = this.#operation;
-    this.onDraw(ctx);
-    ctx.restore();
+    if (this.display === true) {
+      ctx.save();
+      ctx.translate(this.#x, this.#y);
+      ctx.rotate(this.#rotation);
+      ctx.scale(this.#scaleX, this.#scaleY);
+      ctx.globalCompositeOperation = this.#operation;
+      this.onDraw(ctx);
+      ctx.restore();
+    }
   }
 
   /**
@@ -93,7 +94,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   }
 
   /**
-   * Each Carobjs has different sighs.
+   * Each Carobjs has different sighs.Frame
    * @return The Carobj's type,one and only.
    */
   get sigh() {
@@ -136,19 +137,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   }
   get contextY() {
     return this.#contextY;
-  }
-
-  setLiveTime(livetime: number, dietime: number | null) {
-    this.#liveAt = livetime;
-    this.#dieAt = dietime;
-  }
-
-  get liveFrame() {
-    return this.#liveAt;
-  }
-
-  get dieFrame() {
-    return this.#dieAt;
   }
 
   /**

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../packages/core/dist/newcar.js"></script>
+  </head>
+  <body>
+    <canvas id="my-canvas" width="800" height="450" style="border: 5px solid aqua"></canvas>
+    <script>
+      const { Car } = newcar;
+      const { Text, Circle, Carobj } = newcar.object;
+      const { MutateContent, Translation, SingleFrameAction } = newcar.animation;
+      const { easeInOutQuint, easeOutQuart } = newcar.interpolator;
+
+      const animation = new Car(document.getElementById("my-canvas"), 60);
+
+      // -------------------------------------------------
+
+      const text1 = new Text({
+        x: 400,
+        y: 225,
+        text: "N",
+        size: 100,
+        color: "skyblue",
+        align: "center",
+      });
+
+      const circle1 = new Circle({
+        x: -200,
+        y: 225,
+        radius: 200,
+        borderColor: "skyblue",
+        fillColor: "skyblue",
+        operation: "xor",
+      });
+
+      const circle2 = new Circle({
+        x: 1000,
+        y: 225,
+        radius: 200,
+        borderColor: "skyblue",
+        fillColor: "skyblue",
+        operation: "xor",
+      });
+
+      const text2 = new Text({
+        text: "The modern animation engine.",
+        x: 400,
+        y: 460,
+        size: 20,
+        color: "skyblue",
+        align: "center",
+        operation: "xor",
+      });
+
+      const root1 = new Carobj({
+        x: 0,
+        y: 0,
+        children: [text1, text2, circle1, circle2],
+      });
+
+      
+
+      animation.addObject(root1);
+
+      animation
+        .addAnimationItem(new MutateContent({ startAt: 20, mutateContentTo: "NE", bindTo: text1 }))
+        .addAnimationItem(new MutateContent({ startAt: 40, mutateContentTo: "NEW", bindTo: text1 }))
+        .addAnimationItem(
+          new MutateContent({ startAt: 60, mutateContentTo: "NEWC", bindTo: text1 })
+        )
+        .addAnimationItem(
+          new MutateContent({ startAt: 80, mutateContentTo: "NEWCA", bindTo: text1 })
+        )
+        .addAnimationItem(
+          new MutateContent({ startAt: 100, mutateContentTo: "NEWCAR", bindTo: text1 })
+        )
+        .addAnimationItem(
+          new Translation({
+            startAt: 120,
+            lastsFor: 120,
+            to: [400, 50],
+            bindTo: text1,
+            by: easeInOutQuint,
+          })
+        )
+        .addAnimationItem(
+          new Translation({
+            startAt: 300,
+            lastsFor: 150,
+            to: [400, 225],
+            bindTo: text2,
+            by: easeInOutQuint,
+          })
+        )
+        .addAnimationItem(
+          new Translation({
+            startAt: 245,
+            lastsFor: 45,
+            to: [300, 225],
+            bindTo: circle1,
+            by: easeOutQuart,
+          })
+        )
+        .addAnimationItem(
+          new Translation({
+            startAt: 245,
+            lastsFor: 45,
+            to: [500, 225],
+            bindTo: circle2,
+            by: easeOutQuart,
+          })
+        )
+        .addAnimationItem(
+          new Translation({
+            startAt: 470,
+            lastsFor: 90,
+            to: [-800, 0],
+            bindTo: root1,
+            by: easeOutQuart,
+          })
+        )
+        .addAnimationItem(
+          new SingleFrameAction({ at: 130, run: () => console.log("NEWCAR Frame at 130") })
+        );
+
+      animation.startPlay();
+    </script>
+  </body>
+</html>
