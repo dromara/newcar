@@ -60,9 +60,19 @@ importers:
 
   packages/core:
     specifiers:
+      '@newcar/objects': workspace:^0.2.0
+    devDependencies:
+      '@newcar/objects': link:../objects
+
+  packages/event-builder:
+    specifiers: {}
+
+  packages/newcar:
+    specifiers:
       '@babel/core': ^7.20.7
       '@babel/preset-typescript': ^7.18.6
       '@newcar/animation-builder': workspace:^0.2.0
+      '@newcar/core': workspace:^0.2.0
       '@newcar/objects': workspace:^0.2.0
       '@newcar/sound-builder': workspace:^0.2.0
       '@rollup/plugin-babel': ^6.0.3
@@ -81,6 +91,7 @@ importers:
       '@babel/core': 7.20.7
       '@babel/preset-typescript': 7.18.6_@babel+core@7.20.7
       '@newcar/animation-builder': link:../animation-builder
+      '@newcar/core': link:../core
       '@newcar/objects': link:../objects
       '@newcar/sound-builder': link:../sound-builder
       '@rollup/plugin-babel': 6.0.3_dfwdex4qe3e2dx2m4b7f5c5gee
@@ -1115,7 +1126,7 @@ packages:
       '@lerna/child-process': 6.1.0
       npmlog: 6.0.2
       path-exists: 4.0.0
-      rimraf: registry.npmmirror.com/rimraf/3.0.2
+      rimraf: 3.0.2
     dev: true
 
   /@lerna/run-lifecycle/6.1.0:
@@ -1298,7 +1309,7 @@ packages:
       promise-call-limit: 1.0.1
       read-package-json-fast: 2.0.3
       readdir-scoped-modules: 1.1.0
-      rimraf: registry.npmmirror.com/rimraf/3.0.2
+      rimraf: 3.0.2
       semver: registry.npmmirror.com/semver/7.3.8
       ssri: 9.0.1
       treeverse: 2.0.0
@@ -1371,7 +1382,7 @@ packages:
     deprecated: This functionality has been moved to @npmcli/fs
     dependencies:
       mkdirp: 1.0.4
-      rimraf: registry.npmmirror.com/rimraf/3.0.2
+      rimraf: 3.0.2
     dev: true
 
   /@npmcli/name-from-folder/1.0.1:
@@ -1457,7 +1468,7 @@ packages:
       ignore: 5.2.4
       nx: 15.4.0
       semver: registry.npmmirror.com/semver/7.3.4
-      tslib: registry.npmmirror.com/tslib/2.4.1
+      tslib: 2.4.1
     transitivePeerDependencies:
       - typescript
     dev: true
@@ -1608,7 +1619,7 @@ packages:
       typescript: ^3 || ^4
     dependencies:
       esquery: 1.4.0
-      typescript: registry.npmmirror.com/typescript/4.9.4
+      typescript: 4.9.4
     dev: true
 
   /@rollup/plugin-babel/6.0.3_dfwdex4qe3e2dx2m4b7f5c5gee:
@@ -1921,7 +1932,7 @@ packages:
     engines: {node: '>=14.15.0'}
     dependencies:
       js-yaml: 3.14.1
-      tslib: registry.npmmirror.com/tslib/2.4.1
+      tslib: 2.4.1
     dev: true
 
   /@zkochan/js-yaml/0.0.6:
@@ -2138,7 +2149,7 @@ packages:
       mkdirp-infer-owner: 2.0.0
       npm-normalize-package-bin: 2.0.0
       read-cmd-shim: 3.0.1
-      rimraf: registry.npmmirror.com/rimraf/3.0.2
+      rimraf: 3.0.2
       write-file-atomic: 4.0.2
     dev: true
 
@@ -2215,7 +2226,7 @@ packages:
       mkdirp: 1.0.4
       p-map: 4.0.0
       promise-inflight: 1.0.1
-      rimraf: registry.npmmirror.com/rimraf/3.0.2
+      rimraf: 3.0.2
       ssri: 9.0.1
       tar: 6.1.13
       unique-filename: 2.0.1
@@ -3016,7 +3027,7 @@ packages:
     engines: {node: ^10.12.0 || >=12.0.0}
     dependencies:
       flatted: 3.2.7
-      rimraf: registry.npmmirror.com/rimraf/3.0.2
+      rimraf: 3.0.2
 
   /flat/5.0.2:
     resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
@@ -3689,7 +3700,7 @@ packages:
       inquirer: 8.2.5
       npmlog: 6.0.2
       nx: 15.4.0
-      typescript: registry.npmmirror.com/typescript/4.9.4
+      typescript: 4.9.4
     transitivePeerDependencies:
       - '@swc-node/register'
       - '@swc/core'
@@ -4089,7 +4100,7 @@ packages:
       make-fetch-happen: 10.2.1
       nopt: 6.0.0
       npmlog: 6.0.2
-      rimraf: registry.npmmirror.com/rimraf/3.0.2
+      rimraf: 3.0.2
       semver: registry.npmmirror.com/semver/7.3.8
       tar: 6.1.13
       which: registry.npmmirror.com/which/2.0.2
@@ -4305,7 +4316,7 @@ packages:
       tar-stream: 2.2.0
       tmp: 0.2.1
       tsconfig-paths: 3.14.1
-      tslib: registry.npmmirror.com/tslib/2.4.1
+      tslib: 2.4.1
       v8-compile-cache: 2.3.0
       yargs: 17.6.2
       yargs-parser: 21.1.1
@@ -4487,7 +4498,7 @@ packages:
       promise-retry: 2.0.1
       read-package-json: 5.0.2
       read-package-json-fast: 2.0.3
-      rimraf: registry.npmmirror.com/rimraf/3.0.2
+      rimraf: 3.0.2
       ssri: 9.0.1
       tar: 6.1.13
     transitivePeerDependencies:
@@ -4889,7 +4900,7 @@ packages:
   /rxjs/7.8.0:
     resolution: {integrity: sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==}
     dependencies:
-      tslib: registry.npmmirror.com/tslib/2.4.1
+      tslib: 2.4.1
     dev: true
 
   /safe-buffer/5.2.1:
@@ -5167,7 +5178,7 @@ packages:
     resolution: {integrity: sha512-76SUhtfqR2Ijn+xllcI5P1oyannHNHByD80W1q447gU3mp9G9PSpGdWmjUOHRDPiHYacIk66W7ubDTuPF3BEtQ==}
     engines: {node: '>=8.17.0'}
     dependencies:
-      rimraf: registry.npmmirror.com/rimraf/3.0.2
+      rimraf: 3.0.2
     dev: true
 
   /to-regex-range/5.0.1:
@@ -5203,6 +5214,10 @@ packages:
       strip-bom: registry.npmmirror.com/strip-bom/3.0.0
     dev: true
 
+  /tslib/1.14.1:
+    resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+    dev: false
+
   /tslib/2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
     dev: true
@@ -5213,7 +5228,7 @@ packages:
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
     dependencies:
-      tslib: registry.npmmirror.com/tslib/1.14.1
+      tslib: 1.14.1
       typescript: 4.9.4
     dev: false
 
@@ -6028,6 +6043,7 @@ packages:
       minimatch: registry.npmmirror.com/minimatch/3.1.2
       once: registry.npmmirror.com/once/1.4.0
       path-is-absolute: registry.npmmirror.com/path-is-absolute/1.0.1
+    dev: true
 
   registry.npmmirror.com/glob/8.0.3:
     resolution: {integrity: sha512-ull455NHSHI/Y1FqGaaYFaLGkNMMJbavMrEGFXG/PGrg6y7sutWHUHrz6gy6WEBH6akM1M414dWKCNs+IhKdiQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/glob/-/glob-8.0.3.tgz}
@@ -6490,6 +6506,7 @@ packages:
     name: path-is-absolute
     version: 1.0.1
     engines: {node: '>=0.10.0'}
+    dev: true
 
   registry.npmmirror.com/path-key/2.0.1:
     resolution: {integrity: sha512-fEHGKCSmUSDPv4uoj8AlD+joPlq3peND+HRYyxFz4KPw4z926S/b8rIuFs2FYJg3BwsxJf6A9/3eIdLaYC+9Dw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/path-key/-/path-key-2.0.1.tgz}
@@ -6602,14 +6619,6 @@ packages:
       is-core-module: registry.npmmirror.com/is-core-module/2.11.0
       path-parse: registry.npmmirror.com/path-parse/1.0.7
       supports-preserve-symlinks-flag: registry.npmmirror.com/supports-preserve-symlinks-flag/1.0.0
-
-  registry.npmmirror.com/rimraf/3.0.2:
-    resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/rimraf/-/rimraf-3.0.2.tgz}
-    name: rimraf
-    version: 3.0.2
-    hasBin: true
-    dependencies:
-      glob: registry.npmmirror.com/glob/7.2.3
 
   registry.npmmirror.com/safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/safe-buffer/-/safe-buffer-5.1.2.tgz}
@@ -6794,24 +6803,13 @@ packages:
     version: 2.0.0
     engines: {node: '>=4'}
 
-  registry.npmmirror.com/tslib/1.14.1:
-    resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tslib/-/tslib-1.14.1.tgz}
-    name: tslib
-    version: 1.14.1
-    dev: false
-
-  registry.npmmirror.com/tslib/2.4.1:
-    resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tslib/-/tslib-2.4.1.tgz}
-    name: tslib
-    version: 2.4.1
-    dev: true
-
   registry.npmmirror.com/typescript/4.9.4:
     resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/typescript/-/typescript-4.9.4.tgz}
     name: typescript
     version: 4.9.4
     engines: {node: '>=4.2.0'}
     hasBin: true
+    dev: false
 
   registry.npmmirror.com/unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unbox-primitive/-/unbox-primitive-1.0.2.tgz}

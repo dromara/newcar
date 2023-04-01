@@ -6,7 +6,6 @@ import { Line } from "./lib/line";
 import { Definition } from "./lib/definition";
 import { LineSegment } from "./lib/lineSegment";
 import { Circle } from "./lib/circle";
-import { Camera } from "./lib/camera";
 
 export const object = ((exports: Record<string, any>) => {
   exports.Carobj = Carobj;
@@ -17,6 +16,5 @@ export const object = ((exports: Record<string, any>) => {
   exports.Definition = Definition;
   exports.LineSegment = LineSegment;
   exports.Circle = Circle;
-  exports.Camera = Camera;
   return exports;
 })({});

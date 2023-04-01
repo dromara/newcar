@@ -6,7 +6,7 @@ import { Limit } from "./Limit";
 import { AngleCircle } from "./AngleCircle";
 import { SingleFrameAction } from "./SingleFrameAction";
 import { MutateContent } from "./MutateContent";
-import { AnimationBuilderItem } from "../AnimationBuilderItem";
+import { AnimationBuilderItem } from "../item";
 
 export const animation = ((exports: Record<string, unknown>) => {
   exports.Translation = Translation;
