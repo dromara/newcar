@@ -52,8 +52,10 @@ importers:
   packages/animation-builder:
     specifiers:
       '@newcar/objects': workspace:^0.2.0
+      tslib: ^2.4.1
       typescript: ^4.9.4
     dependencies:
+      tslib: 2.4.1
       typescript: registry.npmmirror.com/typescript/4.9.4
     devDependencies:
       '@newcar/objects': link:../objects
@@ -65,7 +67,10 @@ importers:
       '@newcar/objects': link:../objects
 
   packages/event-builder:
-    specifiers: {}
+    specifiers:
+      '@newcar/objects': workspace:^0.2.0
+    devDependencies:
+      '@newcar/objects': link:../objects
 
   packages/newcar:
     specifiers:
@@ -5220,7 +5225,6 @@ packages:
 
   /tslib/2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
-    dev: true
 
   /tsutils/3.21.0_typescript@4.9.4:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}

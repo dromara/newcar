@@ -3,6 +3,8 @@ import { IRotatedMut } from "../interfaces/Rotated";
 import { IScaledMut } from "../interfaces/Scaled";
 
 export type carobject = {
+  x: number;
+  y: number;
   scaleX?: number;
   scaleY?: number;
   contextX?: number;
@@ -28,6 +30,8 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #operation: GlobalCompositeOperation = "source-over";
 
   constructor(datas: carobject) {
+    this.x = datas.x;
+    this.y = datas.y;
     typeof datas.contextX !== "undefined"
       ? (this.#contextX = datas.contextX!)
       : (this.#contextX = this.#x);
