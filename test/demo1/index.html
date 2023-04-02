@@ -9,8 +9,9 @@
   </head>
   <body>
     <canvas id="my-canvas" width="800" height="450" style="border: 5px solid aqua"></canvas>
+    <button id="btn">Click me to open the sound</button>
     <script>
-      const { Car } = newcar;
+      const { Car, Sound } = newcar;
       const { Text, Circle, Carobj } = newcar.object;
       const { MutateContent, Translation, SingleFrameAction } = newcar.animation;
       const { easeInOutQuint, easeOutQuart } = newcar.interpolator;
@@ -80,28 +81,31 @@
         color: "red",
         display: false,
         align: "center",
-      })
+      });
 
       const text4_1 = new Text({
         x: 390,
         y: 225,
         align: "center",
         text: "n",
-        color: "red"
-      })
+        color: "red",
+      });
 
       const root2 = new Carobj({
         x: 0,
         y: 0,
-        children: [
-          text3,
-          text3plus,
-        ],
+        children: [text3, text3plus],
       });
 
       // ---------------------------------------------------------------------
 
       animation.addObject(root1).addObject(root2);
+
+      // Sound
+      const backgroundMusic = new Sound("./public/11582.mp3", 200);
+      document.getElementById("btn").onclick = () => {
+        animation.addSoundItem(backgroundMusic);
+      };
 
       animation
         .addAnimationItem(new MutateContent({ startAt: 20, mutateContentTo: "NE", bindTo: text1 }))
@@ -146,7 +150,8 @@
         .addAnimationItem(
           new MutateContent({
             startAt: 640,
-            mutateContentTo: "Have you ever be vexed that HTML Canvas is                                                                   ?🤔",
+            mutateContentTo:
+              "Have you ever be vexed that HTML Canvas is                                                                   ?🤔",
             bindTo: text3,
           })
         )

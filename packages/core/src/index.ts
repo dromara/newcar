@@ -72,7 +72,6 @@ export class Core implements IRenderable, IRendererController {
         } else {
           child.x += father.x;
           child.y += father.y;
-          console.log(child.x, child.y, father.x, father.y);
           child.onUpdate(this.#ctx!);
         }
         draw(child.children, child);
