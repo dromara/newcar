@@ -4,3 +4,4 @@ node_modules/
 /packages/**/dist/
 /packages/core/package.json/
 lerna.json/
+/.VSCodeCounter/**

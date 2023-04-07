@@ -8,11 +8,11 @@ export class SoundBuilder {
   playOnCar<T extends IRenderable & IRendererController>(rdInstance: T) {
     rdInstance.onUpdate((curFrame) => {
       this.#audioToPlay.forEach((audio) => {
-        if (curFrame === audio.startFrame! + audio.length! || audio.length !== null) {
+        if (curFrame === audio.startFrame!) {
+          audio.audio.play();
+        } else if (curFrame === audio.startFrame! + audio.length! && audio.length !== null) {
           console.log("pause!");
           audio.audio.pause();
-        } else if (curFrame >= audio.startFrame!) {
-          audio.audio.play();
         }
       });
     });
