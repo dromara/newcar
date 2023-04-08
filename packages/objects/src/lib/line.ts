@@ -3,16 +3,19 @@ import { type Point } from "./point";
 import { type carobject } from "./carobj";
 import { IPositionedMut } from "src/interfaces/Positioned";
 
-export type lineobject = { points: Point[] };
+export type lineobject = {
+  startPoint: Point;
+  endPoint: Point;
+};
 
 export class Line extends Carobj implements IPositionedMut {
-  #point1: Point;
-  #point2: Point;
+  #startPoint: Point;
+  #endPoint: Point;
 
   constructor(datas: lineobject & carobject) {
     super(datas);
-    this.#point1 = datas.points[0];
-    this.#point2 = datas.points[1];
+    this.#startPoint = datas.startPoint;
+    this.#endPoint = datas.endPoint;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
@@ -25,22 +28,22 @@ export class Line extends Carobj implements IPositionedMut {
   }
 
   get primaryPoints() {
-    return [this.#point1, this.#point2];
+    return [this.#startPoint, this.#endPoint];
   }
 
   set startX(value: number) {
-    this.#point1.x = value;
+    this.#startPoint.x = value;
   }
 
   set startY(value: number) {
-    this.#point1.y = value;
+    this.#startPoint.y = value;
   }
 
   set endX(value: number) {
-    this.#point2.x = value;
+    this.#endPoint.x = value;
   }
 
   set endY(value: number) {
-    this.#point2.y = value;
+    this.#endPoint.y = value;
   }
 }
