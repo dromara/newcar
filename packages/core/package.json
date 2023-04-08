@@ -1,12 +1,12 @@
 {
   "name": "@newcar/core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "./dist/newcar.min.js",
   "license": "APACHE-2.0",
   "type": "module",
   "types": "./dist/newcar.d.ts",
   "module": "./dist/es/index.js",
   "devDependencies": {
-    "@newcar/objects": "workspace:^0.2.0"
+    "@newcar/objects": "workspace:^0.3.0"
   }
 }

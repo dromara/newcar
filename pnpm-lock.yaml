@@ -51,7 +51,7 @@ importers:
 
   packages/animation-builder:
     specifiers:
-      '@newcar/objects': workspace:^0.2.0
+      '@newcar/objects': workspace:^0.3.0
       tslib: ^2.4.1
       typescript: ^4.9.4
     dependencies:
@@ -62,13 +62,13 @@ importers:
 
   packages/core:
     specifiers:
-      '@newcar/objects': workspace:^0.2.0
+      '@newcar/objects': workspace:^0.3.0
     devDependencies:
       '@newcar/objects': link:../objects
 
   packages/event-builder:
     specifiers:
-      '@newcar/objects': workspace:^0.2.0
+      '@newcar/objects': workspace:^0.3.0
     devDependencies:
       '@newcar/objects': link:../objects
 
@@ -76,10 +76,10 @@ importers:
     specifiers:
       '@babel/core': ^7.20.7
       '@babel/preset-typescript': ^7.18.6
-      '@newcar/animation-builder': workspace:^0.2.0
-      '@newcar/core': workspace:^0.2.0
-      '@newcar/objects': workspace:^0.2.0
-      '@newcar/sound-builder': workspace:^0.2.0
+      '@newcar/animation-builder': workspace:^0.3.0
+      '@newcar/core': workspace:^0.3.0
+      '@newcar/objects': workspace:^0.3.0
+      '@newcar/sound-builder': workspace:^0.3.0
       '@rollup/plugin-babel': ^6.0.3
       '@rollup/plugin-commonjs': ^24.0.0
       '@rollup/plugin-node-resolve': ^15.0.1
@@ -120,7 +120,7 @@ importers:
 
   packages/sound-builder:
     specifiers:
-      '@newcar/objects': workspace:^0.2.0
+      '@newcar/objects': workspace:^0.3.0
     devDependencies:
       '@newcar/objects': link:../objects
 
