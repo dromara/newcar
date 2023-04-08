@@ -1,5 +1,7 @@
 import { Carobj } from "./carobj";
 import { type carobject } from "./carobj";
+import { ICircleAngle } from "src/interfaces/CircleAngle";
+import { IPositionedMut } from "src/interfaces/Positioned";
 
 export type circleobject = {
   x: number;
@@ -11,7 +13,7 @@ export type circleobject = {
   fillColor?: string | undefined;
 };
 
-export class Circle extends Carobj {
+export class Circle extends Carobj implements ICircleAngle, IPositionedMut {
   #radius: number;
   #startAngle: number;
   #endAngle: number;

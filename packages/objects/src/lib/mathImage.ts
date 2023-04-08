@@ -1,14 +1,16 @@
 import { Carobj } from "./carobj";
 import { type carobject } from "./carobj";
+import { IPositionedMut } from "src/interfaces/Positioned";
+import { IMathImageLimit } from "../interfaces/MathImageLimit";
 
-export type definition = { f: (arg0: number) => number; start: number; end: number };
+export type mathimageobject = { f: (arg0: number) => number; start: number; end: number };
 
-export class Definition extends Carobj {
+export class MathImage extends Carobj implements IMathImageLimit, IPositionedMut {
   #imageFunction: (arg0: number) => number;
   #startVariable: number;
   #endVariable: number;
 
-  constructor(datas: definition & carobject) {
+  constructor(datas: mathimageobject & carobject) {
     super(datas);
     this.#imageFunction = datas.f;
     this.#startVariable = datas.start;
