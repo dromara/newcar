@@ -7,12 +7,14 @@ The project uses `monorepo`. All the packages are in the directory `/packages` (
 
 Here are the packages and their information:
 
-| Package Name | Introduction | index | Document |
-| --- | --- | --- | --- |
-| @newcar/core | The core of Newcar, include the class `Car` for user. | `/packages/core` | [Click here](./core/README.md) |
-| @newcar/objects | The objects of animation. | `/packages/objects` | [Click here]() |
-| @newcar/animation-builder | The builder of animation key frame | `/packages/animation-builder` | [Click here]() |
-
+| Package Name | Introduction | index |
+| --- | --- | --- |
+| newcar | The user API | `/packages/newcar` |
+| @newcar/core | The core of Newcar. | `/packages/core` |
+| @newcar/objects | The objects of animation. | `/packages/objects` |
+| @newcar/animation-builder | The builder of animation key frame | `/packages/animation-builder` |
+| @newcar/sound-builder | The builder of sounds and audios | `/packages/sound-builder` |
+| @newcar/event-builder | The event arrived scripts | `/packages/event-builder` |
 # Development
 
 The following tools are necessary in order to build this repository:

@@ -1,6 +1,6 @@
 import { Carobj } from "./carobj";
 import { type carobject } from "./carobj";
-import { IPositionedMut } from "src/interfaces/Positioned";
+import { IPositionedMut } from "../interfaces/Positioned";
 import { IMathImageLimit } from "../interfaces/MathImageLimit";
 
 export type mathimageobject = { f: (arg0: number) => number; start: number; end: number };

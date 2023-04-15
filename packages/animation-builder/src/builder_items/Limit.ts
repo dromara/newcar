@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IDefinitionImageLimit } from "@newcar/objects/src/interfaces/DefinitionImageLimit";
+import { IMathImageLimit } from "@newcar/objects/src/interfaces/MathImageLimit";
 import { AnimationBuilder } from "..";
 import { AnimationBuilderItem } from "../item";
 import { Interpolator } from "../interpolation/Interpolator";
@@ -7,7 +7,7 @@ import { LinearInterpolator } from "../interpolation/LinearInterpolator";
 
 export class Limit extends AnimationBuilderItem {
   #datas: {
-    obj: IDefinitionImageLimit;
+    obj: IMathImageLimit;
     interpolatorstart: Interpolator;
     interpolatorend: Interpolator;
     length: number;
@@ -20,7 +20,7 @@ export class Limit extends AnimationBuilderItem {
     from?: [number, number];
     to?: [number, number];
     by?: (x: number) => number;
-    bindTo?: IDefinitionImageLimit;
+    bindTo?: IMathImageLimit;
   }) {
     super();
     let flag = "";

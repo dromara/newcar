@@ -17,5 +17,6 @@ export const animation = ((exports: Record<string, unknown>) => {
   exports.AngleCircle = AngleCircle;
   exports.SingleFrameAction = SingleFrameAction;
   exports.MutateContent = MutateContent;
+  exports.AnimationBuilderItem = AnimationBuilderItem;
   return exports;
 })({});

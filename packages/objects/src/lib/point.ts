@@ -1,5 +1,5 @@
 import { Carobj } from "./carobj";
-import { IPositionedMut } from "src/interfaces/Positioned";
+import { IPositionedMut } from "../interfaces/Positioned";
 import { type carobject } from "./carobj";
 
 export type pointobject = {

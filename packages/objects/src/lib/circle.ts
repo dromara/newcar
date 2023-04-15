@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 import { Carobj } from "./carobj";
 import { type carobject } from "./carobj";
-import { ICircleAngle } from "src/interfaces/CircleAngle";
-import { IPositionedMut } from "src/interfaces/Positioned";
+import { ICircleAngle } from "../interfaces/CircleAngle";
+import { IPositionedMut } from "../interfaces/Positioned";
 
 export type circleobject = {
   x: number;
@@ -9,16 +10,16 @@ export type circleobject = {
   radius: number;
   startAngle?: number;
   endAngle?: number;
-  borderColor?: string | null;
-  fillColor?: string | undefined;
+  borderColor?: string;
+  fillColor?: string;
 };
 
 export class Circle extends Carobj implements ICircleAngle, IPositionedMut {
   #radius: number;
   #startAngle: number;
   #endAngle: number;
-  #borderColor: string | null = null;
-  #fillColor: string | undefined = undefined;
+  #borderColor: string = "black";
+  #fillColor: string = "black";
 
   constructor(datas: circleobject & carobject) {
     super(datas);
