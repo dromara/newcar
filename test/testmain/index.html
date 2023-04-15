@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../../packages/newcar/dist/newcar.js"></script>
+  <title>Test-Page</title>
+</head>
+<body>
+  <canvas id="test-canvas" width="800" height="450" style="border:1px solid black;"></canvas>
+  <script>
+    const { Car } = newcar;
+    const { Polygon, Point, Text } = newcar.object;
+
+    const animation = new Car(document.getElementById("test-canvas"), 60);
+
+    const agraph = new Polygon({
+      points: [
+        new Point({
+          x: 100,
+          y: 100
+        }),
+        new Point({
+          x: 200,
+          y: 200
+        }),
+        new Point({
+          x: 300,
+          y: 400
+        })
+      ]
+    });
+
+    const text = new Text({
+      x: 100,
+      y: 200,
+      text: "Hello world!"
+    });
+
+    animation
+      .addObject(agraph)
+      .addObject(text)
+
+    animation.startPlay();
+  </script>
+</body>
+</html>

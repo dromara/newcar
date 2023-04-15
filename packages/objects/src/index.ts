@@ -5,6 +5,7 @@ import { Point } from "./lib/point";
 import { Line } from "./lib/line";
 import { MathImage } from "./lib/mathImage";
 import { Circle } from "./lib/circle";
+import { Polygon } from "./lib/polygon";
 
 export const object = ((exports: Record<string, any>) => {
   exports.Carobj = Carobj;
@@ -14,5 +15,6 @@ export const object = ((exports: Record<string, any>) => {
   exports.Line = Line;
   exports.MathImage = MathImage;
   exports.Circle = Circle;
+  exports.Polygon = Polygon;
   return exports;
 })({});

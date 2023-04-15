@@ -19,7 +19,7 @@ export class Circle extends Carobj implements ICircleAngle, IPositionedMut {
   #startAngle: number;
   #endAngle: number;
   #borderColor: string = "black";
-  #fillColor: string = "black";
+  #fillColor: string | null = null;
 
   constructor(datas: circleobject & carobject) {
     super(datas);
@@ -41,7 +41,7 @@ export class Circle extends Carobj implements ICircleAngle, IPositionedMut {
     ctx.moveTo(this.contextX, this.contextY);
     ctx.beginPath();
     ctx.arc(0, 0, this.#radius, this.#startAngle, this.#endAngle);
-    if (typeof this.#fillColor !== "undefined") {
+    if (this.#fillColor !== null) {
       ctx.fillStyle = this.#fillColor!;
       ctx.fill();
     }
