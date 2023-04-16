@@ -67,16 +67,22 @@ export class Core implements IRenderable, IRendererController {
       children.forEach((child) => {
         const oldX = child.x;
         const oldY = child.y;
+        // const oldRotationCenterX = child.rotationCenterX;
+        // const oldRotationCenterY = child.rotationCenterY;
         if (typeof father === "undefined") {
           child.onUpdate(this.#ctx!);
         } else {
           child.x += father.x;
           child.y += father.y;
+          // child.rotationCenterX += father.x;
+          // child.rotationCenterY += father.y;
           child.onUpdate(this.#ctx!);
         }
         draw(child.children, child);
         child.x = oldX;
         child.y = oldY;
+        // child.rotationCenterX = oldRotationCenterX;
+        // child.rotationCenterY = oldRotationCenterY;
       });
     };
     setInterval(() => {

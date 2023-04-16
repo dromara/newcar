@@ -11,6 +11,7 @@ export type circleobject = {
   startAngle?: number;
   endAngle?: number;
   borderColor?: string;
+  borderWidth?: number;
   fillColor?: string;
 };
 
@@ -19,6 +20,7 @@ export class Circle extends Carobj implements ICircleAngle, IPositionedMut {
   #startAngle: number;
   #endAngle: number;
   #borderColor: string = "black";
+  #borderWidth: number = 1;
   #fillColor: string | null = null;
 
   constructor(datas: circleobject & carobject) {
@@ -33,11 +35,13 @@ export class Circle extends Carobj implements ICircleAngle, IPositionedMut {
       ? (this.#endAngle = 2 * Math.PI)
       : (this.#endAngle = datas.startAngle!);
     if (typeof datas.borderColor !== "undefined") this.#borderColor = datas.borderColor;
+    if (typeof datas.borderWidth !== "undefined") this.#borderWidth = datas.borderWidth;
     if (typeof datas.fillColor !== "undefined") this.#fillColor = datas.fillColor;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
+    ctx.lineWidth = this.#borderWidth;
     ctx.moveTo(this.contextX, this.contextY);
     ctx.beginPath();
     ctx.arc(0, 0, this.#radius, this.#startAngle, this.#endAngle);

@@ -15,6 +15,8 @@ export type carobject = {
   rotation?: number;
   live?: number;
   die?: number;
+  rotationCenterX?: number;
+  rotationCenterY?: number;
 };
 
 export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
@@ -28,6 +30,8 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #contextY;
   #children: Carobj[] = [];
   #operation: GlobalCompositeOperation = "source-over";
+  #rotationCenterX: number;
+  #rotationCenterY: number;
 
   constructor(datas: carobject) {
     this.x = datas.x;
@@ -44,6 +48,12 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
     typeof datas.rotation !== "undefined" ? (this.#rotation = datas.rotation!) : null;
     typeof datas.operation !== "undefined" ? (this.#operation = datas.operation!) : null;
     typeof datas.children !== "undefined" ? (this.#children = datas.children!) : null;
+    typeof datas.rotationCenterX !== "undefined"
+      ? (this.#rotationCenterX = datas.rotationCenterX!)
+      : (this.#rotationCenterX = this.#x);
+    typeof datas.rotationCenterY !== "undefined"
+      ? (this.#rotationCenterY = datas.rotationCenterY!)
+      : (this.#rotationCenterY = this.#y);
   }
 
   /**
@@ -62,7 +72,9 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   onUpdate(ctx: CanvasRenderingContext2D) {
     if (this.display === true) {
       ctx.save();
-      ctx.translate(this.#x, this.#y);
+      ctx.translate(this.#rotationCenterX, this.#rotationCenterY);
+      console.log(this.#rotationCenterX, this.#x, this.#rotationCenterY, this.#y);
+      // ctx.translate(this.#x, this.#y);
       ctx.rotate(this.#rotation);
       ctx.scale(this.#scaleX, this.#scaleY);
       ctx.globalCompositeOperation = this.#operation;
@@ -114,6 +126,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   }
   set x(value: number) {
     this.#x = value;
+    this.#rotationCenterX = value;
   }
 
   get y() {
@@ -122,6 +135,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
 
   set y(value: number) {
     this.#y = value;
+    this.#rotationCenterY = value;
   }
   set scaleX(value: number) {
     this.#scaleX = value;
