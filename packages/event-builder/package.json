@@ -1,6 +1,6 @@
 {
   "name": "@newcar/event-builder",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@newcar/objects": "workspace:^0.3.0"
+    "@newcar/objects": "workspace:^0.3.1"
   }
 }
