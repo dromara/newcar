@@ -62,29 +62,6 @@ export class Core implements IRenderable, IRendererController {
     // this.#frameImmediately = 0;
     if (this.#ctx === null) return;
     this.#start && this.#start();
-    // eslint-disable-next-line no-constant-condition
-    const draw = (children: Carobj[], father?: Carobj) => {
-      children.forEach((child) => {
-        const oldX = child.x;
-        const oldY = child.y;
-        // const oldRotationCenterX = child.rotationCenterX;
-        // const oldRotationCenterY = child.rotationCenterY;
-        if (typeof father === "undefined") {
-          child.onUpdate(this.#ctx!);
-        } else {
-          child.x += father.x;
-          child.y += father.y;
-          // child.rotationCenterX += father.x;
-          // child.rotationCenterY += father.y;
-          child.onUpdate(this.#ctx!);
-        }
-        draw(child.children, child);
-        child.x = oldX;
-        child.y = oldY;
-        // child.rotationCenterX = oldRotationCenterX;
-        // child.rotationCenterY = oldRotationCenterY;
-      });
-    };
     setInterval(() => {
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
       // console.log(this.#frameImmediately, this.isSuspend);
@@ -94,7 +71,9 @@ export class Core implements IRenderable, IRendererController {
       this.#every?.forEach((each) => {
         each && each(this.#frameImmediately);
       });
-      draw(this.#objects);
+      this.#objects.forEach((object) => {
+        object.onUpdate(this.#ctx!);
+      })
     }, 1000 / this.#fps);
   }
 

@@ -73,12 +73,14 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
     if (this.display === true) {
       ctx.save();
       ctx.translate(this.#rotationCenterX, this.#rotationCenterY);
-      console.log(this.#rotationCenterX, this.#x, this.#rotationCenterY, this.#y);
       // ctx.translate(this.#x, this.#y);
       ctx.rotate(this.#rotation);
       ctx.scale(this.#scaleX, this.#scaleY);
       ctx.globalCompositeOperation = this.#operation;
       this.onDraw(ctx);
+      this.#children.forEach((child) => {
+        child.onUpdate(ctx);
+      })
       ctx.restore();
     }
   }
