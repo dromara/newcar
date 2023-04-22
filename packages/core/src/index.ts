@@ -85,4 +85,8 @@ export class Core implements IRenderable, IRendererController {
   linkObject(obj: Carobj) {
     this.#objects.push(obj);
   }
+
+  get fps() {
+    return this.#fps;
+  }
 }

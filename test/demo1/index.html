@@ -11,7 +11,7 @@
     <canvas id="my-canvas" width="800" height="450" style="border: 5px solid aqua"></canvas>
     <button id="btn">Click me to open the sound</button>
     <script>
-      const { Car, Sound } = newcar;
+      const { Car, AudioItem } = newcar;
       const { Text, Circle, Carobj } = newcar.object;
       const { MutateContent, Translation, SingleFrameAction } = newcar.animation;
       const { easeInOutQuint, easeOutQuart } = newcar.interpolator;
@@ -102,9 +102,10 @@
       animation.addObject(root1).addObject(root2);
 
       // Sound
-      const backgroundMusic = new Sound("./public/11582.mp3", 200, 300);
+      const backgroundMusic = new AudioItem("./public/11582.mp3", 200);
+      animation.addAudioItem(backgroundMusic);
       document.getElementById("btn").onclick = () => {
-        animation.addSoundItem(backgroundMusic);
+        animation.allowAudio();
       };
 
       animation

@@ -1,7 +1,7 @@
 import { AnimationBuilder } from "@newcar/animation-builder/src/index";
 import { type AnimationBuilderItem } from "@newcar/animation-builder/src/item";
 import { SoundBuilder } from "@newcar/sound-builder/src/index";
-import { type Sound } from "@newcar/sound-builder/src/Sound";
+import { type AudioItem } from "@newcar/sound-builder/src/item";
 import { Carobj } from "@newcar/objects/src/lib/carobj";
 import { Core } from "@newcar/core/src/index";
 
@@ -25,9 +25,17 @@ export class Car {
     return this;
   }
 
-  addSoundItem(sound: Sound) {
-    this.#soundBuilder.addRadio(sound);
+  addAudioItem(sound: AudioItem) {
+    this.#soundBuilder.addAudio(sound);
     return this;
+  }
+
+  allowAudio() {
+    this.#soundBuilder.allow();
+  }
+
+  banAudio() {
+    this.#soundBuilder.ban();
   }
 
   startPlay() {
@@ -69,4 +77,4 @@ link: https://github.com/Bug-Duck/newcar
 export { object } from "@newcar/objects";
 export { animation } from "@newcar/animation-builder/src/builder_items/index";
 export { interpolator } from "@newcar/animation-builder/src/interpolation/index";
-export { Sound } from "@newcar/sound-builder/src/Sound";
+export { AudioItem } from "@newcar/sound-builder/src/item";

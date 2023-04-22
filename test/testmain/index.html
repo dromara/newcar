@@ -11,29 +11,50 @@
     <canvas id="test-canvas" width="800" height="450" style="border: 1px solid black"></canvas>
     <script>
       const { Car } = newcar;
-      const { Circle } = newcar.object;
+      const { Circle, Text } = newcar.object;
 
       const animation = new Car(document.getElementById("test-canvas"), 60);
 
+      const h = new Text({
+        x: 0,
+        y: 0,
+        text: "H+",
+        align: "center",
+        size: 30
+      });
+
+      const s = new Text({
+        x: 0,
+        y: 0,
+        text: "-",
+        size: 30,
+        align: "center",
+      })
+      
       const littleCircle = new Circle({
         x: 50,
         y: 0,
         radius: 10,
+        children: [
+          s
+        ],
       });
-      littleCircle.rotationCenterX = 0;
-      littleCircle.rotationCenterY = 0;
-
+      
       const circle = new Circle({
         x: 400,
         y: 225,
         radius: 30,
-        children: [littleCircle],
+        children: [
+          littleCircle,
+          h
+        ],
       });
+
 
       animation.addObject(circle);
 
       animation.onUpdate((currentFrame) => {
-        circle.rotation += 1;
+        circle.rotation += 0.1;
       })
 
       animation.startPlay();
