@@ -97,14 +97,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
     return this;
   }
 
-  /**
-   * Each Carobjs has different sighs.Frame
-   * @return The Carobj's type,one and only.
-   */
-  get sigh() {
-    return "CarObject";
-  }
-
   get children() {
     return this.#children;
   }

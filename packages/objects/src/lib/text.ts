@@ -92,8 +92,4 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
   set size(value: number) {
     this.#size = value;
   }
-
-  get sigh() {
-    return "Text";
-  }
 }

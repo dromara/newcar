@@ -28,11 +28,11 @@ export class Spirit extends Carobj implements IPositionedMut, ISpiritStatus {
   }
 
   /**
-   * Set the status.
+   * add the status.
    * @param dis[0] The image of all status.
    * @param dis[1] The index of all status,Non-required.
    */
-  setStatus(dis: HTMLImageElement, index?: number) {
+  addStatus(dis: HTMLImageElement, index?: number) {
     if (typeof index === "undefined") {
       this.#status.push(dis);
     } else {
@@ -57,9 +57,5 @@ export class Spirit extends Carobj implements IPositionedMut, ISpiritStatus {
 
   get length() {
     return this.#status.length;
-  }
-
-  get sigh() {
-    return "Spirit";
   }
 }
