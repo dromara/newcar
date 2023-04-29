@@ -43,7 +43,7 @@ animation.startPlay();
 And then, you can see a text object with "Hello world!" on the canvas.
 
 ## Document
-The document is served on [newcar.js.org](https://newcar.js.org).
+The document is served on [newcar.js.org](https://newcar.js.org). <!-- Currently 404. (You know too much) -->
 
 ## Contribution
 If you want to join the development or make a contribution, **please read the [Contribution Guide](./doc/README.md)**
