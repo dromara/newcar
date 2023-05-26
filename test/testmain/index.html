@@ -11,9 +11,20 @@
     <canvas id="test-canvas" width="800" height="450" style="border: 1px solid black"></canvas>
     <script>
       const { Car } = newcar;
-      const { Circle, Text } = newcar.object;
+      const { Circle, Text, Carobj } = newcar.object;
 
       const animation = new Car(document.getElementById("test-canvas"), 60);
+
+      class Aixs extends Carobj {
+        constructor(datas) {
+          super(datas);
+        }
+
+        onDraw(ctx) {
+          ctx.fillText("Hello world!", this.x, this.y)
+          return ctx;
+        }
+      }
 
       const h = new Text({
         x: 0,
@@ -50,8 +61,13 @@
         ],
       });
 
+      const a = new Aixs({
+        x: 100,
+        y: 100
+      });
 
-      animation.addObject(circle);
+
+      animation.addObject(circle).addObject(a);
 
       animation.onUpdate((currentFrame) => {
         circle.rotation += 0.1;

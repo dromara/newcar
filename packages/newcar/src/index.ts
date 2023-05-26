@@ -64,9 +64,11 @@ window.onload = () => {
  / / / /  __/ |/ |/ / /__/ /_/ / /    
 /_/ /_/\\___/|__/|__/\\___/\\__,_/_/
 
-%cThe animation is powered by %c newcar %c v0.2.0  %c
+%cThe animation is powered by %c newcar %c v0.3.1  %c
 
 link: https://github.com/Bug-Duck/newcar
+
+Click here to jump to our Twitter: https://twitter.com/bugduckteam
  `,
     "font-size: 14px",
     "background-color: orange; padding: 7px; font-size: 14px",
