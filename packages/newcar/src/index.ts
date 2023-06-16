@@ -77,6 +77,6 @@ Click here to jump to our Twitter: https://twitter.com/bugduckteam
 };
 
 export { object } from "@newcar/objects";
-export { animation } from "@newcar/animation-builder/src/builder_items/index";
+export { animation } from "@newcar/animation-builder/src/items";
 export { interpolator } from "@newcar/animation-builder/src/interpolation/index";
 export { AudioItem } from "@newcar/sound-builder/src/item";
