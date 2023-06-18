@@ -12,6 +12,7 @@
     <script>
       const { Car } = newcar;
       const { Circle, Text, Carobj } = newcar.object;
+      const { Translation } = newcar.animation;
 
       const animation = new Car(document.getElementById("test-canvas"), 60);
 
@@ -71,6 +72,17 @@
 
       animation.onUpdate((currentFrame) => {
         circle.rotation += 0.1;
+        if (currentFrame === 30) {
+          animation.animate(
+            new Translation({
+              startAt: 30,
+              lastsFor: 60,
+              from: [0, 0],
+              to: [100, 100],
+              bindTo: circle
+            })
+          )
+        }
       })
 
       animation.startPlay();

@@ -4,6 +4,7 @@ import { IRendererController } from "@newcar/objects/src/interfaces/RenderContro
 
 export class AnimationBuilder {
   #items: AnimationBuilderItem[] = [];
+  #currentAnimateList: AnimationBuilderItem[] = [];
 
   /**
    * Play the animation on a `? extends IRenderable & IRendererController` instance.
@@ -37,6 +38,10 @@ export class AnimationBuilder {
         // M⚡️U⚡️L⚡️T⚡️I⚡️P⚡️L⚡️A⚡️Y⚡️E⚡️R⚡️-⚡️S⚡️P⚡️O⚡️R⚡️T⚡️S
         i.onDrawFrame(frame - i.startFrame, this);
       }
+      this.#currentAnimateList.forEach((builderItem) =>
+        builderItem.onDrawFrame(frame - builderItem.startFrame, this)
+      );
+      this.#currentAnimateList = [];
     });
   }
 
@@ -47,6 +52,11 @@ export class AnimationBuilder {
    */
   addItem(builderItem: AnimationBuilderItem): AnimationBuilder {
     this.#items.push(builderItem);
+    return this;
+  }
+
+  animate(builderItem: AnimationBuilderItem): AnimationBuilder {
+    this.#currentAnimateList.push(builderItem);
     return this;
   }
 }

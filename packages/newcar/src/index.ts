@@ -20,8 +20,12 @@ export class Car {
     return this;
   }
 
-  addAnimationItem(animationItem: AnimationBuilderItem) {
-    this.#animationBuilder.addItem(animationItem);
+  addAnimationItem(builderItem: AnimationBuilderItem) {
+    this.#animationBuilder.addItem(builderItem);
+    return this;
+  }
+  animate(builderItem: AnimationBuilderItem) {
+    this.#animationBuilder.animate(builderItem);
     return this;
   }
 
