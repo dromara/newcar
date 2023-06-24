@@ -1,4 +1,4 @@
-import { Carobj } from "@newcar/objects/src/lib/carobj";
+import { Carobj } from "@newcar/objects/src/objects/carobj";
 import { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
 import { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
 

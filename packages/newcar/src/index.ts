@@ -2,7 +2,7 @@ import { AnimationBuilder } from "@newcar/animation-builder/src/index";
 import { type AnimationBuilderItem } from "@newcar/animation-builder/src/item";
 import { SoundBuilder } from "@newcar/sound-builder/src/index";
 import { type AudioItem } from "@newcar/sound-builder/src/item";
-import { Carobj } from "@newcar/objects/src/lib/carobj";
+import { Carobj } from "@newcar/objects/src/objects/carobj";
 import { Core } from "@newcar/core/src/index";
 
 export class Car {
