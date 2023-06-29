@@ -1,8 +1,8 @@
-import { type Point } from "src/point";
+import type { Point } from "src/point";
 
-export type lineobject = {
+export interface lineobject {
   startPoint: Point;
   endPoint: Point;
   color?: string;
   width?: number;
-};
+}

@@ -1,0 +1,6 @@
+{
+  "extends": "@so1ve",
+  "rules": {
+    "no-cond-assign": "off"
+  }
+}

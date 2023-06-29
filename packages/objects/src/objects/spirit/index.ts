@@ -1,8 +1,8 @@
 import { Carobj } from "../carobj";
-import { IPositionedMut } from "../carobj/interface";
-import { ISpiritStatus } from "./interface";
-import { carobject } from "../carobj/input_type";
-import { spiritobject } from "./input_type";
+import type { carobject } from "../carobj/input_type";
+import type { IPositionedMut } from "../carobj/interface";
+import type { spiritobject } from "./input_type";
+import type { ISpiritStatus } from "./interface";
 
 export class Spirit extends Carobj implements IPositionedMut, ISpiritStatus {
   /**
@@ -42,6 +42,7 @@ export class Spirit extends Carobj implements IPositionedMut, ISpiritStatus {
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
     ctx.drawImage(this.#status[this.#statusNow], 0, 0);
+
     return ctx;
   }
 

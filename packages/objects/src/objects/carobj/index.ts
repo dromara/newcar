@@ -1,6 +1,5 @@
-import { IRotatedMut, IScaledMut } from "./interface";
-import { IPositionedMut } from "./interface";
-import { carobject } from "./input_type";
+import type { carobject } from "./input_type";
+import type { IPositionedMut, IRotatedMut, IScaledMut } from "./interface";
 
 export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   display = true; // The Object is or isnot display.
@@ -17,18 +16,18 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   constructor(datas: carobject) {
     this.x = datas.x;
     this.y = datas.y;
-    typeof datas.contextX !== "undefined"
-      ? (this.#contextX = datas.contextX!)
-      : (this.#contextX = this.#x);
-    typeof datas.contextY !== "undefined"
-      ? (this.#contextY = datas.contextY!)
-      : (this.#contextY = this.#y);
-    typeof datas.scaleX !== "undefined" ? (this.#scaleX = datas.scaleX!) : null;
-    typeof datas.scaleY !== "undefined" ? (this.#scaleY = datas.scaleY!) : null;
-    typeof datas.display !== "undefined" ? (this.display = datas.display!) : null;
-    typeof datas.rotation !== "undefined" ? (this.#rotation = datas.rotation!) : null;
-    typeof datas.operation !== "undefined" ? (this.#operation = datas.operation!) : null;
-    typeof datas.children !== "undefined" ? (this.#children = datas.children!) : null;
+    typeof datas.contextX === "undefined"
+      ? (this.#contextX = this.#x)
+      : (this.#contextX = datas.contextX!);
+    typeof datas.contextY === "undefined"
+      ? (this.#contextY = this.#y)
+      : (this.#contextY = datas.contextY!);
+    typeof datas.scaleX !== "undefined" && (this.#scaleX = datas.scaleX!);
+    typeof datas.scaleY !== "undefined" && (this.#scaleY = datas.scaleY!);
+    typeof datas.display !== "undefined" && (this.display = datas.display!);
+    typeof datas.rotation !== "undefined" && (this.#rotation = datas.rotation!);
+    typeof datas.operation !== "undefined" && (this.#operation = datas.operation!);
+    typeof datas.children !== "undefined" && (this.#children = datas.children!);
   }
 
   /**
@@ -53,9 +52,9 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
       ctx.scale(this.#scaleX, this.#scaleY);
       ctx.globalCompositeOperation = this.#operation;
       this.onDraw(ctx);
-      this.#children.forEach((child) => {
+      for (const child of this.#children) {
         child.onUpdate(ctx);
-      });
+      }
       ctx.restore();
     }
   }
@@ -77,6 +76,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   setContextPosition(x: number, y: number) {
     this.#contextX = x;
     this.#contextY = y;
+
     return this;
   }
 
@@ -87,6 +87,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   get x() {
     return this.#x;
   }
+
   set x(value: number) {
     this.#x = value;
   }
@@ -98,15 +99,19 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   set y(value: number) {
     this.#y = value;
   }
+
   set scaleX(value: number) {
     this.#scaleX = value;
   }
+
   get scaleX(): number {
     return this.#scaleX;
   }
+
   set scaleY(value: number) {
     this.#scaleY = value;
   }
+
   get scaleY(): number {
     return this.#scaleY;
   }
@@ -114,6 +119,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   get contextX() {
     return this.#contextX;
   }
+
   get contextY() {
     return this.#contextY;
   }
@@ -141,6 +147,8 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   }
 
   addChildren(...children: Carobj[]) {
-    children.forEach((child) => this.#children.push(child));
+    for (const child of children) {
+      this.#children.push(child);
+    }
   }
 }

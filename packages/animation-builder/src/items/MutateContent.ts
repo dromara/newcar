@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { ITextEditable } from "@newcar/objects/src/objects/text/interface";
-import { AnimationBuilder } from "..";
+import type { ITextEditable } from "@newcar/objects/src/objects/text/interface";
+
+import type { AnimationBuilder } from "..";
 import { AnimationBuilderItem } from "../item";
 
 export class MutateContent extends AnimationBuilderItem {
@@ -17,8 +17,9 @@ export class MutateContent extends AnimationBuilderItem {
       ((flag = "startAt"), datas.startAt === undefined) ||
       ((flag = "bindTo"), datas.bindTo === undefined) ||
       ((flag = "mutateContentTo"), datas.mutateContentTo === undefined)
-    )
+    ) {
       throw new Error(`be unset data "${flag}"`);
+    }
     this.#datas = {
       start: datas.startAt,
       textObject: datas.bindTo,
@@ -29,9 +30,11 @@ export class MutateContent extends AnimationBuilderItem {
   onDrawFrame(_relativeFrameCount: number, _parent: AnimationBuilder): void {
     this.#datas.textObject.text = this.#datas.mutateTo;
   }
+
   get startFrame(): number {
     return this.#datas.start;
   }
+
   get length(): number {
     return 1;
   }

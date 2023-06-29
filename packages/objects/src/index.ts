@@ -1,11 +1,11 @@
 import { Carobj } from "./objects/carobj";
-import { Text } from "./objects/text";
-import { Spirit } from "./objects/spirit";
-import { Point } from "./objects/point";
+import { Circle } from "./objects/circle";
 import { Line } from "./objects/line";
 import { MathImage } from "./objects/mathImage";
-import { Circle } from "./objects/circle";
+import { Point } from "./objects/point";
 import { Polygon } from "./objects/polygon";
+import { Spirit } from "./objects/spirit";
+import { Text } from "./objects/text";
 
 export const object = ((exports: Record<string, any>) => {
   exports.Carobj = Carobj;
@@ -16,5 +16,6 @@ export const object = ((exports: Record<string, any>) => {
   exports.MathImage = MathImage;
   exports.Circle = Circle;
   exports.Polygon = Polygon;
+
   return exports;
 })({});

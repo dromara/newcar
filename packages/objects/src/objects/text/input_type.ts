@@ -1,4 +1,4 @@
-export type textobject = {
+export interface textobject {
   text: string;
   x: number;
   y: number;
@@ -7,4 +7,4 @@ export type textobject = {
   fontFamily?: string;
   align?: CanvasTextAlign;
   baseline?: CanvasTextBaseline;
-};
+}

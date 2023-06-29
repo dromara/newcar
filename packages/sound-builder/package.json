@@ -1,14 +1,14 @@
 {
   "name": "@newcar/sound-builder",
   "version": "0.3.1",
+  "author": "",
   "description": "",
+  "keywords": [],
+  "license": "ISC",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@newcar/objects": "workspace:^0.3.1"
   }

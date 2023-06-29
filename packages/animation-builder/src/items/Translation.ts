@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { IPositionedMut } from "@newcar/objects/src/objects/carobj/interface";
-import { AnimationBuilder } from "..";
-import { AnimationBuilderItem } from "../item";
+import type { IPositionedMut } from "@newcar/objects/src/objects/carobj/interface";
+
+import type { AnimationBuilder } from "..";
 import { Interpolator } from "../interpolation/Interpolator";
 import { LinearInterpolator } from "../interpolation/LinearInterpolator";
+import { AnimationBuilderItem } from "../item";
 
 export class Translation extends AnimationBuilderItem {
   #datas: {
@@ -29,8 +29,9 @@ export class Translation extends AnimationBuilderItem {
       ((flag = "lastsFor"), datas.lastsFor === undefined) ||
       ((flag = "to"), datas.to === undefined) ||
       ((flag = "bindTo"), datas.bindTo === undefined)
-    )
+    ) {
       throw new Error(`be unset data "${flag}"`);
+    }
     datas.from = datas.from ?? [datas.bindTo.x, datas.bindTo.y];
     this.#datas = {
       length: datas.lastsFor ?? null,
@@ -49,12 +50,12 @@ export class Translation extends AnimationBuilderItem {
     return this.#datas.start;
   }
 
-  onDrawFrame(relativeFrameCount: number, parent: AnimationBuilder): void {
+  onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
     this.#datas.obj.x = this.#datas.interpolatorx.interpolate(
-      (relativeFrameCount + 1) / this.#datas.length
+      (relativeFrameCount + 1) / this.#datas.length,
     );
     this.#datas.obj.y = this.#datas.interpolatory.interpolate(
-      (relativeFrameCount + 1) / this.#datas.length
+      (relativeFrameCount + 1) / this.#datas.length,
     );
   }
 }

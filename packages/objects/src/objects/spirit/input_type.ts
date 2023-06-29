@@ -1,1 +1,4 @@
-export type spiritobject = { x: number; y: number };
+export interface spiritobject {
+  x: number;
+  y: number;
+}

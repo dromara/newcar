@@ -1,7 +1,7 @@
 import { Carobj } from "../carobj";
-import { carobject } from "../carobj/input_type";
-import { polygonobject } from "./input_type";
-import { type Point } from "../point";
+import type { carobject } from "../carobj/input_type";
+import type { Point } from "../point";
+import type { polygonobject } from "./input_type";
 
 export class Polygon extends Carobj {
   points: Point[] = [];
@@ -14,9 +14,15 @@ export class Polygon extends Carobj {
   constructor(datas: carobject & polygonobject) {
     super(datas);
     this.points = datas.points;
-    if (typeof datas.borderColor !== "undefined") this.borderColor = datas.borderColor;
-    if (typeof datas.fillColor !== "undefined") this.fillColor = datas.fillColor;
-    if (typeof datas.borderWidth !== "undefined") this.borderWidth = datas.borderWidth;
+    if (typeof datas.borderColor !== "undefined") {
+      this.borderColor = datas.borderColor;
+    }
+    if (typeof datas.fillColor !== "undefined") {
+      this.fillColor = datas.fillColor;
+    }
+    if (typeof datas.borderWidth !== "undefined") {
+      this.borderWidth = datas.borderWidth;
+    }
   }
 
   override onDraw(ctx: CanvasRenderingContext2D): CanvasRenderingContext2D {
@@ -27,11 +33,12 @@ export class Polygon extends Carobj {
     }
     ctx.moveTo(this.points[0].x, this.points[0].y);
     ctx.beginPath();
-    this.points.forEach((point) => {
+    for (const point of this.points) {
       ctx.lineTo(point.x, point.y);
-    });
+    }
     ctx.lineTo(this.points[0].x, this.points[0].y);
     ctx.stroke();
+
     return ctx;
   }
 }

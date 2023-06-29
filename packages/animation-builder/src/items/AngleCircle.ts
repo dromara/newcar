@@ -1,8 +1,9 @@
-import { ICircleAngleMut } from "@newcar/objects/src/objects/circle/interface";
-import { AnimationBuilder } from "..";
-import { AnimationBuilderItem } from "../item";
-import { LinearInterpolator } from "../interpolation/LinearInterpolator";
+import type { ICircleAngleMut } from "@newcar/objects/src/objects/circle/interface";
+
+import type { AnimationBuilder } from "..";
 import { Interpolator } from "../interpolation/Interpolator";
+import { LinearInterpolator } from "../interpolation/LinearInterpolator";
+import { AnimationBuilderItem } from "../item";
 
 export class AngleCircle extends AnimationBuilderItem {
   #datas: {
@@ -28,8 +29,9 @@ export class AngleCircle extends AnimationBuilderItem {
       ((flag = "lastsFor"), datas.lastsFor === undefined) ||
       ((flag = "to"), datas.to === undefined) ||
       ((flag = "bindTo"), datas.bindTo === undefined)
-    )
+    ) {
       throw new Error(`be unset data "${flag}"`);
+    }
     datas.from = datas.from ?? [datas.bindTo.startAngle, datas.bindTo.endAngle];
     this.#datas = {
       length: datas.lastsFor,
@@ -38,18 +40,18 @@ export class AngleCircle extends AnimationBuilderItem {
       interpolatorstart: new Interpolator(
         datas.from[0],
         datas.to[0],
-        datas.by ?? LinearInterpolator
+        datas.by ?? LinearInterpolator,
       ),
       interpolatorend: new Interpolator(datas.from[1], datas.to[1], datas.by ?? LinearInterpolator),
     };
   }
 
-  onDrawFrame(relativeFrameCount: number, parent: AnimationBuilder): void {
+  onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
     this.#datas.obj.startAngle = this.#datas.interpolatorstart.interpolate(
-      (relativeFrameCount + 1) / this.#datas.length
+      (relativeFrameCount + 1) / this.#datas.length,
     );
     this.#datas.obj.endAngle = this.#datas.interpolatorend.interpolate(
-      (relativeFrameCount + 1) / this.#datas.length
+      (relativeFrameCount + 1) / this.#datas.length,
     );
   }
 
