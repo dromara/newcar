@@ -1,5 +1,5 @@
 import { Carobj } from "../carobj";
-import { IPositionedMut } from "../interfaces/Positioned";
+import { IPositionedMut } from "../carobj/interface";
 import { carobject } from "../carobj/input_type";
 import { pointobject } from "./input_type";
 

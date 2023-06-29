@@ -1,5 +1,5 @@
 import { Carobj } from "../carobj";
-import { IPositionedMut } from "../interface";
+import { IPositionedMut } from "../carobj/interface";
 import { ITextEditable } from "./interface";
 import { carobject } from "../carobj/input_type";
 import { textobject } from "./input_type";

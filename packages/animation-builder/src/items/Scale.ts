@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IScaledMut } from "@newcar/objects/src/interfaces/Scaled";
+import { IScaledMut } from "@newcar/objects/src/objects/carobj/interface";
 import { AnimationBuilder } from "..";
 import { AnimationBuilderItem } from "../item";
 import { Interpolator } from "../interpolation/Interpolator";

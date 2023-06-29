@@ -1,5 +1,5 @@
 import { IRotatedMut, IScaledMut } from "./interface";
-import { IPositionedMut } from "src/interface";
+import { IPositionedMut } from "./interface";
 import { carobject } from "./input_type";
 
 export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {

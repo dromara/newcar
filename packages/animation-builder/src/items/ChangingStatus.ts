@@ -1,7 +1,7 @@
 // TODO: Recreate the animation of changing status of spirits.
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ISpiritStatus } from "@newcar/objects/src/interfaces/SpiritStatus";
+import { ISpiritStatus } from "@newcar/objects/src/objects/spirit/interface";
 import { AnimationBuilder } from "..";
 import { AnimationBuilderItem } from "../item";
 

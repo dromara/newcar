@@ -1,5 +1,5 @@
 import { Carobj } from "../carobj";
-import { IPositionedMut } from "../interface";
+import { IPositionedMut } from "../carobj/interface";
 import { ISpiritStatus } from "./interface";
 import { carobject } from "../carobj/input_type";
 import { spiritobject } from "./input_type";
