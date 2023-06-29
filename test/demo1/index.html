@@ -112,41 +112,41 @@
         .addAnimationItem(new MutateContent({ startAt: 20, mutateContentTo: "NE", bindTo: text1 }))
         .addAnimationItem(new MutateContent({ startAt: 40, mutateContentTo: "NEW", bindTo: text1 }))
         .addAnimationItem(
-          new MutateContent({ startAt: 60, mutateContentTo: "NEWC", bindTo: text1 })
+          new MutateContent({ startAt: 60, mutateContentTo: "NEWC", bindTo: text1 }),
         )
         .addAnimationItem(
-          new MutateContent({ startAt: 80, mutateContentTo: "NEWCA", bindTo: text1 })
+          new MutateContent({ startAt: 80, mutateContentTo: "NEWCA", bindTo: text1 }),
         )
         .addAnimationItem(
-          new MutateContent({ startAt: 100, mutateContentTo: "NEWCAR", bindTo: text1 })
+          new MutateContent({ startAt: 100, mutateContentTo: "NEWCAR", bindTo: text1 }),
         )
         .addAnimationItem(
           new MutateContent({
             startAt: 570,
             mutateContentTo: "Have you ever",
             bindTo: text3,
-          })
+          }),
         )
         .addAnimationItem(
           new MutateContent({
             startAt: 580,
             mutateContentTo: "Have you ever be vexed",
             bindTo: text3,
-          })
+          }),
         )
         .addAnimationItem(
           new MutateContent({
             startAt: 600,
             mutateContentTo: "Have you ever be vexed that HTML Canvas",
             bindTo: text3,
-          })
+          }),
         )
         .addAnimationItem(
           new MutateContent({
             startAt: 630,
             mutateContentTo: "Have you ever be vexed that HTML Canvas?",
             bindTo: text3,
-          })
+          }),
         )
         .addAnimationItem(
           new MutateContent({
@@ -154,7 +154,7 @@
             mutateContentTo:
               "Have you ever be vexed that HTML Canvas is                                                                   ?🤔",
             bindTo: text3,
-          })
+          }),
         )
         .addAnimationItem(
           new Translation({
@@ -163,7 +163,7 @@
             to: [400, 50],
             bindTo: text1,
             by: easeInOutQuint,
-          })
+          }),
         )
         .addAnimationItem(
           new Translation({
@@ -172,7 +172,7 @@
             to: [400, 225],
             bindTo: text2,
             by: easeInOutQuint,
-          })
+          }),
         )
         .addAnimationItem(
           new Translation({
@@ -181,7 +181,7 @@
             to: [300, 225],
             bindTo: circle1,
             by: easeOutQuart,
-          })
+          }),
         )
         .addAnimationItem(
           new Translation({
@@ -190,7 +190,7 @@
             to: [500, 225],
             bindTo: circle2,
             by: easeOutQuart,
-          })
+          }),
         )
         .addAnimationItem(
           new Translation({
@@ -199,7 +199,7 @@
             to: [-800, 0],
             bindTo: root1,
             by: easeOutQuart,
-          })
+          }),
         )
         .addAnimationItem(
           new SingleFrameAction({
@@ -207,7 +207,7 @@
             run: () => {
               text3.appear();
             },
-          })
+          }),
         )
         .addAnimationItem(
           new SingleFrameAction({
@@ -215,7 +215,7 @@
             run: () => {
               text3plus.appear();
             },
-          })
+          }),
         )
         .addAnimationItem(
           new SingleFrameAction({
@@ -224,7 +224,7 @@
               text3.hide();
               text3plus.hide();
             },
-          })
+          }),
         );
 
       animation.startPlay();

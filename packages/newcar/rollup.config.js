@@ -1,9 +1,9 @@
-import typescript from "@rollup/plugin-typescript";
-import terser from "@rollup/plugin-terser";
-import { nodeResolve } from "@rollup/plugin-node-resolve";
-import dts from "rollup-plugin-dts";
-import commonjs from "@rollup/plugin-commonjs";
 import { babel } from "@rollup/plugin-babel";
+import commonjs from "@rollup/plugin-commonjs";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import terser from "@rollup/plugin-terser";
+import typescript from "@rollup/plugin-typescript";
+import dts from "rollup-plugin-dts";
 
 /**
  * @type {import('@rollup/plugin-babel').RollupBabelInputPluginOptions}

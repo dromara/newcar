@@ -1,22 +1,21 @@
 {
-    "compilerOptions": {
-      "incremental": true,
-      "outDir": "./dist",
-      "baseUrl": ".",
-      "moduleResolution": "Node",
-      "module": "CommonJS",
-      "target": "ES2018",
-      "sourceMap": true,
-      "lib": ["esnext", "DOM", "DOM.Iterable"],
-      "esModuleInterop": true,
-      "alwaysStrict": true,
-      "strictNullChecks": true,
-      "noImplicitAny": true,
-      "noImplicitReturns": true,
-      "noImplicitThis": true,
-      "noUnusedLocals": true,
-      "resolveJsonModule": true,
-    },
-    "exclude": ["node_modules", "dist", "*.d.ts"]
-  }
-  
+  "compilerOptions": {
+    "incremental": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "moduleResolution": "Node",
+    "module": "CommonJS",
+    "target": "ES2018",
+    "sourceMap": true,
+    "lib": ["esnext", "DOM", "DOM.Iterable"],
+    "esModuleInterop": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "resolveJsonModule": true
+  },
+  "exclude": ["node_modules", "dist", "*.d.ts"]
+}

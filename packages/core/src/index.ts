@@ -1,6 +1,6 @@
-import { Carobj } from "@newcar/objects/src/objects/carobj";
-import { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
-import { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
+import type { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
+import type { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
+import type { Carobj } from "@newcar/objects/src/objects/carobj";
 
 export class Core implements IRenderable, IRendererController {
   #ele: HTMLCanvasElement; // The html element of canvas.
@@ -24,6 +24,7 @@ export class Core implements IRenderable, IRendererController {
       this.#fps = fps;
       this.#ctx = this.#ele.getContext("2d");
     }
+
     return this;
   }
 
@@ -33,6 +34,7 @@ export class Core implements IRenderable, IRendererController {
    */
   onUpdate(command: (agr0: number) => void) {
     this.#every?.push(command);
+
     return this;
   }
 
@@ -42,16 +44,21 @@ export class Core implements IRenderable, IRendererController {
    */
   forStart(command: () => void) {
     this.#start = command;
+
     return this;
   }
 
   suspend(frame?: number) {
-    if (typeof frame !== "undefined") this.#frameImmediately = frame;
+    if (typeof frame !== "undefined") {
+      this.#frameImmediately = frame;
+    }
     this.isSuspend = true;
   }
 
   continue(frame?: number) {
-    if (typeof frame !== "undefined") this.#frameImmediately = frame;
+    if (typeof frame !== "undefined") {
+      this.#frameImmediately = frame;
+    }
     this.isSuspend = false;
   }
 
@@ -60,7 +67,9 @@ export class Core implements IRenderable, IRendererController {
    */
   startFrame() {
     // this.#frameImmediately = 0;
-    if (this.#ctx === null) return;
+    if (this.#ctx === null) {
+      return;
+    }
     this.#start && this.#start();
     setInterval(() => {
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
@@ -68,12 +77,14 @@ export class Core implements IRenderable, IRendererController {
       if (!this.isSuspend) {
         this.#frameImmediately += 1;
       }
-      this.#every?.forEach((each) => {
-        each && each(this.#frameImmediately);
-      });
-      this.#objects.forEach((object) => {
+      if (this.#every) {
+        for (const each of this.#every) {
+          each && each(this.#frameImmediately);
+        }
+      }
+      for (const object of this.#objects) {
         object.onUpdate(this.#ctx!);
-      })
+      }
     }, 1000 / this.#fps);
   }
 

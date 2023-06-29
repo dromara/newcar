@@ -1,8 +1,8 @@
 // TODO: Recreate the animation of changing status of spirits.
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { ISpiritStatus } from "@newcar/objects/src/interfaces/SpiritStatus";
-import { AnimationBuilder } from "..";
+import type { ISpiritStatus } from "@newcar/objects/src/interfaces/SpiritStatus";
+
+import type { AnimationBuilder } from "..";
 import { AnimationBuilderItem } from "../item";
 
 export class ChangingStatus extends AnimationBuilderItem {
@@ -19,8 +19,9 @@ export class ChangingStatus extends AnimationBuilderItem {
       ((flag = "startAt"), datas.startAt === undefined) ||
       ((flag = "lastsFor"), datas.lastsFor === undefined) ||
       ((flag = "bindTo"), datas.bindTo === undefined)
-    )
+    ) {
       throw new Error(`be unset data "${flag}"`);
+    }
     this.#datas = {
       length: datas.lastsFor,
       start: datas.startAt,
@@ -31,9 +32,11 @@ export class ChangingStatus extends AnimationBuilderItem {
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
     this.#datas.obj.status = relativeFrameCount % this.#datas.obj.length;
   }
+
   get startFrame(): number {
     return this.#datas.start;
   }
+
   get length(): number {
     return this.#datas.length;
   }

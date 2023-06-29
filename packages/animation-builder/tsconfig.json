@@ -17,4 +17,3 @@
   "include": ["src/**/*", "src/type.d.ts", "../types/src/jsx.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
-  

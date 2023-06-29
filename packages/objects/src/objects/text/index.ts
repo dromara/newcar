@@ -1,8 +1,8 @@
 import { Carobj } from "../carobj";
-import { IPositionedMut } from "../interface";
-import { ITextEditable } from "./interface";
-import { carobject } from "../carobj/input_type";
-import { textobject } from "./input_type";
+import type { carobject } from "../carobj/input_type";
+import type { IPositionedMut } from "../interface";
+import type { textobject } from "./input_type";
+import type { ITextEditable } from "./interface";
 
 export class Text extends Carobj implements ITextEditable, IPositionedMut {
   #text: string;
@@ -16,9 +16,15 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
     this.#text = datas.text;
     typeof datas.size === "undefined" ? (this.#size = 10) : (this.#size = datas.size);
     typeof datas.color === "undefined" ? (this.#color = "black") : (this.#color = datas.color);
-    if (typeof datas.fontFamily !== "undefined") this.fontFamily = datas.fontFamily;
-    if (typeof datas.align !== "undefined") this.#align = datas.align;
-    if (typeof datas.baseline !== "undefined") this.#baseline = datas.baseline;
+    if (typeof datas.fontFamily !== "undefined") {
+      this.fontFamily = datas.fontFamily;
+    }
+    if (typeof datas.align !== "undefined") {
+      this.#align = datas.align;
+    }
+    if (typeof datas.baseline !== "undefined") {
+      this.#baseline = datas.baseline;
+    }
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
@@ -30,6 +36,7 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
     ctx.textBaseline = this.#baseline;
     ctx.fillStyle = this.#color;
     ctx.fillText(this.#text, 0, 0);
+
     return ctx;
   }
 

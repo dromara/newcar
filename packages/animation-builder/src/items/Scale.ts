@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { IScaledMut } from "@newcar/objects/src/interfaces/Scaled";
-import { AnimationBuilder } from "..";
-import { AnimationBuilderItem } from "../item";
+import type { IScaledMut } from "@newcar/objects/src/interfaces/Scaled";
+
+import type { AnimationBuilder } from "..";
 import { Interpolator } from "../interpolation/Interpolator";
 import { LinearInterpolator } from "../interpolation/LinearInterpolator";
+import { AnimationBuilderItem } from "../item";
 
 export class Scale extends AnimationBuilderItem {
   #datas: {
@@ -29,8 +29,9 @@ export class Scale extends AnimationBuilderItem {
       ((flag = "lastsFor"), datas.lastsFor === undefined) ||
       ((flag = "to"), datas.to === undefined) ||
       ((flag = "bindTo"), datas.bindTo === undefined)
-    )
+    ) {
       throw new Error(`be unset data "${flag}"`);
+    }
     datas.from = datas.from ?? [datas.bindTo.scaleX, datas.bindTo.scaleY];
     this.#datas = {
       obj: datas.bindTo,
@@ -43,15 +44,17 @@ export class Scale extends AnimationBuilderItem {
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
     this.#datas.obj.scaleX = this.#datas.interpolatorx.interpolate(
-      (relativeFrameCount + 1) / this.#datas.length
+      (relativeFrameCount + 1) / this.#datas.length,
     );
     this.#datas.obj.scaleY = this.#datas.interpolatory.interpolate(
-      (relativeFrameCount + 1) / this.#datas.length
+      (relativeFrameCount + 1) / this.#datas.length,
     );
   }
+
   get startFrame(): number {
     return this.#datas.start;
   }
+
   get length(): number {
     return this.#datas.length;
   }

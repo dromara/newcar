@@ -1,6 +1,6 @@
-import { type Carobj } from ".";
+import type { Carobj } from ".";
 
-export type carobject = {
+export interface carobject {
   x: number;
   y: number;
   scaleX?: number;
@@ -15,4 +15,4 @@ export type carobject = {
   die?: number;
   rotationCenterX?: number;
   rotationCenterY?: number;
-};
+}

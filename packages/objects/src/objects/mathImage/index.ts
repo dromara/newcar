@@ -1,7 +1,7 @@
 import { Carobj } from "../carobj";
-import { carobject } from "../carobj/input_type";
-import { mathimageobject } from "./input_type";
-import { IMathImageLimit } from "./interface";
+import type { carobject } from "../carobj/input_type";
+import type { mathimageobject } from "./input_type";
+import type { IMathImageLimit } from "./interface";
 
 export class MathImage extends Carobj implements IMathImageLimit {
   #imageFunction: (arg0: number) => number;
@@ -14,7 +14,9 @@ export class MathImage extends Carobj implements IMathImageLimit {
     this.#imageFunction = datas.f;
     this.#startVariable = datas.start;
     this.#endVariable = datas.end;
-    if (datas.color !== undefined) this.#color = datas.color!;
+    if (datas.color !== undefined) {
+      this.#color = datas.color!;
+    }
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
@@ -27,6 +29,7 @@ export class MathImage extends Carobj implements IMathImageLimit {
       ctx.lineTo(variable, this.#imageFunction(variable));
     }
     ctx.stroke();
+
     return ctx;
   }
 

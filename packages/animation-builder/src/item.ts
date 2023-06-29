@@ -1,15 +1,15 @@
-import { AnimationBuilder } from ".";
-import { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
-import { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
+import type { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
+import type { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
+
+import type { AnimationBuilder } from ".";
+
 export abstract class AnimationBuilderItem {
   /**
    * Will be called on registration.
    * @param parent The parent object.
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onRegister<T extends IRenderable & IRendererController>(_carInstance: T): void {
-    return;
-  }
+
+  onRegister<T extends IRenderable & IRendererController>(_carInstance: T): void {}
 
   /**
    * Will be called on drawing frame.

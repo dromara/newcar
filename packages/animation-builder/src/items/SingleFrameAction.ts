@@ -1,4 +1,4 @@
-import { AnimationBuilder } from "..";
+import type { AnimationBuilder } from "..";
 import { AnimationBuilderItem } from "../item";
 
 export class SingleFrameAction extends AnimationBuilderItem {
@@ -10,8 +10,9 @@ export class SingleFrameAction extends AnimationBuilderItem {
   constructor(datas: { at?: number; run?: () => void }) {
     super();
     let flag = "";
-    if (((flag = "at"), datas.at === undefined) || ((flag = "func"), datas.run === undefined))
+    if (((flag = "at"), datas.at === undefined) || ((flag = "func"), datas.run === undefined)) {
       throw new Error(`be unset data "${flag}"`);
+    }
     this.#datas = {
       frame: datas.at / 2,
       func: datas.run,
@@ -24,9 +25,11 @@ export class SingleFrameAction extends AnimationBuilderItem {
       this.#datas.func();
     }
   }
+
   get startFrame(): number {
     return this.#datas.frame;
   }
+
   get length(): number {
     return this.#datas.frame + 1;
   }

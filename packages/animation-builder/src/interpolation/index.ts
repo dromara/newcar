@@ -1,3 +1,4 @@
+import { LinearInterpolator } from "./LinearInterpolator";
 import {
   easeInBack,
   easeInBounce,
@@ -8,8 +9,8 @@ import {
   easeInOutBack,
   easeInOutBounce,
   easeInOutCirc,
-  easeInOutElastic,
   easeInOutCubic,
+  easeInOutElastic,
   easeInOutExpo,
   easeInOutQuad,
   easeInOutQuart,
@@ -30,7 +31,6 @@ import {
   easeOutQuint,
   easeOutSine,
 } from "./NonlinearInterpolators";
-import { LinearInterpolator } from "./LinearInterpolator";
 
 export const interpolator = ((exports: Record<string, (arg0: number) => number>) => {
   exports.easeInBack = easeInBack;
@@ -64,5 +64,6 @@ export const interpolator = ((exports: Record<string, (arg0: number) => number>)
   exports.easeOutQuint = easeOutQuint;
   exports.easeOutSine = easeOutSine;
   exports.Linear = LinearInterpolator;
+
   return exports;
 })({});

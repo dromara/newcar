@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import { Carobj } from "../carobj";
-import { carobject } from "../carobj/input_type";
-import { ICircleAngle } from "./interface";
-import { circleobject } from "./input_type";
+import type { carobject } from "../carobj/input_type";
+import type { circleobject } from "./input_type";
+import type { ICircleAngle } from "./interface";
 
 export class Circle extends Carobj implements ICircleAngle {
   #radius: number;
@@ -23,9 +23,15 @@ export class Circle extends Carobj implements ICircleAngle {
     typeof datas.endAngle === "undefined"
       ? (this.#endAngle = 2 * Math.PI)
       : (this.#endAngle = datas.startAngle!);
-    if (typeof datas.borderColor !== "undefined") this.#borderColor = datas.borderColor;
-    if (typeof datas.borderWidth !== "undefined") this.#borderWidth = datas.borderWidth;
-    if (typeof datas.fillColor !== "undefined") this.#fillColor = datas.fillColor;
+    if (typeof datas.borderColor !== "undefined") {
+      this.#borderColor = datas.borderColor;
+    }
+    if (typeof datas.borderWidth !== "undefined") {
+      this.#borderWidth = datas.borderWidth;
+    }
+    if (typeof datas.fillColor !== "undefined") {
+      this.#fillColor = datas.fillColor;
+    }
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
@@ -40,6 +46,7 @@ export class Circle extends Carobj implements ICircleAngle {
     }
     ctx.strokeStyle = this.#borderColor!;
     ctx.stroke();
+
     return ctx;
   }
 

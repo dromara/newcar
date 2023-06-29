@@ -1,6 +1,7 @@
-import { AnimationBuilderItem } from "./item";
-import { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
-import { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
+import type { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
+import type { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
+
+import type { AnimationBuilderItem } from "./item";
 
 export class AnimationBuilder {
   #items: AnimationBuilderItem[] = [];
@@ -23,11 +24,9 @@ export class AnimationBuilder {
         // If you can't understand it, you are just fool.
         // If you can understand it, you are fool, too.
         //                                      ---- 27Onion
-        if (i.length !== -1) {
-          if (frame >= i.startFrame + i.length) {
-            // Out-dated.
-            continue;
-          }
+        if (i.length !== -1 && frame >= i.startFrame + i.length) {
+          // Out-dated.
+          continue;
         }
 
         if (frame < i.startFrame) {
@@ -38,9 +37,9 @@ export class AnimationBuilder {
         // M⚡️U⚡️L⚡️T⚡️I⚡️P⚡️L⚡️A⚡️Y⚡️E⚡️R⚡️-⚡️S⚡️P⚡️O⚡️R⚡️T⚡️S
         i.onDrawFrame(frame - i.startFrame, this);
       }
-      this.#currentAnimateList.forEach((builderItem) =>
-        builderItem.onDrawFrame(frame - builderItem.startFrame, this)
-      );
+      for (const builderItem of this.#currentAnimateList) {
+        builderItem.onDrawFrame(frame - builderItem.startFrame, this);
+      }
       this.#currentAnimateList = [];
     });
   }
@@ -52,11 +51,13 @@ export class AnimationBuilder {
    */
   addItem(builderItem: AnimationBuilderItem): AnimationBuilder {
     this.#items.push(builderItem);
+
     return this;
   }
 
   animate(builderItem: AnimationBuilderItem): AnimationBuilder {
     this.#currentAnimateList.push(builderItem);
+
     return this;
   }
 }

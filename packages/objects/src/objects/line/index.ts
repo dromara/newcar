@@ -1,7 +1,7 @@
 import { Carobj } from "../carobj";
-import { type Point } from "../point";
-import { carobject } from "../carobj/input_type";
-import { lineobject } from "./input_type";
+import type { carobject } from "../carobj/input_type";
+import type { Point } from "../point";
+import type { lineobject } from "./input_type";
 
 export class Line extends Carobj {
   #startPoint: Point;
@@ -15,8 +15,12 @@ export class Line extends Carobj {
     super(datas);
     this.#startPoint = datas.startPoint;
     this.#endPoint = datas.endPoint;
-    if (typeof datas.color !== "undefined") this.color = datas.color;
-    if (typeof datas.width !== "undefined") this.width = datas.width;
+    if (typeof datas.color !== "undefined") {
+      this.color = datas.color;
+    }
+    if (typeof datas.width !== "undefined") {
+      this.width = datas.width;
+    }
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
@@ -27,6 +31,7 @@ export class Line extends Carobj {
     ctx.moveTo(this.primaryPoints[0].x, this.primaryPoints[0].y);
     ctx.lineTo(this.primaryPoints[1].x, this.primaryPoints[1].y);
     ctx.stroke();
+
     return ctx;
   }
 
@@ -34,16 +39,32 @@ export class Line extends Carobj {
     return [this.#startPoint, this.#endPoint];
   }
 
+  get startX() {
+    return this.#startPoint.x;
+  }
+
   set startX(value: number) {
     this.#startPoint.x = value;
+  }
+
+  get startY() {
+    return this.#startPoint.y;
   }
 
   set startY(value: number) {
     this.#startPoint.y = value;
   }
 
+  get endX() {
+    return this.#endPoint.x;
+  }
+
   set endX(value: number) {
     this.#endPoint.x = value;
+  }
+
+  get endY() {
+    return this.#endPoint.y;
   }
 
   set endY(value: number) {
