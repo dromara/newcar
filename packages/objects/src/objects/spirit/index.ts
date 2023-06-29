@@ -1,9 +1,8 @@
-import { Carobj } from "./carobj";
-import { IPositionedMut } from "../interfaces/Positioned";
-import { ISpiritStatus } from "../interfaces/SpiritStatus";
-import { type carobject } from "./carobj";
-
-export type spiritobject = { x: number; y: number };
+import { Carobj } from "../carobj";
+import { IPositionedMut } from "../interface";
+import { ISpiritStatus } from "./interface";
+import { carobject } from "../carobj/input_type";
+import { spiritobject } from "./input_type";
 
 export class Spirit extends Carobj implements IPositionedMut, ISpiritStatus {
   /**

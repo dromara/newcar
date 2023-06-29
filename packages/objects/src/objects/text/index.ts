@@ -1,18 +1,8 @@
-import { Carobj } from "./carobj";
-import { IPositionedMut } from "../interfaces/Positioned";
-import { ITextEditable } from "../interfaces/TextEditable";
-import { type carobject } from "./carobj";
-
-export type textobject = {
-  text: string;
-  x: number;
-  y: number;
-  size?: number;
-  color?: string;
-  fontFamily?: string;
-  align?: CanvasTextAlign;
-  baseline?: CanvasTextBaseline;
-};
+import { Carobj } from "../carobj";
+import { IPositionedMut } from "../interface";
+import { ITextEditable } from "./interface";
+import { carobject } from "../carobj/input_type";
+import { textobject } from "./input_type";
 
 export class Text extends Carobj implements ITextEditable, IPositionedMut {
   #text: string;
@@ -24,8 +14,6 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
   constructor(datas: textobject & carobject) {
     super(datas);
     this.#text = datas.text;
-    this.x = datas.x;
-    this.y = datas.y;
     typeof datas.size === "undefined" ? (this.#size = 10) : (this.#size = datas.size);
     typeof datas.color === "undefined" ? (this.#color = "black") : (this.#color = datas.color);
     if (typeof datas.fontFamily !== "undefined") this.fontFamily = datas.fontFamily;

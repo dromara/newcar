@@ -1,16 +1,9 @@
-import { Carobj } from "./carobj";
-import { type Point } from "./point";
-import { type carobject } from "./carobj";
-import { IPositionedMut } from "../interfaces/Positioned";
+import { Carobj } from "../carobj";
+import { type Point } from "../point";
+import { carobject } from "../carobj/input_type";
+import { lineobject } from "./input_type";
 
-export type lineobject = {
-  startPoint: Point;
-  endPoint: Point;
-  color?: string;
-  width?: number;
-};
-
-export class Line extends Carobj implements IPositionedMut {
+export class Line extends Carobj {
   #startPoint: Point;
   #endPoint: Point;
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types

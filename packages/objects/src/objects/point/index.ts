@@ -1,11 +1,7 @@
-import { Carobj } from "./carobj";
+import { Carobj } from "../carobj";
 import { IPositionedMut } from "../interfaces/Positioned";
-import { type carobject } from "./carobj";
-
-export type pointobject = {
-  x: number;
-  y: number;
-};
+import { carobject } from "../carobj/input_type";
+import { pointobject } from "./input_type";
 
 export class Point extends Carobj implements IPositionedMut {
   constructor(datas: pointobject & carobject) {

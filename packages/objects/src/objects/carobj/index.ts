@@ -1,23 +1,6 @@
-import { IPositionedMut } from "../interfaces/Positioned";
-import { IRotatedMut } from "../interfaces/Rotated";
-import { IScaledMut } from "../interfaces/Scaled";
-
-export type carobject = {
-  x: number;
-  y: number;
-  scaleX?: number;
-  scaleY?: number;
-  contextX?: number;
-  contextY?: number;
-  children?: Carobj[];
-  operation?: GlobalCompositeOperation;
-  display?: boolean;
-  rotation?: number;
-  live?: number;
-  die?: number;
-  rotationCenterX?: number;
-  rotationCenterY?: number;
-};
+import { IRotatedMut, IScaledMut } from "./interface";
+import { IPositionedMut } from "src/interface";
+import { carobject } from "./input_type";
 
 export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   display = true; // The Object is or isnot display.
@@ -72,7 +55,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
       this.onDraw(ctx);
       this.#children.forEach((child) => {
         child.onUpdate(ctx);
-      })
+      });
       ctx.restore();
     }
   }

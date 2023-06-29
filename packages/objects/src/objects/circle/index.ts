@@ -1,21 +1,10 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { Carobj } from "./carobj";
-import { type carobject } from "./carobj";
-import { ICircleAngle } from "../interfaces/CircleAngle";
-import { IPositionedMut } from "../interfaces/Positioned";
+import { Carobj } from "../carobj";
+import { carobject } from "../carobj/input_type";
+import { ICircleAngle } from "./interface";
+import { circleobject } from "./input_type";
 
-export type circleobject = {
-  x: number;
-  y: number;
-  radius: number;
-  startAngle?: number;
-  endAngle?: number;
-  borderColor?: string;
-  borderWidth?: number;
-  fillColor?: string;
-};
-
-export class Circle extends Carobj implements ICircleAngle, IPositionedMut {
+export class Circle extends Carobj implements ICircleAngle {
   #radius: number;
   #startAngle: number;
   #endAngle: number;

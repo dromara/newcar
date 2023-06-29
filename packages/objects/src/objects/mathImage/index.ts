@@ -1,15 +1,13 @@
-import { Carobj } from "./carobj";
-import { type carobject } from "./carobj";
-import { IPositionedMut } from "../interfaces/Positioned";
-import { IMathImageLimit } from "../interfaces/MathImageLimit";
+import { Carobj } from "../carobj";
+import { carobject } from "../carobj/input_type";
+import { mathimageobject } from "./input_type";
+import { IMathImageLimit } from "./interface";
 
-export type mathimageobject = { f: (arg0: number) => number; start: number; end: number; color?: string };
-
-export class MathImage extends Carobj implements IMathImageLimit, IPositionedMut {
+export class MathImage extends Carobj implements IMathImageLimit {
   #imageFunction: (arg0: number) => number;
   #startVariable: number;
   #endVariable: number;
-  #color: string = "black"
+  #color = "black";
 
   constructor(datas: mathimageobject & carobject) {
     super(datas);

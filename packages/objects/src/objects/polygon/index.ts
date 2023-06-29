@@ -1,13 +1,7 @@
-import { Carobj } from "./carobj";
-import { type carobject } from "./carobj";
-import { type Point } from "./point";
-
-type polygonobject = {
-  points: Point[];
-  borderColor?: string;
-  fillColor?: string;
-  borderWidth?: number;
-};
+import { Carobj } from "../carobj";
+import { carobject } from "../carobj/input_type";
+import { polygonobject } from "./input_type";
+import { type Point } from "../point";
 
 export class Polygon extends Carobj {
   points: Point[] = [];
