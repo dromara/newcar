@@ -1,4 +1,4 @@
-import type { IMathImageLimit } from "@newcar/objects/src/interfaces/MathImageLimit";
+import type { IMathImageLimit } from "@newcar/objects/src/objects/mathImage/interface";
 
 import type { AnimationBuilder } from "..";
 import { Interpolator } from "../interpolation/Interpolator";

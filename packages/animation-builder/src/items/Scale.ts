@@ -1,4 +1,4 @@
-import type { IScaledMut } from "@newcar/objects/src/interfaces/Scaled";
+import type { IScaledMut } from "@newcar/objects/src/objects/carobj/interface";
 
 import type { AnimationBuilder } from "..";
 import { Interpolator } from "../interpolation/Interpolator";

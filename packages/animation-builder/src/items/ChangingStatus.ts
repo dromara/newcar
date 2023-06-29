@@ -1,6 +1,6 @@
 // TODO: Recreate the animation of changing status of spirits.
 
-import type { ISpiritStatus } from "@newcar/objects/src/interfaces/SpiritStatus";
+import type { ISpiritStatus } from "@newcar/objects/src/objects/spirit/interface";
 
 import type { AnimationBuilder } from "..";
 import { AnimationBuilderItem } from "../item";

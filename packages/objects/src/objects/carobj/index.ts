@@ -1,7 +1,5 @@
-import type { IPositionedMut } from "src/interface";
-
 import type { carobject } from "./input_type";
-import type { IRotatedMut, IScaledMut } from "./interface";
+import type { IPositionedMut, IRotatedMut, IScaledMut } from "./interface";
 
 export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   display = true; // The Object is or isnot display.

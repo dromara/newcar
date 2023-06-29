@@ -1,4 +1,4 @@
-import type { IPositionedMut } from "@newcar/objects/src/interfaces/Positioned";
+import type { IPositionedMut } from "@newcar/objects/src/objects/carobj/interface";
 
 import type { AnimationBuilder } from "..";
 import { Interpolator } from "../interpolation/Interpolator";
