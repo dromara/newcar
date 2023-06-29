@@ -7,15 +7,13 @@ import { Polygon } from "./objects/polygon";
 import { Spirit } from "./objects/spirit";
 import { Text } from "./objects/text";
 
-export const object = ((exports: Record<string, any>) => {
-  exports.Carobj = Carobj;
-  exports.Text = Text;
-  exports.Spirit = Spirit;
-  exports.Point = Point;
-  exports.Line = Line;
-  exports.MathImage = MathImage;
-  exports.Circle = Circle;
-  exports.Polygon = Polygon;
-
-  return exports;
-})({});
+export const object = {
+  Carobj,
+  Text,
+  Spirit,
+  Point,
+  Line,
+  MathImage,
+  Circle,
+  Polygon,
+};

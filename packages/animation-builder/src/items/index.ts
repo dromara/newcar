@@ -8,16 +8,14 @@ import { Scale } from "./Scale";
 import { SingleFrameAction } from "./SingleFrameAction";
 import { Translation } from "./Translation";
 
-export const animation = ((exports: Record<string, unknown>) => {
-  exports.Translation = Translation;
-  exports.Rotation = Rotation;
-  exports.Scale = Scale;
-  exports.ChangingStatus = ChangingStatus;
-  exports.Limit = Limit;
-  exports.AngleCircle = AngleCircle;
-  exports.SingleFrameAction = SingleFrameAction;
-  exports.MutateContent = MutateContent;
-  exports.AnimationBuilderItem = AnimationBuilderItem;
-
-  return exports;
-})({});
+export const animation = {
+  Translation,
+  Rotation,
+  Scale,
+  ChangingStatus,
+  Limit,
+  AngleCircle,
+  SingleFrameAction,
+  MutateContent,
+  AnimationBuilderItem,
+};
