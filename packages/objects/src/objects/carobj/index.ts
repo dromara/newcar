@@ -34,7 +34,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
    * Get called on each frame.
    * @param ctx The context instance of the canvas object.
    */
-  onDraw(ctx: CanvasRenderingContext2D) {
+  onDraw(ctx: CanvasRenderingContext2D, element?: HTMLElement) {
     return ctx;
   }
 

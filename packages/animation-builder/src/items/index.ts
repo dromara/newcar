@@ -5,7 +5,6 @@ import { Limit } from "./Limit";
 import { MutateContent } from "./MutateContent";
 import { Rotation } from "./Rotation";
 import { Scale } from "./Scale";
-import { SingleFrameAction } from "./SingleFrameAction";
 import { Translation } from "./Translation";
 
 export const animation = {
@@ -15,7 +14,6 @@ export const animation = {
   ChangingStatus,
   Limit,
   AngleCircle,
-  SingleFrameAction,
   MutateContent,
   AnimationBuilderItem,
 };

@@ -6,9 +6,11 @@ import { Point } from "./objects/point";
 import { Polygon } from "./objects/polygon";
 import { Spirit } from "./objects/spirit";
 import { Text } from "./objects/text";
+import { CoordinateSystem } from "./objects/coordinateSystem";
 
 export const object = {
   Carobj,
+  CoordinateSystem,
   Text,
   Spirit,
   Point,
