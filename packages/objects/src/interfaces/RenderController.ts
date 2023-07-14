@@ -12,7 +12,7 @@ export interface IRendererController extends IRenderable {
   /**
    * Start rendering.
    */
-  startFrame(): void;
+  beginCountFrame(): void;
 
   get fps(): number;
 }

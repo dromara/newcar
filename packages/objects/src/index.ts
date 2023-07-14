@@ -7,7 +7,7 @@ import { Polygon } from "./objects/polygon";
 import { Spirit } from "./objects/spirit";
 import { Text } from "./objects/text";
 import { CoordinateSystem } from "./objects/coordinateSystem";
-import { Svg } from "./objects/svg";
+import { Rectangle } from "./objects/rectangle";
 
 export const object = {
   Carobj,
@@ -19,5 +19,5 @@ export const object = {
   MathImage,
   Circle,
   Polygon,
-  Svg,
+  Rectangle
 };

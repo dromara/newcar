@@ -1,6 +1,6 @@
 import type { Carobj } from ".";
 
-export interface carobject {
+export type carobject = {
   x: number;
   y: number;
   scaleX?: number;

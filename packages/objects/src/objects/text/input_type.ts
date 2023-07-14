@@ -1,4 +1,4 @@
-export interface textobject {
+export type textobject = {
   text: string;
   x: number;
   y: number;

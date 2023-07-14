@@ -1,4 +1,4 @@
-export interface circleobject {
+export type circleobject = {
   x: number;
   y: number;
   radius: number;

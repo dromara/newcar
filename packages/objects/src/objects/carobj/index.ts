@@ -150,5 +150,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
     for (const child of children) {
       this.#children.push(child);
     }
+    return this;
   }
 }

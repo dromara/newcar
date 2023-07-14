@@ -11,7 +11,7 @@
     <canvas id="test-canvas" width="800" height="450" style="border: 1px solid black"></canvas>
     <script>
       const { Car } = newcar;
-      const { Circle, Text, CoordinateSystem, Svg } = newcar.object;
+      const { Circle, Text, CoordinateSystem, Rectangle } = newcar.object;
       const { Translation } = newcar.animation;
 
       const animation = new Car(document.getElementById("test-canvas"), 60);
@@ -21,17 +21,16 @@
         y: 100
       })
       
-      const svgImage = new Svg({
-        content: 
-        `
-        <circle cx="100" cy="50" r="40" stroke="black" stroke-width="2" fill="red" />
-        `,
+      const x = new Rectangle({
         x: 100,
-        y: 10
+        y: 100,
+        width: 100,
+        length: 100,
+        borderWidth: 10
       })
 
       animation.addObject(system);
-      animation.addObject(svgImage);
+      animation.addObject(x);
 
       animation.startPlay();
     </script>

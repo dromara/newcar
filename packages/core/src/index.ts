@@ -65,7 +65,7 @@ export class Core implements IRenderable, IRendererController {
   /**
    * Start draw every frame.
    */
-  startFrame() {
+  beginCountFrame() {
     // this.#frameImmediately = 0;
     if (this.#ctx === null) {
       return;

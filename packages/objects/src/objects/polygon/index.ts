@@ -30,6 +30,7 @@ export class Polygon extends Carobj {
     ctx.strokeStyle = `${this.borderColor}`;
     if (this.fillColor !== null) {
       ctx.fillStyle = `${this.fillColor}`;
+      ctx.fill();
     }
     ctx.moveTo(this.points[0].x, this.points[0].y);
     ctx.beginPath();

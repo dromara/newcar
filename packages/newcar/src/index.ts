@@ -51,7 +51,7 @@ export class Car {
   startPlay() {
     this.#animationBuilder.playOnCar(this.#core);
     this.#soundBuilder.playOnCar(this.#core);
-    this.#core.startFrame();
+    this.#core.beginCountFrame();
   }
 
   onUpdate(command: (agr0: number) => void) {

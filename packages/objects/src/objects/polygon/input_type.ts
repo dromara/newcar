@@ -1,6 +1,6 @@
-import type { Point } from "src/point";
+import type { Point } from "../point";
 
-export interface polygonobject {
+export type polygonobject = {
   points: Point[];
   borderColor?: string;
   fillColor?: string;

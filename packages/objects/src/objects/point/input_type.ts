@@ -1,4 +1,4 @@
-export interface pointobject {
+export type pointobject = {
   x: number;
   y: number;
 }
