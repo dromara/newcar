@@ -1,5 +1,12 @@
 # newcar
-<img src="logo.png" referrerpolicy="no-referrer" alt="logo"> <center><img src="https://img.shields.io/github/stars/Bug-Duck/newcar?color=yellowgreen&amp;logo=github&amp;style=flat-square" referrerpolicy="no-referrer" alt="stars">  <img src="https://img.shields.io/github/forks/Bug-Duck/newcar?logo=github&amp;style=flat-square" referrerpolicy="no-referrer" alt="forks">  <img src="https://img.shields.io/github/license/Bug-Duck/newcar?color=skyblue&amp;logo=github&amp;style=flat-square" referrerpolicy="no-referrer" alt="license">  <img src="https://shields.io/badge/Community-Starpoints-orange?style=flat-square" referrerpolicy="no-referrer" alt="community">  <a href='https://twitter.com/bugduckteam'><img src="https://shields.io/badge/team-BugDuck_Team-blue?logo=twitter&amp;style=flat-square" referrerpolicy="no-referrer" alt="team"></a>  <a href='https://t.me/newcarjs'><img src="https://shields.io/badge/telegram-newcarjs-skyblue?logo=telegram&amp;style=flat-square" referrerpolicy="no-referrer" alt="team"></a>  &nbsp;
+<img src="logo.png" referrerpolicy="no-referrer" alt="logo"><center>
+
+![stars](https://img.shields.io/github/stars/Bug-Duck/newcar?color=yellowgreen&logo=github&style=flat-square)
+![forks](https://img.shields.io/github/forks/Bug-Duck/newcar?logo=github&style=flat-square)
+![license](https://img.shields.io/github/license/Bug-Duck/newcar?color=skyblue&logo=github&style=flat-square)
+![community](https://shields.io/badge/Community-Starpoints-orange?style=flat-square)
+[![twitter](https://shields.io/badge/team-BugDuck_Team-blue?logo=twitter&style=flat-square)](https://twitter.com/bugduckteam)
+[![telegram](https://shields.io/badge/telegram-newcarjs-skyblue?logo=telegram&style=flat-square)](https://t.me/newcarjs)
 
 </center>
 
