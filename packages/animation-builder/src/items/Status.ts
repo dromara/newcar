@@ -5,7 +5,7 @@ import type { ISpiritStatus } from "@newcar/objects/src/objects/spirit/interface
 import type { AnimationBuilder } from "..";
 import { AnimationBuilderItem } from "../item";
 
-export class ChangingStatus extends AnimationBuilderItem {
+export class Status extends AnimationBuilderItem {
   #datas: {
     obj: ISpiritStatus;
     length: number;
