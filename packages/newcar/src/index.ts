@@ -4,6 +4,7 @@ import { Core } from "@newcar/core/src/index";
 import type { Carobj } from "@newcar/objects/src/objects/carobj";
 import { SoundBuilder } from "@newcar/sound-builder/src/index";
 import type { AudioItem } from "@newcar/sound-builder/src/item";
+import { exportAnimationToVideo } from "@newcar/export/src/index"
 
 export class Car {
   #animationBuilder: AnimationBuilder = new AnimationBuilder();
@@ -52,6 +53,10 @@ export class Car {
     this.#animationBuilder.playOnCar(this.#core);
     this.#soundBuilder.playOnCar(this.#core);
     this.#core.beginCountFrame();
+  }
+
+  exports(startAt: number, lastAt: number, onFinish: (arg0: string) => void) {
+    exportAnimationToVideo(this.#core, startAt, lastAt, onFinish);
   }
 
   onUpdate(command: (agr0: number) => void) {

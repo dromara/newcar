@@ -16,6 +16,13 @@
 
       const animation = new Car(document.getElementById("test-canvas"), 60);
 
+      const text = new Text({
+        text: "Hello world!",
+        x: 100,
+        y: 100,
+        color: "white"
+      })
+
       const system = new CoordinateSystem({
         x: 100,
         y: 100
@@ -30,8 +37,13 @@
 
       animation.addObject(system);
       animation.addObject(x);
+      animation.addObject(text)
 
       animation.startPlay();
+
+      animation.exports(1, 100, (url) => {
+        console.log(url);
+      })
     </script>
   </body>
 </html>

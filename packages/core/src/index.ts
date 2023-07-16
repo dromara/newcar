@@ -100,4 +100,12 @@ export class Core implements IRenderable, IRendererController {
   get fps() {
     return this.#fps;
   }
+
+  get framePerSecond() {
+    return this.#fps
+  }
+
+  get element() {
+    return this.#ele;
+  }
 }
