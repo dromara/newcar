@@ -15,4 +15,5 @@ export type carobject = {
   die?: number;
   rotationCenterX?: number;
   rotationCenterY?: number;
+  globalAlpha?: number
 }

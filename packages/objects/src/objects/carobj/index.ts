@@ -12,6 +12,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #contextY;
   #children: Carobj[] = [];
   #operation: GlobalCompositeOperation = "source-over";
+  #globalAlpha: number;
 
   constructor(datas: carobject) {
     this.x = datas.x;
@@ -28,6 +29,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
     typeof datas.rotation !== "undefined" && (this.#rotation = datas.rotation!);
     typeof datas.operation !== "undefined" && (this.#operation = datas.operation!);
     typeof datas.children !== "undefined" && (this.#children = datas.children!);
+    this.#globalAlpha = datas.globalAlpha ?? 1;
   }
 
   /**
@@ -50,6 +52,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
       // ctx.translate(this.#x, this.#y);
       ctx.rotate(this.#rotation);
       ctx.scale(this.#scaleX, this.#scaleY);
+      ctx.globalAlpha = this.#globalAlpha;
       ctx.globalCompositeOperation = this.#operation;
       this.onDraw(ctx);
       for (const child of this.#children) {

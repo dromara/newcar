@@ -7,6 +7,7 @@ import { Rotation } from "./Rotation";
 import { Scale } from "./Scale";
 import { Translation } from "./Translation";
 import { AxisLength } from "./AxisLength";
+import { TextInputing } from "./TextInputing";
 
 export const animation = {
   Translation,
@@ -17,5 +18,6 @@ export const animation = {
   AngleCircle,
   MutateContent,
   AnimationBuilderItem,
-  AxisLength
+  AxisLength,
+  TextInputing,
 };
