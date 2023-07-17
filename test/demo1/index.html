@@ -102,12 +102,7 @@
       animation.addObject(root1).addObject(root2);
 
       // Sound
-      const backgroundMusic = new AudioItem("./public/11582.mp3", 200);
-      animation.addAudioItem(backgroundMusic);
-      document.getElementById("btn").onclick = () => {
-        animation.allowAudio();
-      };
-
+      
       animation
         .addAnimationItem(new MutateContent({ startAt: 20, mutateContentTo: "NE", bindTo: text1 }))
         .addAnimationItem(new MutateContent({ startAt: 40, mutateContentTo: "NEW", bindTo: text1 }))
@@ -201,32 +196,7 @@
             by: easeOutQuart,
           }),
         )
-        .addAnimationItem(
-          new SingleFrameAction({
-            at: 560,
-            run: () => {
-              text3.appear();
-            },
-          }),
-        )
-        .addAnimationItem(
-          new SingleFrameAction({
-            at: 640,
-            run: () => {
-              text3plus.appear();
-            },
-          }),
-        )
-        .addAnimationItem(
-          new SingleFrameAction({
-            at: 700,
-            run: () => {
-              text3.hide();
-              text3plus.hide();
-            },
-          }),
-        );
-
+        
       animation.startPlay();
     </script>
   </body>

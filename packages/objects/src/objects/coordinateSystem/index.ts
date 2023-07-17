@@ -8,6 +8,7 @@ export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengtho
   #axisYLength: number;
   #axisXDirection: "left" | "right";
   #axisYDirection: "top" | "bottom";
+  #color: string;
 
   constructor(datas: coordinate_systemobject & carobject) {
     super(datas);
@@ -15,6 +16,7 @@ export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengtho
     this.#axisYLength = datas.axisYLength ?? 100;
     this.#axisXDirection = datas.axisXDirection ?? "right";
     this.#axisYDirection = datas.axisYDirection ?? "top"
+    this.#color = datas.color ?? "white"
   }
 
   get axisXDirection(): "left" | "right" {
@@ -56,6 +58,7 @@ export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengtho
     if (this.#axisYDirection === "top") {
       ctx.scale(1, -1);
     }
+    ctx.strokeStyle = `${this.#color}`;
     // draw axis X
     ctx.moveTo(-this.#axisXLength, 0);
     ctx.lineTo(this.#axisXLength, 0);

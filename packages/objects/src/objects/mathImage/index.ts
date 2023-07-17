@@ -7,7 +7,7 @@ export class MathImage extends Carobj implements IMathImageLimit {
   #imageFunction: (arg0: number) => number;
   #startVariable: number;
   #endVariable: number;
-  #color = "black";
+  #color = "white";
 
   constructor(datas: mathimageobject & carobject) {
     super(datas);

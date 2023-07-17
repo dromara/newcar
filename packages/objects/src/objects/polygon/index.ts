@@ -6,7 +6,7 @@ import type { polygonobject } from "./input_type";
 export class Polygon extends Carobj {
   points: Point[] = [];
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  borderColor: string = "black";
+  borderColor: string = "white";
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   borderWidth: number = 1;
   fillColor: string | null = null;

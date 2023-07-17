@@ -7,7 +7,7 @@ export class Line extends Carobj {
   #startPoint: Point;
   #endPoint: Point;
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  color: string = "black";
+  color: string = "white";
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   width: number = 1;
 

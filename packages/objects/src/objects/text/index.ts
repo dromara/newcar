@@ -15,7 +15,7 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
     super(datas);
     this.#text = datas.text;
     typeof datas.size === "undefined" ? (this.#size = 10) : (this.#size = datas.size);
-    typeof datas.color === "undefined" ? (this.#color = "black") : (this.#color = datas.color);
+    typeof datas.color === "undefined" ? (this.#color = "white") : (this.#color = datas.color);
     if (typeof datas.fontFamily !== "undefined") {
       this.fontFamily = datas.fontFamily;
     }

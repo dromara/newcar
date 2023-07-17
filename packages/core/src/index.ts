@@ -20,6 +20,7 @@ export class Core implements IRenderable, IRendererController {
    */
   constructor(ele: HTMLCanvasElement, fps: number) {
     this.#ele = ele;
+    this.#ele.style.backgroundColor = "black";
     if (this.#ele.getContext) {
       this.#fps = fps;
       this.#ctx = this.#ele.getContext("2d");

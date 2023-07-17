@@ -3,4 +3,5 @@ export type coordinate_systemobject = {
   axisYLength: number,
   axisXDirection: "left" | "right";
   axisYDirection: "top" | "bottom";
+  color: string;
 }
