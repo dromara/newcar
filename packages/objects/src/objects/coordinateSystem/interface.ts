@@ -1,11 +1,15 @@
 export interface ILengthofAxisX {
-  get AxisXLength(): number;
-  set AxisXLength(value: number);
+  get axisPositiveXLength(): number;
+  set axisPositiveXLength(value: number);
+  get axisNegativeXLength(): number;
+  set axisNegativeXLength(value: number);
 }
 
 export interface ILengthofAxisY {
-  get AxisYLength(): number;
-  set AxisYLength(value: number);
+  get  axisPositiveYLength(): number;
+  set  axisPositiveYLength(value: number);
+  get  axisNegativeYLength(): number;
+  set  axisNegativeYLength(value: number);
 }
 
 export interface ISystemDirection {

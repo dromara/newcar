@@ -4,19 +4,38 @@ import type { coordinate_systemobject } from "./input_type";
 import { ILengthofAxisX, ILengthofAxisY, ISystemDirection } from "./interface"
 
 export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengthofAxisY, ISystemDirection{
-  #axisXLength: number;
-  #axisYLength: number;
+  #axisPositiveXLength: number;
+  #axisPositiveYLength: number;
   #axisXDirection: "left" | "right";
   #axisYDirection: "top" | "bottom";
   #color: string;
+  #axisNegativeXLength: number;
+  #axisNegativeYLength: number;
 
-  constructor(datas: coordinate_systemobject & carobject) {
+  constructor(axisPositiveXLength: number, axisPositiveYLength: number, axisNegativeXLength: number, axisNegativeYLength: number, datas: coordinate_systemobject & carobject) {
     super(datas);
-    this.#axisXLength = datas.axisXLength ?? 100;
-    this.#axisYLength = datas.axisYLength ?? 100;
+    this.#axisPositiveXLength = axisPositiveXLength;
+    this.#axisPositiveYLength = axisPositiveYLength;
+    this.#axisNegativeXLength = axisNegativeXLength;
+    this.#axisNegativeYLength = axisNegativeYLength;
     this.#axisXDirection = datas.axisXDirection ?? "right";
     this.#axisYDirection = datas.axisYDirection ?? "top"
     this.#color = datas.color ?? "white"
+  }
+  get axisNegativeXLength(): number {
+    return this.#axisNegativeXLength;
+  }
+
+  set axisNegativeXLength(value: number) {
+    this.#axisNegativeXLength = value;
+  }
+
+  get axisNegativeYLength(): number {
+    return this.#axisNegativeYLength;
+  }
+
+  set axisNegativeYLength(value: number) {
+    this.#axisNegativeYLength = value;
   }
 
   get axisXDirection(): "left" | "right" {
@@ -35,20 +54,20 @@ export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengtho
     this.#axisYDirection = value;
   }
 
-  get AxisYLength(): number {
-    return this.#axisYLength;
+  get axisPositiveYLength(): number {
+    return this.#axisPositiveYLength;
   }
 
-  set AxisYLength(value: number) {
-    this.#axisYLength = value;
+  set axisPositiveYLength(value: number) {
+    this.#axisPositiveYLength = value;
   }
 
-  get AxisXLength(): number {
-    return this.#axisXLength;
+  get axisPositiveXLength(): number {
+    return this.#axisPositiveXLength;
   }
 
-  set AxisXLength(value: number) {
-    this.#axisXLength = value;
+  set axisPositiveXLength(value: number) {
+    this.#axisPositiveXLength = value;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
@@ -60,19 +79,19 @@ export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengtho
     }
     ctx.strokeStyle = `${this.#color}`;
     // draw axis X
-    ctx.moveTo(-this.#axisXLength, 0);
-    ctx.lineTo(this.#axisXLength, 0);
-    ctx.moveTo(this.#axisXLength, 0);
-    ctx.lineTo(this.#axisXLength - 6, 6);
-    ctx.moveTo(this.#axisXLength, 0);
-    ctx.lineTo(this.#axisXLength - 6, -6);
+    ctx.moveTo(-this.#axisNegativeXLength, 0);
+    ctx.lineTo(this.#axisPositiveXLength, 0);
+    ctx.moveTo(this.#axisPositiveXLength, 0);
+    ctx.lineTo(this.#axisPositiveXLength - 6, 6);
+    ctx.moveTo(this.#axisPositiveXLength, 0);
+    ctx.lineTo(this.#axisPositiveXLength - 6, -6);
     // draw axis Y
-    ctx.moveTo(0, -this.#axisYLength);
-    ctx.lineTo(0, this.#axisYLength);
-    ctx.moveTo(0, this.#axisYLength);
-    ctx.lineTo(6, this.#axisYLength - 6);
-    ctx.moveTo(0, this.#axisYLength);
-    ctx.lineTo(-6, this.#axisYLength - 6);
+    ctx.moveTo(0, -this.#axisNegativeYLength);
+    ctx.lineTo(0, this.#axisPositiveYLength);
+    ctx.moveTo(0, this.#axisPositiveYLength);
+    ctx.lineTo(6, this.#axisPositiveYLength - 6);
+    ctx.moveTo(0, this.#axisPositiveYLength);
+    ctx.lineTo(-6, this.#axisPositiveYLength - 6);
     ctx.stroke();
     return ctx;
   }

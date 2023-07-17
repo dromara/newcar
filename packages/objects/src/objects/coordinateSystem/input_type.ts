@@ -1,6 +1,8 @@
 export type coordinate_systemobject = {
-  axisXLength: number,
-  axisYLength: number,
+  axisPositiveXLength: number,
+  axisPositiveYLength: number,
+  axisNegativeXLength: number,
+  axisNegativeYLength: number,
   axisXDirection: "left" | "right";
   axisYDirection: "top" | "bottom";
   color: string;

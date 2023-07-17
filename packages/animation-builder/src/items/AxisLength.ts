@@ -33,7 +33,7 @@ export class AxisLength extends AnimationBuilderItem {
       throw new Error(`be unset data "${flag}"`);
     }
     this.#obj = datas.bindTo; 
-    this.#from = datas.from ?? [this.#obj.AxisXLength, this.#obj.AxisYLength];
+    this.#from = datas.from ?? [this.#obj.axisPositiveXLength, this.#obj.axisPositiveYLength, this.#obj.axisNegativeXLength, this.#obj.axisNegativeYLength];
     this.#to = datas.to;
     this.#length = datas.lastsFor;
     this.#start = datas.startAt;
@@ -52,10 +52,16 @@ export class AxisLength extends AnimationBuilderItem {
 
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
-    this.#obj.AxisXLength = this.#interpolatorstart.interpolate(
+    this.#obj.axisPositiveXLength = this.#interpolatorstart.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
-    this.#obj.AxisYLength = this.#interpolatorend.interpolate(
+    this.#obj.axisPositiveYLength = this.#interpolatorend.interpolate(
+      (relativeFrameCount + 1) / this.#length,
+    );
+    this.#obj.axisNegativeXLength = this.#interpolatorstart.interpolate(
+      (relativeFrameCount + 1) / this.#length,
+    );
+    this.#obj.axisNegativeYLength = this.#interpolatorend.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
   }
