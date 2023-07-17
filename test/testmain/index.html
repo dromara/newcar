@@ -14,7 +14,7 @@
     <script>
       const { Car } = newcar;
       const { Circle, Text, CoordinateSystem, Rectangle } = newcar.object;
-      const { Translation, TextInputing } = newcar.animation;
+      const { Translation } = newcar.animation;
 
       const animation = new Car(document.getElementById("test-canvas"), 60);
 
@@ -42,14 +42,6 @@
       animation.addObject(text)
 
       animation.startPlay();
-
-      animation
-        .addAnimationItem(new TextInputing({
-          startAt: 1,
-          lastsFor: 100,
-          to: "Hello world",
-          bindTo: text
-        }))
 
       animation.exports(1, 100, (url) => {
         const element = document.getElementById("video");

@@ -1,3 +1,4 @@
+// TODO: The animationItem of inputing text.
 import type { ITextEditable } from "@newcar/objects/src/objects/text/interface";
 import type { AnimationBuilder } from "..";
 import { AnimationBuilderItem } from "../item";

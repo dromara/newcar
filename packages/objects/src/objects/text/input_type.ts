@@ -7,4 +7,5 @@ export type textobject = {
   fontFamily?: string;
   align?: CanvasTextAlign;
   baseline?: CanvasTextBaseline;
+  hollow?: Boolean;
 }

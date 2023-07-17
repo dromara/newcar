@@ -11,6 +11,7 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
   #fontFamily = "sans-serif";
   #align: CanvasTextAlign = "start";
   #baseline: CanvasTextBaseline = "middle";
+  #hollow: Boolean;
   constructor(datas: textobject & carobject) {
     super(datas);
     this.#text = datas.text;
@@ -25,6 +26,7 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
     if (typeof datas.baseline !== "undefined") {
       this.#baseline = datas.baseline;
     }
+    this.#hollow = datas.hollow ?? false
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
@@ -34,8 +36,13 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
     // console.log(`${this.#size}px ${this.#fontFamily}`);
     ctx.textAlign = this.#align;
     ctx.textBaseline = this.#baseline;
-    ctx.fillStyle = this.#color;
-    ctx.fillText(this.#text, 0, 0);
+    if (!this.#hollow) {
+      ctx.fillStyle = this.#color;
+      ctx.fillText(this.#text, 0, 0);
+    } else if (this.#hollow) {
+      ctx.strokeStyle = this.#color;
+      ctx.strokeText(this.#text, 0, 0)
+    }
 
     return ctx;
   }

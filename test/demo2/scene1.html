@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../../packages/newcar/dist/newcar.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="scene1" width="800" height="450" style="border: 1px solid black"></canvas>
+    <br />
+    <a id="video">Waiting...</a>
+    <script>
+      const { Text, Spirit, Carobj } = newcar.object;
+      const { Translation } = newcar.animation;
+      const { Car } = newcar;
+      const { easeOutQuart } = newcar.interpolator;
+
+      const text = new Text({
+        text: "Welcome To This Video!",
+        align: "center",
+        x: 400,
+        y: 50,
+        size: 30,
+      });
+
+      const logo = new Spirit({
+        x: 50,
+        y: 150,
+        scaleX: 0.2,
+        scaleY: 0.2,
+      });
+
+      const root = new Carobj({
+        x: 0,
+        y: 0,
+        children: [text, logo],
+      });
+
+      const logo_image = document.createElement("img");
+      logo_image.src = "./static/logo.png";
+      logo.addStatus(logo_image);
+
+      const animation = new Car(document.getElementById("scene1"), 60);
+
+      animation.addObject(root);
+
+      animation
+        .addAnimationItem(
+          new Translation({
+            startAt: 20,
+            lastsFor: 50,
+            to: [200, 150],
+            bindTo: logo,
+            by: easeOutQuart,
+          })
+        )
+        .addAnimationItem(
+          new Translation({
+            startAt: 900,
+            lastsFor: 30,
+            to: [-520, 150],
+            bindTo: root,
+            by: easeOutQuart,
+          })
+        );
+
+      animation.onUpdate((currentFrame) => {
+        if (currentFrame === 60) {
+          text.text = "经过了快一年的构思与开发";
+        }
+        currentFrame === 180
+          ? (text.text = "我们终于开发出一款名叫newcar现代化的动画引擎")
+          : undefined;
+        currentFrame === 300
+          ? (text.text = "你所看到的视频正是使用这款动画引擎做出来的")
+          : undefined;
+        currentFrame === 420 ? (text.text = "他到底能不能做出酷炫的动画效果呢？") : undefined;
+        currentFrame === 540 ? (text.text = "接下来请让我给大家看看他的功能") : undefined;
+        currentFrame === 660
+          ? (text.text = "BTW, 因为框架发展还在中期，所以功能咱是不是很全")
+          : undefined;
+        currentFrame === 780 ? (text.text = "多谢大家的支持♥") : undefined;
+      });
+
+      animation.startPlay();
+
+      animation.exports(0, 940, (url) => {
+        const element = document.getElementById("video");
+        element.innerHTML = "Click here to jump to video file";
+        element.href = url;
+        console.log(url);
+      });
+    </script>
+  </body>
+</html>
