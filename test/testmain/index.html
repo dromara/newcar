@@ -9,6 +9,8 @@
   </head>
   <body>
     <canvas id="test-canvas" width="800" height="450" style="border: 1px solid black"></canvas>
+    <br />
+    <a id="video">Waiting...</a>
     <script>
       const { Car } = newcar;
       const { Circle, Text, CoordinateSystem, Rectangle } = newcar.object;
@@ -42,7 +44,9 @@
       animation.startPlay();
 
       animation.exports(1, 100, (url) => {
-        console.log(url);
+        const element = document.getElementById("video");
+        element.innerHTML = "Click here to jump to video file";
+        element.href = url;
       })
     </script>
   </body>
