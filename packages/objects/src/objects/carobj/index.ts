@@ -1,7 +1,7 @@
 import type { carobject } from "./input_type";
-import type { IPositionedMut, IRotatedMut, IScaledMut } from "./interface";
+import type { IPositionedMut, IRotatedMut, IScaledMut, ITransparencyMut } from "./interface";
 
-export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
+export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITransparencyMut {
   display = true; // The Object is or isnot display.
   #x = 0;
   #y = 0;
@@ -12,7 +12,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
   #contextY;
   #children: Carobj[] = [];
   #operation: GlobalCompositeOperation = "source-over";
-  #globalAlpha: number;
+  #transparency: number;
 
   constructor(datas: carobject) {
     this.x = datas.x;
@@ -29,7 +29,15 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
     typeof datas.rotation !== "undefined" && (this.#rotation = datas.rotation!);
     typeof datas.operation !== "undefined" && (this.#operation = datas.operation!);
     typeof datas.children !== "undefined" && (this.#children = datas.children!);
-    this.#globalAlpha = datas.globalAlpha ?? 1;
+    this.#transparency = datas.transparency ?? 1;
+  }
+
+  get transparency() {
+    return this.#transparency;
+  }
+
+  set transparency(value: number) {
+    this.#transparency = value;
   }
 
   /**
@@ -52,7 +60,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut {
       // ctx.translate(this.#x, this.#y);
       ctx.rotate(this.#rotation);
       ctx.scale(this.#scaleX, this.#scaleY);
-      ctx.globalAlpha = this.#globalAlpha;
+      ctx.globalAlpha = this.#transparency;
       ctx.globalCompositeOperation = this.#operation;
       this.onDraw(ctx);
       for (const child of this.#children) {

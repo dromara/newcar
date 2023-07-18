@@ -7,6 +7,7 @@ import { Rotation } from "./Rotation";
 import { Scale } from "./Scale";
 import { Translation } from "./Translation";
 import { AxisLength } from "./AxisLength";
+import { RectSize } from "./RectSize";
 
 export const animation = {
   Translation,
@@ -18,4 +19,5 @@ export const animation = {
   MutateContent,
   AnimationBuilderItem,
   AxisLength,
+  RectSize,
 };

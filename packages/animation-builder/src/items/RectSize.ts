@@ -1,14 +1,14 @@
-import type { ILengthofAxisX, ILengthofAxisY } from "@newcar/objects/src/objects/coordinateSystem/interface";
+import type { IRectSize } from "@newcar/objects/src/objects/rectangle/interface";
 import type { AnimationBuilder } from "..";
 import { Interpolator } from "../interpolation/Interpolator";
 import { LinearInterpolator } from "../interpolation/LinearInterpolator";
 import { AnimationBuilderItem } from "../item";
 
-export class AxisLength extends AnimationBuilderItem {
+export class RectSize extends AnimationBuilderItem {
 
-  #obj: ILengthofAxisX & ILengthofAxisY;
-  #interpolatorstart: Interpolator;
-  #interpolatorend: Interpolator;
+  #obj: IRectSize;
+  #interpolatorwidth: Interpolator;
+  #interpolatorlength: Interpolator;
   #length: number;
   #start: number;
   #from: number[];
@@ -17,9 +17,9 @@ export class AxisLength extends AnimationBuilderItem {
   constructor(datas: {
     startAt?: number;
     lastsFor?: number;
-    from?: [number, number, number, number];
-    to?: [number, number, number, number];
-    bindTo?: ILengthofAxisX & ILengthofAxisY;
+    from?: [number, number];
+    to?: [number, number];
+    bindTo?: IRectSize;
     by?: (x: number) => number;
   }) {
     super();
@@ -33,17 +33,17 @@ export class AxisLength extends AnimationBuilderItem {
       throw new Error(`be unset data "${flag}"`);
     }
     this.#obj = datas.bindTo; 
-    this.#from = datas.from ?? [this.#obj.axisPositiveXLength, this.#obj.axisPositiveYLength, this.#obj.axisNegativeXLength, this.#obj.axisNegativeYLength];
+    this.#from = datas.from ?? [this.#obj.width, this.#obj.length];
     this.#to = datas.to;
     this.#length = datas.lastsFor;
     this.#start = datas.startAt;
 
-    this.#interpolatorstart = new Interpolator(
+    this.#interpolatorwidth = new Interpolator(
       this.#from[0],
       this.#to[0],
       datas.by ?? LinearInterpolator
     );
-    this.#interpolatorend = new Interpolator(
+    this.#interpolatorlength = new Interpolator(
       datas.from![1], 
       datas.to[1], 
       datas.by ?? LinearInterpolator
@@ -52,16 +52,10 @@ export class AxisLength extends AnimationBuilderItem {
 
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
-    this.#obj.axisPositiveXLength = this.#interpolatorstart.interpolate(
+    this.#obj.width = this.#interpolatorwidth.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
-    this.#obj.axisPositiveYLength = this.#interpolatorend.interpolate(
-      (relativeFrameCount + 1) / this.#length,
-    );
-    this.#obj.axisNegativeXLength = this.#interpolatorstart.interpolate(
-      (relativeFrameCount + 1) / this.#length,
-    );
-    this.#obj.axisNegativeYLength = this.#interpolatorend.interpolate(
+    this.#obj.length = this.#interpolatorlength.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
   }

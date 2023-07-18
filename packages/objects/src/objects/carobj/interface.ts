@@ -32,6 +32,14 @@ export interface IPositionedMut extends IPositioned {
   set y(value: number);
 }
 
+export interface ITransparency {
+  get transparency(): number;
+}
+
+export interface ITransparencyMut extends ITransparency {
+  set transparency(value: number);
+}
+
 /**
  * A interface representing a fillable object.
  */
