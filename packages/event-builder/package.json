@@ -1,6 +1,6 @@
 {
   "name": "@newcar/event-builder",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": "",
   "description": "",
   "keywords": [],
@@ -10,6 +10,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@newcar/objects": "workspace:^0.3.1"
+    "@newcar/objects": "workspace:^0.3.2"
   }
 }
