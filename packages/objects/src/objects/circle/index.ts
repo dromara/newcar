@@ -12,9 +12,9 @@ export class Circle extends Carobj implements ICircleAngle {
   borderWidth: number = 1;
   fillColor: string | null = null;
 
-  constructor(datas: circleobject & carobject) {
+  constructor(radius: number, datas: circleobject & carobject) {
     super(datas);
-    this.radius = datas.radius;
+    this.radius = radius;
     this.x = datas.x;
     this.y = datas.y;
     typeof datas.startAngle === "undefined"

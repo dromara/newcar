@@ -1,3 +1,4 @@
+// TODO: The thickness of MathImage
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import type { mathimageobject } from "./input_type";

@@ -3,7 +3,7 @@ export type coordinate_systemobject = {
   axisPositiveYLength: number,
   axisNegativeXLength: number,
   axisNegativeYLength: number,
-  axisXDirection: "left" | "right";
-  axisYDirection: "top" | "bottom";
-  color: string;
+  axisXDirection?: "left" | "right";
+  axisYDirection?: "top" | "bottom";
+  color?: string;
 }

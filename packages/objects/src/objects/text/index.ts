@@ -12,9 +12,9 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
   #align: CanvasTextAlign = "start";
   #baseline: CanvasTextBaseline = "middle";
   #hollow: Boolean;
-  constructor(datas: textobject & carobject) {
+  constructor(text: string, datas: textobject & carobject) {
     super(datas);
-    this.#text = datas.text;
+    this.#text = text;
     typeof datas.size === "undefined" ? (this.#size = 10) : (this.#size = datas.size);
     typeof datas.color === "undefined" ? (this.#color = "white") : (this.#color = datas.color);
     if (typeof datas.fontFamily !== "undefined") {

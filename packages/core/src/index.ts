@@ -49,7 +49,7 @@ export class Core implements IRenderable, IRendererController {
     return this;
   }
 
-  suspend(frame?: number) {
+  pause(frame?: number) {
     if (typeof frame !== "undefined") {
       this.#frameImmediately = frame;
     }
@@ -66,7 +66,7 @@ export class Core implements IRenderable, IRendererController {
   /**
    * Start draw every frame.
    */
-  beginCountFrame() {
+  CountFrame() {
     // this.#frameImmediately = 0;
     if (this.#ctx === null) {
       return;

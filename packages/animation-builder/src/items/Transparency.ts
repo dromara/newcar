@@ -4,7 +4,7 @@ import { Interpolator } from "../interpolation/Interpolator";
 import { LinearInterpolator } from "../interpolation/LinearInterpolator";
 import { AnimationBuilderItem } from "../item";
 
-export class RectSize extends AnimationBuilderItem {
+export class Transparency extends AnimationBuilderItem {
 
   #obj: ITransparencyMut;
   #interpolator: Interpolator;

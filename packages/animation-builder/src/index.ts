@@ -1,3 +1,5 @@
+// TODO: Specification all the AnimationBuilderItems.
+
 import type { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
 import type { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
 

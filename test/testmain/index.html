@@ -13,13 +13,12 @@
     <a id="video">Waiting...</a>
     <script>
       const { Car } = newcar;
-      const { Circle, Text, CoordinateSystem, Rectangle } = newcar.object;
+      const { Circle, Text, CoordinateSystem, Rectangle, Image } = newcar.object;
       const { Translation } = newcar.animation;
 
       const animation = new Car(document.getElementById("test-canvas"), 60);
 
-      const text = new Text({
-        text: "Hello world!",
+      const text = new Text("Hello world!", {
         x: 100,
         y: 100,
         globalAlpha: 0.3
@@ -39,9 +38,9 @@
 
       animation.addObject(system);
       animation.addObject(x);
-      animation.addObject(text)
+      animation.addObject(text);
 
-      animation.startPlay();
+      animation.play();
 
       animation.exports(1, 100, (url) => {
         const element = document.getElementById("video");

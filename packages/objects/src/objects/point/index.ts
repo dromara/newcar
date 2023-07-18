@@ -1,3 +1,4 @@
+// TODO: Drawable point.
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import type { IPositionedMut } from "../carobj/interface";

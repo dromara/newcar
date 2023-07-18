@@ -49,10 +49,10 @@ export class Car {
     this.#soundBuilder.ban();
   }
 
-  startPlay() {
+  play() {
     this.#animationBuilder.playOnCar(this.#core);
     this.#soundBuilder.playOnCar(this.#core);
-    this.#core.beginCountFrame();
+    this.#core.CountFrame();
   }
 
   exports(startAt: number, lastAt: number, onFinish: (arg0: string) => void) {
@@ -63,8 +63,8 @@ export class Car {
     this.#core.onUpdate(command);
   }
 
-  suspend(frame?: number) {
-    this.#core.suspend(frame);
+  pause(frame?: number) {
+    this.#core.pause(frame);
   }
 
   continue(frame?: number) {

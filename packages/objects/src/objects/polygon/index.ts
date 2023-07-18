@@ -1,3 +1,4 @@
+// TODO: Fix the drawing bug.
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import type { Point } from "../point";

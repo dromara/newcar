@@ -12,9 +12,9 @@ export interface IRendererController extends IRenderable {
   /**
    * Start rendering.
    */
-  beginCountFrame(): void;
+  CountFrame(): void;
   continue(frame: number): void;
-  suspend(frame: number): void;
+  pause(frame: number): void;
 
   get fps(): number;
   get framePerSecond(): number;
