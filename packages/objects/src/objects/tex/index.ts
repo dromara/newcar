@@ -11,6 +11,7 @@ export class Tex extends Carobj {
   }
 
   override onDraw(ctx: CanvasRenderingContext2D, element?: HTMLElement | undefined): CanvasRenderingContext2D {
+    super.onDraw(ctx);
     return ctx;
   }
 }

@@ -13,8 +13,8 @@
     <a id="video">Waiting...</a>
     <script>
       const { Car } = newcar;
-      const { Circle, Text, CoordinateSystem, Rectangle, Image, MathImage } = newcar.object;
-      const { Translation, AxisLength, Limit } = newcar.animation;
+      const { CoordinateSystem, MathImage } = newcar.object;
+      const { AxisLength, Limit } = newcar.animation;
       const { easeOutSine } = newcar.interpolator;
 
       const animation = new Car(document.getElementById("test-canvas"), 60);
@@ -59,13 +59,7 @@
             bindTo: func2,
           })
         );
-
-      animation.onUpdate((currentFrame) => {
-        // if (currentFrame === 20) {
-        // system.axisPositiveYLength = 200;
-        // }
-      });
-
+        
       animation.play();
 
       animation.exports(1, 850, (url) => {

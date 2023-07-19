@@ -10,11 +10,11 @@ export class MathImage extends Carobj implements IMathImageLimit {
   #endVariable: number;
   #color = "white";
 
-  constructor(datas: mathimageobject & carobject) {
+  constructor(f: (x: number) => number, start: number, end: number, datas: mathimageobject & carobject) {
     super(datas);
-    this.#imageFunction = datas.f;
-    this.#startVariable = datas.start;
-    this.#endVariable = datas.end;
+    this.#imageFunction = f;
+    this.#startVariable = start;
+    this.#endVariable = end;
     if (datas.color !== undefined) {
       this.#color = datas.color!;
     }
@@ -22,11 +22,10 @@ export class MathImage extends Carobj implements IMathImageLimit {
 
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
-    ctx.fillStyle = this.#color;
+    ctx.strokeStyle = this.#color;
     ctx.beginPath();
     ctx.moveTo(this.#startVariable, this.#imageFunction(this.#startVariable));
-    let variable = this.#startVariable;
-    for (variable; variable <= this.#endVariable; variable += 1) {
+    for (let variable = this.#startVariable; variable <= this.#endVariable; variable++) {
       ctx.lineTo(variable, this.#imageFunction(variable));
     }
     ctx.stroke();

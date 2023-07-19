@@ -12,7 +12,8 @@ export class AxisLength extends AnimationBuilderItem {
   #length: number;
   #start: number;
   #from: number[];
-  #to: number[]
+  #to: number[];
+  #by: (x: number) => number
 
   constructor(datas: {
     startAt?: number;
@@ -33,20 +34,21 @@ export class AxisLength extends AnimationBuilderItem {
       throw new Error(`be unset data "${flag}"`);
     }
     this.#obj = datas.bindTo; 
-    this.#from = datas.from ?? [this.#obj.axisPositiveXLength, this.#obj.axisPositiveYLength, this.#obj.axisNegativeXLength, this.#obj.axisNegativeYLength];
+    this.#from = datas.from || [this.#obj.axisPositiveXLength, this.#obj.axisPositiveYLength, this.#obj.axisNegativeXLength, this.#obj.axisNegativeYLength];
     this.#to = datas.to;
     this.#length = datas.lastsFor;
     this.#start = datas.startAt;
+    this.#by = datas.by ?? LinearInterpolator
 
     this.#interpolatorstart = new Interpolator(
       this.#from[0],
       this.#to[0],
-      datas.by ?? LinearInterpolator
+      this.#by
     );
     this.#interpolatorend = new Interpolator(
-      datas.from![1], 
-      datas.to[1], 
-      datas.by ?? LinearInterpolator
+      this.#from![1], 
+      this.#to[1], 
+      this.#by
     );
   };
 
@@ -58,12 +60,12 @@ export class AxisLength extends AnimationBuilderItem {
     this.#obj.axisPositiveYLength = this.#interpolatorend.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
-    this.#obj.axisNegativeXLength = this.#interpolatorstart.interpolate(
-      (relativeFrameCount + 1) / this.#length,
-    );
-    this.#obj.axisNegativeYLength = this.#interpolatorend.interpolate(
-      (relativeFrameCount + 1) / this.#length,
-    );
+    // this.#obj.axisNegativeXLength = this.#interpolatorstart.interpolate(
+    //   (relativeFrameCount + 1) / this.#length,
+    // );
+    // this.#obj.axisNegativeYLength = this.#interpolatorend.interpolate(
+    //   (relativeFrameCount + 1) / this.#length,
+    // );
   }
 
   get startFrame(): number {

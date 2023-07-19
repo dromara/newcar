@@ -27,6 +27,7 @@ export class Polygon extends Carobj {
   }
 
   override onDraw(ctx: CanvasRenderingContext2D): CanvasRenderingContext2D {
+    super.onDraw(ctx);
     ctx.lineWidth = this.borderWidth;
     ctx.strokeStyle = `${this.borderColor}`;
     if (this.fillColor !== null) {

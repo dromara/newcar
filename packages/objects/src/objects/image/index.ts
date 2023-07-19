@@ -12,6 +12,7 @@ export class Image extends Carobj {
   }
 
   override onDraw(ctx: CanvasRenderingContext2D, element?: HTMLElement | undefined): CanvasRenderingContext2D {
+    super.onDraw(ctx);
     ctx.drawImage(this.#image, this.x ,this.y)
     return ctx;
   }

@@ -71,6 +71,7 @@ export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengtho
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
+    super.onDraw(ctx);
     if (this.#axisXDirection === "left") {
       ctx.scale(-1, 1);
     }

@@ -20,6 +20,7 @@ export class Rectangle extends Carobj implements IRectSize{
   }
 
   override onDraw(ctx: CanvasRenderingContext2D, element?: HTMLElement | undefined): CanvasRenderingContext2D {
+    super.onDraw(ctx);
     ctx.lineWidth = this.borderWidth
     ctx.strokeStyle = `${this.borderColor}`;
     if (this.fillColor !== null) {
