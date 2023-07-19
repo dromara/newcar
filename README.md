@@ -26,10 +26,10 @@ $ npm install newcar # the package of user API
 
 ### Create a animation
 
-Firstly, you need to define a `<canvas>` tag in document, and then you need create a object `Car`.
+Firstly, you need to define a `<canvas>` tag in document, and then create a object `Car`.
 
 ```javascript
-import { newcar } from "./node_modules/newcar/dist/newcar.js";
+import * as newcar from "./node_modules/newcar/dist/newcar.js";
 
 const animation = new newcar.Car(
   document.getElementById("canvas_element_id"), // The DOM of `<canvas>`.
@@ -37,13 +37,13 @@ const animation = new newcar.Car(
 );
 ```
 
-Secondly, you need to add a object on it!
+Secondly, you're supposed to add a object on it!
 
 ```javascript
-const text = new newcar.object.Text({
+const text = new newcar.object.Text("Hello world!", {
   x: 100,
   y: 200,
-  text: "Hello world!",
+  text: ,
 });
 animation.addObject(text);
 ```
