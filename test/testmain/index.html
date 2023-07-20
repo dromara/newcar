@@ -11,9 +11,10 @@
     <canvas id="test-canvas" width="800" height="450" style="border: 1px solid black"></canvas>
     <br />
     <a id="video">Waiting...</a>
+    <div id="i" />
     <script>
       const { Car } = newcar;
-      const { Circle, Text, CoordinateSystem, Rectangle, Image, MathImage } = newcar.object;
+      const { Circle, Text, CoordinateSystem, Rectangle, Image, MathImage, HTMLPlugin } = newcar.object;
       const { Translation, AxisLength, Limit } = newcar.animation;
       const { easeOutSine } = newcar.interpolator;
 
@@ -30,8 +31,12 @@
         y: 300,
         children: [func1, func2],
       });
+      const html = new HTMLPlugin("<strong style='color: white'>Hello world!</strong>", {
+        x: 100,
+        y: 100
+      })
 
-      animation.addObject(system);
+      animation.addObject(system).addObject(html);
 
       animation
         .addAnimationItem(
