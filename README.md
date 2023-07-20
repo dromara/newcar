@@ -29,7 +29,7 @@ $ npm install newcar # the package of user API
 Firstly, you need to define a `<canvas>` tag in document, and then create a object `Car`.
 
 ```javascript
-import newcar from "./node_modules/newcar/dist/newcar.js";
+import * as newcar from "./node_modules/newcar/dist/newcar.mjs";
 
 const animation = new newcar.Car(
   document.getElementById("canvas_element_id"), // The DOM of `<canvas>`.
