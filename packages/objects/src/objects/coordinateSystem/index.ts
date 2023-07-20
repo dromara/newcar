@@ -79,6 +79,7 @@ export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengtho
       ctx.scale(1, -1);
     }
     ctx.strokeStyle = `${this.#color}`;
+    ctx.beginPath();
     // draw axis X
     ctx.moveTo(-this.#axisNegativeXLength, 0);
     ctx.lineTo(this.#axisPositiveXLength, 0);
