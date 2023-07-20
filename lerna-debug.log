@@ -1,0 +1,230 @@
+0 silly argv {
+0 silly argv   _: [ 'version' ],
+0 silly argv   private: false,
+0 silly argv   lernaVersion: '6.1.0',
+0 silly argv   '$0': 'node_modules/lerna/cli.js'
+0 silly argv }
+1 notice cli v6.1.0
+2 verbose rootPath /home/acbox/桌面/projects/newcar
+3 verbose packageConfigs Package manager 'pnpm' detected. Resolving packages using 'pnpm-workspace.yaml'.
+4 info current version 0.3.2
+5 silly isAnythingCommitted
+6 verbose isAnythingCommitted 1
+7 silly getCurrentBranch
+8 verbose currentBranch develop
+9 silly remoteBranchExists
+10 silly isBehindUpstream
+11 silly isBehindUpstream develop is behind origin/develop by 0 commit(s) and ahead by 0
+12 silly hasTags
+13 verbose hasTags true
+14 silly git-describe.sync "v0.0.1-155-gd96faaa" => {"lastTagName":"v0.0.1","lastVersion":"v0.0.1","refCount":"155","sha":"d96faaa","isDirty":false}
+15 info Looking for changed packages since v0.0.1
+16 silly checking diff packages/animation-builder
+17 silly found diff in packages/animation-builder/README.md
+17 silly found diff in packages/animation-builder/package.json
+17 silly found diff in packages/animation-builder/src/index.ts
+17 silly found diff in packages/animation-builder/src/interpolation/Interpolator.ts
+17 silly found diff in packages/animation-builder/src/interpolation/LinearInterpolator.ts
+17 silly found diff in packages/animation-builder/src/interpolation/NonlinearInterpolators.ts
+17 silly found diff in packages/animation-builder/src/interpolation/index.ts
+17 silly found diff in packages/animation-builder/src/item.ts
+17 silly found diff in packages/animation-builder/src/items/AngleCircle.ts
+17 silly found diff in packages/animation-builder/src/items/AxisLength.ts
+17 silly found diff in packages/animation-builder/src/items/Limit.ts
+17 silly found diff in packages/animation-builder/src/items/RectSize.ts
+17 silly found diff in packages/animation-builder/src/items/Rotation.ts
+17 silly found diff in packages/animation-builder/src/items/Scale.ts
+17 silly found diff in packages/animation-builder/src/items/TextInputing.ts
+17 silly found diff in packages/animation-builder/src/items/Translation.ts
+17 silly found diff in packages/animation-builder/src/items/Transparency.ts
+17 silly found diff in packages/animation-builder/src/items/index.ts
+17 silly found diff in packages/animation-builder/tsconfig.json
+18 verbose filtered diff [
+18 verbose filtered diff   'packages/animation-builder/README.md',
+18 verbose filtered diff   'packages/animation-builder/package.json',
+18 verbose filtered diff   'packages/animation-builder/src/index.ts',
+18 verbose filtered diff   'packages/animation-builder/src/interpolation/Interpolator.ts',
+18 verbose filtered diff   'packages/animation-builder/src/interpolation/LinearInterpolator.ts',
+18 verbose filtered diff   'packages/animation-builder/src/interpolation/NonlinearInterpolators.ts',
+18 verbose filtered diff   'packages/animation-builder/src/interpolation/index.ts',
+18 verbose filtered diff   'packages/animation-builder/src/item.ts',
+18 verbose filtered diff   'packages/animation-builder/src/items/AngleCircle.ts',
+18 verbose filtered diff   'packages/animation-builder/src/items/AxisLength.ts',
+18 verbose filtered diff   'packages/animation-builder/src/items/Limit.ts',
+18 verbose filtered diff   'packages/animation-builder/src/items/RectSize.ts',
+18 verbose filtered diff   'packages/animation-builder/src/items/Rotation.ts',
+18 verbose filtered diff   'packages/animation-builder/src/items/Scale.ts',
+18 verbose filtered diff   'packages/animation-builder/src/items/TextInputing.ts',
+18 verbose filtered diff   'packages/animation-builder/src/items/Translation.ts',
+18 verbose filtered diff   'packages/animation-builder/src/items/Transparency.ts',
+18 verbose filtered diff   'packages/animation-builder/src/items/index.ts',
+18 verbose filtered diff   'packages/animation-builder/tsconfig.json'
+18 verbose filtered diff ]
+19 silly checking diff packages/core
+20 silly found diff in packages/core/.npmignore
+20 silly found diff in packages/core/README.md
+20 silly found diff in packages/core/package.json
+20 silly found diff in packages/core/rollup.config.js
+20 silly found diff in packages/core/src/index.ts
+20 silly found diff in packages/core/tsconfig.json
+21 verbose filtered diff [
+21 verbose filtered diff   'packages/core/.npmignore',
+21 verbose filtered diff   'packages/core/README.md',
+21 verbose filtered diff   'packages/core/package.json',
+21 verbose filtered diff   'packages/core/rollup.config.js',
+21 verbose filtered diff   'packages/core/src/index.ts',
+21 verbose filtered diff   'packages/core/tsconfig.json'
+21 verbose filtered diff ]
+22 silly checking diff packages/event-builder
+23 silly found diff in packages/event-builder/package.json
+23 silly found diff in packages/event-builder/src/index.ts
+23 silly found diff in packages/event-builder/src/item.ts
+24 verbose filtered diff [
+24 verbose filtered diff   'packages/event-builder/package.json',
+24 verbose filtered diff   'packages/event-builder/src/index.ts',
+24 verbose filtered diff   'packages/event-builder/src/item.ts'
+24 verbose filtered diff ]
+25 silly checking diff packages/export
+26 silly found diff in packages/export/package.json
+26 silly found diff in packages/export/src/index.ts
+27 verbose filtered diff [ 'packages/export/package.json', 'packages/export/src/index.ts' ]
+28 silly checking diff packages/newcar
+29 silly found diff in packages/newcar/.npmignore
+29 silly found diff in packages/newcar/.npmrc
+29 silly found diff in packages/newcar/package.json
+29 silly found diff in packages/newcar/rollup.config.js
+29 silly found diff in packages/newcar/src/index.ts
+29 silly found diff in packages/newcar/tsconfig.json
+30 verbose filtered diff [
+30 verbose filtered diff   'packages/newcar/.npmignore',
+30 verbose filtered diff   'packages/newcar/.npmrc',
+30 verbose filtered diff   'packages/newcar/package.json',
+30 verbose filtered diff   'packages/newcar/rollup.config.js',
+30 verbose filtered diff   'packages/newcar/src/index.ts',
+30 verbose filtered diff   'packages/newcar/tsconfig.json'
+30 verbose filtered diff ]
+31 silly checking diff packages/objects
+32 silly found diff in packages/objects/.npmignore
+32 silly found diff in packages/objects/README.md
+32 silly found diff in packages/objects/package.json
+32 silly found diff in packages/objects/src/index.ts
+32 silly found diff in packages/objects/src/interfaces/RenderController.ts
+32 silly found diff in packages/objects/src/interfaces/Renderable.ts
+32 silly found diff in packages/objects/src/objects/carobj/index.ts
+32 silly found diff in packages/objects/src/objects/carobj/input_type.ts
+32 silly found diff in packages/objects/src/objects/carobj/interface.ts
+32 silly found diff in packages/objects/src/objects/circle/index.ts
+32 silly found diff in packages/objects/src/objects/circle/input_type.ts
+32 silly found diff in packages/objects/src/objects/circle/interface.ts
+32 silly found diff in packages/objects/src/objects/coordinateSystem/index.ts
+32 silly found diff in packages/objects/src/objects/coordinateSystem/input_type.ts
+32 silly found diff in packages/objects/src/objects/coordinateSystem/interface.ts
+32 silly found diff in packages/objects/src/objects/htmlPlugin/index.ts
+32 silly found diff in packages/objects/src/objects/image/index.ts
+32 silly found diff in packages/objects/src/objects/line/index.ts
+32 silly found diff in packages/objects/src/objects/line/input_type.ts
+32 silly found diff in packages/objects/src/objects/mathImage/index.ts
+32 silly found diff in packages/objects/src/objects/mathImage/input_type.ts
+32 silly found diff in packages/objects/src/objects/mathImage/interface.ts
+32 silly found diff in packages/objects/src/objects/point/index.ts
+32 silly found diff in packages/objects/src/objects/point/input_type.ts
+32 silly found diff in packages/objects/src/objects/polygon/index.ts
+32 silly found diff in packages/objects/src/objects/polygon/input_type.ts
+32 silly found diff in packages/objects/src/objects/rectangle/index.ts
+32 silly found diff in packages/objects/src/objects/rectangle/input_type.ts
+32 silly found diff in packages/objects/src/objects/rectangle/interface.ts
+32 silly found diff in packages/objects/src/objects/tex/index.ts
+32 silly found diff in packages/objects/src/objects/tex/input_type.ts
+32 silly found diff in packages/objects/src/objects/text/index.ts
+32 silly found diff in packages/objects/src/objects/text/input_type.ts
+32 silly found diff in packages/objects/src/objects/text/interface.ts
+32 silly found diff in packages/objects/tsconfig.json
+33 verbose filtered diff [
+33 verbose filtered diff   'packages/objects/.npmignore',
+33 verbose filtered diff   'packages/objects/README.md',
+33 verbose filtered diff   'packages/objects/package.json',
+33 verbose filtered diff   'packages/objects/src/index.ts',
+33 verbose filtered diff   'packages/objects/src/interfaces/RenderController.ts',
+33 verbose filtered diff   'packages/objects/src/interfaces/Renderable.ts',
+33 verbose filtered diff   'packages/objects/src/objects/carobj/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/carobj/input_type.ts',
+33 verbose filtered diff   'packages/objects/src/objects/carobj/interface.ts',
+33 verbose filtered diff   'packages/objects/src/objects/circle/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/circle/input_type.ts',
+33 verbose filtered diff   'packages/objects/src/objects/circle/interface.ts',
+33 verbose filtered diff   'packages/objects/src/objects/coordinateSystem/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/coordinateSystem/input_type.ts',
+33 verbose filtered diff   'packages/objects/src/objects/coordinateSystem/interface.ts',
+33 verbose filtered diff   'packages/objects/src/objects/htmlPlugin/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/image/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/line/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/line/input_type.ts',
+33 verbose filtered diff   'packages/objects/src/objects/mathImage/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/mathImage/input_type.ts',
+33 verbose filtered diff   'packages/objects/src/objects/mathImage/interface.ts',
+33 verbose filtered diff   'packages/objects/src/objects/point/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/point/input_type.ts',
+33 verbose filtered diff   'packages/objects/src/objects/polygon/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/polygon/input_type.ts',
+33 verbose filtered diff   'packages/objects/src/objects/rectangle/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/rectangle/input_type.ts',
+33 verbose filtered diff   'packages/objects/src/objects/rectangle/interface.ts',
+33 verbose filtered diff   'packages/objects/src/objects/tex/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/tex/input_type.ts',
+33 verbose filtered diff   'packages/objects/src/objects/text/index.ts',
+33 verbose filtered diff   'packages/objects/src/objects/text/input_type.ts',
+33 verbose filtered diff   'packages/objects/src/objects/text/interface.ts',
+33 verbose filtered diff   'packages/objects/tsconfig.json'
+33 verbose filtered diff ]
+34 silly checking diff packages/sound-builder
+35 silly found diff in packages/sound-builder/package.json
+35 silly found diff in packages/sound-builder/src/index.ts
+35 silly found diff in packages/sound-builder/src/item.ts
+36 verbose filtered diff [
+36 verbose filtered diff   'packages/sound-builder/package.json',
+36 verbose filtered diff   'packages/sound-builder/src/index.ts',
+36 verbose filtered diff   'packages/sound-builder/src/item.ts'
+36 verbose filtered diff ]
+37 verbose updated @newcar/animation-builder
+38 verbose updated @newcar/core
+39 verbose updated @newcar/event-builder
+40 verbose updated @newcar/export
+41 verbose updated newcar
+42 verbose updated @newcar/objects
+43 verbose updated @newcar/sound-builder
+44 verbose git-describe undefined => "v0.0.1-155-gd96faaa"
+45 silly git-describe parsed => {"lastTagName":"v0.0.1","lastVersion":"v0.0.1","refCount":"155","sha":"d96faaa","isDirty":false}
+46 info execute Skipping releases
+47 silly lifecycle No script for "preversion" in "@newcar/monorepo", continuing
+48 silly lifecycle No script for "preversion" in "@newcar/objects", continuing
+49 verbose version @newcar/objects has no lockfile. Skipping lockfile update.
+50 silly lifecycle No script for "version" in "@newcar/objects", continuing
+51 silly lifecycle No script for "preversion" in "@newcar/animation-builder", continuing
+52 silly lifecycle No script for "preversion" in "@newcar/core", continuing
+53 silly lifecycle No script for "preversion" in "@newcar/event-builder", continuing
+54 silly lifecycle No script for "preversion" in "@newcar/export", continuing
+55 silly lifecycle No script for "preversion" in "@newcar/sound-builder", continuing
+56 verbose version @newcar/animation-builder has no lockfile. Skipping lockfile update.
+57 verbose version @newcar/core has no lockfile. Skipping lockfile update.
+58 verbose version @newcar/event-builder has no lockfile. Skipping lockfile update.
+59 verbose version @newcar/export has no lockfile. Skipping lockfile update.
+60 verbose version @newcar/sound-builder has no lockfile. Skipping lockfile update.
+61 silly lifecycle No script for "version" in "@newcar/event-builder", continuing
+62 silly lifecycle No script for "version" in "@newcar/core", continuing
+63 silly lifecycle No script for "version" in "@newcar/animation-builder", continuing
+64 silly lifecycle No script for "version" in "@newcar/export", continuing
+65 silly lifecycle No script for "version" in "@newcar/sound-builder", continuing
+66 silly lifecycle No script for "preversion" in "newcar", continuing
+67 verbose version newcar has no lockfile. Skipping lockfile update.
+68 silly lifecycle No script for "version" in "newcar", continuing
+69 verbose version Updating root pnpm-lock.yaml
+70 error Error: Command failed with exit code 1: pnpm install --lockfile-only --ignore-scripts
+70 error Scope: all 8 workspace projects
+70 error Recreating /home/acbox/桌面/projects/newcar/node_modules
+70 error  EACCES  EACCES: permission denied, rmdir '/home/acbox/桌面/projects/newcar/packages/export/node_modules/@newcar'
+70 error
+70 error pnpm: EACCES: permission denied, rmdir '/home/acbox/桌面/projects/newcar/packages/export/node_modules/@newcar'
+70 error     at makeError (/home/acbox/桌面/projects/newcar/node_modules/.pnpm/execa@5.1.1/node_modules/execa/lib/error.js:60:11)
+70 error     at handlePromise (/home/acbox/桌面/projects/newcar/node_modules/.pnpm/execa@5.1.1/node_modules/execa/index.js:118:26)
+70 error     at processTicksAndRejections (node:internal/process/task_queues:96:5)
+70 error     at async Promise.all (index 0)

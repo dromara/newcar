@@ -1,10 +1,10 @@
 {
   "name": "@newcar/export",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "author": "BugDuck Team",
   "description": "The function of export newcar animation into vedio",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@newcar/objects": "workspace:^0.3.2"
+    "@newcar/objects": "workspace:^0.3.3"
   }
 }

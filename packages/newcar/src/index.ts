@@ -80,7 +80,7 @@ window.onload = () => {
  / / / /  __/ |/ |/ / /__/ /_/ / /    
 /_/ /_/\\___/|__/|__/\\___/\\__,_/_/
 
-%cThe animation is powered by %c newcar %c v0.3.2  %c
+%cThe animation is powered by %c newcar %c v0.3.3  %c
 
 link: https://github.com/Bug-Duck/newcar
 
