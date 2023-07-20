@@ -7,8 +7,10 @@ import { AnimationBuilderItem } from "../item";
 export class AxisLength extends AnimationBuilderItem {
 
   #obj: ILengthofAxisX & ILengthofAxisY;
-  #interpolatorstart: Interpolator;
-  #interpolatorend: Interpolator;
+  #interpolator_positive_x: Interpolator;
+  #interpolator_positive_y: Interpolator;
+  #interpolator_negative_x: Interpolator;
+  #interpolator_negative_y: Interpolator;
   #length: number;
   #start: number;
   #from: number[];
@@ -40,32 +42,42 @@ export class AxisLength extends AnimationBuilderItem {
     this.#start = datas.startAt;
     this.#by = datas.by ?? LinearInterpolator
 
-    this.#interpolatorstart = new Interpolator(
+    this.#interpolator_positive_x = new Interpolator(
       this.#from[0],
       this.#to[0],
       this.#by
     );
-    this.#interpolatorend = new Interpolator(
+    this.#interpolator_positive_y = new Interpolator(
       this.#from![1], 
       this.#to[1], 
+      this.#by
+    );
+    this.#interpolator_negative_x = new Interpolator(
+      this.#from[2],
+      this.#to[2],
+      this.#by
+    );
+    this.#interpolator_negative_y = new Interpolator(
+      this.#from![3], 
+      this.#to[3], 
       this.#by
     );
   };
 
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
-    this.#obj.axisPositiveXLength = this.#interpolatorstart.interpolate(
+    this.#obj.axisPositiveXLength = this.#interpolator_positive_x.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
-    this.#obj.axisPositiveYLength = this.#interpolatorend.interpolate(
+    this.#obj.axisPositiveYLength = this.#interpolator_positive_y.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
-    // this.#obj.axisNegativeXLength = this.#interpolatorstart.interpolate(
-    //   (relativeFrameCount + 1) / this.#length,
-    // );
-    // this.#obj.axisNegativeYLength = this.#interpolatorend.interpolate(
-    //   (relativeFrameCount + 1) / this.#length,
-    // );
+    this.#obj.axisNegativeXLength = this.#interpolator_negative_x.interpolate(
+      (relativeFrameCount + 1) / this.#length,
+    );
+    this.#obj.axisNegativeYLength = this.#interpolator_negative_y.interpolate(
+      (relativeFrameCount + 1) / this.#length,
+    );
   }
 
   get startFrame(): number {

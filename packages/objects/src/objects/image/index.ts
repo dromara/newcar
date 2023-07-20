@@ -6,8 +6,10 @@ import { carobject } from "../carobj/input_type";
 export class Image extends Carobj {
   #image: CanvasImageSource;
 
-  constructor(image: CanvasImageSource, datas: carobject) {
+  constructor(path: string, datas: carobject) {
     super(datas);
+    const image = document.createElement("img");
+    image.src = path;
     this.#image = image;
   }
 
