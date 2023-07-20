@@ -25,7 +25,7 @@ export default [
     output: {
       format: "esm",
       sourcemap: true,
-      file: "./dist/newcar.mjs",
+      file: "./dist/newcar.js",
     },
     plugins: [typescript(), ...commonPlugins],
     treeshake: true,
@@ -33,23 +33,12 @@ export default [
   {
     input: "./src/index.ts",
     output: {
-      format: "iife",
+      format: "esm",
       sourcemap: true,
-      name: "newcar",
       file: "./dist/newcar.min.js",
     },
     plugins: [typescript(), ...commonPlugins, terser({ ecma: 2015 })],
     treeshake: true,
-  },
-  {
-    input: "./src/index.ts",
-    output: {
-      format: "iife",
-      sourcemap: true,
-      file: "./dist/newcar.js",
-      name: "newcar",
-    },
-    plugins: [typescript({ outputToFilesystem: false, outDir: "./dist/es" }), ...commonPlugins],
   },
   {
     input: "./dist/src/index.d.ts",
