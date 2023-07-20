@@ -43,7 +43,6 @@ Secondly, you're supposed to add a object on it!
 const text = new newcar.object.Text("Hello world!", {
   x: 100,
   y: 200,
-  text: ,
 });
 animation.addObject(text);
 ```
@@ -51,7 +50,7 @@ animation.addObject(text);
 Finally, you just need to play it.
 
 ```javascript
-animation.startPlay();
+animation.play();
 ```
 
 And then, you can see a text object with "Hello world!" on the canvas.
