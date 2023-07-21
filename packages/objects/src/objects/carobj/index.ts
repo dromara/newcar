@@ -8,8 +8,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
   #rotation = 0;
   #scaleX = 1;
   #scaleY = 1;
-  #contextX;
-  #contextY;
   #children: Carobj[] = [];
   #operation: GlobalCompositeOperation = "source-over";
   #transparency: number;
@@ -17,12 +15,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
   constructor(datas: carobject) {
     this.x = datas.x;
     this.y = datas.y;
-    typeof datas.contextX === "undefined"
-      ? (this.#contextX = this.#x)
-      : (this.#contextX = datas.contextX!);
-    typeof datas.contextY === "undefined"
-      ? (this.#contextY = this.#y)
-      : (this.#contextY = datas.contextY!);
     typeof datas.scaleX !== "undefined" && (this.#scaleX = datas.scaleX!);
     typeof datas.scaleY !== "undefined" && (this.#scaleY = datas.scaleY!);
     typeof datas.display !== "undefined" && (this.display = datas.display!);
@@ -84,13 +76,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
     this.display = true;
   }
 
-  setContextPosition(x: number, y: number) {
-    this.#contextX = x;
-    this.#contextY = y;
-
-    return this;
-  }
-
   get children() {
     return this.#children;
   }
@@ -125,14 +110,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
 
   get scaleY(): number {
     return this.#scaleY;
-  }
-
-  get contextX() {
-    return this.#contextX;
-  }
-
-  get contextY() {
-    return this.#contextY;
   }
 
   /**

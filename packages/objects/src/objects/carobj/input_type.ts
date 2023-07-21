@@ -5,8 +5,6 @@ export type carobject = {
   y: number;
   scaleX?: number;
   scaleY?: number;
-  contextX?: number;
-  contextY?: number;
   children?: Carobj[];
   operation?: GlobalCompositeOperation;
   display?: boolean;
