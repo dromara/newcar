@@ -9,9 +9,5 @@ export type carobject = {
   operation?: GlobalCompositeOperation;
   display?: boolean;
   rotation?: number;
-  live?: number;
-  die?: number;
-  rotationCenterX?: number;
-  rotationCenterY?: number;
   transparency?: number
 }
