@@ -1,5 +1,5 @@
 import * as newcar from "../../packages/newcar/dist/newcar.js";
-const { Car } = newcar;
+const { Car, AudioItem } = newcar;
 const { Circle, Text, CoordinateSystem, Rectangle, Image, MathImage, HTMLPlugin } = newcar.object;
 const { Translation, AxisLength, Limit } = newcar.animation;
 const { easeOutSine } = newcar.interpolator;
@@ -56,6 +56,15 @@ animation.onUpdate((currentFrame) => {
   // system.axisPositiveYLength = 200;
   // }
 });
+
+const BGM = new AudioItem(
+  "./11582.mp3",
+  30
+)
+animation.addAudioItem(BGM);
+document.getElementById("button").onclick = () => {
+  animation.allowAudio();
+}
 
 animation.play();
 

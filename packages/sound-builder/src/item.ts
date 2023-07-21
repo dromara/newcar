@@ -5,11 +5,11 @@ export class AudioItem {
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   #volume: number = 1;
 
-  constructor(path: string, startFrame: number, volume: number) {
+  constructor(path: string, startFrame: number, volume?: number) {
     this.#path = path;
     this.#startFrame = startFrame;
     this.#audio = new Audio(this.#path);
-    this.#volume = volume;
+    this.#volume = volume ?? 1;
     this.#audio.volume = this.#volume;
   }
 
