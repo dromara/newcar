@@ -20,14 +20,18 @@ export class HTMLPlugin extends Carobj {
   }
 
   override onDraw(ctx: CanvasRenderingContext2D, element?: HTMLElement | undefined): CanvasRenderingContext2D {
+    ctx.drawImage(this.#img, 0, 0);
+    return ctx;
+  }
+
+  override onSet(): void {
+    // Before the animation running, it needs to load the iamge before. 
+    // otherwise it only on run in Firefox, if it runs in Chrome, Chrome will throw the ERROR: Image NOT FOUND
     const svg = new Blob([this.#svg_content], {
       type: "image/svg+xml;charset=utf-8"
     })
     const url = this.#DOMURL.createObjectURL(svg);
     this.#img.src = url;
-    ctx.drawImage(this.#img, 0, 0);
-    this.#DOMURL.revokeObjectURL(url);
-    return ctx;
   }
 
   get content() {
@@ -43,5 +47,7 @@ export class HTMLPlugin extends Carobj {
                         '</div>' +
                       '</foreignObject>' +
                     '</svg>';
+    // when the content changed, the image need reload.
+    this.onSet();
   }
 }

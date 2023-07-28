@@ -1,6 +1,6 @@
 import { AnimationBuilder } from "@newcar/animation-builder/src/index";
 import type { AnimationBuilderItem } from "@newcar/animation-builder/src/item";
-import { Core } from "@newcar/core/src/index";
+import { Renderer } from "@newcar/core/src/index";
 import type { Carobj } from "@newcar/objects/src/objects/carobj";
 import { SoundBuilder } from "@newcar/sound-builder/src/index";
 import type { AudioItem } from "@newcar/sound-builder/src/item";
@@ -9,16 +9,16 @@ import { exportAnimationToVideo } from "@newcar/export/src/index"
 export class Car {
   #animationBuilder: AnimationBuilder = new AnimationBuilder();
   #soundBuilder: SoundBuilder = new SoundBuilder();
-  #core: Core;
+  #renderer: Renderer;
 
   constructor(ele: HTMLCanvasElement, fps: number) {
-    this.#core = new Core(ele, fps);
+    this.#renderer = new Renderer(ele, fps);
 
     return this;
   }
 
   addObject(obj: Carobj) {
-    this.#core.linkObject(obj);
+    this.#renderer.linkObject(obj);
 
     return this;
   }
@@ -50,25 +50,25 @@ export class Car {
   }
 
   play() {
-    this.#animationBuilder.playOnCar(this.#core);
-    this.#soundBuilder.playOnCar(this.#core);
-    this.#core.CountFrame();
+    this.#animationBuilder.playOnCar(this.#renderer);
+    this.#soundBuilder.playOnCar(this.#renderer);
+    this.#renderer.CountFrame();
   }
 
   exports(startAt: number, lastAt: number, onFinish: (arg0: string) => void) {
-    exportAnimationToVideo(this.#core, startAt, lastAt, onFinish);
+    exportAnimationToVideo(this.#renderer, startAt, lastAt, onFinish);
   }
 
   onUpdate(command: (agr0: number) => void) {
-    this.#core.onUpdate(command);
+    this.#renderer.onUpdate(command);
   }
 
   pause(frame?: number) {
-    this.#core.pause(frame);
+    this.#renderer.pause(frame);
   }
 
   continue(frame?: number) {
-    this.#core.continue(frame);
+    this.#renderer.continue(frame);
   }
 }
 

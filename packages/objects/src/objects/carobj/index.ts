@@ -32,6 +32,8 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
     this.#transparency = value;
   }
 
+  onSet() {}
+
   /**
    * Get called on each frame.
    * @param ctx The context instance of the canvas object.

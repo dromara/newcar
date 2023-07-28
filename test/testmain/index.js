@@ -1,6 +1,6 @@
 import * as newcar from "../../packages/newcar/dist/newcar.js";
 const { Car, AudioItem } = newcar;
-const { Circle, Text, CoordinateSystem, Rectangle, Image, MathImage, HTMLPlugin } = newcar.object;
+const { Circle, Text, CoordinateSystem, Rectangle, Image, MathImage, HTMLPlugin, Point } = newcar.object;
 const { Translation, AxisLength, Limit } = newcar.animation;
 const { easeOutSine } = newcar.interpolator;
 
@@ -21,8 +21,12 @@ const html = new HTMLPlugin("<strong style='color: white'>Hello world!</strong>"
   x: 100,
   y: 100,
 });
+const pointA = new Point({
+  x: 100,
+  y: 100,
+})
 
-animation.addObject(system).addObject(html);
+animation.addObject(system).addObject(html).addObject(pointA);
 
 animation
   .addAnimationItem(
@@ -52,9 +56,9 @@ animation
   );
 
 animation.onUpdate((currentFrame) => {
-  // if (currentFrame === 20) {
-  // system.axisPositiveYLength = 200;
-  // }
+  if (currentFrame === 20) {
+    html.content = "<h1 style='color: white'>Hello</h1>"
+  }
 });
 
 const BGM = new AudioItem(
@@ -68,8 +72,8 @@ document.getElementById("button").onclick = () => {
 
 animation.play();
 
-animation.exports(1, 850, (url) => {
-  const element = document.getElementById("video");
-  element.innerHTML = "Click here to jump to video file";
-  element.href = url;
-});
+// animation.exports(1, 850, (url) => {
+//   const element = document.getElementById("video");
+//   element.innerHTML = "Click here to jump to video file";
+//   element.href = url;
+// });

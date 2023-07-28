@@ -7,14 +7,16 @@ export const exportAnimationToVideo = (
   lastAt: number,
   onFinish: (arg0: string) => void
 ) => {
-  const recorder = createRecorder(core.element, {
-    minmeType: "video/webm"
-  });
-  setRecorder(recorder, onFinish);
-  record(recorder, core, startAt, lastAt);
+  try {
+    const recorder = createRecorder(core.element, {
+      minmeType: "video/webm"
+    });
+    setRecorder(recorder, onFinish);
+    record(recorder, core, startAt, lastAt);
+  } catch {}
 };
 
-const createRecorder = (element:HTMLCanvasElement ,datas: Record<string, unknown>) => {
+const createRecorder = (element: HTMLCanvasElement, datas: Record<string, unknown>) => {
   const stream = element.captureStream();
   const recorder = new MediaRecorder(stream, datas);
   return recorder;

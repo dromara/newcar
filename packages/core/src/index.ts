@@ -2,7 +2,7 @@ import type { IRendererController } from "@newcar/objects/src/interfaces/RenderC
 import type { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
 import type { Carobj } from "@newcar/objects/src/objects/carobj";
 
-export class Core implements IRenderable, IRendererController {
+export class Renderer implements IRenderable, IRendererController {
   #ele: HTMLCanvasElement; // The html element of canvas.
   #objects: Carobj[] = []; // The objects of animation.
   #every?: ((agr0: number) => void)[] = []; // Do it for every frame.
@@ -10,6 +10,7 @@ export class Core implements IRenderable, IRendererController {
   #fps = 0; // The FPS.
   #frameImmediately = 0; // Current number of frames.
   #ctx: CanvasRenderingContext2D | null = null; // The context of canvas.
+  #dpr: number;
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   isSuspend: boolean = false; // The animation is or isnot suspend;
 
@@ -72,6 +73,9 @@ export class Core implements IRenderable, IRendererController {
       return;
     }
     this.#start && this.#start();
+    for (const object of this.#objects) {
+      object.onSet();
+    }
     setInterval(() => {
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
       // console.log(this.#frameImmediately, this.isSuspend);

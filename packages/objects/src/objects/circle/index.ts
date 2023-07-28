@@ -37,7 +37,6 @@ export class Circle extends Carobj implements ICircleAngle {
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
     ctx.lineWidth = this.borderWidth;
-    ctx.moveTo(this.contextX, this.contextY);
     ctx.beginPath();
     ctx.arc(0, 0, this.radius, this.#startAngle, this.#endAngle);
     if (this.fillColor !== null) {
