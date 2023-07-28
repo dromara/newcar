@@ -1,6 +1,6 @@
 import * as newcar from "../../packages/newcar/dist/newcar.js";
 const { Car, AudioItem } = newcar;
-const { Circle, Text, CoordinateSystem, Rectangle, Image, MathImage, HTMLPlugin, Point } = newcar.object;
+const { Circle, Text, CoordinateSystem, Rectangle, Image, MathImage, HTMLPlugin, Point, Pen } = newcar.object;
 const { Translation, AxisLength, Limit } = newcar.animation;
 const { easeOutSine } = newcar.interpolator;
 
@@ -24,9 +24,15 @@ const html = new HTMLPlugin("<strong style='color: white'>Hello world!</strong>"
 const pointA = new Point({
   x: 100,
   y: 100,
+});
+const pen = new Pen({
+  x: 0,
+  y: 0,
+  color: "white",
+  lineWidth: 2
 })
 
-animation.addObject(system).addObject(html).addObject(pointA);
+animation.addObject(system).addObject(html).addObject(pointA).addObject(pen);
 
 animation
   .addAnimationItem(
@@ -53,11 +59,19 @@ animation
       to: [0, 500],
       bindTo: func2,
     })
+  ).addAnimationItem(
+    new Translation({
+      startAt: 0,
+      lastsFor: 200,
+      to: [100, 100],
+      bindTo: pen
+    })
   );
 
 animation.onUpdate((currentFrame) => {
-  if (currentFrame === 20) {
-    html.content = "<h1 style='color: white'>Hello</h1>"
+  if (currentFrame === 1) {
+    html.content = "<h1 style='color: white'>Hello</h1>";
+    pen.put();
   }
 });
 

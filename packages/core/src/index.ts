@@ -10,7 +10,6 @@ export class Renderer implements IRenderable, IRendererController {
   #fps = 0; // The FPS.
   #frameImmediately = 0; // Current number of frames.
   #ctx: CanvasRenderingContext2D | null = null; // The context of canvas.
-  #dpr: number;
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   isSuspend: boolean = false; // The animation is or isnot suspend;
 

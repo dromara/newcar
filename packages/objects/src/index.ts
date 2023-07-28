@@ -9,6 +9,7 @@ import { CoordinateSystem } from "./objects/coordinateSystem";
 import { Rectangle } from "./objects/rectangle";
 import { Image } from "./objects/image";
 import { HTMLPlugin } from "./objects/htmlPlugin";
+import { Pen } from "./objects/pen";
 
 export const object = {
   Carobj,
@@ -22,4 +23,5 @@ export const object = {
   Rectangle,
   Image,
   HTMLPlugin,
+  Pen,
 };

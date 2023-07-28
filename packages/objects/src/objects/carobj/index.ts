@@ -32,7 +32,11 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
     this.#transparency = value;
   }
 
-  onSet() {}
+
+  /**
+   * Run before the animation begin to play.
+   */
+  onSet(): void {}
 
   /**
    * Get called on each frame.
