@@ -2,6 +2,16 @@ import { Carobj } from "../carobj";
 import { carobject } from "../carobj/input_type";
 import { penobject } from "./input_type";
 
+/**
+ * In this instance, there is a variable named `this.#recordDatas`.
+ * 
+ * Because the user's handwriting will be intermittent
+ * when calling the 'put' and 'lift' methods in the drawing process,
+ * the first layer of this list is intermittent handwriting
+ * 
+ * The second layer stores a list of coordinates for each move.
+ */
+
 export class Pen extends Carobj {
   #lineWidth: number;
   #color: string;
@@ -19,9 +29,9 @@ export class Pen extends Carobj {
     console.log(this.#isWriting)
     if (this.#isWriting === true) return;
     this.#isWriting = true;
+    // Change current index in `this.recordDatas`
     this.#index += 1;
     this.#recordDatas.push([]);
-    console.log("Hello world!")
   }
 
   lift() {
@@ -35,6 +45,8 @@ export class Pen extends Carobj {
       ctx.beginPath();
       state.forEach((position) => {
         if (position.length !== 1) {
+          // Because handwriting is the essence of a pen,
+          // using this algorithm can keep the handwriting in place while the pen is moving
           ctx.lineTo(position[0] - this.x, position[1] - this.y);
         }
       })
