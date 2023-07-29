@@ -9,17 +9,17 @@ export class Line extends Carobj {
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   color: string = "white";
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  width: number = 1;
+  lineWidth: number = 1;
 
-  constructor(datas: lineobject & carobject) {
+  constructor(startPoint: Point, endPoint: Point, datas: lineobject & carobject) {
     super(datas);
-    this.#startPoint = datas.startPoint;
-    this.#endPoint = datas.endPoint;
+    this.#startPoint = startPoint;
+    this.#endPoint = endPoint;
     if (typeof datas.color !== "undefined") {
       this.color = datas.color;
     }
-    if (typeof datas.width !== "undefined") {
-      this.width = datas.width;
+    if (typeof datas.lineWidth !== "undefined") {
+      this.lineWidth = datas.lineWidth;
     }
   }
 
@@ -27,7 +27,7 @@ export class Line extends Carobj {
     super.onDraw(ctx);
     ctx.beginPath();
     ctx.strokeStyle = `${this.color}`;
-    ctx.lineWidth = this.width;
+    ctx.lineWidth = this.lineWidth;
     ctx.moveTo(this.primaryPoints[0].x, this.primaryPoints[0].y);
     ctx.lineTo(this.primaryPoints[1].x, this.primaryPoints[1].y);
     ctx.stroke();

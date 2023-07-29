@@ -52,8 +52,7 @@ export class Pen extends Carobj {
       })
       ctx.stroke();
     });
-    console.log(this.#recordDatas, this.#index);
     if (this.#isWriting === false) return ctx;
-    this.#recordDatas[this.#index].push([this.x, this.y])
+    this.#recordDatas[this.#index].push([this.x, this.y]);
   }
 }

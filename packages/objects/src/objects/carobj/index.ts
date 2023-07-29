@@ -11,10 +11,11 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
   #children: Carobj[] = [];
   #operation: GlobalCompositeOperation = "source-over";
   #transparency: number;
+  #parent: Carobj | null = null;
 
   constructor(datas: carobject) {
-    this.x = datas.x;
-    this.y = datas.y;
+    this.#x = datas.x ?? 0;
+    this.#y = datas.y ?? 0;
     typeof datas.scaleX !== "undefined" && (this.#scaleX = datas.scaleX!);
     typeof datas.scaleY !== "undefined" && (this.#scaleY = datas.scaleY!);
     typeof datas.display !== "undefined" && (this.display = datas.display!);
@@ -22,6 +23,9 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
     typeof datas.operation !== "undefined" && (this.#operation = datas.operation!);
     typeof datas.children !== "undefined" && (this.#children = datas.children!);
     this.#transparency = datas.transparency ?? 1;
+    this.children.forEach((child) => {
+      child.#parent = this;
+    })
   }
 
   get transparency() {
@@ -36,7 +40,13 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
   /**
    * Run before the animation begin to play.
    */
-  onSet(): void {}
+  onSet(): void { }
+
+  /**
+   * Run it in each frame.
+   * Use it to change the variable that need to be reset.
+   */
+  onAppend(): void { }
 
   /**
    * Get called on each frame.
@@ -53,6 +63,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
    */
   onUpdate(ctx: CanvasRenderingContext2D) {
     if (this.display === true) {
+      this.onAppend();
       ctx.save();
       ctx.translate(this.x, this.y);
       // ctx.translate(this.#x, this.#y);
@@ -138,6 +149,14 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
 
   set operation(value: GlobalCompositeOperation) {
     this.#operation = value;
+  }
+
+  get parent() {
+    return this.#parent;
+  }
+
+  set parent(value: Carobj) {
+    this.#parent = value;
   }
 
   addChildren(...children: Carobj[]) {

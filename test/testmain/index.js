@@ -1,6 +1,17 @@
 import * as newcar from "../../packages/newcar/dist/newcar.js";
 const { Car, AudioItem } = newcar;
-const { Circle, Text, CoordinateSystem, Rectangle, Image, MathImage, HTMLPlugin, Point, Pen } = newcar.object;
+const {
+  Circle,
+  Text,
+  CoordinateSystem,
+  Rectangle,
+  ImagePlugin,
+  MathImage,
+  HTMLPlugin,
+  Point,
+  Pen,
+  Carobj,
+} = newcar.object;
 const { Translation, AxisLength, Limit } = newcar.animation;
 const { easeOutSine } = newcar.interpolator;
 
@@ -29,10 +40,19 @@ const pen = new Pen({
   x: 0,
   y: 0,
   color: "white",
-  lineWidth: 2
-})
+  lineWidth: 30,
+});
+const c = new Carobj({
+  x: 0,
+  y: 0,
+  children: [pen],
+});
+const img = new ImagePlugin("./canvas.png", {
+  x: 100,
+  y: 100
+});
 
-animation.addObject(system).addObject(html).addObject(pointA).addObject(pen);
+animation.addObject(system).addObject(html).addObject(pointA).addObject(pen).addObject(img);
 
 animation
   .addAnimationItem(
@@ -59,12 +79,13 @@ animation
       to: [0, 500],
       bindTo: func2,
     })
-  ).addAnimationItem(
+  )
+  .addAnimationItem(
     new Translation({
       startAt: 0,
       lastsFor: 200,
-      to: [100, 100],
-      bindTo: pen
+      to: [200, 200],
+      bindTo: pen,
     })
   );
 
@@ -73,16 +94,19 @@ animation.onUpdate((currentFrame) => {
     html.content = "<h1 style='color: white'>Hello</h1>";
     pen.put();
   }
+  if (currentFrame === 100) {
+    pen.lift();
+  }
+  if (currentFrame === 150) {
+    pen.put();
+  }
 });
 
-const BGM = new AudioItem(
-  "./11582.mp3",
-  30
-)
+const BGM = new AudioItem("./11582.mp3", 30);
 animation.addAudioItem(BGM);
 document.getElementById("button").onclick = () => {
   animation.allowAudio();
-}
+};
 
 animation.play();
 

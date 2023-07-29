@@ -4,7 +4,7 @@ const { CoordinateSystem, MathImage, Text } = newcar.object;
 const { AxisLength, Limit, Scale, Translation, Transparency } = newcar.animation;
 const { easeOutSine } = newcar.interpolator;
 
-const animation = new Car(document.getElementById("test-canvas"), 60);
+const animation = new Car(document.getElementById("canvas"), 60);
 
 const func1 = new MathImage((x) => 100 * Math.sin(0.1 * x), 0, 0, {
   color: "#FFFFFF",
