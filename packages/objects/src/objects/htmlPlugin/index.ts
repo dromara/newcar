@@ -12,7 +12,7 @@ export class HTMLPlugin extends Carobj {
     this.#content = content;
     this.#svg_content = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
                       '<foreignObject width="100%" height="100%">' +
-                        '<div xmlns="http://www.w3.org/1999/xhtml">' +
+                        '<div xmlns="http://www.w3.org/1999/xhtml" style="color: white">' +
                           content +
                         '</div>' +
                       '</foreignObject>' +

@@ -9,7 +9,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "composite": true,
-    "allowJs": false,
+    "allowJs": true,
     "declaration": true,
     "declarationMap": true,
     "allowSyntheticDefaultImports": true

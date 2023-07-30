@@ -46,7 +46,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
    * Run it in each frame.
    * Use it to change the variable that need to be reset.
    */
-  onAppend(): void { }
+  onModify(): void { }
 
   /**
    * Get called on each frame.
@@ -63,7 +63,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
    */
   onUpdate(ctx: CanvasRenderingContext2D) {
     if (this.display === true) {
-      this.onAppend();
+      this.onModify();
       ctx.save();
       ctx.translate(this.x, this.y);
       // ctx.translate(this.#x, this.#y);

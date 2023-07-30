@@ -7,7 +7,7 @@ import { Polygon } from "./objects/polygon";
 import { Text } from "./objects/text";
 import { CoordinateSystem } from "./objects/coordinateSystem";
 import { Rectangle } from "./objects/rectangle";
-import { Image } from "./objects/imagePlugin";
+import { ImagePlugin } from "./objects/imagePlugin";
 import { HTMLPlugin } from "./objects/htmlPlugin";
 import { Pen } from "./objects/pen";
 
@@ -21,7 +21,7 @@ export const object = {
   Circle,
   Polygon,
   Rectangle,
-  Image,
+  ImagePlugin,
   HTMLPlugin,
   Pen,
 };

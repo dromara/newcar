@@ -28,7 +28,7 @@ const system = new CoordinateSystem(0, 0, 0, 0, {
   y: 300,
   children: [func1, func2],
 });
-const html = new HTMLPlugin("<strong style='color: white'>Hello world!</strong>", {
+const html = new HTMLPlugin("<strong>Hello world!</strong>", {
   x: 100,
   y: 100,
 });
@@ -49,7 +49,7 @@ const c = new Carobj({
 });
 const img = new ImagePlugin("./canvas.png", {
   x: 100,
-  y: 100
+  y: 100,
 });
 
 animation.addObject(system).addObject(html).addObject(pointA).addObject(pen).addObject(img);
@@ -91,7 +91,30 @@ animation
 
 animation.onUpdate((currentFrame) => {
   if (currentFrame === 1) {
-    html.content = "<h1 style='color: white'>Hello</h1>";
+    html.content = `
+    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block" style="color: white">
+    <mfrac>
+      <mrow>
+        <mo>&#x2212;<!-- − --></mo>
+        <mi>b</mi>
+        <mo>&#x00B1;<!-- ± --></mo>
+        <msqrt>
+          <msup>
+            <mi>b</mi>
+            <mn>2</mn>
+          </msup>
+          <mo>&#x2212;<!-- − --></mo>
+          <mn>4</mn>
+          <mi>a</mi>
+          <mi>c</mi>
+        </msqrt>
+      </mrow>
+      <mrow>
+        <mn>2</mn>
+        <mi>a</mi>
+      </mrow>
+    </mfrac>
+  </math>`;
     pen.put();
   }
   if (currentFrame === 100) {

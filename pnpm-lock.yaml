@@ -155,6 +155,10 @@ importers:
       typescript:
         specifier: ^4.9.4
         version: registry.npmmirror.com/typescript@4.9.4
+    devDependencies:
+      mathjax:
+        specifier: 3.2.2
+        version: 3.2.2
 
   packages/sound-builder:
     devDependencies:
@@ -5716,6 +5720,10 @@ packages:
   /map-obj@4.3.0:
     resolution: {integrity: sha512-hdN1wVrZbb29eBGiGjJbeP8JbKjq1urkHJ/LIP/NY48MZ1QVXUsQBV1G1zvYFHn1XE06cwjBsOI2K3Ulnj1YXQ==}
     engines: {node: '>=8'}
+    dev: true
+
+  /mathjax@3.2.2:
+    resolution: {integrity: sha512-Bt+SSVU8eBG27zChVewOicYs7Xsdt40qm4+UpHyX7k0/O9NliPc+x77k1/FEsPsjKPZGJvtRZM1vO+geW0OhGw==}
     dev: true
 
   /mdast-util-from-markdown@0.8.5:
