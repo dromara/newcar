@@ -2,7 +2,7 @@
   "name": "@newcar/core",
   "version": "0.3.3",
   "type": "module",
-  "license": "APACHE-2.0",
+  "license": "Apache-2.0",
   "main": "./dist/newcar.min.js",
   "module": "./dist/es/index.js",
   "types": "./dist/newcar.d.ts",

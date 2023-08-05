@@ -6,9 +6,6 @@
   "keywords": [],
   "license": "ISC",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "devDependencies": {
     "@newcar/objects": "workspace:^0.3.3"
   }
