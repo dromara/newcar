@@ -1,12 +1,12 @@
 {
   "name": "@newcar/sound-builder",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "author": "",
   "description": "",
   "keywords": [],
   "license": "Apache-2.0",
   "main": "index.js",
   "devDependencies": {
-    "@newcar/objects": "workspace:^0.3.3"
+    "@newcar/objects": "workspace:^0.3.4"
   }
 }
