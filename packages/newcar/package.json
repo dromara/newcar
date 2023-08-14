@@ -9,6 +9,12 @@
   "main": "./dist/newcar.min.js",
   "module": "./dist/es/index.js",
   "types": "./dist/newcar.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/newcar.js",
+      "types": "./dist/newcar.d.ts"
+    }
+  },
   "scripts": {
     "build": "run-s clean build:rollup build:cleanup",
     "build:cleanup": "rimraf ./dist/src",
