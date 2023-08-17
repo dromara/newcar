@@ -1,6 +1,6 @@
 import type { Carobj } from ".";
 
-export type carobject = {
+export interface carobject {
   x: number;
   y: number;
   scaleX?: number;
@@ -9,5 +9,5 @@ export type carobject = {
   operation?: GlobalCompositeOperation;
   display?: boolean;
   rotation?: number;
-  transparency?: number
+  transparency?: number;
 }

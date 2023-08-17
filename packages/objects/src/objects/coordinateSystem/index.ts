@@ -1,9 +1,12 @@
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import type { coordinate_systemobject } from "./input_type";
-import { ILengthofAxisX, ILengthofAxisY, ISystemDirection } from "./interface"
+import type { ILengthofAxisX, ILengthofAxisY, ISystemDirection } from "./interface";
 
-export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengthofAxisY, ISystemDirection{
+export class CoordinateSystem
+  extends Carobj
+  implements ILengthofAxisX, ILengthofAxisY, ISystemDirection
+{
   #axisPositiveXLength: number;
   #axisPositiveYLength: number;
   #axisXDirection: "left" | "right";
@@ -12,16 +15,23 @@ export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengtho
   #axisNegativeXLength: number;
   #axisNegativeYLength: number;
 
-  constructor(axisPositiveXLength: number, axisPositiveYLength: number, axisNegativeXLength: number, axisNegativeYLength: number, datas: coordinate_systemobject & carobject) {
+  constructor(
+    axisPositiveXLength: number,
+    axisPositiveYLength: number,
+    axisNegativeXLength: number,
+    axisNegativeYLength: number,
+    datas: coordinate_systemobject & carobject,
+  ) {
     super(datas);
     this.#axisPositiveXLength = axisPositiveXLength;
     this.#axisPositiveYLength = axisPositiveYLength;
     this.#axisNegativeXLength = axisNegativeXLength;
     this.#axisNegativeYLength = axisNegativeYLength;
     this.#axisXDirection = datas.axisXDirection ?? "right";
-    this.#axisYDirection = datas.axisYDirection ?? "top"
-    this.#color = datas.color ?? "white"
+    this.#axisYDirection = datas.axisYDirection ?? "top";
+    this.#color = datas.color ?? "white";
   }
+
   get axisNegativeXLength(): number {
     return this.#axisNegativeXLength;
   }
@@ -45,7 +55,7 @@ export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengtho
   set axisXDirection(value: "left" | "right") {
     this.#axisXDirection = value;
   }
-  
+
   get axisYDirection(): "top" | "bottom" {
     return this.#axisYDirection;
   }
@@ -95,6 +105,7 @@ export class CoordinateSystem extends Carobj implements ILengthofAxisX, ILengtho
     ctx.moveTo(0, this.#axisPositiveYLength);
     ctx.lineTo(-6, this.#axisPositiveYLength - 6);
     ctx.stroke();
+
     return ctx;
   }
 }

@@ -13,16 +13,17 @@ export class Point extends Carobj implements IPositionedMut {
     this.x = datas.x;
     this.y = datas.y;
     this.#color = datas.color ?? "white";
-    this.#size = datas.size ?? 2
+    this.#size = datas.size ?? 2;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
-    ctx.fillStyle = `${this.#color}`
+    ctx.fillStyle = `${this.#color}`;
     ctx.beginPath();
     ctx.arc(0, 0, this.#size, 0, Math.PI * 2);
     ctx.closePath();
-    ctx.fill()
+    ctx.fill();
+
     return ctx;
   }
 }

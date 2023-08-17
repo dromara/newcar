@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-array-for-each */
 import type { carobject } from "./input_type";
 import type { IPositionedMut, IRotatedMut, IScaledMut, ITransparencyMut } from "./interface";
 
@@ -25,7 +26,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
     this.#transparency = datas.transparency ?? 1;
     this.children.forEach((child) => {
       child.#parent = this;
-    })
+    });
   }
 
   get transparency() {
@@ -36,22 +37,22 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
     this.#transparency = value;
   }
 
-
   /**
    * Run before the animation begin to play.
    */
-  onSet(): void { }
+  onSet(): void {}
 
   /**
    * Run it in each frame.
    * Use it to change the variable that need to be reset.
    */
-  onModify(): void { }
+  onModify(): void {}
 
   /**
    * Get called on each frame.
    * @param ctx The context instance of the canvas object.
    */
+  // eslint-disable-next-line unused-imports/no-unused-vars
   onDraw(ctx: CanvasRenderingContext2D, element?: HTMLElement) {
     return ctx;
   }
@@ -152,7 +153,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
   }
 
   get parent() {
-    return this.#parent;
+    return this.#parent!;
   }
 
   set parent(value: Carobj) {
@@ -163,6 +164,7 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
     for (const child of children) {
       this.#children.push(child);
     }
+
     return this;
   }
 }
