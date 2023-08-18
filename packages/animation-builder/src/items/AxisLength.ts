@@ -1,11 +1,14 @@
-import type { ILengthofAxisX, ILengthofAxisY } from "@newcar/objects/src/objects/coordinateSystem/interface";
+import type {
+  ILengthofAxisX,
+  ILengthofAxisY,
+} from "@newcar/objects/src/objects/coordinateSystem/interface";
+
 import type { AnimationBuilder } from "..";
 import { Interpolator } from "../interpolation/Interpolator";
 import { LinearInterpolator } from "../interpolation/LinearInterpolator";
 import { AnimationBuilderItem } from "../item";
 
 export class AxisLength extends AnimationBuilderItem {
-
   #obj: ILengthofAxisX & ILengthofAxisY;
   #interpolator_positive_x: Interpolator;
   #interpolator_positive_y: Interpolator;
@@ -15,7 +18,7 @@ export class AxisLength extends AnimationBuilderItem {
   #start: number;
   #from: number[];
   #to: number[];
-  #by: (x: number) => number
+  #by: (x: number) => number;
 
   constructor(datas: {
     startAt?: number;
@@ -35,35 +38,23 @@ export class AxisLength extends AnimationBuilderItem {
     ) {
       throw new Error(`be unset data "${flag}"`);
     }
-    this.#obj = datas.bindTo; 
-    this.#from = datas.from || [this.#obj.axisPositiveXLength, this.#obj.axisPositiveYLength, this.#obj.axisNegativeXLength, this.#obj.axisNegativeYLength];
+    this.#obj = datas.bindTo;
+    this.#from = datas.from || [
+      this.#obj.axisPositiveXLength,
+      this.#obj.axisPositiveYLength,
+      this.#obj.axisNegativeXLength,
+      this.#obj.axisNegativeYLength,
+    ];
     this.#to = datas.to;
     this.#length = datas.lastsFor;
     this.#start = datas.startAt;
-    this.#by = datas.by ?? LinearInterpolator
+    this.#by = datas.by ?? LinearInterpolator;
 
-    this.#interpolator_positive_x = new Interpolator(
-      this.#from[0],
-      this.#to[0],
-      this.#by
-    );
-    this.#interpolator_positive_y = new Interpolator(
-      this.#from![1], 
-      this.#to[1], 
-      this.#by
-    );
-    this.#interpolator_negative_x = new Interpolator(
-      this.#from[2],
-      this.#to[2],
-      this.#by
-    );
-    this.#interpolator_negative_y = new Interpolator(
-      this.#from![3], 
-      this.#to[3], 
-      this.#by
-    );
-  };
-
+    this.#interpolator_positive_x = new Interpolator(this.#from[0], this.#to[0], this.#by);
+    this.#interpolator_positive_y = new Interpolator(this.#from![1], this.#to[1], this.#by);
+    this.#interpolator_negative_x = new Interpolator(this.#from[2], this.#to[2], this.#by);
+    this.#interpolator_negative_y = new Interpolator(this.#from![3], this.#to[3], this.#by);
+  }
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
     this.#obj.axisPositiveXLength = this.#interpolator_positive_x.interpolate(

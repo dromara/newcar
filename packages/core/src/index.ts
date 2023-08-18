@@ -97,8 +97,10 @@ export class Renderer implements IRenderable, IRendererController {
    * @param obj the Carobj Object.
    * Attention: the function only can link Car Object,which can't use animation builder.
    */
-  linkObject(obj: Carobj) {
-    this.#objects.push(obj);
+  linkObject(...objects: Carobj[]) {
+    for (const object of objects) {
+      this.#objects.push(object);
+    }
   }
 
   get fps() {
@@ -106,7 +108,7 @@ export class Renderer implements IRenderable, IRendererController {
   }
 
   get framePerSecond() {
-    return this.#fps
+    return this.#fps;
   }
 
   get element() {
