@@ -2,26 +2,43 @@
 /* eslint-disable @so1ve/function-style */
 /* eslint-disable prefer-template */
 /* eslint-disable @so1ve/prettier/prettier */
-const OBJECT_NAME = "Test";
+const OBJECT_NAME = "CoordinateSystem";
 const object_name = "test";
 const PARAMETER = {
   params: [
     {
-      name: "name1",
-      type: "string",
-      default: 1,
+      name: "x_max",
+      type: "number",
     },
     {
-      name: "name3",
+      name: "x_min",
       type: "number"
+    },
+    {
+      name: "y_max",
+      type: "number"
+    },
+    {
+      name: "y_min",
+      type: "number"
+    },
+    {
+      name: "color",
+      type: "string",
+      default: "white"
     }
   ],
   datas: [
     {
-      name: "name2",
-      type: "string",
-      default: 1
+      name: "x_direction",
+      type: '"left | right"',
+      default: "right"
     },
+    {
+      name: "y_direction",
+      type: '"top | bottom"',
+      default: "top"
+    }
   ],
 };
 
@@ -93,7 +110,7 @@ export class ${OBJECT_NAME} extends Carobj {
 
 const input_type_code = `
 export interface ${object_name} {
-  ${montageArrayToString(PARAMETER.datas.map(data => `${data.name}: ${data.type}`))}
+  ${montageArrayToString(PARAMETER.datas.map(data => `${data.name}: ${data.type} \n  `))}
 }
 `
 

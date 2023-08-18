@@ -1,9 +1,5 @@
-export type coordinate_systemobject = {
-  axisPositiveXLength: number,
-  axisPositiveYLength: number,
-  axisNegativeXLength: number,
-  axisNegativeYLength: number,
-  axisXDirection?: "left" | "right";
-  axisYDirection?: "top" | "bottom";
+export interface coordinate_systemobject {
+  x_direction?: "left" | "right";
+  y_direction?: "top" | "bottom";
   color?: string;
 }

@@ -6,16 +6,15 @@ export interface ILengthofAxisX {
 }
 
 export interface ILengthofAxisY {
-  get  axisPositiveYLength(): number;
-  set  axisPositiveYLength(value: number);
-  get  axisNegativeYLength(): number;
-  set  axisNegativeYLength(value: number);
+  get axisPositiveYLength(): number;
+  set axisPositiveYLength(value: number);
+  get axisNegativeYLength(): number;
+  set axisNegativeYLength(value: number);
 }
 
 export interface ISystemDirection {
   get axisXDirection(): "left" | "right";
-  get axisYDirection(): "top" | "bottom";
   set axisXDirection(value: "left" | "right");
+  get axisYDirection(): "top" | "bottom";
   set axisYDirection(value: "top" | "bottom");
 }
-
