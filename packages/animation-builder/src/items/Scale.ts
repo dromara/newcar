@@ -23,14 +23,13 @@ export class Scale extends AnimationBuilderItem {
     bindTo?: IScaledMut;
   }) {
     super();
-    let flag = "";
     if (
-      ((flag = "startAt"), datas.startAt === undefined) ||
-      ((flag = "lastsFor"), datas.lastsFor === undefined) ||
-      ((flag = "to"), datas.to === undefined) ||
-      ((flag = "bindTo"), datas.bindTo === undefined)
+      datas.bindTo === undefined ||
+      datas.to === undefined ||
+      datas.lastsFor === undefined ||
+      datas.startAt === undefined
     ) {
-      throw new Error(`be unset data "${flag}"`);
+      throw new Error("This animation is missing necessary values");
     }
     datas.from = datas.from ?? [datas.bindTo.scaleX, datas.bindTo.scaleY];
     this.#datas = {

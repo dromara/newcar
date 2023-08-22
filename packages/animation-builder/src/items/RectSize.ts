@@ -23,14 +23,13 @@ export class RectSize extends AnimationBuilderItem {
     by?: (x: number) => number;
   }) {
     super();
-    let flag = "";
     if (
-      ((flag = "startAt"), datas.startAt === undefined) ||
-      ((flag = "lastsFor"), datas.lastsFor === undefined) ||
-      ((flag = "to"), datas.to === undefined) ||
-      ((flag = "bindTo"), datas.bindTo === undefined)
+      datas.bindTo === undefined ||
+      datas.to === undefined ||
+      datas.lastsFor === undefined ||
+      datas.startAt === undefined
     ) {
-      throw new Error(`be unset data "${flag}"`);
+      throw new Error("This animation is missing necessary values");
     }
     this.#obj = datas.bindTo;
     this.#from = datas.from ?? [this.#obj.width, this.#obj.length];
