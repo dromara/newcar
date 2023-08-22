@@ -1,6 +1,6 @@
 import { AnimationBuilderItem } from "../item";
 import { AngleCircle } from "./AngleCircle";
-import { AxisLength } from "./AxisLength";
+import { AxisLimit } from "./AxisLimit";
 import { Limit } from "./Limit";
 import { RectSize } from "./RectSize";
 import { Rotation } from "./Rotation";
@@ -15,7 +15,7 @@ export const animation = {
   Limit,
   AngleCircle,
   AnimationBuilderItem,
-  AxisLength,
+  AxisLimit,
   RectSize,
   Transparency,
 };
