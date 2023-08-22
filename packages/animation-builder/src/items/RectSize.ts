@@ -14,24 +14,21 @@ export class RectSize extends AnimationBuilderItem {
   #from: number[];
   #to: number[];
 
-  constructor(datas: {
-    startAt?: number;
-    lastsFor?: number;
-    from?: [number, number];
-    to?: [number, number];
-    bindTo?: IRectSize;
-    by?: (x: number) => number;
-  }) {
+  constructor(
+    obj: IRectSize,
+    datas: {
+      startAt?: number;
+      lastsFor?: number;
+      from?: [number, number];
+      to?: [number, number];
+      by?: (x: number) => number;
+    },
+  ) {
     super();
-    if (
-      datas.bindTo === undefined ||
-      datas.to === undefined ||
-      datas.lastsFor === undefined ||
-      datas.startAt === undefined
-    ) {
+    if (datas.to === undefined || datas.lastsFor === undefined || datas.startAt === undefined) {
       throw new Error("This animation is missing necessary values");
     }
-    this.#obj = datas.bindTo;
+    this.#obj = obj;
     this.#from = datas.from ?? [this.#obj.width, this.#obj.length];
     this.#to = datas.to;
     this.#length = datas.lastsFor;

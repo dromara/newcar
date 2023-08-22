@@ -1,11 +1,11 @@
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import type { coordinate_systemobject } from "./input_type";
-import type { ILengthofAxisX, ILengthofAxisY, ISystemDirection } from "./interface";
+import type { ILimitofAxisX, ILimitofAxisY, ISystemDirection } from "./interface";
 
 export class CoordinateSystem
   extends Carobj
-  implements ILengthofAxisX, ILengthofAxisY, ISystemDirection
+  implements ILimitofAxisX, ILimitofAxisY, ISystemDirection
 {
   #x_max: number;
   #y_max: number;
