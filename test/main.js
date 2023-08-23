@@ -18,18 +18,17 @@ const role = new object.Point({
   x: 100,
   y: 100
 })
-const system = new object.CoordinateSystem(100, 100, 100, 100, {
-  x: 100,
-  y: 100,
+const system = new object.CoordinateSystem(100, 100, -100, -100, {
+  x: 200,
+  y: 200,
 });
 
 car.addObject(role, pen, system);
 
-car.addAnimationItem(new animation.Translation({
+car.addAnimationItem(new animation.Translation(role, {
   startAt: 0,
   lastsFor: 50,
   to: [400, 100],
-  bindTo: role,
 }))
 
 car.onUpdate(frame => {

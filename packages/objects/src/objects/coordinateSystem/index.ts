@@ -30,6 +30,18 @@ export class CoordinateSystem
     this.#x_direction = datas.x_direction ?? "right";
     this.#y_direction = datas.y_direction ?? "top";
     this.#color = datas.color ?? "white";
+    if (this.#x_min > 0) {
+      throw new Error("Parameter `x_min` cannot be greater than 0");
+    }
+    if (this.#x_max < 0) {
+      throw new Error("Parameter `x_max` cannot be less than 0");
+    }
+    if (this.#y_min > 0) {
+      throw new Error("Parameter `y_min` cannot be greater than 0");
+    }
+    if (this.#y_max < 0) {
+      throw new Error("Parameter `y_max` cannot be less than 0");
+    }
   }
 
   get x_max() {
@@ -99,14 +111,14 @@ export class CoordinateSystem
     ctx.strokeStyle = `${this.#color}`;
     ctx.beginPath();
     // draw axis X
-    ctx.moveTo(-this.#x_min, 0);
+    ctx.moveTo(this.#x_min, 0);
     ctx.lineTo(this.#x_max, 0);
-    ctx.moveTo(this.#x_min, 0);
+    ctx.moveTo(this.#x_max, 0);
     ctx.lineTo(this.#x_max - 6, 6);
-    ctx.moveTo(this.#x_min, 0);
+    ctx.moveTo(this.#x_max, 0);
     ctx.lineTo(this.#x_max - 6, -6);
     // draw axis Y
-    ctx.moveTo(0, -this.#y_min);
+    ctx.moveTo(0, this.#y_min);
     ctx.lineTo(0, this.#y_max);
     ctx.moveTo(0, this.#y_max);
     ctx.lineTo(6, this.#y_max - 6);
