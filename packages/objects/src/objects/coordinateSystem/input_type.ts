@@ -10,6 +10,9 @@ export interface coordinate_systemobject {
   x_point_interval?: number;
   y_point_interval?: number;
   arrow?: boolean;
-  interval: boolean;
-  color?: string;
+  displayPoint?: boolean;
+  grid?: boolean;
+  x_color?: string;
+  y_color?: string;
+  grid_color?: string;
 }

@@ -7,38 +7,11 @@ const object_name = "test";
 const PARAMETER = {
   params: [
     {
-      name: "x_max",
-      type: "number",
-    },
-    {
-      name: "x_min",
-      type: "number"
-    },
-    {
-      name: "y_max",
-      type: "number"
-    },
-    {
-      name: "y_min",
-      type: "number"
-    },
-    {
-      name: "color",
-      type: "string",
-      default: "white"
+      name: "content",
+      type: "string"
     }
   ],
   datas: [
-    {
-      name: "x_direction",
-      type: '"left | right"',
-      default: "right"
-    },
-    {
-      name: "y_direction",
-      type: '"top | bottom"',
-      default: "top"
-    }
   ],
 };
 

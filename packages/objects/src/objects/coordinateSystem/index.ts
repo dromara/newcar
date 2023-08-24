@@ -13,15 +13,18 @@ export class CoordinateSystem
   #y_min: number;
   #x_direction: "left" | "right";
   #y_direction: "top" | "bottom";
-  #color: string;
+  x_color: string;
   x_point_interval: number;
   y_point_interval: number;
   x_division: number;
   y_division: number;
   arrow: boolean;
-  interval: boolean;
+  displayPoint: boolean;
   x_width: number;
   y_width: number;
+  y_color: string;
+  grid_color: string;
+  grid: boolean;
 
   constructor(
     x_max: number,
@@ -44,8 +47,11 @@ export class CoordinateSystem
     this.x_width = datas.x_width ?? 2;
     this.y_width = datas.y_width ?? 2;
     this.arrow = datas.arrow ?? true;
-    this.interval = datas.interval ?? true;
-    this.#color = datas.color ?? "white";
+    this.displayPoint = datas.displayPoint ?? true;
+    this.grid = datas.grid ?? true;
+    this.x_color = datas.x_color ?? "white";
+    this.y_color = datas.y_color ?? "white";
+    this.grid_color = datas.grid_color ?? "white";
     if (this.#x_min > 0) {
       throw new Error("Parameter `x_min` cannot be greater than 0");
     }
@@ -104,14 +110,6 @@ export class CoordinateSystem
     }
   }
 
-  get color() {
-    return this.#color;
-  }
-
-  set color(value: string) {
-    this.#color = value;
-  }
-
   get x_direction() {
     return this.#x_direction;
   }
@@ -136,46 +134,56 @@ export class CoordinateSystem
     if (this.#y_direction === "top") {
       ctx.scale(1, -1);
     }
-    ctx.strokeStyle = `${this.#color}`;
+
     // draw grid
-    ctx.beginPath();
-    ctx.lineWidth = 1;
-    for (let x = this.#x_min; x <= this.#x_max; x += this.x_point_interval) {
-      ctx.moveTo(x, this.#y_max);
-      ctx.lineTo(x, this.#y_min);
+    if (this.grid) {
+      ctx.beginPath();
+      ctx.strokeStyle = `${this.grid_color}`;
+      ctx.lineWidth = 1;
+      for (let x = this.#x_min; x <= this.#x_max; x += this.x_point_interval) {
+        ctx.moveTo(x, this.#y_max);
+        ctx.lineTo(x, this.#y_min);
+      }
+      for (let y = this.#y_min; y <= this.#y_max; y += this.y_point_interval) {
+        ctx.moveTo(this.#x_max, y);
+        ctx.lineTo(this.#x_min, y);
+      }
+      ctx.stroke();
     }
-    for (let y = this.#y_min; y <= this.#y_max; y += this.y_point_interval) {
-      ctx.moveTo(this.#x_max, y);
-      ctx.lineTo(this.#x_min, y);
-    }
-    ctx.stroke();
     // draw axis X
     ctx.beginPath();
+    ctx.strokeStyle = `${this.x_color}`;
     ctx.lineWidth = this.x_width;
     ctx.moveTo(this.#x_min, 0);
     ctx.lineTo(this.#x_max, 0);
     if (this.arrow) {
+      ctx.lineWidth = 2;
       ctx.moveTo(this.#x_max, 0);
       ctx.lineTo(this.#x_max - 6, 6);
       ctx.moveTo(this.#x_max, 0);
       ctx.lineTo(this.#x_max - 6, -6);
     }
     ctx.stroke();
+
     // draw axis Y
     ctx.beginPath();
+    ctx.strokeStyle = `${this.y_color}`;
     ctx.lineWidth = this.y_width;
     ctx.moveTo(0, this.#y_min);
     ctx.lineTo(0, this.#y_max);
     if (this.arrow) {
+      ctx.lineWidth = 2;
       ctx.moveTo(0, this.#y_max);
       ctx.lineTo(6, this.#y_max - 6);
       ctx.moveTo(0, this.#y_max);
       ctx.lineTo(-6, this.#y_max - 6);
     }
     ctx.stroke();
+
     // Draw number point;
-    ctx.beginPath();
-    if (this.interval) {
+    if (this.displayPoint) {
+      ctx.beginPath();
+      ctx.strokeStyle = `${this.x_color}`;
       ctx.lineWidth = 2;
       for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
         ctx.moveTo(x, 10);
@@ -185,6 +193,11 @@ export class CoordinateSystem
         ctx.moveTo(x, 10);
         ctx.lineTo(x, -10);
       }
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.strokeStyle = `${this.y_color}`;
+      ctx.lineWidth = 2;
       for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
         ctx.moveTo(10, y);
         ctx.lineTo(-10, y);
@@ -193,8 +206,8 @@ export class CoordinateSystem
         ctx.moveTo(10, y);
         ctx.lineTo(-10, y);
       }
+      ctx.stroke();
     }
-    ctx.stroke();
 
     return ctx;
   }

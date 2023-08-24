@@ -21,6 +21,8 @@ const car = new Car(document.querySelector("#mycanvas"), 60);
 const system = new object.CoordinateSystem(0, 0, 0, 0, {
   x: 100,
   y: 400,
+  arrow: false,
+  grid_color: "skyblue"
 });
 
 car.addObject(system);
@@ -34,7 +36,7 @@ car.addObject(system);
 car.addAnimationItem(new animation.AxisLimit(system, {
   startAt: 0,
   lastsFor: 50,
-  to: [520, 380, 0, 0]
+  to: [500, 350, 0, 0]
 }))
 
 // car.onUpdate(frame => {
