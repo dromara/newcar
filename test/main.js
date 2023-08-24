@@ -22,12 +22,14 @@ const system = new object.CoordinateSystem(0, 0, 0, 0, {
   x: 100,
   y: 400,
   arrow: false,
-  grid_color: "skyblue"
+  grid_color: "skyblue",
+  // x_color: "skyblue"
 });
 
-const numberAxis = new object.NumberAxis(100, -100, {
+const numberAxis = new object.NumberAxis(0, 0, {
   x: 300,
   y: 300,
+  arrow: false,
 })
 
 car.addObject(system, numberAxis);
@@ -38,10 +40,14 @@ car.addObject(system, numberAxis);
 //   to: [400, 100],
 // }))
 
-car.addAnimationItem(new animation.AxisLimit(system, {
+car.addAnimationItem(new animation.AxisLimit2d(system, {
   startAt: 0,
   lastsFor: 50,
-  to: [500, 350, 0, 0]
+  to: [500, 0, -100, 0]
+})).addAnimationItem(new animation.AxisLimit(numberAxis, {
+  startAt: 0,
+  lastsFor: 400,
+  to: [100, -100],
 }))
 
 // car.onUpdate(frame => {

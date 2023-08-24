@@ -53,7 +53,11 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
     if (this.#displayPoint) {
       ctx.strokeStyle = `${this.#color}`;
       ctx.lineWidth = 2;
-      for (let i = this.#min; i <= this.#max; i += this.#point_interval) {
+      for (let i = 0; i <= this.#max; i += this.#point_interval) {
+        ctx.moveTo(i, 10);
+        ctx.lineTo(i, -10);
+      }
+      for (let i = 0; i >= this.#min; i -= this.#point_interval) {
         ctx.moveTo(i, 10);
         ctx.lineTo(i, -10);
       }
