@@ -73,25 +73,25 @@ importers:
         version: registry.npmmirror.com/typescript@4.9.4
     devDependencies:
       '@newcar/objects':
-        specifier: workspace:^0.3.4
+        specifier: workspace:^0.4.0
         version: link:../objects
 
   packages/core:
     devDependencies:
       '@newcar/objects':
-        specifier: workspace:^0.3.4
+        specifier: workspace:^0.4.0
         version: link:../objects
 
   packages/event-builder:
     devDependencies:
       '@newcar/objects':
-        specifier: workspace:^0.3.4
+        specifier: workspace:^0.4.0
         version: link:../objects
 
   packages/export:
     devDependencies:
       '@newcar/objects':
-        specifier: workspace:^0.3.4
+        specifier: workspace:^0.4.0
         version: link:../objects
 
   packages/newcar:
@@ -103,19 +103,19 @@ importers:
         specifier: ^7.18.6
         version: 7.18.6(@babel/core@7.20.7)
       '@newcar/animation-builder':
-        specifier: workspace:^0.3.4
+        specifier: workspace:^0.4.0
         version: link:../animation-builder
       '@newcar/core':
-        specifier: workspace:^0.3.4
+        specifier: workspace:^0.4.0
         version: link:../core
       '@newcar/export':
-        specifier: workspace:^0.3.4
+        specifier: workspace:^0.4.0
         version: link:../export
       '@newcar/objects':
-        specifier: workspace:^0.3.4
+        specifier: workspace:^0.4.0
         version: link:../objects
       '@newcar/sound-builder':
-        specifier: workspace:^0.3.4
+        specifier: workspace:^0.4.0
         version: link:../sound-builder
       '@rollup/plugin-babel':
         specifier: ^6.0.3
@@ -156,9 +156,6 @@ importers:
 
   packages/objects:
     dependencies:
-      texzilla:
-        specifier: ^1.0.2
-        version: 1.0.2
       typescript:
         specifier: ^4.9.4
         version: registry.npmmirror.com/typescript@4.9.4
@@ -166,7 +163,7 @@ importers:
   packages/sound-builder:
     devDependencies:
       '@newcar/objects':
-        specifier: workspace:^0.3.4
+        specifier: workspace:^0.4.0
         version: link:../objects
 
 packages:
@@ -4376,7 +4373,7 @@ packages:
   /estree-walker@3.0.3:
     resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
     dependencies:
-      '@types/estree': 1.0.0
+      '@types/estree': 1.0.1
     dev: true
 
   /esutils@2.0.3:
@@ -5276,7 +5273,7 @@ packages:
   /is-reference@3.0.1:
     resolution: {integrity: sha512-baJJdQLiYaJdvFbJqXrcGv3WU3QCzBlUcI5QhbesIm6/xPsvmO+2CDoi/GMOFBQEQm+PXkwOPrp9KK5ozZsp2w==}
     dependencies:
-      '@types/estree': 1.0.0
+      '@types/estree': 1.0.1
     dev: true
 
   /is-regex@1.1.4:
@@ -6782,7 +6779,7 @@ packages:
   /periscopic@3.1.0:
     resolution: {integrity: sha512-vKiQ8RRtkl9P+r/+oefh25C3fhybptkHKCZSPlcXiJux2tJF55GnEj3BVn4A5gKfq9NWWXXrxkHBwVPUfH0opw==}
     dependencies:
-      '@types/estree': 1.0.0
+      '@types/estree': 1.0.1
       estree-walker: 3.0.3
       is-reference: 3.0.1
     dev: true
@@ -7794,11 +7791,6 @@ packages:
   /text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
-
-  /texzilla@1.0.2:
-    resolution: {integrity: sha512-Mn5rZ8Jww7uHzNoyCfKTK02s8GolXtWgVerF/TAk2xupv2n8S4Ijdz84zqEq81PKt6QqmYHA1kmetWGRpCTdGw==}
-    hasBin: true
-    dev: false
 
   /through2@2.0.5:
     resolution: {integrity: sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==}
