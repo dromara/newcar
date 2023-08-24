@@ -23,15 +23,11 @@ export class Limit extends AnimationBuilderItem {
     },
   ) {
     super();
-    if (
-      datas.to === undefined ||
-      datas.from === undefined ||
-      datas.lastsFor === undefined ||
-      datas.startAt === undefined
-    ) {
+    if (datas.to === undefined || datas.lastsFor === undefined || datas.startAt === undefined) {
       throw new Error("This animation is missing necessary values");
     }
-    this.#length = datas.lastsFor - datas.startAt;
+    datas.from = datas.from ?? [obj.startVariable, obj.endVariable];
+    this.#length = datas.lastsFor;
     this.#start = datas.startAt;
     this.#obj = obj;
     this.#interpolatorstart = new Interpolator(

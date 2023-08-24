@@ -1,5 +1,5 @@
 /* eslint-disable @so1ve/prettier/prettier */
-import { Car, animation, object } from "./../packages/newcar/dist/newcar.js";
+import { Car, animation, object, interpolator } from "./../packages/newcar/dist/newcar.js";
 
 const car = new Car(document.querySelector("#mycanvas"), 60);
 
@@ -19,31 +19,27 @@ const car = new Car(document.querySelector("#mycanvas"), 60);
 //   y: 100
 // })
 
-const fn = new object.MathImage((x) => Math.sin(x) + 1, 0, 300, {
+const fn = new object.MathImage((x) => Math.sin(x) + 3, 0, 0, {
   lineWidth: 2,
-  color: "skyblue"
-})
+  color: "greenyellow",
+});
 
 const system = new object.CoordinateSystem(0, 0, 0, 0, {
   x: 100,
   y: 400,
   arrow: false,
   grid_color: "skyblue",
-  children: [
-    fn
-  ]
+  children: [fn],
   // x_color: "skyblue"
 });
 
+// const numberAxis = new object.NumberAxis(0, 0, {
+//   x: 300,
+//   y: 300,
+//   arrow: false,
+// })
 
-const numberAxis = new object.NumberAxis(0, 0, {
-  x: 300,
-  y: 300,
-  arrow: false,
-})
-
-
-car.addObject(system, numberAxis);
+car.addObject(system);
 
 // car.addAnimationItem(new animation.Translation(role, {
 //   startAt: 0,
@@ -51,15 +47,24 @@ car.addObject(system, numberAxis);
 //   to: [400, 100],
 // }))
 
-car.addAnimationItem(new animation.AxisLimit2d(system, {
-  startAt: 0,
-  lastsFor: 50,
-  to: [500, 350, -50, 0]
-})).addAnimationItem(new animation.AxisLimit(numberAxis, {
-  startAt: 0,
-  lastsFor: 400,
-  to: [100, -100],
-}))
+car.addAnimationItem(
+  new animation.AxisLimit2d(system, {
+    startAt: 0,
+    lastsFor: 50,
+    to: [500, 350, 0, 0],
+  })
+).addAnimationItem(new animation.Limit(fn, {
+  startAt: 40,
+  lastsFor: 90,
+  to: [0, 9],
+  by: interpolator.easeOutSine,
+}));
+
+// .addAnimationItem(new animation.AxisLimit(numberAxis, {
+//   startAt: 0,
+//   lastsFor: 400,
+//   to: [100, -100],
+// }))
 
 // car.onUpdate(frame => {
 //   if (frame === 1) {
