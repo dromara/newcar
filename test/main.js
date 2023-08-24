@@ -18,19 +18,31 @@ const car = new Car(document.querySelector("#mycanvas"), 60);
 //   x: 100,
 //   y: 100
 // })
+
+const fn = new object.MathImage((x) => Math.sin(x), 0, 300, {
+  scaleX: 50,
+  scaleY: 50,
+  lineWidth: 0.04
+})
+
 const system = new object.CoordinateSystem(0, 0, 0, 0, {
   x: 100,
   y: 400,
   arrow: false,
   grid_color: "skyblue",
+  children: [
+    fn
+  ]
   // x_color: "skyblue"
 });
+
 
 const numberAxis = new object.NumberAxis(0, 0, {
   x: 300,
   y: 300,
   arrow: false,
 })
+
 
 car.addObject(system, numberAxis);
 
@@ -43,7 +55,7 @@ car.addObject(system, numberAxis);
 car.addAnimationItem(new animation.AxisLimit2d(system, {
   startAt: 0,
   lastsFor: 50,
-  to: [500, 0, -100, 0]
+  to: [500, 350, -50, 0]
 })).addAnimationItem(new animation.AxisLimit(numberAxis, {
   startAt: 0,
   lastsFor: 400,

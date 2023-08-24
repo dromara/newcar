@@ -140,11 +140,19 @@ export class CoordinateSystem
       ctx.beginPath();
       ctx.strokeStyle = `${this.grid_color}`;
       ctx.lineWidth = 1;
-      for (let x = this.#x_min; x <= this.#x_max; x += this.x_point_interval) {
+      for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
         ctx.moveTo(x, this.#y_max);
         ctx.lineTo(x, this.#y_min);
       }
-      for (let y = this.#y_min; y <= this.#y_max; y += this.y_point_interval) {
+      for (let x = 0; x >= this.#x_min; x -= this.x_point_interval) {
+        ctx.moveTo(x, this.#y_max);
+        ctx.lineTo(x, this.#y_min);
+      }
+      for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
+        ctx.moveTo(this.#x_max, y);
+        ctx.lineTo(this.#x_min, y);
+      }
+      for (let y = 0; y >= this.#y_min; y -= this.y_point_interval) {
         ctx.moveTo(this.#x_max, y);
         ctx.lineTo(this.#x_min, y);
       }

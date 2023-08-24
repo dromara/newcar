@@ -21,7 +21,7 @@ export class MathImage extends Carobj implements IMathImageLimit {
     this.#imageFunction = f;
     this.#startVariable = start;
     this.#endVariable = end;
-    this.#lineWidth = datas.lineWidth ?? 1;
+    this.#lineWidth = datas.lineWidth ?? 2;
     this.#color = datas.color ?? "white";
   }
 
