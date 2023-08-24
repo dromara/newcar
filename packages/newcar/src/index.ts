@@ -1,10 +1,10 @@
 import { AnimationBuilder } from "@newcar/animation-builder/src/index";
 import type { AnimationBuilderItem } from "@newcar/animation-builder/src/item";
 import { Renderer } from "@newcar/core/src/index";
+import { exportAnimationToVideo } from "@newcar/export/src/index";
 import type { Carobj } from "@newcar/objects/src/objects/carobj";
 import { SoundBuilder } from "@newcar/sound-builder/src/index";
 import type { AudioItem } from "@newcar/sound-builder/src/item";
-import { exportAnimationToVideo } from "@newcar/export/src/index"
 
 export class Car {
   #animationBuilder: AnimationBuilder = new AnimationBuilder();
@@ -17,8 +17,8 @@ export class Car {
     return this;
   }
 
-  addObject(obj: Carobj) {
-    this.#renderer.linkObject(obj);
+  addObject(...obj: Carobj[]) {
+    this.#renderer.linkObject(...obj);
 
     return this;
   }
@@ -72,25 +72,24 @@ export class Car {
   }
 }
 
-window.onload = () => {
-  // eslint-disable-next-line no-console
-  console.log(
-    `   ____  ___ _      ___________ ______
+// eslint-disable-next-line no-console
+console.log(
+  `   ____  ___ _      ___________ ______
   / __ \\/ _ \\ | /| / / ___/ __  / ___/
  / / / /  __/ |/ |/ / /__/ /_/ / /    
 /_/ /_/\\___/|__/|__/\\___/\\__,_/_/
 
-%cThe animation is powered by %c newcar %c v0.3.3  %c
+%cThe animation is powered by %c newcar %c v0.4.0 %c
 
 link: https://github.com/Bug-Duck/newcar
 
 Click here to jump to our Twitter: https://twitter.com/bugduckteam
  `,
-    "font-size: 14px",
-    "background-color: orange; padding: 7px; font-size: 14px",
-    "background-color: grey; padding: 7px; font-size: 14px",
-  );
-};
+  "font-size: 14px",
+  "background-color: orange; padding: 7px; font-size: 14px",
+  "background-color: grey; padding: 7px; font-size: 14px",
+  "",
+);
 
 export { interpolator } from "@newcar/animation-builder/src/interpolation/index";
 export { animation } from "@newcar/animation-builder/src/items";

@@ -1,9 +1,9 @@
 import { Carobj } from "../carobj";
-import { carobject } from "../carobj/input_type";
-import { rectangleobject } from "./input_type";
-import { IRectSize } from "./interface";
+import type { carobject } from "../carobj/input_type";
+import type { rectangleobject } from "./input_type";
+import type { IRectSize } from "./interface";
 
-export class Rectangle extends Carobj implements IRectSize{
+export class Rectangle extends Carobj implements IRectSize {
   length: number;
   width: number;
   borderWidth: number;
@@ -15,13 +15,14 @@ export class Rectangle extends Carobj implements IRectSize{
     this.length = datas.length;
     this.width = datas.length;
     this.borderColor = datas.borderColor ?? "white";
-    this.borderWidth = datas.borderWidth ?? 1;
+    this.borderWidth = datas.borderWidth ?? 2;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-nullish-coalescing
     this.fillColor = datas.fillColor! ?? null;
   }
 
-  override onDraw(ctx: CanvasRenderingContext2D, element?: HTMLElement | undefined): CanvasRenderingContext2D {
+  override onDraw(ctx: CanvasRenderingContext2D): CanvasRenderingContext2D {
     super.onDraw(ctx);
-    ctx.lineWidth = this.borderWidth
+    ctx.lineWidth = this.borderWidth;
     ctx.strokeStyle = `${this.borderColor}`;
     if (this.fillColor !== null) {
       ctx.fillStyle = `${this.fillColor}`;

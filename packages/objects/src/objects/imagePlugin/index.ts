@@ -1,7 +1,7 @@
 // TODO: Use the paths of iamges.
 
 import { Carobj } from "../carobj";
-import { carobject } from "../carobj/input_type";
+import type { carobject } from "../carobj/input_type";
 
 export class ImagePlugin extends Carobj {
   #image: HTMLImageElement;
@@ -14,10 +14,11 @@ export class ImagePlugin extends Carobj {
     this.#path = path;
   }
 
-  override onDraw(ctx: CanvasRenderingContext2D, element?: HTMLElement | undefined): CanvasRenderingContext2D {
+  override onDraw(ctx: CanvasRenderingContext2D): CanvasRenderingContext2D {
     super.onDraw(ctx);
-    this.#image.src = this.#path
-    ctx.drawImage(this.#image, this.x ,this.y)
+    this.#image.src = this.#path;
+    ctx.drawImage(this.#image, this.x, this.y);
+
     return ctx;
   }
 }

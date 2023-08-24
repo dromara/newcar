@@ -26,7 +26,7 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
     if (typeof datas.baseline !== "undefined") {
       this.#baseline = datas.baseline;
     }
-    this.#hollow = datas.hollow ?? false
+    this.#hollow = datas.hollow ?? false;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
@@ -41,7 +41,7 @@ export class Text extends Carobj implements ITextEditable, IPositionedMut {
       ctx.fillText(this.#text, 0, 0);
     } else if (this.#hollow) {
       ctx.strokeStyle = this.#color;
-      ctx.strokeText(this.#text, 0, 0)
+      ctx.strokeText(this.#text, 0, 0);
     }
 
     return ctx;

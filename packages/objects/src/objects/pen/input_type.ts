@@ -1,4 +1,4 @@
-export type penobject = {
-  lineWidth: number,
-  color: string
+export interface penobject {
+  lineWidth: number;
+  color: string;
 }

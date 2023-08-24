@@ -1,23 +1,24 @@
-import type { IRotatedMut } from "@newcar/objects/src/objects/carobj/interface";
+import type { INumberAxisLimit } from "@newcar/objects/src/objects/numberAxis/interface";
 
 import type { AnimationBuilder } from "..";
 import { Interpolator } from "../interpolation/Interpolator";
 import { LinearInterpolator } from "../interpolation/LinearInterpolator";
 import { AnimationBuilderItem } from "../item";
 
-export class Rotation extends AnimationBuilderItem {
-  #obj: IRotatedMut;
-  #interpolator: Interpolator;
+export class AxisLimit extends AnimationBuilderItem {
+  #obj: INumberAxisLimit;
+  #interpolatormax: Interpolator;
+  #interpolatormin: Interpolator;
   #length: number;
   #start: number;
 
   constructor(
-    obj: IRotatedMut,
+    obj: INumberAxisLimit,
     datas: {
       startAt?: number;
       lastsFor?: number;
-      from?: number;
-      to?: number;
+      from?: [number, number];
+      to?: [number, number];
       by?: (x: number) => number;
     },
   ) {
@@ -25,15 +26,25 @@ export class Rotation extends AnimationBuilderItem {
     if (datas.to === undefined || datas.lastsFor === undefined || datas.startAt === undefined) {
       throw new Error("This animation is missing necessary values");
     }
-    datas.from = datas.from ?? obj.rotation;
+    datas.from = datas.from ?? [obj.max, obj.min];
     this.#start = datas.startAt;
     this.#obj = obj;
-    this.#interpolator = new Interpolator(datas.from, datas.to, datas.by ?? LinearInterpolator);
+    this.#interpolatormax = new Interpolator(
+      datas.from[0],
+      datas.to[0],
+      datas.by ?? LinearInterpolator,
+    );
+    this.#interpolatormin = new Interpolator(
+      datas.from[1],
+      datas.to[1],
+      datas.by ?? LinearInterpolator,
+    );
     this.#length = datas.lastsFor;
   }
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
-    this.#obj.rotation = this.#interpolator.interpolate((relativeFrameCount + 1) / this.#length);
+    this.#obj.max = this.#interpolatormax.interpolate((relativeFrameCount + 1) / this.#length);
+    this.#obj.min = this.#interpolatormin.interpolate((relativeFrameCount + 1) / this.#length);
   }
 
   get startFrame(): number {

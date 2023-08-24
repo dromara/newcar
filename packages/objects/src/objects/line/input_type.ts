@@ -1,6 +1,4 @@
-import type { Point } from "../point";
-
-export type lineobject = {
+export interface lineobject {
   color?: string;
   lineWidth?: number;
 }

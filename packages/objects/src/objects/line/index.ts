@@ -9,7 +9,7 @@ export class Line extends Carobj {
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   color: string = "white";
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  lineWidth: number = 1;
+  lineWidth: number = 2;
 
   constructor(startPoint: Point, endPoint: Point, datas: lineobject & carobject) {
     super(datas);

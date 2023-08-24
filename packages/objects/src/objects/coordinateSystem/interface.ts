@@ -1,21 +1,20 @@
-export interface ILengthofAxisX {
-  get axisPositiveXLength(): number;
-  set axisPositiveXLength(value: number);
-  get axisNegativeXLength(): number;
-  set axisNegativeXLength(value: number);
+export interface ILimitofAxisX {
+  get x_max(): number;
+  set x_max(value: number);
+  get x_min(): number;
+  set x_min(value: number);
 }
 
-export interface ILengthofAxisY {
-  get  axisPositiveYLength(): number;
-  set  axisPositiveYLength(value: number);
-  get  axisNegativeYLength(): number;
-  set  axisNegativeYLength(value: number);
+export interface ILimitofAxisY {
+  get y_max(): number;
+  set y_max(value: number);
+  get y_min(): number;
+  set y_min(value: number);
 }
 
 export interface ISystemDirection {
-  get axisXDirection(): "left" | "right";
-  get axisYDirection(): "top" | "bottom";
-  set axisXDirection(value: "left" | "right");
-  set axisYDirection(value: "top" | "bottom");
+  get x_direction(): "left" | "right";
+  set x_direction(value: "left" | "right");
+  get y_direction(): "top" | "bottom";
+  set y_direction(value: "top" | "bottom");
 }
-

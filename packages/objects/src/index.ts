@@ -1,15 +1,16 @@
 import { Carobj } from "./objects/carobj";
 import { Circle } from "./objects/circle";
+import { CoordinateSystem } from "./objects/coordinateSystem";
+import { HTMLPlugin } from "./objects/htmlPlugin";
+import { ImagePlugin } from "./objects/imagePlugin";
 import { Line } from "./objects/line";
 import { MathImage } from "./objects/mathImage";
+import { NumberAxis } from "./objects/numberAxis";
+import { Pen } from "./objects/pen";
 import { Point } from "./objects/point";
 import { Polygon } from "./objects/polygon";
-import { Text } from "./objects/text";
-import { CoordinateSystem } from "./objects/coordinateSystem";
 import { Rectangle } from "./objects/rectangle";
-import { ImagePlugin } from "./objects/imagePlugin";
-import { HTMLPlugin } from "./objects/htmlPlugin";
-import { Pen } from "./objects/pen";
+import { Text } from "./objects/text";
 
 export const object = {
   Carobj,
@@ -24,4 +25,5 @@ export const object = {
   ImagePlugin,
   HTMLPlugin,
   Pen,
+  NumberAxis,
 };
