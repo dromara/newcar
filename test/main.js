@@ -54,8 +54,8 @@ car.addAnimationItem(
     to: [500, 350, 0, 0],
   })
 ).addAnimationItem(new animation.Limit(fn, {
-  startAt: 40,
-  lastsFor: 90,
+  startAt: 50,
+  lastsFor: 100,
   to: [0, 9],
   by: interpolator.easeOutSine,
 }));

@@ -15,7 +15,7 @@ export class Rectangle extends Carobj implements IRectSize {
     this.length = datas.length;
     this.width = datas.length;
     this.borderColor = datas.borderColor ?? "white";
-    this.borderWidth = datas.borderWidth ?? 1;
+    this.borderWidth = datas.borderWidth ?? 2;
     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-nullish-coalescing
     this.fillColor = datas.fillColor! ?? null;
   }

@@ -21,7 +21,7 @@ export class Pen extends Carobj {
 
   constructor(datas: carobject & penobject) {
     super(datas);
-    this.#lineWidth = datas.lineWidth ?? 1;
+    this.#lineWidth = datas.lineWidth ?? 2;
     this.#color = datas.color ?? "white";
   }
 
