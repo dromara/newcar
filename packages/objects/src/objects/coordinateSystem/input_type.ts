@@ -5,8 +5,6 @@ export interface coordinate_systemobject {
   y_division?: number;
   x_width?: number;
   y_width?: number;
-  x_point_color: string;
-  y_point_color: string;
   x_point_interval?: number;
   y_point_interval?: number;
   arrow?: boolean;

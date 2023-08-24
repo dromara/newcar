@@ -2,16 +2,50 @@
 /* eslint-disable @so1ve/function-style */
 /* eslint-disable prefer-template */
 /* eslint-disable @so1ve/prettier/prettier */
-const OBJECT_NAME = "CoordinateSystem";
-const object_name = "test";
+const OBJECT_NAME = "NumberAxis";
+const object_name = "number_axis";
 const PARAMETER = {
   params: [
     {
-      name: "content",
-      type: "string"
+      name: "max",
+      type: "number"
+    },
+    {
+      name: "min",
+      type: "number"
     }
   ],
   datas: [
+    {
+      name: "color",
+      type: "string",
+      default: "white"
+    },
+    {
+      name: "direction",
+      type: `"left" | "right"`,
+      default: `"right"`
+    },
+    {
+      name: "width",
+      type: "number",
+      default: "2"
+    },
+    {
+      name: "point_interval",
+      type: "number",
+      default: "50"
+    },
+    {
+      name: "arrow",
+      type: "boolean",
+      default: "true"
+    },
+    {
+      name: "displayPoint",
+      type: "boolean",
+      default: "true"
+    },
   ],
 };
 
@@ -72,6 +106,7 @@ export class ${OBJECT_NAME} extends Carobj {
     return `
   get ${data.name}() {
     return this.#${data.name}
+  }
 
   set ${data.name}(value: ${data.type}) {
     this.#${data.name} = value;
@@ -83,7 +118,7 @@ export class ${OBJECT_NAME} extends Carobj {
 
 const input_type_code = `
 export interface ${object_name} {
-  ${montageArrayToString(PARAMETER.datas.map(data => `${data.name}: ${data.type} \n  `))}
+  ${montageArrayToString(PARAMETER.datas.map(data => `${data.name}: ${data.type}; \n  `))}
 }
 `
 

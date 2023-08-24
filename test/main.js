@@ -25,7 +25,12 @@ const system = new object.CoordinateSystem(0, 0, 0, 0, {
   grid_color: "skyblue"
 });
 
-car.addObject(system);
+const numberAxis = new object.NumberAxis(100, -100, {
+  x: 300,
+  y: 300,
+})
+
+car.addObject(system, numberAxis);
 
 // car.addAnimationItem(new animation.Translation(role, {
 //   startAt: 0,

@@ -5,6 +5,7 @@ import { HTMLPlugin } from "./objects/htmlPlugin";
 import { ImagePlugin } from "./objects/imagePlugin";
 import { Line } from "./objects/line";
 import { MathImage } from "./objects/mathImage";
+import { NumberAxis } from "./objects/numberAxis";
 import { Pen } from "./objects/pen";
 import { Point } from "./objects/point";
 import { Polygon } from "./objects/polygon";
@@ -24,4 +25,5 @@ export const object = {
   ImagePlugin,
   HTMLPlugin,
   Pen,
+  NumberAxis,
 };
