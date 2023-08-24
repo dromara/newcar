@@ -16,8 +16,6 @@ export class CoordinateSystem
   x_color: string;
   x_point_interval: number;
   y_point_interval: number;
-  x_division: number;
-  y_division: number;
   arrow: boolean;
   displayPoint: boolean;
   x_width: number;
@@ -42,8 +40,6 @@ export class CoordinateSystem
     this.#y_direction = datas.y_direction ?? "top";
     this.x_point_interval = datas.x_point_interval ?? 50;
     this.y_point_interval = datas.y_point_interval ?? 50;
-    this.x_division = datas.x_division ?? 1;
-    this.y_division = datas.y_division ?? 1;
     this.x_width = datas.x_width ?? 2;
     this.y_width = datas.y_width ?? 2;
     this.arrow = datas.arrow ?? true;

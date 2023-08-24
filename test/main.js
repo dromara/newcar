@@ -19,10 +19,9 @@ const car = new Car(document.querySelector("#mycanvas"), 60);
 //   y: 100
 // })
 
-const fn = new object.MathImage((x) => Math.sin(x), 0, 300, {
-  scaleX: 50,
-  scaleY: 50,
-  lineWidth: 0.04
+const fn = new object.MathImage((x) => Math.sin(x) + 1, 0, 300, {
+  lineWidth: 2,
+  color: "skyblue"
 })
 
 const system = new object.CoordinateSystem(0, 0, 0, 0, {
