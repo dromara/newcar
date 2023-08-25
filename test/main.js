@@ -52,13 +52,8 @@ car.addAnimationItem(
     startAt: 0,
     lastsFor: 50,
     to: [500, 350, 0, 0],
-  })
-).addAnimationItem(new animation.Limit(fn, {
-  startAt: 50,
-  lastsFor: 100,
-  to: [0, 9],
-  by: interpolator.easeOutSine,
-}));
+  }))
+// ).addAnimationItem();
 
 // .addAnimationItem(new animation.AxisLimit(numberAxis, {
 //   startAt: 0,
@@ -73,5 +68,16 @@ car.addAnimationItem(
 //   pen.x = role.x;
 //   pen.y = role.y
 // })
+
+car.onUpdate((currentFrame) => {
+  if (currentFrame === 50) {
+    car.animate(new animation.Limit(fn, {
+      startAt: 50,
+      lastsFor: 100,
+      to: [0, 9],
+      by: interpolator.easeOutSine,
+    }))
+  }
+})
 
 car.play();
