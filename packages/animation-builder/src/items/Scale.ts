@@ -7,14 +7,14 @@ import { AnimationBuilderItem } from "../item";
 
 export class Scale extends AnimationBuilderItem {
   #obj: IScaledMut;
-  #interpolatorx: Interpolator;
-  #interpolatory: Interpolator;
-  #length: number;
-  #start: number;
+  #interpolatorX: Interpolator;
+  #interpolatorY: Interpolator;
+  readonly #length: number;
+  readonly #start: number;
 
   constructor(
     obj: IScaledMut,
-    datas: {
+    data: {
       startAt?: number;
       lastsFor?: number;
       from?: [number, number];
@@ -23,28 +23,28 @@ export class Scale extends AnimationBuilderItem {
     },
   ) {
     super();
-    if (datas.to === undefined || datas.lastsFor === undefined || datas.startAt === undefined) {
+    if (data.to === undefined || data.lastsFor === undefined || data.startAt === undefined) {
       throw new Error("This animation is missing necessary values");
     }
     this.#obj = obj;
-    datas.from = datas.from ?? [this.#obj.scaleX, this.#obj.scaleY];
-    this.#interpolatorx = new Interpolator(
-      datas.from[0],
-      datas.to[0],
-      datas.by ?? LinearInterpolator,
+    data.from = data.from ?? [this.#obj.scaleX, this.#obj.scaleY];
+    this.#interpolatorX = new Interpolator(
+      data.from[0],
+      data.to[0],
+      data.by ?? LinearInterpolator,
     );
-    this.#interpolatory = new Interpolator(
-      datas.from[1],
-      datas.to[1],
-      datas.by ?? LinearInterpolator,
+    this.#interpolatorY = new Interpolator(
+      data.from[1],
+      data.to[1],
+      data.by ?? LinearInterpolator,
     );
-    this.#length = datas.lastsFor;
-    this.#start = datas.startAt;
+    this.#length = data.lastsFor;
+    this.#start = data.startAt;
   }
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
-    this.#obj.scaleX = this.#interpolatorx.interpolate((relativeFrameCount + 1) / this.#length);
-    this.#obj.scaleY = this.#interpolatory.interpolate((relativeFrameCount + 1) / this.#length);
+    this.#obj.scaleX = this.#interpolatorX.interpolate((relativeFrameCount + 1) / this.#length);
+    this.#obj.scaleY = this.#interpolatorY.interpolate((relativeFrameCount + 1) / this.#length);
   }
 
   get startFrame(): number {

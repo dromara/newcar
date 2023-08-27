@@ -8,12 +8,12 @@ import { AnimationBuilderItem } from "../item";
 export class Rotation extends AnimationBuilderItem {
   #obj: IRotatedMut;
   #interpolator: Interpolator;
-  #length: number;
-  #start: number;
+  readonly #length: number;
+  readonly #start: number;
 
   constructor(
     obj: IRotatedMut,
-    datas: {
+    data: {
       startAt?: number;
       lastsFor?: number;
       from?: number;
@@ -22,14 +22,14 @@ export class Rotation extends AnimationBuilderItem {
     },
   ) {
     super();
-    if (datas.to === undefined || datas.lastsFor === undefined || datas.startAt === undefined) {
+    if (data.to === undefined || data.lastsFor === undefined || data.startAt === undefined) {
       throw new Error("This animation is missing necessary values");
     }
-    datas.from = datas.from ?? obj.rotation;
-    this.#start = datas.startAt;
+    data.from = data.from ?? obj.rotation;
+    this.#start = data.startAt;
     this.#obj = obj;
-    this.#interpolator = new Interpolator(datas.from, datas.to, datas.by ?? LinearInterpolator);
-    this.#length = datas.lastsFor;
+    this.#interpolator = new Interpolator(data.from, data.to, data.by ?? LinearInterpolator);
+    this.#length = data.lastsFor;
   }
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {

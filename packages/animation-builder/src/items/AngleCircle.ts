@@ -7,8 +7,8 @@ import { AnimationBuilderItem } from "../item";
 
 export class AngleCircle extends AnimationBuilderItem {
   #obj: ICircleAngleMut;
-  #interpolatorstart: Interpolator;
-  #interpolatorend: Interpolator;
+  #interpolatorStart: Interpolator;
+  #interpolatorEnd: Interpolator;
   #length: number;
   #start: number;
 
@@ -30,12 +30,12 @@ export class AngleCircle extends AnimationBuilderItem {
     this.#length = datas.lastsFor;
     this.#start = datas.startAt;
     this.#obj = obj;
-    this.#interpolatorstart = new Interpolator(
+    this.#interpolatorStart = new Interpolator(
       datas.from[0],
       datas.to[0],
       datas.by ?? LinearInterpolator,
     );
-    this.#interpolatorend = new Interpolator(
+    this.#interpolatorEnd = new Interpolator(
       datas.from[1],
       datas.to[1],
       datas.by ?? LinearInterpolator,
@@ -43,10 +43,10 @@ export class AngleCircle extends AnimationBuilderItem {
   }
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
-    this.#obj.startAngle = this.#interpolatorstart.interpolate(
+    this.#obj.startAngle = this.#interpolatorStart.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
-    this.#obj.endAngle = this.#interpolatorend.interpolate((relativeFrameCount + 1) / this.#length);
+    this.#obj.endAngle = this.#interpolatorEnd.interpolate((relativeFrameCount + 1) / this.#length);
   }
 
   get startFrame(): number {

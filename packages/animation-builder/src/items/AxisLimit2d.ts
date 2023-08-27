@@ -10,19 +10,19 @@ import { AnimationBuilderItem } from "../item";
 
 export class AxisLimit2d extends AnimationBuilderItem {
   #obj: ILimitofAxisX & ILimitofAxisY;
-  #interpolator_x_max: Interpolator;
-  #interpolator_y_max: Interpolator;
-  #interpolator_x_min: Interpolator;
-  #interpolator_y_min: Interpolator;
-  #length: number;
-  #start: number;
-  #from: number[];
-  #to: number[];
-  #by: (x: number) => number;
+  #interpolatorXMax: Interpolator;
+  #interpolatorYMax: Interpolator;
+  #interpolatorXMin: Interpolator;
+  #interpolatorYMin: Interpolator;
+  readonly #length: number;
+  readonly #start: number;
+  readonly #from: number[];
+  readonly #to: number[];
+  readonly #by: (x: number) => number;
 
   constructor(
     obj: ILimitofAxisX & ILimitofAxisY,
-    datas: {
+    data: {
       startAt?: number;
       lastsFor?: number;
       from?: [number, number, number, number];
@@ -31,27 +31,27 @@ export class AxisLimit2d extends AnimationBuilderItem {
     },
   ) {
     super();
-    if (datas.to === undefined || datas.lastsFor === undefined || datas.startAt === undefined) {
+    if (data.to === undefined || data.lastsFor === undefined || data.startAt === undefined) {
       throw new Error("This animation is missing necessary values");
     }
     this.#obj = obj;
-    this.#from = datas.from || [this.#obj.x_max, this.#obj.y_max, this.#obj.x_min, this.#obj.y_min];
-    this.#to = datas.to;
-    this.#length = datas.lastsFor;
-    this.#start = datas.startAt;
-    this.#by = datas.by ?? LinearInterpolator;
+    this.#from = data.from || [this.#obj.x_max, this.#obj.y_max, this.#obj.x_min, this.#obj.y_min];
+    this.#to = data.to;
+    this.#length = data.lastsFor;
+    this.#start = data.startAt;
+    this.#by = data.by ?? LinearInterpolator;
 
-    this.#interpolator_x_max = new Interpolator(this.#from[0], this.#to[0], this.#by);
-    this.#interpolator_y_max = new Interpolator(this.#from![1], this.#to[1], this.#by);
-    this.#interpolator_x_min = new Interpolator(this.#from[2], this.#to[2], this.#by);
-    this.#interpolator_y_min = new Interpolator(this.#from![3], this.#to[3], this.#by);
+    this.#interpolatorXMax = new Interpolator(this.#from[0], this.#to[0], this.#by);
+    this.#interpolatorYMax = new Interpolator(this.#from![1], this.#to[1], this.#by);
+    this.#interpolatorXMin = new Interpolator(this.#from[2], this.#to[2], this.#by);
+    this.#interpolatorYMin = new Interpolator(this.#from![3], this.#to[3], this.#by);
   }
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
-    this.#obj.x_max = this.#interpolator_x_max.interpolate((relativeFrameCount + 1) / this.#length);
-    this.#obj.y_max = this.#interpolator_y_max.interpolate((relativeFrameCount + 1) / this.#length);
-    this.#obj.x_min = this.#interpolator_x_min.interpolate((relativeFrameCount + 1) / this.#length);
-    this.#obj.y_min = this.#interpolator_y_min.interpolate((relativeFrameCount + 1) / this.#length);
+    this.#obj.x_max = this.#interpolatorXMax.interpolate((relativeFrameCount + 1) / this.#length);
+    this.#obj.y_max = this.#interpolatorYMax.interpolate((relativeFrameCount + 1) / this.#length);
+    this.#obj.x_min = this.#interpolatorXMin.interpolate((relativeFrameCount + 1) / this.#length);
+    this.#obj.y_min = this.#interpolatorYMin.interpolate((relativeFrameCount + 1) / this.#length);
   }
 
   get startFrame(): number {

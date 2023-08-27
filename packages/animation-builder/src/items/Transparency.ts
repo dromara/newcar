@@ -8,14 +8,14 @@ import { AnimationBuilderItem } from "../item";
 export class Transparency extends AnimationBuilderItem {
   #obj: ITransparencyMut;
   #interpolator: Interpolator;
-  #length: number;
-  #start: number;
-  #from: number;
-  #to: number;
+  readonly #length: number;
+  readonly #start: number;
+  readonly #from: number;
+  readonly #to: number;
 
   constructor(
     obj: ITransparencyMut,
-    datas: {
+    data: {
       startAt?: number;
       lastsFor?: number;
       from?: number;
@@ -24,15 +24,15 @@ export class Transparency extends AnimationBuilderItem {
     },
   ) {
     super();
-    if (datas.to === undefined || datas.lastsFor === undefined || datas.startAt === undefined) {
+    if (data.to === undefined || data.lastsFor === undefined || data.startAt === undefined) {
       throw new Error("This animation is missing necessary values");
     }
     this.#obj = obj;
-    this.#from = datas.from ?? this.#obj.transparency;
-    this.#to = datas.to;
-    this.#length = datas.lastsFor;
-    this.#start = datas.startAt;
-    this.#interpolator = new Interpolator(this.#from, this.#to, datas.by ?? LinearInterpolator);
+    this.#from = data.from ?? this.#obj.transparency;
+    this.#to = data.to;
+    this.#length = data.lastsFor;
+    this.#start = data.startAt;
+    this.#interpolator = new Interpolator(this.#from, this.#to, data.by ?? LinearInterpolator);
   }
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {

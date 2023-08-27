@@ -7,14 +7,14 @@ import { AnimationBuilderItem } from "../item";
 
 export class Limit extends AnimationBuilderItem {
   #obj: IMathImageLimit;
-  #interpolatorstart: Interpolator;
-  #interpolatorend: Interpolator;
-  #length: number;
-  #start: number;
+  #interpolatorStart: Interpolator;
+  #interpolatorEnd: Interpolator;
+  readonly #length: number;
+  readonly #start: number;
 
   constructor(
     obj: IMathImageLimit,
-    datas: {
+    data: {
       startAt?: number;
       lastsFor?: number;
       from?: [number, number];
@@ -23,30 +23,30 @@ export class Limit extends AnimationBuilderItem {
     },
   ) {
     super();
-    if (datas.to === undefined || datas.lastsFor === undefined || datas.startAt === undefined) {
+    if (data.to === undefined || data.lastsFor === undefined || data.startAt === undefined) {
       throw new Error("This animation is missing necessary values");
     }
-    datas.from = datas.from ?? [obj.startVariable, obj.endVariable];
-    this.#length = datas.lastsFor;
-    this.#start = datas.startAt;
+    data.from = data.from ?? [obj.startVariable, obj.endVariable];
+    this.#length = data.lastsFor;
+    this.#start = data.startAt;
     this.#obj = obj;
-    this.#interpolatorstart = new Interpolator(
-      datas.from[0],
-      datas.to[0],
-      datas.by ?? LinearInterpolator,
+    this.#interpolatorStart = new Interpolator(
+      data.from[0],
+      data.to[0],
+      data.by ?? LinearInterpolator,
     );
-    this.#interpolatorend = new Interpolator(
-      datas.from[1],
-      datas.to[1],
-      datas.by ?? LinearInterpolator,
+    this.#interpolatorEnd = new Interpolator(
+      data.from[1],
+      data.to[1],
+      data.by ?? LinearInterpolator,
     );
   }
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
-    this.#obj.startVariable = this.#interpolatorstart.interpolate(
+    this.#obj.startVariable = this.#interpolatorStart.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
-    this.#obj.endVariable = this.#interpolatorend.interpolate(
+    this.#obj.endVariable = this.#interpolatorEnd.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
   }
