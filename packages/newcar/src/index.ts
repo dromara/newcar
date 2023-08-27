@@ -52,7 +52,7 @@ export class Car {
   play() {
     this.#animationBuilder.playOnCar(this.#renderer);
     this.#soundBuilder.playOnCar(this.#renderer);
-    this.#renderer.CountFrame();
+    this.#renderer.countFrame();
   }
 
   exports(startAt: number, lastAt: number, onFinish: (arg0: string) => void) {
