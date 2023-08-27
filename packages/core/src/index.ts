@@ -8,7 +8,7 @@ export class Renderer implements IRenderable, IRendererController {
   #every?: ((agr0: number) => void)[] = []; // Do it for every frame.
   #start?: () => void; // Do it before the animation started.
   #fps = 0; // The FPS.
-  #frameImmediately = 0; // Current number of frames.
+  #currentFrame = 0; // Current number of frames.
   #ctx: CanvasRenderingContext2D | null = null; // The context of canvas.
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   isSuspend: boolean = false; // The animation is or isnot suspend;
@@ -51,14 +51,14 @@ export class Renderer implements IRenderable, IRendererController {
 
   pause(frame?: number) {
     if (typeof frame !== "undefined") {
-      this.#frameImmediately = frame;
+      this.#currentFrame = frame;
     }
     this.isSuspend = true;
   }
 
   continue(frame?: number) {
     if (typeof frame !== "undefined") {
-      this.#frameImmediately = frame;
+      this.#currentFrame = frame;
     }
     this.isSuspend = false;
   }
@@ -66,8 +66,8 @@ export class Renderer implements IRenderable, IRendererController {
   /**
    * Start draw every frame.
    */
-  CountFrame() {
-    // this.#frameImmediately = 0;
+  countFrame() {
+    // this.#currentFrame = 0;
     if (this.#ctx === null) {
       return;
     }
@@ -77,13 +77,13 @@ export class Renderer implements IRenderable, IRendererController {
     }
     setInterval(() => {
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
-      // console.log(this.#frameImmediately, this.isSuspend);
+      // console.log(this.#currentFrame, this.isSuspend);
       if (!this.isSuspend) {
-        this.#frameImmediately += 1;
+        this.#currentFrame += 1;
       }
       if (this.#every) {
         for (const each of this.#every) {
-          each && each(this.#frameImmediately);
+          each && each(this.#currentFrame);
         }
       }
       for (const object of this.#objects) {
