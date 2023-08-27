@@ -28,16 +28,8 @@ export class Scale extends AnimationBuilderItem {
     }
     this.#obj = obj;
     data.from = data.from ?? [this.#obj.scaleX, this.#obj.scaleY];
-    this.#interpolatorX = new Interpolator(
-      data.from[0],
-      data.to[0],
-      data.by ?? LinearInterpolator,
-    );
-    this.#interpolatorY = new Interpolator(
-      data.from[1],
-      data.to[1],
-      data.by ?? LinearInterpolator,
-    );
+    this.#interpolatorX = new Interpolator(data.from[0], data.to[0], data.by ?? LinearInterpolator);
+    this.#interpolatorY = new Interpolator(data.from[1], data.to[1], data.by ?? LinearInterpolator);
     this.#length = data.lastsFor;
     this.#start = data.startAt;
   }

@@ -30,16 +30,8 @@ export class Translation extends AnimationBuilderItem {
     data.from = data.from ?? [this.#obj.x, this.#obj.y];
     this.#length = data.lastsFor;
     this.#start = data.startAt;
-    this.#interpolatorX = new Interpolator(
-      data.from[0],
-      data.to[0],
-      data.by ?? LinearInterpolator,
-    );
-    this.#interpolatorY = new Interpolator(
-      data.from[1],
-      data.to[1],
-      data.by ?? LinearInterpolator,
-    );
+    this.#interpolatorX = new Interpolator(data.from[0], data.to[0], data.by ?? LinearInterpolator);
+    this.#interpolatorY = new Interpolator(data.from[1], data.to[1], data.by ?? LinearInterpolator);
   }
 
   get length(): number {
