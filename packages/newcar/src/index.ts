@@ -1,6 +1,6 @@
-import { AnimationBuilder } from "@newcar/animation-builder/src/index";
+import { AnimationBuilder } from "@newcar/animation-builder/src";
 import type { AnimationBuilderItem } from "@newcar/animation-builder/src/item";
-import { Renderer } from "@newcar/core/src/index";
+import { Renderer } from "@newcar/core/src";
 import { exportAnimationToVideo } from "@newcar/export/src/index";
 import type { Carobj } from "@newcar/objects/src/objects/carobj";
 import { SoundBuilder } from "@newcar/sound-builder/src/index";
