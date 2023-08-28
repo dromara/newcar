@@ -17,7 +17,7 @@ export class CoordinateSystem
   x_point_interval: number;
   y_point_interval: number;
   arrow: boolean;
-  displayPoint: boolean;
+  display_point: boolean;
   x_width: number;
   y_width: number;
   y_color: string;
@@ -43,7 +43,7 @@ export class CoordinateSystem
     this.x_width = datas.x_width ?? 2;
     this.y_width = datas.y_width ?? 2;
     this.arrow = datas.arrow ?? true;
-    this.displayPoint = datas.displayPoint ?? true;
+    this.display_point = datas.display_point ?? true;
     this.grid = datas.grid ?? true;
     this.x_color = datas.x_color ?? "white";
     this.y_color = datas.y_color ?? "white";
@@ -185,7 +185,7 @@ export class CoordinateSystem
     ctx.stroke();
 
     // Draw number point;
-    if (this.displayPoint) {
+    if (this.display_point) {
       ctx.beginPath();
       ctx.strokeStyle = `${this.x_color}`;
       ctx.lineWidth = 2;

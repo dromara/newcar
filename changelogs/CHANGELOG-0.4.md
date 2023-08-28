@@ -1,5 +1,6 @@
 ## Breaking Change
 - Rename `AngleCircle` to `CircleAngle`.
+- Rename parameter `displayPoint` to `display_point`.
 
 # 0.4.0 (2023.8.24)
 
