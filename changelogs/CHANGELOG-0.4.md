@@ -1,3 +1,6 @@
+## Breaking Change
+- Rename `AngleCircle` to `CircleAngle`.
+
 # 0.4.0 (2023.8.24)
 
 ## Bug Fixes
