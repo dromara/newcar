@@ -1,7 +1,7 @@
 import { AnimationBuilderItem } from "../item";
-import { AngleCircle } from "./AngleCircle";
 import { AxisLimit } from "./AxisLimit";
 import { AxisLimit2d } from "./AxisLimit2d";
+import { CircleAngle } from "./CircleAngle";
 import { Limit } from "./Limit";
 import { RectSize } from "./RectSize";
 import { Rotation } from "./Rotation";
@@ -14,7 +14,7 @@ export const animation = {
   Rotation,
   Scale,
   Limit,
-  AngleCircle,
+  CircleAngle,
   AnimationBuilderItem,
   AxisLimit2d,
   AxisLimit,

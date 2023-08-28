@@ -5,7 +5,7 @@ import { Interpolator } from "../interpolation/Interpolator";
 import { LinearInterpolator } from "../interpolation/LinearInterpolator";
 import { AnimationBuilderItem } from "../item";
 
-export class AngleCircle extends AnimationBuilderItem {
+export class CircleAngle extends AnimationBuilderItem {
   #obj: ICircleAngleMut;
   #interpolatorStart: Interpolator;
   #interpolatorEnd: Interpolator;

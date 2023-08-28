@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-array-for-each */
 // TODO: Specification all the AnimationBuilderItems.
 
 import type { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
@@ -42,7 +43,11 @@ export class AnimationBuilder {
       for (const builderItem of this.#currentAnimateList) {
         builderItem.onDrawFrame(frame - builderItem.startFrame, this);
       }
-      this.#currentAnimateList = [];
+      this.#currentAnimateList.forEach((animation, index) => {
+        if (animation.startFrame + animation.length === frame) {
+          this.#currentAnimateList.splice(index, 1);
+        }
+      });
     });
   }
 
