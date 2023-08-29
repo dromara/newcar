@@ -3,17 +3,22 @@ import { Car, animation, interpolator, object } from "./../packages/newcar/dist/
 
 const car = new Car(document.querySelector("#mycanvas"), 60);
 
-const fn = new object.MathImage((x) => Math.sin(x) + 3, 0, 0, {
+const fn = new object.MathImage((x) => Math.sin(x) - 3, 0, 0, {
   lineWidth: 2,
   color: "greenyellow",
+  x_division: 80
 });
 
 const system = new object.CoordinateSystem(0, 0, 0, 0, {
-  x: 100,
-  y: 400,
+  x: 800,
+  y: 450,
   arrow: false,
   grid_color: "skyblue",
+  x_point_interval: 80,
+  x_number_trend: (x) => new object.Text(`${x}PI`, {}),
   children: [fn],
+  y_direction: "bottom",
+  x_direction: "left",
   // x_color: "skyblue"
 });
 
@@ -31,7 +36,7 @@ car.addAnimationItem(
   new animation.AxisLimit2d(system, {
     startAt: 0,
     lastsFor: 50,
-    to: [500, 350, 0, 0],
+    to: [500, 350, -100, -100],
   }))
   .addAnimationItem(new animation.Limit(fn, {
     startAt: 50,

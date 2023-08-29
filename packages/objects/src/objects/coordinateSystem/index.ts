@@ -1,12 +1,12 @@
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
+import { Text } from "../text";
 import type { coordinate_systemobject } from "./input_type";
 import type { ILimitofAxisX, ILimitofAxisY, ISystemDirection } from "./interface";
 
 export class CoordinateSystem
   extends Carobj
-  implements ILimitofAxisX, ILimitofAxisY, ISystemDirection
-{
+  implements ILimitofAxisX, ILimitofAxisY, ISystemDirection {
   #x_max: number;
   #y_max: number;
   #x_min: number;
@@ -23,6 +23,10 @@ export class CoordinateSystem
   y_color: string;
   grid_color: string;
   grid: boolean;
+  x_number: boolean;
+  y_number: boolean;
+  y_number_trend: (arg0: number) => Text;
+  x_number_trend: (arg0: number) => Text;
 
   constructor(
     x_max: number,
@@ -48,6 +52,12 @@ export class CoordinateSystem
     this.x_color = datas.x_color ?? "white";
     this.y_color = datas.y_color ?? "white";
     this.grid_color = datas.grid_color ?? "white";
+    this.x_number = datas.x_number ?? true;
+    this.y_number = datas.y_number ?? true;
+    this.y_number_trend =
+      datas.y_number_trend ?? ((numberCount: number) => new Text(String(numberCount), {}));
+    this.x_number_trend =
+      datas.x_number_trend ?? ((numberCount: number) => new Text(String(numberCount), {}));
     if (this.#x_min > 0) {
       throw new Error("Parameter `x_min` cannot be greater than 0");
     }
@@ -213,6 +223,130 @@ export class CoordinateSystem
       ctx.stroke();
     }
 
-    return ctx;
+    // To avoid text inversion, restore the coordinate system to its original state here
+
+    if (this.x_direction === "left") {
+      ctx.scale(-1, 1);
+    }
+    if (this.y_direction === "top") {
+      ctx.scale(1, -1);
+    }
+
+    let numberCount = 0;
+    if (this.#x_direction === "right") {
+      numberCount = 0;
+      for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
+        if (numberCount !== 0) {
+          const text = this.x_number_trend(numberCount);
+          text.x = x;
+          text.y = 20;
+          text.size = 20;
+          text.align = "center";
+          text.onUpdate(ctx);
+        }
+        numberCount += 1;
+      }
+
+      numberCount = 0;
+      for (let x = 0; x >= this.#x_min; x -= this.x_point_interval) {
+        if (numberCount !== 0) {
+          const text = this.x_number_trend(numberCount);
+          text.x = x;
+          text.y = 20;
+          text.size = 20;
+          text.align = "center";
+          text.onUpdate(ctx);
+        }
+        numberCount -= 1;
+      }
+    } else if (this.#x_direction === "left") {
+      numberCount = 0;
+      for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
+        if (numberCount !== 0) {
+          const text = this.x_number_trend(numberCount);
+          text.x = -x;
+          text.y = 20;
+          text.size = 20;
+          text.align = "center";
+          text.onUpdate(ctx);
+        }
+        numberCount += 1;
+      }
+
+      numberCount = 0;
+      for (let x = 0; x >= this.#x_min; x -= this.x_point_interval) {
+        if (numberCount !== 0) {
+          const text = this.x_number_trend(numberCount);
+          text.x = -x;
+          text.y = 20;
+          text.size = 20;
+          text.align = "center";
+          text.onUpdate(ctx);
+        }
+        numberCount -= 1;
+      }
+    }
+
+    if (this.#y_direction === "top") {
+      numberCount = 0;
+      for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
+        if (numberCount !== 0) {
+          const text = this.y_number_trend(numberCount);
+          text.x = -20;
+          text.y = -y;
+          text.size = 20;
+          text.align = "center";
+          text.onUpdate(ctx);
+        }
+        numberCount += 1;
+      }
+
+      numberCount = 0;
+      for (let y = 0; y >= this.#y_min; y -= this.y_point_interval) {
+        if (numberCount !== 0) {
+          const text = this.y_number_trend(numberCount);
+          text.x = -20;
+          text.y = -y;
+          text.size = 20;
+          text.align = "center";
+          text.onUpdate(ctx);
+        }
+        numberCount -= 1;
+      }
+    } else if (this.#y_direction === "bottom") {
+      numberCount = 0;
+      for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
+        if (numberCount !== 0) {
+          const text = this.y_number_trend(numberCount);
+          text.x = -20;
+          text.y = y;
+          text.size = 20;
+          text.align = "center";
+          text.onUpdate(ctx);
+        }
+        numberCount += 1;
+      }
+
+      numberCount = 0;
+      for (let y = 0; y >= this.#y_min; y -= this.y_point_interval) {
+        if (numberCount !== 0) {
+          const text = this.y_number_trend(numberCount);
+          text.x = -20;
+          text.y = y;
+          text.size = 20;
+          text.align = "center";
+          text.onUpdate(ctx);
+        }
+        numberCount -= 1;
+      }
+    }
+
+    const originText = this.x_number_trend(0);
+    originText.align = "right";
+    originText.baseline = "top";
+    originText.size = 20;
+    originText.x = 0;
+    originText.y = 0;
+    originText.onUpdate(ctx);
   }
 }
