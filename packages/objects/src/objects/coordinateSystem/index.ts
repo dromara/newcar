@@ -6,7 +6,8 @@ import type { ILimitofAxisX, ILimitofAxisY, ISystemDirection } from "./interface
 
 export class CoordinateSystem
   extends Carobj
-  implements ILimitofAxisX, ILimitofAxisY, ISystemDirection {
+  implements ILimitofAxisX, ILimitofAxisY, ISystemDirection
+{
   #x_max: number;
   #y_max: number;
   #x_min: number;
@@ -55,9 +56,11 @@ export class CoordinateSystem
     this.x_number = datas.x_number ?? true;
     this.y_number = datas.y_number ?? true;
     this.y_number_trend =
-      datas.y_number_trend ?? ((numberCount: number) => new Text(String(numberCount), {}));
+      datas.y_number_trend ??
+      ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
     this.x_number_trend =
-      datas.x_number_trend ?? ((numberCount: number) => new Text(String(numberCount), {}));
+      datas.x_number_trend ??
+      ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
     if (this.#x_min > 0) {
       throw new Error("Parameter `x_min` cannot be greater than 0");
     }
@@ -232,6 +235,8 @@ export class CoordinateSystem
       ctx.scale(1, -1);
     }
 
+    // draw number
+
     let numberCount = 0;
     if (this.#x_direction === "right") {
       numberCount = 0;
@@ -348,5 +353,15 @@ export class CoordinateSystem
     originText.x = 0;
     originText.y = 0;
     originText.onUpdate(ctx);
+
+    // Restore
+    if (this.#x_direction === "left") {
+      ctx.scale(-1, 1);
+    }
+    if (this.#y_direction === "top") {
+      ctx.scale(1, -1);
+    }
+
+    return ctx;
   }
 }
