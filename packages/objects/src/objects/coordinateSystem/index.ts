@@ -238,7 +238,7 @@ export class CoordinateSystem
     // draw number
 
     let numberCount = 0;
-    if (this.#x_direction === "right") {
+    if (this.#x_direction === "right" && this.x_number) {
       numberCount = 0;
       for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
         if (numberCount !== 0) {
@@ -264,7 +264,7 @@ export class CoordinateSystem
         }
         numberCount -= 1;
       }
-    } else if (this.#x_direction === "left") {
+    } else if (this.#x_direction === "left" && this.x_number) {
       numberCount = 0;
       for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
         if (numberCount !== 0) {
@@ -292,7 +292,7 @@ export class CoordinateSystem
       }
     }
 
-    if (this.#y_direction === "top") {
+    if (this.#y_direction === "top" && this.y_number) {
       numberCount = 0;
       for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
         if (numberCount !== 0) {
@@ -318,7 +318,7 @@ export class CoordinateSystem
         }
         numberCount -= 1;
       }
-    } else if (this.#y_direction === "bottom") {
+    } else if (this.#y_direction === "bottom" && this.y_number) {
       numberCount = 0;
       for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
         if (numberCount !== 0) {
