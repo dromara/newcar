@@ -1,6 +1,6 @@
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
-import type { Point } from "../point";
+import { Point } from "../point";
 import type { lineobject } from "./input_type";
 
 export class Line extends Carobj {
@@ -11,10 +11,28 @@ export class Line extends Carobj {
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   lineWidth: number = 2;
 
-  constructor(startPoint: Point, endPoint: Point, datas: lineobject & carobject) {
+  constructor(
+    startPoint: Point | number[],
+    endPoint: Point | number[],
+    datas: lineobject & carobject,
+  ) {
     super(datas);
-    this.#startPoint = startPoint;
-    this.#endPoint = endPoint;
+    this.#startPoint =
+      typeof startPoint === "object"
+        ? startPoint
+        : new Point({
+            x: startPoint[0],
+            y: startPoint[1],
+          });
+
+    this.#endPoint =
+      typeof endPoint === "object"
+        ? endPoint
+        : new Point({
+            x: endPoint[0],
+            y: endPoint[1],
+          });
+
     if (typeof datas.color !== "undefined") {
       this.color = datas.color;
     }
@@ -28,15 +46,15 @@ export class Line extends Carobj {
     ctx.beginPath();
     ctx.strokeStyle = `${this.color}`;
     ctx.lineWidth = this.lineWidth;
-    ctx.moveTo(this.primaryPoints[0].x, this.primaryPoints[0].y);
-    ctx.lineTo(this.primaryPoints[1].x, this.primaryPoints[1].y);
+    ctx.moveTo(this.#startPoint.x, this.#startPoint.y);
+    ctx.lineTo(this.#endPoint.x, this.#endPoint.y);
     ctx.stroke();
 
     return ctx;
   }
 
-  get primaryPoints() {
-    return [this.#startPoint, this.#endPoint];
+  get startPoint() {
+    return this.#startPoint;
   }
 
   get startX() {

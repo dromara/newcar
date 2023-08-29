@@ -1,6 +1,6 @@
-export type pointobject = {
+export interface pointobject {
   x: number;
   y: number;
-  size: number;
-  color: string;
+  size?: number;
+  color?: string;
 }
