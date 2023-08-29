@@ -10,4 +10,6 @@ export interface carobject {
   display?: boolean;
   rotation?: number;
   transparency?: number;
+  centerX?: number;
+  centerY?: number;
 }

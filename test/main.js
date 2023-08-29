@@ -3,22 +3,6 @@ import { Car, animation, interpolator, object } from "./../packages/newcar/dist/
 
 const car = new Car(document.querySelector("#mycanvas"), 60);
 
-// const pen = new object.Pen({
-//   lineWidth: 5,
-//   color: "skyblue",
-//   x: 0,
-//   y: 100
-// });
-// const role_child = new object.Point({
-//   x: 100,
-//   y: 100,
-// })
-// const role = new object.Point({
-//   children: [role_child],
-//   x: 100,
-//   y: 100
-// })
-
 const fn = new object.MathImage((x) => Math.sin(x) + 3, 0, 0, {
   lineWidth: 2,
   color: "greenyellow",
@@ -33,19 +17,15 @@ const system = new object.CoordinateSystem(0, 0, 0, 0, {
   // x_color: "skyblue"
 });
 
-// const numberAxis = new object.NumberAxis(0, 0, {
-//   x: 300,
-//   y: 300,
-//   arrow: false,
-// })
+const text = new object.Text("Hello world!", {
+  x: 100,
+  y: 100,
+  size: 50,
+  centerX: 100,
+  centerY: 100
+})
 
-car.addObject(system);
-
-// car.addAnimationItem(new animation.Translation(role, {
-//   startAt: 0,
-//   lastsFor: 50,
-//   to: [400, 100],
-// }))
+car.addObject(system, text);
 
 car.addAnimationItem(
   new animation.AxisLimit2d(system, {
@@ -53,31 +33,16 @@ car.addAnimationItem(
     lastsFor: 50,
     to: [500, 350, 0, 0],
   }))
-// ).addAnimationItem();
-
-// .addAnimationItem(new animation.AxisLimit(numberAxis, {
-//   startAt: 0,
-//   lastsFor: 400,
-//   to: [100, -100],
-// }))
-
-// car.onUpdate(frame => {
-//   if (frame === 1) {
-//     pen.put()
-//   }
-//   pen.x = role.x;
-//   pen.y = role.y
-// })
-
-car.onUpdate((currentFrame) => {
-  if (currentFrame === 50) {
-    car.animate(new animation.Limit(fn, {
-      startAt: 50,
-      lastsFor: 100,
-      to: [0, 9],
-      by: interpolator.easeOutSine,
-    }))
-  }
-})
+  .addAnimationItem(new animation.Limit(fn, {
+    startAt: 50,
+    lastsFor: 100,
+    to: [0, 9],
+    by: interpolator.easeOutSine,
+  }))
+  .addAnimationItem(new animation.Rotation(text, {
+    startAt: 0,
+    lastsFor: 100,
+    to: 2 * Math.PI
+  }))
 
 car.play();

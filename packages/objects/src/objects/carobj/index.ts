@@ -9,6 +9,8 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
   #rotation = 0;
   #scaleX = 1;
   #scaleY = 1;
+  #centerX: number;
+  #centerY: number;
   #children: Carobj[] = [];
   #operation: GlobalCompositeOperation = "source-over";
   #transparency: number;
@@ -23,18 +25,12 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
     typeof datas.rotation !== "undefined" && (this.#rotation = datas.rotation!);
     typeof datas.operation !== "undefined" && (this.#operation = datas.operation!);
     typeof datas.children !== "undefined" && (this.#children = datas.children!);
+    this.#centerX = datas.centerX ?? 0;
+    this.#centerY = datas.centerY ?? 0;
     this.#transparency = datas.transparency ?? 1;
     this.children.forEach((child) => {
       child.#parent = this;
     });
-  }
-
-  get transparency() {
-    return this.#transparency;
-  }
-
-  set transparency(value: number) {
-    this.#transparency = value;
   }
 
   /**
@@ -66,9 +62,13 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
     if (this.display === true) {
       this.onModify();
       ctx.save();
+      // Translate origin to the coordinate。
       ctx.translate(this.x, this.y);
-      // ctx.translate(this.#x, this.#y);
+      // Set the rotation center.
+      ctx.translate(this.#centerX, this.#centerY);
       ctx.rotate(this.#rotation);
+      // After rotation, restore to the coordinate.
+      ctx.translate(-this.#centerX, -this.#centerY);
       ctx.scale(this.#scaleX, this.#scaleY);
       ctx.globalAlpha = this.#transparency;
       ctx.globalCompositeOperation = this.#operation;
@@ -158,6 +158,30 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
 
   set parent(value: Carobj) {
     this.#parent = value;
+  }
+
+  get transparency() {
+    return this.#transparency;
+  }
+
+  set transparency(value: number) {
+    this.#transparency = value;
+  }
+
+  get centerX() {
+    return this.#centerX;
+  }
+
+  set centerX(value: number) {
+    this.#centerX = value;
+  }
+
+  get centerY() {
+    return this.#centerY;
+  }
+
+  set centerY(value: number) {
+    this.#centerY = value;
   }
 
   addChildren(...children: Carobj[]) {
