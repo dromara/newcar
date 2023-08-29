@@ -1,7 +1,7 @@
 import { Carobj } from "./objects/carobj";
 import { Circle } from "./objects/circle";
 import { CoordinateSystem } from "./objects/coordinateSystem";
-import { ImagePlugin } from "./objects/image";
+import { Image } from "./objects/image";
 import { Line } from "./objects/line";
 import { MathImage } from "./objects/mathImage";
 import { NumberAxis } from "./objects/numberAxis";
@@ -19,7 +19,7 @@ export const object = {
   MathImage,
   Circle,
   Rectangle,
-  ImagePlugin,
+  Image,
   WebView,
   NumberAxis,
 };
