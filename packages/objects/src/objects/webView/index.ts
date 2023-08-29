@@ -1,21 +1,22 @@
 /* eslint-disable prefer-template */
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
+import type { ITextEditable } from "../text/interface";
 
-export class HTMLPlugin extends Carobj {
+export class WebView extends Carobj implements ITextEditable {
   #svg_content: string;
-  #content: string;
+  #text: string;
   #img: HTMLImageElement = document.createElement("img");
   #DOMURL = window.URL || window.webkitURL || window;
 
-  constructor(content: string, datas: carobject) {
+  constructor(text: string, datas: carobject) {
     super(datas);
-    this.#content = content;
+    this.#text = text;
     this.#svg_content =
       '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
       '<foreignObject width="100%" height="100%">' +
       '<div xmlns="http://www.w3.org/1999/xhtml" style="color: white">' +
-      content +
+      text +
       "</div>" +
       "</foreignObject>" +
       "</svg>";
@@ -37,12 +38,12 @@ export class HTMLPlugin extends Carobj {
     this.#img.src = url;
   }
 
-  get content() {
-    return this.#content;
+  get text() {
+    return this.#text;
   }
 
-  set content(value: string) {
-    this.#content = value;
+  set text(value: string) {
+    this.#text = value;
     this.#svg_content =
       '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">' +
       '<foreignObject width="100%" height="100%">' +

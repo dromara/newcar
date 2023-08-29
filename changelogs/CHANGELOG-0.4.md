@@ -1,9 +1,3 @@
-## Achieve
-- objects: Add rotation center for Object.
-## Breaking Change
-- objects: Rename `AngleCircle` to `CircleAngle`.
-- objects: Rename parameter `displayPoint` to `display_point`.
-
 # 0.4.0 (2023.8.24)
 
 ## Bug Fixes
