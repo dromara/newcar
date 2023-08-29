@@ -6,9 +6,7 @@ import { ImagePlugin } from "./objects/imagePlugin";
 import { Line } from "./objects/line";
 import { MathImage } from "./objects/mathImage";
 import { NumberAxis } from "./objects/numberAxis";
-import { Pen } from "./objects/pen";
 import { Point } from "./objects/point";
-import { Polygon } from "./objects/polygon";
 import { Rectangle } from "./objects/rectangle";
 import { Text } from "./objects/text";
 
@@ -20,10 +18,8 @@ export const object = {
   Line,
   MathImage,
   Circle,
-  Polygon,
   Rectangle,
   ImagePlugin,
   HTMLPlugin,
-  Pen,
   NumberAxis,
 };
