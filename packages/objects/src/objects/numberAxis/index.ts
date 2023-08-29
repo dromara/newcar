@@ -1,5 +1,6 @@
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
+import { Text } from "../text";
 import type { number_axisobject } from "./input_type";
 import type { INumberAxisLimit } from "./interface";
 
@@ -12,7 +13,9 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
   #width: number;
   #point_interval: number;
   #arrow: boolean;
-  #displayPoint: boolean;
+  #display_point: boolean;
+  number: boolean;
+  number_trend: (arg0: number) => Text;
 
   constructor(max: number, min: number, datas: number_axisobject & carobject) {
     super(datas);
@@ -23,11 +26,20 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
     this.#width = datas.width ?? 2;
     this.#point_interval = datas.point_interval ?? 50;
     this.#arrow = datas.arrow ?? true;
-    this.#displayPoint = datas.displayPoint ?? true;
+    this.#display_point = datas.display_point ?? true;
+    this.number = datas.number ?? true;
+    this.number_trend = datas.number_trend ?? ((n: number) => new Text(String(n), { x: 0, y: 0 }));
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
+
+    if (this.#max < 0) {
+      throw new Error("Parameter `max` cannot be less than 0");
+    }
+    if (this.#min > 0) {
+      throw new Error("Parameter `min` cannot be greater than 0");
+    }
 
     if (this.#direction === "left") {
       ctx.scale(-1, 1);
@@ -50,7 +62,8 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
       ctx.stroke();
     }
 
-    if (this.#displayPoint) {
+    // Draw number point.
+    if (this.#display_point) {
       ctx.strokeStyle = `${this.#color}`;
       ctx.lineWidth = 2;
       for (let i = 0; i <= this.#max; i += this.#point_interval) {
@@ -62,6 +75,36 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
         ctx.lineTo(i, -10);
       }
       ctx.stroke();
+    }
+
+    // Draw numbers.
+    if (this.#direction === "left") {
+      ctx.scale(-1, 0);
+    }
+
+    let numberCount = 0;
+
+    if (this.number) {
+      numberCount = 0;
+      for (let i = 0; i <= this.#max; i += this.#point_interval) {
+        const text = this.number_trend(numberCount);
+        text.x = i;
+        text.y = 20;
+        text.size = 20;
+        text.align = "center";
+        text.onUpdate(ctx);
+        numberCount += 1;
+      }
+      numberCount = 0;
+      for (let i = 0; i >= this.#min; i -= this.#point_interval) {
+        const text = this.number_trend(numberCount);
+        text.x = i;
+        text.y = 20;
+        text.size = 20;
+        text.align = "center";
+        text.onUpdate(ctx);
+        numberCount -= 1;
+      }
     }
 
     return ctx;
@@ -124,10 +167,10 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
   }
 
   get displayPoint() {
-    return this.#displayPoint;
+    return this.#display_point;
   }
 
   set displayPoint(value: boolean) {
-    this.#displayPoint = value;
+    this.#display_point = value;
   }
 }

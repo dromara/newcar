@@ -1,7 +1,8 @@
 ## Achieve
-- objects: Add rotation center for Object.
+- objects: Add rotation center for objects.
 - objects: Implement rotation center.
 - objects: number display on `CoordinateSystem`.
+- objects: number display on `NumberAxis`.
 
 ## Breaking Change
 - objects: Rename `AngleCircle` to `CircleAngle`.

@@ -22,6 +22,10 @@ const system = new object.CoordinateSystem(0, 0, 0, 0, {
   children: [fn1, fn2],
   // x_color: "skyblue"
 });
+const axis = new object.NumberAxis(100, -100, {
+  x: 300,
+  y: 300,
+})
 
 const text = new object.Text("Hello world!", {
   x: 100,
@@ -31,7 +35,7 @@ const text = new object.Text("Hello world!", {
   centerY: 100
 })
 
-car.addObject(system, text);
+car.addObject(system, text, axis);
 
 car.addAnimationItem(
   new animation.AxisLimit2d(system, {

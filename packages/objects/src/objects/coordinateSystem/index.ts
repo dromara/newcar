@@ -61,18 +61,6 @@ export class CoordinateSystem
     this.x_number_trend =
       datas.x_number_trend ??
       ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
-    if (this.#x_min > 0) {
-      throw new Error("Parameter `x_min` cannot be greater than 0");
-    }
-    if (this.#x_max < 0) {
-      throw new Error("Parameter `x_max` cannot be less than 0");
-    }
-    if (this.#y_min > 0) {
-      throw new Error("Parameter `y_min` cannot be greater than 0");
-    }
-    if (this.#y_max < 0) {
-      throw new Error("Parameter `y_max` cannot be less than 0");
-    }
   }
 
   get x_max() {
@@ -81,9 +69,6 @@ export class CoordinateSystem
 
   set x_max(value: number) {
     this.#x_max = value;
-    if (this.#x_max < 0) {
-      throw new Error("Parameter `x_max` cannot be less than 0");
-    }
   }
 
   get x_min() {
@@ -92,9 +77,6 @@ export class CoordinateSystem
 
   set x_min(value: number) {
     this.#x_min = value;
-    if (this.#x_min > 0) {
-      throw new Error("Parameter `x_min` cannot be greater than 0");
-    }
   }
 
   get y_max() {
@@ -103,9 +85,6 @@ export class CoordinateSystem
 
   set y_max(value: number) {
     this.#y_max = value;
-    if (this.#y_max < 0) {
-      throw new Error("Parameter `y_max` cannot be less than 0");
-    }
   }
 
   get y_min() {
@@ -114,9 +93,6 @@ export class CoordinateSystem
 
   set y_min(value: number) {
     this.#y_min = value;
-    if (this.#y_min > 0) {
-      throw new Error("Parameter `y_min` cannot be greater than 0");
-    }
   }
 
   get x_direction() {
@@ -137,6 +113,20 @@ export class CoordinateSystem
 
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
+
+    if (this.#x_min > 0) {
+      throw new Error("Parameter `x_min` cannot be greater than 0");
+    }
+    if (this.#x_max < 0) {
+      throw new Error("Parameter `x_max` cannot be less than 0");
+    }
+    if (this.#y_min > 0) {
+      throw new Error("Parameter `y_min` cannot be greater than 0");
+    }
+    if (this.#y_max < 0) {
+      throw new Error("Parameter `y_max` cannot be less than 0");
+    }
+
     if (this.#x_direction === "left") {
       ctx.scale(-1, 1);
     }
