@@ -19,7 +19,7 @@ const system = new object.CoordinateSystem(0, 0, 0, 0, {
   // arrow: false,
   grid_color: "skyblue",
   x_point_interval: 80,
-  x_number_trend: ((count) => new object.Text(String(2 * count), {})),
+  x_number_trend: (count) => new object.Text(String(2 * count), {}),
   children: [fn1, fn2],
   // x_color: "skyblue"
 });
@@ -36,7 +36,15 @@ const text = new object.Text("Hello world!", {
   centerY: 100
 })
 
-car.addObject(system, text, axis);
+const circle = new object.Circle(100, {
+  startAngle: 0,
+  endAngle: 2 * Math.PI,
+  x: 800,
+  y: 450,
+})
+
+car.addObject(system, text);
+car.addObject(circle)
 
 car.addAnimationItem(
   new animation.AxisLimit2d(system, {
@@ -61,5 +69,20 @@ car.addAnimationItem(
     lastsFor: 100,
     to: 2 * Math.PI
   }))
+  .addAnimationItem(new animation.FontSize(text, {
+    startAt: 0,
+    lastsFor: 100,
+    from: 10,
+    to: 100
+  }))
+  .addAnimationItem(new animation.Radius(circle, {
+    startAt: 0,
+    lastsFor: 100,
+    to: 200
+  }))
+
+car.onUpdate((currentFrame) => {
+  console.log(circle)
+})
 
 car.play();

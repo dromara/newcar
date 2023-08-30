@@ -10,7 +10,6 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
 
   #color: string;
   #direction: "left" | "right";
-  #width: number;
   #point_interval: number;
   #arrow: boolean;
   #display_point: boolean;
@@ -23,7 +22,6 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
     this.#min = min;
     this.#color = datas.color ?? "white";
     this.#direction = datas.direction ?? "right";
-    this.#width = datas.width ?? 2;
     this.#point_interval = datas.point_interval ?? 50;
     this.#arrow = datas.arrow ?? true;
     this.#display_point = datas.display_point ?? true;
@@ -46,7 +44,7 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
     }
 
     ctx.beginPath();
-    ctx.lineWidth = this.#width;
+    ctx.lineWidth = 2;
     ctx.strokeStyle = `${this.#color}`;
     ctx.moveTo(this.#min, 0);
     ctx.lineTo(this.#max, 0);
@@ -140,14 +138,6 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
 
   set direction(value: "left" | "right") {
     this.#direction = value;
-  }
-
-  get width() {
-    return this.#width;
-  }
-
-  set width(value: number) {
-    this.#width = value;
   }
 
   get point_interval() {

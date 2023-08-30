@@ -1,4 +1,4 @@
-export type textobject = {
+export interface textobject {
   size?: number;
   color?: string;
   fontFamily?: string;

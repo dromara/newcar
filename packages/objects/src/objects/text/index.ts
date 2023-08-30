@@ -1,10 +1,9 @@
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
-import type { IPositionedMut } from "../carobj/interface";
 import type { textobject } from "./input_type";
-import type { ITextEditable } from "./interface";
+import type { IFontSize, ITextEditable } from "./interface";
 
-export class Text extends Carobj implements ITextEditable, IPositionedMut {
+export class Text extends Carobj implements ITextEditable, IFontSize {
   #text: string;
   #size: number;
   #color: string;

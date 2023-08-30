@@ -3,6 +3,7 @@
 - objects: Implement rotation center.
 - objects: number display on `CoordinateSystem`.
 - objects: number display on `NumberAxis`.
+- animation-builder: Add animation `Division`, `FontSize` and `Radius`.
 
 ## Breaking Change
 - objects: Rename `AngleCircle` to `CircleAngle`.

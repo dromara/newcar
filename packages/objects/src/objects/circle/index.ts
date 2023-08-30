@@ -2,9 +2,9 @@
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import type { circleobject } from "./input_type";
-import type { ICircleAngle } from "./interface";
+import type { ICircleAngle, ICircleRadius } from "./interface";
 
-export class Circle extends Carobj implements ICircleAngle {
+export class Circle extends Carobj implements ICircleAngle, ICircleRadius {
   radius: number;
   #startAngle: number;
   #endAngle: number;
