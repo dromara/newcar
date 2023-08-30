@@ -9,7 +9,7 @@ export class Color {
     this.r = 255;
     this.g = 255;
     this.b = 255;
-    this.a = 255;
+    this.a = 1;
   }
 
   static rgb(r: number, g: number, b: number) {
@@ -57,7 +57,7 @@ export class Color {
   }
 
   toString() {
-    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a / 255})`;
+    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
   }
 
   static RED = Color.rgb(255, 0, 0);
