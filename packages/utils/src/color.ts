@@ -32,7 +32,7 @@ export class Color {
   }
 
   static rgbaUnified(r: number, g: number, b: number, a: number) {
-    return Color.rgba(r * 255, g * 255, b * 255, a * 255);
+    return Color.rgba(r * 255, g * 255, b * 255, a);
   }
 
   static rgbUnified(r: number, g: number, b: number) {
