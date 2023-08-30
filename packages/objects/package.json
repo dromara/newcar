@@ -8,6 +8,7 @@
   "main": "src/index.ts",
   "scripts": {},
   "dependencies": {
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "@newcar/core": "workspace:^0.4.0"
   }
 }

@@ -17,6 +17,6 @@ export interface IRendererController extends IRenderable {
   pause(frame: number): void;
 
   get fps(): number;
-  get framePerSecond(): number;
+  // get framePerSecond(): number;
   get element(): HTMLCanvasElement;
 }

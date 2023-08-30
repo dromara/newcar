@@ -1,7 +1,9 @@
+import type { Color } from "@newcar/core/src/color";
+
 export interface rectangleobject {
   length?: number;
   width?: number;
   borderWidth?: number;
-  borderColor?: string;
-  fillColor?: string;
+  borderColor?: Color;
+  fillColor?: Color;
 }
