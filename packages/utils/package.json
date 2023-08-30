@@ -1,0 +1,8 @@
+{
+  "name": "@newcar/utils",
+  "version": "0.4.0",
+  "description": "The utils of Newcar",
+  "keywords": [],
+  "author": "BugDuck Team",
+  "license": "Apache-2.0"
+}

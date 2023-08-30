@@ -4,7 +4,7 @@
   "author": "",
   "type": "module",
   "description": "",
-  "keywords": [],
+  "keywords": ["animation", "HTML Canvas"],
   "license": "APACHE-2.0",
   "main": "./dist/newcar.min.js",
   "module": "./dist/es/index.js",
