@@ -19,21 +19,19 @@ export class Line extends Carobj {
   ) {
     data = data ?? {};
     super(data);
-    this.#startPoint =
-      typeof startPoint === "object"
-        ? startPoint
-        : new Point({
-            x: startPoint[0],
-            y: startPoint[1],
-          });
+    this.#startPoint = Array.isArray(startPoint)
+      ? new Point({
+          x: startPoint[0],
+          y: startPoint[1],
+        })
+      : startPoint;
 
-    this.#endPoint =
-      typeof endPoint === "object"
-        ? endPoint
-        : new Point({
-            x: endPoint[0],
-            y: endPoint[1],
-          });
+    this.#endPoint = Array.isArray(endPoint)
+      ? new Point({
+          x: endPoint[0],
+          y: endPoint[1],
+        })
+      : endPoint;
 
     if (typeof data.color !== "undefined") {
       this.color = data.color;

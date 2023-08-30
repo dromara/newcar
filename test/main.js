@@ -13,6 +13,9 @@ const fn2 = new object.MathImage(Math.cos, 0, 0, {
   x_division: 80,
 });
 const svg = new object.Svg("./logo.svg", 200, 2000, {});
+const line = new object.Line([0, 0], [100, 300])
+const rect = new object.Rectangle();
+console.log(line);
 
 const system = new object.CoordinateSystem(0, 0, 0, 0, {
   x: 800,
@@ -49,7 +52,7 @@ const webview = new object.WebView(
   { x: 80, y: 600, width: 480, height: 160, centerX: 240, centerY: 80 }
 );
 
-car.addObject(system, text, circle, webview);
+car.addObject(system, text, circle, webview, line, rect);
 
 car
   .addAnimationItem(
