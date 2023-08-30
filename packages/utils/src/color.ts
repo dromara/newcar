@@ -31,6 +31,14 @@ export class Color {
     return result;
   }
 
+  static rgbaUnified(r: number, g: number, b: number, a: number) {
+    return Color.rgba(r * 255, g * 255, b * 255, a * 255);
+  }
+
+  static rgbUnified(r: number, g: number, b: number) {
+    return Color.rgb(r * 255, g * 255, b * 255);
+  }
+
   static hsl(h: number, s: number, l: number) {
     const ss = s / 100;
     const ll = l / 100;
@@ -49,7 +57,7 @@ export class Color {
   }
 
   toString() {
-    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
+    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a / 255})`;
   }
 
   static RED = Color.rgb(255, 0, 0);
