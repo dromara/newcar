@@ -19,7 +19,7 @@ export class Circle extends Carobj implements ICircleAngle, ICircleRadius {
     this.y = datas.y;
     typeof datas.startAngle === "undefined"
       ? (this.#startAngle = 0)
-      : (this.#startAngle = datas.startAngle!);
+      : (this.#startAngle = datas.endAngle!);
     typeof datas.endAngle === "undefined"
       ? (this.#endAngle = 2 * Math.PI)
       : (this.#endAngle = datas.startAngle!);

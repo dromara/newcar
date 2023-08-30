@@ -14,3 +14,4 @@
 - objects: Delete parameters `x_width` and `y_width` of `CoordinateSystem`.
 
 ## Bug Fixes
+- objects: `Circle` cannot be displayed properly.

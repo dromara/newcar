@@ -38,7 +38,7 @@ const text = new object.Text("Hello world!", {
 
 const circle = new object.Circle(100, {
   startAngle: 0,
-  endAngle: 2 * Math.PI,
+  endAngle: Math.PI,
   x: 800,
   y: 450,
 })
