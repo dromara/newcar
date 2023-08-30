@@ -29,12 +29,6 @@ export class Car {
     return this;
   }
 
-  animate(builderItem: AnimationBuilderItem) {
-    this.#animationBuilder.animate(builderItem);
-
-    return this;
-  }
-
   addAudioItem(sound: AudioItem) {
     this.#soundBuilder.addAudio(sound);
 
@@ -95,3 +89,4 @@ export { interpolator } from "@newcar/animation-builder/src/interpolation/index"
 export { animation } from "@newcar/animation-builder/src/items";
 export { object } from "@newcar/objects";
 export { AudioItem } from "@newcar/sound-builder/src/item";
+export { Color } from "@newcar/utils";

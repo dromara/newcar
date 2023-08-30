@@ -117,6 +117,9 @@ importers:
       '@newcar/sound-builder':
         specifier: workspace:^0.4.0
         version: link:../sound-builder
+      '@newcar/utils':
+        specifier: workspace:^0.4.0
+        version: link:../utils
       '@rollup/plugin-babel':
         specifier: ^6.0.3
         version: 6.0.3(@babel/core@7.20.7)(rollup@3.8.1)
@@ -156,27 +159,30 @@ importers:
 
   packages/objects:
     dependencies:
-<<<<<<< HEAD
       '@types/mathjax':
         specifier: ^0.0.37
         version: 0.0.37
       mathjax:
         specifier: ^3.2.2
         version: 3.2.2
-=======
-      '@newcar/core':
-        specifier: workspace:^0.4.0
-        version: link:../core
->>>>>>> 78bc1204372d17d4a017dad728dfc2a17cbe6dc1
       typescript:
         specifier: ^4.9.4
         version: registry.npmmirror.com/typescript@4.9.4
+    devDependencies:
+      '@newcar/core':
+        specifier: workspace:^0.4.0
+        version: link:../core
+      '@newcar/utils':
+        specifier: workspace:^0.4.0
+        version: link:../utils
 
   packages/sound-builder:
     devDependencies:
       '@newcar/objects':
         specifier: workspace:^0.4.0
         version: link:../objects
+
+  packages/utils: {}
 
 packages:
 

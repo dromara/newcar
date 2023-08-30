@@ -7,11 +7,10 @@ import { MathImage } from "./objects/mathImage";
 import { NumberAxis } from "./objects/numberAxis";
 import { Point } from "./objects/point";
 import { Rectangle } from "./objects/rectangle";
-import { Text } from "./objects/text";
 import { Svg } from "./objects/svg";
-import { WebView } from "./objects/webView";
 import { Tex } from "./objects/tex";
-
+import { Text } from "./objects/text";
+import { WebView } from "./objects/webView";
 
 export const object = {
   Carobj,
