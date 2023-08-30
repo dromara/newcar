@@ -19,8 +19,6 @@ export class CoordinateSystem
   y_point_interval: number;
   arrow: boolean;
   display_point: boolean;
-  x_width: number;
-  y_width: number;
   y_color: string;
   grid_color: string;
   grid: boolean;
@@ -45,8 +43,6 @@ export class CoordinateSystem
     this.#y_direction = datas.y_direction ?? "top";
     this.x_point_interval = datas.x_point_interval ?? 50;
     this.y_point_interval = datas.y_point_interval ?? 50;
-    this.x_width = datas.x_width ?? 2;
-    this.y_width = datas.y_width ?? 2;
     this.arrow = datas.arrow ?? true;
     this.display_point = datas.display_point ?? true;
     this.grid = datas.grid ?? true;
@@ -160,7 +156,7 @@ export class CoordinateSystem
     // draw axis X
     ctx.beginPath();
     ctx.strokeStyle = `${this.x_color}`;
-    ctx.lineWidth = this.x_width;
+    ctx.lineWidth = 2;
     ctx.moveTo(this.#x_min, 0);
     ctx.lineTo(this.#x_max, 0);
     if (this.arrow) {
@@ -175,7 +171,7 @@ export class CoordinateSystem
     // draw axis Y
     ctx.beginPath();
     ctx.strokeStyle = `${this.y_color}`;
-    ctx.lineWidth = this.y_width;
+    ctx.lineWidth = 2;
     ctx.moveTo(0, this.#y_min);
     ctx.lineTo(0, this.#y_max);
     if (this.arrow) {

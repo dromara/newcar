@@ -19,6 +19,7 @@ const system = new object.CoordinateSystem(0, 0, 0, 0, {
   // arrow: false,
   grid_color: "skyblue",
   x_point_interval: 80,
+  x_number_trend: ((count) => new object.Text(String(2 * count), {})),
   children: [fn1, fn2],
   // x_color: "skyblue"
 });

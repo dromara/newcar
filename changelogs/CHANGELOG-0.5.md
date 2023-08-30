@@ -10,5 +10,6 @@
 - objects: Rename `ImagePlugin` to `Image`.
 - objects: Rename parameter `displayPoint` to `display_point`.
 - objects: Deprecated `Pen` and `Polygon`.
+- objects: Delete parameters `x_width` and `y_width` of `CoordinateSystem`.
 
 ## Bug Fixes
