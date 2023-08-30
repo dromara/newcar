@@ -1,4 +1,4 @@
-export type rectangleobject = {
+export interface rectangleobject {
   length: number;
   width: number;
   borderWidth?: number;

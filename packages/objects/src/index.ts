@@ -1,8 +1,7 @@
 import { Carobj } from "./objects/carobj";
 import { Circle } from "./objects/circle";
 import { CoordinateSystem } from "./objects/coordinateSystem";
-import { HTMLPlugin } from "./objects/htmlPlugin";
-import { ImagePlugin } from "./objects/imagePlugin";
+import { Image } from "./objects/image";
 import { Line } from "./objects/line";
 import { MathImage } from "./objects/mathImage";
 import { NumberAxis } from "./objects/numberAxis";
@@ -10,6 +9,7 @@ import { Point } from "./objects/point";
 import { Rectangle } from "./objects/rectangle";
 import { Text } from "./objects/text";
 import { Svg } from "./objects/svg";
+import { WebView } from "./objects/webView";
 
 export const object = {
   Carobj,
@@ -20,8 +20,8 @@ export const object = {
   MathImage,
   Circle,
   Rectangle,
-  ImagePlugin,
-  HTMLPlugin,
+  Image,
   NumberAxis,
   Svg,
+  WebView,
 };

@@ -3,7 +3,7 @@
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 
-export class ImagePlugin extends Carobj {
+export class Image extends Carobj {
   #image: HTMLImageElement;
   #path: string;
 
@@ -20,5 +20,17 @@ export class ImagePlugin extends Carobj {
     ctx.drawImage(this.#image, this.x, this.y);
 
     return ctx;
+  }
+
+  get image() {
+    return this.#image;
+  }
+
+  get path() {
+    return this.#path;
+  }
+
+  set path(value: string) {
+    this.#path = value;
   }
 }

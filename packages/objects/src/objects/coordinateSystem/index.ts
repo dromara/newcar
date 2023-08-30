@@ -19,8 +19,6 @@ export class CoordinateSystem
   y_point_interval: number;
   arrow: boolean;
   display_point: boolean;
-  x_width: number;
-  y_width: number;
   y_color: string;
   grid_color: string;
   grid: boolean;
@@ -45,8 +43,6 @@ export class CoordinateSystem
     this.#y_direction = datas.y_direction ?? "top";
     this.x_point_interval = datas.x_point_interval ?? 50;
     this.y_point_interval = datas.y_point_interval ?? 50;
-    this.x_width = datas.x_width ?? 2;
-    this.y_width = datas.y_width ?? 2;
     this.arrow = datas.arrow ?? true;
     this.display_point = datas.display_point ?? true;
     this.grid = datas.grid ?? true;
@@ -61,18 +57,6 @@ export class CoordinateSystem
     this.x_number_trend =
       datas.x_number_trend ??
       ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
-    if (this.#x_min > 0) {
-      throw new Error("Parameter `x_min` cannot be greater than 0");
-    }
-    if (this.#x_max < 0) {
-      throw new Error("Parameter `x_max` cannot be less than 0");
-    }
-    if (this.#y_min > 0) {
-      throw new Error("Parameter `y_min` cannot be greater than 0");
-    }
-    if (this.#y_max < 0) {
-      throw new Error("Parameter `y_max` cannot be less than 0");
-    }
   }
 
   get x_max() {
@@ -81,9 +65,6 @@ export class CoordinateSystem
 
   set x_max(value: number) {
     this.#x_max = value;
-    if (this.#x_max < 0) {
-      throw new Error("Parameter `x_max` cannot be less than 0");
-    }
   }
 
   get x_min() {
@@ -92,9 +73,6 @@ export class CoordinateSystem
 
   set x_min(value: number) {
     this.#x_min = value;
-    if (this.#x_min > 0) {
-      throw new Error("Parameter `x_min` cannot be greater than 0");
-    }
   }
 
   get y_max() {
@@ -103,9 +81,6 @@ export class CoordinateSystem
 
   set y_max(value: number) {
     this.#y_max = value;
-    if (this.#y_max < 0) {
-      throw new Error("Parameter `y_max` cannot be less than 0");
-    }
   }
 
   get y_min() {
@@ -114,9 +89,6 @@ export class CoordinateSystem
 
   set y_min(value: number) {
     this.#y_min = value;
-    if (this.#y_min > 0) {
-      throw new Error("Parameter `y_min` cannot be greater than 0");
-    }
   }
 
   get x_direction() {
@@ -137,6 +109,20 @@ export class CoordinateSystem
 
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
+
+    if (this.#x_min > 0) {
+      throw new Error("Parameter `x_min` cannot be greater than 0");
+    }
+    if (this.#x_max < 0) {
+      throw new Error("Parameter `x_max` cannot be less than 0");
+    }
+    if (this.#y_min > 0) {
+      throw new Error("Parameter `y_min` cannot be greater than 0");
+    }
+    if (this.#y_max < 0) {
+      throw new Error("Parameter `y_max` cannot be less than 0");
+    }
+
     if (this.#x_direction === "left") {
       ctx.scale(-1, 1);
     }
@@ -170,7 +156,7 @@ export class CoordinateSystem
     // draw axis X
     ctx.beginPath();
     ctx.strokeStyle = `${this.x_color}`;
-    ctx.lineWidth = this.x_width;
+    ctx.lineWidth = 2;
     ctx.moveTo(this.#x_min, 0);
     ctx.lineTo(this.#x_max, 0);
     if (this.arrow) {
@@ -185,7 +171,7 @@ export class CoordinateSystem
     // draw axis Y
     ctx.beginPath();
     ctx.strokeStyle = `${this.y_color}`;
-    ctx.lineWidth = this.y_width;
+    ctx.lineWidth = 2;
     ctx.moveTo(0, this.#y_min);
     ctx.lineTo(0, this.#y_max);
     if (this.arrow) {
@@ -238,7 +224,7 @@ export class CoordinateSystem
     // draw number
 
     let numberCount = 0;
-    if (this.#x_direction === "right") {
+    if (this.#x_direction === "right" && this.x_number) {
       numberCount = 0;
       for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
         if (numberCount !== 0) {
@@ -264,7 +250,7 @@ export class CoordinateSystem
         }
         numberCount -= 1;
       }
-    } else if (this.#x_direction === "left") {
+    } else if (this.#x_direction === "left" && this.x_number) {
       numberCount = 0;
       for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
         if (numberCount !== 0) {
@@ -292,7 +278,7 @@ export class CoordinateSystem
       }
     }
 
-    if (this.#y_direction === "top") {
+    if (this.#y_direction === "top" && this.y_number) {
       numberCount = 0;
       for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
         if (numberCount !== 0) {
@@ -318,7 +304,7 @@ export class CoordinateSystem
         }
         numberCount -= 1;
       }
-    } else if (this.#y_direction === "bottom") {
+    } else if (this.#y_direction === "bottom" && this.y_number) {
       numberCount = 0;
       for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
         if (numberCount !== 0) {

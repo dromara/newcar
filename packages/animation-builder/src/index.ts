@@ -8,8 +8,6 @@ import type { AnimationBuilderItem } from "./item";
 
 export class AnimationBuilder {
   #items: AnimationBuilderItem[] = [];
-  #currentAnimateList: AnimationBuilderItem[] = [];
-
   /**
    * Play the animation on a `? extends IRenderable & IRendererController` instance.
    * @param rdInstance The `? extends IRenderable & IRendererController` instance.
@@ -40,14 +38,6 @@ export class AnimationBuilder {
         // M⚡️U⚡️L⚡️T⚡️I⚡️P⚡️L⚡️A⚡️Y⚡️E⚡️R⚡️-⚡️S⚡️P⚡️O⚡️R⚡️T⚡️S
         i.onDrawFrame(frame - i.startFrame, this);
       }
-      for (const builderItem of this.#currentAnimateList) {
-        builderItem.onDrawFrame(frame - builderItem.startFrame, this);
-      }
-      this.#currentAnimateList.forEach((animation, index) => {
-        if (animation.startFrame + animation.length === frame) {
-          this.#currentAnimateList.splice(index, 1);
-        }
-      });
     });
   }
 
@@ -58,12 +48,6 @@ export class AnimationBuilder {
    */
   addItem(builderItem: AnimationBuilderItem): AnimationBuilder {
     this.#items.push(builderItem);
-
-    return this;
-  }
-
-  animate(builderItem: AnimationBuilderItem): AnimationBuilder {
-    this.#currentAnimateList.push(builderItem);
 
     return this;
   }

@@ -1,10 +1,9 @@
-// TODO: The thickness of MathImage
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import type { mathimageobject } from "./input_type";
-import type { IMathImageLimit } from "./interface";
+import type { IDivision, IMathImageLimit } from "./interface";
 
-export class MathImage extends Carobj implements IMathImageLimit {
+export class MathImage extends Carobj implements IMathImageLimit, IDivision {
   #imageFunction: (arg0: number) => number;
   #startVariable: number;
   #endVariable: number;

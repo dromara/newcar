@@ -2,7 +2,10 @@ import { AnimationBuilderItem } from "../item";
 import { AxisLimit } from "./AxisLimit";
 import { AxisLimit2d } from "./AxisLimit2d";
 import { CircleAngle } from "./CircleAngle";
+import { Division } from "./Division";
+import { FontSize } from "./FontSize";
 import { Limit } from "./Limit";
+import { Radius } from "./Radius";
 import { RectSize } from "./RectSize";
 import { Rotation } from "./Rotation";
 import { Scale } from "./Scale";
@@ -20,4 +23,7 @@ export const animation = {
   AxisLimit,
   RectSize,
   Transparency,
+  FontSize,
+  Division,
+  Radius,
 };
