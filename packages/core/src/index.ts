@@ -5,7 +5,7 @@ import type { Carobj } from "@newcar/objects/src/objects/carobj";
 export class Renderer implements IRenderable, IRendererController {
   #ele: HTMLCanvasElement; // The html element of canvas.
   #objects: Carobj[] = []; // The objects of animation.
-  #every?: ((agr0: number) => void)[] = []; // Do it for every frame.
+  #every?: ((arg0: number) => void)[] = []; // Do it for every frame.
   #start?: () => void; // Do it before the animation started.
   #fps = 0; // The FPS.
   #currentFrame = 0; // Current number of frames.
@@ -104,10 +104,6 @@ export class Renderer implements IRenderable, IRendererController {
   }
 
   get fps() {
-    return this.#fps;
-  }
-
-  get framePerSecond() {
     return this.#fps;
   }
 

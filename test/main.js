@@ -12,6 +12,7 @@ const fn2 = new object.MathImage(Math.cos, 0, 0, {
   color: "skyblue",
   x_division: 80,
 })
+const svg = new object.Svg("./logo.svg", 200, 2000, {});
 
 const system = new object.CoordinateSystem(0, 0, 0, 0, {
   x: 800,
@@ -31,7 +32,7 @@ const text = new object.Text("Hello world!", {
   centerY: 100
 })
 
-car.addObject(system, text);
+car.addObject(svg, system, text);
 
 car.addAnimationItem(
   new animation.AxisLimit2d(system, {
@@ -52,6 +53,11 @@ car.addAnimationItem(
     by: interpolator.easeOutSine,
   }))
   .addAnimationItem(new animation.Rotation(text, {
+    startAt: 0,
+    lastsFor: 100,
+    to: 2 * Math.PI
+  }))
+  .addAnimationItem(new animation.Rotation(svg, {
     startAt: 0,
     lastsFor: 100,
     to: 2 * Math.PI

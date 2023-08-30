@@ -28,10 +28,13 @@ importers:
         version: 0.2.1(rollup@3.8.1)
       '@rollup/plugin-typescript':
         specifier: ^10.0.1
-        version: 10.0.1(rollup@3.8.1)(tslib@2.4.1)(typescript@4.9.4)
+        version: 10.0.1(rollup@3.8.1)(typescript@4.9.4)
       '@so1ve/eslint-config':
         specifier: ^0.106.1
         version: 0.106.1(eslint@8.43.0)(prettier@2.8.1)(svelte@4.2.0)(typescript@4.9.4)
+      canvg:
+        specifier: ^4.0.1
+        version: 4.0.1
       eslint:
         specifier: ^8.42.0
         version: 8.43.0
@@ -798,7 +801,7 @@ packages:
       npm-package-arg: 8.1.1
       p-map: 4.0.0
       pacote: 13.6.2
-      semver: registry.npmmirror.com/semver@7.3.8
+      semver: 7.5.3
     transitivePeerDependencies:
       - bluebird
       - supports-color
@@ -829,7 +832,7 @@ packages:
       p-map: 4.0.0
       p-map-series: 2.1.0
       p-waterfall: 2.1.1
-      semver: registry.npmmirror.com/semver@7.3.8
+      semver: 7.5.3
     transitivePeerDependencies:
       - bluebird
       - supports-color
@@ -902,7 +905,7 @@ packages:
     dependencies:
       '@lerna/child-process': 6.1.0
       '@lerna/describe-ref': 6.1.0
-      minimatch: registry.npmmirror.com/minimatch@3.1.2
+      minimatch: 3.1.2
       npmlog: 6.0.2
       slash: 3.0.0
     dev: true
@@ -963,7 +966,7 @@ packages:
       p-reduce: 2.1.0
       pacote: 13.6.2
       pify: registry.npmmirror.com/pify@5.0.0
-      semver: registry.npmmirror.com/semver@7.3.8
+      semver: 7.5.3
       slash: 3.0.0
       validate-npm-package-license: registry.npmmirror.com/validate-npm-package-license@3.0.4
       validate-npm-package-name: 4.0.0
@@ -1335,7 +1338,7 @@ packages:
       p-map: 4.0.0
       p-pipe: 3.1.0
       pacote: 13.6.2
-      semver: registry.npmmirror.com/semver@7.3.8
+      semver: 7.5.3
     transitivePeerDependencies:
       - bluebird
       - encoding
@@ -1480,13 +1483,13 @@ packages:
       chalk: registry.npmmirror.com/chalk@4.1.2
       dedent: 0.7.0
       load-json-file: registry.npmmirror.com/load-json-file@6.2.0
-      minimatch: registry.npmmirror.com/minimatch@3.1.2
+      minimatch: 3.1.2
       npmlog: 6.0.2
       p-map: 4.0.0
       p-pipe: 3.1.0
       p-reduce: 2.1.0
       p-waterfall: 2.1.1
-      semver: registry.npmmirror.com/semver@7.3.8
+      semver: 7.5.3
       slash: 3.0.0
       write-json-file: 4.3.0
     transitivePeerDependencies:
@@ -1718,7 +1721,7 @@ packages:
       ejs: 3.1.8
       ignore: 5.2.4
       nx: 15.4.0
-      semver: registry.npmmirror.com/semver@7.3.4
+      semver: 7.3.4
       tslib: 2.4.1
     transitivePeerDependencies:
       - typescript
@@ -1988,6 +1991,25 @@ packages:
       resolve: 1.22.1
       rollup: 3.8.1
       tslib: 2.4.1
+      typescript: 4.9.4
+    dev: true
+
+  /@rollup/plugin-typescript@10.0.1(rollup@3.8.1)(typescript@4.9.4):
+    resolution: {integrity: sha512-wBykxRLlX7EzL8BmUqMqk5zpx2onnmRMSw/l9M1sVfkJvdwfxogZQVNUM9gVMJbjRLDR5H6U0OMOrlDGmIV45A==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0||^3.0.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      tslib:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.0.2(rollup@3.8.1)
+      resolve: 1.22.1
+      rollup: 3.8.1
       typescript: 4.9.4
     dev: true
 
@@ -2264,8 +2286,16 @@ packages:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
 
+  /@types/offscreencanvas@2019.7.0:
+    resolution: {integrity: sha512-PGcyveRIpL1XIqK8eBsmRBt76eFgtzuPiSTyKHZxnGemp2yzGzWpjYKAfK3wIMiU7eH+851yEpiuP8JZerTmWg==}
+    dev: true
+
   /@types/parse-json@4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
+    dev: true
+
+  /@types/raf@3.4.0:
+    resolution: {integrity: sha512-taW5/WYqo36N7V39oYyHP9Ipfd5pNFvGTIQsNGj86xV88YQ7GnI30/yMfKDF7Zgin0m3e+ikX88FvImnK4RjGw==}
     dev: true
 
   /@types/resolve@1.20.2:
@@ -2958,7 +2988,7 @@ packages:
   /builtins@5.0.1:
     resolution: {integrity: sha512-qwVpFEHNfhYJIzNRBvd2C1kyo6jz3ZSMPyyuR47OPdiKWlbYnZNyDWuyR175qDnAJLiCo5fBBqPb3RiXgWlkOQ==}
     dependencies:
-      semver: registry.npmmirror.com/semver@7.3.8
+      semver: 7.5.3
     dev: true
 
   /bundle-name@3.0.0:
@@ -3023,6 +3053,18 @@ packages:
   /camelcase@5.3.1:
     resolution: {integrity: sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==}
     engines: {node: '>=6'}
+    dev: true
+
+  /canvg@4.0.1:
+    resolution: {integrity: sha512-5gD/d6SiCCT7baLnVr0hokYe93DfcHW2rSqdKOuOQD84YMlyfttnZ8iQsThTdX6koYam+PROz/FuQTo500zqGw==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@types/offscreencanvas': 2019.7.0
+      '@types/raf': 3.4.0
+      raf: 3.4.1
+      rgbcolor: 1.0.1
+      stackblur-canvas: 2.6.0
+      svg-pathdata: 6.0.3
     dev: true
 
   /chalk@2.4.2:
@@ -3310,7 +3352,7 @@ packages:
       json-stringify-safe: 5.0.1
       lodash: 4.17.21
       meow: 8.1.2
-      semver: registry.npmmirror.com/semver@6.3.0
+      semver: 6.3.0
       split: 1.0.1
       through2: 4.0.2
     dev: true
@@ -3818,9 +3860,9 @@ packages:
       debug: 4.3.4
       enhanced-resolve: 5.15.0
       eslint: 8.43.0
-      eslint-module-utils: registry.npmmirror.com/eslint-module-utils@2.8.0(@typescript-eslint/parser@5.60.1)(eslint-import-resolver-typescript@3.5.5)(eslint@8.43.0)
+      eslint-module-utils: 2.8.0(@typescript-eslint/parser@5.60.1)(eslint-import-resolver-node@0.3.7)(eslint-import-resolver-typescript@3.5.5)(eslint@8.43.0)
       eslint-plugin-import: /eslint-plugin-i@2.27.5-3(@typescript-eslint/parser@5.60.1)(eslint-import-resolver-typescript@3.5.5)(eslint@8.43.0)
-      get-tsconfig: registry.npmmirror.com/get-tsconfig@4.6.2
+      get-tsconfig: 4.6.2
       globby: 13.2.0
       is-core-module: 2.12.1
       is-glob: 4.0.3
@@ -4757,7 +4799,7 @@ packages:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
     engines: {node: '>= 6'}
     dependencies:
-      is-glob: registry.npmmirror.com/is-glob@4.0.3
+      is-glob: 4.0.3
     dev: true
 
   /glob-parent@6.0.2:
@@ -4945,7 +4987,7 @@ packages:
   /humanize-ms@1.2.1:
     resolution: {integrity: sha512-Fl70vYtsAFb/C06PTS9dZBo7ihau+Tu/DNCk/OyHhea07S+aeMWpFFkUaXRa8fI+ScZbEI8dfSxwY7gxZ9SAVQ==}
     dependencies:
-      ms: registry.npmmirror.com/ms@2.1.3
+      ms: 2.1.3
     dev: true
 
   /iconv-lite@0.4.24:
@@ -5683,7 +5725,7 @@ packages:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
     dependencies:
-      semver: registry.npmmirror.com/semver@6.3.0
+      semver: 6.3.0
     dev: true
 
   /make-fetch-happen@10.2.1:
@@ -6016,6 +6058,12 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  /minimatch@3.0.5:
+    resolution: {integrity: sha512-tUpxzX0VAzJHjLu0xUfFv1gwVp9ba3IOuRAVH2EGuRW8a5emA2FlACLqiT/lDVtS1W+TGNwqz3sWaNyLgDJWuw==}
+    dependencies:
+      brace-expansion: registry.npmmirror.com/brace-expansion@1.1.11
+    dev: true
+
   /minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
     dependencies:
@@ -6144,6 +6192,10 @@ packages:
   /mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
     engines: {node: '>=4'}
+    dev: true
+
+  /ms@2.1.2:
+    resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
     dev: true
 
   /ms@2.1.3:
@@ -6309,7 +6361,7 @@ packages:
     dependencies:
       hosted-git-info: registry.npmmirror.com/hosted-git-info@6.1.1
       proc-log: 3.0.0
-      semver: registry.npmmirror.com/semver@7.3.8
+      semver: 7.5.3
       validate-npm-package-name: 5.0.0
     dev: true
 
@@ -6318,7 +6370,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       hosted-git-info: registry.npmmirror.com/hosted-git-info@3.0.8
-      semver: registry.npmmirror.com/semver@7.3.8
+      semver: 7.5.3
       validate-npm-package-name: 3.0.0
     dev: true
 
@@ -6460,10 +6512,10 @@ packages:
       ignore: 5.2.4
       js-yaml: 4.1.0
       jsonc-parser: 3.2.0
-      minimatch: registry.npmmirror.com/minimatch@3.0.5
+      minimatch: 3.0.5
       npm-run-path: 4.0.1
       open: 8.4.0
-      semver: registry.npmmirror.com/semver@7.3.4
+      semver: 7.3.4
       string-width: 4.2.3
       strong-log-transformer: 2.1.0
       tar-stream: 2.2.0
@@ -6783,6 +6835,10 @@ packages:
       util: 0.10.4
     dev: true
 
+  /performance-now@2.1.0:
+    resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
+    dev: true
+
   /periscopic@3.1.0:
     resolution: {integrity: sha512-vKiQ8RRtkl9P+r/+oefh25C3fhybptkHKCZSPlcXiJux2tJF55GnEj3BVn4A5gKfq9NWWXXrxkHBwVPUfH0opw==}
     dependencies:
@@ -7030,6 +7086,12 @@ packages:
   /quick-lru@4.0.1:
     resolution: {integrity: sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==}
     engines: {node: '>=8'}
+    dev: true
+
+  /raf@3.4.1:
+    resolution: {integrity: sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==}
+    dependencies:
+      performance-now: 2.1.0
     dev: true
 
   /railroad-diagrams@1.0.0:
@@ -7300,6 +7362,11 @@ packages:
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
     dev: true
 
+  /rgbcolor@1.0.1:
+    resolution: {integrity: sha512-9aZLIrhRaD97sgVhtJOW6ckOEh6/GnvQtdVNfdZ6s67+3/XwLS9lBcQYzEEhYVeUowN7pRzMLsyGhK2i/xvWbw==}
+    engines: {node: '>= 0.8.15'}
+    dev: true
+
   /rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
     hasBin: true
@@ -7425,6 +7492,14 @@ packages:
     hasBin: true
     dev: true
 
+  /semver@7.3.4:
+    resolution: {integrity: sha512-tCfb2WLjqFAtXn4KEdxIhalnRtoKFN7nAwj0B3ZXCbQloV2tq5eDbcTmT68JJD3nRJq24/XgxtQKFIpQdtvmVw==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      lru-cache: registry.npmmirror.com/lru-cache@6.0.0
+    dev: true
+
   /semver@7.3.8:
     resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==}
     engines: {node: '>=10'}
@@ -7438,7 +7513,7 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
-      lru-cache: 6.0.0
+      lru-cache: registry.npmmirror.com/lru-cache@6.0.0
     dev: true
 
   /serialize-javascript@6.0.0:
@@ -7621,6 +7696,11 @@ packages:
       minipass: 3.3.6
     dev: true
 
+  /stackblur-canvas@2.6.0:
+    resolution: {integrity: sha512-8S1aIA+UoF6erJYnglGPug6MaHYGo1Ot7h5fuXx4fUPvcvQfcdw2o/ppCse63+eZf8PPidSu4v1JnmEVtEDnpg==}
+    engines: {node: '>=0.1.14'}
+    dev: true
+
   /string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
     engines: {node: '>=8'}
@@ -7741,6 +7821,11 @@ packages:
       locate-character: 3.0.0
       magic-string: 0.30.0
       periscopic: 3.1.0
+    dev: true
+
+  /svg-pathdata@6.0.3:
+    resolution: {integrity: sha512-qsjeeq5YjBZ5eMdFuUa4ZosMLxgr5RZ+F+Y1OrDhuOCEInRMA3x74XdBtggJcj9kOeInz0WE+LgCPDkZFlBYJw==}
+    engines: {node: '>=12.0.0'}
     dev: true
 
   /synckit@0.8.5:
@@ -8510,7 +8595,7 @@ packages:
       '@babel/helper-split-export-declaration': registry.npmmirror.com/@babel/helper-split-export-declaration@7.18.6
       '@babel/parser': registry.npmmirror.com/@babel/parser@7.20.7
       '@babel/types': registry.npmmirror.com/@babel/types@7.20.7
-      debug: registry.npmmirror.com/debug@4.3.4
+      debug: 4.3.4
       globals: registry.npmmirror.com/globals@11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -8648,8 +8733,8 @@ packages:
     name: call-bind
     version: 1.0.2
     dependencies:
-      function-bind: registry.npmmirror.com/function-bind@1.1.1
-      get-intrinsic: registry.npmmirror.com/get-intrinsic@1.1.3
+      function-bind: 1.1.1
+      get-intrinsic: 1.1.3
     dev: true
 
   registry.npmmirror.com/caniuse-lite@1.0.30001441:
@@ -8736,19 +8821,6 @@ packages:
       which: registry.npmmirror.com/which@2.0.2
     dev: true
 
-  registry.npmmirror.com/debug@3.2.7:
-    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/debug/-/debug-3.2.7.tgz}
-    name: debug
-    version: 3.2.7
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: registry.npmmirror.com/ms@2.1.3
-    dev: true
-
   registry.npmmirror.com/debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz}
     name: debug
@@ -8760,7 +8832,7 @@ packages:
       supports-color:
         optional: true
     dependencies:
-      ms: registry.npmmirror.com/ms@2.1.2
+      ms: 2.1.2
     dev: true
 
   registry.npmmirror.com/define-properties@1.1.4:
@@ -8769,8 +8841,8 @@ packages:
     version: 1.1.4
     engines: {node: '>= 0.4'}
     dependencies:
-      has-property-descriptors: registry.npmmirror.com/has-property-descriptors@1.0.0
-      object-keys: registry.npmmirror.com/object-keys@1.1.1
+      has-property-descriptors: 1.0.0
+      object-keys: 1.1.1
     dev: true
 
   registry.npmmirror.com/electron-to-chromium@1.4.284:
@@ -8793,42 +8865,31 @@ packages:
     version: 1.20.5
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-      es-to-primitive: registry.npmmirror.com/es-to-primitive@1.2.1
-      function-bind: registry.npmmirror.com/function-bind@1.1.1
-      function.prototype.name: registry.npmmirror.com/function.prototype.name@1.1.5
-      get-intrinsic: registry.npmmirror.com/get-intrinsic@1.1.3
-      get-symbol-description: registry.npmmirror.com/get-symbol-description@1.0.0
-      gopd: registry.npmmirror.com/gopd@1.0.1
-      has: registry.npmmirror.com/has@1.0.3
-      has-property-descriptors: registry.npmmirror.com/has-property-descriptors@1.0.0
-      has-symbols: registry.npmmirror.com/has-symbols@1.0.3
-      internal-slot: registry.npmmirror.com/internal-slot@1.0.4
-      is-callable: registry.npmmirror.com/is-callable@1.2.7
-      is-negative-zero: registry.npmmirror.com/is-negative-zero@2.0.2
-      is-regex: registry.npmmirror.com/is-regex@1.1.4
-      is-shared-array-buffer: registry.npmmirror.com/is-shared-array-buffer@1.0.2
-      is-string: registry.npmmirror.com/is-string@1.0.7
-      is-weakref: registry.npmmirror.com/is-weakref@1.0.2
-      object-inspect: registry.npmmirror.com/object-inspect@1.12.2
-      object-keys: registry.npmmirror.com/object-keys@1.1.1
-      object.assign: registry.npmmirror.com/object.assign@4.1.4
-      regexp.prototype.flags: registry.npmmirror.com/regexp.prototype.flags@1.4.3
-      safe-regex-test: registry.npmmirror.com/safe-regex-test@1.0.0
-      string.prototype.trimend: registry.npmmirror.com/string.prototype.trimend@1.0.6
-      string.prototype.trimstart: registry.npmmirror.com/string.prototype.trimstart@1.0.6
-      unbox-primitive: registry.npmmirror.com/unbox-primitive@1.0.2
-    dev: true
-
-  registry.npmmirror.com/es-to-primitive@1.2.1:
-    resolution: {integrity: sha512-QCOllgZJtaUo9miYBcLChTUaHNjJF3PYs1VidD7AwiEj1kYxKeQTctLAezAOH5ZKRH0g2IgPn6KwB4IT8iRpvA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/es-to-primitive/-/es-to-primitive-1.2.1.tgz}
-    name: es-to-primitive
-    version: 1.2.1
-    engines: {node: '>= 0.4'}
-    dependencies:
-      is-callable: registry.npmmirror.com/is-callable@1.2.7
-      is-date-object: registry.npmmirror.com/is-date-object@1.0.5
-      is-symbol: registry.npmmirror.com/is-symbol@1.0.4
+      call-bind: 1.0.2
+      es-to-primitive: 1.2.1
+      function-bind: 1.1.1
+      function.prototype.name: 1.1.5
+      get-intrinsic: 1.1.3
+      get-symbol-description: 1.0.0
+      gopd: 1.0.1
+      has: 1.0.3
+      has-property-descriptors: 1.0.0
+      has-symbols: 1.0.3
+      internal-slot: 1.0.4
+      is-callable: 1.2.7
+      is-negative-zero: 2.0.2
+      is-regex: 1.1.4
+      is-shared-array-buffer: 1.0.2
+      is-string: 1.0.7
+      is-weakref: 1.0.2
+      object-inspect: 1.12.2
+      object-keys: 1.1.1
+      object.assign: 4.1.4
+      regexp.prototype.flags: 1.4.3
+      safe-regex-test: 1.0.0
+      string.prototype.trimend: 1.0.6
+      string.prototype.trimstart: 1.0.6
+      unbox-primitive: 1.0.2
     dev: true
 
   registry.npmmirror.com/escalade@3.1.1:
@@ -8852,94 +8913,10 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  registry.npmmirror.com/eslint-module-utils@2.8.0(@typescript-eslint/parser@5.60.1)(eslint-import-resolver-typescript@3.5.5)(eslint@8.43.0):
-    resolution: {integrity: sha512-aWajIYfsqCKRDgUfjEXNN/JlrzauMuSEy5sbd7WXbtW3EH6A6MpwEh42c7qD+MqQo9QMJ6fWLAeIJynx0g6OAw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/eslint-module-utils/-/eslint-module-utils-2.8.0.tgz}
-    id: registry.npmmirror.com/eslint-module-utils/2.8.0
-    name: eslint-module-utils
-    version: 2.8.0
-    engines: {node: '>=4'}
-    peerDependencies:
-      '@typescript-eslint/parser': '*'
-      eslint: '*'
-      eslint-import-resolver-node: '*'
-      eslint-import-resolver-typescript: '*'
-      eslint-import-resolver-webpack: '*'
-    peerDependenciesMeta:
-      '@typescript-eslint/parser':
-        optional: true
-      eslint:
-        optional: true
-      eslint-import-resolver-node:
-        optional: true
-      eslint-import-resolver-typescript:
-        optional: true
-      eslint-import-resolver-webpack:
-        optional: true
-    dependencies:
-      '@typescript-eslint/parser': 5.60.1(eslint@8.43.0)(typescript@4.9.4)
-      debug: registry.npmmirror.com/debug@3.2.7
-      eslint: 8.43.0
-      eslint-import-resolver-typescript: 3.5.5(@typescript-eslint/parser@5.60.1)(eslint-plugin-i@2.27.5-3)(eslint@8.43.0)
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   registry.npmmirror.com/fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/fs.realpath/-/fs.realpath-1.0.0.tgz}
     name: fs.realpath
     version: 1.0.0
-    dev: true
-
-  registry.npmmirror.com/function-bind@1.1.1:
-    resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/function-bind/-/function-bind-1.1.1.tgz}
-    name: function-bind
-    version: 1.1.1
-    dev: true
-
-  registry.npmmirror.com/function.prototype.name@1.1.5:
-    resolution: {integrity: sha512-uN7m/BzVKQnCUF/iW8jYea67v++2u7m5UgENbHRtdDVclOUP+FMPlCNdmk0h/ysGyo2tavMJEDqJAkJdRa1vMA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/function.prototype.name/-/function.prototype.name-1.1.5.tgz}
-    name: function.prototype.name
-    version: 1.1.5
-    engines: {node: '>= 0.4'}
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-      define-properties: registry.npmmirror.com/define-properties@1.1.4
-      es-abstract: registry.npmmirror.com/es-abstract@1.20.5
-      functions-have-names: registry.npmmirror.com/functions-have-names@1.2.3
-    dev: true
-
-  registry.npmmirror.com/functions-have-names@1.2.3:
-    resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/functions-have-names/-/functions-have-names-1.2.3.tgz}
-    name: functions-have-names
-    version: 1.2.3
-    dev: true
-
-  registry.npmmirror.com/get-intrinsic@1.1.3:
-    resolution: {integrity: sha512-QJVz1Tj7MS099PevUG5jvnt9tSkXN8K14dxQlikJuPt4uD9hHAHjLyLBiLR5zELelBdD9QNRAXZzsJx0WaDL9A==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/get-intrinsic/-/get-intrinsic-1.1.3.tgz}
-    name: get-intrinsic
-    version: 1.1.3
-    dependencies:
-      function-bind: registry.npmmirror.com/function-bind@1.1.1
-      has: registry.npmmirror.com/has@1.0.3
-      has-symbols: registry.npmmirror.com/has-symbols@1.0.3
-    dev: true
-
-  registry.npmmirror.com/get-symbol-description@1.0.0:
-    resolution: {integrity: sha512-2EmdH1YvIQiZpltCNgkuiUnyukzxM/R6NDJX31Ke3BG1Nq5b0S2PhX59UKi9vZpPDQVdqn+1IcaAwnzTT5vCjw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/get-symbol-description/-/get-symbol-description-1.0.0.tgz}
-    name: get-symbol-description
-    version: 1.0.0
-    engines: {node: '>= 0.4'}
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-      get-intrinsic: registry.npmmirror.com/get-intrinsic@1.1.3
-    dev: true
-
-  registry.npmmirror.com/get-tsconfig@4.6.2:
-    resolution: {integrity: sha512-E5XrT4CbbXcXWy+1jChlZmrmCwd5KGx502kDCXJJ7y898TtWW9FwoG5HfOLVRKmlmDGkWN2HM9Ho+/Y8F0sJDg==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/get-tsconfig/-/get-tsconfig-4.6.2.tgz}
-    name: get-tsconfig
-    version: 4.6.2
-    dependencies:
-      resolve-pkg-maps: registry.npmmirror.com/resolve-pkg-maps@1.0.0
     dev: true
 
   registry.npmmirror.com/glob@7.1.4:
@@ -8988,24 +8965,10 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  registry.npmmirror.com/gopd@1.0.1:
-    resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/gopd/-/gopd-1.0.1.tgz}
-    name: gopd
-    version: 1.0.1
-    dependencies:
-      get-intrinsic: registry.npmmirror.com/get-intrinsic@1.1.3
-    dev: true
-
   registry.npmmirror.com/graceful-fs@4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/graceful-fs/-/graceful-fs-4.2.10.tgz}
     name: graceful-fs
     version: 4.2.10
-    dev: true
-
-  registry.npmmirror.com/has-bigints@1.0.2:
-    resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/has-bigints/-/has-bigints-1.0.2.tgz}
-    name: has-bigints
-    version: 1.0.2
     dev: true
 
   registry.npmmirror.com/has-flag@3.0.0:
@@ -9021,39 +8984,6 @@ packages:
     name: has-flag
     version: 4.0.0
     engines: {node: '>=8'}
-    dev: true
-
-  registry.npmmirror.com/has-property-descriptors@1.0.0:
-    resolution: {integrity: sha512-62DVLZGoiEBDHQyqG4w9xCuZ7eJEwNmJRWw2VY84Oedb7WFcA27fiEVe8oUQx9hAUJ4ekurquucTGwsyO1XGdQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/has-property-descriptors/-/has-property-descriptors-1.0.0.tgz}
-    name: has-property-descriptors
-    version: 1.0.0
-    dependencies:
-      get-intrinsic: registry.npmmirror.com/get-intrinsic@1.1.3
-    dev: true
-
-  registry.npmmirror.com/has-symbols@1.0.3:
-    resolution: {integrity: sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/has-symbols/-/has-symbols-1.0.3.tgz}
-    name: has-symbols
-    version: 1.0.3
-    engines: {node: '>= 0.4'}
-    dev: true
-
-  registry.npmmirror.com/has-tostringtag@1.0.0:
-    resolution: {integrity: sha512-kFjcSNhnlGV1kyoGk7OXKSawH5JOb/LzUc5w9B02hOTO0dfFRjbHQKvg1d6cf3HbeUmtU9VbbV3qzZ2Teh97WQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/has-tostringtag/-/has-tostringtag-1.0.0.tgz}
-    name: has-tostringtag
-    version: 1.0.0
-    engines: {node: '>= 0.4'}
-    dependencies:
-      has-symbols: registry.npmmirror.com/has-symbols@1.0.3
-    dev: true
-
-  registry.npmmirror.com/has@1.0.3:
-    resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/has/-/has-1.0.3.tgz}
-    name: has
-    version: 1.0.3
-    engines: {node: '>= 0.4.0'}
-    dependencies:
-      function-bind: registry.npmmirror.com/function-bind@1.1.1
     dev: true
 
   registry.npmmirror.com/hosted-git-info@2.8.9:
@@ -9119,131 +9049,10 @@ packages:
     version: 2.0.4
     dev: true
 
-  registry.npmmirror.com/internal-slot@1.0.4:
-    resolution: {integrity: sha512-tA8URYccNzMo94s5MQZgH8NB/XTa6HsOo0MLfXTKKEnHVVdegzaQoFZ7Jp44bdvLvY2waT5dc+j5ICEswhi7UQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/internal-slot/-/internal-slot-1.0.4.tgz}
-    name: internal-slot
-    version: 1.0.4
-    engines: {node: '>= 0.4'}
-    dependencies:
-      get-intrinsic: registry.npmmirror.com/get-intrinsic@1.1.3
-      has: 1.0.3
-      side-channel: registry.npmmirror.com/side-channel@1.0.4
-    dev: true
-
   registry.npmmirror.com/is-arrayish@0.2.1:
     resolution: {integrity: sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-arrayish/-/is-arrayish-0.2.1.tgz}
     name: is-arrayish
     version: 0.2.1
-    dev: true
-
-  registry.npmmirror.com/is-bigint@1.0.4:
-    resolution: {integrity: sha512-zB9CruMamjym81i2JZ3UMn54PKGsQzsJeo6xvN3HJJ4CAsQNB6iRutp2To77OfCNuoxspsIhzaPoO1zyCEhFOg==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-bigint/-/is-bigint-1.0.4.tgz}
-    name: is-bigint
-    version: 1.0.4
-    dependencies:
-      has-bigints: registry.npmmirror.com/has-bigints@1.0.2
-    dev: true
-
-  registry.npmmirror.com/is-boolean-object@1.1.2:
-    resolution: {integrity: sha512-gDYaKHJmnj4aWxyj6YHyXVpdQawtVLHU5cb+eztPGczf6cjuTdwve5ZIEfgXqH4e57An1D1AKf8CZ3kYrQRqYA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-boolean-object/-/is-boolean-object-1.1.2.tgz}
-    name: is-boolean-object
-    version: 1.1.2
-    engines: {node: '>= 0.4'}
-    dependencies:
-      call-bind: 1.0.2
-      has-tostringtag: 1.0.0
-    dev: true
-
-  registry.npmmirror.com/is-callable@1.2.7:
-    resolution: {integrity: sha512-1BC0BVFhS/p0qtw6enp8e+8OD0UrK0oFLztSjNzhcKA3WDuJxxAPXzPuPtKkjEY9UUoEWlX/8fgKeu2S8i9JTA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-callable/-/is-callable-1.2.7.tgz}
-    name: is-callable
-    version: 1.2.7
-    engines: {node: '>= 0.4'}
-    dev: true
-
-  registry.npmmirror.com/is-date-object@1.0.5:
-    resolution: {integrity: sha512-9YQaSxsAiSwcvS33MBk3wTCVnWK+HhF8VZR2jRxehM16QcVOdHqPn4VPHmRK4lSr38n9JriurInLcP90xsYNfQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-date-object/-/is-date-object-1.0.5.tgz}
-    name: is-date-object
-    version: 1.0.5
-    engines: {node: '>= 0.4'}
-    dependencies:
-      has-tostringtag: registry.npmmirror.com/has-tostringtag@1.0.0
-    dev: true
-
-  registry.npmmirror.com/is-extglob@2.1.1:
-    resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-extglob/-/is-extglob-2.1.1.tgz}
-    name: is-extglob
-    version: 2.1.1
-    engines: {node: '>=0.10.0'}
-    dev: true
-
-  registry.npmmirror.com/is-glob@4.0.3:
-    resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-glob/-/is-glob-4.0.3.tgz}
-    name: is-glob
-    version: 4.0.3
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      is-extglob: registry.npmmirror.com/is-extglob@2.1.1
-    dev: true
-
-  registry.npmmirror.com/is-negative-zero@2.0.2:
-    resolution: {integrity: sha512-dqJvarLawXsFbNDeJW7zAz8ItJ9cd28YufuuFzh0G8pNHjJMnY08Dv7sYX2uF5UpQOwieAeOExEYAWWfu7ZZUA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-negative-zero/-/is-negative-zero-2.0.2.tgz}
-    name: is-negative-zero
-    version: 2.0.2
-    engines: {node: '>= 0.4'}
-    dev: true
-
-  registry.npmmirror.com/is-number-object@1.0.7:
-    resolution: {integrity: sha512-k1U0IRzLMo7ZlYIfzRu23Oh6MiIFasgpb9X76eqfFZAqwH44UI4KTBvBYIZ1dSL9ZzChTB9ShHfLkR4pdW5krQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-number-object/-/is-number-object-1.0.7.tgz}
-    name: is-number-object
-    version: 1.0.7
-    engines: {node: '>= 0.4'}
-    dependencies:
-      has-tostringtag: 1.0.0
-    dev: true
-
-  registry.npmmirror.com/is-regex@1.1.4:
-    resolution: {integrity: sha512-kvRdxDsxZjhzUX07ZnLydzS1TU/TJlTUHHY4YLL87e37oUA49DfkLqgy+VjFocowy29cKvcSiu+kIv728jTTVg==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-regex/-/is-regex-1.1.4.tgz}
-    name: is-regex
-    version: 1.1.4
-    engines: {node: '>= 0.4'}
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-      has-tostringtag: registry.npmmirror.com/has-tostringtag@1.0.0
-    dev: true
-
-  registry.npmmirror.com/is-shared-array-buffer@1.0.2:
-    resolution: {integrity: sha512-sqN2UDu1/0y6uvXyStCOzyhAjCSlHceFoMKJW8W9EU9cvic/QdsZ0kEU93HEy3IUEFZIiH/3w+AH/UQbPHNdhA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-shared-array-buffer/-/is-shared-array-buffer-1.0.2.tgz}
-    name: is-shared-array-buffer
-    version: 1.0.2
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-    dev: true
-
-  registry.npmmirror.com/is-string@1.0.7:
-    resolution: {integrity: sha512-tE2UXzivje6ofPW7l23cjDOMa09gb7xlAqG6jG5ej6uPV32TlWP3NKPigtaGeHNu9fohccRYvIiZMfOOnOYUtg==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-string/-/is-string-1.0.7.tgz}
-    name: is-string
-    version: 1.0.7
-    engines: {node: '>= 0.4'}
-    dependencies:
-      has-tostringtag: registry.npmmirror.com/has-tostringtag@1.0.0
-    dev: true
-
-  registry.npmmirror.com/is-symbol@1.0.4:
-    resolution: {integrity: sha512-C/CPBqKWnvdcxqIARxyOh4v1UUEOCHpgDa0WYgpKDFMszcrPcffg5uhwSgPCLD2WWxmq6isisz87tzT01tuGhg==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-symbol/-/is-symbol-1.0.4.tgz}
-    name: is-symbol
-    version: 1.0.4
-    engines: {node: '>= 0.4'}
-    dependencies:
-      has-symbols: registry.npmmirror.com/has-symbols@1.0.3
-    dev: true
-
-  registry.npmmirror.com/is-weakref@1.0.2:
-    resolution: {integrity: sha512-qctsuLZmIQ0+vSSMfoVvyFe2+GSEvnmZ2ezTup1SBse9+twCCeial6EEi3Nc2KFcf6+qz2FBPnjXsk8xhKSaPQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/is-weakref/-/is-weakref-1.0.2.tgz}
-    name: is-weakref
-    version: 1.0.2
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
     dev: true
 
   registry.npmmirror.com/isexe@2.0.0:
@@ -9329,22 +9138,6 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  registry.npmmirror.com/minimatch@3.0.5:
-    resolution: {integrity: sha512-tUpxzX0VAzJHjLu0xUfFv1gwVp9ba3IOuRAVH2EGuRW8a5emA2FlACLqiT/lDVtS1W+TGNwqz3sWaNyLgDJWuw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/minimatch/-/minimatch-3.0.5.tgz}
-    name: minimatch
-    version: 3.0.5
-    dependencies:
-      brace-expansion: registry.npmmirror.com/brace-expansion@1.1.11
-    dev: true
-
-  registry.npmmirror.com/minimatch@3.1.2:
-    resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/minimatch/-/minimatch-3.1.2.tgz}
-    name: minimatch
-    version: 3.1.2
-    dependencies:
-      brace-expansion: registry.npmmirror.com/brace-expansion@1.1.11
-    dev: true
-
   registry.npmmirror.com/minimatch@5.1.2:
     resolution: {integrity: sha512-bNH9mmM9qsJ2X4r2Nat1B//1dJVcn3+iBLa3IgqJ7EbGaDNepL9QSHOxN4ng33s52VMMhhIfgCYDk3C4ZmlDAg==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/minimatch/-/minimatch-5.1.2.tgz}
     name: minimatch
@@ -9358,12 +9151,6 @@ packages:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/ms/-/ms-2.1.2.tgz}
     name: ms
     version: 2.1.2
-    dev: true
-
-  registry.npmmirror.com/ms@2.1.3:
-    resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/ms/-/ms-2.1.3.tgz}
-    name: ms
-    version: 2.1.3
     dev: true
 
   registry.npmmirror.com/nice-try@1.0.5:
@@ -9384,8 +9171,8 @@ packages:
     version: 2.5.0
     dependencies:
       hosted-git-info: registry.npmmirror.com/hosted-git-info@2.8.9
-      resolve: registry.npmmirror.com/resolve@1.22.1
-      semver: registry.npmmirror.com/semver@5.7.1
+      resolve: 1.22.3
+      semver: 5.7.1
       validate-npm-package-license: registry.npmmirror.com/validate-npm-package-license@3.0.4
     dev: true
 
@@ -9411,31 +9198,6 @@ packages:
       is-core-module: 2.12.1
       semver: 7.5.3
       validate-npm-package-license: registry.npmmirror.com/validate-npm-package-license@3.0.4
-    dev: true
-
-  registry.npmmirror.com/object-inspect@1.12.2:
-    resolution: {integrity: sha512-z+cPxW0QGUp0mcqcsgQyLVRDoXFQbXOwBaqyF7VIgI4TWNQsDHrBpUQslRmIfAoYWdYzs6UlKJtB2XJpTaNSpQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/object-inspect/-/object-inspect-1.12.2.tgz}
-    name: object-inspect
-    version: 1.12.2
-    dev: true
-
-  registry.npmmirror.com/object-keys@1.1.1:
-    resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/object-keys/-/object-keys-1.1.1.tgz}
-    name: object-keys
-    version: 1.1.1
-    engines: {node: '>= 0.4'}
-    dev: true
-
-  registry.npmmirror.com/object.assign@4.1.4:
-    resolution: {integrity: sha512-1mxKf0e58bvyjSCtKYY4sRe9itRk3PJpquJOjeIkz885CczcI4IvJJDLPS72oowuSh+pBxUFROpX+TU++hxhZQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/object.assign/-/object.assign-4.1.4.tgz}
-    name: object.assign
-    version: 4.1.4
-    engines: {node: '>= 0.4'}
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-      define-properties: registry.npmmirror.com/define-properties@1.1.4
-      has-symbols: registry.npmmirror.com/has-symbols@1.0.3
-      object-keys: registry.npmmirror.com/object-keys@1.1.1
     dev: true
 
   registry.npmmirror.com/once@1.4.0:
@@ -9487,12 +9249,6 @@ packages:
     name: path-key
     version: 3.1.1
     engines: {node: '>=8'}
-    dev: true
-
-  registry.npmmirror.com/path-parse@1.0.7:
-    resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/path-parse/-/path-parse-1.0.7.tgz}
-    name: path-parse
-    version: 1.0.7
     dev: true
 
   registry.npmmirror.com/path-type@3.0.0:
@@ -9575,34 +9331,6 @@ packages:
       type-fest: 0.6.0
     dev: true
 
-  registry.npmmirror.com/regexp.prototype.flags@1.4.3:
-    resolution: {integrity: sha512-fjggEOO3slI6Wvgjwflkc4NFRCTZAu5CnNfBd5qOMYhWdn67nJBBu34/TkD++eeFmd8C9r9jfXJ27+nSiRkSUA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/regexp.prototype.flags/-/regexp.prototype.flags-1.4.3.tgz}
-    name: regexp.prototype.flags
-    version: 1.4.3
-    engines: {node: '>= 0.4'}
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-      define-properties: registry.npmmirror.com/define-properties@1.1.4
-      functions-have-names: registry.npmmirror.com/functions-have-names@1.2.3
-    dev: true
-
-  registry.npmmirror.com/resolve-pkg-maps@1.0.0:
-    resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/resolve-pkg-maps/-/resolve-pkg-maps-1.0.0.tgz}
-    name: resolve-pkg-maps
-    version: 1.0.0
-    dev: true
-
-  registry.npmmirror.com/resolve@1.22.1:
-    resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/resolve/-/resolve-1.22.1.tgz}
-    name: resolve
-    version: 1.22.1
-    hasBin: true
-    dependencies:
-      is-core-module: 2.12.1
-      path-parse: registry.npmmirror.com/path-parse@1.0.7
-      supports-preserve-symlinks-flag: registry.npmmirror.com/supports-preserve-symlinks-flag@1.0.0
-    dev: true
-
   registry.npmmirror.com/safe-buffer@5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/safe-buffer/-/safe-buffer-5.1.2.tgz}
     name: safe-buffer
@@ -9613,16 +9341,6 @@ packages:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/safe-buffer/-/safe-buffer-5.2.1.tgz}
     name: safe-buffer
     version: 5.2.1
-    dev: true
-
-  registry.npmmirror.com/safe-regex-test@1.0.0:
-    resolution: {integrity: sha512-JBUUzyOgEwXQY1NuPtvcj/qcBDbDmEvWufhlnXZIm75DEHp+afM1r1ujJpJsV/gSM4t59tpDyPi1sd6ZaPFfsA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/safe-regex-test/-/safe-regex-test-1.0.0.tgz}
-    name: safe-regex-test
-    version: 1.0.0
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-      get-intrinsic: registry.npmmirror.com/get-intrinsic@1.1.3
-      is-regex: registry.npmmirror.com/is-regex@1.1.4
     dev: true
 
   registry.npmmirror.com/semver@5.7.1:
@@ -9637,26 +9355,6 @@ packages:
     name: semver
     version: 6.3.0
     hasBin: true
-    dev: true
-
-  registry.npmmirror.com/semver@7.3.4:
-    resolution: {integrity: sha512-tCfb2WLjqFAtXn4KEdxIhalnRtoKFN7nAwj0B3ZXCbQloV2tq5eDbcTmT68JJD3nRJq24/XgxtQKFIpQdtvmVw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/semver/-/semver-7.3.4.tgz}
-    name: semver
-    version: 7.3.4
-    engines: {node: '>=10'}
-    hasBin: true
-    dependencies:
-      lru-cache: registry.npmmirror.com/lru-cache@6.0.0
-    dev: true
-
-  registry.npmmirror.com/semver@7.3.8:
-    resolution: {integrity: sha512-NB1ctGL5rlHrPJtFDVIVzTyQylMLu9N9VICA6HSFJo8MCGVTMW6gfpicwKmmK/dAjTOrqu5l63JJOpDSrAis3A==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/semver/-/semver-7.3.8.tgz}
-    name: semver
-    version: 7.3.8
-    engines: {node: '>=10'}
-    hasBin: true
-    dependencies:
-      lru-cache: registry.npmmirror.com/lru-cache@6.0.0
     dev: true
 
   registry.npmmirror.com/shebang-command@1.2.0:
@@ -9689,16 +9387,6 @@ packages:
     name: shebang-regex
     version: 3.0.0
     engines: {node: '>=8'}
-    dev: true
-
-  registry.npmmirror.com/side-channel@1.0.4:
-    resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/side-channel/-/side-channel-1.0.4.tgz}
-    name: side-channel
-    version: 1.0.4
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-      get-intrinsic: registry.npmmirror.com/get-intrinsic@1.1.3
-      object-inspect: registry.npmmirror.com/object-inspect@1.12.2
     dev: true
 
   registry.npmmirror.com/source-map@0.6.1:
@@ -9738,26 +9426,6 @@ packages:
     version: 3.0.12
     dev: true
 
-  registry.npmmirror.com/string.prototype.trimend@1.0.6:
-    resolution: {integrity: sha512-JySq+4mrPf9EsDBEDYMOb/lM7XQLulwg5R/m1r0PXEFqrV0qHvl58sdTilSXtKOflCsK2E8jxf+GKC0T07RWwQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/string.prototype.trimend/-/string.prototype.trimend-1.0.6.tgz}
-    name: string.prototype.trimend
-    version: 1.0.6
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-      define-properties: registry.npmmirror.com/define-properties@1.1.4
-      es-abstract: registry.npmmirror.com/es-abstract@1.20.5
-    dev: true
-
-  registry.npmmirror.com/string.prototype.trimstart@1.0.6:
-    resolution: {integrity: sha512-omqjMDaY92pbn5HOX7f9IccLA+U1tA9GvtU4JrodiXFfYB7jPzzHpRzpglLAjtUV6bB557zwClJezTqnAiYnQA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/string.prototype.trimstart/-/string.prototype.trimstart-1.0.6.tgz}
-    name: string.prototype.trimstart
-    version: 1.0.6
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-      define-properties: registry.npmmirror.com/define-properties@1.1.4
-      es-abstract: registry.npmmirror.com/es-abstract@1.20.5
-    dev: true
-
   registry.npmmirror.com/strip-bom@3.0.0:
     resolution: {integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/strip-bom/-/strip-bom-3.0.0.tgz}
     name: strip-bom
@@ -9790,13 +9458,6 @@ packages:
       has-flag: registry.npmmirror.com/has-flag@4.0.0
     dev: true
 
-  registry.npmmirror.com/supports-preserve-symlinks-flag@1.0.0:
-    resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz}
-    name: supports-preserve-symlinks-flag
-    version: 1.0.0
-    engines: {node: '>= 0.4'}
-    dev: true
-
   registry.npmmirror.com/to-fast-properties@2.0.0:
     resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/to-fast-properties/-/to-fast-properties-2.0.0.tgz}
     name: to-fast-properties
@@ -9811,17 +9472,6 @@ packages:
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
-
-  registry.npmmirror.com/unbox-primitive@1.0.2:
-    resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/unbox-primitive/-/unbox-primitive-1.0.2.tgz}
-    name: unbox-primitive
-    version: 1.0.2
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind@1.0.2
-      has-bigints: registry.npmmirror.com/has-bigints@1.0.2
-      has-symbols: registry.npmmirror.com/has-symbols@1.0.3
-      which-boxed-primitive: registry.npmmirror.com/which-boxed-primitive@1.0.2
-    dev: true
 
   registry.npmmirror.com/update-browserslist-db@1.0.10(browserslist@4.21.4):
     resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/update-browserslist-db/-/update-browserslist-db-1.0.10.tgz}
@@ -9844,18 +9494,6 @@ packages:
     dependencies:
       spdx-correct: registry.npmmirror.com/spdx-correct@3.1.1
       spdx-expression-parse: registry.npmmirror.com/spdx-expression-parse@3.0.1
-    dev: true
-
-  registry.npmmirror.com/which-boxed-primitive@1.0.2:
-    resolution: {integrity: sha512-bwZdv0AKLpplFY2KZRX6TvyuN7ojjr7lwkg6ml0roIy9YeuSr7JS372qlNW18UQYzgYK9ziGcerWqZOmEn9VNg==, registry: https://registry.npmjs.org/, tarball: https://registry.npmmirror.com/which-boxed-primitive/-/which-boxed-primitive-1.0.2.tgz}
-    name: which-boxed-primitive
-    version: 1.0.2
-    dependencies:
-      is-bigint: registry.npmmirror.com/is-bigint@1.0.4
-      is-boolean-object: registry.npmmirror.com/is-boolean-object@1.1.2
-      is-number-object: registry.npmmirror.com/is-number-object@1.0.7
-      is-string: registry.npmmirror.com/is-string@1.0.7
-      is-symbol: registry.npmmirror.com/is-symbol@1.0.4
     dev: true
 
   registry.npmmirror.com/which@1.3.1:

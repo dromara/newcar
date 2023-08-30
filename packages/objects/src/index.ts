@@ -9,6 +9,7 @@ import { NumberAxis } from "./objects/numberAxis";
 import { Point } from "./objects/point";
 import { Rectangle } from "./objects/rectangle";
 import { Text } from "./objects/text";
+import { Svg } from "./objects/svg";
 
 export const object = {
   Carobj,
@@ -22,4 +23,5 @@ export const object = {
   ImagePlugin,
   HTMLPlugin,
   NumberAxis,
+  Svg,
 };
