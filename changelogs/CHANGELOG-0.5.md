@@ -3,6 +3,8 @@
 - objects: Implement rotation center.
 - objects: number display on `CoordinateSystem`.
 - objects: number display on `NumberAxis`.
+- objects: new object `Svg`.
+- objects: new object `WebView`.
 - animation-builder: Add animation `Division`, `FontSize` and `Radius`.
 
 ## Breaking Change
