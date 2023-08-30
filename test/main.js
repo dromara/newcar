@@ -1,5 +1,5 @@
 /* eslint-disable @so1ve/prettier/prettier */
-import { Car, animation, interpolator, object } from "./../packages/newcar/dist/newcar.js";
+import { Car, animation, interpolator, object, Color } from "./../packages/newcar/dist/newcar.js";
 
 const car = new Car(document.querySelector("#mycanvas"), 60);
 
@@ -9,7 +9,7 @@ const fn1 = new object.MathImage(Math.sin, 0, 0, {
   x_division: 80,
 });
 const fn2 = new object.MathImage(Math.cos, 0, 0, {
-  color: "skyblue",
+  color: Color.rgb(255, 255, 255),
   x_division: 80,
 });
 const svg = new object.Svg("./logo.svg", 200, 2000, {});
@@ -36,8 +36,6 @@ const text = new object.Text("Hello world!", {
   centerY: 100,
 });
 
-const tex = new object.Tex("E=mc^2c", {});
-
 const circle = new object.Circle(100);
 
 const webview = new object.WebView(
@@ -51,7 +49,7 @@ const webview = new object.WebView(
   { x: 80, y: 600, width: 480, height: 160, centerX: 240, centerY: 80 }
 );
 
-car.addObject(system, text, tex, circle, webview);
+car.addObject(system, text, circle, webview);
 
 car
   .addAnimationItem(

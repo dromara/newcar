@@ -1,3 +1,5 @@
+import { Color } from "@newcar/utils";
+
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import type { textobject } from "./input_type";
@@ -6,7 +8,7 @@ import type { IFontSize, ITextEditable } from "./interface";
 export class Text extends Carobj implements ITextEditable, IFontSize {
   #text: string;
   #size: number;
-  #color: string;
+  #color: Color;
   #fontFamily = "sans-serif";
   #align: CanvasTextAlign = "start";
   #baseline: CanvasTextBaseline = "middle";
@@ -16,7 +18,9 @@ export class Text extends Carobj implements ITextEditable, IFontSize {
     super(data);
     this.#text = text;
     typeof data.size === "undefined" ? (this.#size = 10) : (this.#size = data.size);
-    typeof data.color === "undefined" ? (this.#color = "white") : (this.#color = data.color);
+    typeof data.color === "undefined"
+      ? (this.#color = Color.rgb(255, 255, 255))
+      : (this.#color = data.color);
     if (typeof data.fontFamily !== "undefined") {
       this.fontFamily = data.fontFamily;
     }
@@ -37,10 +41,10 @@ export class Text extends Carobj implements ITextEditable, IFontSize {
     ctx.textAlign = this.#align;
     ctx.textBaseline = this.#baseline;
     if (!this.#hollow) {
-      ctx.fillStyle = this.#color;
+      ctx.fillStyle = this.#color.toString();
       ctx.fillText(this.#text, 0, 0);
     } else if (this.#hollow) {
-      ctx.strokeStyle = this.#color;
+      ctx.strokeStyle = this.#color.toString();
       ctx.strokeText(this.#text, 0, 0);
     }
 
@@ -51,7 +55,7 @@ export class Text extends Carobj implements ITextEditable, IFontSize {
     return this.#color;
   }
 
-  set color(value: string) {
+  set color(value: Color) {
     this.#color = value;
   }
 

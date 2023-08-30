@@ -1,4 +1,4 @@
-import type { Color } from "@newcar/core/src/color";
+import type { Color } from "@newcar/utils";
 
 export interface RectangleObject {
   length?: number;

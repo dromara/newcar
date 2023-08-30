@@ -1,3 +1,5 @@
+import { Color } from "@newcar/utils";
+
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import { Point } from "../point";
@@ -6,8 +8,7 @@ import type { lineobject } from "./input_type";
 export class Line extends Carobj {
   #startPoint: Point;
   #endPoint: Point;
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  color: string = "white";
+  color: Color = Color.rgb(255, 255, 255);
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   lineWidth: number = 2;
 
@@ -45,7 +46,7 @@ export class Line extends Carobj {
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
     ctx.beginPath();
-    ctx.strokeStyle = `${this.color}`;
+    ctx.strokeStyle = `${this.color.toString()}`;
     ctx.lineWidth = this.lineWidth;
     ctx.moveTo(this.#startPoint.x, this.#startPoint.y);
     ctx.lineTo(this.#endPoint.x, this.#endPoint.y);
@@ -56,6 +57,10 @@ export class Line extends Carobj {
 
   get startPoint() {
     return this.#startPoint;
+  }
+
+  get endPoint() {
+    return this.#endPoint;
   }
 
   get startX() {

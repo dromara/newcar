@@ -1,3 +1,5 @@
+import { Color } from "@newcar/utils";
+
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import type { mathimageobject } from "./input_type";
@@ -7,7 +9,7 @@ export class MathImage extends Carobj implements IMathImageLimit, IDivision {
   #imageFunction: (arg0: number) => number;
   #startVariable: number;
   #endVariable: number;
-  #color = "white";
+  #color = Color.rgb(255, 255, 255);
   #lineWidth: number;
   x_division: number;
   y_division: number;
@@ -26,12 +28,12 @@ export class MathImage extends Carobj implements IMathImageLimit, IDivision {
     this.x_division = data.x_division ?? 50;
     this.y_division = data.y_division ?? 50;
     this.#lineWidth = data.lineWidth ?? 2;
-    this.#color = data.color ?? "white";
+    this.#color = data.color ?? Color.rgb(255, 255, 255);
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
-    ctx.strokeStyle = this.#color;
+    ctx.strokeStyle = this.#color.toString();
     ctx.beginPath();
     ctx.lineWidth = (this.#lineWidth / this.x_division) * 2;
     ctx.scale(this.x_division, this.y_division);
@@ -68,7 +70,7 @@ export class MathImage extends Carobj implements IMathImageLimit, IDivision {
     return this.#color;
   }
 
-  set color(value: string) {
+  set color(value: Color) {
     this.#color = value;
   }
 }

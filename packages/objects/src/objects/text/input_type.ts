@@ -1,6 +1,8 @@
+import type { Color } from "@newcar/utils";
+
 export interface textobject {
   size?: number;
-  color?: string;
+  color?: Color;
   fontFamily?: string;
   align?: CanvasTextAlign;
   baseline?: CanvasTextBaseline;

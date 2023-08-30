@@ -1,4 +1,6 @@
+import type { Color } from "@newcar/utils";
+
 export interface lineobject {
-  color?: string;
+  color?: Color;
   lineWidth?: number;
 }

@@ -1,3 +1,5 @@
+import { Color } from "@newcar/utils";
+
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import { Text } from "../text";
@@ -14,12 +16,12 @@ export class CoordinateSystem
   #y_min: number;
   #x_direction: "left" | "right";
   #y_direction: "top" | "bottom";
-  x_color: string;
+  x_color: Color;
   x_point_interval: number;
   y_point_interval: number;
   arrow: boolean;
   display_point: boolean;
-  y_color: string;
+  y_color: Color;
   grid_color: string;
   grid: boolean;
   x_number: boolean;
@@ -47,8 +49,8 @@ export class CoordinateSystem
     this.arrow = data.arrow ?? true;
     this.display_point = data.display_point ?? true;
     this.grid = data.grid ?? true;
-    this.x_color = data.x_color ?? "white";
-    this.y_color = data.y_color ?? "white";
+    this.x_color = data.x_color ?? Color.rgb(255, 255, 255);
+    this.y_color = data.y_color ?? Color.rgb(255, 255, 255);
     this.grid_color = data.grid_color ?? "white";
     this.x_number = data.x_number ?? true;
     this.y_number = data.y_number ?? true;
@@ -134,7 +136,7 @@ export class CoordinateSystem
     // draw grid
     if (this.grid) {
       ctx.beginPath();
-      ctx.strokeStyle = `${this.grid_color}`;
+      ctx.strokeStyle = `${this.grid_color.toString()}`;
       ctx.lineWidth = 1;
       for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
         ctx.moveTo(x, this.#y_max);
@@ -156,7 +158,7 @@ export class CoordinateSystem
     }
     // draw axis X
     ctx.beginPath();
-    ctx.strokeStyle = `${this.x_color}`;
+    ctx.strokeStyle = `${this.x_color.toString}`;
     ctx.lineWidth = 2;
     ctx.moveTo(this.#x_min, 0);
     ctx.lineTo(this.#x_max, 0);
@@ -171,7 +173,7 @@ export class CoordinateSystem
 
     // draw axis Y
     ctx.beginPath();
-    ctx.strokeStyle = `${this.y_color}`;
+    ctx.strokeStyle = `${this.y_color.toString()}`;
     ctx.lineWidth = 2;
     ctx.moveTo(0, this.#y_min);
     ctx.lineTo(0, this.#y_max);
@@ -187,7 +189,7 @@ export class CoordinateSystem
     // Draw number point;
     if (this.display_point) {
       ctx.beginPath();
-      ctx.strokeStyle = `${this.x_color}`;
+      ctx.strokeStyle = `${this.x_color.toString()}`;
       ctx.lineWidth = 2;
       for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
         ctx.moveTo(x, 10);
@@ -200,7 +202,7 @@ export class CoordinateSystem
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.strokeStyle = `${this.y_color}`;
+      ctx.strokeStyle = `${this.y_color.toString()}`;
       ctx.lineWidth = 2;
       for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
         ctx.moveTo(10, y);

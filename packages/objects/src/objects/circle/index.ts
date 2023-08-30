@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
+import { Color } from "@newcar/utils";
+
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import type { circleobject } from "./input_type";
@@ -8,9 +10,9 @@ export class Circle extends Carobj implements ICircleAngle, ICircleRadius {
   radius: number;
   #startAngle: number;
   #endAngle: number;
-  borderColor: string = "white";
+  borderColor: Color = Color.rgb(255, 255, 255);
   borderWidth: number = 2;
-  fillColor: string | null = null;
+  fillColor: Color | null = null;
 
   constructor(radius: number, data?: circleobject & carobject) {
     data = data ?? {};
@@ -39,10 +41,10 @@ export class Circle extends Carobj implements ICircleAngle, ICircleRadius {
     ctx.beginPath();
     ctx.arc(0, 0, this.radius, this.#startAngle, this.#endAngle);
     if (this.fillColor !== null) {
-      ctx.fillStyle = this.fillColor!;
+      ctx.fillStyle = this.fillColor!.toString();
       ctx.fill();
     }
-    ctx.strokeStyle = this.borderColor!;
+    ctx.strokeStyle = this.borderColor!.toString();
     ctx.stroke();
 
     return ctx;

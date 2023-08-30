@@ -1,3 +1,5 @@
+import { Color } from "@newcar/utils";
+
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import { Text } from "../text";
@@ -8,7 +10,7 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
   #max: number;
   #min: number;
 
-  #color: string;
+  #color: Color;
   #direction: "left" | "right";
   #point_interval: number;
   #arrow: boolean;
@@ -21,7 +23,7 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
     super(data);
     this.#max = max;
     this.#min = min;
-    this.#color = data.color ?? "white";
+    this.#color = data.color ?? Color.rgb(255, 255, 255);
     this.#direction = data.direction ?? "right";
     this.#point_interval = data.point_interval ?? 50;
     this.#arrow = data.arrow ?? true;
@@ -129,7 +131,7 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
     return this.#color;
   }
 
-  set color(value: string) {
+  set color(value: Color) {
     this.#color = value;
   }
 

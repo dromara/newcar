@@ -1,3 +1,5 @@
+import type { Color } from "@newcar/utils";
+
 import type { Text } from "../text";
 
 export interface coordinate_systemobject {
@@ -12,7 +14,7 @@ export interface coordinate_systemobject {
   y_number?: boolean;
   x_number_trend?: (arg0: number) => Text;
   y_number_trend?: (arg0: number) => Text;
-  x_color?: string;
-  y_color?: string;
+  x_color?: Color;
+  y_color?: Color;
   grid_color?: string;
 }
