@@ -11,21 +11,22 @@ export class Text extends Carobj implements ITextEditable, IFontSize {
   #align: CanvasTextAlign = "start";
   #baseline: CanvasTextBaseline = "middle";
   #hollow: Boolean;
-  constructor(text: string, datas: textobject & carobject) {
-    super(datas);
+  constructor(text: string, data?: textobject & carobject) {
+    data = data ?? {};
+    super(data);
     this.#text = text;
-    typeof datas.size === "undefined" ? (this.#size = 10) : (this.#size = datas.size);
-    typeof datas.color === "undefined" ? (this.#color = "white") : (this.#color = datas.color);
-    if (typeof datas.fontFamily !== "undefined") {
-      this.fontFamily = datas.fontFamily;
+    typeof data.size === "undefined" ? (this.#size = 10) : (this.#size = data.size);
+    typeof data.color === "undefined" ? (this.#color = "white") : (this.#color = data.color);
+    if (typeof data.fontFamily !== "undefined") {
+      this.fontFamily = data.fontFamily;
     }
-    if (typeof datas.align !== "undefined") {
-      this.#align = datas.align;
+    if (typeof data.align !== "undefined") {
+      this.#align = data.align;
     }
-    if (typeof datas.baseline !== "undefined") {
-      this.#baseline = datas.baseline;
+    if (typeof data.baseline !== "undefined") {
+      this.#baseline = data.baseline;
     }
-    this.#hollow = datas.hollow ?? false;
+    this.#hollow = data.hollow ?? false;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {

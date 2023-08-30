@@ -16,18 +16,19 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
   #transparency: number;
   #parent: Carobj | null = null;
 
-  constructor(datas: carobject) {
-    this.#x = datas.x ?? 0;
-    this.#y = datas.y ?? 0;
-    typeof datas.scaleX !== "undefined" && (this.#scaleX = datas.scaleX!);
-    typeof datas.scaleY !== "undefined" && (this.#scaleY = datas.scaleY!);
-    typeof datas.display !== "undefined" && (this.display = datas.display!);
-    typeof datas.rotation !== "undefined" && (this.#rotation = datas.rotation!);
-    typeof datas.operation !== "undefined" && (this.#operation = datas.operation!);
-    typeof datas.children !== "undefined" && (this.#children = datas.children!);
-    this.#centerX = datas.centerX ?? 0;
-    this.#centerY = datas.centerY ?? 0;
-    this.#transparency = datas.transparency ?? 1;
+  constructor(data?: carobject) {
+    data = data ?? {};
+    this.#x = data.x ?? 0;
+    this.#y = data.y ?? 0;
+    typeof data.scaleX !== "undefined" && (this.#scaleX = data.scaleX!);
+    typeof data.scaleY !== "undefined" && (this.#scaleY = data.scaleY!);
+    typeof data.display !== "undefined" && (this.display = data.display!);
+    typeof data.rotation !== "undefined" && (this.#rotation = data.rotation!);
+    typeof data.operation !== "undefined" && (this.#operation = data.operation!);
+    typeof data.children !== "undefined" && (this.#children = data.children!);
+    this.#centerX = data.centerX ?? 0;
+    this.#centerY = data.centerY ?? 0;
+    this.#transparency = data.transparency ?? 1;
     this.children.forEach((child) => {
       child.#parent = this;
     });

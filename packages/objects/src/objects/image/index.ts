@@ -7,8 +7,9 @@ export class Image extends Carobj {
   #image: HTMLImageElement;
   #path: string;
 
-  constructor(path: string, datas: carobject) {
-    super(datas);
+  constructor(path: string, data?: carobject) {
+    data = data ?? {};
+    super(data);
     const image = document.createElement("img");
     this.#image = image;
     this.#path = path;

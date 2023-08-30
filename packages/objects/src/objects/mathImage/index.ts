@@ -16,16 +16,17 @@ export class MathImage extends Carobj implements IMathImageLimit, IDivision {
     f: (x: number) => number,
     start: number,
     end: number,
-    datas: mathimageobject & carobject,
+    data?: mathimageobject & carobject,
   ) {
-    super(datas);
+    data = data ?? {};
+    super(data);
     this.#imageFunction = f;
     this.#startVariable = start;
     this.#endVariable = end;
-    this.x_division = datas.x_division ?? 50;
-    this.y_division = datas.y_division ?? 50;
-    this.#lineWidth = datas.lineWidth ?? 2;
-    this.#color = datas.color ?? "white";
+    this.x_division = data.x_division ?? 50;
+    this.y_division = data.y_division ?? 50;
+    this.#lineWidth = data.lineWidth ?? 2;
+    this.#color = data.color ?? "white";
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {

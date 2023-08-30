@@ -10,14 +10,15 @@ export class Rectangle extends Carobj implements IRectSize {
   borderColor: string;
   fillColor: string;
 
-  constructor(datas: carobject & rectangleobject) {
-    super(datas);
-    this.length = datas.length;
-    this.width = datas.length;
-    this.borderColor = datas.borderColor ?? "white";
-    this.borderWidth = datas.borderWidth ?? 2;
+  constructor(data?: carobject & rectangleobject) {
+    data = data ?? {};
+    super(data);
+    this.length = data.length ?? 300;
+    this.width = data.length ?? 200;
+    this.borderColor = data.borderColor ?? "white";
+    this.borderWidth = data.borderWidth ?? 2;
     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-nullish-coalescing
-    this.fillColor = datas.fillColor! ?? null;
+    this.fillColor = data.fillColor! ?? null;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D): CanvasRenderingContext2D {

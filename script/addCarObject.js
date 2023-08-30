@@ -15,7 +15,7 @@ const PARAMETER = {
       type: "number"
     }
   ],
-  datas: [
+  data: [
     {
       name: "color",
       type: "string",
@@ -70,7 +70,7 @@ export class ${OBJECT_NAME} extends Carobj {
     // eslint-disable-next-line prefer-template
     (param) => "#" + param.name + ":" + param.type + "\n  "
   ))}
-  ${montageArrayToString(PARAMETER.datas.map(
+  ${montageArrayToString(PARAMETER.data.map(
     // eslint-disable-next-line @eslint-community/eslint-comments/no-duplicate-disable
     // eslint-disable-next-line prefer-template
     (data) => "#" + data.name + ":" + data.type + "\n  "
@@ -79,11 +79,11 @@ export class ${OBJECT_NAME} extends Carobj {
     // eslint-disable-next-line @eslint-community/eslint-comments/no-duplicate-disable
     // eslint-disable-next-line prefer-template
     (param) => param.name + ":" + param.type + ","
-  ))} datas: ${object_name}object & carobject) {
-    super(datas);
+  ))} data: ${object_name}object & carobject) {
+    super(data);
     // eslint-disable-next-line prefer-template
     ${montageArrayToString(PARAMETER.params.map(param => ("this.#" + param.name + " = " + param.name + (param.default ? " ?? " + param.default : "") + "\n  ")))}
-    ${montageArrayToString(PARAMETER.datas.map(data=> ("this.#" + data.name + " = datas." + data.name + (data.default ? " ?? " + data.default : "") + "\n  ")))}
+    ${montageArrayToString(PARAMETER.data.map(data=> ("this.#" + data.name + " = data." + data.name + (data.default ? " ?? " + data.default : "") + "\n  ")))}
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
@@ -102,7 +102,7 @@ export class ${OBJECT_NAME} extends Carobj {
     this.#${param.name} = value;
   }
     `
-  }))} ${montageArrayToString(PARAMETER.datas.map(data => {
+  }))} ${montageArrayToString(PARAMETER.data.map(data => {
     return `
   get ${data.name}() {
     return this.#${data.name}
@@ -118,7 +118,7 @@ export class ${OBJECT_NAME} extends Carobj {
 
 const input_type_code = `
 export interface ${object_name} {
-  ${montageArrayToString(PARAMETER.datas.map(data => `${data.name}: ${data.type}; \n  `))}
+  ${montageArrayToString(PARAMETER.data.map(data => `${data.name}: ${data.type}; \n  `))}
 }
 `
 

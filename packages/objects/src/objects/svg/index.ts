@@ -8,8 +8,9 @@ export class Svg extends Carobj implements ITextEditable {
   #img: HTMLImageElement = document.createElement("img");
   #DOMURL = window.URL || window.webkitURL || window;
 
-  constructor(text: string, datas: carobject) {
-    super(datas);
+  constructor(text: string, data?: carobject) {
+    data = data ?? {};
+    super(data);
     this.#text = text;
   }
 

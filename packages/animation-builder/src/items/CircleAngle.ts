@@ -14,7 +14,7 @@ export class CircleAngle extends AnimationBuilderItem {
 
   constructor(
     obj: ICircleAngleMut,
-    datas: {
+    data: {
       startAt?: number;
       lastsFor?: number;
       from?: [number, number];
@@ -23,22 +23,22 @@ export class CircleAngle extends AnimationBuilderItem {
     },
   ) {
     super();
-    if (datas.to === undefined || datas.lastsFor === undefined || datas.startAt === undefined) {
+    if (data.to === undefined || data.lastsFor === undefined || data.startAt === undefined) {
       throw new Error("This animation is missing necessary values");
     }
-    datas.from = datas.from ?? [obj.startAngle, obj.endAngle];
-    this.#length = datas.lastsFor;
-    this.#start = datas.startAt;
+    data.from = data.from ?? [obj.startAngle, obj.endAngle];
+    this.#length = data.lastsFor;
+    this.#start = data.startAt;
     this.#obj = obj;
     this.#interpolatorStart = new Interpolator(
-      datas.from[0],
-      datas.to[0],
-      datas.by ?? LinearInterpolator,
+      data.from[0],
+      data.to[0],
+      data.by ?? LinearInterpolator,
     );
     this.#interpolatorEnd = new Interpolator(
-      datas.from[1],
-      datas.to[1],
-      datas.by ?? LinearInterpolator,
+      data.from[1],
+      data.to[1],
+      data.by ?? LinearInterpolator,
     );
   }
 
