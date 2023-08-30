@@ -32,30 +32,31 @@ export class CoordinateSystem
     y_max: number,
     x_min: number,
     y_min: number,
-    datas: coordinate_systemobject & carobject,
+    data?: coordinate_systemobject & carobject,
   ) {
-    super(datas);
+    data = data ?? {};
+    super(data);
     this.#x_max = x_max;
     this.#x_min = x_min;
     this.#y_max = y_max;
     this.#y_min = y_min;
-    this.#x_direction = datas.x_direction ?? "right";
-    this.#y_direction = datas.y_direction ?? "top";
-    this.x_point_interval = datas.x_point_interval ?? 50;
-    this.y_point_interval = datas.y_point_interval ?? 50;
-    this.arrow = datas.arrow ?? true;
-    this.display_point = datas.display_point ?? true;
-    this.grid = datas.grid ?? true;
-    this.x_color = datas.x_color ?? "white";
-    this.y_color = datas.y_color ?? "white";
-    this.grid_color = datas.grid_color ?? "white";
-    this.x_number = datas.x_number ?? true;
-    this.y_number = datas.y_number ?? true;
+    this.#x_direction = data.x_direction ?? "right";
+    this.#y_direction = data.y_direction ?? "top";
+    this.x_point_interval = data.x_point_interval ?? 50;
+    this.y_point_interval = data.y_point_interval ?? 50;
+    this.arrow = data.arrow ?? true;
+    this.display_point = data.display_point ?? true;
+    this.grid = data.grid ?? true;
+    this.x_color = data.x_color ?? "white";
+    this.y_color = data.y_color ?? "white";
+    this.grid_color = data.grid_color ?? "white";
+    this.x_number = data.x_number ?? true;
+    this.y_number = data.y_number ?? true;
     this.y_number_trend =
-      datas.y_number_trend ??
+      data.y_number_trend ??
       ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
     this.x_number_trend =
-      datas.x_number_trend ??
+      data.x_number_trend ??
       ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
   }
 

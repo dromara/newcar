@@ -16,17 +16,18 @@ export class NumberAxis extends Carobj implements INumberAxisLimit {
   number: boolean;
   number_trend: (arg0: number) => Text;
 
-  constructor(max: number, min: number, datas: number_axisobject & carobject) {
-    super(datas);
+  constructor(max: number, min: number, data?: number_axisobject & carobject) {
+    data = data ?? {};
+    super(data);
     this.#max = max;
     this.#min = min;
-    this.#color = datas.color ?? "white";
-    this.#direction = datas.direction ?? "right";
-    this.#point_interval = datas.point_interval ?? 50;
-    this.#arrow = datas.arrow ?? true;
-    this.#display_point = datas.display_point ?? true;
-    this.number = datas.number ?? true;
-    this.number_trend = datas.number_trend ?? ((n: number) => new Text(String(n), { x: 0, y: 0 }));
+    this.#color = data.color ?? "white";
+    this.#direction = data.direction ?? "right";
+    this.#point_interval = data.point_interval ?? 50;
+    this.#arrow = data.arrow ?? true;
+    this.#display_point = data.display_point ?? true;
+    this.number = data.number ?? true;
+    this.number_trend = data.number_trend ?? ((n: number) => new Text(String(n), { x: 0, y: 0 }));
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {

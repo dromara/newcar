@@ -20,7 +20,6 @@ const system = new object.CoordinateSystem(0, 0, 0, 0, {
   // arrow: false,
   grid_color: "skyblue",
   x_point_interval: 80,
-  x_number_trend: (count) => new object.Text(String(2 * count), {}),
   children: [fn1, fn2],
   // x_color: "skyblue"
 });
@@ -39,12 +38,7 @@ const text = new object.Text("Hello world!", {
 
 const tex = new object.Tex("E=mc^2c", {});
 
-const circle = new object.Circle(100, {
-  startAngle: 0,
-  endAngle: Math.PI,
-  x: 800,
-  y: 450,
-});
+const circle = new object.Circle(100);
 
 const webview = new object.WebView(
   `<div style="

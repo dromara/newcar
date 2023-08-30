@@ -8,12 +8,11 @@ export class Point extends Carobj implements IPositionedMut {
   #color: string;
   #size: number;
 
-  constructor(datas: pointobject & carobject) {
-    super(datas);
-    this.x = datas.x;
-    this.y = datas.y;
-    this.#color = datas.color ?? "white";
-    this.#size = datas.size ?? 2;
+  constructor(data?: pointobject & carobject) {
+    data = data ?? {};
+    super(data);
+    this.#color = data.color ?? "white";
+    this.#size = data.size ?? 2;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {

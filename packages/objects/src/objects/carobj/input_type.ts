@@ -1,8 +1,8 @@
 import type { Carobj } from ".";
 
 export interface carobject {
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
   scaleX?: number;
   scaleY?: number;
   children?: Carobj[];

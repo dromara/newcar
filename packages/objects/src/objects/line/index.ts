@@ -14,9 +14,10 @@ export class Line extends Carobj {
   constructor(
     startPoint: Point | number[],
     endPoint: Point | number[],
-    datas: lineobject & carobject,
+    data?: lineobject & carobject,
   ) {
-    super(datas);
+    data = data ?? {};
+    super(data);
     this.#startPoint =
       typeof startPoint === "object"
         ? startPoint
@@ -33,11 +34,11 @@ export class Line extends Carobj {
             y: endPoint[1],
           });
 
-    if (typeof datas.color !== "undefined") {
-      this.color = datas.color;
+    if (typeof data.color !== "undefined") {
+      this.color = data.color;
     }
-    if (typeof datas.lineWidth !== "undefined") {
-      this.lineWidth = datas.lineWidth;
+    if (typeof data.lineWidth !== "undefined") {
+      this.lineWidth = data.lineWidth;
     }
   }
 

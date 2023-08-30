@@ -16,23 +16,23 @@ export function exportAnimationToVideo(
   } catch {}
 }
 
-function createRecorder(element: HTMLCanvasElement, datas: Record<string, unknown>) {
+function createRecorder(element: HTMLCanvasElement, data: Record<string, unknown>) {
   const stream = element.captureStream();
-  const recorder = new MediaRecorder(stream, datas);
+  const recorder = new MediaRecorder(stream, data);
 
   return recorder;
 }
 
 function setRecorder(recorder: MediaRecorder, onFinish: (arg0: string) => void) {
-  const datas: Blob[] = [];
+  const data: Blob[] = [];
   recorder.ondataavailable = (event) => {
     if (event.data && event.data.size > 0) {
-      datas.push(event.data);
+      data.push(event.data);
     }
   };
   recorder.onstop = () => {
     const url = URL.createObjectURL(
-      new Blob(datas, {
+      new Blob(data, {
         type: "video/webm",
       }),
     );

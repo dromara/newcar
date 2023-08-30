@@ -12,25 +12,24 @@ export class Circle extends Carobj implements ICircleAngle, ICircleRadius {
   borderWidth: number = 2;
   fillColor: string | null = null;
 
-  constructor(radius: number, datas: circleobject & carobject) {
-    super(datas);
+  constructor(radius: number, data?: circleobject & carobject) {
+    data = data ?? {};
+    super(data);
     this.radius = radius;
-    this.x = datas.x;
-    this.y = datas.y;
-    typeof datas.startAngle === "undefined"
+    typeof data.startAngle === "undefined"
       ? (this.#startAngle = 0)
-      : (this.#startAngle = datas.endAngle!);
-    typeof datas.endAngle === "undefined"
+      : (this.#startAngle = data.endAngle!);
+    typeof data.endAngle === "undefined"
       ? (this.#endAngle = 2 * Math.PI)
-      : (this.#endAngle = datas.startAngle!);
-    if (typeof datas.borderColor !== "undefined") {
-      this.borderColor = datas.borderColor;
+      : (this.#endAngle = data.startAngle!);
+    if (typeof data.borderColor !== "undefined") {
+      this.borderColor = data.borderColor;
     }
-    if (typeof datas.borderWidth !== "undefined") {
-      this.borderWidth = datas.borderWidth;
+    if (typeof data.borderWidth !== "undefined") {
+      this.borderWidth = data.borderWidth;
     }
-    if (typeof datas.fillColor !== "undefined") {
-      this.fillColor = datas.fillColor;
+    if (typeof data.fillColor !== "undefined") {
+      this.fillColor = data.fillColor;
     }
   }
 

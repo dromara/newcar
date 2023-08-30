@@ -1,31 +1,47 @@
+import { Color } from "@newcar/core/src/color";
+
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
-import type { rectangleobject } from "./input_type";
+import type { IPartialFillable } from "../carobj/interface";
+import type { RectangleObject } from "./input_type";
 import type { IRectSize } from "./interface";
 
-export class Rectangle extends Carobj implements IRectSize {
+export class Rectangle extends Carobj implements IRectSize, IPartialFillable {
   length: number;
   width: number;
   borderWidth: number;
-  borderColor: string;
-  fillColor: string;
+  borderColor: Color;
+  fillColor: Color;
+  fillProgress: number;
 
-  constructor(datas: carobject & rectangleobject) {
-    super(datas);
-    this.length = datas.length;
-    this.width = datas.length;
-    this.borderColor = datas.borderColor ?? "white";
-    this.borderWidth = datas.borderWidth ?? 2;
+  constructor(data?: carobject & RectangleObject) {
+    data = data ?? {};
+    super(data);
+    this.length = data.length ?? 300;
+    this.width = data.length ?? 200;
+    this.borderColor = data.borderColor ?? Color.rgb(255, 255, 255);
+    this.borderWidth = data.borderWidth ?? 2;
     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-nullish-coalescing
-    this.fillColor = datas.fillColor! ?? null;
+    this.fillColor = data.fillColor! ?? null;
+    this.fillProgress = 1;
+  }
+
+  partialFill(progress: number): void {
+    this.fillProgress = progress;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D): CanvasRenderingContext2D {
     super.onDraw(ctx);
     ctx.lineWidth = this.borderWidth;
-    ctx.strokeStyle = `${this.borderColor}`;
+    ctx.strokeStyle = this.borderColor.toString();
     if (this.fillColor !== null) {
-      ctx.fillStyle = `${this.fillColor}`;
+      const fillColor = Color.rgba(
+        this.fillColor.r,
+        this.fillColor.g,
+        this.fillColor.b,
+        this.fillColor.a * this.fillProgress,
+      );
+      ctx.fillStyle = fillColor.toString();
       ctx.fill();
     }
     ctx.beginPath();
