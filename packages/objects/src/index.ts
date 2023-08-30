@@ -10,6 +10,8 @@ import { Rectangle } from "./objects/rectangle";
 import { Text } from "./objects/text";
 import { Svg } from "./objects/svg";
 import { WebView } from "./objects/webView";
+import { Tex } from "./objects/tex";
+
 
 export const object = {
   Carobj,
@@ -24,4 +26,5 @@ export const object = {
   NumberAxis,
   Svg,
   WebView,
+  Tex,
 };

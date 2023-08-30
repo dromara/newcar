@@ -4,7 +4,7 @@
 - objects: number display on `CoordinateSystem`.
 - objects: number display on `NumberAxis`.
 - objects: new object `Svg`.
-- objects: new object `WebView`.
+- objects: new object `Tex`.
 - animation-builder: Add animation `Division`, `FontSize` and `Radius`.
 
 ## Breaking Change

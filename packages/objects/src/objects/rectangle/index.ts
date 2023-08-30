@@ -3,7 +3,7 @@ import { Color } from "@newcar/core/src/color";
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import type { IPartialFillable } from "../carobj/interface";
-import type { rectangleobject } from "./input_type";
+import type { RectangleObject } from "./input_type";
 import type { IRectSize } from "./interface";
 
 export class Rectangle extends Carobj implements IRectSize, IPartialFillable {
@@ -14,7 +14,7 @@ export class Rectangle extends Carobj implements IRectSize, IPartialFillable {
   fillColor: Color;
   fillProgress: number;
 
-  constructor(data?: carobject & rectangleobject) {
+  constructor(data?: carobject & RectangleObject) {
     data = data ?? {};
     super(data);
     this.length = data.length ?? 300;

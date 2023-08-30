@@ -36,6 +36,8 @@ const text = new object.Text("Hello world!", {
   centerY: 100,
 });
 
+const tex = new object.Tex("E=mc^2c", {});
+
 const circle = new object.Circle(100);
 
 const webview = new object.WebView(
@@ -49,7 +51,7 @@ const webview = new object.WebView(
   { x: 80, y: 600, width: 480, height: 160, centerX: 240, centerY: 80 }
 );
 
-car.addObject(system, text, circle, webview);
+car.addObject(system, text, tex, circle, webview);
 
 car
   .addAnimationItem(
