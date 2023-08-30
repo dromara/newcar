@@ -51,4 +51,16 @@ export class Color {
   toString() {
     return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
   }
+
+  static RED = Color.rgb(255, 0, 0);
+  static GREEN = Color.rgb(0, 255, 0);
+  static BLUE = Color.rgb(0, 0, 255);
+  static WHITE = Color.rgb(255, 255, 255);
+  static TRANSPARENT = Color.rgba(0, 0, 0, 0);
+  static TRANSGENDER_PINK = Color.rgb(245, 169, 184);
+  static TRANSGENDER_BLUE = Color.rgb(91, 206, 250);
+  static YELLOW = Color.rgb(255, 255, 0);
+  static CYAN = Color.rgb(0, 255, 255);
+  static MAGENTA = Color.rgb(255, 0, 255);
+  static BLACK = Color.rgb(0, 0, 0);
 }
