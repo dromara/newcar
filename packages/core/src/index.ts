@@ -72,9 +72,12 @@ export class Renderer implements IRenderable, IRendererController {
       return;
     }
     this.#start && this.#start();
-    for (const object of this.#objects) {
-      object.onSet();
-    }
+    (function set(objects) {
+      for (const object of objects) {
+        object.onSet();
+        set(object.children);
+      }
+    })(this.#objects);
     setInterval(() => {
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
       // console.log(this.#currentFrame, this.isSuspend);
