@@ -6,8 +6,10 @@
 - objects: new object `Svg`.
 - objects: new object `Tex`.
 - animation-builder: Add animation `Division`, `FontSize` and `Radius`.
-- utils: Add `Color`.
 - objects: Add utils function `getAbsoluteCoordinate`.
+- objects: Change the default value of `Point.size`.
+- objects: Change the default value of `Text.size`.
+- utils: Add `Color`.
 
 ## Breaking Change
 - objects: Rename `AngleCircle` to `CircleAngle`.

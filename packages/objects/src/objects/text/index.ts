@@ -17,7 +17,7 @@ export class Text extends Carobj implements ITextEditable, IFontSize {
     data = data ?? {};
     super(data);
     this.#text = text;
-    typeof data.size === "undefined" ? (this.#size = 10) : (this.#size = data.size);
+    typeof data.size === "undefined" ? (this.#size = 20) : (this.#size = data.size);
     typeof data.color === "undefined"
       ? (this.#color = Color.rgb(255, 255, 255))
       : (this.#color = data.color);
