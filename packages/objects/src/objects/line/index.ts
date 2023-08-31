@@ -42,7 +42,7 @@ export class Line extends Carobj {
     }
   }
 
-  override onDraw(ctx: CanvasRenderingContext2D) {
+  override beforeTranslate(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
     ctx.beginPath();
     ctx.strokeStyle = `${this.color.toString()}`;

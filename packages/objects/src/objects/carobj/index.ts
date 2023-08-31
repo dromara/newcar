@@ -48,9 +48,19 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
   /**
    * Get called on each frame.
    * @param ctx The context instance of the canvas object.
+   * @param element The DOM of <canvas>.
    */
   // eslint-disable-next-line unused-imports/no-unused-vars
   onDraw(ctx: CanvasRenderingContext2D, element?: HTMLElement) {
+    return ctx;
+  }
+
+  /**
+   * Get called before translate on each frame.
+   * @param ctx The context instance of the canvas object.
+   * @param element The dom of <canvas>
+   */
+  beforeTranslate(ctx: CanvasRenderingContext2D, element?: HTMLElement) {
     return ctx;
   }
 

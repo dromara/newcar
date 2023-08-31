@@ -8,6 +8,7 @@
 - objects: Add utils function `getAbsoluteCoordinate`.
 - objects: Change the default value of `Point.size`.
 - objects: Change the default value of `Text.size`.
+- objects: Add new function `beforeTranslate` for `Carobj`.
 - animation-builder: Add animation `Division`, `FontSize` and `Radius`.
 - utils: Add `Color`.
 

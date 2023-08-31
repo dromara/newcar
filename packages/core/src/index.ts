@@ -89,6 +89,12 @@ export class Renderer implements IRenderable, IRendererController {
           each && each(this.#currentFrame);
         }
       }
+      (function render(objects, ctx) {
+        for (const object of objects) {
+          object.beforeTranslate(ctx!);
+          render(object.children, ctx);
+        }
+      })(this.#objects, this.#ctx);
       for (const object of this.#objects) {
         object.onUpdate(this.#ctx!);
       }
