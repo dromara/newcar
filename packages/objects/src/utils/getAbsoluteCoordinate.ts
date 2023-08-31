@@ -1,5 +1,6 @@
 import type { Carobj } from "../objects/carobj";
 
+// get the absolute coordinate(Coordinates relative to root).
 export function getAbsoluteCoordinate(object: Carobj) {
   const coordinate = [object.x, object.y];
   (function recursion(obj: Carobj) {

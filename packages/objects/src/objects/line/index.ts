@@ -1,5 +1,6 @@
 import { Color } from "@newcar/utils";
 
+import { getAbsoluteCoordinate } from "../../utils/getAbsoluteCoordinate";
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
 import { Point } from "../point";
@@ -46,8 +47,10 @@ export class Line extends Carobj {
     ctx.beginPath();
     ctx.strokeStyle = `${this.color.toString()}`;
     ctx.lineWidth = this.lineWidth;
-    ctx.moveTo(this.#startPoint.x, this.#startPoint.y);
-    ctx.lineTo(this.#endPoint.x, this.#endPoint.y);
+    const startAbusoluteCoordinate = getAbsoluteCoordinate(this.#startPoint);
+    const endAbsoluteCoordinate = getAbsoluteCoordinate(this.#endPoint);
+    ctx.moveTo(startAbusoluteCoordinate[0], startAbusoluteCoordinate[1]);
+    ctx.lineTo(endAbsoluteCoordinate[0], endAbsoluteCoordinate[1]);
     ctx.stroke();
 
     return ctx;

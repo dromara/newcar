@@ -1,5 +1,5 @@
 /* eslint-disable @so1ve/prettier/prettier */
-import { Car, Color, animation, interpolator, object, getAbsoluteCoordinate } from "./../packages/newcar/dist/newcar.js";
+import { Car, Color, animation, interpolator, object } from "./../packages/newcar/dist/newcar.js";
 
 const car = new Car(document.querySelector("#mycanvas"), 60);
 
@@ -12,8 +12,15 @@ const fn2 = new object.MathImage(Math.cos, 0, 0, {
   color: Color.rgb(255, 255, 255),
   x_division: 80,
 });
-const svg = new object.Svg("./logo.svg", 200, 2000, {});
-const line = new object.Line([0, 0], [100, 300])
+const point1 = new object.Point({
+  x: 100,
+  y: 100
+})
+const point2 = new object.Point({
+  x: 100,
+  y: 100
+})
+const line = new object.Line(point1, point2)
 const rect = new object.Rectangle();
 console.log(line);
 
@@ -37,6 +44,7 @@ const text = new object.Text("Hello world!", {
   size: 50,
   centerX: 100,
   centerY: 100,
+  children: [point2]
 });
 
 const circle = new object.Circle(100, {
@@ -56,7 +64,7 @@ const webview = new object.WebView(
   { x: 80, y: 600, width: 480, height: 160, centerX: 240, centerY: 80 }
 );
 
-car.addObject(system, circle, webview, line, rect);
+car.addObject(system, circle, webview, line, rect, point1);
 
 car
   .addAnimationItem(

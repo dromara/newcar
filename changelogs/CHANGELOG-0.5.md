@@ -7,6 +7,7 @@
 - objects: new object `Tex`.
 - animation-builder: Add animation `Division`, `FontSize` and `Radius`.
 - utils: Add `Color`.
+- objects: Add utils function `getAbsoluteCoordinate`.
 
 ## Breaking Change
 - objects: Rename `AngleCircle` to `CircleAngle`.
@@ -19,3 +20,4 @@
 
 ## Bug Fixes
 - objects: `Circle` cannot be displayed properly.
+- objects: Two Point objects cannot connect to city lines at different levels.
