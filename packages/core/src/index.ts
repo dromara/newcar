@@ -81,9 +81,9 @@ export class Renderer implements IRenderable, IRendererController {
   }
 
   /**
-   * Start draw every frame.
+   * Start drawing every frame.
    */
-  countFrame() {
+  play() {
     // this.#currentFrame = 0;
     if (this.#ctx === null) {
       return;
@@ -100,7 +100,7 @@ export class Renderer implements IRenderable, IRendererController {
     setInterval(() => {
       // Preparation Stage.
       this.#ctx?.save();
-      const ratio = this.#scaleFitRatio();
+      const ratio = this.#scaleFitRatio(); // TODO: Center the animation
       this.#ctx?.scale(ratio, ratio);
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
 

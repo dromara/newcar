@@ -46,7 +46,7 @@ export class Car {
   play() {
     this.#animationBuilder.playOnCar(this.#renderer);
     this.#soundBuilder.playOnCar(this.#renderer);
-    this.#renderer.countFrame();
+    this.#renderer.play();
   }
 
   exports(startAt: number, lastAt: number, onFinish: (arg0: string) => void) {
