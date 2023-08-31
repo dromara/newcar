@@ -3,13 +3,15 @@ import type { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
 import type { Carobj } from "@newcar/objects/src/objects/carobj";
 
 export class Renderer implements IRenderable, IRendererController {
+  #width: number;
+  #height: number;
   #ele: HTMLCanvasElement; // The html element of canvas.
   #objects: Carobj[] = []; // The objects of animation.
   #every?: ((arg0: number) => void)[] = []; // Do it for every frame.
   #start?: () => void; // Do it before the animation started.
   #fps = 0; // The FPS.
   #currentFrame = 0; // Current number of frames.
-  #ctx: CanvasRenderingContext2D | null = null; // The context of canvas.
+  readonly #ctx: CanvasRenderingContext2D | null = null; // The context of canvas.
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   isSuspend: boolean = false; // The animation is or isnot suspend;
 
@@ -17,16 +19,31 @@ export class Renderer implements IRenderable, IRendererController {
    * Create a animation of newcar.
    * @param ele The element of canvas.
    * @param fps The FPS of the animation.
+   * @param width The actual width of the animation.
+   * @param height The actual height of the animation.
    */
-  constructor(ele: HTMLCanvasElement, fps: number) {
+  constructor(ele: HTMLCanvasElement, fps: number, width?: number, height?: number) {
+    this.#width = width ?? ele.width;
+    this.#height = height ?? ele.height;
     this.#ele = ele;
     this.#ele.style.backgroundColor = "black";
     if (this.#ele.getContext) {
       this.#fps = fps;
       this.#ctx = this.#ele.getContext("2d");
+    } else {
+      throw new Error("Cannot get context");
     }
 
     return this;
+  }
+
+  #scaleFitRatio(): number {
+    const actualWidth = this.#ele.width;
+    const actualHeight = this.#ele.height;
+    const actualRatio = actualWidth / actualHeight;
+    const animationRatio = this.#width / this.#height;
+
+    return animationRatio > actualRatio ? actualWidth / this.#width : actualHeight / this.#height;
   }
 
   /**
@@ -71,6 +88,7 @@ export class Renderer implements IRenderable, IRendererController {
     if (this.#ctx === null) {
       return;
     }
+
     this.#start && this.#start();
     (function set(objects) {
       for (const object of objects) {
@@ -78,26 +96,41 @@ export class Renderer implements IRenderable, IRendererController {
         set(object.children);
       }
     })(this.#objects);
+
     setInterval(() => {
+      // Preparation Stage.
+      this.#ctx?.save();
+      const ratio = this.#scaleFitRatio();
+      this.#ctx?.scale(ratio, ratio);
       this.#ctx?.clearRect(0, 0, this.#ele.width, this.#ele.height);
-      // console.log(this.#currentFrame, this.isSuspend);
+
+      // Counting Stage.
       if (!this.isSuspend) {
         this.#currentFrame += 1;
       }
+
+      // Event Stage.
       if (this.#every) {
         for (const each of this.#every) {
           each && each(this.#currentFrame);
         }
       }
+
+      // Pre-render Stage.
       (function render(objects, ctx) {
         for (const object of objects) {
           object.beforeTranslate(ctx!);
           render(object.children, ctx);
         }
       })(this.#objects, this.#ctx);
+
+      // Render Stage.
       for (const object of this.#objects) {
         object.onUpdate(this.#ctx!);
       }
+
+      // After Stage.
+      this.#ctx?.restore();
     }, 1000 / this.#fps);
   }
 
