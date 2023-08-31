@@ -19,7 +19,7 @@ export class Rectangle extends Carobj implements IRectSize, IPartialFillable {
     super(data);
     this.length = data.length ?? 300;
     this.width = data.length ?? 200;
-    this.borderColor = data.borderColor ?? Color.rgb(255, 255, 255);
+    this.borderColor = data.borderColor ?? Color.WHITE;
     this.borderWidth = data.borderWidth ?? 2;
     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-nullish-coalescing
     this.fillColor = data.fillColor! ?? null;
