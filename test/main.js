@@ -1,5 +1,5 @@
 /* eslint-disable @so1ve/prettier/prettier */
-import { Car, Color, animation, interpolator, object } from "./../packages/newcar/dist/newcar.js";
+import { Car, Color, animation, interpolator, object, getAbsoluteCoordinate } from "./../packages/newcar/dist/newcar.js";
 
 const car = new Car(document.querySelector("#mycanvas"), 60);
 
@@ -39,7 +39,11 @@ const text = new object.Text("Hello world!", {
   centerY: 100,
 });
 
-const circle = new object.Circle(100);
+const circle = new object.Circle(100, {
+  x: 100,
+  y: 100,
+  children: [text]
+});
 
 const webview = new object.WebView(
   `<div style="
@@ -52,7 +56,7 @@ const webview = new object.WebView(
   { x: 80, y: 600, width: 480, height: 160, centerX: 240, centerY: 80 }
 );
 
-car.addObject(system, text, circle, webview, line, rect);
+car.addObject(system, circle, webview, line, rect);
 
 car
   .addAnimationItem(

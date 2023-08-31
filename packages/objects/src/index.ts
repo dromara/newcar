@@ -8,7 +8,6 @@ import { NumberAxis } from "./objects/numberAxis";
 import { Point } from "./objects/point";
 import { Rectangle } from "./objects/rectangle";
 import { Svg } from "./objects/svg";
-import { Tex } from "./objects/tex";
 import { Text } from "./objects/text";
 import { WebView } from "./objects/webView";
 
@@ -25,5 +24,4 @@ export const object = {
   NumberAxis,
   Svg,
   WebView,
-  Tex,
 };
