@@ -1,5 +1,5 @@
 /* eslint-disable @so1ve/prettier/prettier */
-import { Car, animation, interpolator, object, Color } from "./../packages/newcar/dist/newcar.js";
+import { Car, Color, animation, interpolator, object } from "./../packages/newcar/dist/newcar.js";
 
 const car = new Car(document.querySelector("#mycanvas"), 60);
 
