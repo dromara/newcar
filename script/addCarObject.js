@@ -122,7 +122,7 @@ export interface ${object_name} {
 }
 `
 
-console.log("// index.ts\n")
+console.log("// index.rs\n")
 console.log(index_code);
-console.log("// input_type.ts")
+console.log("// input_type.rs")
 console.log(input_type_code);
