@@ -15,6 +15,7 @@ Here are the packages and their information:
 | @newcar/animation-builder | The builder of animation key frame | `/packages/animation-builder` |
 | @newcar/sound-builder | The builder of sounds and audios | `/packages/sound-builder` |
 | @newcar/event-builder | The event arrived scripts | `/packages/event-builder` |
+| @newcar/utils | The tools of creating newcar animation | `/packages/utils` |
 # Development
 
 The following tools are necessary in order to build this repository:
@@ -22,7 +23,7 @@ The following tools are necessary in order to build this repository:
 * `rollup`
 * `eslint`
 
-The test file `index.html` is in the `/packages/core`.
+The test file `main.js` is in the `/test`.
 
 ## Building
 To build the whole project, use the following command: 
@@ -31,11 +32,11 @@ $ npm run build:all
 $ # or
 $ pnpm run -r build
 ```
-The distributable files will appear in the directory `/packages/core/dist`, as many other open-source projects do.
+The distributable files will appear in the directory `/packages/newcar/dist`, as many other open-source projects do.
 
 ## Testing
 
-Use a static server to run the `/packages/core/index.html`.
+Use a static server to run the `/newcar/index.html`.
 
 ## Releasing
 
