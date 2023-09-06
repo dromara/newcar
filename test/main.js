@@ -1,7 +1,7 @@
 /* eslint-disable @so1ve/prettier/prettier */
 import { Car, Color, animation, interpolator, object } from "./../packages/newcar/dist/newcar.js";
 
-const car = new Car(document.querySelector("#mycanvas"), 60);
+const car = new Car(document.querySelector("#mycanvas"), 60,);
 
 const fn1 = new object.MathImage(Math.sin, 0, 0, {
   lineWidth: 2,
@@ -118,6 +118,9 @@ car
       lastsFor: 100,
       to: 200,
     })
+  )
+  .addAnimationItem(
+    new animation.FadeIn(system, { startAt: 0 })
   );
 
 car.play();

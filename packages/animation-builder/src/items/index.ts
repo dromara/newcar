@@ -3,6 +3,7 @@ import { AxisLimit } from "./AxisLimit";
 import { AxisLimit2d } from "./AxisLimit2d";
 import { CircleAngle } from "./CircleAngle";
 import { Division } from "./Division";
+import { FadeIn } from "./FadeIn";
 import { FontSize } from "./FontSize";
 import { Limit } from "./Limit";
 import { Radius } from "./Radius";
@@ -26,4 +27,5 @@ export const animation = {
   FontSize,
   Division,
   Radius,
+  FadeIn,
 };
