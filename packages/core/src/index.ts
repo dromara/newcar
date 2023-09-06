@@ -38,6 +38,10 @@ export class Renderer implements IRenderable, IRendererController {
   }
 
   #scaleFitRatio(): number {
+    if (this.#ele.width === 0 || this.#ele.height === 0) {
+      return 0;
+    }
+
     const actualWidth = this.#ele.width;
     const actualHeight = this.#ele.height;
     const actualRatio = actualWidth / actualHeight;
@@ -151,5 +155,21 @@ export class Renderer implements IRenderable, IRendererController {
 
   get element() {
     return this.#ele;
+  }
+
+  get width() {
+    return this.#width;
+  }
+  
+  get height() {
+    return this.#height;
+  }
+
+  set width(newWidth: number) {
+    this.#width = newWidth > 0 ? newWidth : 0;
+  }
+
+  set height(newHeight: number) {
+    this.#height = newHeight > 0 ? newHeight : 0;
   }
 }
