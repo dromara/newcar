@@ -3,18 +3,18 @@ import type { Color } from "@newcar/utils";
 import type { Text } from "../text";
 
 export interface coordinate_systemobject {
-  x_direction?: "left" | "right";
-  y_direction?: "top" | "bottom";
-  x_point_interval?: number;
-  y_point_interval?: number;
+  directionX?: "left" | "right";
+  directionY?: "top" | "bottom";
+  intervalX?: number;
+  intervalY?: number;
   arrow?: boolean;
-  display_point?: boolean;
+  displayPoint?: boolean;
   grid?: boolean;
-  x_number?: boolean;
-  y_number?: boolean;
-  x_number_trend?: (arg0: number) => Text;
-  y_number_trend?: (arg0: number) => Text;
-  x_color?: Color;
-  y_color?: Color;
+  numberX?: boolean;
+  numberY?: boolean;
+  trendX?: (arg0: number) => Text;
+  trendY?: (arg0: number) => Text;
+  colorX?: Color;
+  colorY?: Color;
   grid_color?: string;
 }

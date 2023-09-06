@@ -11,8 +11,8 @@ export class MathImage extends Carobj implements IMathImageLimit, IDivision {
   #endVariable: number;
   #color = Color.rgb(255, 255, 255);
   #lineWidth: number;
-  x_division: number;
-  y_division: number;
+  divisionX: number;
+  divisionY: number;
 
   constructor(
     f: (x: number) => number,
@@ -25,8 +25,8 @@ export class MathImage extends Carobj implements IMathImageLimit, IDivision {
     this.#imageFunction = f;
     this.#startVariable = start;
     this.#endVariable = end;
-    this.x_division = data.x_division ?? 50;
-    this.y_division = data.y_division ?? 50;
+    this.divisionX = data.divisionX ?? 50;
+    this.divisionY = data.divisionY ?? 50;
     this.#lineWidth = data.lineWidth ?? 2;
     this.#color = data.color ?? Color.rgb(255, 255, 255);
   }
@@ -35,13 +35,13 @@ export class MathImage extends Carobj implements IMathImageLimit, IDivision {
     super.onDraw(ctx);
     ctx.strokeStyle = this.#color.toString();
     ctx.beginPath();
-    ctx.lineWidth = (this.#lineWidth / this.x_division) * 2;
-    ctx.scale(this.x_division, this.y_division);
+    ctx.lineWidth = (this.#lineWidth / this.divisionX) * 2;
+    ctx.scale(this.divisionX, this.divisionY);
     ctx.moveTo(this.#startVariable, this.#imageFunction(this.#startVariable));
     for (
       let variable = this.#startVariable;
       variable <= this.#endVariable;
-      variable += 1 / this.x_division
+      variable += 1 / this.divisionX
     ) {
       ctx.lineTo(variable, this.#imageFunction(variable));
     }

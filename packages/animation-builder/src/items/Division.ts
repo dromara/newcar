@@ -27,7 +27,7 @@ export class Division extends AnimationBuilderItem {
       throw new Error("This animation is missing necessary values");
     }
     this.#obj = obj;
-    data.from = data.from ?? [this.#obj.x_division, this.#obj.y_division];
+    data.from = data.from ?? [this.#obj.divisionX, this.#obj.divisionY];
     this.#length = data.lastsFor;
     this.#start = data.startAt;
     this.#interpolatorXDivision = new Interpolator(
@@ -51,10 +51,10 @@ export class Division extends AnimationBuilderItem {
   }
 
   onDrawFrame(relativeFrameCount: number, _parent: AnimationBuilder): void {
-    this.#obj.x_division = this.#interpolatorXDivision.interpolate(
+    this.#obj.divisionX = this.#interpolatorXDivision.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
-    this.#obj.y_division = this.#interpolatorYDivision.interpolate(
+    this.#obj.divisionY = this.#interpolatorYDivision.interpolate(
       (relativeFrameCount + 1) / this.#length,
     );
   }

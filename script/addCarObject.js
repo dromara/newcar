@@ -32,7 +32,7 @@ const PARAMETER = {
       default: "2"
     },
     {
-      name: "point_interval",
+      name: "interval",
       type: "number",
       default: "50"
     },

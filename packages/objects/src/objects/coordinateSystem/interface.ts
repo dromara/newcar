@@ -13,8 +13,8 @@ export interface ILimitofAxisY {
 }
 
 export interface ISystemDirection {
-  get x_direction(): "left" | "right";
-  set x_direction(value: "left" | "right");
-  get y_direction(): "top" | "bottom";
-  set y_direction(value: "top" | "bottom");
+  get directionX(): "left" | "right";
+  set directionX(value: "left" | "right");
+  get directionY(): "top" | "bottom";
+  set directionY(value: "top" | "bottom");
 }

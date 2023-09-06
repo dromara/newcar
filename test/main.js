@@ -6,11 +6,11 @@ const car = new Car(document.querySelector("#mycanvas"), 60);
 const fn1 = new object.MathImage(Math.sin, 0, 0, {
   lineWidth: 2,
   color: "greenyellow",
-  x_division: 80,
+  divisionX: 80,
 });
 const fn2 = new object.MathImage(Math.cos, 0, 0, {
   color: Color.rgb(255, 255, 255),
-  x_division: 80,
+  divisionX: 80,
 });
 const point1 = new object.Point({
   x: 100,
@@ -29,9 +29,9 @@ const system = new object.CoordinateSystem(0, 0, 0, 0, {
   y: 450,
   // arrow: false,
   grid_color: "skyblue",
-  x_point_interval: 80,
+  intervalX: 80,
   children: [fn1, fn2],
-  // x_color: "skyblue"
+  // colorX: "skyblue"
 });
 const axis = new object.NumberAxis(100, -100, {
   x: 300,

@@ -14,20 +14,20 @@ export class CoordinateSystem
   #y_max: number;
   #x_min: number;
   #y_min: number;
-  #x_direction: "left" | "right";
-  #y_direction: "top" | "bottom";
-  x_color: Color;
-  x_point_interval: number;
-  y_point_interval: number;
+  #directionX: "left" | "right";
+  #directionY: "top" | "bottom";
+  colorX: Color;
+  intervalX: number;
+  intervalY: number;
   arrow: boolean;
-  display_point: boolean;
-  y_color: Color;
+  displayPoint: boolean;
+  colorY: Color;
   grid_color: string;
   grid: boolean;
-  x_number: boolean;
-  y_number: boolean;
-  y_number_trend: (arg0: number) => Text;
-  x_number_trend: (arg0: number) => Text;
+  numberX: boolean;
+  numberY: boolean;
+  trendY: (arg0: number) => Text;
+  trendX: (arg0: number) => Text;
 
   constructor(
     x_max: number,
@@ -42,23 +42,23 @@ export class CoordinateSystem
     this.#x_min = x_min;
     this.#y_max = y_max;
     this.#y_min = y_min;
-    this.#x_direction = data.x_direction ?? "right";
-    this.#y_direction = data.y_direction ?? "top";
-    this.x_point_interval = data.x_point_interval ?? 50;
-    this.y_point_interval = data.y_point_interval ?? 50;
+    this.#directionX = data.directionX ?? "right";
+    this.#directionY = data.directionY ?? "top";
+    this.intervalX = data.intervalX ?? 50;
+    this.intervalY = data.intervalY ?? 50;
     this.arrow = data.arrow ?? true;
-    this.display_point = data.display_point ?? true;
+    this.displayPoint = data.displayPoint ?? true;
     this.grid = data.grid ?? true;
-    this.x_color = data.x_color ?? Color.rgb(255, 255, 255);
-    this.y_color = data.y_color ?? Color.rgb(255, 255, 255);
+    this.colorX = data.colorX ?? Color.rgb(255, 255, 255);
+    this.colorY = data.colorY ?? Color.rgb(255, 255, 255);
     this.grid_color = data.grid_color ?? "white";
-    this.x_number = data.x_number ?? true;
-    this.y_number = data.y_number ?? true;
-    this.y_number_trend =
-      data.y_number_trend ??
+    this.numberX = data.numberX ?? true;
+    this.numberY = data.numberY ?? true;
+    this.trendY =
+      data.trendY ??
       ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
-    this.x_number_trend =
-      data.x_number_trend ??
+    this.trendX =
+      data.trendX ??
       ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
   }
 
@@ -94,20 +94,20 @@ export class CoordinateSystem
     this.#y_min = value;
   }
 
-  get x_direction() {
-    return this.#x_direction;
+  get directionX() {
+    return this.#directionX;
   }
 
-  set x_direction(value: "left" | "right") {
-    this.#x_direction = value;
+  set directionX(value: "left" | "right") {
+    this.#directionX = value;
   }
 
-  get y_direction() {
-    return this.#y_direction;
+  get directionY() {
+    return this.#directionY;
   }
 
-  set y_direction(value: "top" | "bottom") {
-    this.#y_direction = value;
+  set directionY(value: "top" | "bottom") {
+    this.#directionY = value;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
@@ -126,10 +126,10 @@ export class CoordinateSystem
       throw new Error("Parameter `y_max` cannot be less than 0");
     }
 
-    if (this.#x_direction === "left") {
+    if (this.#directionX === "left") {
       ctx.scale(-1, 1);
     }
-    if (this.#y_direction === "top") {
+    if (this.#directionY === "top") {
       ctx.scale(1, -1);
     }
 
@@ -138,19 +138,19 @@ export class CoordinateSystem
       ctx.beginPath();
       ctx.strokeStyle = `${this.grid_color.toString()}`;
       ctx.lineWidth = 1;
-      for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
+      for (let x = 0; x <= this.#x_max; x += this.intervalX) {
         ctx.moveTo(x, this.#y_max);
         ctx.lineTo(x, this.#y_min);
       }
-      for (let x = 0; x >= this.#x_min; x -= this.x_point_interval) {
+      for (let x = 0; x >= this.#x_min; x -= this.intervalX) {
         ctx.moveTo(x, this.#y_max);
         ctx.lineTo(x, this.#y_min);
       }
-      for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
+      for (let y = 0; y <= this.#y_max; y += this.intervalY) {
         ctx.moveTo(this.#x_max, y);
         ctx.lineTo(this.#x_min, y);
       }
-      for (let y = 0; y >= this.#y_min; y -= this.y_point_interval) {
+      for (let y = 0; y >= this.#y_min; y -= this.intervalY) {
         ctx.moveTo(this.#x_max, y);
         ctx.lineTo(this.#x_min, y);
       }
@@ -158,7 +158,7 @@ export class CoordinateSystem
     }
     // draw axis X
     ctx.beginPath();
-    ctx.strokeStyle = `${this.x_color.toString}`;
+    ctx.strokeStyle = `${this.colorX.toString}`;
     ctx.lineWidth = 2;
     ctx.moveTo(this.#x_min, 0);
     ctx.lineTo(this.#x_max, 0);
@@ -173,7 +173,7 @@ export class CoordinateSystem
 
     // draw axis Y
     ctx.beginPath();
-    ctx.strokeStyle = `${this.y_color.toString()}`;
+    ctx.strokeStyle = `${this.colorY.toString()}`;
     ctx.lineWidth = 2;
     ctx.moveTo(0, this.#y_min);
     ctx.lineTo(0, this.#y_max);
@@ -187,28 +187,28 @@ export class CoordinateSystem
     ctx.stroke();
 
     // Draw number point;
-    if (this.display_point) {
+    if (this.displayPoint) {
       ctx.beginPath();
-      ctx.strokeStyle = `${this.x_color.toString()}`;
+      ctx.strokeStyle = `${this.colorX.toString()}`;
       ctx.lineWidth = 2;
-      for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
+      for (let x = 0; x <= this.#x_max; x += this.intervalX) {
         ctx.moveTo(x, 10);
         ctx.lineTo(x, -10);
       }
-      for (let x = 0; x >= this.#x_min; x -= this.x_point_interval) {
+      for (let x = 0; x >= this.#x_min; x -= this.intervalX) {
         ctx.moveTo(x, 10);
         ctx.lineTo(x, -10);
       }
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.strokeStyle = `${this.y_color.toString()}`;
+      ctx.strokeStyle = `${this.colorY.toString()}`;
       ctx.lineWidth = 2;
-      for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
+      for (let y = 0; y <= this.#y_max; y += this.intervalY) {
         ctx.moveTo(10, y);
         ctx.lineTo(-10, y);
       }
-      for (let y = 0; y >= this.#y_min; y -= this.y_point_interval) {
+      for (let y = 0; y >= this.#y_min; y -= this.intervalY) {
         ctx.moveTo(10, y);
         ctx.lineTo(-10, y);
       }
@@ -217,21 +217,21 @@ export class CoordinateSystem
 
     // To avoid text inversion, restore the coordinate system to its original state here
 
-    if (this.x_direction === "left") {
+    if (this.directionX === "left") {
       ctx.scale(-1, 1);
     }
-    if (this.y_direction === "top") {
+    if (this.directionY === "top") {
       ctx.scale(1, -1);
     }
 
     // draw number
 
     let numberCount = 0;
-    if (this.#x_direction === "right" && this.x_number) {
+    if (this.#directionX === "right" && this.numberX) {
       numberCount = 0;
-      for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
+      for (let x = 0; x <= this.#x_max; x += this.intervalX) {
         if (numberCount !== 0) {
-          const text = this.x_number_trend(numberCount);
+          const text = this.trendX(numberCount);
           text.x = x;
           text.y = 20;
           text.size = 20;
@@ -242,9 +242,9 @@ export class CoordinateSystem
       }
 
       numberCount = 0;
-      for (let x = 0; x >= this.#x_min; x -= this.x_point_interval) {
+      for (let x = 0; x >= this.#x_min; x -= this.intervalX) {
         if (numberCount !== 0) {
-          const text = this.x_number_trend(numberCount);
+          const text = this.trendX(numberCount);
           text.x = x;
           text.y = 20;
           text.size = 20;
@@ -253,11 +253,11 @@ export class CoordinateSystem
         }
         numberCount -= 1;
       }
-    } else if (this.#x_direction === "left" && this.x_number) {
+    } else if (this.#directionX === "left" && this.numberX) {
       numberCount = 0;
-      for (let x = 0; x <= this.#x_max; x += this.x_point_interval) {
+      for (let x = 0; x <= this.#x_max; x += this.intervalX) {
         if (numberCount !== 0) {
-          const text = this.x_number_trend(numberCount);
+          const text = this.trendX(numberCount);
           text.x = -x;
           text.y = 20;
           text.size = 20;
@@ -268,9 +268,9 @@ export class CoordinateSystem
       }
 
       numberCount = 0;
-      for (let x = 0; x >= this.#x_min; x -= this.x_point_interval) {
+      for (let x = 0; x >= this.#x_min; x -= this.intervalX) {
         if (numberCount !== 0) {
-          const text = this.x_number_trend(numberCount);
+          const text = this.trendX(numberCount);
           text.x = -x;
           text.y = 20;
           text.size = 20;
@@ -281,11 +281,11 @@ export class CoordinateSystem
       }
     }
 
-    if (this.#y_direction === "top" && this.y_number) {
+    if (this.#directionY === "top" && this.numberY) {
       numberCount = 0;
-      for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
+      for (let y = 0; y <= this.#y_max; y += this.intervalY) {
         if (numberCount !== 0) {
-          const text = this.y_number_trend(numberCount);
+          const text = this.trendY(numberCount);
           text.x = -20;
           text.y = -y;
           text.size = 20;
@@ -296,9 +296,9 @@ export class CoordinateSystem
       }
 
       numberCount = 0;
-      for (let y = 0; y >= this.#y_min; y -= this.y_point_interval) {
+      for (let y = 0; y >= this.#y_min; y -= this.intervalY) {
         if (numberCount !== 0) {
-          const text = this.y_number_trend(numberCount);
+          const text = this.trendY(numberCount);
           text.x = -20;
           text.y = -y;
           text.size = 20;
@@ -307,11 +307,11 @@ export class CoordinateSystem
         }
         numberCount -= 1;
       }
-    } else if (this.#y_direction === "bottom" && this.y_number) {
+    } else if (this.#directionY === "bottom" && this.numberY) {
       numberCount = 0;
-      for (let y = 0; y <= this.#y_max; y += this.y_point_interval) {
+      for (let y = 0; y <= this.#y_max; y += this.intervalY) {
         if (numberCount !== 0) {
-          const text = this.y_number_trend(numberCount);
+          const text = this.trendY(numberCount);
           text.x = -20;
           text.y = y;
           text.size = 20;
@@ -322,9 +322,9 @@ export class CoordinateSystem
       }
 
       numberCount = 0;
-      for (let y = 0; y >= this.#y_min; y -= this.y_point_interval) {
+      for (let y = 0; y >= this.#y_min; y -= this.intervalY) {
         if (numberCount !== 0) {
-          const text = this.y_number_trend(numberCount);
+          const text = this.trendY(numberCount);
           text.x = -20;
           text.y = y;
           text.size = 20;
@@ -335,7 +335,7 @@ export class CoordinateSystem
       }
     }
 
-    const originText = this.x_number_trend(0);
+    const originText = this.trendX(0);
     originText.align = "right";
     originText.baseline = "top";
     originText.size = 20;
@@ -344,10 +344,10 @@ export class CoordinateSystem
     originText.onUpdate(ctx);
 
     // Restore
-    if (this.#x_direction === "left") {
+    if (this.#directionX === "left") {
       ctx.scale(-1, 1);
     }
-    if (this.#y_direction === "top") {
+    if (this.#directionY === "top") {
       ctx.scale(1, -1);
     }
 

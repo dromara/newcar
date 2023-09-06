@@ -16,10 +16,10 @@
 - objects: Rename `AngleCircle` to `CircleAngle`.
 - objects: Rename `HTMLPlugin` to `WebView`.
 - objects: Rename `ImagePlugin` to `Image`.
-- objects: Rename parameter `displayPoint` to `display_point`.
 - objects: Deprecated `Pen` and `Polygon`.
 - objects: Delete parameters `x_width` and `y_width` of `CoordinateSystem`.
 - objects: Change the color input method(use `Color`).
+- objects: Change the API of `CoordinateSystem` and `NumberAxis`.
 
 ## Bug Fixes
 - core: `onSet` isn't be run on children.

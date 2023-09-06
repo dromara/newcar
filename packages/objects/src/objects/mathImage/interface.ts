@@ -4,6 +4,6 @@ export interface IMathImageLimit {
 }
 
 export interface IDivision {
-  set x_division(value: number);
-  set y_division(value: number);
+  set divisionX(value: number);
+  set divisionY(value: number);
 }

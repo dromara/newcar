@@ -5,9 +5,9 @@ import type { Text } from "../text";
 export interface number_axisobject {
   color?: Color;
   direction?: "left" | "right";
-  point_interval?: number;
+  interval?: number;
   arrow?: boolean;
-  display_point?: boolean;
+  displayPoint?: boolean;
   number?: boolean;
-  number_trend?: (arg0: number) => Text;
+  trend?: (arg0: number) => Text;
 }

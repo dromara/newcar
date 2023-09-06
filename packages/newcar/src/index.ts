@@ -11,8 +11,8 @@ export class Car {
   #soundBuilder: SoundBuilder = new SoundBuilder();
   #renderer: Renderer;
 
-  constructor(ele: HTMLCanvasElement, fps: number) {
-    this.#renderer = new Renderer(ele, fps);
+  constructor(ele: HTMLCanvasElement, fps: number, width?: number, height?: number) {
+    this.#renderer = new Renderer(ele, fps, width, height);
 
     return this;
   }
