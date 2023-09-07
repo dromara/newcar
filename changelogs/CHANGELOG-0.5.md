@@ -24,6 +24,7 @@
 - objects: Change the setting way of `Rectangle`.
 - objects: Change the default value of `Text.align`.
 - objects: Change the center of `Rectangle`.
+- objects: Change the center of `Image`.
 
 ## Bug Fixes
 - core: `onSet` isn't be run on children.

@@ -34,6 +34,7 @@ const system = new object.CoordinateSystem(0, 0, 0, 0, {
   grid_color: "skyblue",
   intervalX: 80,
   children: [fn1, fn2],
+  trendX: (number) => new object.Rectangle(100, number * 10)
   // colorX: "skyblue"
 });
 const axis = new object.NumberAxis(100, -100, {

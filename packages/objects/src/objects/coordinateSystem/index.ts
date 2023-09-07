@@ -324,9 +324,7 @@ export class CoordinateSystem
         if (numberCount !== 0) {
           const text = this.trendY(numberCount);
           text.x = -20;
-          text.y = y;
-          text.size = 20;
-          text.align = "center";
+          text.y = 20;
           text.onUpdate(ctx);
         }
         numberCount -= 1;
@@ -334,11 +332,8 @@ export class CoordinateSystem
     }
 
     const originText = this.trendX(0);
-    originText.align = "right";
-    originText.baseline = "top";
-    originText.size = 20;
-    originText.x = 0;
-    originText.y = 0;
+    originText.x = -10;
+    originText.y = 10;
     originText.onUpdate(ctx);
 
     // Restore

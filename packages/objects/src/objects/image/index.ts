@@ -18,7 +18,7 @@ export class Image extends Carobj {
   override onDraw(ctx: CanvasRenderingContext2D): CanvasRenderingContext2D {
     super.onDraw(ctx);
     this.#image.src = this.#path;
-    ctx.drawImage(this.#image, this.x, this.y);
+    ctx.drawImage(this.#image, -0.5 * this.#image.width, -0.5 * this.#image.height);
 
     return ctx;
   }
