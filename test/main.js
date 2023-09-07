@@ -54,7 +54,7 @@ const text = new object.Text("Hello world!", {
 const circle = new object.Circle(100, {
   x: 100,
   y: 100,
-  children: [text]
+  children: [text],
 });
 
 const webview = new object.WebView(
@@ -133,3 +133,7 @@ car
   .addAnimationItem(new animation.RotateOut(system, {startAt: 300}));
 
 car.play();
+
+car.export(0, 200, (url) => {
+  document.getElementById("link").href = url;
+})

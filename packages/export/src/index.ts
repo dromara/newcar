@@ -8,16 +8,20 @@ export function exportAnimationToVideo(
   onFinish: (arg0: string) => void,
 ) {
   try {
-    const recorder = createRecorder(core.element, {
-      minmeType: "video/webm",
+    const recorder = createRecorder(core, core.element, {
+      minmeType: "video/webm;codecs=h264",
     });
     setRecorder(recorder, onFinish);
     record(recorder, core, startAt, lastAt);
   } catch {}
 }
 
-function createRecorder(element: HTMLCanvasElement, data: Record<string, unknown>) {
-  const stream = element.captureStream();
+function createRecorder(
+  core: IRenderable & IRendererController,
+  element: HTMLCanvasElement,
+  data: Record<string, unknown>,
+) {
+  const stream = element.captureStream(core.fps);
   const recorder = new MediaRecorder(stream, data);
 
   return recorder;
@@ -33,7 +37,7 @@ function setRecorder(recorder: MediaRecorder, onFinish: (arg0: string) => void) 
   recorder.onstop = () => {
     const url = URL.createObjectURL(
       new Blob(data, {
-        type: "video/webm",
+        type: "video/webm;codecs=h264",
       }),
     );
     onFinish(url);

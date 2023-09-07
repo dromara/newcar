@@ -49,7 +49,7 @@ export class Car {
     this.#renderer.play();
   }
 
-  exports(startAt: number, lastAt: number, onFinish: (arg0: string) => void) {
+  export(startAt: number, lastAt: number, onFinish: (arg0: string) => void) {
     exportAnimationToVideo(this.#renderer, startAt, lastAt, onFinish);
   }
 
