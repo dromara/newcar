@@ -1,7 +1,7 @@
 /* eslint-disable @so1ve/prettier/prettier */
 import { Car, Color, animation, interpolator, object } from "./../packages/newcar/dist/newcar.js";
 
-const car = new Car(document.querySelector("#mycanvas"), 60,);
+const car = new Car(document.querySelector("#mycanvas"), 60);
 
 const fn1 = new object.MathImage(Math.sin, 0, 0, {
   lineWidth: 2,
@@ -106,6 +106,13 @@ car
     })
   )
   .addAnimationItem(
+    new animation.FadeIn(text, { startAt: 0 })
+  )
+  .addAnimationItem(new animation.Grow(text, { startAt: 150 }))
+  .addAnimationItem(
+    new animation.FadeOut(text, { startAt: 200 })
+  )
+  .addAnimationItem(
     new animation.Rotation(webview, {
       startAt: 0,
       lastsFor: 100,
@@ -118,9 +125,6 @@ car
       lastsFor: 100,
       to: 200,
     })
-  )
-  .addAnimationItem(
-    new animation.FadeIn(system, { startAt: 0 })
   );
 
 car.play();

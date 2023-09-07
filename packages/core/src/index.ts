@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/adjacent-overload-signatures */
 import type { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
 import type { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
 import type { Carobj } from "@newcar/objects/src/objects/carobj";
@@ -160,7 +161,7 @@ export class Renderer implements IRenderable, IRendererController {
   get width() {
     return this.#width;
   }
-  
+
   get height() {
     return this.#height;
   }

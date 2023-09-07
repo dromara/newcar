@@ -4,7 +4,9 @@ import { AxisLimit2d } from "./AxisLimit2d";
 import { CircleAngle } from "./CircleAngle";
 import { Division } from "./Division";
 import { FadeIn } from "./FadeIn";
+import { FadeOut } from "./FadeOut";
 import { FontSize } from "./FontSize";
+import { Grow } from "./Grow";
 import { Limit } from "./Limit";
 import { Radius } from "./Radius";
 import { RectSize } from "./RectSize";
@@ -28,4 +30,6 @@ export const animation = {
   Division,
   Radius,
   FadeIn,
+  FadeOut,
+  Grow,
 };

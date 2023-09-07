@@ -1,18 +1,18 @@
-import type { ITransparencyMut } from "@newcar/objects/src/objects/carobj/interface";
+import type { IScaledMut } from "@newcar/objects/src/objects/carobj/interface";
 
 import type { AnimationBuilder } from "../";
 import { Interpolator } from "../interpolation/Interpolator";
 import { LinearInterpolator } from "../interpolation/LinearInterpolator";
 import { AnimationBuilderItem } from "../item";
 
-export class FadeIn extends AnimationBuilderItem {
-  #obj: ITransparencyMut;
+export class Grow extends AnimationBuilderItem {
+  #obj: IScaledMut;
   #startFrame: number;
   #length: number;
   #interpolator: Interpolator;
 
   constructor(
-    obj: ITransparencyMut,
+    obj: IScaledMut,
     data: {
       startAt: number;
       lastsFor?: number;
@@ -35,8 +35,7 @@ export class FadeIn extends AnimationBuilderItem {
   }
 
   onDrawFrame(relativeFrameCount: number, _parents: AnimationBuilder) {
-    this.#obj.transparency = this.#interpolator.interpolate(
-      (relativeFrameCount + 1) / this.#length,
-    );
+    this.#obj.scaleX = this.#interpolator.interpolate((relativeFrameCount + 1) / this.#length);
+    this.#obj.scaleY = this.#interpolator.interpolate((relativeFrameCount + 1) / this.#length);
   }
 }

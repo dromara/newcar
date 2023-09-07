@@ -10,6 +10,7 @@
 - objects: Change the default value of `Text.size`.
 - objects: Add new function `beforeTranslate` for `Carobj`.
 - animation-builder: Add animation `Division`, `FontSize` and `Radius`.
+- animation-builder: Add animation `FadeIn`, `FadeOut`, `Grow`.
 - utils: Add `Color`.
 
 ## Breaking Change

@@ -1,11 +1,11 @@
 import type { ITransparencyMut } from "@newcar/objects/src/objects/carobj/interface";
 
-import type { AnimationBuilder } from "../";
+import type { AnimationBuilder } from "..";
 import { Interpolator } from "../interpolation/Interpolator";
 import { LinearInterpolator } from "../interpolation/LinearInterpolator";
 import { AnimationBuilderItem } from "../item";
 
-export class FadeIn extends AnimationBuilderItem {
+export class FadeOut extends AnimationBuilderItem {
   #obj: ITransparencyMut;
   #startFrame: number;
   #length: number;
@@ -23,7 +23,7 @@ export class FadeIn extends AnimationBuilderItem {
     this.#obj = obj;
     this.#startFrame = data.startAt;
     this.#length = data.lastsFor ?? 30;
-    this.#interpolator = new Interpolator(0, 1, data.by ?? LinearInterpolator);
+    this.#interpolator = new Interpolator(1, 0, data.by ?? LinearInterpolator);
   }
 
   get startFrame(): number {
