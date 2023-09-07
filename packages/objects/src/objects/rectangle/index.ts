@@ -14,11 +14,11 @@ export class Rectangle extends Carobj implements IRectSize, IPartialFillable {
   fillColor: Color;
   fillProgress: number;
 
-  constructor(data?: carobject & RectangleObject) {
+  constructor(length: number, width: number, data?: carobject & RectangleObject) {
     data = data ?? {};
     super(data);
-    this.length = data.length ?? 300;
-    this.width = data.length ?? 200;
+    this.length = length;
+    this.width = width;
     this.borderColor = data.borderColor ?? Color.WHITE;
     this.borderWidth = data.borderWidth ?? 2;
     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-nullish-coalescing
@@ -45,11 +45,11 @@ export class Rectangle extends Carobj implements IRectSize, IPartialFillable {
       ctx.fill();
     }
     ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(this.length, 0);
-    ctx.lineTo(this.length, this.width);
-    ctx.lineTo(0, this.width);
-    ctx.lineTo(0, 0 - 0.5 * this.borderWidth);
+    ctx.moveTo(-0.5 * this.length, -0.5 * this.width);
+    ctx.lineTo(0.5 * this.length, -0.5 * this.width);
+    ctx.lineTo(0.5 * this.length, 0.5 * this.width);
+    ctx.lineTo(-0.5 * this.length, 0.5 * this.width);
+    ctx.lineTo(-0.5 * this.length, -0.5 * this.width - 0.5 * this.borderWidth);
     ctx.stroke();
 
     return ctx;

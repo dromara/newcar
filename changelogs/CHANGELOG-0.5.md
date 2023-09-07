@@ -21,6 +21,9 @@
 - objects: Delete parameters `x_width` and `y_width` of `CoordinateSystem`.
 - objects: Change the color input method(use `Color`).
 - objects: Change the API of `CoordinateSystem` and `NumberAxis`.
+- objects: Change the setting way of `Rectangle`.
+- objects: Change the default value of `Text.align`.
+- objects: Change the center of `Rectangle`.
 
 ## Bug Fixes
 - core: `onSet` isn't be run on children.

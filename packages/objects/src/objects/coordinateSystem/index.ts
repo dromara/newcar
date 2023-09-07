@@ -55,11 +55,9 @@ export class CoordinateSystem
     this.numberX = data.numberX ?? true;
     this.numberY = data.numberY ?? true;
     this.trendY =
-      data.trendY ??
-      ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
+      data.trendY ?? ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
     this.trendX =
-      data.trendX ??
-      ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
+      data.trendX ?? ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
   }
 
   get x_max() {

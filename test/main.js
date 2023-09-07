@@ -21,7 +21,10 @@ const point2 = new object.Point({
   y: 100
 })
 const line = new object.Line(point1, point2)
-const rect = new object.Rectangle();
+const rect = new object.Rectangle(300, 200, {
+  x: 200,
+  y: 300
+});
 console.log(line);
 
 const system = new object.CoordinateSystem(0, 0, 0, 0, {
@@ -108,7 +111,7 @@ car
   .addAnimationItem(
     new animation.FadeIn(text, { startAt: 0 })
   )
-  .addAnimationItem(new animation.Grow(text, { startAt: 150 }))
+  .addAnimationItem(new animation.Grow(rect, { startAt: 150 }))
   .addAnimationItem(
     new animation.FadeOut(text, { startAt: 200 })
   )

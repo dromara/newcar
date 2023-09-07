@@ -10,7 +10,7 @@ export class Text extends Carobj implements ITextEditable, IFontSize {
   #size: number;
   #color: Color;
   #fontFamily = "sans-serif";
-  #align: CanvasTextAlign = "start";
+  #align: CanvasTextAlign = "center";
   #baseline: CanvasTextBaseline = "middle";
   #hollow: Boolean;
   constructor(text: string, data?: textobject & carobject) {
