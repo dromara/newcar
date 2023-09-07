@@ -11,6 +11,7 @@
 - objects: Add new function `beforeTranslate` for `Carobj`.
 - animation-builder: Add animation `Division`, `FontSize` and `Radius`.
 - animation-builder: Add animation `FadeIn`, `FadeOut`, `Grow`.
+- animation-builder: Add animation `RotateIn`, `RotateOut`.
 - utils: Add `Color`.
 
 ## Breaking Change
@@ -25,6 +26,7 @@
 - objects: Change the default value of `Text.align`.
 - objects: Change the center of `Rectangle`.
 - objects: Change the center of `Image`.
+- objects: Change the center of `Svg`.
 
 ## Bug Fixes
 - core: `onSet` isn't be run on children.

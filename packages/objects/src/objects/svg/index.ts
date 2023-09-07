@@ -15,7 +15,7 @@ export class Svg extends Carobj implements ITextEditable {
   }
 
   override onDraw(ctx: CanvasRenderingContext2D): CanvasRenderingContext2D {
-    ctx.drawImage(this.#img, 0, 0);
+    ctx.drawImage(this.#img, -0.5 * this.#img.width, -0.5 * this.#img.height);
 
     return ctx;
   }

@@ -7,8 +7,6 @@
   "main": "src/index.ts",
   "scripts": {},
   "dependencies": {
-    "@types/mathjax": "^0.0.37",
-    "mathjax": "^3.2.2",
     "typescript": "^4.9.4"
   },
   "devDependencies": {

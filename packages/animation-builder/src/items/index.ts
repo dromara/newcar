@@ -10,6 +10,8 @@ import { Grow } from "./Grow";
 import { Limit } from "./Limit";
 import { Radius } from "./Radius";
 import { RectSize } from "./RectSize";
+import { RotateIn } from "./RotateIn";
+import { RotateOut } from "./RotateOut";
 import { Rotation } from "./Rotation";
 import { Scale } from "./Scale";
 import { Translation } from "./Translation";
@@ -32,4 +34,6 @@ export const animation = {
   FadeIn,
   FadeOut,
   Grow,
+  RotateIn,
+  RotateOut,
 };

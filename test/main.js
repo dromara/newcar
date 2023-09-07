@@ -129,6 +129,7 @@ car
       lastsFor: 100,
       to: 200,
     })
-  );
+  )
+  .addAnimationItem(new animation.RotateOut(system, {startAt: 300}));
 
 car.play();
