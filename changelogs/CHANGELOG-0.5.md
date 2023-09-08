@@ -27,6 +27,7 @@
 - objects: Change the center of `Rectangle`.
 - objects: Change the center of `Image`.
 - objects: Change the center of `Svg`.
+- objects: Deprecated `operation` because of discord.
 
 ## Bug Fixes
 - core: `onSet` isn't be run on children.

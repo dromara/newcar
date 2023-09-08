@@ -17,10 +17,12 @@ const point1 = new object.Point({
   y: 100
 })
 const point2 = new object.Point({
-  x: 100,
-  y: 100
+  x: 200,
+  y: 200
 })
-const line = new object.Line(point1, point2)
+const line = new object.Line(point1, point2, {
+  rotation: Math.PI
+})
 const rect = new object.Rectangle(300, 200, {
   x: 200,
   y: 300
@@ -48,7 +50,6 @@ const text = new object.Text("Hello world!", {
   size: 50,
   centerX: 100,
   centerY: 100,
-  children: [point2]
 });
 
 const circle = new object.Circle(100, {
@@ -68,7 +69,7 @@ const webview = new object.WebView(
   { x: 80, y: 600, width: 480, height: 160, centerX: 240, centerY: 80 }
 );
 
-car.addObject(system, circle, webview, line, rect, point1);
+car.addObject(system, circle, webview, line, rect, point1, point2);
 
 car
   .addAnimationItem(

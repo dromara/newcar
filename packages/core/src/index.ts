@@ -124,8 +124,10 @@ export class Renderer implements IRenderable, IRendererController {
       // Pre-render Stage.
       (function render(objects, ctx) {
         for (const object of objects) {
+          ctx?.save();
           object.beforeTranslate(ctx!);
           render(object.children, ctx);
+          ctx?.restore();
         }
       })(this.#objects, this.#ctx);
 

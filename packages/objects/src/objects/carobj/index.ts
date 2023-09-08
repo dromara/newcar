@@ -12,7 +12,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
   #centerX: number;
   #centerY: number;
   #children: Carobj[] = [];
-  #operation: GlobalCompositeOperation = "source-over";
   #transparency: number;
   #parent: Carobj | null = null;
 
@@ -24,7 +23,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
     typeof data.scaleY !== "undefined" && (this.#scaleY = data.scaleY!);
     typeof data.display !== "undefined" && (this.display = data.display!);
     typeof data.rotation !== "undefined" && (this.#rotation = data.rotation!);
-    typeof data.operation !== "undefined" && (this.#operation = data.operation!);
     typeof data.children !== "undefined" && (this.#children = data.children!);
     this.#centerX = data.centerX ?? 0;
     this.#centerY = data.centerY ?? 0;
@@ -82,7 +80,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
       ctx.translate(-this.#centerX, -this.#centerY);
       ctx.scale(this.#scaleX, this.#scaleY);
       ctx.globalAlpha = this.#transparency;
-      ctx.globalCompositeOperation = this.#operation;
       this.onDraw(ctx);
       for (const child of this.#children) {
         child.onUpdate(ctx);
@@ -153,14 +150,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
    */
   set rotation(value: number) {
     this.#rotation = value;
-  }
-
-  get operation() {
-    return this.#operation;
-  }
-
-  set operation(value: GlobalCompositeOperation) {
-    this.#operation = value;
   }
 
   get parent() {
