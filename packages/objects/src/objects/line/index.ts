@@ -47,9 +47,9 @@ export class Line extends Carobj {
     ctx.beginPath();
     ctx.strokeStyle = `${this.color.toString()}`;
     ctx.lineWidth = this.lineWidth;
-    const startAbusoluteCoordinate = getAbsoluteCoordinate(this.#startPoint);
+    const startAbsoluteCoordinate = getAbsoluteCoordinate(this.#startPoint);
     const endAbsoluteCoordinate = getAbsoluteCoordinate(this.#endPoint);
-    ctx.moveTo(startAbusoluteCoordinate[0], startAbusoluteCoordinate[1]);
+    ctx.moveTo(startAbsoluteCoordinate[0], startAbsoluteCoordinate[1]);
     ctx.lineTo(endAbsoluteCoordinate[0], endAbsoluteCoordinate[1]);
     ctx.stroke();
 
