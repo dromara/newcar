@@ -6,5 +6,6 @@ export interface textobject {
   fontFamily?: string;
   align?: CanvasTextAlign;
   baseline?: CanvasTextBaseline;
-  hollow?: Boolean;
+  borderColor?: Color | null;
+  borderWidth?: number;
 }

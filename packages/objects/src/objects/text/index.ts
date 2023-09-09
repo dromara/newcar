@@ -12,7 +12,8 @@ export class Text extends Carobj implements ITextEditable, IFontSize {
   #fontFamily = "sans-serif";
   #align: CanvasTextAlign = "center";
   #baseline: CanvasTextBaseline = "middle";
-  #hollow: Boolean;
+  #borderColor: Color | null;
+  #borderWidth: number;
   constructor(text: string, data?: textobject & carobject) {
     data = data ?? {};
     super(data);
@@ -30,21 +31,20 @@ export class Text extends Carobj implements ITextEditable, IFontSize {
     if (typeof data.baseline !== "undefined") {
       this.#baseline = data.baseline;
     }
-    this.#hollow = data.hollow ?? false;
+    this.#borderColor = data.borderColor ?? null;
+    this.#borderWidth = data.borderWidth ?? 2;
   }
 
   override onDraw(ctx: CanvasRenderingContext2D) {
     super.onDraw(ctx);
     ctx.font = `${this.#size}px ${this.#fontFamily}`;
-    // console.log(this.#size, this.#fontFamily);
-    // console.log(`${this.#size}px ${this.#fontFamily}`);
     ctx.textAlign = this.#align;
     ctx.textBaseline = this.#baseline;
-    if (!this.#hollow) {
-      ctx.fillStyle = this.#color.toString();
-      ctx.fillText(this.#text, 0, 0);
-    } else if (this.#hollow) {
-      ctx.strokeStyle = this.#color.toString();
+    ctx.fillStyle = this.#color.toString();
+    ctx.fillText(this.#text, 0, 0);
+    if (this.#borderColor !== null) {
+      ctx.lineWidth = this.#borderWidth;
+      ctx.strokeStyle = this.#borderColor.toString();
       ctx.strokeText(this.#text, 0, 0);
     }
 

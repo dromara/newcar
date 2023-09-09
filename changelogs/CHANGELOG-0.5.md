@@ -1,3 +1,6 @@
+## Achieve
+- objects: Text stroke.
+
 # v0.5.0-alpha.1 (2023.9.9)
 ## Bug Fixes
 - newcar: fix the undefined value of `options.backgroundColor`, this bug is fatal.
