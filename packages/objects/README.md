@@ -1,4 +1,3 @@
 # @newcar/objects
 
-The animation objects
-
+The animation objects.

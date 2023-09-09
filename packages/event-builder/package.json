@@ -1,10 +1,8 @@
 {
   "name": "@newcar/event-builder",
   "version": "0.4.0",
-  "author": "",
-  "description": "",
-  "keywords": [],
-  "license": "ISC",
+  "author": "BugDuck Team",
+  "license": "Apache-2.0",
   "main": "index.js",
   "devDependencies": {
     "@newcar/objects": "workspace:^0.4.0"

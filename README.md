@@ -9,13 +9,15 @@
   <img src="https://img.shields.io/github/license/Bug-Duck/newcar?color=skyblue&logo=github&style=flat-square" />
   <a href="https://twitter.com/bugduckteam"><img src="https://shields.io/badge/twitter-BugDuck_Team-blue?logo=twitter&style=flat-square" /></a>
   <a href="https://discord.gg/ANqgRc3C4b"><img src="https://shields.io/badge/discord-newcarjs-blue?logo=discord&style=flat-square" /></a>
+  <a href="https://www.npmjs.com/package/newcar"><img src="https://img.shields.io/npm/dw/newcar.svg"/></a>
+  <a href="https://www.npmjs.com/package/newcar"><img src="https://img.shields.io/npm/v/newcar.svg"/></a>
 </p>
 
 ## Introduction
 
-Newcar is a modern animation engine. This repository basically contains a renderer using HTML Canvas API to render. **This repository cannot deal with the newcar filetype.**
+Newcar is a Highly configurable universal advanced engine, Born for creating animation rapidly.
 
-## For example
+## Example
 
 ### Install
 

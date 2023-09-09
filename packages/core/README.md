@@ -1,3 +1,3 @@
 # @newcar/core
 
-The core of newcar animation engine
+The core of newcar animation engine.

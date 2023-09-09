@@ -2,7 +2,6 @@
   "name": "@newcar/utils",
   "version": "0.4.0",
   "description": "The utils of Newcar",
-  "keywords": [],
   "main": "src/index.ts",
   "author": "BugDuck Team",
   "license": "Apache-2.0"

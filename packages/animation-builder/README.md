@@ -1,4 +1,3 @@
 # @newcar/animation-builder
 
-The builder of animation
-
+The builder of animation.
