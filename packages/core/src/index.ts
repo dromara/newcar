@@ -33,7 +33,8 @@ export class Renderer implements IRenderable, IRendererController {
     this.#width = options.width ?? ele.width;
     this.#height = options.height ?? ele.height;
     this.#ele = ele;
-    this.#ele.style.backgroundColor = options.backgroundColor!.toString() ?? "black";
+    this.#ele.style.backgroundColor =
+      typeof options.backgroundColor === "undefined" ? "black" : options.backgroundColor.toString();
     if (this.#ele.getContext) {
       this.#fps = fps;
       this.#ctx = this.#ele.getContext("2d");

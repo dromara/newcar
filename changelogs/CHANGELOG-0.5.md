@@ -1,3 +1,7 @@
+# v0.5.0-alpha.1
+## Bug Fixes
+- newcar: fix the undefined value of `options.backgroundColor`.
+
 # v0.5.0-alpha.0 (2023.9.9)
 ## Achieve
 - objects: Add rotation center for objects.
