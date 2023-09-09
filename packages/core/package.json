@@ -1,11 +1,11 @@
 {
   "name": "@newcar/core",
-  "version": "0.4.0",
+  "version": "0.5.0-alpha.0",
   "type": "module",
   "license": "Apache-2.0",
   "author": "BugDuck Team",
   "devDependencies": {
-    "@newcar/objects": "workspace:^0.4.0",
-    "@newcar/utils": "workspace:^0.4.0"
+    "@newcar/objects": "workspace:^0.5.0-alpha.0",
+    "@newcar/utils": "workspace:^0.5.0-alpha.0"
   }
 }
