@@ -2,6 +2,7 @@
 import type { IRendererController } from "@newcar/objects/src/interfaces/RenderController";
 import type { IRenderable } from "@newcar/objects/src/interfaces/Renderable";
 import type { Carobj } from "@newcar/objects/src/objects/carobj";
+import type { Color } from "@newcar/utils";
 
 export class Renderer implements IRenderable, IRendererController {
   #width: number;
@@ -23,11 +24,16 @@ export class Renderer implements IRenderable, IRendererController {
    * @param width The actual width of the animation.
    * @param height The actual height of the animation.
    */
-  constructor(ele: HTMLCanvasElement, fps: number, width?: number, height?: number) {
-    this.#width = width ?? ele.width;
-    this.#height = height ?? ele.height;
+  constructor(
+    ele: HTMLCanvasElement,
+    fps: number,
+    options?: { width?: number; height?: number; backgroundColor?: Color },
+  ) {
+    options = options ?? {};
+    this.#width = options.width ?? ele.width;
+    this.#height = options.height ?? ele.height;
     this.#ele = ele;
-    this.#ele.style.backgroundColor = "black";
+    this.#ele.style.backgroundColor = options.backgroundColor!.toString() ?? "black";
     if (this.#ele.getContext) {
       this.#fps = fps;
       this.#ctx = this.#ele.getContext("2d");

@@ -5,14 +5,19 @@ import { exportAnimationToVideo } from "@newcar/export/src/index";
 import type { Carobj } from "@newcar/objects/src/objects/carobj";
 import { SoundBuilder } from "@newcar/sound-builder/src/index";
 import type { AudioItem } from "@newcar/sound-builder/src/item";
+import type { Color } from "@newcar/utils";
 
 export class Car {
   #animationBuilder: AnimationBuilder = new AnimationBuilder();
   #soundBuilder: SoundBuilder = new SoundBuilder();
   #renderer: Renderer;
 
-  constructor(ele: HTMLCanvasElement, fps: number, width?: number, height?: number) {
-    this.#renderer = new Renderer(ele, fps, width, height);
+  constructor(
+    ele: HTMLCanvasElement,
+    fps: number,
+    options?: { width?: number; height?: number; backgroundColor?: Color },
+  ) {
+    this.#renderer = new Renderer(ele, fps, options);
 
     return this;
   }
