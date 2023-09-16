@@ -4,4 +4,5 @@ export interface RectangleObject {
   borderWidth?: number;
   borderColor?: Color;
   fillColor?: Color;
+  lineJoin?: CanvasLineJoin;
 }

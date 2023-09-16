@@ -13,6 +13,7 @@ export class Rectangle extends Carobj implements IRectSize, IPartialFillable {
   borderColor: Color;
   fillColor: Color;
   fillProgress: number;
+  lineJoin: CanvasLineJoin;
 
   constructor(length: number, width: number, data?: carobject & RectangleObject) {
     data = data ?? {};
@@ -21,6 +22,7 @@ export class Rectangle extends Carobj implements IRectSize, IPartialFillable {
     this.width = width;
     this.borderColor = data.borderColor ?? Color.WHITE;
     this.borderWidth = data.borderWidth ?? 2;
+    this.lineJoin = data.lineJoin ?? "miter";
     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-nullish-coalescing
     this.fillColor = data.fillColor! ?? null;
     this.fillProgress = 1;
@@ -33,6 +35,7 @@ export class Rectangle extends Carobj implements IRectSize, IPartialFillable {
   override onDraw(ctx: CanvasRenderingContext2D): CanvasRenderingContext2D {
     super.onDraw(ctx);
     ctx.lineWidth = this.borderWidth;
+    ctx.lineJoin = this.lineJoin;
     ctx.strokeStyle = this.borderColor.toString();
     if (this.fillColor !== null) {
       const fillColor = Color.rgba(
@@ -49,7 +52,7 @@ export class Rectangle extends Carobj implements IRectSize, IPartialFillable {
     ctx.lineTo(0.5 * this.length, -0.5 * this.width);
     ctx.lineTo(0.5 * this.length, 0.5 * this.width);
     ctx.lineTo(-0.5 * this.length, 0.5 * this.width);
-    ctx.lineTo(-0.5 * this.length, -0.5 * this.width - 0.5 * this.borderWidth);
+    ctx.closePath();
     ctx.stroke();
 
     return ctx;

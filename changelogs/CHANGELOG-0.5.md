@@ -1,5 +1,7 @@
 ## Achieve
 - objects: Text stroke.
+- objects: lineJoin of `Rectangle`.
+- objects: Allow the `Line` being connected from to `Carobj`.
 
 # v0.5.0-alpha.1 (2023.9.9)
 ## Bug Fixes

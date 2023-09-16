@@ -25,7 +25,9 @@ const line = new object.Line(point1, point2, {
 })
 const rect = new object.Rectangle(300, 200, {
   x: 200,
-  y: 300
+  y: 300,
+  lineJoin: "round",
+  borderWidth: 10
 });
 console.log(line);
 
