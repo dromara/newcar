@@ -7,15 +7,15 @@ import { Point } from "../point";
 import type { lineobject } from "./input_type";
 
 export class Line extends Carobj {
-  #startPoint: Point;
-  #endPoint: Point;
+  #startPoint: Carobj;
+  #endPoint: Carobj;
   color: Color = Color.rgb(255, 255, 255);
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   lineWidth: number = 2;
 
   constructor(
-    startPoint: Point | number[],
-    endPoint: Point | number[],
+    startPoint: Carobj | number[],
+    endPoint: Carobj | number[],
     data?: lineobject & carobject,
   ) {
     data = data ?? {};
