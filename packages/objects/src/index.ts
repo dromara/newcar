@@ -6,6 +6,7 @@ import { Line } from "./objects/line";
 import { MathImage } from "./objects/mathImage";
 import { NumberAxis } from "./objects/numberAxis";
 import { Point } from "./objects/point";
+import { Polygon } from "./objects/polygon";
 import { Rectangle } from "./objects/rectangle";
 import { Svg } from "./objects/svg";
 import { Text } from "./objects/text";
@@ -24,4 +25,5 @@ export const object = {
   NumberAxis,
   Svg,
   WebView,
+  Polygon,
 };
