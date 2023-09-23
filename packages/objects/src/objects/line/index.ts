@@ -1,14 +1,12 @@
 import { Color } from "@newcar/utils";
 
-import { getAbsoluteCoordinate } from "../../utils/getAbsoluteCoordinate";
 import { Carobj } from "../carobj";
 import type { carobject } from "../carobj/input_type";
-import { Point } from "../point";
 import type { lineobject } from "./input_type";
 
 export class Line extends Carobj {
-  #startPoint: Carobj;
-  #endPoint: Carobj;
+  #startPoint: { x: number; y: number };
+  #endPoint: { x: number; y: number };
   color: Color = Color.rgb(255, 255, 255);
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   lineWidth: number = 2;
@@ -21,17 +19,17 @@ export class Line extends Carobj {
     data = data ?? {};
     super(data);
     this.#startPoint = Array.isArray(startPoint)
-      ? new Point({
+      ? {
           x: startPoint[0],
           y: startPoint[1],
-        })
+        }
       : startPoint;
 
     this.#endPoint = Array.isArray(endPoint)
-      ? new Point({
+      ? {
           x: endPoint[0],
           y: endPoint[1],
-        })
+        }
       : endPoint;
 
     if (typeof data.color !== "undefined") {
@@ -42,15 +40,13 @@ export class Line extends Carobj {
     }
   }
 
-  override beforeTranslate(ctx: CanvasRenderingContext2D) {
-    super.beforeTranslate(ctx);
+  override onDraw(ctx: CanvasRenderingContext2D) {
+    super.onDraw(ctx);
     ctx.beginPath();
     ctx.strokeStyle = `${this.color.toString()}`;
     ctx.lineWidth = this.lineWidth;
-    const startAbsoluteCoordinate = getAbsoluteCoordinate(this.#startPoint);
-    const endAbsoluteCoordinate = getAbsoluteCoordinate(this.#endPoint);
-    ctx.moveTo(startAbsoluteCoordinate[0], startAbsoluteCoordinate[1]);
-    ctx.lineTo(endAbsoluteCoordinate[0], endAbsoluteCoordinate[1]);
+    ctx.moveTo(this.#startPoint.x, this.#startPoint.y);
+    ctx.lineTo(this.#endPoint.x, this.#endPoint.y);
     ctx.stroke();
 
     return ctx;

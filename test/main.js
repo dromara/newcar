@@ -20,9 +20,7 @@ const point2 = new object.Point({
   x: 200,
   y: 200
 })
-const line = new object.Line(point1, point2, {
-  rotation: Math.PI
-})
+const line = new object.Line(point1, point2)
 const rect = new object.Rectangle(300, 200, {
   x: 200,
   y: 300,

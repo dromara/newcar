@@ -56,16 +56,6 @@ export class Carobj implements IPositionedMut, IRotatedMut, IScaledMut, ITranspa
   }
 
   /**
-   * Get called before translate on each frame.
-   * @param ctx The context instance of the canvas object.
-   * @param element The dom of <canvas>
-   */
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  beforeTranslate(ctx: CanvasRenderingContext2D, element?: HTMLElement) {
-    return ctx;
-  }
-
-  /**
    * Actually get called on each frame. The difference to `onDraw()` is that `onDraw()` is used for inherited classes to implement their render while this will be actually called directly on each frame.
    * We will do some transformation on this frame.
    * @param ctx The context instance.

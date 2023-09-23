@@ -93,6 +93,5 @@ Click here to jump to our Twitter: https://twitter.com/bugduckteam
 export { interpolator } from "@newcar/animation-builder/src/interpolation/index";
 export { animation } from "@newcar/animation-builder/src/items";
 export { object } from "@newcar/objects";
-export { getAbsoluteCoordinate } from "@newcar/objects/src/utils/getAbsoluteCoordinate";
 export { AudioItem } from "@newcar/sound-builder/src/item";
 export { Color } from "@newcar/utils";
