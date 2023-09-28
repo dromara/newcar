@@ -233,7 +233,6 @@ export class CoordinateSystem
           text.x = x;
           text.y = 20;
           text.size = 20;
-          text.align = "center";
           text.onUpdate(ctx);
         }
         numberCount += 1;
@@ -246,7 +245,6 @@ export class CoordinateSystem
           text.x = x;
           text.y = 20;
           text.size = 20;
-          text.align = "center";
           text.onUpdate(ctx);
         }
         numberCount -= 1;
@@ -259,7 +257,6 @@ export class CoordinateSystem
           text.x = -x;
           text.y = 20;
           text.size = 20;
-          text.align = "center";
           text.onUpdate(ctx);
         }
         numberCount += 1;
@@ -272,7 +269,6 @@ export class CoordinateSystem
           text.x = -x;
           text.y = 20;
           text.size = 20;
-          text.align = "center";
           text.onUpdate(ctx);
         }
         numberCount -= 1;
@@ -287,7 +283,6 @@ export class CoordinateSystem
           text.x = -20;
           text.y = -y;
           text.size = 20;
-          text.align = "center";
           text.onUpdate(ctx);
         }
         numberCount += 1;
@@ -300,7 +295,6 @@ export class CoordinateSystem
           text.x = -20;
           text.y = -y;
           text.size = 20;
-          text.align = "center";
           text.onUpdate(ctx);
         }
         numberCount -= 1;
@@ -313,7 +307,6 @@ export class CoordinateSystem
           text.x = -20;
           text.y = y;
           text.size = 20;
-          text.align = "center";
           text.onUpdate(ctx);
         }
         numberCount += 1;
