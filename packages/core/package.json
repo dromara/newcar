@@ -3,9 +3,5 @@
   "version": "0.5.0-alpha.1",
   "type": "module",
   "license": "Apache-2.0",
-  "author": "BugDuck Team",
-  "devDependencies": {
-    "@newcar/objects": "workspace:^0.5.0-alpha.1",
-    "@newcar/utils": "workspace:^0.5.0-alpha.1"
-  }
+  "author": "BugDuck Team"
 }
