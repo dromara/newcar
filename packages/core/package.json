@@ -1,7 +1,9 @@
 {
   "name": "@newcar/core",
   "version": "0.5.0-alpha.1",
-  "type": "module",
   "license": "Apache-2.0",
-  "author": "BugDuck Team"
+  "author": "BugDuck Team",
+  "devDependencies": {
+    "@newcar/basic": "workspace:^0.5.0-alpha.1"
+  }
 }

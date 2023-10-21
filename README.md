@@ -17,47 +17,6 @@
 
 Newcar is a Highly configurable universal advanced engine, Born for creating animation rapidly.
 
-## Example
-
-### Install
-
-You can use npm to install it.
-
-```shell
-$ npm install newcar # the package of user API
-```
-
-### Create a animation
-
-Firstly, you need to define a `<canvas>` tag in document, and then create a object `Car`.
-
-```javascript
-import * as newcar from "./node_modules/newcar/dist/newcar.js";
-
-const animation = new newcar.Car(
-  document.getElementById("canvas_element_id"), // The DOM of `<canvas>`.
-  60 // The frame per second.
-);
-```
-
-Secondly, you're supposed to add a object on it!
-
-```javascript
-const text = new newcar.object.Text("Hello world!", {
-  x: 100,
-  y: 200,
-});
-animation.addObject(text);
-```
-
-Finally, you just need to play it.
-
-```javascript
-animation.play();
-```
-
-And then, you can see a text object with "Hello world!" on the canvas.
-
 ## Document
 
 The document is served on [newcar.js.org](https://newcar.js.org).
