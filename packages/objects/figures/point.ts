@@ -17,11 +17,11 @@ export class Point extends Carobj {
     this.size = options.size ?? 4;
   }
 
-  override draw(ctx: CanvasRenderingContext2D): void {
-    ctx.fillStyle = this.color.toString();
-    ctx.beginPath();
-    ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.fill();
+  override draw(context: CanvasRenderingContext2D): void {
+    context.fillStyle = this.color.toString();
+    context.beginPath();
+    context.arc(0, 0, this.size, 0, Math.PI * 2);
+    context.closePath();
+    context.fill();
   }
 }

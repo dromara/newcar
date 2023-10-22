@@ -72,7 +72,7 @@ export class NumberPlane extends Carobj {
       ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
   }
 
-  override draw(ctx: CanvasRenderingContext2D): void {
+  override draw(context: CanvasRenderingContext2D): void {
     if (this.minX > 0) {
       throw new Error("Parameter `minX` MUST be less than 0.");
     }
@@ -87,101 +87,101 @@ export class NumberPlane extends Carobj {
     }
 
     if (this.directionX === "left") {
-      ctx.scale(-1, 1);
+      context.scale(-1, 1);
     }
     if (this.directionY === "top") {
-      ctx.scale(1, -1);
+      context.scale(1, -1);
     }
 
     // draw grid
     if (this.gridColor) {
-      ctx.beginPath();
-      ctx.strokeStyle = this.gridColor.toString();
-      ctx.lineWidth = 1;
+      context.beginPath();
+      context.strokeStyle = this.gridColor.toString();
+      context.lineWidth = 1;
       for (let x = 0; x <= this.maxX; x += this.intervalX) {
-        ctx.moveTo(x, this.maxY);
-        ctx.lineTo(x, this.minY);
+        context.moveTo(x, this.maxY);
+        context.lineTo(x, this.minY);
       }
       for (let x = 0; x >= this.minX; x -= this.intervalX) {
-        ctx.moveTo(x, this.maxY);
-        ctx.lineTo(x, this.minY);
+        context.moveTo(x, this.maxY);
+        context.lineTo(x, this.minY);
       }
       for (let y = 0; y <= this.maxY; y += this.intervalY) {
-        ctx.moveTo(this.maxX, y);
-        ctx.lineTo(this.minX, y);
+        context.moveTo(this.maxX, y);
+        context.lineTo(this.minX, y);
       }
       for (let y = 0; y >= this.minY; y -= this.intervalY) {
-        ctx.moveTo(this.maxX, y);
-        ctx.lineTo(this.minX, y);
+        context.moveTo(this.maxX, y);
+        context.lineTo(this.minX, y);
       }
-      ctx.stroke();
+      context.stroke();
     }
     // draw axis X
-    ctx.beginPath();
-    ctx.strokeStyle = this.colorX.toString();
-    ctx.lineWidth = 2;
-    ctx.moveTo(this.minX, 0);
-    ctx.lineTo(this.maxX, 0);
+    context.beginPath();
+    context.strokeStyle = this.colorX.toString();
+    context.lineWidth = 2;
+    context.moveTo(this.minX, 0);
+    context.lineTo(this.maxX, 0);
     if (this.arrow) {
-      ctx.lineWidth = 2;
-      ctx.moveTo(this.maxX, 0);
-      ctx.lineTo(this.maxX - 6, 6);
-      ctx.moveTo(this.maxX, 0);
-      ctx.lineTo(this.maxX - 6, -6);
+      context.lineWidth = 2;
+      context.moveTo(this.maxX, 0);
+      context.lineTo(this.maxX - 6, 6);
+      context.moveTo(this.maxX, 0);
+      context.lineTo(this.maxX - 6, -6);
     }
-    ctx.stroke();
+    context.stroke();
 
     // draw axis Y
-    ctx.beginPath();
-    ctx.strokeStyle = this.colorY.toString();
-    ctx.lineWidth = 2;
-    ctx.moveTo(0, this.minY);
-    ctx.lineTo(0, this.maxY);
+    context.beginPath();
+    context.strokeStyle = this.colorY.toString();
+    context.lineWidth = 2;
+    context.moveTo(0, this.minY);
+    context.lineTo(0, this.maxY);
     if (this.arrow) {
-      ctx.lineWidth = 2;
-      ctx.moveTo(0, this.maxY);
-      ctx.lineTo(6, this.maxY - 6);
-      ctx.moveTo(0, this.maxY);
-      ctx.lineTo(-6, this.maxY - 6);
+      context.lineWidth = 2;
+      context.moveTo(0, this.maxY);
+      context.lineTo(6, this.maxY - 6);
+      context.moveTo(0, this.maxY);
+      context.lineTo(-6, this.maxY - 6);
     }
-    ctx.stroke();
+    context.stroke();
 
     // Draw number point;
     if (this.point) {
-      ctx.beginPath();
-      ctx.strokeStyle = this.colorX.toString();
-      ctx.lineWidth = 2;
+      context.beginPath();
+      context.strokeStyle = this.colorX.toString();
+      context.lineWidth = 2;
       for (let x = 0; x <= this.maxX; x += this.intervalX) {
-        ctx.moveTo(x, 10);
-        ctx.lineTo(x, -10);
+        context.moveTo(x, 10);
+        context.lineTo(x, -10);
       }
       for (let x = 0; x >= this.minX; x -= this.intervalX) {
-        ctx.moveTo(x, 10);
-        ctx.lineTo(x, -10);
+        context.moveTo(x, 10);
+        context.lineTo(x, -10);
       }
-      ctx.stroke();
+      context.stroke();
 
-      ctx.beginPath();
-      ctx.strokeStyle = this.colorY.toString();
-      ctx.lineWidth = 2;
+      context.beginPath();
+      context.strokeStyle = this.colorY.toString();
+      context.lineWidth = 2;
       for (let y = 0; y <= this.maxY; y += this.intervalY) {
-        ctx.moveTo(10, y);
-        ctx.lineTo(-10, y);
+        context.moveTo(10, y);
+        context.lineTo(-10, y);
       }
       for (let y = 0; y >= this.minY; y -= this.intervalY) {
-        ctx.moveTo(10, y);
-        ctx.lineTo(-10, y);
+        context.moveTo(10, y);
+        context.lineTo(-10, y);
       }
-      ctx.stroke();
+      context.stroke();
     }
 
     // To avoid text inversion, restore the coordinate system to its original state here
 
     if (this.directionX === "left") {
-      ctx.scale(-1, 1);
+      context.scale(-1, 1);
     }
     if (this.directionY === "top") {
-      ctx.scale(1, -1);
+      context.scale(1, -1);
     }
 
     // draw number
@@ -195,7 +195,7 @@ export class NumberPlane extends Carobj {
           text.x = x;
           text.y = 20;
           text.size = 20;
-          text.update(ctx);
+          text.update(context);
         }
         numberCount += 1;
       }
@@ -207,7 +207,7 @@ export class NumberPlane extends Carobj {
           text.x = x;
           text.y = 20;
           text.size = 20;
-          text.update(ctx);
+          text.update(context);
         }
         numberCount -= 1;
       }
@@ -219,7 +219,7 @@ export class NumberPlane extends Carobj {
           text.x = -x;
           text.y = 20;
           text.size = 20;
-          text.update(ctx);
+          text.update(context);
         }
         numberCount += 1;
       }
@@ -231,7 +231,7 @@ export class NumberPlane extends Carobj {
           text.x = -x;
           text.y = 20;
           text.size = 20;
-          text.update(ctx);
+          text.update(context);
         }
         numberCount -= 1;
       }
@@ -245,7 +245,7 @@ export class NumberPlane extends Carobj {
           text.x = -20;
           text.y = -y;
           text.size = 20;
-          text.update(ctx);
+          text.update(context);
         }
         numberCount += 1;
       }
@@ -257,7 +257,7 @@ export class NumberPlane extends Carobj {
           text.x = -20;
           text.y = -y;
           text.size = 20;
-          text.update(ctx);
+          text.update(context);
         }
         numberCount -= 1;
       }
@@ -269,7 +269,7 @@ export class NumberPlane extends Carobj {
           text.x = -20;
           text.y = y;
           text.size = 20;
-          text.update(ctx);
+          text.update(context);
         }
         numberCount += 1;
       }
@@ -280,7 +280,7 @@ export class NumberPlane extends Carobj {
           const text = this.trendY(numberCount);
           text.x = -20;
           text.y = 20;
-          text.update(ctx);
+          text.update(context);
         }
         numberCount -= 1;
       }
@@ -289,14 +289,14 @@ export class NumberPlane extends Carobj {
     const originText = this.trendX(0);
     originText.x = -10;
     originText.y = 10;
-    originText.update(ctx);
+    originText.update(context);
 
     // Restore
     if (this.directionX === "left") {
-      ctx.scale(-1, 1);
+      context.scale(-1, 1);
     }
     if (this.directionY === "top") {
-      ctx.scale(1, -1);
+      context.scale(1, -1);
     }
   }
 }

@@ -11,9 +11,9 @@ export class Image extends Carobj {
     this.path = path;
   }
 
-  override draw(ctx: CanvasRenderingContext2D): void {
+  override draw(context: CanvasRenderingContext2D): void {
     this.image.src = this.path;
-    ctx.drawImage(
+    context.drawImage(
       this.image,
       -0.5 * this.image.width,
       -0.5 * this.image.height,

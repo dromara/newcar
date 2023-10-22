@@ -2,21 +2,21 @@ import type { Scene } from "./scene";
 
 export class Car {
   readonly element: HTMLCanvasElement;
-  readonly ctx?: CanvasRenderingContext2D;
+  readonly context?: CanvasRenderingContext2D;
   scene: Scene;
 
   constructor(element: HTMLCanvasElement) {
     this.element = element;
-    this.ctx = this.element.getContext("2d") ?? undefined;
+    this.context = this.element.getContext("2d") ?? undefined;
   }
 
   play(): void {
-    if (!this.ctx) {
+    if (!this.context) {
       return;
     }
 
     const scene = this.scene;
-    const ctx = this.ctx;
+    const context = this.context;
     for (const object of scene.objects) {
       object.init();
     }
@@ -26,7 +26,7 @@ export class Car {
         update(scene.currentFrame);
       }
       for (const object of scene.objects) {
-        object.update(ctx);
+        object.update(context);
       }
       scene.currentFrame += 1;
       requestAnimationFrame(update);

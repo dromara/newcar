@@ -33,16 +33,16 @@ export class Text extends Carobj {
     this.borderWidth = options.borderWidth ?? 2;
   }
 
-  override draw(ctx: CanvasRenderingContext2D): void {
-    ctx.font = `${this.size}px ${this.fontFamily}`;
-    ctx.textAlign = this.align;
-    ctx.textBaseline = this.baseline;
-    ctx.fillStyle = this.color.toString();
-    ctx.fillText(this.text, 0, 0);
+  override draw(context: CanvasRenderingContext2D): void {
+    context.font = `${this.size}px ${this.fontFamily}`;
+    context.textAlign = this.align;
+    context.textBaseline = this.baseline;
+    context.fillStyle = this.color.toString();
+    context.fillText(this.text, 0, 0);
     if (this.borderColor) {
-      ctx.lineWidth = this.borderWidth;
-      ctx.strokeStyle = this.borderColor.toString();
-      ctx.strokeText(this.text, 0, 0);
+      context.lineWidth = this.borderWidth;
+      context.strokeStyle = this.borderColor.toString();
+      context.strokeText(this.text, 0, 0);
     }
   }
 }

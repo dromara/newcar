@@ -42,7 +42,7 @@ export class NumberAxis extends Carobj {
       options.trend ?? ((n: number) => new Text(String(n), { x: 0, y: 0 }));
   }
 
-  override draw(ctx: CanvasRenderingContext2D): void {
+  override draw(context: CanvasRenderingContext2D): void {
     if (this.max < 0) {
       throw new Error("Parameter `max` cannot be less than 0");
     }
@@ -51,44 +51,44 @@ export class NumberAxis extends Carobj {
     }
 
     if (this.direction === "left") {
-      ctx.scale(-1, 1);
+      context.scale(-1, 1);
     }
 
-    ctx.beginPath();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = this.color.toString();
-    ctx.moveTo(this.min, 0);
-    ctx.lineTo(this.max, 0);
-    ctx.stroke();
+    context.beginPath();
+    context.lineWidth = 2;
+    context.strokeStyle = this.color.toString();
+    context.moveTo(this.min, 0);
+    context.lineTo(this.max, 0);
+    context.stroke();
 
     if (this.arrow) {
-      ctx.beginPath();
-      ctx.lineWidth = 2;
-      ctx.moveTo(this.max, 0);
-      ctx.lineTo(this.max - 6, 6);
-      ctx.moveTo(this.max, 0);
-      ctx.lineTo(this.max - 6, -6);
-      ctx.stroke();
+      context.beginPath();
+      context.lineWidth = 2;
+      context.moveTo(this.max, 0);
+      context.lineTo(this.max - 6, 6);
+      context.moveTo(this.max, 0);
+      context.lineTo(this.max - 6, -6);
+      context.stroke();
     }
 
     // Draw number point.
     if (this.point) {
-      ctx.strokeStyle = this.color.toString();
-      ctx.lineWidth = 2;
+      context.strokeStyle = this.color.toString();
+      context.lineWidth = 2;
       for (let i = 0; i <= this.max; i += this.interval) {
-        ctx.moveTo(i, 10);
-        ctx.lineTo(i, -10);
+        context.moveTo(i, 10);
+        context.lineTo(i, -10);
       }
       for (let i = 0; i >= this.min; i -= this.interval) {
-        ctx.moveTo(i, 10);
-        ctx.lineTo(i, -10);
+        context.moveTo(i, 10);
+        context.lineTo(i, -10);
       }
-      ctx.stroke();
+      context.stroke();
     }
 
     // Draw numbers.
     if (this.direction === "left") {
-      ctx.scale(-1, 0);
+      context.scale(-1, 0);
     }
 
     let numberCount;
@@ -100,7 +100,7 @@ export class NumberAxis extends Carobj {
         text.y = 20;
         text.size = 20;
         text.align = "center";
-        text.update(ctx);
+        text.update(context);
         numberCount += 1;
       }
       numberCount = 0;
@@ -110,7 +110,7 @@ export class NumberAxis extends Carobj {
         text.y = 20;
         text.size = 20;
         text.align = "center";
-        text.update(ctx);
+        text.update(context);
         numberCount -= 1;
       }
     }

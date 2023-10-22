@@ -34,13 +34,13 @@ export class Line extends Carobj {
     this.lineWidth = options.lineWidth ?? 2;
   }
 
-  override draw(ctx: CanvasRenderingContext2D): void {
-    ctx.beginPath();
-    ctx.strokeStyle = this.color.toString();
-    ctx.lineWidth = this.lineWidth;
-    ctx.moveTo(this.startX, this.startY);
-    ctx.lineTo(this.endX, this.endY);
-    ctx.stroke();
+  override draw(context: CanvasRenderingContext2D): void {
+    context.beginPath();
+    context.strokeStyle = this.color.toString();
+    context.lineWidth = this.lineWidth;
+    context.moveTo(this.startX, this.startY);
+    context.lineTo(this.endX, this.endY);
+    context.stroke();
   }
 
   set startPoint(value: Point) {

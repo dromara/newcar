@@ -28,15 +28,15 @@ export class Circle extends Carobj {
     this.fillColor = options.fillColor;
   }
 
-  override draw(ctx: CanvasRenderingContext2D): void {
-    ctx.lineWidth = this.borderWidth;
-    ctx.beginPath();
-    ctx.arc(0, 0, this.radius, this.startAngle, this.endAngle);
+  override draw(context: CanvasRenderingContext2D): void {
+    context.lineWidth = this.borderWidth;
+    context.beginPath();
+    context.arc(0, 0, this.radius, this.startAngle, this.endAngle);
     if (this.fillColor) {
-      ctx.fillStyle = this.fillColor.toString();
-      ctx.fill();
+      context.fillStyle = this.fillColor.toString();
+      context.fill();
     }
-    ctx.strokeStyle = this.borderColor.toString();
-    ctx.stroke();
+    context.strokeStyle = this.borderColor.toString();
+    context.stroke();
   }
 }

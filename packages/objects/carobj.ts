@@ -54,7 +54,7 @@ export class Carobj implements Positional, Rotatable, Scalable, Transparent {
    * @param context The context instance of the canvas object.
    */
   // eslint-disable-next-line unused-imports/no-unused-vars
-  draw(ctx: CanvasRenderingContext2D): void {}
+  draw(context: CanvasRenderingContext2D): void {}
 
   /**
    * The real method to be called directly at each frame.
@@ -63,25 +63,25 @@ export class Carobj implements Positional, Rotatable, Scalable, Transparent {
    * @param context The context instance.
    * @see draw()
    */
-  update(ctx: CanvasRenderingContext2D): void {
+  update(context: CanvasRenderingContext2D): void {
     if (!this.display) {
       return;
     }
 
-    ctx.save();
+    context.save();
     // Translate origin to the coordinate and set the rotation center.
-    ctx.translate(this.x + this.centerX, this.y + this.centerY);
-    ctx.rotate(this.rotation);
+    context.translate(this.x + this.centerX, this.y + this.centerY);
+    context.rotate(this.rotation);
     // After rotation, restore to the coordinate.
-    ctx.translate(-this.centerX, -this.centerY);
-    ctx.scale(this.scaleX, this.scaleY);
-    ctx.globalAlpha = this.transparency;
-    ctx.globalCompositeOperation = this.operation;
-    this.draw(ctx);
+    context.translate(-this.centerX, -this.centerY);
+    context.scale(this.scaleX, this.scaleY);
+    context.globalAlpha = this.transparency;
+    context.globalCompositeOperation = this.operation;
+    this.draw(context);
     for (const child of this.children) {
-      child.update(ctx);
+      child.update(context);
     }
-    ctx.restore();
+    context.restore();
   }
 
   /**

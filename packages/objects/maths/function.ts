@@ -34,19 +34,19 @@ export class MathFunction extends Carobj {
     this.color = options.color ?? Color.WHITE;
   }
 
-  override draw(ctx: CanvasRenderingContext2D): void {
-    ctx.strokeStyle = this.color.toString();
-    ctx.beginPath();
-    ctx.lineWidth = (this.lineWidth / this.divisionX) * 2;
-    ctx.scale(this.divisionX, this.divisionY);
-    ctx.moveTo(this.startVariable, this.func(this.startVariable));
+  override draw(context: CanvasRenderingContext2D): void {
+    context.strokeStyle = this.color.toString();
+    context.beginPath();
+    context.lineWidth = (this.lineWidth / this.divisionX) * 2;
+    context.scale(this.divisionX, this.divisionY);
+    context.moveTo(this.startVariable, this.func(this.startVariable));
     for (
       let variable = this.startVariable;
       variable <= this.endVariable;
       variable += 1 / this.divisionX
     ) {
-      ctx.lineTo(variable, this.func(variable));
+      context.lineTo(variable, this.func(variable));
     }
-    ctx.stroke();
+    context.stroke();
   }
 }

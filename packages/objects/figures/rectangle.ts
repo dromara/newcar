@@ -27,20 +27,20 @@ export class Rectangle extends Carobj {
     this.fillColor = options.fillColor;
   }
 
-  override draw(ctx: CanvasRenderingContext2D): void {
-    ctx.lineWidth = this.borderWidth;
-    ctx.lineJoin = this.lineJoin;
-    ctx.strokeStyle = this.borderColor.toString();
+  override draw(context: CanvasRenderingContext2D): void {
+    context.lineWidth = this.borderWidth;
+    context.lineJoin = this.lineJoin;
+    context.strokeStyle = this.borderColor.toString();
     if (this.fillColor) {
-      ctx.fillStyle = this.fillColor.toString();
-      ctx.fill();
+      context.fillStyle = this.fillColor.toString();
+      context.fill();
     }
-    ctx.beginPath();
-    ctx.moveTo(-0.5 * this.width, -0.5 * this.height);
-    ctx.lineTo(0.5 * this.width, -0.5 * this.height);
-    ctx.lineTo(0.5 * this.width, 0.5 * this.height);
-    ctx.lineTo(-0.5 * this.width, 0.5 * this.height);
-    ctx.closePath();
-    ctx.stroke();
+    context.beginPath();
+    context.moveTo(-0.5 * this.width, -0.5 * this.height);
+    context.lineTo(0.5 * this.width, -0.5 * this.height);
+    context.lineTo(0.5 * this.width, 0.5 * this.height);
+    context.lineTo(-0.5 * this.width, 0.5 * this.height);
+    context.closePath();
+    context.stroke();
   }
 }

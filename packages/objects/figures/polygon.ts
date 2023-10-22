@@ -30,19 +30,19 @@ export class Polygon extends Carobj {
     this.lineJoin = options.lineJoin ?? "miter";
   }
 
-  draw(ctx: CanvasRenderingContext2D): void {
-    ctx.strokeStyle = this.borderColor.toString();
-    ctx.lineWidth = this.borderWidth;
-    ctx.lineJoin = this.lineJoin;
-    ctx.beginPath();
+  draw(context: CanvasRenderingContext2D): void {
+    context.strokeStyle = this.borderColor.toString();
+    context.lineWidth = this.borderWidth;
+    context.lineJoin = this.lineJoin;
+    context.beginPath();
     for (const [index, point] of this.points.entries()) {
-      (index ? ctx.lineTo : ctx.moveTo)(point.x, point.y);
+      (index ? context.lineTo : context.moveTo)(point.x, point.y);
     }
-    ctx.closePath();
-    ctx.stroke();
+    context.closePath();
+    context.stroke();
     if (this.fillColor) {
-      ctx.fillStyle = this.fillColor.toString();
-      ctx.fill();
+      context.fillStyle = this.fillColor.toString();
+      context.fill();
     }
   }
 }
