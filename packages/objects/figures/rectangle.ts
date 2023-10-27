@@ -1,30 +1,33 @@
-import { Color } from "../../utils/color";
-import type { CarobjOption } from "../carobj";
-import { Carobj } from "../carobj";
+import { Figure } from "./figure";
+import type { FigureOption } from "./interfaces";
 
-export interface RectangleOption extends CarobjOption {
-  borderWidth?: number;
-  borderColor?: Color;
-  fillColor?: Color;
+export interface RectangleOption extends FigureOption {
   lineJoin?: CanvasLineJoin;
 }
 
-export class Rectangle extends Carobj {
+/**
+ * Circle options.
+ * @param startAngle The start angle of the circle.
+ * @param endAngle The end angle of the circle.
+ * @see FigureOption
+ * @see Circle
+ */
+export class Rectangle extends Figure {
   width: number;
   height: number;
-  borderWidth: number;
-  borderColor: Color;
-  fillColor?: Color;
   lineJoin: CanvasLineJoin;
 
+  /**
+   * Circle object.
+   * @param radius The radius of the circle.
+   * @param options The options of the circle.
+   * @see CircleOption
+   */
   constructor(width: number, height: number, options?: RectangleOption) {
     super((options ??= {}));
     this.width = width;
     this.height = height;
-    this.borderColor = options.borderColor ?? Color.WHITE;
-    this.borderWidth = options.borderWidth ?? 2;
     this.lineJoin = options.lineJoin ?? "miter";
-    this.fillColor = options.fillColor;
   }
 
   override draw(context: CanvasRenderingContext2D): void {

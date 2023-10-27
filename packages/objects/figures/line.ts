@@ -1,18 +1,16 @@
 import { Color } from "../../utils/color";
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
-import type { Positional } from "../interface";
 
-export type Point = Positional | [number, number];
+export type Point = [number, number];
 
-export function toPoint(point: Point): Positional {
-  if (Array.isArray(point)) {
-    return { x: point[0], y: point[1] };
-  }
-
-  return point;
-}
-
+/**
+ * Line options.
+ * @param color The color of the line.
+ * @param lineWidth The width of the line.
+ * @see CarobjOption
+ * @see Line
+ */
 export interface LineOption extends CarobjOption {
   color?: Color;
   lineWidth?: number;
@@ -26,6 +24,13 @@ export class Line extends Carobj {
   endX: number;
   endY: number;
 
+  /**
+   * Line object.
+   * @param startPoint The fill color of the text.
+   * @param endPoint The border color of the text.
+   * @param options The options of the object.
+   * @see LineOption
+   */
   constructor(startPoint: Point, endPoint: Point, options?: LineOption) {
     super((options ??= {}));
     this.startPoint = startPoint;
@@ -43,23 +48,19 @@ export class Line extends Carobj {
     context.stroke();
   }
 
-  set startPoint(value: Point) {
-    const point = toPoint(value);
-    this.startX = point.x;
-    this.startY = point.y;
+  set startPoint(point: Point) {
+    [this.startX, this.startY] = point;
   }
 
-  get startPoint(): Positional {
-    return { x: this.startX, y: this.startY };
+  get startPoint(): Point {
+    return [this.startX, this.startY];
   }
 
-  set endPoint(value: Point) {
-    const point = toPoint(value);
-    this.endX = point.x;
-    this.endY = point.y;
+  set endPoint(point: Point) {
+    [this.endX, this.endY] = point;
   }
 
-  get endPoint(): Positional {
-    return { x: this.endX, y: this.endY };
+  get endPoint(): Point {
+    return [this.endX, this.endY];
   }
 }

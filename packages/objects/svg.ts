@@ -1,7 +1,6 @@
+import { DOMURL } from "../utils/url";
 import type { CarobjOption } from "./carobj";
 import { Image } from "./image";
-
-const DOMURL = window.URL || window.webkitURL || window;
 
 const toSvg = (xml: string): Blob =>
   new Blob([xml], { type: "image/svg+xml;charset=utf-8" });
@@ -9,8 +8,14 @@ const toSvg = (xml: string): Blob =>
 export class Svg extends Image {
   #svg: string;
 
+  /**
+   * Svg object.
+   * @param svg The svg content.
+   * @param options The options of the object.
+   * @see CarobjOption
+   */
   constructor(svg: string, options?: CarobjOption) {
-    super(DOMURL.createObjectURL(toSvg(svg)), options ?? {});
+    super(DOMURL.createObjectURL(toSvg(svg)), options);
     this.#svg = svg;
   }
 
@@ -20,6 +25,6 @@ export class Svg extends Image {
 
   set svg(value: string) {
     this.svg = value;
-    this.path = DOMURL.createObjectURL(toSvg(this.svg));
+    this.url = DOMURL.createObjectURL(toSvg(this.svg));
   }
 }

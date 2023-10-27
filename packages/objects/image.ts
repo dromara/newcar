@@ -2,17 +2,22 @@ import type { CarobjOption } from "./carobj";
 import { Carobj } from "./carobj";
 
 export class Image extends Carobj {
-  readonly image: HTMLImageElement;
-  path: string;
+  url: string;
+  readonly image: HTMLImageElement = document.createElement("img");
 
-  constructor(path: string, options?: CarobjOption) {
+  /**
+   * Image object.
+   * @param url The url of image.
+   * @param options The options of the object.
+   * @see CarobjOption
+   */
+  constructor(url: string, options?: CarobjOption) {
     super(options);
-    this.image = document.createElement("img");
-    this.path = path;
+    this.url = url;
   }
 
   override draw(context: CanvasRenderingContext2D): void {
-    this.image.src = this.path;
+    this.image.src = this.url;
     context.drawImage(
       this.image,
       -0.5 * this.image.width,

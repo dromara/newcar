@@ -28,8 +28,7 @@ export class NumberAxis extends Carobj {
   trend: Trend;
 
   constructor(max: number, min: number, options?: NumberAxisOption) {
-    options = options ?? {};
-    super(options);
+    super((options ??= {}));
     this.max = max;
     this.min = min;
     this.color = options.color ?? Color.RGB(255, 255, 255);

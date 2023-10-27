@@ -1,27 +1,22 @@
-import { Color } from "../../utils/color";
+import type { Color } from "../../utils/color";
 import type { CarobjOption } from "../carobj";
-import { Carobj } from "../carobj";
+import { Circle } from "./circle";
 
 export interface PointOption extends CarobjOption {
-  size?: number;
-  color?: Color;
+  radius?: number;
+  fillColor?: Color;
 }
 
-export class Point extends Carobj {
-  color: Color;
-  size: number;
-
+export class Point extends Circle {
+  /**
+   * Point object.
+   * @param options The options of the object.
+   * @see PointOption
+   */
   constructor(options?: PointOption) {
-    super((options ??= {}));
-    this.color = options.color ?? Color.WHITE;
-    this.size = options.size ?? 4;
+    super((options ??= {}).radius ?? 4, options);
   }
 
-  override draw(context: CanvasRenderingContext2D): void {
-    context.fillStyle = this.color.toString();
-    context.beginPath();
-    context.arc(0, 0, this.size, 0, Math.PI * 2);
-    context.closePath();
-    context.fill();
-  }
+  startAngle: never;
+  endAngle: never;
 }
