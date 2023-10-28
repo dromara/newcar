@@ -1,4 +1,5 @@
-import { Color } from "../../utils/color";
+import { Color } from "@newcar/utils/src";
+
 import { Carobj } from "../carobj";
 import type { FigureOption } from "./interfaces";
 

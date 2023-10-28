@@ -37,7 +37,7 @@ export class Carobj {
   rotation: number;
   transparency: number;
   operation: GlobalCompositeOperation;
-  #children: Carobj[];
+  #children: Carobj[] = [];
   parent?: Carobj;
 
   /**

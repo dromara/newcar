@@ -1,0 +1,29 @@
+{
+  "name": "newcar",
+  "version": "0.6.0",
+  "author": "BugDuck Team",
+  "type": "module",
+  "description": "A Highly configurable universal advanced engine, Born for creating animation rapidly.",
+  "keywords": [
+    "animation"
+  ],
+  "scripts": {
+    "build": "run-s clean build:rollup build:cleanup",
+    "build:cleanup": "rimraf ./dist/src",
+    "build:rollup": "rollup -c",
+    "clean": "rimraf ./dist",
+    "dev": "rollup -c -w"
+  },
+  "license": "Apache-2.0",
+  "main": "./dist/newcar.js",
+  "types": "./dist/newcar.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/newcar.js",
+      "types": "./dist/newcar.d.ts"
+    }
+  },
+  "devDependencies": {
+    "@newcar/core": "workspace: ^0.6.0"
+  } 
+}

@@ -1,4 +1,4 @@
-import type { Color } from "../../utils/color";
+import type { Color } from "../../../../utils/src/color";
 import type { CarobjOption } from "../carobj";
 import { Circle } from "./circle";
 

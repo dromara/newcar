@@ -1,0 +1,14 @@
+{
+  "name": "@newcar/core",
+  "version": "0.6.0",
+  "description": "The core of newcar.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["animation"],
+  "author": "BugDuck Team",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@newcar/basic": "workspace: ^0.6.0"
+  }
+}

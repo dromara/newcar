@@ -1,4 +1,4 @@
-import type { Carobj } from "../objects";
+import type { Carobj } from "@newcar/basic/src/objects";
 
 export class Scene {
   #updates: ((arg0: number) => void)[] = [];

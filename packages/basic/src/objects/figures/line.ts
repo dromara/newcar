@@ -1,4 +1,5 @@
-import { Color } from "../../utils/color";
+import { Color } from "@newcar/utils/src";
+
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
 
@@ -19,10 +20,10 @@ export interface LineOption extends CarobjOption {
 export class Line extends Carobj {
   color: Color;
   lineWidth: number;
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
+  startX = 0;
+  startY = 0;
+  endX = 0;
+  endY = 0;
 
   /**
    * Line object.

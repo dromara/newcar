@@ -1,5 +1,5 @@
+import type { Bordered, Fillable } from "../../interfaces";
 import type { CarobjOption } from "../carobj";
-import type { Bordered, Fillable } from "../interfaces";
 
 /**
  * Figure options.

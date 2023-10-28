@@ -1,7 +1,8 @@
-import { Color } from "../utils/color";
+import { Color } from "@newcar/utils/src";
+
+import type { Bordered } from "../interfaces";
 import type { CarobjOption } from "./carobj";
 import { Carobj } from "./carobj";
-import type { Bordered } from "./interfaces";
 
 /**
  * Text options.

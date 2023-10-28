@@ -1,0 +1,10 @@
+{
+  "name": "@newcar/basic",
+  "version": "0.6.0",
+  "description": "The basic objects, animations and interpolators of newcar.",
+  "author": "BugDuck Team",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@newcar/utils": "workspace: ^0.6.0"
+  }
+}

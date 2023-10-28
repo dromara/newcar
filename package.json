@@ -2,16 +2,18 @@
   "name": "@newcar/monorepo",
   "private": true,
   "packageManager": "pnpm@8.6.2",
+  "type": "module",
   "scripts": {
-    "build:all": "pnpm run -r build",
     "info": "lerna info",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "release": "lerna version --no-private && pnpm publish -r",
-    "version": "lerna version"
+    "version": "lerna version",
+    "build:all": "pnpm run -r build"
   },
   "devDependencies": {
     "@babel/core": "^7.20.7",
+    "@babel/preset-typescript": "^7.23.2",
     "@lerna-lite/run": "^1.13.0",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^24.0.0",

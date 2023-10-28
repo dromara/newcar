@@ -2,6 +2,7 @@
   "compilerOptions": {
     "incremental": true,
     "outDir": "./dist",
+    "rootDir": ".",
     "baseUrl": ".",
     "moduleResolution": "Node",
     "module": "CommonJS",
@@ -15,7 +16,8 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
   },
-  "exclude": ["node_modules", "dist", "*.d.ts"]
+  "exclude": ["node_modules", "dist"],
+  "include": ["packages"]
 }
