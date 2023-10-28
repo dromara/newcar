@@ -1,3 +1,5 @@
+import type { AnimationFunction } from "../animations/animate";
+
 /**
  * Carobj options.
  * @param display Whether or not this object should be rendered.
@@ -26,6 +28,13 @@ export interface CarobjOption {
   children?: Carobj[];
 }
 
+export interface Animation {
+  func: AnimationFunction;
+  length: number;
+  frameCount: number;
+  params: Record<string, any>;
+}
+
 export class Carobj {
   display: boolean;
   x: number;
@@ -38,6 +47,7 @@ export class Carobj {
   transparency: number;
   operation: GlobalCompositeOperation;
   #children: Carobj[] = [];
+  #animations: Animation[] = [];
   parent?: Carobj;
 
   /**
@@ -110,5 +120,30 @@ export class Carobj {
     }
 
     return this;
+  }
+
+  /**
+   * Begin to count a animation.
+   * @param animation The animation function.
+   * @param length The length of the animation.
+   * @param params The other parameters of this animation.
+   */
+  animate(
+    animation: AnimationFunction,
+    length: number,
+    params: Record<string, any>,
+  ): this {
+    this.#animations.push({
+      func: animation,
+      length,
+      frameCount: 0,
+      params,
+    });
+
+    return this;
+  }
+
+  get animations(): Animation[] {
+    return this.#animations;
   }
 }

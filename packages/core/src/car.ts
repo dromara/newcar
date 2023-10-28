@@ -21,11 +21,25 @@ export class Car {
     }
     const scene = this.scene;
     const context = this.context;
+    const element = this.element;
     function update(): void {
+      context.clearRect(0, 0, element.width, element.height);
       for (const update of scene.updates) {
         update(scene.currentFrame);
       }
       for (const object of scene.objects) {
+        for (const animation of object.animations) {
+          if (animation.frameCount > animation.length) {
+            break;
+          }
+          animation.frameCount += 1;
+          animation.func(
+            object,
+            animation.frameCount,
+            animation.length,
+            animation.params,
+          );
+        }
         object.update(context!);
       }
       scene.currentFrame += 1;
