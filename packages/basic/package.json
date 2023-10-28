@@ -6,5 +6,17 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@newcar/utils": "workspace: ^0.6.0"
+  },
+  "exports": {
+    "./objects": {
+      "import": "./dist/newcar-basic-objects.mjs",
+      "require": "./dist/newcar-basic-objects.cjs",
+      "types": "./dist/newcar-basic-objects.d.ts"
+    },
+    "./animations": {
+      "import": "./dist/newcar-basic-animations.mjs",
+      "require": "./dist/newcar-basic-animations.cjs",
+      "types": "./dist/newcar-basic-animations.d.ts"
+    }
   }
 }

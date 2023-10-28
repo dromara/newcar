@@ -15,9 +15,15 @@ export class Scene {
     this.#updates.push(update);
   }
 
-  use(): void {}
+  use(obj: Carobj): Scene {
+    this.#objects.push(obj);
 
-  kill(): void {}
+    return this;
+  }
+
+  kill(): Scene {
+    return this;
+  }
 
   get updates(): ((arg0: number) => void)[] {
     return this.#updates;

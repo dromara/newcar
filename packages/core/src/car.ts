@@ -19,20 +19,21 @@ export class Car {
     for (const object of this.scene.objects) {
       object.init();
     }
-    requestAnimationFrame(this.update);
+    const scene = this.scene;
+    const context = this.context;
+    function update(): void {
+      for (const update of scene.updates) {
+        update(scene.currentFrame);
+      }
+      for (const object of scene.objects) {
+        object.update(context!);
+      }
+      scene.currentFrame += 1;
+      requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
 
     return this;
-  }
-
-  update(): void {
-    for (const update of this.scene.updates) {
-      update(this.scene.currentFrame);
-    }
-    for (const object of this.scene.objects) {
-      object.update(this.context!);
-    }
-    this.scene.currentFrame += 1;
-    requestAnimationFrame(this.update);
   }
 
   checkout(scene: Scene): Car {

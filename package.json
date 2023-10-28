@@ -9,7 +9,11 @@
     "lint:fix": "eslint . --fix",
     "release": "lerna version --no-private && pnpm publish -r",
     "version": "lerna version",
-    "build:all": "pnpm run -r build"
+    "build": "run-s clean build:rollup build:cleanup",
+    "build:cleanup": "rimraf ./dist/src",
+    "build:rollup": "rollup -c",
+    "clean": "rimraf ./dist",
+    "dev": "rollup -c -w"
   },
   "devDependencies": {
     "@babel/core": "^7.20.7",

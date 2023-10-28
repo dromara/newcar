@@ -1,3 +1,3 @@
-export const translate = (length: number) => ({
-  length,
-});
+export type animate = () => {
+  length: number;
+};

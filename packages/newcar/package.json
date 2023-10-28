@@ -7,20 +7,14 @@
   "keywords": [
     "animation"
   ],
-  "scripts": {
-    "build": "run-s clean build:rollup build:cleanup",
-    "build:cleanup": "rimraf ./dist/src",
-    "build:rollup": "rollup -c",
-    "clean": "rimraf ./dist",
-    "dev": "rollup -c -w"
-  },
   "license": "Apache-2.0",
-  "main": "./dist/newcar.js",
   "types": "./dist/newcar.d.ts",
+  "module": "./dist/newcar.js",
   "exports": {
     ".": {
-      "import": "./dist/newcar.js",
-      "types": "./dist/newcar.d.ts"
+      "import": "./dist/newcar.mjs",
+      "types": "./dist/newcar.d.ts",
+      "require": "./dist/newcar.cjs"
     }
   },
   "devDependencies": {
