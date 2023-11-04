@@ -1,3 +1,5 @@
+export const linear = (x: number): number => x;
+
 export const easeInSine = (x: number): number =>
   1 - Math.cos((x * Math.PI) / 2);
 
