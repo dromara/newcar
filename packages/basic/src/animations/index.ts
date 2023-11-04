@@ -1,2 +1,2 @@
-export { animate } from "./animate";
-export { translate } from "./translate";
+export type { Animation } from "./animation";
+export { moveTo } from "./move";

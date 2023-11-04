@@ -1,4 +1,4 @@
-import type { AnimationFunction } from "../animations/animate";
+import type { Animation } from "../animations";
 
 /**
  * Carobj options.
@@ -28,13 +28,6 @@ export interface CarobjOption {
   children?: Carobj[];
 }
 
-export interface Animation {
-  func: AnimationFunction;
-  length: number;
-  frameCount: number;
-  params: Record<string, any>;
-}
-
 export class Carobj {
   display: boolean;
   x: number;
@@ -47,8 +40,13 @@ export class Carobj {
   transparency: number;
   operation: GlobalCompositeOperation;
   #children: Carobj[] = [];
-  #animations: Animation[] = [];
   parent?: Carobj;
+  animations: {
+    func: Animation;
+    length: number;
+    frameCount: number;
+    params: Record<string, any>;
+  }[] = [];
 
   /**
    * Base object.
@@ -70,7 +68,9 @@ export class Carobj {
     options.children && this.addChildren(...options.children);
   }
 
-  /* Initialize method, which will be called before the animation starts. */
+  /**
+   * Initialize method, which will be called before the animation starts.
+   */
   init(): void {}
 
   /**
@@ -128,12 +128,12 @@ export class Carobj {
    * @param length The length of the animation.
    * @param params The other parameters of this animation.
    */
-  animate(
-    animation: AnimationFunction,
+  addAnimation(
+    animation: Animation,
     length: number,
     params: Record<string, any>,
   ): this {
-    this.#animations.push({
+    this.animations.push({
       func: animation,
       length,
       frameCount: 0,
@@ -141,9 +141,5 @@ export class Carobj {
     });
 
     return this;
-  }
-
-  get animations(): Animation[] {
-    return this.#animations;
   }
 }

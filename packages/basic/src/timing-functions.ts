@@ -1,138 +1,72 @@
-export const linear = (x: number): number => x;
+/**
+ * Timing functions.
+ * @see https://www.desmos.com/calculator/cckilk7v3x
+ */
 
-export const easeInSine = (x: number): number =>
-  1 - Math.cos((x * Math.PI) / 2);
+const c = 1.701_58;
+const n = 7.5625;
+const d = 2.75;
 
-export const easeOutSine = (x: number): number => Math.sin((x * Math.PI) / 2);
+const invent =
+  (f: TimingFunction): TimingFunction =>
+  (x: number): number =>
+    1 - f(1 - x);
 
-export const easeInOutSine = (x: number): number =>
-  -(Math.cos(Math.PI * x) - 1) / 2;
+function solve(
+  easeIn: TimingFunction,
+  easeOut?: TimingFunction,
+): TimingFunction {
+  easeOut ??= invent(easeIn);
 
-export const easeInQuad = (x: number): number => x * x;
-
-export const easeOutQuad = (x: number): number => 1 - (1 - x) * (1 - x);
-
-export const easeInOutQuad = (x: number): number =>
-  x < 0.5 ? 16 * x * x * x * x * x : 1 - (-2 * x + 2) ** 5 / 2;
-
-export const easeInCubic = (x: number): number => x * x * x;
-
-export const easeOutCubic = (x: number): number => 1 - (1 - x) ** 3;
-
-export const easeInOutCubic = (x: number): number =>
-  x < 0.5 ? 4 * x * x * x : 1 - (-2 * x + 2) ** 3 / 2;
-
-export const easeInQuart = (x: number): number => x * x * x * x;
-
-export const easeOutQuart = (x: number): number => 1 - (1 - x) ** 4;
-
-export const easeInOutQuart = (x: number): number =>
-  x < 0.5 ? 8 * x * x * x * x : 1 - (-2 * x + 2) ** 4 / 2;
-
-export const easeInQuint = (x: number): number => x * x * x * x * x;
-
-export const easeOutQuint = (x: number): number => 1 - (1 - x) ** 5;
-
-export const easeInOutQuint = (x: number): number =>
-  x < 0.5 ? 16 * x * x * x * x * x : 1 - (-2 * x + 2) ** 5 / 2;
-
-export const easeInExpo = (x: number): number =>
-  x === 0 ? 0 : 2 ** (10 * x - 10);
-
-export const easeOutExpo = (x: number): number =>
-  x === 1 ? 1 : 1 - 2 ** (-10 * x);
-
-export const easeInOutExpo = (x: number): number =>
-  x === 0
-    ? 0
-    : x === 1
-    ? 1
-    : x < 0.5
-    ? 2 ** (20 * x - 10) / 2
-    : (2 - 2 ** (-20 * x + 10)) / 2;
-
-export const easeInCirc = (x: number): number => 1 - Math.sqrt(1 - x ** 2);
-
-export const easeOutCirc = (x: number): number => Math.sqrt(1 - (x - 1) ** 2);
-
-export const easeInOutCirc = (x: number): number =>
-  x < 0.5
-    ? (1 - Math.sqrt(1 - (2 * x) ** 2)) / 2
-    : (Math.sqrt(1 - (-2 * x + 2) ** 2) + 1) / 2;
-
-export function easeInBack(x: number): number {
-  const c1 = 1.701_58;
-  const c3 = c1 + 1;
-
-  return c3 * x * x * x - c1 * x * x;
+  return (x: number): number =>
+    x < 0.5 ? easeIn(x * 2) / 2 : (easeOut!(x * 2 - 1) + 1) / 2;
 }
 
-export function easeOutBack(x: number): number {
-  const c1 = 1.701_58;
-  const c3 = c1 + 1;
+function _(
+  easeIn: TimingFunction,
+): [TimingFunction, TimingFunction, TimingFunction] {
+  const easeOut: TimingFunction = invent(easeIn);
+  const easeInOut: TimingFunction = solve(easeIn, easeOut);
 
-  return 1 + c3 * (x - 1) ** 3 + c1 * (x - 1) ** 2;
+  return [easeIn, easeOut, easeInOut];
 }
 
-export function easeInOutBack(x: number): number {
-  const c1 = 1.701_58;
-  const c2 = c1 * 1.525;
+export type TimingFunction = (x: number) => number;
 
-  return x < 0.5
-    ? ((2 * x) ** 2 * ((c2 + 1) * 2 * x - c2)) / 2
-    : ((2 * x - 2) ** 2 * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
-}
+export const linear: TimingFunction = (x) => x;
 
-export function easeInElastic(x: number): number {
-  const c4 = (2 * Math.PI) / 3;
+const easeSine: TimingFunction = (x) => 1 - Math.cos((x * Math.PI) / 2);
+export const [easeInSine, easeOutSine, easeInOutSine] = _(easeSine);
 
-  return x === 0
-    ? 0
-    : x === 1
-    ? 1
-    : -(2 ** (10 * x - 10)) * Math.sin((x * 10 - 10.75) * c4);
-}
+export const [easeInQuad, easeOutQuad, easeInOutQuad] = _((x) => x ** 2);
+export const [easeInCubic, easeOutCubic, easeInOutCubic] = _((x) => x ** 3);
+export const [easeInQuart, easeOutQuart, easeInOutQuart] = _((x) => x ** 4);
+export const [easeInQuint, easeOutQuint, easeInOutQuint] = _((x) => x ** 5);
 
-export function easeOutElastic(x: number): number {
-  const c4 = (2 * Math.PI) / 3;
+const easeExpo: TimingFunction = (x) => x || 2 ** (10 * x - 10);
+const easeCirc: TimingFunction = (x) => 1 - Math.sqrt(1 - x ** 2);
+const easeBack: TimingFunction = (x) => (c + 1) * x ** 3 - c * x ** 2;
+export const [easeInExpo, easeOutExpo, easeInOutExpo] = _(easeExpo);
+export const [easeInCirc, easeOutCirc, easeInOutCirc] = _(easeCirc);
+export const [easeInBack, easeOutBack, easeInOutBack] = _(easeBack);
 
-  return x === 0
-    ? 0
-    : x === 1
-    ? 1
-    : 2 ** (-10 * x) * Math.sin((x * 10 - 0.75) * c4) + 1;
-}
+const easeElastic: TimingFunction = (x) =>
+  -Math.sin(((80 * x - 44.5) * Math.PI) / 9) * 2 ** (20 * x - 11);
+export const easeInElastic: TimingFunction = (x) =>
+  -Math.sin(((20 * x - 21.5) * Math.PI) / 3) * 2 ** (10 * x - 10);
+export const easeOutElastic: TimingFunction = invent(easeInElastic);
+export const easeInOutElastic: TimingFunction = solve(easeElastic);
 
-export function easeInOutElastic(x: number): number {
-  const c5 = (2 * Math.PI) / 4.5;
-
-  return x === 0
-    ? 0
-    : x === 1
-    ? 1
-    : x < 0.5
-    ? -(2 ** (20 * x - 10) * Math.sin((20 * x - 11.125) * c5)) / 2
-    : (2 ** (-20 * x + 10) * Math.sin((20 * x - 11.125) * c5)) / 2 + 1;
-}
-
-export const easeInBounce = (x: number): number => 1 - easeOutBounce(1 - x);
-
-export function easeOutBounce(x: number): number {
-  const n1 = 7.5625;
-  const d1 = 2.75;
-
-  if (x < 1 / d1) {
-    return n1 * x * x;
-  } else if (x < 2 / d1) {
-    return n1 * (x -= 1.5 / d1) * x + 0.75;
-  } else if (x < 2.5 / d1) {
-    return n1 * (x -= 2.25 / d1) * x + 0.9375;
-  } else {
-    return n1 * (x -= 2.625 / d1) * x + 0.984_375;
-  }
-}
-
-export const easeInOutBounce = (x: number): number =>
-  x < 0.5
-    ? (1 - easeOutBounce(1 - 2 * x)) / 2
-    : (1 + easeOutBounce(2 * x - 1)) / 2;
+export const easeOutBounce: TimingFunction = (x: number): number =>
+  x < 1 / d
+    ? n * x ** 2
+    : x < 2 / d
+    ? n * (x - 1.5 / d) ** 2 + 0.75
+    : x < 2.5 / d
+    ? n * (x - 2.25 / d) ** 2 + 0.9375
+    : n * (x - 2.625 / d) ** 2 + 0.984_375;
+export const easeInBounce: TimingFunction = invent(easeOutBounce);
+export const easeInOutBounce: TimingFunction = solve(
+  easeInBounce,
+  easeOutBounce,
+);
