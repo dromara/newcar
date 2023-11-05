@@ -12,7 +12,7 @@ export class Color {
   }
 
   /**
-   * Generate a color by rea, green and blue components,
+   * Generate a color by red, green and blue components,
    * whith all the components are between 0 and 255.
    * @param red The RED component.      (0~255)
    * @param green The GREEN component.  (0~255)
@@ -24,7 +24,7 @@ export class Color {
   }
 
   /**
-   * Generate a color by rea, green and blue components,
+   * Generate a color by red, green and blue components,
    * whith all the components are between 0 and 1.
    * @param red The RED component.      (0.~1.)
    * @param green The GREEN component.  (0.~1.)
@@ -36,7 +36,7 @@ export class Color {
   }
 
   /**
-   * Generate a color by rea, green, blue, alpha components,
+   * Generate a color by red, green, blue, alpha components,
    * whith color components are between 0 and 255,
    * and the transparent component is between 0 and 1.
    * @param red The RED component.      (0~255)
@@ -50,7 +50,7 @@ export class Color {
   }
 
   /**
-   * Generate a color by rea, green, blue and alpha components,
+   * Generate a color by red, green, blue and alpha components,
    * whith all the components are between 0 and 1.
    * @param red The RED component.      (0.~1.)
    * @param green The GREEN component.  (0.~1.)
