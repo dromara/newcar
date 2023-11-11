@@ -16,7 +16,4 @@ export class Point extends Circle {
   constructor(options?: PointOption) {
     super((options ??= {}).radius ?? 4, options);
   }
-
-  startAngle: never;
-  endAngle: never;
 }

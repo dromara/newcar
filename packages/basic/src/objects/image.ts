@@ -18,10 +18,6 @@ export class Image extends Carobj {
 
   override draw(context: CanvasRenderingContext2D): void {
     this.image.src = this.url;
-    context.drawImage(
-      this.image,
-      -0.5 * this.image.width,
-      -0.5 * this.image.height,
-    );
+    context.drawImage(this.image, -0.5 * this.image.width, -0.5 * this.image.height);
   }
 }

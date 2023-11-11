@@ -128,11 +128,7 @@ export class Carobj {
    * @param length The length of the animation.
    * @param params The other parameters of this animation.
    */
-  addAnimation(
-    animation: Animation,
-    length: number,
-    params: Record<string, any>,
-  ): this {
+  addAnimation(animation: Animation, length: number, params: Record<string, any>): this {
     this.animations.push({
       func: animation,
       length,

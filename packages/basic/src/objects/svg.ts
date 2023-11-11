@@ -3,8 +3,7 @@ import { DOMURL } from "@newcar/utils/src";
 import type { CarobjOption } from "./carobj";
 import { Image } from "./image";
 
-const toSvg = (xml: string): Blob =>
-  new Blob([xml], { type: "image/svg+xml;charset=utf-8" });
+const toSvg = (xml: string): Blob => new Blob([xml], { type: "image/svg+xml;charset=utf-8" });
 
 export class Svg extends Image {
   #svg: string;

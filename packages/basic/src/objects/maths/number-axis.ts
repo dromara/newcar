@@ -38,8 +38,7 @@ export class NumberAxis extends Carobj {
     this.arrow = options.arrow ?? true;
     this.point = options.point ?? true;
     this.number = options.number ?? true;
-    this.trend =
-      options.trend ?? ((n: number) => new Text(String(n), { x: 0, y: 0 }));
+    this.trend = options.trend ?? ((n: number) => new Text(String(n), { x: 0, y: 0 }));
   }
 
   override draw(context: CanvasRenderingContext2D): void {
