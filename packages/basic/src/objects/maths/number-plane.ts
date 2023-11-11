@@ -3,7 +3,7 @@ import { Color } from "@newcar/utils/src";
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
 import { Text } from "../text";
-import type { Direction as DirectionX, Trend } from "./axis";
+import type { Direction as DirectionX, Trend } from "./number-axis";
 
 export type DirectionY = "top" | "bottom";
 

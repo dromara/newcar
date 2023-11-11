@@ -10,6 +10,6 @@ export { Point } from "./figures/point";
 export { Polygon } from "./figures/polygon";
 export { Rectangle } from "./figures/rectangle";
 // maths
-export { NumberAxis } from "./maths/axis";
-export { MathFunction } from "./maths/function";
-export { NumberPlane } from "./maths/plane";
+export { MathFunction } from "./maths/math-function";
+export { NumberAxis } from "./maths/number-axis";
+export { NumberPlane } from "./maths/number-plane";
