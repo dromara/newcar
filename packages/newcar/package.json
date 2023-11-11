@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@newcar/core": "workspace: ^0.6.0",
-    "@newcar/utils": "workspace: ^0.6.0"
+    "@newcar/utils": "workspace: ^0.6.0",
+    "@newcar/basic": "workspace: ^0.6.0"
   } 
 }

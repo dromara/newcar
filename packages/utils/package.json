@@ -3,5 +3,12 @@
   "version": "0.6.0",
   "description": "The utils of newcar",
   "author": "BugDuck Team",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "import": "./dist/newcar-utils.mjs",
+      "require": "./dist/newcar-utils.cjs",
+      "types": "./dist/newcar-utils.d.ts"
+    }
+  }
 }

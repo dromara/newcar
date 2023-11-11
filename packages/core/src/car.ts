@@ -33,14 +33,9 @@ export class Car {
             break;
           }
           animation.frameCount += 1;
-          animation.func(
-            object,
-            animation.frameCount,
-            animation.length,
-            animation.params,
-          );
+          animation.func(object, animation.frameCount, animation.length, animation.params);
         }
-        object.update(context!);
+        object.update(context);
       }
       scene.currentFrame += 1;
       requestAnimationFrame(update);

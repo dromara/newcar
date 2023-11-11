@@ -3,7 +3,7 @@ import type { Carobj } from "../objects";
 import type { TimingFunction } from "../timing-functions";
 import type { Animation } from "./animation";
 
-export const moveTo: Animation = (
+export const move: Animation = (
   obj: Carobj,
   frameCount: number,
   length: number,

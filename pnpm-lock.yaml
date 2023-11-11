@@ -80,6 +80,9 @@ importers:
 
   packages/newcar:
     devDependencies:
+      '@newcar/basic':
+        specifier: 'workspace: ^0.6.0'
+        version: link:../basic
       '@newcar/core':
         specifier: 'workspace: ^0.6.0'
         version: link:../core

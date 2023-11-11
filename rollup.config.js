@@ -14,108 +14,45 @@ const babelConfig = {
 };
 
 const plugins = [typescript(), nodeResolve({ browser: true }), babel(babelConfig)];
-const d = dts();
+const d = [dts(), nodeResolve({ browser: true })];
 
 const files = [
-  ["./packages/newcar", "src/index.ts", "newcar"],
-  ["./packages/basic", "src/objects/index.ts", "newcar-basic-objects"],
-  ["./packages/basic", "src/animations/index.ts", "newcar-basic-objects"],
+  ["newcar", "index", "newcar"],
+  ["basic", "index", "newcar-basic"],
+  ["utils", "index", "newcar-utils"],
+  ["core", "index", "newcar-core"],
 ];
 
 /**
  * @type {import('rollup').RollupOptions}
  */
-export default files.map((file) => ({
-  input: `${file[0]}/${file[1]}`,
-  output: [
-    {
-      format: "esm",
-      sourcemap: true,
-      file: `./packages/newcar/dist/${file[2]}.mjs`,
-    },
-    {
-      format: "cjs",
-      sourcemap: true,
-      file: `./packages/newcar/dist/${file[2]}.cjs`,
-      name: "newcar",
-    },
-  ],
-  plugins,
-  treeshake: true,
-}));
-// {
-//   input: "./packages/newcar/src/index.ts",
-//   output: [
-//     {
-//       format: "esm",
-//       sourcemap: true,
-//       file: "./packages/newcar/dist/newcar.mjs",
-//     },
-//     {
-//       format: "cjs",
-//       sourcemap: true,
-//       file: "./packages/newcar/dist/newcar.cjs",
-//       name: "newcar",
-//     },
-//     // {
-//     //   file: "./packages/newcar/dist/newcar.d.ts",
-//     //   format: "es",
-//     // },
-//   ],
-//   plugins,
-//   treeshake: true,
-// },
-// {
-//   input: "",
-//   output: [
-//     {
-//       format: "esm",
-//       sourcemap: true,
-//       file: "./packages/basic/dist/newcar-basic-objects.mjs",
-//     },
-//     {
-//       format: "cjs",
-//       sourcemap: true,
-//       file: "./packages/basic/dist/newcar-basic-objects.cjs",
-//       name: "objects",
-//     },
-//   ],
-//   plugins,
-//   treeshake: true,
-// },
-// {
-//   input: "./packages/basic/src/animations/index.ts",
-//   output: [
-//     {
-//       format: "esm",
-//       sourcemap: true,
-//       file: "./packages/basic/dist/newcar-basic-animations.mjs",
-//     },
-//     {
-//       format: "cjs",
-//       sourcemap: true,
-//       file: "./packages/basic/dist/newcar-basic-animations.cjs",
-//       name: "animations",
-//     },
-//   ],
-//   plugins,
-//   treeshake: true,
-// },
-// {
-//   input: "./packages/basic/src/interpolations/index.ts",
-//   output: [
-//     {
-//       format: "esm",
-//       sourcemap: true,
-//       file: "./packages/basic/dist/newcar-basic-interpolations.mjs",
-//     },
-//     {
-//       format: "cjs",
-//       sourcemap: true,
-//       file: "./packages/basic/dist/newcar-basic-interpolations.cjs",
-//       name: "interpolations",
-//     },
-//   ],
-//   plugins,
-//   treeshake: true,
-// },
+export default [
+  ...files.map((file) => ({
+    input: `./packages/${file[0]}/src/${file[1]}.ts`,
+    output: [
+      {
+        format: "esm",
+        sourcemap: true,
+        file: `./packages/${file[0]}/dist/${file[2]}.mjs`,
+      },
+      {
+        format: "cjs",
+        sourcemap: true,
+        file: `./packages/${file[0]}/dist/${file[2]}.cjs`,
+        name: "newcar",
+      },
+    ],
+    plugins,
+    treeshake: true,
+  })),
+  ...files.map((file) => ({
+    input: `./packages/${file[0]}/dist/packages/${file[0]}/src/${file[1]}.d.ts`,
+    output: [
+      {
+        file: `./packages/${file[0]}/dist/${file[2]}.d.ts`,
+        format: "es",
+      },
+    ],
+    plugins: d,
+  })),
+];

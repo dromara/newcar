@@ -8,6 +8,13 @@
   "keywords": ["animation"],
   "author": "BugDuck Team",
   "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "import": "./dist/newcar-core.mjs",
+      "require": "./dist/newcar-core.cjs",
+      "types": "./dist/newcar-core.d.ts"
+    }
+  },
   "devDependencies": {
     "@newcar/basic": "workspace: ^0.6.0"
   }

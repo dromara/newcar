@@ -8,20 +8,10 @@
     "@newcar/utils": "workspace: ^0.6.0"
   },
   "exports": {
-    "./objects": {
-      "import": "./dist/newcar-basic-objects.mjs",
-      "require": "./dist/newcar-basic-objects.cjs",
-      "types": "./dist/newcar-basic-objects.d.ts"
-    },
-    "./animations": {
-      "import": "./dist/newcar-basic-animations.mjs",
-      "require": "./dist/newcar-basic-animations.cjs",
-      "types": "./dist/newcar-basic-animations.d.ts"
-    },
-    "./interpolations": {
-      "import": "./dist/newcar-basic-interpolations.mjs",
-      "require": "./dist/newcar-basic-interpolations.cjs",
-      "types": "./dist/newcar-basic-interpolations.d.ts"
+    ".": {
+      "import": "./dist/newcar-basic.mjs",
+      "require": "./dist/newcar-basic.cjs",
+      "types": "./dist/newcar-basic.d.ts"
     }
   }
 }

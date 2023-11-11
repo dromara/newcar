@@ -7,9 +7,4 @@ import type { Carobj } from "../objects";
  * @param length The length of the animation.
  * @param params Other parameters of the animation.
  */
-export type Animation = (
-  obj: Carobj,
-  frameCount: number,
-  length: number,
-  params: any,
-) => void;
+export type Animation = (obj: Carobj, frameCount: number, length: number, params: any) => void;
