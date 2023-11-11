@@ -11,6 +11,7 @@ import { Carobj } from "./carobj";
  * @param fontFamily The font of the text.
  * @param align The align of the text.
  * @param baseline The baseline of the text.
+ * @param border If enable the border
  * @param borderWidth The border width of the text.
  * @param borderColor The border color of the text.
  * @see CarobjOption
@@ -22,6 +23,7 @@ export interface TextOption extends CarobjOption {
   color?: Color;
   align?: CanvasTextAlign;
   baseline?: CanvasTextBaseline;
+  border?: boolean;
   borderWidth?: number;
   borderColor?: Color;
 }
@@ -33,6 +35,7 @@ export class Text extends Carobj implements Bordered {
   color: Color;
   align: CanvasTextAlign;
   baseline: CanvasTextBaseline;
+  border: boolean;
   borderWidth: number;
   borderColor: Color;
 
@@ -50,6 +53,7 @@ export class Text extends Carobj implements Bordered {
     this.color = options.color ?? Color.WHITE;
     this.align = options.align ?? "center";
     this.baseline = options.baseline ?? "middle";
+    this.border = options.border ?? false;
     this.borderWidth = options.borderWidth ?? 2;
     this.borderColor = options.borderColor ?? Color.WHITE;
   }
@@ -60,7 +64,7 @@ export class Text extends Carobj implements Bordered {
     context.textAlign = this.align;
     context.textBaseline = this.baseline;
     context.fillText(this.text, 0, 0);
-    if (this.borderWidth) {
+    if (this.border) {
       context.lineWidth = this.borderWidth;
       context.strokeStyle = this.borderColor.toString();
       context.strokeText(this.text, 0, 0);

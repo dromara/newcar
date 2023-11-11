@@ -83,6 +83,9 @@ importers:
       '@newcar/core':
         specifier: 'workspace: ^0.6.0'
         version: link:../core
+      '@newcar/utils':
+        specifier: 'workspace: ^0.6.0'
+        version: link:../utils
 
   packages/utils: {}
 

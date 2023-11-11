@@ -16,6 +16,7 @@ export interface NumberPlaneOption extends CarobjOption {
   intervalY?: number;
   colorX?: Color;
   colorY?: Color;
+  grid?: boolean;
   gridColor?: Color;
   directionX?: DirectionX;
   directionY?: DirectionY;
@@ -36,11 +37,12 @@ export class NumberPlane extends Carobj {
   intervalY: number;
   colorX: Color;
   colorY: Color;
-  gridColor?: Color;
+  gridColor: Color;
   directionX: DirectionX;
   directionY: DirectionY;
   trendX: Trend;
   trendY: Trend;
+  grid: boolean;
 
   constructor(
     maxX: number,
@@ -62,7 +64,8 @@ export class NumberPlane extends Carobj {
     this.point = options.point ?? true;
     this.colorX = options.colorX ?? Color.WHITE;
     this.colorY = options.colorY ?? Color.WHITE;
-    this.gridColor = options.gridColor;
+    this.grid = options.grid ?? true;
+    this.gridColor = options.gridColor ?? Color.WHITE;
     this.numberX = options.numberX ?? true;
     this.numberY = options.numberY ?? true;
     this.trendY =
@@ -95,7 +98,7 @@ export class NumberPlane extends Carobj {
     }
 
     // draw grid
-    if (this.gridColor) {
+    if (this.grid) {
       context.beginPath();
       context.strokeStyle = this.gridColor.toString();
       context.lineWidth = 1;

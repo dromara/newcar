@@ -1,12 +1,18 @@
 import { translate } from "../packages/basic/dist/newcar-basic-animations.mjs";
-import { MathFunction } from "../packages/basic/dist/newcar-basic-objects.mjs";
-import { createCar, createScene } from "../packages/newcar/dist/newcar.mjs";
+import { NumberPlane } from "../packages/basic/dist/newcar-basic-objects.mjs";
+import {
+  Color,
+  createCar,
+  createScene,
+} from "../packages/newcar/dist/newcar.mjs";
 
 const car = createCar(document.querySelector("#test"));
 
 const scene = createScene();
 
-const f = new MathFunction(Math.sin, 0, 100);
+const f = new NumberPlane(100, 100, -100, -100, {
+  gridColor: Color.RED,
+});
 
 scene.use(f);
 

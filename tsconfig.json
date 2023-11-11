@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "outDir": "./dist",
     "rootDir": ".",
+    "outDir": ".",
     "baseUrl": ".",
     "moduleResolution": "Node",
-    "module": "CommonJS",
-    "target": "ES2018",
+    "module": "ES2022",
+    "target": "ES2022",
     "sourceMap": true,
     "lib": ["esnext", "DOM", "DOM.Iterable"],
     "esModuleInterop": true,
@@ -17,6 +17,8 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
   },
   "exclude": ["node_modules", "dist"],
   "include": ["packages"]

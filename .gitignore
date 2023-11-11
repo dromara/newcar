@@ -5,3 +5,4 @@ node_modules/
 /packages/core/package.json/
 lerna.json/
 /.VSCodeCounter/**
+**/.rollup.cache/**

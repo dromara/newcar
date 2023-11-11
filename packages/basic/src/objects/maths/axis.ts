@@ -99,7 +99,6 @@ export class NumberAxis extends Carobj {
         text.x = i;
         text.y = 20;
         text.size = 20;
-        text.align = "center";
         text.update(context);
         numberCount += 1;
       }
@@ -109,7 +108,6 @@ export class NumberAxis extends Carobj {
         text.x = i;
         text.y = 20;
         text.size = 20;
-        text.align = "center";
         text.update(context);
         numberCount -= 1;
       }

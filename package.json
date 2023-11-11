@@ -9,10 +9,7 @@
     "lint:fix": "eslint . --fix",
     "release": "lerna version --no-private && pnpm publish -r",
     "version": "lerna version",
-    "build": "run-s clean build:rollup build:cleanup",
-    "build:cleanup": "rimraf ./dist/src",
-    "build:rollup": "rollup -c",
-    "clean": "rimraf ./dist",
+    "build": "node ./scripts/build.cjs",
     "dev": "rollup -c -w"
   },
   "devDependencies": {
