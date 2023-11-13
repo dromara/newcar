@@ -1,15 +1,23 @@
-import type { Color } from "../../../../utils/src/color";
 import type { CarobjOption } from "../carobj";
+import type { Fillable } from "../interfaces";
 import { Circle } from "./circle";
 
-export interface PointOption extends CarobjOption {
+/**
+ * The point options.
+ * @param radius The radius of the point.
+ * @see CarobjOption
+ * @see Fillable
+ * @see Point
+ */
+export interface PointOption extends CarobjOption, Fillable {
   radius?: number;
-  fillColor?: Color;
 }
 
-export class Point extends Circle {
+/**
+ * The point object.
+ */
+export class Point extends Circle implements PointOption {
   /**
-   * Point object.
    * @param options The options of the object.
    * @see PointOption
    */

@@ -1,27 +1,29 @@
+import type { FigureOption } from "./figure";
 import { Figure } from "./figure";
-import type { FigureOption } from "./interfaces";
 
+/**
+ * The rectangle options.
+ * @param lineJoin The line join style of the rectangle.
+ * @see FigureOption
+ * @see Rectangle
+ */
 export interface RectangleOption extends FigureOption {
   lineJoin?: CanvasLineJoin;
 }
 
 /**
- * Circle options.
- * @param startAngle The start angle of the circle.
- * @param endAngle The end angle of the circle.
- * @see FigureOption
- * @see Circle
+ * The rectangle object.
  */
-export class Rectangle extends Figure {
+export class Rectangle extends Figure implements RectangleOption {
   width: number;
   height: number;
   lineJoin: CanvasLineJoin;
 
   /**
-   * Circle object.
-   * @param radius The radius of the circle.
-   * @param options The options of the circle.
-   * @see CircleOption
+   * @param width The width of the rectangle.
+   * @param height The height of the rectangle.
+   * @param options The options of the object.
+   * @see RectangleOption
    */
   constructor(width: number, height: number, options?: RectangleOption) {
     super((options ??= {}));

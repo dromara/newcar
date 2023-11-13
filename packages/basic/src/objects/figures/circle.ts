@@ -1,8 +1,8 @@
+import type { FigureOption } from "./figure";
 import { Figure } from "./figure";
-import type { FigureOption } from "./interfaces";
 
 /**
- * Circle options.
+ * The circle options.
  * @param startAngle The start angle of the circle.
  * @param endAngle The end angle of the circle.
  * @see FigureOption
@@ -13,15 +13,17 @@ export interface CircleOption extends FigureOption {
   endAngle?: number;
 }
 
-export class Circle extends Figure {
+/**
+ * The circle object.
+ */
+export class Circle extends Figure implements CircleOption {
   radius: number;
   startAngle: number;
   endAngle: number;
 
   /**
-   * Circle object.
    * @param radius The radius of the circle.
-   * @param options The options of the circle.
+   * @param options The options of the object.
    * @see CircleOption
    */
   constructor(radius: number, options?: CircleOption) {

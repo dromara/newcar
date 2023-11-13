@@ -1,17 +1,24 @@
-import type { Animation } from "../animations";
+import type { Animate } from "../animations";
+
+export interface Animation {
+  animate: Animate;
+  length: number;
+  frameCount: number;
+  params: Record<string, any>;
+}
 
 /**
- * Carobj options.
- * @param display Whether or not this object should be rendered.
- * @param x The x coordinate of this object based on parent object.
- * @param y The y coordinate of this object based on parent object.
- * @param scaleX The Scale in the x direction.
- * @param scaleY The Scale in the y direction.
- * @param centerX The Center of rotation in the x direction.
- * @param centerY The Center of rotation in the y direction.
- * @param rotation The rotation angle of this object in radians.
- * @param transparency The transparency of this object t from 0 to 1.
- * @param operation The operation of canva when rendering this object.
+ * The carobj options.
+ * @param display Whether or not the object should be rendered.
+ * @param x The x coordinate of the object based on parent object.
+ * @param y The y coordinate of the object based on parent object.
+ * @param scaleX The horizontal scale size.
+ * @param scaleY The vertical scale size.
+ * @param centerX The x coordinate of the center of rotation.
+ * @param centerX The y coordinate of the center of rotation.
+ * @param rotation The rotation angle of the object in radians.
+ * @param transparency The transparency of the object from 0 to 1.
+ * @param operation The operation of canva when rendering the object.
  * @see Carobj
  */
 export interface CarobjOption {
@@ -28,7 +35,10 @@ export interface CarobjOption {
   children?: Carobj[];
 }
 
-export class Carobj {
+/**
+ * The basic animation object of newcar.
+ */
+export class Carobj implements CarobjOption {
   display: boolean;
   x: number;
   y: number;
@@ -41,16 +51,10 @@ export class Carobj {
   operation: GlobalCompositeOperation;
   #children: Carobj[] = [];
   parent?: Carobj;
-  animations: {
-    func: Animation;
-    length: number;
-    frameCount: number;
-    params: Record<string, any>;
-  }[] = [];
+  animations: Animation[] = [];
 
   /**
-   * Base object.
-   * @param options The options of the object.
+   * @param options The options for construct the object.
    * @see CarobjOption
    */
   constructor(options?: CarobjOption) {
@@ -123,19 +127,43 @@ export class Carobj {
   }
 
   /**
-   * Begin to count a animation.
+   * Bind an animation to the object.
    * @param animation The animation function.
    * @param length The length of the animation.
    * @param params The other parameters of this animation.
    */
-  animate(animation: Animation, length: number, params: Record<string, any>): this {
+  addAnimation(
+    animation: Animate,
+    length: number,
+    params: Record<string, any>,
+  ): this {
     this.animations.push({
-      func: animation,
+      animate: animation,
       length,
       frameCount: 0,
       params,
     });
 
     return this;
+  }
+
+  get scale(): [number, number] {
+    return [this.scaleX, this.scaleY];
+  }
+
+  set scale(scale: number | [number, number]) {
+    if (Array.isArray(scale)) {
+      [this.scaleX, this.scaleY] = scale;
+    } else {
+      this.scaleX = this.scaleY = scale;
+    }
+  }
+
+  get center(): [number, number] {
+    return [this.centerX, this.centerY];
+  }
+
+  set center(center: [number, number]) {
+    [this.centerX, this.centerY] = center;
   }
 }

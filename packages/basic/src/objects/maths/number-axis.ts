@@ -5,8 +5,19 @@ import { Carobj } from "../carobj";
 import { Text } from "../text";
 
 export type Direction = "left" | "right";
-export type Trend = (numberCount: number) => Text;
+export type Trend = (n: number) => Text;
 
+/**
+ * The number axis options.
+ * @param arrow Show arrows or not.
+ * @param point Show points or not.
+ * @param number Show number or not.
+ * @param interval The unit width of the number axis.
+ * @param color The color of the number axis.
+ * @param direction The direction of the number axis.
+ * @see CarobjOption
+ * @see NumberAxis
+ */
 export interface NumberAxisOption extends CarobjOption {
   arrow?: boolean;
   point?: boolean;
@@ -17,6 +28,9 @@ export interface NumberAxisOption extends CarobjOption {
   trend?: Trend;
 }
 
+/**
+ * The number axis object.
+ */
 export class NumberAxis extends Carobj {
   min: number;
   max: number;
@@ -28,30 +42,33 @@ export class NumberAxis extends Carobj {
   direction: Direction;
   trend: Trend;
 
-  constructor(max: number, min: number, options?: NumberAxisOption) {
+  /**
+   * @param min The minimum of the number axis.
+   * @param max The maximum of the number axis.
+   * @param options The options for construct the object.
+   * @see CarobjOption
+   */
+  constructor(min: number, max: number, options?: NumberAxisOption) {
     super((options ??= {}));
-    this.max = max;
     this.min = min;
-    this.color = options.color ?? Color.RGB(255, 255, 255);
-    this.direction = options.direction ?? "right";
-    this.interval = options.interval ?? 50;
+    this.max = max;
     this.arrow = options.arrow ?? true;
     this.point = options.point ?? true;
     this.number = options.number ?? true;
-    this.trend = options.trend ?? ((n: number) => new Text(String(n), { x: 0, y: 0 }));
+    this.interval = options.interval ?? 50;
+    this.color = options.color ?? Color.RGB(255, 255, 255);
+    this.direction = options.direction ?? "right";
+    this.trend = options.trend ?? ((n: number) => new Text(String(n)));
   }
 
   override draw(context: CanvasRenderingContext2D): void {
-    if (this.max < 0) {
-      throw new Error("Parameter `max` cannot be less than 0");
-    }
-    if (this.min > 0) {
+    if (this.min > 0)
       throw new Error("Parameter `min` cannot be greater than 0");
-    }
+    if (this.max < 0)
+      throw new Error("Parameter `max` cannot be less than 0");
 
-    if (this.direction === "left") {
+    if (this.direction === "left")
       context.scale(-1, 1);
-    }
 
     context.beginPath();
     context.lineWidth = 2;
@@ -70,7 +87,7 @@ export class NumberAxis extends Carobj {
       context.stroke();
     }
 
-    // Draw number point.
+    // Draw pointS.
     if (this.point) {
       context.strokeStyle = this.color.toString();
       context.lineWidth = 2;
@@ -85,30 +102,30 @@ export class NumberAxis extends Carobj {
       context.stroke();
     }
 
-    // Draw numbers.
     if (this.direction === "left") {
-      context.scale(-1, 0);
+      context.scale(-1, 1);
     }
 
-    let numberCount;
+    // Draw numbers.
+    let number;
     if (this.number) {
-      numberCount = 0;
+      number = 0;
       for (let i = 0; i <= this.max; i += this.interval) {
-        const text = this.trend(numberCount);
+        const text = this.trend(number);
         text.x = i;
         text.y = 20;
         text.size = 20;
         text.update(context);
-        numberCount += 1;
+        number += 1;
       }
-      numberCount = 0;
+      number = 0;
       for (let i = 0; i >= this.min; i -= this.interval) {
-        const text = this.trend(numberCount);
+        const text = this.trend(number);
         text.x = i;
         text.y = 20;
         text.size = 20;
         text.update(context);
-        numberCount -= 1;
+        number -= 1;
       }
     }
   }

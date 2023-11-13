@@ -6,7 +6,7 @@ import { Carobj } from "../carobj";
 export type Point = [number, number];
 
 /**
- * Line options.
+ * The line options.
  * @param color The color of the line.
  * @param lineWidth The width of the line.
  * @see CarobjOption
@@ -17,18 +17,20 @@ export interface LineOption extends CarobjOption {
   lineWidth?: number;
 }
 
-export class Line extends Carobj {
+/**
+ * The line object.
+ */
+export class Line extends Carobj implements LineOption {
   color: Color;
   lineWidth: number;
-  startX = 0;
-  startY = 0;
-  endX = 0;
-  endY = 0;
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
 
   /**
-   * Line object.
-   * @param startPoint The fill color of the text.
-   * @param endPoint The border color of the text.
+   * @param startPoint The start point of the line.
+   * @param endPoint The end point of the line.
    * @param options The options of the object.
    * @see LineOption
    */
