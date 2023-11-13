@@ -1,7 +1,14 @@
 /**
  * Timing functions.
- * @see https://www.desmos.com/calculator/cckilk7v3x
+ * @see https://www.desmos.com/calculator/yasltaa9um
  */
+
+/**
+ * A continuous function that passes through points (0,0) and (1,1).
+ * @param x The independent variable from 0 to 1.
+ * @returns The dependent variable of x.
+ */
+export type TimingFunction = (x: number) => number;
 
 const c = 1.701_58;
 const n = 7.5625;
@@ -12,20 +19,24 @@ const invent =
   (x: number): number =>
     1 - f(1 - x);
 
-function solve(easeIn: TimingFunction, easeOut?: TimingFunction): TimingFunction {
+function solve(
+  easeIn: TimingFunction,
+  easeOut?: TimingFunction,
+): TimingFunction {
   easeOut ??= invent(easeIn);
 
-  return (x: number): number => (x < 0.5 ? easeIn(x * 2) / 2 : (easeOut!(x * 2 - 1) + 1) / 2);
+  return (x: number): number =>
+    x < 0.5 ? easeIn(x * 2) / 2 : (easeOut!(x * 2 - 1) + 1) / 2;
 }
 
-function _(easeIn: TimingFunction): [TimingFunction, TimingFunction, TimingFunction] {
+function _(
+  easeIn: TimingFunction,
+): [TimingFunction, TimingFunction, TimingFunction] {
   const easeOut: TimingFunction = invent(easeIn);
   const easeInOut: TimingFunction = solve(easeIn, easeOut);
 
   return [easeIn, easeOut, easeInOut];
 }
-
-export type TimingFunction = (x: number) => number;
 
 export const linear: TimingFunction = (x) => x;
 
@@ -51,7 +62,7 @@ export const easeInElastic: TimingFunction = (x) =>
 export const easeOutElastic: TimingFunction = invent(easeInElastic);
 export const easeInOutElastic: TimingFunction = solve(easeElastic);
 
-export const easeOutBounce: TimingFunction = (x: number): number =>
+export const easeBounce: TimingFunction = (x: number): number =>
   x < 1 / d
     ? n * x ** 2
     : x < 2 / d
@@ -59,5 +70,3 @@ export const easeOutBounce: TimingFunction = (x: number): number =>
     : x < 2.5 / d
     ? n * (x - 2.25 / d) ** 2 + 0.9375
     : n * (x - 2.625 / d) ** 2 + 0.984_375;
-export const easeInBounce: TimingFunction = invent(easeOutBounce);
-export const easeInOutBounce: TimingFunction = solve(easeInBounce, easeOutBounce);
