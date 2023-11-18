@@ -6,8 +6,8 @@ import type { Color } from "@newcar/utils/src";
  * @param borderColor The color of the border.
  */
 export interface Bordered {
-  borderWidth: number;
-  borderColor: Color;
+  borderWidth?: number;
+  borderColor?: Color;
 }
 
 /**

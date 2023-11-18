@@ -1,12 +1,11 @@
+import type { FigureOption } from "./figure";
 import { Figure } from "./figure";
-import type { FigureOption } from "./interfaces";
 import type { Point } from "./line";
 
 /**
- * Polygon options.
- * @param fillColor The fill color of the text.
- * @param lineCap The line cap style of the text.
- * @param lineJoin The line join style of the text.
+ * The polygon options.
+ * @param lineCap The line cap style of the polygon.
+ * @param lineJoin The line join style of the polygon.
  * @see FigureOption
  * @see Polygon
  */
@@ -15,13 +14,15 @@ export interface PolygonOption extends FigureOption {
   lineJoin?: CanvasLineJoin;
 }
 
-export class Polygon extends Figure {
+/**
+ * The polygon object.
+ */
+export class Polygon extends Figure implements PolygonOption {
   points: Point[];
   lineCap: CanvasLineCap;
   lineJoin: CanvasLineJoin;
 
   /**
-   * Polygon object.
    * @param points The points of the polygon.
    * @param options The options of the object.
    * @see PolygonOption

@@ -15,6 +15,6 @@ export const move: Animation = (
 ): void => {
   const interpolatorX = new Interpolator(obj.x, params.x, params.by);
   const interpolatorY = new Interpolator(obj.y, params.y, params.by);
-  obj.x = interpolatorX.interpolate((frameCount + 1) / length);
-  obj.y = interpolatorY.interpolate((frameCount + 1) / length);
+  obj.x = interpolatorX.call((frameCount + 1) / length);
+  obj.y = interpolatorY.call((frameCount + 1) / length);
 };

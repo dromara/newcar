@@ -2,22 +2,22 @@ import type { TimingFunction } from "./timing-functions";
 import { linear } from "./timing-functions";
 
 /**
- * The interpolator class.
+ * The interpolator.
  */
 export class Interpolator {
   start: number;
   end: number;
-  interpolator: TimingFunction;
+  func: TimingFunction;
 
   /**
    * @param start The start value.
    * @param end The end value.
-   * @param interpolator The timing function.
+   * @param func The timing function.
    */
-  constructor(start: number, end: number, interpolator?: TimingFunction) {
+  constructor(start: number, end: number, func?: TimingFunction) {
     this.start = start;
     this.end = end;
-    this.interpolator = interpolator ?? linear;
+    this.func = func ?? linear;
   }
 
   /**
@@ -25,7 +25,7 @@ export class Interpolator {
    * @param n The progress, between 0 and 1.
    * @returns The interpolation.
    */
-  interpolate(n: number): number {
-    return this.start + this.interpolator(n) * (this.end - this.start);
+  call(n: number): number {
+    return this.start + this.func(n) * (this.end - this.start);
   }
 }

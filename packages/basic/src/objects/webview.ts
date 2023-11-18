@@ -2,7 +2,7 @@ import type { CarobjOption } from "./carobj";
 import { Svg } from "./svg";
 
 /**
- * WebView options.
+ * The webview options.
  * @param width The width of the WebView.
  * @param height The height of the WebView.
  * @see CarobjOption
@@ -13,19 +13,21 @@ export interface WebViewOption extends CarobjOption {
   height?: number;
 }
 
-const xhtmlToSvg = (xhtml: string, width: number, height: number): string => `\
+const xhtml2Svg = (xhtml: string, width: number, height: number): string => `\
 <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">\
 <foreignObject width="100%" height="100%">\
 <div xmlns="http://www.w3.org/1999/xhtml" style="color: white">\
 ${xhtml}</div></foreignObject></svg>`;
 
-export class WebView extends Svg {
+/**
+ * The webview object.
+ */
+export class WebView extends Svg implements WebViewOption {
   #xhtml: string;
   width: number;
   height: number;
 
   /**
-   * The animation object for render a image.
    * @param xhtml The XHTML content.
    * @param options The options of the object.
    * @see WebViewOption
@@ -34,7 +36,7 @@ export class WebView extends Svg {
     options ??= {};
     const width = options.width ?? 640;
     const height = options.height ?? 480;
-    super(xhtmlToSvg(xhtml, width, height), options);
+    super(xhtml2Svg(xhtml, width, height), options);
     this.#xhtml = xhtml;
     this.width = width;
     this.height = height;
@@ -44,8 +46,8 @@ export class WebView extends Svg {
     return this.#xhtml;
   }
 
-  set xhtml(value: string) {
-    this.#xhtml = value;
-    super.svg = xhtmlToSvg(value, this.width, this.height);
+  set xhtml(xhtml: string) {
+    this.#xhtml = xhtml;
+    super.svg = xhtml2Svg(xhtml, this.width, this.height);
   }
 }

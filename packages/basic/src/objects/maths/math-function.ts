@@ -3,6 +3,17 @@ import { Color } from "@newcar/utils/src";
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
 
+export type MathFunc = (x: number) => number;
+
+/**
+ * The math function options.
+ * @param color The color of the math function.
+ * @param lineWidth The line width of the math function.
+ * @param divisionX The number of horizontal divisions.
+ * @param divisionY The number of vertical divisions.
+ * @see CarobjOption
+ * @see Text
+ */
 export interface MathFunctionOption extends CarobjOption {
   color?: Color;
   lineWidth?: number;
@@ -10,43 +21,49 @@ export interface MathFunctionOption extends CarobjOption {
   divisionY?: number;
 }
 
+/**
+ * The math function object.
+ */
 export class MathFunction extends Carobj {
-  func: (x: number) => number;
-  startVariable: number;
-  endVariable: number;
+  func: MathFunc;
+  start: number;
+  end: number;
+  color: Color;
   lineWidth: number;
   divisionX: number;
   divisionY: number;
-  color: Color;
 
+  /**
+   * @param func The function.
+   * @param start The start value.
+   * @param end The end value.
+   * @param options The options of the object.
+   * @see CarobjOption
+   */
   constructor(
-    func: (x: number) => number,
+    func: MathFunc,
     start: number,
     end: number,
     options?: MathFunctionOption,
   ) {
     super((options ??= {}));
     this.func = func;
-    this.startVariable = start;
-    this.endVariable = end;
+    this.start = start;
+    this.end = end;
+    this.color = options.color ?? Color.WHITE;
+    this.lineWidth = options.lineWidth ?? 2;
     this.divisionX = options.divisionX ?? 50;
     this.divisionY = options.divisionY ?? 50;
-    this.lineWidth = options.lineWidth ?? 2;
-    this.color = options.color ?? Color.WHITE;
   }
 
   override draw(context: CanvasRenderingContext2D): void {
     context.strokeStyle = this.color.toString();
-    context.beginPath();
     context.lineWidth = (this.lineWidth / this.divisionX) * 2;
+    context.beginPath();
     context.scale(this.divisionX, this.divisionY);
-    context.moveTo(this.startVariable, this.func(this.startVariable));
-    for (
-      let variable = this.startVariable;
-      variable <= this.endVariable;
-      variable += 1 / this.divisionX
-    ) {
-      context.lineTo(variable, this.func(variable));
+    context.moveTo(this.start, this.func(this.start));
+    for (let x = this.start; x <= this.end; x += 1 / this.divisionX) {
+      context.lineTo(x, this.func(x));
     }
     context.stroke();
   }
