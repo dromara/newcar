@@ -21,6 +21,7 @@ const files = [
   ["basic", "index", "newcar-basic"],
   ["utils", "index", "newcar-utils"],
   ["core", "index", "newcar-core"],
+  ["mod-markdown", "markdown", "newcar-mod-markdown"],
 ];
 
 /**

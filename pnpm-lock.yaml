@@ -78,6 +78,15 @@ importers:
         specifier: 'workspace: ^0.6.0'
         version: link:../basic
 
+  packages/mod-markdown:
+    devDependencies:
+      '@newcar/basic':
+        specifier: 'workspace: ^0.6.0'
+        version: link:../basic
+      marked:
+        specifier: ^10.0.0
+        version: 10.0.0
+
   packages/newcar:
     devDependencies:
       '@newcar/basic':
@@ -5711,6 +5720,12 @@ packages:
   /map-obj@4.3.0:
     resolution: {integrity: sha512-hdN1wVrZbb29eBGiGjJbeP8JbKjq1urkHJ/LIP/NY48MZ1QVXUsQBV1G1zvYFHn1XE06cwjBsOI2K3Ulnj1YXQ==}
     engines: {node: '>=8'}
+    dev: true
+
+  /marked@10.0.0:
+    resolution: {integrity: sha512-YiGcYcWj50YrwBgNzFoYhQ1hT6GmQbFG8SksnYJX1z4BXTHSOrz1GB5/Jm2yQvMg4nN1FHP4M6r03R10KrVUiA==}
+    engines: {node: '>= 18'}
+    hasBin: true
     dev: true
 
   /mdast-util-from-markdown@0.8.5:

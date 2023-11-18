@@ -3,6 +3,5 @@ node_modules/
 /packages/**/.rollup.cache/
 /packages/**/dist/
 /packages/core/package.json/
-lerna.json/
 /.VSCodeCounter/**
 **/.rollup.cache/**

@@ -1,3 +1,4 @@
+import Markdown from "../../packages/mod-markdown/dist/newcar-mod-markdown.mjs";
 import * as n from "../../packages/newcar/dist/newcar.mjs";
 
 const car = n.createCar(document.querySelector("#test"));
@@ -8,7 +9,21 @@ const f = new n.NumberPlane(100, 100, -100, -100, {
   gridColor: n.Color.White,
 });
 
-scene.use(f);
+const m = new Markdown("<span style='color: white'>Hello world!</span>", {
+  x: 100,
+  y: 100,
+});
+
+const w = new n.WebView("hello", {
+  x: 100,
+  y: 100,
+});
+
+console.log(m)
+
+// scene.use(f);
+// scene.use(m);
+scene.use(w);
 
 scene.setUpdate((frame) => {
   switch (frame) {
