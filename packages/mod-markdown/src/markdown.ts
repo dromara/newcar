@@ -19,8 +19,4 @@ export default class Markdown extends WebView {
     this.#markdown = value;
     this.xhtml = marked.parse(value);
   }
-
-  override draw(ctx) {
-    console.log(this.xhtml);
-  }
 }

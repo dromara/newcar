@@ -9,21 +9,16 @@ const f = new n.NumberPlane(100, 100, -100, -100, {
   gridColor: n.Color.White,
 });
 
-const m = new Markdown("<span style='color: white'>Hello world!</span>", {
-  x: 100,
-  y: 100,
-});
+const m = new Markdown("```javascript\nconsole.log()\n```");
 
-const w = new n.WebView("hello", {
-  x: 100,
-  y: 100,
-});
+const w = new n.WebView("<div>hello</div>");
 
-console.log(m)
+const s = new n.Svg('<circle cx="50" cy="50" r="50" style="stroke: red; fill: none"/>');
 
 // scene.use(f);
-// scene.use(m);
+scene.use(m);
 scene.use(w);
+scene.use(s);
 
 scene.setUpdate((frame) => {
   switch (frame) {

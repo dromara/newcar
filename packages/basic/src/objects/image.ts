@@ -6,6 +6,7 @@ import { Carobj } from "./carobj";
  */
 export class Image extends Carobj {
   url: string;
+  #isload = false;
   readonly image: HTMLImageElement = document.createElement("img");
 
   /**
@@ -19,11 +20,17 @@ export class Image extends Carobj {
   }
 
   override draw(context: CanvasRenderingContext2D): void {
+    if (this.#isload) {
+      context.drawImage(this.image, this.image.width, this.image.height);
+    }
+    console.log(this.x, this.y)
+  }
+
+  init(): void {
+    this.#isload = false;
     this.image.src = this.url;
-    context.drawImage(
-      this.image,
-      -0.5 * this.image.width,
-      -0.5 * this.image.height,
-    );
+    this.image.onload = () => {
+      this.#isload = true;
+    };
   }
 }
