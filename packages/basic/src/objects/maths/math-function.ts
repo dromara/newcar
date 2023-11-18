@@ -40,12 +40,7 @@ export class MathFunction extends Carobj {
    * @param options The options of the object.
    * @see CarobjOption
    */
-  constructor(
-    func: MathFunc,
-    start: number,
-    end: number,
-    options?: MathFunctionOption,
-  ) {
+  constructor(func: MathFunc, start: number, end: number, options?: MathFunctionOption) {
     super((options ??= {}));
     this.func = func;
     this.start = start;
@@ -63,7 +58,8 @@ export class MathFunction extends Carobj {
     context.scale(this.divisionX, this.divisionY);
     context.moveTo(this.start, this.func(this.start));
     for (let x = this.start; x <= this.end; x += 1 / this.divisionX) {
-      context.lineTo(x, this.func(x));
+      const value = this.func(x);
+      context.lineTo(x, value);
     }
     context.stroke();
   }

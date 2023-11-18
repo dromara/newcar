@@ -5,7 +5,7 @@ const car = n.createCar(document.querySelector("#test"));
 const scene = n.createScene();
 
 const f = new n.NumberPlane(100, 100, -100, -100, {
-  gridColor: n.Color.RED,
+  gridColor: n.Color.White,
 });
 
 scene.use(f);
