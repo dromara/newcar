@@ -138,4 +138,8 @@ export class Carobj {
 
     return this;
   }
+
+  get children(): Carobj[] {
+    return this.#children;
+  }
 }
