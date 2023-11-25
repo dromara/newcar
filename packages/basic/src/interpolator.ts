@@ -5,20 +5,16 @@ import { linear } from "./timing-functions";
  * The interpolator.
  */
 export class Interpolator {
-  start: number;
-  end: number;
-  func: TimingFunction;
-
   /**
-   * @param start The start value.
-   * @param end The end value.
+   * @param from The start value.
+   * @param to The end value.
    * @param func The timing function.
    */
-  constructor(start: number, end: number, func?: TimingFunction) {
-    this.start = start;
-    this.end = end;
-    this.func = func ?? linear;
-  }
+  constructor(
+    public from: number,
+    public to: number,
+    public func: TimingFunction = linear,
+  ) {}
 
   /**
    * Calculate the interpolation with the given progress number.
@@ -26,6 +22,6 @@ export class Interpolator {
    * @returns The interpolation.
    */
   call(n: number): number {
-    return this.start + this.func(n) * (this.end - this.start);
+    return this.from + this.func(n) * (this.to - this.from);
   }
 }

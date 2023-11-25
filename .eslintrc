@@ -2,5 +2,5 @@
   "extends": "@so1ve",
   "plugins": ["@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
-  "rules": { "@typescript-eslint/explicit-module-boundary-types": "warn" }
+  "rules": { "@typescript-eslint/explicit-module-boundary-types": "error" }
 }

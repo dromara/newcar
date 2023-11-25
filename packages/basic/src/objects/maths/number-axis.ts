@@ -4,7 +4,6 @@ import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
 import { Text } from "../text";
 
-export type Direction = "left" | "right";
 export type Trend = (n: number) => Text;
 
 /**
@@ -12,6 +11,7 @@ export type Trend = (n: number) => Text;
  * @param arrow Show arrows or not.
  * @param point Show points or not.
  * @param number Show number or not.
+ * @param reverse Reverse or not.
  * @param interval The unit width of the number axis.
  * @param color The color of the number axis.
  * @param direction The direction of the number axis.
@@ -22,9 +22,9 @@ export interface NumberAxisOption extends CarobjOption {
   arrow?: boolean;
   point?: boolean;
   number?: boolean;
+  reverse?: boolean;
   interval?: number;
   color?: Color;
-  direction?: Direction;
   trend?: Trend;
 }
 
@@ -37,9 +37,9 @@ export class NumberAxis extends Carobj {
   arrow: boolean;
   point: boolean;
   number: boolean;
+  reverse: boolean;
   interval: number;
   color: Color;
-  direction: Direction;
   trend: Trend;
 
   /**
@@ -55,9 +55,9 @@ export class NumberAxis extends Carobj {
     this.arrow = options.arrow ?? true;
     this.point = options.point ?? true;
     this.number = options.number ?? true;
+    this.reverse = options.reverse ?? false;
     this.interval = options.interval ?? 50;
     this.color = options.color ?? Color.RGB(255, 255, 255);
-    this.direction = options.direction ?? "right";
     this.trend = options.trend ?? ((n: number) => new Text(String(n)));
   }
 
@@ -69,7 +69,7 @@ export class NumberAxis extends Carobj {
       throw new Error("Parameter `max` cannot be less than 0");
     }
 
-    if (this.direction === "left") {
+    if (this.reverse) {
       context.scale(-1, 1);
     }
 
@@ -105,7 +105,7 @@ export class NumberAxis extends Carobj {
       context.stroke();
     }
 
-    if (this.direction === "left") {
+    if (this.reverse) {
       context.scale(-1, 1);
     }
 
