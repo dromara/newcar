@@ -19,15 +19,12 @@ export class Car {
     for (const object of this.scene.objects) {
       object.init();
     }
-    const scene = this.scene;
-    const context = this.context;
-    const element = this.element;
-    function update(): void {
-      context.clearRect(0, 0, element.width, element.height);
-      for (const update of scene.updates) {
-        update(scene.currentFrame);
+    function update(car: Car): void {
+      car.context!.clearRect(0, 0, car.element.width, car.element.height);
+      for (const update of car.scene.updates) {
+        update(car.scene.currentFrame);
       }
-      for (const object of scene.objects) {
+      for (const object of car.scene.objects) {
         for (const animation of object.animations) {
           if (animation.frameCount > animation.length) {
             break;
@@ -35,18 +32,23 @@ export class Car {
           animation.frameCount += 1;
           animation.animate(object, animation.frameCount, animation.length, animation.params);
         }
-        object.update(context);
+        object.update(car.context!);
       }
-      scene.currentFrame += 1;
-      requestAnimationFrame(update);
+      car.scene.currentFrame += 1;
+      requestAnimationFrame(() => {
+        update(car);
+      });
     }
-    requestAnimationFrame(update);
+    requestAnimationFrame(() => {
+      update(this);
+    });
 
     return this;
   }
 
   checkout(scene: Scene): Car {
     this.scene = scene;
+    this.play();
 
     return this;
   }
