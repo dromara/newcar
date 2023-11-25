@@ -4,6 +4,15 @@ import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
 
 export type Point = [number, number];
+export type Position = Point | { x: number; y: number };
+
+export function solve(point: Position): Point {
+  if (Array.isArray(point)) {
+    return point;
+  }
+
+  return [point.x, point.y];
+}
 
 /**
  * The line options.
@@ -23,21 +32,21 @@ export interface LineOption extends CarobjOption {
 export class Line extends Carobj implements LineOption {
   color: Color;
   lineWidth: number;
-  startX: number;
-  startY: number;
-  endX: number;
-  endY: number;
+  fromX: number;
+  fromY: number;
+  toX: number;
+  toY: number;
 
   /**
-   * @param startPoint The start point of the line.
-   * @param endPoint The end point of the line.
+   * @param from The start point of the line.
+   * @param to The end point of the line.
    * @param options The options of the object.
    * @see LineOption
    */
-  constructor(startPoint: Point, endPoint: Point, options?: LineOption) {
+  constructor(from: Position, to: Position, options?: LineOption) {
     super((options ??= {}));
-    this.startPoint = startPoint;
-    this.endPoint = endPoint;
+    this.from = from;
+    this.to = to;
     this.color = options.color ?? Color.WHITE;
     this.lineWidth = options.lineWidth ?? 2;
   }
@@ -46,24 +55,24 @@ export class Line extends Carobj implements LineOption {
     context.beginPath();
     context.strokeStyle = this.color.toString();
     context.lineWidth = this.lineWidth;
-    context.moveTo(this.startX, this.startY);
-    context.lineTo(this.endX, this.endY);
+    context.moveTo(this.fromX, this.fromY);
+    context.lineTo(this.toX, this.toY);
     context.stroke();
   }
 
-  set startPoint(point: Point) {
-    [this.startX, this.startY] = point;
+  set from(point: Position) {
+    [this.fromX, this.fromY] = solve(point);
   }
 
-  get startPoint(): Point {
-    return [this.startX, this.startY];
+  get from(): Point {
+    return [this.fromX, this.fromY];
   }
 
-  set endPoint(point: Point) {
-    [this.endX, this.endY] = point;
+  set to(point: Position) {
+    [this.toX, this.toY] = solve(point);
   }
 
-  get endPoint(): Point {
-    return [this.endX, this.endY];
+  get to(): Point {
+    return [this.toX, this.toY];
   }
 }

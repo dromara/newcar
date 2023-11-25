@@ -1,11 +1,20 @@
 import type { Carobj } from "@newcar/basic/src/objects";
 
-type UpdateFunction = (currentFrame: number) => void;
+export type UpdateFunction = (currentFrame: number) => void;
+
 export class Scene {
   currentFrame = 0;
 
   constructor(
-    public updates: UpdateFunction[] = [],
     public objects: Carobj[] = [],
+    public updates: UpdateFunction[] = [],
   ) {}
+
+  add(object: Carobj): void {
+    this.objects.push(object);
+  }
+
+  onUpdate(update: UpdateFunction): void {
+    this.updates.push(update);
+  }
 }

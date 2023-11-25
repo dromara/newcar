@@ -1,57 +1,27 @@
 import Markdown from "../../packages/mod-markdown/dist/newcar-mod-markdown.mjs";
-import * as n from "../../packages/newcar/dist/newcar.mjs";
+import * as $ from "../../packages/newcar/dist/newcar.mjs";
 
-const car = n.createCar(document.querySelector("#test"));
+const car = $.newcar("#test", [
+  new Markdown("```javascript\nconsole.log()\n```"),
+  new $.WebView("<div>hello</div>"),
+  new $.WebView("<div>hello</div>"),
+]);
 
-const scene = n.createScene();
-const scene2 = n.createScene();
-
-const f = new n.NumberPlane(100, 100, -100, -100, {
-  gridColor: n.Color.White
-});
-
-const m = new Markdown("```javascript\nconsole.log()\n```");
-
-const w1 = new n.WebView("<div>hello</div>");
-const w2 = new n.WebView("<div>hello</div>");
-
-const s = new n.Svg(
-  '<circle cx="50" cy="50" r="50" style="stroke: red; fill: none"/>'
-);
-
-const i = new n.Image("./image.webp", {
-  x: 100,
-  y: 100,
-});
-
-// scene.use(f);
-scene.use(m);
-scene.use(w1);
-scene.use(w2);
-scene2.use(s);
-scene2.use(i);
-
-<<<<<<< HEAD
-scene.setUpdate((frame) => {
-  switch (frame) {
-    case 0: {
-      f.animate(n.move, 100, {
-        x: 100,
-        y: 300
-      });
+car.scene.onUpdate((frameCount) => {
+  switch (frameCount) {
+    case 1000: {
+      car.scene = $.scene([
+        new $.Svg(
+          '<circle cx="50" cy="50" r="50" style="stroke: red; fill: none"/>',
+        ),
+        new $.Image("./image.webp", {
+          x: 100,
+          y: 100,
+        }),
+      ]);
+      break;
     }
-=======
-scene2.setUpdate((frame) => {
-  if (frame === 100) {
-    car.checkout(scene);
->>>>>>> 9e5e3b36668b9567a3e01908450c4e258460b9f9
   }
 });
-
-car.checkout(scene2);
-// setTimeout(() => {
-//   car.checkout(scene2);
-// }, 1000);
-// car.checkout(scene);
 
 car.play();

@@ -69,7 +69,7 @@ export class Carobj implements CarobjOption {
     this.rotation = options.rotation ?? 0;
     this.transparency = options.transparency ?? 1;
     this.operation = options.operation ?? "source-over";
-    options.children && this.addChildren(...options.children);
+    options.children && this.add(...options.children);
   }
 
   /**
@@ -117,7 +117,7 @@ export class Carobj implements CarobjOption {
    * Add children to the object.
    * @param children The children to add.
    */
-  addChildren(...children: Carobj[]): this {
+  add(...children: Carobj[]): this {
     for (const child of children) {
       child.parent = this;
       this.#children.push(child);
