@@ -48,6 +48,6 @@ export class WebView extends Svg implements WebViewOption {
 
   set xhtml(xhtml: string) {
     this.#xhtml = xhtml;
-    super.svg = xhtml2Svg(xhtml, this.width, this.height);
+    super.svg = xhtml2Svg(xhtml, this.x, this.y);
   }
 }

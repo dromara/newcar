@@ -21,9 +21,8 @@ export class Image extends Carobj {
 
   override draw(context: CanvasRenderingContext2D): void {
     if (this.#isload) {
-      context.drawImage(this.image, this.image.width, this.image.height);
+      context.drawImage(this.image, this.x, this.y);
     }
-    console.log(this.x, this.y)
   }
 
   init(): void {
