@@ -1,6 +1,6 @@
 {
   "extends": "@so1ve",
-  "plugins": "@typescript-eslint",
+  "plugins": ["@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
   "rules": { "@typescript-eslint/explicit-module-boundary-types": "warn" }
 }

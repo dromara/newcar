@@ -1,9 +1,9 @@
 /lerna.json
 /tsconfig.tsbuildinfo
-node_modules/
+/node_modules/
+/packages/**/node_modules/
+/packages/**/dist/
 /pnpm-lock.yaml
 /pnpm-workspace.yaml
-/packages/**/dist/
 .rollup.cache/
-
 /.VSCodeCounter/**

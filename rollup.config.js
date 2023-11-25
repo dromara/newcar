@@ -10,13 +10,13 @@ import dts from "rollup-plugin-dts";
 const babelConfig = {
   babelHelpers: "bundled",
   extensions: [".js", ".ts"],
-  presets: ["@babel/preset-typescript"]
+  presets: ["@babel/preset-typescript"],
 };
 
 const plugins = [
   typescript(),
   nodeResolve({ browser: true }),
-  babel(babelConfig)
+  babel(babelConfig),
 ];
 const d = [dts(), nodeResolve({ browser: true })];
 
@@ -25,7 +25,7 @@ const files = [
   ["basic", "index", "newcar-basic"],
   ["utils", "index", "newcar-utils"],
   ["core", "index", "newcar-core"],
-  ["mod-markdown", "markdown", "newcar-mod-markdown"]
+  ["mod-markdown", "markdown", "newcar-mod-markdown"],
 ];
 
 /**
@@ -38,26 +38,26 @@ export default [
       {
         format: "esm",
         sourcemap: true,
-        file: `./packages/${file[0]}/dist/${file[2]}.mjs`
+        file: `./packages/${file[0]}/dist/${file[2]}.mjs`,
       },
       {
         format: "cjs",
         sourcemap: true,
         file: `./packages/${file[0]}/dist/${file[2]}.cjs`,
-        name: "newcar"
-      }
+        name: "newcar",
+      },
     ],
     plugins,
-    treeshake: true
+    treeshake: true,
   })),
   ...files.map((file) => ({
     input: `./packages/${file[0]}/dist/packages/${file[0]}/src/${file[1]}.d.ts`,
     output: [
       {
         file: `./packages/${file[0]}/dist/${file[2]}.d.ts`,
-        format: "es"
-      }
+        format: "es",
+      },
     ],
-    plugins: d
-  }))
+    plugins: d,
+  })),
 ];
