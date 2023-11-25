@@ -44,7 +44,13 @@ export class NumberPlane extends Carobj {
   trendY: Trend;
   grid: boolean;
 
-  constructor(maxX: number, maxY: number, minX: number, minY: number, options?: NumberPlaneOption) {
+  constructor(
+    maxX: number,
+    maxY: number,
+    minX: number,
+    minY: number,
+    options?: NumberPlaneOption
+  ) {
     super((options ??= {}));
     this.maxX = maxX;
     this.minX = minX;
@@ -63,9 +69,11 @@ export class NumberPlane extends Carobj {
     this.numberX = options.numberX ?? true;
     this.numberY = options.numberY ?? true;
     this.trendY =
-      options.trendY ?? ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
+      options.trendY ??
+      ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
     this.trendX =
-      options.trendX ?? ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
+      options.trendX ??
+      ((numberCount: number) => new Text(String(numberCount), { x: 0, y: 0 }));
   }
 
   override draw(context: CanvasRenderingContext2D): void {

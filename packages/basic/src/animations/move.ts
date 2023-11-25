@@ -1,9 +1,9 @@
 import { Interpolator } from "../interpolator";
 import type { Carobj } from "../objects";
 import type { TimingFunction } from "../timing-functions";
-import type { Animation } from "./animation";
+import type { Animate } from "./animate";
 
-export const move: Animation = (
+export const move: Animate = (
   obj: Carobj,
   frameCount: number,
   length: number,
@@ -11,7 +11,7 @@ export const move: Animation = (
     x: number;
     y: number;
     by: TimingFunction;
-  },
+  }
 ): void => {
   const interpolatorX = new Interpolator(obj.x, params.x, params.by);
   const interpolatorY = new Interpolator(obj.y, params.y, params.by);

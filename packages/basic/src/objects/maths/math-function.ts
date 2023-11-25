@@ -40,7 +40,12 @@ export class MathFunction extends Carobj {
    * @param options The options of the object.
    * @see CarobjOption
    */
-  constructor(func: MathFunc, start: number, end: number, options?: MathFunctionOption) {
+  constructor(
+    func: MathFunc,
+    start: number,
+    end: number,
+    options?: MathFunctionOption
+  ) {
     super((options ??= {}));
     this.func = func;
     this.start = start;

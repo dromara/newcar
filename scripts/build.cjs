@@ -8,7 +8,7 @@ const package_dists = [
   "./packages/basic/dist",
   "./packages/core/dist",
   "./packages/newcar/dist",
-  "./packages/utils/dist",
+  "./packages/utils/dist"
 ];
 
 package_dists.forEach((dist) => {

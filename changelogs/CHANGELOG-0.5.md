@@ -1,9 +1,13 @@
 # v0.5.0-alpha.1 (2023.9.9)
+
 ## Bug Fixes
+
 - newcar: fix the undefined value of `options.backgroundColor`, this bug is fatal.
 
 # v0.5.0-alpha.0 (2023.9.9)
+
 ## Achieve
+
 - objects: Add rotation center for objects.
 - objects: Implement rotation center.
 - objects: number display on `CoordinateSystem`.
@@ -20,6 +24,7 @@
 - utils: Add `Color`.
 
 ## Breaking Change
+
 - objects: Rename `AngleCircle` to `CircleAngle`.
 - objects: Rename `HTMLPlugin` to `WebView`.
 - objects: Rename `ImagePlugin` to `Image`.
@@ -34,6 +39,7 @@
 - objects: Change the center of `Svg`.
 
 ## Bug Fixes
+
 - core: `onSet` isn't be run on children.
 - objects: `Circle` cannot be displayed properly.
 - objects: Two Point objects cannot connect to city lines at different levels.

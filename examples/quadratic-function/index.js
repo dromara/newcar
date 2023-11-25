@@ -1,14 +1,14 @@
-import * as n from "../../packages/newcar/dist/newcar.mjs";
+import * as $ from "../../packages/newcar/dist/newcar.mjs";
 
-const car = n.createCar(document.querySelector("#scene"));
-const scene = n.createScene();
+const car = $.createCar(document.querySelector("#scene"));
+const scene = $.createScene();
 
-const f = new n.MathFunction((x) => 1 / x, -7, 7, {});
+const f = new $.MathFunction((x) => 1 / x, -7, 7, {});
 
-const plane = new n.NumberPlane(350, 350, -350, -350, {
+const plane = new $.NumberPlane(350, 350, -350, -350, {
   x: 800,
   y: 450,
-  gridColor: n.Color.BLUE,
+  gridColor: $.Color.BLUE
 });
 
 scene.use(plane);

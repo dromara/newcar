@@ -23,5 +23,5 @@ Click here to jump to our Twitter: https://twitter.com/bugduckteam
   "font-size: 14px",
   "background-color: orange; padding: 7px; font-size: 14px",
   "background-color: grey; padding: 7px; font-size: 14px",
-  "",
+  ""
 );

@@ -1,4 +1,11 @@
-import type { Animation } from "../animations";
+import type { Animate } from "../animations";
+
+interface Animation {
+  animate: Animate;
+  length: number;
+  frameCount: number;
+  params: Record<string, any>;
+}
 
 /**
  * The carobj options.
@@ -44,12 +51,7 @@ export class Carobj implements CarobjOption {
   operation: GlobalCompositeOperation;
   #children: Carobj[] = [];
   parent?: Carobj;
-  animations: {
-    animate: Animation;
-    length: number;
-    frameCount: number;
-    params: Record<string, any>;
-  }[] = [];
+  animations: Animation[] = [];
 
   /**
    * @param options The options for construct the object.
@@ -130,12 +132,12 @@ export class Carobj implements CarobjOption {
    * @param length The length of the animation.
    * @param params The other parameters of this animation.
    */
-  animate(animation: Animation, length: number, params: Record<string, any>): this {
+  animate(animate: Animate, length: number, params: Record<string, any>): this {
     this.animations.push({
-      animate: animation,
+      animate,
       length,
       frameCount: 0,
-      params,
+      params
     });
 
     return this;
