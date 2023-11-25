@@ -6,6 +6,6 @@ export class Scene {
 
   constructor(
     public updates: UpdateFunction[] = [],
-    public objects: Carobj[] = []
+    public objects: Carobj[] = [],
   ) {}
 }

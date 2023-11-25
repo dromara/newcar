@@ -62,7 +62,7 @@ export class Color {
     red: number,
     green: number,
     blue: number,
-    alpha: number
+    alpha: number,
   ): Color {
     return Color.RGBA(red * 255, green * 255, blue * 255, alpha);
   }

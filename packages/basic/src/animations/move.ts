@@ -11,7 +11,7 @@ export const move: Animate = (
     x: number;
     y: number;
     by: TimingFunction;
-  }
+  },
 ): void => {
   const interpolatorX = new Interpolator(obj.x, params.x, params.by);
   const interpolatorY = new Interpolator(obj.y, params.y, params.by);

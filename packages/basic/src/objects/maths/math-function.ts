@@ -44,7 +44,7 @@ export class MathFunction extends Carobj {
     func: MathFunc,
     start: number,
     end: number,
-    options?: MathFunctionOption
+    options?: MathFunctionOption,
   ) {
     super((options ??= {}));
     this.func = func;

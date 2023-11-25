@@ -21,7 +21,7 @@ const invent =
 
 function solve(
   easeIn: TimingFunction,
-  easeOut?: TimingFunction
+  easeOut?: TimingFunction,
 ): TimingFunction {
   easeOut ??= invent(easeIn);
 
@@ -30,7 +30,7 @@ function solve(
 }
 
 function _(
-  easeIn: TimingFunction
+  easeIn: TimingFunction,
 ): [TimingFunction, TimingFunction, TimingFunction] {
   const easeOut: TimingFunction = invent(easeIn);
   const easeInOut: TimingFunction = solve(easeIn, easeOut);

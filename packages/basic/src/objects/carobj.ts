@@ -137,7 +137,7 @@ export class Carobj implements CarobjOption {
       animate,
       length,
       frameCount: 0,
-      params
+      params,
     });
 
     return this;

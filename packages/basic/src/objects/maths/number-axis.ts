@@ -29,7 +29,7 @@ export class NumberAxis extends Carobj {
   constructor(
     public from: number,
     public to: number,
-    options?: NumberAxisOption
+    options?: NumberAxisOption,
   ) {
     super((options ??= {}));
     this.arrow = options.arrow ?? true;

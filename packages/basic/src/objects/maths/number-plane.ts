@@ -49,7 +49,7 @@ export class NumberPlane extends Carobj {
     maxY: number,
     minX: number,
     minY: number,
-    options?: NumberPlaneOption
+    options?: NumberPlaneOption,
   ) {
     super((options ??= {}));
     this.maxX = maxX;
