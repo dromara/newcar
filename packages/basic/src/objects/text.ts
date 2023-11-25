@@ -33,7 +33,7 @@ export class Text extends Carobj implements TextOption {
   color: Color;
   align: CanvasTextAlign;
   baseline: CanvasTextBaseline;
-  borderWidth: number;
+  borderWidth: number | null;
   borderColor: Color;
 
   /**
@@ -49,7 +49,7 @@ export class Text extends Carobj implements TextOption {
     this.color = options.color ?? Color.WHITE;
     this.align = options.align ?? "center";
     this.baseline = options.baseline ?? "middle";
-    this.borderWidth = options.borderWidth ?? 2;
+    this.borderWidth = options.borderWidth ?? null;
     this.borderColor = options.borderColor ?? Color.WHITE;
   }
 

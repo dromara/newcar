@@ -9,7 +9,6 @@ export { Line } from "./figures/line";
 export { Point } from "./figures/point";
 export { Polygon } from "./figures/polygon";
 export { Rectangle } from "./figures/rectangle";
-export { Brace } from "./figures/brace";
 // maths
 export { MathFunction } from "./maths/math-function";
 export { NumberAxis } from "./maths/number-axis";

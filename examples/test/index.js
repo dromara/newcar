@@ -5,6 +5,14 @@ const car = $.newcar("#test", [
   new Markdown("```javascript\nconsole.log()\n```"),
   new $.WebView("<div>hello</div>"),
   new $.WebView("<div>hello</div>"),
+  new $.Brace([0, 0], [100, 100], {
+    x: 100,
+    y: 100,
+  }),
+  new $.Text("Hello world", {
+    x: 100,
+    y: 100,
+  }),
 ]);
 
 car.scene.onUpdate((frameCount) => {
