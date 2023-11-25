@@ -1,4 +1,3 @@
-/lerna.json
 /tsconfig.tsbuildinfo
 /node_modules/
 /packages/**/node_modules/
