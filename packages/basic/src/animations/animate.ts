@@ -1,15 +1,17 @@
 import type { Carobj } from "../objects";
+import type { TimingFunction } from "../timing-functions";
 
 /**
  * A functional animation.
- * @param obj Object.
- * @param frameCount The number from begin to current frame.
- * @param length The length of the animation.
+ * @param obj The Animated object.
+ * @param duration The duration time of the animation.
+ * @param elapsed The elapsed time of the animation.
  * @param params Other parameters of the animation.
  */
 export type Animate = (
-  obj: Carobj,
-  frameCount: number,
-  length: number,
-  params: any,
+  object: Carobj,
+  duration: number,
+  elapsed: number,
+  by: TimingFunction,
+  params: Record<string, any>,
 ) => void;

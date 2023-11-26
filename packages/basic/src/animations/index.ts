@@ -1,2 +1,2 @@
 export type { Animate } from "./animate";
-export { move } from "./move";
+export { moveTo } from "./move-to";

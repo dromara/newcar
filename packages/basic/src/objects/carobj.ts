@@ -1,9 +1,10 @@
 import type { Animate } from "../animations";
+import type { TimingFunction } from "../timing-functions";
 
 interface Animation {
   animate: Animate;
-  length: number;
-  frameCount: number;
+  duration: number;
+  by: TimingFunction;
   params: Record<string, any>;
 }
 
@@ -132,11 +133,16 @@ export class Carobj implements CarobjOption {
    * @param length The length of the animation.
    * @param params The other parameters of this animation.
    */
-  animate(animate: Animate, length: number, params: Record<string, any>): this {
+  animate(
+    animate: Animate,
+    duration: number,
+    by: TimingFunction,
+    params: Record<string, any>,
+  ): this {
     this.animations.push({
       animate,
-      length,
-      frameCount: 0,
+      duration,
+      by,
       params,
     });
 
