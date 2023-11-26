@@ -62,13 +62,6 @@ export class NumberAxis extends Carobj {
   }
 
   override draw(context: CanvasRenderingContext2D): void {
-    if (this.min > 0) {
-      throw new Error("Parameter `min` cannot be greater than 0");
-    }
-    if (this.max < 0) {
-      throw new Error("Parameter `max` cannot be less than 0");
-    }
-
     if (this.reverse) {
       context.scale(-1, 1);
     }

@@ -1,50 +1,74 @@
 import type { Scene } from "./scene";
 
 export class Car {
+  #playing: boolean;
+  private lastUpdateTime: number;
   readonly context: CanvasRenderingContext2D;
 
   constructor(public element: HTMLCanvasElement, public scene: Scene) {
-    this.context = this.element.getContext("2d")!;
+    this.playing = false;
     this.element.style.backgroundColor = "black";
+    this.context = this.element.getContext("2d")!;
   }
 
   static update(car: Car): void {
+    const currentTimestamp = Date.now();
+    const intervalTime = (currentTimestamp - car.lastUpdateTime) / 1000;
+    car.lastUpdateTime = currentTimestamp;
+    car.scene.elapsed += intervalTime;
     car.context.clearRect(0, 0, car.element.width, car.element.height);
     for (const update of car.scene.updates) {
-      update(car.scene.currentFrame);
+      update(car.scene.elapsed);
     }
-    car.scene.currentFrame += 1;
     for (const object of car.scene.objects) {
       for (const animation of object.animations) {
-        if (animation.frameCount <= animation.length) {
+        animation.elapsed += intervalTime;
+        if (animation.elapsed <= animation.duration) {
           animation.animate(
             object,
-            (animation.frameCount += 1),
-            animation.length,
+            animation.duration,
+            animation.elapsed,
+            animation.by,
             animation.params,
           );
         }
       }
       object.update(car.context);
     }
-    requestAnimationFrame(() => Car.update(car));
+    if (car.playing) {
+      requestAnimationFrame(() => Car.update(car));
+    }
   }
 
-  play(): this {
-    if (this.context && this.scene) {
-      for (const object of this.scene.objects) {
-        object.init();
-      }
-      requestAnimationFrame(() => Car.update(this));
+  init(): this {
+    for (const object of this.scene.objects) {
+      object.init();
     }
 
     return this;
   }
 
-  checkout(scene: Scene): this {
-    this.scene = scene;
-    this.play();
+  play(): this {
+    this.playing = true;
 
     return this;
+  }
+
+  stop(): this {
+    this.playing = false;
+
+    return this;
+  }
+
+  get playing(): boolean {
+    return this.#playing;
+  }
+
+  set playing(playing: boolean) {
+    this.#playing = playing;
+    if (playing) {
+      this.lastUpdateTime = Date.now();
+      requestAnimationFrame(() => Car.update(this));
+    }
   }
 }

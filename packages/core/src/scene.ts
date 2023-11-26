@@ -1,9 +1,9 @@
 import type { Carobj } from "@newcar/basic/src/objects";
 
-export type UpdateFunction = (currentFrame: number) => void;
+export type UpdateFunction = (elapsed: number) => void;
 
 export class Scene {
-  currentFrame = 0;
+  elapsed = 0;
 
   constructor(
     public objects: Carobj[] = [],

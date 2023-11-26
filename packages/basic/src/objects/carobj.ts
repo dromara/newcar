@@ -4,6 +4,7 @@ import type { TimingFunction } from "../timing-functions";
 interface Animation {
   animate: Animate;
   duration: number;
+  elapsed: number;
   by: TimingFunction;
   params: Record<string, any>;
 }
@@ -142,6 +143,7 @@ export class Carobj implements CarobjOption {
     this.animations.push({
       animate,
       duration,
+      elapsed: 0,
       by,
       params,
     });
