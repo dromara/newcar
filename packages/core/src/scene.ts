@@ -14,7 +14,7 @@ export class Scene {
     this.objects.push(object);
   }
 
-  onUpdate(update: UpdateFunction): void {
+  setUpdate(update: UpdateFunction): void {
     this.updates.push(update);
   }
 }

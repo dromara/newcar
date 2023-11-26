@@ -6,7 +6,7 @@ import { Scene } from "@newcar/core/src/scene";
 export * from "@newcar/basic/src";
 export * from "@newcar/utils/src";
 
-export const newcar = (
+export const createCar = (
   element: HTMLCanvasElement | string,
   sceneOrObjects?: Scene | Carobj[],
 ): Car =>
@@ -19,7 +19,7 @@ export const newcar = (
       : sceneOrObjects,
   );
 
-export const scene = (
+export const createScene = (
   objects: Carobj[] = [],
   updates: UpdateFunction[] = [],
 ): Scene => new Scene(objects, updates);

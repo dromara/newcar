@@ -40,4 +40,11 @@ export class Car {
 
     return this;
   }
+
+  checkout(scene: Scene): this {
+    this.scene = scene;
+    this.play();
+
+    return this;
+  }
 }
