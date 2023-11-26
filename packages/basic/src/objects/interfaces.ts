@@ -17,3 +17,12 @@ export interface Bordered {
 export interface Fillable {
   fillColor?: Color;
 }
+
+/**
+ * The interface to show the object has width and height.
+ * @param fillColor The fill color.
+ */
+export interface Sized {
+  width?: number;
+  height?: number;
+}

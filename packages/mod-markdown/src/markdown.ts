@@ -1,13 +1,14 @@
 import { WebView } from "@newcar/basic/src";
-import type { WebViewOption } from "@newcar/basic/src/objects/webview";
-import { marked } from "marked";
+import { parse } from "marked";
+import type { CarobjOption } from "packages/basic/src/objects/carobj";
+import type { Sized } from "packages/basic/src/objects/interfaces";
 
-export default class Markdown extends WebView {
+export default class Markdown extends WebView implements Sized {
   #markdown: string;
 
-  constructor(markdown: string, options: WebViewOption) {
+  constructor(markdown: string, options: CarobjOption & Sized) {
     options ??= {};
-    super(marked.parse(markdown), options);
+    super(parse(markdown), options);
     this.#markdown = markdown;
   }
 
@@ -17,6 +18,6 @@ export default class Markdown extends WebView {
 
   set markdown(value: string) {
     this.#markdown = value;
-    this.xhtml = marked.parse(value);
+    this.xhtml = parse(value);
   }
 }
