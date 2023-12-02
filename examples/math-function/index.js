@@ -1,6 +1,6 @@
 import * as $ from "../../packages/newcar/dist/newcar.mjs";
 
-const car = $.createCar("#scene", [
+const car = $.newcar("#scene", [
   new $.NumberAxis(10, -10, {
     color: $.Color.CYAN,
     tick: 2,
@@ -14,7 +14,7 @@ const car = $.createCar("#scene", [
     y: 400,
     trend: { font: "italic", x: -2, y: 30, size: 30 },
   }).animate($.moveTo, 100, {
-    x: 100,
+    x: 200,
     y: 400,
   }),
   new $.NumberAxis(-10, -5, {

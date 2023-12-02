@@ -10,11 +10,15 @@ export class Scene {
     public updates: UpdateFunction[] = [],
   ) {}
 
-  add(object: Carobj): void {
+  add(object: Carobj): this {
     this.objects.push(object);
+
+    return this;
   }
 
-  setUpdate(update: UpdateFunction): void {
+  update(update: UpdateFunction): this {
     this.updates.push(update);
+
+    return this;
   }
 }
