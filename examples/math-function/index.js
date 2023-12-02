@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as $ from "../../packages/newcar/dist/newcar.mjs";
 
 const car = $.newcar("#scene", [
@@ -8,7 +9,7 @@ const car = $.newcar("#scene", [
     y: 600,
     arrow: null,
     trend: { y: 16, size: 16 },
-  }),
+  }).animate($.grow, 2, {}),
   new $.NumberAxis(5, 10, {
     x: 800,
     y: 400,

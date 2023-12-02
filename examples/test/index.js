@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Markdown from "../../packages/mod-markdown/dist/newcar-mod-markdown.mjs";
 import * as $ from "../../packages/newcar/dist/newcar.mjs";
 
@@ -34,4 +35,3 @@ const recorder = new $.Recorder(car);
 recorder.start(4, (url) => {
   console.log(url);
 });
-
