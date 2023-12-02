@@ -5,8 +5,8 @@ import { Carobj } from "./carobj";
  * The image object.
  */
 export class Image extends Carobj {
-  url: string;
-  protected ready = false;
+  #url: string;
+  protected ready: boolean;
   readonly image: HTMLImageElement = document.createElement("img");
 
   /**
@@ -25,9 +25,14 @@ export class Image extends Carobj {
     }
   }
 
-  init(): void {
+  get url(): string {
+    return this.#url;
+  }
+
+  set url(url: string) {
+    this.#url = url;
     this.ready = false;
-    this.image.src = this.url;
+    this.image.src = url;
     this.image.onload = () => {
       this.ready = true;
     };
