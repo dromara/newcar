@@ -73,11 +73,6 @@ export class Carobj implements CarobjOption {
   }
 
   /**
-   * Initialize method, which will be called before the animation starts.
-   */
-  init(): void {}
-
-  /**
    * Drawing method, which will be called at each frame.
    * This method is used for inherited classes to implement their rendering.
    * @param context The context instance of the canvas object.

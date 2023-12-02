@@ -39,14 +39,6 @@ export class Car {
     }
   }
 
-  init(): this {
-    for (const object of this.scene.objects) {
-      object.init();
-    }
-
-    return this;
-  }
-
   play(): this {
     this.playing = true;
 
