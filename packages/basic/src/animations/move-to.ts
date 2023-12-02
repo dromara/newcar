@@ -9,6 +9,14 @@ export const moveTo: Animate = (
   elapsed: number,
   params: { x: number; y: number; by: TimingFunction },
 ): void => {
-  object.x = interpolator(object.x, params.x, params.by)(elapsed / duration);
-  object.y = interpolator(object.y, params.y, params.by)(elapsed / duration);
+  object.x = interpolator(
+    object.x,
+    params.x,
+    params.by ?? ((x: number) => x),
+  )(elapsed / duration);
+  object.y = interpolator(
+    object.y,
+    params.y,
+    params.by ?? ((x: number) => x),
+  )(elapsed / duration);
 };
