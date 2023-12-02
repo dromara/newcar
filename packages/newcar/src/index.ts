@@ -4,6 +4,7 @@ import type { UpdateFunction } from "@newcar/core/src/scene";
 import { Scene } from "@newcar/core/src/scene";
 
 export * from "@newcar/basic/src";
+export * from "@newcar/recorder/src";
 export * from "@newcar/utils/src/color";
 
 export const newcar = (
@@ -31,7 +32,7 @@ console.log(
  / / / /  __/ |/ |/ / /__/ /_/ / /    
 /_/ /_/\\___/|__/|__/\\___/\\__,_/_/
 
-%cThe animation is powered by %c newcar %c v0.4.0 %c
+%cThe animation is powered by %c newcar %c v0.6.0 %c
 
 link: https://github.com/Bug-Duck/newcar
 

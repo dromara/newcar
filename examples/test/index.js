@@ -29,3 +29,9 @@ car.scene.update((elapsed) => {
   }
 });
 car.play();
+
+const recorder = new $.Recorder(car);
+recorder.start(4, (url) => {
+  console.log(url);
+});
+

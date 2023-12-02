@@ -27,3 +27,8 @@ const car = $.newcar("#scene", [
 ]);
 
 car.play();
+
+const recorder = new $.Recorder(car);
+recorder.start(4, (url) => {
+  console.log(url);
+});
