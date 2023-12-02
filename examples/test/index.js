@@ -1,4 +1,5 @@
 import Markdown from "../../packages/mod-markdown/dist/newcar-mod-markdown.mjs";
+import { CodeBlock } from "../../packages/mod-codeblock/dist/newcar-mod-codeblock.mjs"
 import * as $ from "../../packages/newcar/dist/newcar.mjs";
 
 const car = $.newcar("#test", [
