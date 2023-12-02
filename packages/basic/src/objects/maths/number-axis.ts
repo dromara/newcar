@@ -1,128 +1,123 @@
-import { Color } from "@newcar/utils/src";
+import { Color } from "@newcar/utils/src/color";
+import type { Point, Vector } from "@newcar/utils/src/point";
 
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
+import { Polygon } from "../figures/polygon";
+import type { TextOption } from "../text";
 import { Text } from "../text";
 
 export type Trend = (n: number) => Text;
+export const arrows: Record<string, Vector[]> = {
+  triangle: [
+    [0, 10],
+    [22, 0],
+    [0, -10],
+  ],
+};
+
+const trend = (options?: TextOption) => (n: number) =>
+  new Text(String(n), { y: 16, size: 16, ...options });
 
 /**
  * The number axis options.
- * @param arrow Show arrows or not.
- * @param point Show points or not.
- * @param number Show number or not.
- * @param reverse Reverse or not.
- * @param interval The unit width of the number axis.
+ * @param unit The unit width of the number axis.
+ * @param interval The width of interval between ticks.
+ * @param tick The height of ticks, zero for no tick.
  * @param color The color of the number axis.
- * @param direction The direction of the number axis.
+ * @param arrow A array of `Point`, `null` for no arrow.
+ * @param trend A `function` or `TextOption`, `null` for no trend.
  * @see CarobjOption
  * @see NumberAxis
  */
 export interface NumberAxisOption extends CarobjOption {
-  arrow?: boolean;
-  point?: boolean;
-  number?: boolean;
-  reverse?: boolean;
+  unit?: number;
   interval?: number;
+  tick?: number;
   color?: Color;
-  trend?: Trend;
+  arrow?: Point[] | null;
+  trend?: Trend | TextOption | null;
 }
 
 /**
  * The number axis object.
  */
-export class NumberAxis extends Carobj {
-  min: number;
-  max: number;
-  arrow: boolean;
-  point: boolean;
-  number: boolean;
-  reverse: boolean;
+export class NumberAxis extends Carobj implements NumberAxisOption {
+  unit: number;
   interval: number;
+  tick: number;
   color: Color;
-  trend: Trend;
+  arrow: Point[] | null;
+  trend: Trend | null;
 
   /**
-   * @param min The minimum of the number axis.
-   * @param max The maximum of the number axis.
+   * @param from The starting unit of the number axis.
+   * @param to The ending unit of the number axis.
    * @param options The options for construct the object.
    * @see CarobjOption
    */
-  constructor(min: number, max: number, options?: NumberAxisOption) {
+  constructor(
+    public from: number,
+    public to: number,
+    options?: NumberAxisOption,
+  ) {
     super((options ??= {}));
-    this.min = min;
-    this.max = max;
-    this.arrow = options.arrow ?? true;
-    this.point = options.point ?? true;
-    this.number = options.number ?? true;
-    this.reverse = options.reverse ?? false;
-    this.interval = options.interval ?? 50;
-    this.color = options.color ?? Color.RGB(255, 255, 255);
-    this.trend = options.trend ?? ((n: number) => new Text(String(n)));
+    this.unit = options.unit ?? 50;
+    this.interval = options.interval ?? 1;
+    this.tick = options.tick ?? 10;
+    this.color = options.color ?? Color.WHITE;
+    this.arrow = options.arrow === undefined ? arrows.triangle : options.arrow;
+    this.trend =
+      typeof options.trend === "function" || options.trend === null
+        ? options.trend
+        : trend(options.trend);
   }
 
   override draw(context: CanvasRenderingContext2D): void {
-    if (this.reverse) {
-      context.scale(-1, 1);
+    context.translate(((this.from + this.to) / 2) * -this.unit, 0);
+    const reverse: boolean = this.to < this.from;
+    if (reverse) {
+      [this.from, this.to] = [this.to, this.from];
     }
 
     context.beginPath();
-    context.lineWidth = 2;
     context.strokeStyle = this.color.toString();
-    context.moveTo(this.min, 0);
-    context.lineTo(this.max, 0);
+    context.moveTo(this.from * this.unit, 0);
+    context.lineTo(this.to * this.unit, 0);
     context.stroke();
 
+    // Draw arrows.
     if (this.arrow) {
-      context.beginPath();
-      context.lineWidth = 2;
-      context.moveTo(this.max, 0);
-      context.lineTo(this.max - 6, 6);
-      context.moveTo(this.max, 0);
-      context.lineTo(this.max - 6, -6);
-      context.stroke();
-    }
-
-    // Draw pointS.
-    if (this.point) {
-      context.strokeStyle = this.color.toString();
-      context.lineWidth = 2;
-      for (let i = 0; i <= this.max; i += this.interval) {
-        context.moveTo(i, 10);
-        context.lineTo(i, -10);
+      const arrow = new Polygon(this.arrow, {
+        fillColor: this.color,
+        x: this.to * this.unit,
+      });
+      if (reverse) {
+        context.scale(-1, 1);
+        arrow.update(context);
+        context.scale(-1, 1);
+      } else {
+        arrow.update(context);
       }
-      for (let i = 0; i >= this.min; i -= this.interval) {
-        context.moveTo(i, 10);
-        context.lineTo(i, -10);
+    }
+
+    // Draw ticks and numbers.
+    for (let i = this.from; i <= this.to; i += this.interval) {
+      const offset = i * this.unit;
+      if (this.tick) {
+        context.moveTo(offset, this.tick);
+        context.lineTo(offset, -this.tick);
+        context.stroke();
       }
-      context.stroke();
-    }
-
-    if (this.reverse) {
-      context.scale(-1, 1);
-    }
-
-    // Draw numbers.
-    let number;
-    if (this.number) {
-      number = 0;
-      for (let i = 0; i <= this.max; i += this.interval) {
-        const text = this.trend(number);
-        text.x = i;
-        text.y = 20;
-        text.size = 20;
+      if (this.trend) {
+        const text = this.trend(reverse ? -i : i);
+        text.x += offset;
         text.update(context);
-        number += 1;
       }
-      number = 0;
-      for (let i = 0; i >= this.min; i -= this.interval) {
-        const text = this.trend(number);
-        text.x = i;
-        text.y = 20;
-        text.size = 20;
-        text.update(context);
-        number -= 1;
-      }
+    }
+
+    if (reverse) {
+      [this.from, this.to] = [this.to, this.from];
     }
   }
 }
