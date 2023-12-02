@@ -13,6 +13,9 @@ const car = $.createCar("#scene", [
     x: 800,
     y: 400,
     trend: { font: "italic", x: -2, y: 30, size: 30 },
+  }).animate($.moveTo, 100, {
+    x: 100,
+    y: 400,
   }),
   new $.NumberAxis(-10, -5, {
     x: 800,
