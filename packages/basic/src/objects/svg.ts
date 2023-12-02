@@ -34,10 +34,10 @@ export class Svg extends Image implements Sized {
    * @see CarobjOption
    */
   constructor(svg: string, options?: CarobjOption & Sized) {
-    super(solve(svg, options?.width, options?.height), options);
+    super(solve(svg, (options ??= {}).width, options.height), options);
     this.#svg = svg;
-    this.width = options?.width;
-    this.height = options?.height;
+    this.width = options.width;
+    this.height = options.height;
   }
 
   get svg(): string {
