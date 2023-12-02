@@ -1,0 +1,10 @@
+{
+  "name": "@newcar/mod-codeblock",
+  "version": "0.6.0",
+  "author": "BugDuck Team",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "highlight.js": "^11.9.0",
+    "@newcar/basic": "workspace: ^0.6.0"
+  }
+}

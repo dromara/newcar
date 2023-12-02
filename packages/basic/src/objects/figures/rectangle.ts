@@ -15,8 +15,10 @@ export interface RectangleOption extends FigureOption {
  * The rectangle object.
  */
 export class Rectangle extends Figure implements RectangleOption {
-  width: number;
-  height: number;
+  fromX: number;
+  fromY: number;
+  toX: number;
+  toY: number;
   lineJoin: CanvasLineJoin;
 
   /**
@@ -25,10 +27,18 @@ export class Rectangle extends Figure implements RectangleOption {
    * @param options The options of the object.
    * @see RectangleOption
    */
-  constructor(width: number, height: number, options?: RectangleOption) {
+  constructor(
+    fromX: number,
+    fromY: number,
+    toX: number,
+    toY: number,
+    options?: RectangleOption,
+  ) {
     super((options ??= {}));
-    this.width = width;
-    this.height = height;
+    this.fromX = fromX;
+    this.toX = toX;
+    this.fromY = fromY;
+    this.toY = toY;
     this.lineJoin = options.lineJoin ?? "miter";
   }
 
@@ -36,16 +46,17 @@ export class Rectangle extends Figure implements RectangleOption {
     context.lineWidth = this.borderWidth;
     context.lineJoin = this.lineJoin;
     context.strokeStyle = this.borderColor.toString();
+    context.beginPath();
+    context.moveTo(this.fromX, this.fromX);
+    context.lineTo(this.toX, this.fromX);
+    context.lineTo(this.toX, this.toY);
+    context.lineTo(this.fromX, this.toY);
+    context.lineTo(this.fromX, this.fromX);
+    context.closePath();
+    context.stroke();
     if (this.fillColor) {
       context.fillStyle = this.fillColor.toString();
       context.fill();
     }
-    context.beginPath();
-    context.moveTo(-0.5 * this.width, -0.5 * this.height);
-    context.lineTo(0.5 * this.width, -0.5 * this.height);
-    context.lineTo(0.5 * this.width, 0.5 * this.height);
-    context.lineTo(-0.5 * this.width, 0.5 * this.height);
-    context.closePath();
-    context.stroke();
   }
 }
