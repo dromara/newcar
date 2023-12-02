@@ -28,6 +28,6 @@ export class Figure extends Carobj implements FigureOption {
     super((options ??= {}));
     this.borderWidth = options.borderWidth ?? 2;
     this.borderColor = options.borderColor ?? Color.WHITE;
-    this.fillColor = options.fillColor ?? undefined;
+    this.fillColor = options.fillColor;
   }
 }

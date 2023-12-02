@@ -36,14 +36,18 @@ export class Polygon extends Figure implements PolygonOption {
     this.lineJoin = options.lineJoin ?? "miter";
   }
 
-  draw(context: CanvasRenderingContext2D): void {
+  override draw(context: CanvasRenderingContext2D): void {
     context.strokeStyle = this.borderColor.toString();
     context.lineWidth = this.borderWidth;
     context.lineCap = this.lineCap;
     context.lineJoin = this.lineJoin;
     context.beginPath();
     for (const [index, point] of this.points.entries()) {
-      (index ? context.lineTo : context.moveTo)(...point);
+      if (index === 0) {
+        context.moveTo(...point);
+      } else {
+        context.lineTo(...point);
+      }
     }
     context.closePath();
     context.stroke();
