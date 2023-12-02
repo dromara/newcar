@@ -1,5 +1,6 @@
 import type { Carobj } from "../objects";
-import type { TimingFunction } from "../timing-functions";
+
+// import type { TimingFunction } from "../timing-functions";
 
 /**
  * A functional animation.
@@ -12,6 +13,5 @@ export type Animate = (
   object: Carobj,
   duration: number,
   elapsed: number,
-  by: TimingFunction,
   params: Record<string, any>,
 ) => void;

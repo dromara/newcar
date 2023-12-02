@@ -7,9 +7,8 @@ export const moveTo: Animate = (
   object: Carobj,
   duration: number,
   elapsed: number,
-  by: TimingFunction,
-  params: { x: number; y: number },
+  params: { x: number; y: number; by: TimingFunction },
 ): void => {
-  object.x = interpolator(object.x, params.x, by)(elapsed / duration);
-  object.y = interpolator(object.y, params.y, by)(elapsed / duration);
+  object.x = interpolator(object.x, params.x, params.by)(elapsed / duration);
+  object.y = interpolator(object.y, params.y, params.by)(elapsed / duration);
 };

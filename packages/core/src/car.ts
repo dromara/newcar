@@ -28,7 +28,6 @@ export class Car {
             object,
             animation.duration,
             animation.elapsed,
-            animation.by,
             animation.params,
           );
         }
