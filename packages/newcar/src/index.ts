@@ -4,7 +4,7 @@ import type { UpdateFunction } from "@newcar/core/src/scene";
 import { Scene } from "@newcar/core/src/scene";
 
 export * from "@newcar/basic/src";
-export * from "@newcar/utils/src";
+export * from "@newcar/utils/src/color";
 
 export const createCar = (
   element: HTMLCanvasElement | string,

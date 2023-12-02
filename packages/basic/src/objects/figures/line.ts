@@ -1,18 +1,9 @@
 import { Color } from "@newcar/utils/src";
+import type { Point, Vector } from "@newcar/utils/src/point";
+import { toVector } from "@newcar/utils/src/point";
 
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
-
-export type Point = [number, number];
-export type Position = Point | { x: number; y: number };
-
-export function solve(point: Position): Point {
-  if (Array.isArray(point)) {
-    return point;
-  }
-
-  return [point.x, point.y];
-}
 
 /**
  * The line options.
@@ -43,7 +34,7 @@ export class Line extends Carobj implements LineOption {
    * @param options The options of the object.
    * @see LineOption
    */
-  constructor(from: Position, to: Position, options?: LineOption) {
+  constructor(from: Point, to: Point, options?: LineOption) {
     super((options ??= {}));
     this.from = from;
     this.to = to;
@@ -60,19 +51,19 @@ export class Line extends Carobj implements LineOption {
     context.stroke();
   }
 
-  set from(point: Position) {
-    [this.fromX, this.fromY] = solve(point);
+  set from(point: Point) {
+    [this.fromX, this.fromY] = toVector(point);
   }
 
-  get from(): Point {
+  get from(): Vector {
     return [this.fromX, this.fromY];
   }
 
-  set to(point: Position) {
-    [this.toX, this.toY] = solve(point);
+  set to(point: Point) {
+    [this.toX, this.toY] = toVector(point);
   }
 
-  get to(): Point {
+  get to(): Vector {
     return [this.toX, this.toY];
   }
 }

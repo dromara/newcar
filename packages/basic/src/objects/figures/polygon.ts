@@ -1,7 +1,8 @@
+import type { Point, Vector } from "@newcar/utils/src/point";
+import { toVector } from "@newcar/utils/src/point";
+
 import type { FigureOption } from "./figure";
 import { Figure } from "./figure";
-import type { Point, Position } from "./line";
-import { solve } from "./line";
 
 /**
  * The polygon options.
@@ -19,7 +20,7 @@ export interface PolygonOption extends FigureOption {
  * The polygon object.
  */
 export class Polygon extends Figure implements PolygonOption {
-  #points: Point[];
+  #points: Vector[];
   lineCap: CanvasLineCap;
   lineJoin: CanvasLineJoin;
 
@@ -28,7 +29,7 @@ export class Polygon extends Figure implements PolygonOption {
    * @param options The options of the object.
    * @see PolygonOption
    */
-  constructor(points: Position[], options?: PolygonOption) {
+  constructor(points: Point[], options?: PolygonOption) {
     super((options ??= {}));
     this.points = points;
     this.lineCap = options.lineCap ?? "butt";
@@ -52,11 +53,11 @@ export class Polygon extends Figure implements PolygonOption {
     }
   }
 
-  set points(points: Position[]) {
-    this.#points = points.map(solve);
+  set points(points: Point[]) {
+    this.#points = points.map(toVector);
   }
 
-  get points(): Point[] {
+  get points(): Vector[] {
     return this.#points;
   }
 }
