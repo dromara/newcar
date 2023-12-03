@@ -5,13 +5,13 @@ import type { Animate } from "./animate";
 
 export const changeTransparency: Animate = (
   object: Carobj,
-  duration: number,
-  elapsed: number,
-  params: { to: number; by: TimingFunction },
+  process: number,
+  by: TimingFunction,
+  params: { to: number },
 ): void => {
   object.transparency = interpolator(
     object.transparency,
     params.to,
-    params.by ?? ((x: number) => x),
-  )(elapsed / duration);
+    by,
+  )(process);
 };

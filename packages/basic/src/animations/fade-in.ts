@@ -5,13 +5,8 @@ import type { Animate } from "./animate";
 
 export const fadeIn: Animate = (
   object: Carobj,
-  duration: number,
-  elapsed: number,
-  params: { by: TimingFunction },
+  process: number,
+  by: TimingFunction,
 ): void => {
-  object.transparency = interpolator(
-    0,
-    1,
-    params.by ?? ((x: number) => x),
-  )(elapsed / duration);
+  object.transparency = interpolator(0, 1, by)(process);
 };

@@ -5,13 +5,9 @@ import type { Animate } from "./animate";
 
 export const rotate: Animate = (
   object: Carobj,
-  duration: number,
-  elapsed: number,
-  params: { to: number; by: TimingFunction },
+  process: number,
+  by: TimingFunction,
+  params: { to: number },
 ): void => {
-  object.rotation = interpolator(
-    object.rotation,
-    params.to,
-    params.by ?? ((x: number) => x),
-  )(elapsed / duration);
+  object.rotation = interpolator(object.rotation, params.to, by)(process);
 };

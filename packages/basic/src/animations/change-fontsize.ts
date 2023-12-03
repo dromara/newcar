@@ -5,13 +5,9 @@ import type { Animate } from "./animate";
 
 export const changeFontsize: Animate = (
   object: Text,
-  duration: number,
-  elapsed: number,
-  params: { to: number; by: TimingFunction },
+  process: number,
+  by: TimingFunction,
+  params: { to: number },
 ): void => {
-  object.size = interpolator(
-    object.size,
-    params.to,
-    params.by ?? ((x: number) => x),
-  )(elapsed / duration);
+  object.size = interpolator(object.size, params.to, by)(process);
 };
