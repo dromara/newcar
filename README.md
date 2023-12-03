@@ -27,7 +27,7 @@ Newcar is a Highly configurable universal advanced engine, 2Born for creating an
 
 To create a animation by Newcar, we firstly need a animation object --- `Car`.
 
-Via `createCar()` to create a animation.
+Via `newcar` to create a animation.
 
 ```javascript
 import * as $ from "newcar";
