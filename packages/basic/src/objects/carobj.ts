@@ -1,9 +1,12 @@
 import type { Animate } from "../animations";
+import type { TimingFunction } from "../timing-functions";
+import { linear } from "../timing-functions";
 
 interface Animation {
   animate: Animate;
   duration: number;
   elapsed: number;
+  by: TimingFunction;
   params: Record<string, any>;
 }
 
@@ -130,12 +133,15 @@ export class Carobj implements CarobjOption {
   animate(
     animate: Animate,
     duration: number,
-    params: Record<string, any>,
+    params: Record<string, any> & { by?: TimingFunction },
   ): this {
+    const by = params.by ?? linear;
+    delete params.by;
     this.animations.push({
       animate,
       duration,
       elapsed: 0,
+      by,
       params,
     });
 

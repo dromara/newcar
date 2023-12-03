@@ -26,8 +26,8 @@ export class Car {
         if (animation.elapsed <= animation.duration) {
           animation.animate(
             object,
-            animation.duration,
-            animation.elapsed,
+            animation.elapsed / animation.duration,
+            animation.by,
             animation.params,
           );
         }

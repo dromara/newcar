@@ -5,18 +5,10 @@ import type { Animate } from "./animate";
 
 export const moveTo: Animate = (
   object: Carobj,
-  duration: number,
-  elapsed: number,
-  params: { x: number; y: number; by: TimingFunction },
+  process: number,
+  by: TimingFunction,
+  params: { x: number; y: number },
 ): void => {
-  object.x = interpolator(
-    object.x,
-    params.x,
-    params.by ?? ((x: number) => x),
-  )(elapsed / duration);
-  object.y = interpolator(
-    object.y,
-    params.y,
-    params.by ?? ((x: number) => x),
-  )(elapsed / duration);
+  object.x = interpolator(object.x, params.x, by)(process);
+  object.y = interpolator(object.y, params.y, by)(process);
 };

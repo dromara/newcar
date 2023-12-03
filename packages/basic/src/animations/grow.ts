@@ -5,18 +5,9 @@ import type { Animate } from "./animate";
 
 export const grow: Animate = (
   object: Carobj,
-  duration: number,
-  elapsed: number,
-  params: { by: TimingFunction },
+  process: number,
+  by: TimingFunction,
 ): void => {
-  object.scaleX = interpolator(
-    0,
-    1,
-    params.by ?? ((x: number) => x),
-  )(elapsed / duration);
-  object.scaleY = interpolator(
-    0,
-    1,
-    params.by ?? ((x: number) => x),
-  )(elapsed / duration);
+  object.scaleX = interpolator(0, 1, by)(process);
+  object.scaleY = interpolator(0, 1, by)(process);
 };

@@ -5,18 +5,10 @@ import type { Animate } from "./animate";
 
 export const changeRadius: Animate = (
   object: Circle,
-  duration: number,
-  elapsed: number,
-  params: { from: number; to: number; by: TimingFunction },
+  process: number,
+  by: TimingFunction,
+  params: { from: number; to: number },
 ): void => {
-  object.from = interpolator(
-    object.from,
-    params.from,
-    params.by ?? ((x: number) => x),
-  )(elapsed / duration);
-  object.to = interpolator(
-    object.to,
-    params.to,
-    params.by ?? ((x: number) => x),
-  )(elapsed / duration);
+  object.from = interpolator(object.from, params.from, by)(process);
+  object.to = interpolator(object.to, params.to, by)(process);
 };
