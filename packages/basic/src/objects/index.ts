@@ -6,6 +6,7 @@ export { WebView } from "./webview";
 // figures
 export { Arrow } from "./figures/arrow";
 export { Circle } from "./figures/circle";
+export { Figure } from "./figures/figure";
 export { Line } from "./figures/line";
 export { Point } from "./figures/point";
 export { Polygon } from "./figures/polygon";
