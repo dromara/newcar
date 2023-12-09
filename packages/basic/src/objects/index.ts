@@ -4,6 +4,7 @@ export { Svg } from "./svg";
 export { Text } from "./text";
 export { WebView } from "./webview";
 // figures
+export { Arrow } from "./figures/arrow";
 export { Circle } from "./figures/circle";
 export { Line } from "./figures/line";
 export { Point } from "./figures/point";

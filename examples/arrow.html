@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arrow</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="700" height="600"></canvas>
+    <script type="module">
+      import * as $ from "../packages/newcar/dist/newcar.mjs";
+
+      const car = $.newcar("#canvas");
+      const scene = $.scene();
+      car.scene = scene;
+
+      let y = 100;
+      [1, 2, 4, 6, 8].forEach((width) => {
+        scene.add(
+          new $.Arrow([100, y], [400, y], {
+            lineWidth: width,
+          }),
+        );
+        scene.add(
+          new $.Text(`${width}px`, {
+            x: 600,
+            y: y,
+            size: 30
+          })
+        )
+        y += 100
+      });
+
+      scene.add(new $.Text("Width", {
+        size: 30,
+        x: 600,
+        y: 30
+      }))
+
+      car.scene.update((elapsed) => {});
+      car.play();
+    </script>
+  </body>
+</html>
