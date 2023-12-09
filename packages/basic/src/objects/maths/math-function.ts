@@ -26,8 +26,7 @@ export interface MathFunctionOption extends CarobjOption {
  */
 export class MathFunction extends Carobj {
   func: MathFunc;
-  start: number;
-  end: number;
+  domain: [number, number];
   color: Color;
   lineWidth: number;
   divisionX: number;
@@ -35,21 +34,22 @@ export class MathFunction extends Carobj {
 
   /**
    * @param func The function.
-   * @param start The start value.
-   * @param end The end value.
+   * @param fromX The start of domain.
+   * @param toX The end of domain.
+   * @param fromY The start of range.
+   * @param toY The end of range.
    * @param options The options of the object.
    * @see CarobjOption
    */
   constructor(
     func: MathFunc,
-    start: number,
-    end: number,
+    from: number,
+    to: number,
     options?: MathFunctionOption,
   ) {
     super((options ??= {}));
     this.func = func;
-    this.start = start;
-    this.end = end;
+    this.domain = [from, to];
     this.color = options.color ?? Color.WHITE;
     this.lineWidth = options.lineWidth ?? 2;
     this.divisionX = options.divisionX ?? 50;
@@ -61,8 +61,8 @@ export class MathFunction extends Carobj {
     context.lineWidth = (this.lineWidth / this.divisionX) * 2;
     context.beginPath();
     context.scale(this.divisionX, this.divisionY);
-    context.moveTo(this.start, this.func(this.start));
-    for (let x = this.start; x <= this.end; x += 1 / this.divisionX) {
+    context.moveTo(this.domain[0], this.func(this.domain[0]));
+    for (let x = this.domain[0]; x <= this.domain[1]; x += 1 / this.divisionX) {
       const value = this.func(x);
       context.lineTo(x, value);
     }

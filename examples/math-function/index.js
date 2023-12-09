@@ -25,6 +25,10 @@ const car = $.newcar("#scene", [
     unit: 150,
     rotation: 0.2,
   }),
+  new $.MathFunction(Math.sin, -1, 100, {
+    x: 100,
+    y: 100,
+  }),
 ]);
 
 car.play();
