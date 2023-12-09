@@ -13,17 +13,17 @@
   <a href="https://www.npmjs.com/package/newcar"><img src="https://img.shields.io/npm/v/newcar.svg"/></a>
 </p>
 
-## 📔Introduction
+## 📔 Introduction
 
 Newcar is a Highly configurable universal advanced engine, 2Born for creating animation rapidly. You can use it in a lot of jobs, such as the **video clips**, **dynamic chart** (In the future) and even **2D game development** (Also in the future).
 
-## 🌟Feature
+## 🌟 Feature
 
 - Rich API interfaces 🛠️: Powerful and diverse APIs that provide greater freedom in creating animations.
 - Based on the native Canvas API 🧬: Based on HTML Canvas, it facilitates the development of graphic functionalities. In the future, we will use some ways to improve the performance of Newcar.
 - High degree of customization ⚙️: Strong customizability, allowing for the creation of one's own animation style.
 
-## Example
+## 🔖 Example
 
 To create a animation by Newcar, we firstly need a animation object --- `Car`.
 
@@ -97,7 +97,7 @@ scene.update((time) => {
 These codes will let the text move to (300, 300) during 1 second.
 
 
-## 🧭Future Plans
+## 🧭 Future Plans
 
 - Add plugin system for the project, and make it has more flexibility.
 - Add charts module, to make the dynamic data animation.
@@ -105,12 +105,13 @@ These codes will let the text move to (300, 300) during 1 second.
 - Add event system to be a interactive animation engine.
 - Add UI.
 - Add physical engine for objects.
+- Use WebGL instead of Canvas2D.
 
-## 📖Document
+## 📖 Documentation
 
 The document is served on [newcar.js.org](https://newcar.js.org).
 
-## 📝Contribution
+## 📝 Contribution
 
 If you want to join the development or make a contribution, **please read the [Contribution Guide](./doc/README.md)**
 
