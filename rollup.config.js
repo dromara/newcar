@@ -27,7 +27,6 @@ const files = [
   ["core", "index", "newcar-core"],
   ["recorder", "index", "newcar-recorder"],
   ["mod-markdown", "markdown", "newcar-mod-markdown"],
-  ["mod-codeblock", "codeblock", "newcar-mod-codeblock"],
 ];
 
 /**

@@ -31,6 +31,7 @@ export class MathFunction extends Carobj {
   lineWidth: number;
   divisionX: number;
   divisionY: number;
+  #specialPoints = new Map<number, number>();
 
   /**
    * @param func The function.
@@ -62,10 +63,19 @@ export class MathFunction extends Carobj {
     context.beginPath();
     context.scale(this.divisionX, this.divisionY);
     context.moveTo(this.domain[0], this.func(this.domain[0]));
+    // console.log(this.domain, 1 / this.divisionX);
     for (let x = this.domain[0]; x <= this.domain[1]; x += 1 / this.divisionX) {
-      const value = this.func(x);
-      context.lineTo(x, value);
+      if (this.#specialPoints.has(Math.round(x))) {
+        context.lineTo(x, this.#specialPoints.get(Math.round(x))!);
+      } else {
+        const value = this.func(x);
+        context.lineTo(x, value);
+      }
     }
     context.stroke();
+  }
+
+  setSinglePoint(x: number, y: number): void {
+    this.#specialPoints.set(x, y);
   }
 }
