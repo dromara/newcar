@@ -3,7 +3,7 @@ import type { Carobj } from "../objects";
 import type { TimingFunction } from "../timing-functions";
 import type { Animate } from "./animate";
 
-export const scale: Animate = (
+export const move: Animate = (
   object: Carobj,
   process: number,
   by: TimingFunction,
@@ -16,10 +16,10 @@ export const scale: Animate = (
     toY?: number;
   },
 ): void => {
-  params.fromX ??= params.from ?? object.scaleX;
-  params.fromY ??= params.from ?? object.scaleY;
-  params.toX ??= params.to ?? object.scaleX;
-  params.toY ??= params.to ?? object.scaleY;
-  object.scaleX = interpolator(params.fromX, params.toX, by)(process);
-  object.scaleY = interpolator(params.fromY, params.toY, by)(process);
+  params.fromX ??= params.from ?? object.x;
+  params.fromY ??= params.from ?? object.y;
+  params.toX ??= params.to ?? object.x;
+  params.toY ??= params.to ?? object.y;
+  object.centerX = interpolator(params.fromX, params.toX, by)(process);
+  object.centerY = interpolator(params.fromY, params.toY, by)(process);
 };

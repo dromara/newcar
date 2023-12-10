@@ -10,32 +10,16 @@
     <script type="module">
       import * as $ from "../packages/newcar/dist/newcar.mjs";
 
-      const car = $.newcar("#canvas");
-      const scene = $.scene();
-      car.scene = scene;
+      const car = $.newcar("#canvas", [
+        new $.Text("Width", { size: 30, x: 600, y: 30 }),
+      ]);
 
-      let y = 100;
-      [1, 2, 4, 6, 8].forEach((width) => {
-        scene.add(
-          new $.Arrow([100, y], [400, y], {
-            lineWidth: width,
-          }),
-        );
-        scene.add(
-          new $.Text(`${width}px`, {
-            x: 600,
-            y: y,
-            size: 30
-          })
-        )
-        y += 100
+      [1, 2, 4, 6, 8].forEach((width, index) => {
+        const y = (index + 1) * 100;
+        car.scene
+          .add(new $.Arrow([100, y], [400, y], { lineWidth: width }))
+          .add(new $.Text(`${width}px`, { x: 600, y: y, size: 30 }));
       });
-
-      scene.add(new $.Text("Width", {
-        size: 30,
-        x: 600,
-        y: 30
-      }))
 
       car.scene.update((elapsed) => {});
       car.play();
