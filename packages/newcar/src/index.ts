@@ -1,4 +1,4 @@
-import type { Carobj } from "@newcar/basic/src";
+import type { Carobj } from "@newcar/basic/src/objects/carobj";
 import { Car } from "@newcar/core/src/car";
 import type { UpdateFunction } from "@newcar/core/src/scene";
 import { Scene } from "@newcar/core/src/scene";
@@ -7,6 +7,11 @@ export * from "@newcar/basic/src";
 export * from "@newcar/recorder/src";
 export * from "@newcar/utils/src/color";
 
+export const scene = (
+  objects: Carobj[] = [],
+  updates: UpdateFunction[] = [],
+): Scene => new Scene(objects, updates);
+
 export const newcar = (
   element: HTMLCanvasElement | string,
   sceneOrObjects?: Scene | Carobj[],
@@ -14,16 +19,11 @@ export const newcar = (
   new Car(
     typeof element === "string" ? document.querySelector(element)! : element,
     sceneOrObjects === undefined
-      ? new Scene()
+      ? scene()
       : Array.isArray(sceneOrObjects)
-      ? new Scene(sceneOrObjects)
+      ? scene(sceneOrObjects)
       : sceneOrObjects,
   );
-
-export const scene = (
-  objects: Carobj[] = [],
-  updates: UpdateFunction[] = [],
-): Scene => new Scene(objects, updates);
 
 // eslint-disable-next-line no-console
 console.log(

@@ -2,31 +2,31 @@ import type { FigureOption } from "./figure";
 import { Figure } from "./figure";
 
 /**
- * The circle options.
- * @param from The start angle of the circle.
- * @param to The end angle of the circle.
+ * The arc options.
+ * @param from The start angle of the arc.
+ * @param to The end angle of the arc.
  * @see FigureOption
- * @see Circle
+ * @see Arc
  */
-export interface CircleOption extends FigureOption {
+export interface ArcOption extends FigureOption {
   from?: number;
   to?: number;
 }
 
 /**
- * The circle object.
+ * The arc object.
  */
-export class Circle extends Figure implements CircleOption {
+export class Arc extends Figure implements ArcOption {
   radius: number;
   from: number;
   to: number;
 
   /**
-   * @param radius The radius of the circle.
+   * @param radius The radius of the arc.
    * @param options The options of the object.
-   * @see CircleOption
+   * @see ArcOption
    */
-  constructor(radius: number, options?: CircleOption) {
+  constructor(radius: number, options?: ArcOption) {
     super((options ??= {}));
     this.radius = radius;
     this.from = options.from ?? 0;

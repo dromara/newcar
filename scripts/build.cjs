@@ -8,7 +8,9 @@ const package_dists = [
   "./packages/basic/dist",
   "./packages/core/dist",
   "./packages/newcar/dist",
-  "./packages/utils/dist"
+  "./packages/utils/dist",
+  "./packages/recorder/dist",
+  "./packages/mod-markdown/dist",
 ];
 
 package_dists.forEach((dist) => {

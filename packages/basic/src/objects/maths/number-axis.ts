@@ -4,6 +4,7 @@ import type { Point } from "@newcar/utils/src/point";
 
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
+import { Line } from "../figures/line";
 import { Polygon } from "../figures/polygon";
 import type { TextOption } from "../text";
 import { Text } from "../text";
@@ -12,6 +13,17 @@ export type Trend = (n: number) => Text;
 
 const trend = (options?: TextOption) => (n: number) =>
   new Text(String(n), { y: 16, size: 16, ...options });
+
+interface Tick {
+  width: number;
+  height: [number, number];
+  rotation: number;
+}
+interface TickOption {
+  width?: number;
+  height?: number | [number, number];
+  rotation?: number;
+}
 
 /**
  * The number axis options.
@@ -27,7 +39,7 @@ const trend = (options?: TextOption) => (n: number) =>
 export interface NumberAxisOption extends CarobjOption {
   unit?: number;
   interval?: number;
-  tick?: number;
+  tick?: TickOption;
   color?: Color;
   arrow?: Point[] | null;
   trend?: Trend | TextOption | null;
@@ -39,7 +51,7 @@ export interface NumberAxisOption extends CarobjOption {
 export class NumberAxis extends Carobj implements NumberAxisOption {
   unit: number;
   interval: number;
-  tick: number;
+  #tick: Tick;
   color: Color;
   arrow: Point[] | null;
   trend: Trend | null;
@@ -58,7 +70,7 @@ export class NumberAxis extends Carobj implements NumberAxisOption {
     super((options ??= {}));
     this.unit = options.unit ?? 50;
     this.interval = options.interval ?? 1;
-    this.tick = options.tick ?? 10;
+    this.tick = options.tick ?? {};
     this.color = options.color ?? Color.WHITE;
     this.arrow = options.arrow === undefined ? arrows.triangle : options.arrow;
     this.trend =
@@ -96,11 +108,15 @@ export class NumberAxis extends Carobj implements NumberAxisOption {
     }
 
     // Draw ticks and numbers.
+    context.lineWidth = this.tick.width;
     for (let i = this.from; i <= this.to; i += this.interval) {
       const offset = i * this.unit;
-      if (this.tick) {
-        context.moveTo(offset, this.tick);
-        context.lineTo(offset, -this.tick);
+      if (this.tick.width) {
+        new Line([this.tick.height[0], 0], [-this.tick.height[1], 0], {
+          x: offset,
+          rotation: this.tick.rotation + Math.PI / 2,
+        }).update(context);
+
         context.stroke();
       }
       if (this.trend) {
@@ -113,5 +129,18 @@ export class NumberAxis extends Carobj implements NumberAxisOption {
     if (reverse) {
       [this.from, this.to] = [this.to, this.from];
     }
+  }
+
+  set tick(tick: TickOption) {
+    const height = tick.height ?? this.#tick?.height ?? 10;
+    this.#tick = {
+      width: tick.width ?? this.#tick?.width ?? 2,
+      height: Array.isArray(height) ? height : [height, height],
+      rotation: tick.rotation ?? this.#tick?.rotation ?? 0,
+    };
+  }
+
+  get tick(): Tick {
+    return this.#tick;
   }
 }
