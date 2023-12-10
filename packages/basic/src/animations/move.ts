@@ -20,6 +20,6 @@ export const move: Animate = (
   params.fromY ??= params.from ?? object.y;
   params.toX ??= params.to ?? object.x;
   params.toY ??= params.to ?? object.y;
-  object.centerX = interpolator(params.fromX, params.toX, by)(process);
-  object.centerY = interpolator(params.fromY, params.toY, by)(process);
+  object.x = interpolator(params.fromX, params.toX, by)(process);
+  object.y = interpolator(params.fromY, params.toY, by)(process);
 };
