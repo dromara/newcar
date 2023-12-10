@@ -1,5 +1,6 @@
 import { Color } from "@newcar/utils/src/color";
-import type { Point, Vector } from "@newcar/utils/src/point";
+import { arrows } from "@newcar/utils/src/constants";
+import type { Point } from "@newcar/utils/src/point";
 
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
@@ -8,13 +9,6 @@ import type { TextOption } from "../text";
 import { Text } from "../text";
 
 export type Trend = (n: number) => Text;
-export const arrows: Record<string, Vector[]> = {
-  triangle: [
-    [0, 10],
-    [22, 0],
-    [0, -10],
-  ],
-};
 
 const trend = (options?: TextOption) => (n: number) =>
   new Text(String(n), { y: 16, size: 16, ...options });

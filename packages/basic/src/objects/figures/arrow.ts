@@ -1,11 +1,11 @@
-import { Color } from "@newcar/utils/src";
+import { Color } from "@newcar/utils/src/color";
 import type { Point, Vector } from "@newcar/utils/src/point";
 import { toVector } from "@newcar/utils/src/point";
+import { arrows } from "packages/utils/src/constants";
 
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
 import { Polygon } from "../figures/polygon";
-import { arrows } from "../maths/number-axis";
 
 /**
  * The line options.
@@ -17,7 +17,7 @@ import { arrows } from "../maths/number-axis";
 export interface ArrowOption extends CarobjOption {
   color?: Color;
   lineWidth?: number;
-  arrow?: Point[] | null;
+  arrow?: Point[];
 }
 
 /**
@@ -30,7 +30,7 @@ export class Arrow extends Carobj implements ArrowOption {
   fromY: number;
   toX: number;
   toY: number;
-  arrow: Point[] | null;
+  arrow: Point[];
 
   /**
    * @param from The start point of the line.
@@ -65,7 +65,7 @@ export class Arrow extends Carobj implements ArrowOption {
       context.scale(1, -1);
     }
     context.rotate(rad);
-    const arrow = new Polygon(this.arrow!, {
+    const arrow = new Polygon(this.arrow, {
       fillColor: this.color,
     });
     arrow.update(context);
