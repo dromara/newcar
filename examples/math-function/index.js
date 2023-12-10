@@ -14,7 +14,7 @@ const car = $.newcar("#scene", [
     x: 800,
     y: 400,
     trend: { font: "italic", x: -2, y: 30, size: 30 },
-  }).animate($.move, 3, { x: 200, y: 400 }),
+  }).animate($.move, 3, { toX: 20, toY: 400 }),
   new $.NumberAxis(-10, -5, {
     x: 800,
     y: 200,
@@ -22,6 +22,13 @@ const car = $.newcar("#scene", [
     unit: 150,
     rotation: 0.2,
   }),
+  // new $.NumberPlane(-10, -5, {
+  //   x: 800,
+  //   y: 200,
+  //   interval: 0.5,
+  //   unit: 150,
+  //   rotation: 0.2,
+  // }),
   // new $.MathFunction(Math.sin, -1, 100, {
   //   x: 100,
   //   y: 100,
@@ -30,7 +37,7 @@ const car = $.newcar("#scene", [
 
 car.scene.update((elapsed) => {
   if (elapsed < 3) {
-    console.log("elapsed:", elapsed);
+    console.log("elapsed:", Number(String(elapsed).slice(0, 4)));
   }
 });
 
