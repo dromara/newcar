@@ -59,4 +59,6 @@ export class Rectangle extends Figure implements RectangleOption {
       context.fill();
     }
   }
+
+  // TODO: The dynamic point of Rectangle
 }
