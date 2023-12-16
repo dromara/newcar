@@ -22,6 +22,14 @@ const car = $.newcar("#scene", [
     unit: 150,
     rotation: 0.2,
   }),
+  new $.Arc(1, {
+    x: 100,
+    y: 100,
+  }).animate($.radius, 1, {
+    from: 1,
+    to: 100,
+    by: $.easeInQuart,
+  }),
   // new $.NumberPlane(-10, -5, {
   //   x: 800,
   //   y: 200,
