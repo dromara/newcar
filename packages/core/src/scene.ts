@@ -10,8 +10,8 @@ export class Scene {
     public updates: UpdateFunction[] = [],
   ) {}
 
-  add(object: Carobj): this {
-    this.objects.push(object);
+  add(...objects: Carobj[]): this {
+    this.objects.push(...objects);
 
     return this;
   }

@@ -9,20 +9,47 @@ import { Polygon } from "../figures/polygon";
 import type { TextOption } from "../text";
 import { Text } from "../text";
 
-export type Trend = (n: number) => Text;
-
-const trend = (options?: TextOption) => (n: number) =>
-  new Text(String(n), { y: 16, size: 16, ...options });
-
-interface Tick {
-  width: number;
-  height: [number, number];
-  rotation: number;
+export type Trender = (n: number) => string;
+export interface Trend {
+  trender: Trender;
+  options: TextOption;
 }
-interface TickOption {
-  width?: number;
-  height?: number | [number, number];
-  rotation?: number;
+export type TrendType =
+  | Partial<Trend> // NOTICE: `{}` for empty options
+  | Trender // trender only
+  | TextOption // options only
+  | null // no trend
+  | undefined; // default trend
+
+export function solve(
+  trend: TrendType,
+  defaultOption: TextOption = { y: 16, size: 16 },
+): Trend | null {
+  if (trend === null) {
+    return trend;
+  }
+  let trender: Trender = String;
+  const options: TextOption = { ...defaultOption }; // shallow copy
+  if (trend === undefined) {
+    // use default value.
+  } else if ("trender" in trend || "options" in trend) {
+    trender = trend.trender ?? trender;
+    Object.assign(options, trend.options ?? {});
+  } else if (trend instanceof Function) {
+    trender = trend;
+  } else {
+    Object.assign(options, trend);
+  }
+
+  return { trender, options };
+}
+
+export enum NumberAxisStyle {
+  Axis = 1,
+  Arrow = 2,
+  Tick = 4,
+  Trend = 8,
+  All = Axis | Arrow | Tick | Trend,
 }
 
 /**
@@ -39,10 +66,14 @@ interface TickOption {
 export interface NumberAxisOption extends CarobjOption {
   unit?: number;
   interval?: number;
-  tick?: TickOption;
+  axisWidth?: number;
+  tickWidth?: number;
+  tickHeight?: number | [number, number];
+  tickRotation?: number;
+  tickColor?: Color;
   color?: Color;
   arrow?: Point[] | null;
-  trend?: Trend | TextOption | null;
+  trend?: TrendType;
 }
 
 /**
@@ -51,10 +82,14 @@ export interface NumberAxisOption extends CarobjOption {
 export class NumberAxis extends Carobj implements NumberAxisOption {
   unit: number;
   interval: number;
-  #tick: Tick;
+  axisWidth: number;
+  tickWidth: number;
+  #tickHeight: [number, number];
+  tickRotation: number;
+  tickColor: Color;
   color: Color;
   arrow: Point[] | null;
-  trend: Trend | null;
+  #trend: Trend | null;
 
   /**
    * @param from The starting unit of the number axis.
@@ -70,77 +105,93 @@ export class NumberAxis extends Carobj implements NumberAxisOption {
     super((options ??= {}));
     this.unit = options.unit ?? 50;
     this.interval = options.interval ?? 1;
-    this.tick = options.tick ?? {};
+    this.axisWidth = options.axisWidth ?? 2;
+    this.tickWidth = options.tickWidth ?? 2;
+    this.tickHeight = options.tickHeight ?? 10;
+    this.tickRotation = options.tickRotation ?? Math.PI / 2;
+    this.tickColor = options.tickColor ?? Color.GREY;
     this.color = options.color ?? Color.WHITE;
     this.arrow = options.arrow === undefined ? arrows.triangle : options.arrow;
-    this.trend =
-      typeof options.trend === "function" || options.trend === null
-        ? options.trend
-        : trend(options.trend);
+    this.trend = options.trend;
   }
 
-  override draw(context: CanvasRenderingContext2D): void {
-    context.translate(((this.from + this.to) / 2) * -this.unit, 0);
-    const reverse: boolean = this.to < this.from;
-    if (reverse) {
-      [this.from, this.to] = [this.to, this.from];
+  override draw(
+    context: CanvasRenderingContext2D,
+    style: NumberAxisStyle = NumberAxisStyle.All,
+  ): void {
+    const showAxis = style & NumberAxisStyle.Axis;
+    const showArrow = style & NumberAxisStyle.Arrow;
+    const showTick = style & NumberAxisStyle.Tick;
+    const showTrend = style & NumberAxisStyle.Trend;
+
+    if (showTick || showTrend) {
+      for (let i = this.min; i <= this.max; i += this.interval) {
+        const offset = i * this.unit;
+        if (showTick && this.tickWidth) {
+          new Line([this.tickHeight[0], 0], [-this.tickHeight[1], 0], {
+            x: offset,
+            lineWidth: this.tickWidth,
+            rotation: this.tickRotation,
+            color: this.tickColor,
+          }).update(context);
+        }
+        if (showTrend && this.trend) {
+          new Text(this.trend.trender(this.reverse ? -i : i), {
+            ...this.trend.options,
+            x: offset + (this.trend.options.x ?? 0),
+          }).update(context);
+        }
+      }
+      // Draw ticks and numbers.
     }
 
-    context.beginPath();
-    context.strokeStyle = this.color.toString();
-    context.moveTo(this.from * this.unit, 0);
-    context.lineTo(this.to * this.unit, 0);
-    context.stroke();
+    if (showAxis) {
+      new Line([this.from * this.unit, 0], [this.to * this.unit, 0], {
+        lineWidth: this.axisWidth,
+        color: this.color,
+      }).update(context);
+    }
 
-    // Draw arrows.
-    if (this.arrow) {
-      const arrow = new Polygon(this.arrow, {
+    if (showArrow && this.arrow) {
+      if (this.reverse) {
+        context.scale(-1, 1);
+      }
+      new Polygon(this.arrow, {
+        borderWidth: 0,
         fillColor: this.color,
-        x: this.to * this.unit,
-      });
-      if (reverse) {
+        x: (this.reverse ? -1 : 1) * this.to * this.unit,
+      }).update(context);
+      if (this.reverse) {
         context.scale(-1, 1);
-        arrow.update(context);
-        context.scale(-1, 1);
-      } else {
-        arrow.update(context);
       }
-    }
-
-    // Draw ticks and numbers.
-    context.lineWidth = this.tick.width;
-    for (let i = this.from; i <= this.to; i += this.interval) {
-      const offset = i * this.unit;
-      if (this.tick.width) {
-        new Line([this.tick.height[0], 0], [-this.tick.height[1], 0], {
-          x: offset,
-          rotation: this.tick.rotation + Math.PI / 2,
-        }).update(context);
-
-        context.stroke();
-      }
-      if (this.trend) {
-        const text = this.trend(reverse ? -i : i);
-        text.x += offset;
-        text.update(context);
-      }
-    }
-
-    if (reverse) {
-      [this.from, this.to] = [this.to, this.from];
     }
   }
 
-  set tick(tick: TickOption) {
-    const height = tick.height ?? this.#tick?.height ?? 10;
-    this.#tick = {
-      width: tick.width ?? this.#tick?.width ?? 2,
-      height: Array.isArray(height) ? height : [height, height],
-      rotation: tick.rotation ?? this.#tick?.rotation ?? 0,
-    };
+  set tickHeight(height: number | [number, number]) {
+    this.#tickHeight = Array.isArray(height) ? height : [height, height];
   }
 
-  get tick(): Tick {
-    return this.#tick;
+  get tickHeight(): [number, number] {
+    return this.#tickHeight;
+  }
+
+  set trend(trend: TrendType) {
+    this.#trend = solve(trend);
+  }
+
+  get trend(): Trend | null {
+    return this.#trend;
+  }
+
+  get reverse(): boolean {
+    return this.to < this.from;
+  }
+
+  get min(): number {
+    return Math.min(this.from, this.to);
+  }
+
+  get max(): number {
+    return Math.max(this.from, this.to);
   }
 }

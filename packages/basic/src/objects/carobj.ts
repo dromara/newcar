@@ -81,7 +81,7 @@ export class Carobj implements CarobjOption {
    * @param context The context instance of the canvas object.
    */
   // eslint-disable-next-line unused-imports/no-unused-vars
-  draw(context: CanvasRenderingContext2D): void {}
+  draw(context: CanvasRenderingContext2D, ...args: any[]): void {}
 
   /**
    * Update method, which will be called directly at each frame.
@@ -90,7 +90,7 @@ export class Carobj implements CarobjOption {
    * @param context The context instance of the canvas object.
    * @see draw()
    */
-  update(context: CanvasRenderingContext2D): void {
+  update(context: CanvasRenderingContext2D, ...args: any[]): void {
     if (!this.display) {
       return;
     }
@@ -104,8 +104,8 @@ export class Carobj implements CarobjOption {
     context.scale(this.scaleX, this.scaleY);
     context.globalAlpha = this.transparency;
     context.globalCompositeOperation = this.operation;
-    this.draw(context);
-    for (const child of this.#children) {
+    this.draw(context, ...args);
+    for (const child of this.children) {
       child.update(context);
     }
     context.restore();
@@ -135,15 +135,14 @@ export class Carobj implements CarobjOption {
     duration: number,
     params: Record<string, any> & { by?: TimingFunction },
   ): this {
-    const by = params.by ?? linear;
-    delete params.by;
     this.animations.push({
       animate,
       duration,
       elapsed: 0,
-      by,
+      by: params.by ?? linear,
       params,
     });
+    delete params.by;
 
     return this;
   }

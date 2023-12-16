@@ -145,6 +145,7 @@ export class Color {
   static BLUE = Color.RGB(0, 0, 255);
   static WHITE = Color.RGB(255, 255, 255);
   static TRANSPARENT = Color.RGBA(0, 0, 0, 0);
+  static GREY = Color.RGB(128, 128, 128);
   // static TRANSGENDER_PINK = Color.RGB(245, 169, 184);
   // static TRANSGENDER_BLUE = Color.RGB(91, 206, 250);
   static YELLOW = Color.RGB(255, 255, 0);
