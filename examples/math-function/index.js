@@ -9,15 +9,12 @@ const car = $.newcar("#scene", [
     y: 600,
     arrow: null,
     trend: { y: 16, size: 16 },
-  }).animate($.grow, 2, {}),
+  }).animate($.zoomIn, 3, { by: $.easeBounce }),
   new $.NumberAxis(5, 10, {
     x: 800,
     y: 400,
     trend: { font: "italic", x: -2, y: 30, size: 30 },
-  }).animate($.moveTo, 100, {
-    x: 200,
-    y: 400,
-  }),
+  }).animate($.move, 3, { toX: 20, toY: 400 }),
   new $.NumberAxis(-10, -5, {
     x: 800,
     y: 200,
@@ -25,15 +22,28 @@ const car = $.newcar("#scene", [
     unit: 150,
     rotation: 0.2,
   }),
-  new $.MathFunction(Math.sin, -1, 100, {
-    x: 100,
-    y: 100,
-  }),
+  // new $.NumberPlane(-10, -5, {
+  //   x: 800,
+  //   y: 200,
+  //   interval: 0.5,
+  //   unit: 150,
+  //   rotation: 0.2,
+  // }),
+  // new $.MathFunction(Math.sin, -1, 100, {
+  //   x: 100,
+  //   y: 100,
+  // }),
 ]);
+
+car.scene.update((elapsed) => {
+  if (elapsed < 3) {
+    console.log("elapsed:", Number(String(elapsed).slice(0, 4)));
+  }
+});
 
 car.play();
 
 const recorder = new $.Recorder(car);
-recorder.start(4, (url) => {
+recorder.record(3, (url) => {
   console.log(url);
 });

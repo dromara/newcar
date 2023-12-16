@@ -1,4 +1,4 @@
-import { Color } from "@newcar/utils/src";
+import { Color } from "@newcar/utils/src/color";
 import type { Point, Vector } from "@newcar/utils/src/point";
 import { toVector } from "@newcar/utils/src/point";
 

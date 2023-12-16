@@ -21,11 +21,11 @@ const plugins = [
 const d = [dts(), nodeResolve({ browser: true })];
 
 const files = [
-  ["newcar", "index", "newcar"],
-  ["basic", "index", "newcar-basic"],
   ["utils", "index", "newcar-utils"],
   ["core", "index", "newcar-core"],
+  ["basic", "index", "newcar-basic"],
   ["recorder", "index", "newcar-recorder"],
+  ["newcar", "index", "newcar"],
   ["mod-markdown", "markdown", "newcar-mod-markdown"],
 ];
 

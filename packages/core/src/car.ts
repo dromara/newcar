@@ -22,8 +22,8 @@ export class Car {
     }
     for (const object of car.scene.objects) {
       for (const animation of object.animations) {
-        animation.elapsed += intervalTime;
         if (animation.elapsed <= animation.duration) {
+          animation.elapsed += intervalTime;
           animation.animate(
             object,
             animation.elapsed / animation.duration,

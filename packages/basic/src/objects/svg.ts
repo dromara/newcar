@@ -1,4 +1,4 @@
-import { DOMURL } from "@newcar/utils/src";
+import { DOMURL } from "@newcar/utils/src/url";
 
 import type { CarobjOption } from "./carobj";
 import { Image } from "./image";
