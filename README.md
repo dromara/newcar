@@ -25,6 +25,15 @@ Newcar is a Highly configurable universal advanced engine, 2Born for creating an
 
 ## 🔖 Example
 
+### Install
+Use your favorite manager to install newcar, there we use NPM as a example.
+
+```shell
+npm install newcar
+```
+
+### Create
+
 To create a animation by Newcar, we firstly need a animation object --- `Car`.
 
 Via `newcar` to create a animation.
@@ -38,7 +47,7 @@ const animation = $.newcar("#canvas");
 And then, we need to create a scene for the animation and check out to it.
 
 ```javascript
-const scene = $.scene([], []);
+const scene = new $.Scene([], []);
 animation.scene = scene;
 ```
 
@@ -50,11 +59,13 @@ animation.play();
 
 Now, the animation has been ran, in the following docs, we'll let it do something absorbing.
 
+### Add
+
 Newcar offers many objects so that you have more choice (We have basic lib and some offical mods, please refer to API Docs.) In this instance, we use `Text` as a example.There are two ways to add objects.
 
 ```javascript
 // First way
-const scene = $.scene([new $.Text("Hello world!")], []);
+const scene = new $.Scene([new $.Text("Hello world!")], []);
 
 // Second way
 scene.add(new $.Text("Hello world!"));
@@ -62,13 +73,15 @@ scene.add(new $.Text("Hello world!"));
 
 If everything is okay, you may see a text object with "Hello world" appears on the canvas.
 
-Let's talk about the callback function per frame. As the word, the function will be called in each frame, and it allow user getting the current time through a parameter.
+### The callback function per frame
+
+The callback function will be called in each frame, and it allow user getting the current time through a parameter.
 
 There are also two ways to set the callback function.
 
 ```javascript
 // First way
-const scene = $.scene(
+const scene = new $.Scene(
   [],
   [
     (time) => {
@@ -82,6 +95,8 @@ scene.update((time) => {
   // ...
 });
 ```
+
+### Animation
 
 We need to use `animate()` to animate the object. The first parameter is the type of animations, the second is the holding time of animation, and the finally is more parameters.
 
