@@ -1,16 +1,11 @@
 import type { Carobj } from "@newcar/basic/src/objects/carobj";
 import { Car } from "@newcar/core/src/car";
-import type { UpdateFunction } from "@newcar/core/src/scene";
 import { Scene } from "@newcar/core/src/scene";
 
 export * from "@newcar/basic/src";
+export { Scene } from "@newcar/core/src";
 export * from "@newcar/recorder/src";
 export * from "@newcar/utils/src/color";
-
-export const scene = (
-  objects: Carobj[] = [],
-  updates: UpdateFunction[] = [],
-): Scene => new Scene(objects, updates);
 
 export const newcar = (
   element: HTMLCanvasElement | string,
@@ -19,9 +14,9 @@ export const newcar = (
   new Car(
     typeof element === "string" ? document.querySelector(element)! : element,
     sceneOrObjects === undefined
-      ? scene()
+      ? new Scene()
       : Array.isArray(sceneOrObjects)
-      ? scene(sceneOrObjects)
+      ? new Scene(sceneOrObjects)
       : sceneOrObjects,
   );
 
