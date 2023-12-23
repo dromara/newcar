@@ -1,4 +1,9 @@
-# v0.6.0
+# v0.6.1 (2023.12.24)
+
+## Bug Fixes
+- basic: Not all animations exported.
+
+# v0.6.0 (2023.12.23)
 
 ## Warning
 **This version is a entirely-rewrited version and All the API has been refactored.**
