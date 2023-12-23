@@ -4,7 +4,7 @@
   "description": "The basic objects, animations and interpolators of newcar.",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
-  "devDependencies": {
+  "dependencies": {
     "@newcar/utils": "workspace:0.6.0"
   },
   "exports": {
@@ -13,5 +13,6 @@
       "require": "./dist/newcar-basic.cjs",
       "types": "./dist/newcar-basic.d.ts"
     }
-  }
+  },
+  "types": "./dist/newcar-basic.d.ts"
 }

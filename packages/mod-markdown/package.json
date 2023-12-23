@@ -4,7 +4,7 @@
   "description": "The markdown surport of newcar",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
-  "devDependencies": {
+  "dependencies": {
     "@newcar/basic": "workspace:0.6.0",
     "marked": "^10.0.0"
   },
@@ -12,5 +12,6 @@
     "types": "./dist/newcar-mod-markdown.d.ts",
     "import": "./dist/newcar-mod-markdown.mjs",
     "require": "./dist/newcar-mod-markdown.cjs"
-  }
+  },
+  "types": "./dist/newcar-mod-markdown.d.ts"
 }

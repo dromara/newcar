@@ -17,7 +17,7 @@
       "require": "./dist/newcar.cjs"
     }
   },
-  "devDependencies": {
+  "dependencies": {
     "@newcar/basic": "workspace:0.6.0",
     "@newcar/core": "workspace:0.6.0",
     "@newcar/recorder": "workspace:0.6.0",

@@ -11,14 +11,10 @@ const car = $.newcar("#test", [
 ]);
 
 car.scene.update((elapsed) => {
-  console.log(elapsed);
-  if (elapsed === 1) {
-    car.play(300);
-  }
 });
 car.play();
 
 const recorder = new $.Recorder(car);
-recorder.record(4, (url) => {
+recorder.record(100, (url) => {
   console.log(url);
 });

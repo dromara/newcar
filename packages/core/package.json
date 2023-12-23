@@ -17,8 +17,9 @@
       "types": "./dist/newcar-core.d.ts"
     }
   },
-  "devDependencies": {
+  "dependencies": {
     "@newcar/basic": "workspace:0.6.0",
     "@newcar/utils": "workspace:0.6.0"
-  }
+  },
+  "types": "./dist/newcar-core.d.ts"
 }

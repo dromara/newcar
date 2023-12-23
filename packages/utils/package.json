@@ -10,5 +10,6 @@
       "require": "./dist/newcar-utils.cjs",
       "types": "./dist/newcar-utils.d.ts"
     }
-  }
+  },
+  "types": "./dist/newcar-utils.d.ts"
 }

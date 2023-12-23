@@ -3,8 +3,9 @@
   "version": "0.6.0",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
-  "devDependencies": {
+  "dependencies": {
     "@newcar/core": "workspace:0.6.0",
     "@newcar/utils": "workspace:0.6.0"
-  }
+  },
+  "types": "./dist/newcar-recorder.d.ts"
 }
