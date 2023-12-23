@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["animation"],
+  "keywords": [
+    "animation"
+  ],
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "exports": {
@@ -16,7 +18,7 @@
     }
   },
   "devDependencies": {
-    "@newcar/basic": "workspace: ^0.6.0",
-    "@newcar/utils": "workspace: ^0.6.0"
+    "@newcar/basic": "workspace:0.6.0",
+    "@newcar/utils": "workspace:0.6.0"
   }
 }
