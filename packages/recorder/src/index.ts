@@ -1,4 +1,5 @@
 import type { Car } from "@newcar/core/src/car";
+import { config } from "@newcar/utils/src";
 
 export class Recorder {
   recorder: MediaRecorder;
@@ -20,8 +21,18 @@ export class Recorder {
       callback(url);
     };
     this.recorder.start();
-    window.setTimeout(() => {
-      this.recorder.stop();
-    }, duration * 1000);
+    switch (config.timing) {
+      case "frame": {
+        window.setTimeout(() => {
+          this.recorder.stop();
+        }, (1000 / 60) * duration);
+        break;
+      }
+      case "second": {
+        window.setTimeout(() => {
+          this.recorder.stop();
+        }, duration * 1000);
+      }
+    }
   }
 }
