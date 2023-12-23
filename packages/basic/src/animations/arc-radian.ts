@@ -16,10 +16,10 @@ export const arcRadian: Animate = (
     toEnd: number;
   },
 ): void => {
-  params.fromStart ??= params.from ?? object.x;
-  params.fromEnd ??= params.from ?? object.y;
-  params.toStart ??= params.to ?? object.x;
-  params.toEnd ??= params.to ?? object.y;
-  object.from = interpolator(params.fromStart, params.fromEnd, by)(process);
-  object.to = interpolator(params.toStart, params.toEnd, by)(process);
+  params.fromStart ??= params.from ?? object.start;
+  params.fromEnd ??= params.from ?? object.end;
+  params.toStart ??= params.to ?? object.start;
+  params.toEnd ??= params.to ?? object.end;
+  object.start = interpolator(params.fromStart, params.fromEnd, by)(process);
+  object.end = interpolator(params.toStart, params.toEnd, by)(process);
 };

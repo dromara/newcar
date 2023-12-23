@@ -9,5 +9,9 @@ export const textSize: Animate = (
   by: TimingFunction,
   params: { from: number; to: number },
 ): void => {
-  object.size = interpolator(params.from, params.to, by)(process);
+  object.size = interpolator(
+    params.from ?? object.size,
+    params.to,
+    by,
+  )(process);
 };

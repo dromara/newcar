@@ -52,14 +52,20 @@ export class Car {
     }
   }
 
-  play(): this {
+  play(at?: number): this {
     this.playing = true;
+    if (typeof at !== "undefined") {
+      this.scene.elapsed = at;
+    }
 
     return this;
   }
 
-  stop(): this {
+  stop(at?: number): this {
     this.playing = false;
+    if (typeof at !== "undefined") {
+      this.scene.elapsed = at;
+    }
 
     return this;
   }

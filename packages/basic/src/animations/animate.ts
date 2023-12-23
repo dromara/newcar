@@ -11,5 +11,5 @@ export type Animate = (
   object: Carobj,
   process: number,
   by: TimingFunction,
-  params: Record<string, any>,
+  params?: Record<string, any>,
 ) => void;

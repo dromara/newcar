@@ -9,8 +9,8 @@ import { Figure } from "./figure";
  * @see Arc
  */
 export interface ArcOption extends FigureOption {
-  from?: number;
-  to?: number;
+  start?: number;
+  end?: number;
 }
 
 /**
@@ -18,8 +18,8 @@ export interface ArcOption extends FigureOption {
  */
 export class Arc extends Figure implements ArcOption {
   radius: number;
-  from: number;
-  to: number;
+  start: number;
+  end: number;
 
   /**
    * @param radius The radius of the arc.
@@ -29,14 +29,14 @@ export class Arc extends Figure implements ArcOption {
   constructor(radius: number, options?: ArcOption) {
     super((options ??= {}));
     this.radius = radius;
-    this.from = options.from ?? 0;
-    this.to = options.to ?? 2 * Math.PI;
+    this.start = options.start ?? 0;
+    this.end = options.end ?? 2 * Math.PI;
   }
 
   override draw(context: CanvasRenderingContext2D): void {
     context.lineWidth = this.borderWidth;
     context.beginPath();
-    context.arc(0, 0, this.radius, this.from, this.to);
+    context.arc(0, 0, this.radius, this.start, this.end);
     if (this.fillColor) {
       context.fillStyle = this.fillColor.toString();
       context.fill();
