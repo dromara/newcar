@@ -1,3 +1,5 @@
+import { config } from "packages/utils/src/config";
+
 import type { Scene } from "./scene";
 
 export class Car {
@@ -12,10 +14,21 @@ export class Car {
   }
 
   static update(car: Car): void {
-    const currentTimestamp = Date.now();
-    const intervalTime = (currentTimestamp - car.lastUpdateTime) / 1000;
-    car.lastUpdateTime = currentTimestamp;
-    car.scene.elapsed += intervalTime;
+    let elapsed: number;
+    switch (config.timing) {
+      case "frame": {
+        elapsed = 1;
+        break;
+      }
+      case "second": {
+        const currentTimestamp = Date.now();
+        const intervalTime = (currentTimestamp - car.lastUpdateTime) / 1000;
+        car.lastUpdateTime = currentTimestamp;
+        elapsed = intervalTime;
+        break;
+      }
+    }
+    car.scene.elapsed += elapsed;
     car.context.clearRect(0, 0, car.element.width, car.element.height);
     for (const update of car.scene.updates) {
       update(car.scene.elapsed);
@@ -23,7 +36,7 @@ export class Car {
     for (const object of car.scene.objects) {
       for (const animation of object.animations) {
         if (animation.elapsed <= animation.duration) {
-          animation.elapsed += intervalTime;
+          animation.elapsed += elapsed;
           animation.animate(
             object,
             animation.elapsed / animation.duration,
