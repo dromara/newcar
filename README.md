@@ -75,7 +75,7 @@ If everything is okay, you may see a text object with "Hello world" appears on t
 
 ### The callback function per frame
 
-The callback function will be called in each frame, and it allow user getting the current time through a parameter.
+The callback function will be called in each frame, and it allow user getting the current frame through a parameter.
 
 There are also two ways to set the callback function.
 
@@ -84,32 +84,32 @@ There are also two ways to set the callback function.
 const scene = new $.Scene(
   [],
   [
-    (time) => {
+    (frame) => {
       // ...
     }
   ]
 );
 
 // Second way
-scene.update((time) => {
+scene.update((frame) => {
   // ...
 });
 ```
 
 ### Animation
 
-We need to use `animate()` to animate the object. The first parameter is the type of animations, the second is the holding time of animation, and the finally is more parameters.
+We need to use `animate()` to animate the object. The first parameter is the type of animations, the second is the holding frame of animation, and the finally is more parameters.
 
 ```javascript
 scene.update((time) => {
-  text.animate($.moveTo, 1, {
+  text.animate($.moveTo, 100, {
     x: 300,
     y: 300
   });
 });
 ```
 
-These codes will let the text move to (300, 300) during 1 second.
+These codes will let the text move to (300, 300) during 100 frame.
 
 
 ## 🧭 Future Plans
