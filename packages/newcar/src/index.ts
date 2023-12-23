@@ -5,7 +5,7 @@ import { Scene } from "@newcar/core/src/scene";
 export * from "@newcar/basic/src";
 export { Scene } from "@newcar/core/src";
 export * from "@newcar/recorder/src";
-export * from "@newcar/utils/src/color";
+export * from "@newcar/utils/src";
 
 export const newcar = (
   element: HTMLCanvasElement | string,
