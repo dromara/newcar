@@ -1,4 +1,4 @@
-export { Carobj } from "./carobj";
+export * from "./carobj";
 export { Image } from "./image";
 export { Svg } from "./svg";
 export { Text } from "./text";
@@ -14,3 +14,5 @@ export { Rectangle } from "./figures/rectangle";
 export { MathFunction } from "./maths/math-function";
 export { NumberAxis } from "./maths/number-axis";
 export { NumberPlane } from "./maths/number-plane";
+// interfaces
+export * from "./interfaces";

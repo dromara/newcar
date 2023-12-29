@@ -1,4 +1,4 @@
-import type { Carobj } from "@newcar/basic/src/objects";
+import type { Carobj } from "@newcar/basic";
 
 export type UpdateFunction = (elapsed: number) => void;
 

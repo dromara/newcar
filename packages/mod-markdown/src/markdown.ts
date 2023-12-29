@@ -1,6 +1,5 @@
-import type { CarobjOption } from "@newcar/basic/src/objects/carobj";
-import type { Sized } from "@newcar/basic/src/objects/interfaces";
-import { WebView } from "@newcar/basic/src/objects/webview";
+import type { CarobjOption, Sized } from "@newcar/basic";
+import { WebView } from "@newcar/basic";
 import { parse } from "marked";
 
 export default class Markdown extends WebView implements Sized {

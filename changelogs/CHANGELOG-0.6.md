@@ -1,3 +1,8 @@
+# v0.6.2
+
+## Bug Fixes
+- newcar: types import error.
+
 # v0.6.1 (2023.12.24)
 
 ## Bug Fixes

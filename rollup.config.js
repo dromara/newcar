@@ -22,8 +22,8 @@ const d = [dts(), nodeResolve({ browser: true })];
 
 const files = [
   ["utils", "index", "newcar-utils"],
-  ["core", "index", "newcar-core"],
   ["basic", "index", "newcar-basic"],
+  ["core", "index", "newcar-core"],
   ["recorder", "index", "newcar-recorder"],
   ["newcar", "index", "newcar"],
   ["mod-markdown", "markdown", "newcar-mod-markdown"],

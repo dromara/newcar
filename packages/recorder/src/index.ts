@@ -1,5 +1,5 @@
-import type { Car } from "@newcar/core/src/car";
-import { config } from "@newcar/utils/src";
+import type { Car } from "@newcar/core";
+import { config } from "@newcar/utils";
 
 export class Recorder {
   recorder: MediaRecorder;

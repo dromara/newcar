@@ -1,5 +1,5 @@
-import type { Point, Vector } from "@newcar/utils/src/point";
-import { toVector } from "@newcar/utils/src/point";
+import type { Point, Vector } from "@newcar/utils";
+import { toVector } from "@newcar/utils";
 
 import type { FigureOption } from "./figure";
 import { Figure } from "./figure";

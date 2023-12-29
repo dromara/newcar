@@ -1,4 +1,4 @@
-import { config } from "@newcar/utils/src";
+import { config } from "@newcar/utils";
 
 import type { Scene } from "./scene";
 

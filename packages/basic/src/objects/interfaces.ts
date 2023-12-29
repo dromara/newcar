@@ -1,4 +1,4 @@
-import type { Color } from "@newcar/utils/src/color";
+import type { Color } from "@newcar/utils";
 
 /**
  * The interface to show the object has a border.

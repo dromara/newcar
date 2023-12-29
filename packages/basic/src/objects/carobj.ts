@@ -53,7 +53,7 @@ export class Carobj implements CarobjOption {
   rotation: number;
   transparency: number;
   operation: GlobalCompositeOperation;
-  #children: Carobj[] = [];
+  children: Carobj[] = [];
   parent?: Carobj;
   animations: Animation[] = [];
 
@@ -119,7 +119,7 @@ export class Carobj implements CarobjOption {
   add(...children: Carobj[]): this {
     for (const child of children) {
       child.parent = this;
-      this.#children.push(child);
+      this.children.push(child);
     }
 
     return this;
@@ -146,10 +146,6 @@ export class Carobj implements CarobjOption {
     delete params.by;
 
     return this;
-  }
-
-  get children(): Carobj[] {
-    return this.#children;
   }
 
   get scale(): [number, number] {
