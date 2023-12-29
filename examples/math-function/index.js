@@ -17,7 +17,7 @@ const car = $.newcar("#scene", [
     y: 600,
     axisX: { rotation: 0.1 },
     axisY: { rotation: -2 },
-  }).animate($.zoomIn, 3, { by: $.easeBounce }),
+  }).animate($.zoomIn, 300, { by: $.easeBounce }),
   // new $.MathFunction(Math.sin, -1, 100, {
   //   x: 100,
   //   y: 100,
@@ -29,6 +29,12 @@ car.scene.update((elapsed) => {
     console.log("elapsed:", Number(String(elapsed).slice(0, 4)));
   }
 });
+
+(async () => {
+  console.log("Hello");
+  await $.sleep(30);
+  console.log("World!");
+})()
 
 car.play();
 

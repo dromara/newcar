@@ -21,4 +21,8 @@ export class Scene {
 
     return this;
   }
+
+  setup(setup: () => Promise<void>) {
+    setup();
+  }
 }
