@@ -1,6 +1,6 @@
 {
   "name": "@newcar/core",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "The core of newcar.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,8 +18,8 @@
     }
   },
   "dependencies": {
-    "@newcar/basic": "workspace:0.6.1",
-    "@newcar/utils": "workspace:0.6.1"
+    "@newcar/basic": "workspace:0.6.2",
+    "@newcar/utils": "workspace:0.6.2"
   },
   "types": "./dist/newcar-core.d.ts"
 }
