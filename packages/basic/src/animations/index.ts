@@ -5,6 +5,7 @@ export { axisTickWidth } from "./axis-tick-width";
 export { axisUnit } from "./axis-unit";
 export { axisWidth } from "./axis-width";
 export { border } from "./border";
+export { create } from "./create";
 export { functionDomain } from "./domain";
 export { fadeIn } from "./fade-in";
 export { fadeOut } from "./fade-out";

@@ -22,6 +22,7 @@ interface Animation {
  * @param rotation The rotation angle of the object in radians.
  * @param transparency The transparency of the object from 0 to 1.
  * @param operation The operation of canva when rendering the object.
+ * @param progress The progress of rendering.
  * @see Carobj
  */
 export interface CarobjOption {
@@ -36,6 +37,7 @@ export interface CarobjOption {
   transparency?: number;
   operation?: GlobalCompositeOperation;
   children?: Carobj[];
+  progress?: number;
   // TODO: Stroke Progress
 }
 
@@ -56,6 +58,7 @@ export class Carobj implements CarobjOption {
   children: Carobj[] = [];
   parent?: Carobj;
   animations: Animation[] = [];
+  progress: number;
 
   /**
    * @param options The options for construct the object.
@@ -73,6 +76,7 @@ export class Carobj implements CarobjOption {
     this.rotation = options.rotation ?? 0;
     this.transparency = options.transparency ?? 1;
     this.operation = options.operation ?? "source-over";
+    this.progress = options.progress ?? 1;
     options.children && this.add(...options.children);
   }
 

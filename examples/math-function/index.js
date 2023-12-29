@@ -18,6 +18,7 @@ const car = $.newcar("#scene", [
     axisX: { rotation: 0.1 },
     axisY: { rotation: -2 },
   }).animate($.zoomIn, 300, { by: $.easeBounce }),
+  new $.Line([0, 0], [200, 200]).animate($.create, 100, {})
   // new $.MathFunction(Math.sin, -1, 100, {
   //   x: 100,
   //   y: 100,
