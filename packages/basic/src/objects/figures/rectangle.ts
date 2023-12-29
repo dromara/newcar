@@ -48,9 +48,9 @@ export class Rectangle extends Figure implements RectangleOption {
     context.strokeStyle = this.borderColor.toString();
     context.beginPath();
     context.moveTo(this.fromX, this.fromX);
-    context.lineTo(this.toX, this.fromX);
-    context.lineTo(this.toX, this.toY);
-    context.lineTo(this.fromX, this.toY);
+    context.lineTo(this.fromX + (this.toX - this.fromX) * this.progress, this.fromX);
+    context.lineTo(this.fromX + (this.toX - this.fromX) * this.progress, this.fromY + (this.toY - this.fromY) * this.progress);
+    context.lineTo(this.fromX, this.fromY + (this.toY - this.fromY) * this.progress);
     context.lineTo(this.fromX, this.fromX);
     context.closePath();
     context.stroke();

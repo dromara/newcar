@@ -13,12 +13,11 @@ const car = $.newcar("#scene", [
     by: $.easeInQuart,
   }),
   new $.NumberPlane(5, -10, -4, 9, {
-    x: 1200,
-    y: 600,
-    axisX: { rotation: 0.1 },
-    axisY: { rotation: -2 },
-  }).animate($.zoomIn, 300, { by: $.easeBounce }),
-  new $.Line([0, 0], [200, 200]).animate($.create, 100)
+    x: 800,
+    y: 450,
+      
+    }).add(new $.MathFunction(Math.sin, -10.5, 5).animate($.create, 300, {})),
+  new $.Line([300, 300], [100, 100]).animate($.create, 100)
   // new $.MathFunction(Math.sin, -1, 100, {
   //   x: 100,
   //   y: 100,

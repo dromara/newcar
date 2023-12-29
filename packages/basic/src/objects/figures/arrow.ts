@@ -52,9 +52,9 @@ export class Arrow extends Carobj implements ArrowOption {
     context.strokeStyle = this.color.toString();
     context.lineWidth = this.lineWidth;
     context.moveTo(this.fromX, this.fromY);
-    context.lineTo(this.toX, this.toY);
+    context.lineTo(this.toX * this.progress, this.toY * this.progress);
     context.stroke();
-    context.translate(this.toX, this.toY);
+    context.translate(this.toX * this.progress, this.toY * this.progress);
     const rad = Math.atan(
       Math.abs(this.fromY - this.toY) / Math.abs(this.fromX - this.toX),
     );
