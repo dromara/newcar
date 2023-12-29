@@ -7,7 +7,7 @@ interface Animation {
   duration: number;
   elapsed: number;
   by: TimingFunction;
-  params: Record<string, any>;
+  params?: Record<string, any>;
 }
 
 /**
@@ -138,16 +138,16 @@ export class Carobj implements CarobjOption {
   animate(
     animate: Animate,
     duration: number,
-    params: Record<string, any> & { by?: TimingFunction },
+    params?: Record<string, any> & { by?: TimingFunction },
   ): this {
     this.animations.push({
       animate,
       duration,
       elapsed: 0,
-      by: params.by ?? linear,
+      by: typeof params === "undefined" ? linear : (params.by ?? linear),
       params,
     });
-    delete params.by;
+    // delete params.by;
 
     return this;
   }
