@@ -1,4 +1,9 @@
-# v0.6.2
+# v0.6.3 (2023.12.29)
+
+## Bug Fixes
+- newcar: compile error caused program can't run correctly.
+
+# v0.6.2 (2023.12.29)
 
 ## Bug Fixes
 - newcar: types import error.
