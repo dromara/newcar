@@ -19,7 +19,8 @@
   },
   "dependencies": {
     "@newcar/basic": "workspace:0.6.3",
-    "@newcar/utils": "workspace:0.6.3"
+    "@newcar/utils": "workspace:0.6.3",
+    "mitt": "^3.0.1"
   },
   "types": "./dist/newcar-core.d.ts"
 }

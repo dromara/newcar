@@ -1,19 +1,30 @@
 import { config } from "@newcar/utils";
+import mitt from "mitt";
 
 import type { Scene } from "./scene";
 
-export class Car {
-  #playing: boolean;
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type CarHookEventMap = {
+  "before-frame-update": Car;
+  "frame-updated": Car;
+};
+
+export class Car extends EventTarget {
+  private _playing: boolean;
   private lastUpdateTime: number;
   readonly context: CanvasRenderingContext2D;
+  readonly hook = mitt<CarHookEventMap>();
 
   constructor(public element: HTMLCanvasElement, public scene: Scene) {
+    super();
     this.playing = false;
     this.element.style.backgroundColor = "black";
     this.context = this.element.getContext("2d")!;
   }
 
   static update(car: Car): void {
+    car.hook.emit("before-frame-update", car);
+
     let elapsed: number;
     switch (config.timing) {
       case "frame": {
@@ -34,6 +45,7 @@ export class Car {
       update(car.scene.elapsed);
     }
     for (const object of car.scene.objects) {
+      object.beforeUpdate(car);
       for (const animation of object.animations) {
         if (animation.elapsed <= animation.duration) {
           animation.elapsed += elapsed;
@@ -46,7 +58,11 @@ export class Car {
         }
       }
       object.update(car.context);
+      object.updated(car);
     }
+
+    car.hook.emit("frame-updated", car);
+
     if (car.playing) {
       requestAnimationFrame(() => Car.update(car));
     }
@@ -71,11 +87,11 @@ export class Car {
   }
 
   get playing(): boolean {
-    return this.#playing;
+    return this._playing;
   }
 
   set playing(playing: boolean) {
-    this.#playing = playing;
+    this._playing = playing;
     if (playing) {
       this.lastUpdateTime = Date.now();
       requestAnimationFrame(() => Car.update(this));
