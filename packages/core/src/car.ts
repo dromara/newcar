@@ -21,7 +21,7 @@ export class Car {
         break;
       }
       case "second": {
-        const currentTimestamp = Date.now();
+        const currentTimestamp = performance.now();
         const intervalTime = (currentTimestamp - car.lastUpdateTime) / 1000;
         car.lastUpdateTime = currentTimestamp;
         elapsed = intervalTime;
