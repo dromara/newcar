@@ -143,7 +143,7 @@ export class Carobj implements CarobjOption {
       animate,
       duration,
       elapsed: 0,
-      by: typeof params === "undefined" ? linear : (params.by ?? linear),
+      by: typeof params === "undefined" ? linear : params.by ?? linear,
       params,
     });
     // delete params.by;

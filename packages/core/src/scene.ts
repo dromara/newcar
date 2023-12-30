@@ -22,7 +22,9 @@ export class Scene {
     return this;
   }
 
-  setup(setup: () => Promise<void>) {
+  setup(setup: () => Promise<void>): this {
     setup();
+
+    return this;
   }
 }

@@ -58,7 +58,11 @@ export class Text extends Carobj implements TextOption {
     context.fillStyle = this.color.toString();
     context.textAlign = this.align;
     context.textBaseline = this.baseline;
-    context.fillText(this.text, 0, 0);
+    context.fillText(
+      this.text.slice(0, Math.round(this.progress * this.text.length)),
+      0,
+      0,
+    );
     if (this.borderWidth) {
       context.lineWidth = this.borderWidth;
       context.strokeStyle = this.borderColor.toString();

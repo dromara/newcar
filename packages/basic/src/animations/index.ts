@@ -15,6 +15,7 @@ export { moveCenter } from "./move-center";
 export { radius } from "./radius";
 export { rotate } from "./rotate";
 export { scale } from "./scale";
+export { textInput } from "./text-input";
 export { textSize } from "./text-size";
 export { transparency } from "./transparency";
 export { zoomIn } from "./zoom-in";

@@ -15,9 +15,12 @@ const car = $.newcar("#scene", [
   new $.NumberPlane(5, -10, -4, 9, {
     x: 800,
     y: 450,
-      
-    }).add(new $.MathFunction(Math.sin, -10.5, 5).animate($.create, 300, {})),
-  new $.Line([300, 300], [100, 100]).animate($.create, 100)
+  }).add(new $.MathFunction(Math.sin, -10.5, 5).animate($.create, 300, {})),
+  new $.Line([300, 300], [100, 100]).animate($.create, 100),
+  new $.Text("Hello world!", {
+    x: 100,
+    y: 100,
+  }).animate($.create, 200),
   // new $.MathFunction(Math.sin, -1, 100, {
   //   x: 100,
   //   y: 100,
@@ -34,7 +37,7 @@ car.scene.update((elapsed) => {
   console.log("Hello");
   await $.sleep(30);
   console.log("World!");
-})()
+})();
 
 car.play();
 
