@@ -90,9 +90,7 @@ const scene = new $.Scene(
   ]
 );
 
-// Second waywindow.setTimeout(() => {
-      this.recorder.stop();
-    }, duration);
+// Second way
 scene.update((frame) => {
   // ...
 });
