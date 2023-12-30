@@ -21,5 +21,4 @@ export { zoomIn } from "./zoom-in";
 export { zoomOut } from "./zoom-out";
 // TODO: Text Input animation
 // TODO: MathFunction Transform animation
-// TODO: Create animation
 // primary animations

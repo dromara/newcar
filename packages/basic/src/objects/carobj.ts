@@ -38,7 +38,6 @@ export interface CarobjOption {
   operation?: GlobalCompositeOperation;
   children?: Carobj[];
   progress?: number;
-  // TODO: Stroke Progress
 }
 
 /**

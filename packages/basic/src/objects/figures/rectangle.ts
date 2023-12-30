@@ -1,5 +1,7 @@
 import type { FigureOption } from "./figure";
 import { Figure } from "./figure";
+import type { Point, Vector } from "@newcar/utils";
+import { toVector } from "@newcar/utils";
 
 /**
  * The rectangle options.
@@ -60,5 +62,19 @@ export class Rectangle extends Figure implements RectangleOption {
     }
   }
 
-  // TODO: The dynamic point of Rectangle
+  set from(point: Point) {
+    [this.fromX, this.fromY] = toVector(point);
+  }
+
+  get from(): Vector {
+    return [this.fromX, this.fromY];
+  }
+
+  set to(point: Point) {
+    [this.toX, this.toY] = toVector(point);
+  }
+
+  get to(): Vector {
+    return [this.toX, this.toY];
+  }
 }
