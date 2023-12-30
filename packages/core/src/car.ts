@@ -93,7 +93,7 @@ export class Car extends EventTarget {
   set playing(playing: boolean) {
     this._playing = playing;
     if (playing) {
-      this.lastUpdateTime = Date.now();
+      this.lastUpdateTime = performance.now();
       requestAnimationFrame(() => Car.update(this));
     }
   }
