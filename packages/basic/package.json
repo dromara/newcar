@@ -5,7 +5,8 @@
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "@newcar/utils": "workspace:0.6.3"
+    "@newcar/utils": "workspace:0.6.3",
+    "@newcar/core": "workspace:0.6.3"
   },
   "exports": {
     ".": {
