@@ -1,6 +1,5 @@
-import { Color } from "@newcar/utils";
-import { arrows } from "@newcar/utils";
 import type { Point } from "@newcar/utils";
+import { Color, arrows } from "@newcar/utils";
 
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
