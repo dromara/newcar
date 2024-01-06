@@ -3,7 +3,7 @@
   "version": "0.6.4",
   "description": "The core of newcar.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "publish": "pnpm publish"
   },
   "keywords": [
     "animation"

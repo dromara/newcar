@@ -11,5 +11,8 @@
       "types": "./dist/newcar-utils.d.ts"
     }
   },
+  "scripts": {
+    "publish": "pnpm publish"
+  },
   "types": "./dist/newcar-utils.d.ts"
 }

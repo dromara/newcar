@@ -7,6 +7,9 @@
   "dependencies": {
     "@newcar/utils": "workspace:0.6.4"
   },
+  "scripts": {
+    "publish": "pnpm publish"
+  },
   "exports": {
     ".": {
       "import": "./dist/newcar-basic.mjs",

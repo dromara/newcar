@@ -7,6 +7,9 @@
   "keywords": [
     "animation"
   ],
+  "scripts": {
+    "publish": "pnpm publish"
+  },
   "license": "Apache-2.0",
   "types": "./dist/newcar.d.ts",
   "module": "./dist/newcar.js",

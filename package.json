@@ -9,6 +9,7 @@
     "lint:fix": "eslint . --fix",
     "release": "lerna version --no-private && pnpm publish -r",
     "version": "lerna version",
+    "publish": "pnpm run -r publish",
     "build": "node ./scripts/build.cjs",
     "dev": "rollup -c -w",
     "format": "prettier --write --parser typescript \"packages/**/*.ts?(x)\""

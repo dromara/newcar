@@ -14,5 +14,8 @@
       "require": "./dist/newcar-recorder.cjs"
     }
   },
+  "scripts": {
+    "publish": "pnpm publish"
+  },
   "types": "./dist/newcar-recorder.d.ts"
 }
