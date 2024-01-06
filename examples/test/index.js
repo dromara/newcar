@@ -1,17 +1,17 @@
 /* eslint-disable no-console */
 import * as $ from "../../packages/newcar/dist/newcar.mjs";
 
-const car = $.newcar("#test", [
-  new $.Arrow([100, 100], [50, 300]).animate($.move, 100, {
-    toX: 200,
-    toY: 100,
-    fromX: 100,
-    fromY: 100,
-  }),
-]);
+const s = $.sleep;
 
-car.scene.update((elapsed) => {
-});
+const scene = new $.Scene().add(
+  new $.Arrow([0, 0], [200, 200]).setup(async (obj) => {
+    await s(100);
+    obj.animate($.create, 100);
+  }),
+);
+
+const car = $.newcar("#test");
+car.scene = scene;
 car.play();
 
 const recorder = new $.Recorder(car);

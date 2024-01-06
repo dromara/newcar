@@ -151,6 +151,12 @@ export class Carobj implements CarobjOption {
     return this;
   }
 
+  setup(callback: (object: Carobj) => Promise<void>): this {
+    callback(this);
+
+    return this;
+  }
+
   get scale(): [number, number] {
     return [this.scaleX, this.scaleY];
   }
