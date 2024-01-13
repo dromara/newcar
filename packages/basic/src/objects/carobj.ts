@@ -58,6 +58,7 @@ export class Carobj implements CarobjOption {
   parent?: Carobj;
   animations: Animation[] = [];
   progress: number;
+  elapsed = 0;
 
   /**
    * @param options The options for construct the object.
@@ -94,11 +95,7 @@ export class Carobj implements CarobjOption {
    * @param context The context instance of the canvas object.
    * @see draw()
    */
-  update(
-    context: CanvasRenderingContext2D,
-    elapsed: number,
-    ...args: any[]
-  ): void {
+  update(context: CanvasRenderingContext2D, ...args: any[]): void {
     if (!this.display) {
       return;
     }
@@ -115,7 +112,7 @@ export class Carobj implements CarobjOption {
     this.draw(context, ...args);
     for (const animation of this.animations) {
       if (animation.elapsed <= animation.duration) {
-        animation.elapsed += elapsed;
+        animation.elapsed += this.elapsed;
         animation.animate(
           this,
           animation.elapsed / animation.duration,
@@ -125,6 +122,7 @@ export class Carobj implements CarobjOption {
       }
     }
     for (const child of this.children) {
+      child.elapsed = this.elapsed;
       child.update(context);
     }
     context.restore();
