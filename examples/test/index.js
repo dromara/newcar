@@ -9,11 +9,18 @@ const car = $.newcar("#test", [
       fromX: 100,
       fromY: 100,
     })
-    .add(new $.MathFunction(Math.sin, 0, 12)
-    .animate($.move, 200, { to: 300 })),
+    .add(
+      new $.NumberPlane(-5, 5, -5, 5, {
+        x: 300,
+        y: 300,
+      })
+        .animate($.create, 100)
+        .add(new $.MathFunction(Math.sin, -5, 5)
+          .animate($.create, 100)
+        ),
+    ),
 ]);
 
-car.scene.update((elapsed) => {});
 car.play();
 
 const recorder = new $.Recorder(car);

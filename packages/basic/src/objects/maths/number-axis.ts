@@ -132,6 +132,7 @@ export class NumberAxis extends Carobj implements NumberAxisOption {
             lineWidth: this.tickWidth,
             rotation: this.tickRotation,
             color: this.tickColor,
+            progress: this.progress,
           }).update(context);
         }
         if (showTrend && this.trend) {
@@ -148,6 +149,7 @@ export class NumberAxis extends Carobj implements NumberAxisOption {
       new Line([this.from * this.unit, 0], [this.to * this.unit, 0], {
         lineWidth: this.axisWidth,
         color: this.color,
+        progress: this.progress,
       }).update(context);
     }
 
