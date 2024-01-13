@@ -94,7 +94,11 @@ export class Carobj implements CarobjOption {
    * @param context The context instance of the canvas object.
    * @see draw()
    */
-  update(context: CanvasRenderingContext2D, ...args: any[]): void {
+  update(
+    context: CanvasRenderingContext2D,
+    elapsed: number,
+    ...args: any[]
+  ): void {
     if (!this.display) {
       return;
     }
@@ -109,6 +113,17 @@ export class Carobj implements CarobjOption {
     context.globalAlpha = this.transparency;
     context.globalCompositeOperation = this.operation;
     this.draw(context, ...args);
+    for (const animation of this.animations) {
+      if (animation.elapsed <= animation.duration) {
+        animation.elapsed += elapsed;
+        animation.animate(
+          this,
+          animation.elapsed / animation.duration,
+          animation.by,
+          animation.params ?? {},
+        );
+      }
+    }
     for (const child of this.children) {
       child.update(context);
     }
