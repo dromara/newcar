@@ -34,7 +34,8 @@ export class Car {
       update(car.scene.elapsed);
     }
     for (const object of car.scene.objects) {
-      object.update(car.context, elapsed);
+      object.elapsed = elapsed;
+      object.update(car.context);
     }
     if (car.playing) {
       requestAnimationFrame(() => Car.update(car));
