@@ -9,7 +9,7 @@
     "marked": "^10.0.0"
   },
   "scripts": {
-    "publish": "pnpm publish"
+    "publish": "npm publish"
   },
   "exports": {
     "types": "./dist/newcar-mod-markdown.d.ts",

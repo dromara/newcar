@@ -12,7 +12,7 @@
     }
   },
   "scripts": {
-    "publish": "pnpm publish"
+    "publish": "npm publish"
   },
   "types": "./dist/newcar-utils.d.ts"
 }

@@ -8,7 +8,7 @@
     "animation"
   ],
   "scripts": {
-    "publish": "pnpm publish"
+    "publish": "npm publish"
   },
   "license": "Apache-2.0",
   "types": "./dist/newcar.d.ts",

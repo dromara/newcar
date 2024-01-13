@@ -8,7 +8,7 @@
     "@newcar/utils": "workspace:0.6.5"
   },
   "scripts": {
-    "publish": "pnpm publish"
+    "publish": "npm publish"
   },
   "exports": {
     ".": {

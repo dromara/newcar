@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "publish": "pnpm publish"
+    "publish": "npm publish"
   },
   "types": "./dist/newcar-recorder.d.ts"
 }
