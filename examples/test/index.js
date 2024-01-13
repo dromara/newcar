@@ -8,6 +8,10 @@ const car = $.newcar("#test", [
     fromX: 100,
     fromY: 100,
   }),
+  new $.NumberPlane(-5, 5, -5, 5, {
+    x: 300,
+    y: 300,
+  }),
 ]);
 
 car.scene.update((elapsed) => {

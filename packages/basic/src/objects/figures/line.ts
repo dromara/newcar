@@ -1,6 +1,5 @@
-import { Color } from "@newcar/utils";
 import type { Point, Vector } from "@newcar/utils";
-import { toVector } from "@newcar/utils";
+import { Color, toVector } from "@newcar/utils";
 
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
