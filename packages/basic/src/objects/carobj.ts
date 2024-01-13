@@ -125,7 +125,7 @@ export class Carobj implements CarobjOption {
       }
     }
     for (const child of this.children) {
-      child.update(context);
+      child.update(context, elapsed);
     }
     context.restore();
   }
