@@ -123,6 +123,8 @@ export class NumberAxis extends Carobj implements NumberAxisOption {
     const showTick = style & NumberAxisStyle.Tick;
     const showTrend = style & NumberAxisStyle.Trend;
 
+    context.save();
+
     if (showTick || showTrend) {
       for (let i = this.min; i <= this.max; i += this.interval) {
         const offset = i * this.unit;
@@ -164,6 +166,8 @@ export class NumberAxis extends Carobj implements NumberAxisOption {
         context.scale(-1, 1);
       }
     }
+
+    context.restore();
   }
 
   set tickHeight(height: number | [number, number]) {
