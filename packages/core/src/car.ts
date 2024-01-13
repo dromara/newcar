@@ -33,23 +33,9 @@ export class Car {
     for (const update of car.scene.updates) {
       update(car.scene.elapsed);
     }
-    (function f(objects: typeof car.scene.objects) {
-      for (const object of objects) {
-        for (const animation of object.animations) {
-          if (animation.elapsed <= animation.duration) {
-            animation.elapsed += elapsed;
-            animation.animate(
-              object,
-              animation.elapsed / animation.duration,
-              animation.by,
-              animation.params ?? {},
-            );
-          }
-        }
-        object.update(car.context);
-        f(object.children);
-      }
-    })(car.scene.objects);
+    for (const object of car.scene.objects) {
+      object.update(car.context, elapsed);
+    }
     if (car.playing) {
       requestAnimationFrame(() => Car.update(car));
     }
