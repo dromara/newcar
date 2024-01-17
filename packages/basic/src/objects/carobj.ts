@@ -115,12 +115,16 @@ export class Carobj implements CarobjOption {
       child.update(context);
     }
     context.restore();
+    let index = 0;
     for (const signal of signals) {
       const callback = this.responses.get(signal);
-      if (typeof callback !== "undefined") {
+      if (typeof callback !== "undefined" && signal !== "") {
         callback(this);
+        signals[index] = "";
       }
+      index += 1;
     }
+    console.log(signals, index);
   }
 
   /**
