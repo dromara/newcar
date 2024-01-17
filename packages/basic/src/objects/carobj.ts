@@ -162,7 +162,7 @@ export class Carobj implements CarobjOption {
     return this;
   }
 
-  respond(signal: string, callback: (object: Carobj) => Promise<void>): this {
+  respond(signal: string, callback: (object: Carobj) => any): this {
     this.responses.set(signal, callback);
 
     return this;
