@@ -58,7 +58,6 @@ export class Carobj implements CarobjOption {
   parent?: Carobj;
   animations: Animation[] = [];
   progress: number;
-  elapsed = 0;
 
   /**
    * @param options The options for construct the object.
@@ -110,19 +109,7 @@ export class Carobj implements CarobjOption {
     context.globalAlpha = this.transparency;
     context.globalCompositeOperation = this.operation;
     this.draw(context, ...args);
-    for (const animation of this.animations) {
-      if (animation.elapsed <= animation.duration) {
-        animation.elapsed += this.elapsed;
-        animation.animate(
-          this,
-          animation.elapsed / animation.duration,
-          animation.by,
-          animation.params ?? {},
-        );
-      }
-    }
     for (const child of this.children) {
-      child.elapsed = this.elapsed;
       child.update(context);
     }
     context.restore();

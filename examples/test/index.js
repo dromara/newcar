@@ -14,7 +14,6 @@ const car = $.newcar("#test", [
   }),
 ]);
 
-car.scene.update((elapsed) => {});
 car.play();
 
 const recorder = new $.Recorder(car);
