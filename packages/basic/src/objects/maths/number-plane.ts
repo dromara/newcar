@@ -75,6 +75,7 @@ export class NumberPlane extends Carobj {
         }
       }
     }
+    context.scale(-1, 1);
   }
 
   set trend(trend: TrendType) {

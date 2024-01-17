@@ -15,9 +15,7 @@ const car = $.newcar("#test", [
         y: 300,
       })
         .animate($.create, 100)
-        .add(new $.MathFunction(Math.sin, -5, 5)
-          .animate($.create, 100)
-        ),
+        .add(new $.MathFunction((x) => Math.sin(x), -5, 5)),
     ),
 ]);
 
