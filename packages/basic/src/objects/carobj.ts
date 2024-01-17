@@ -1,6 +1,5 @@
-import type { Car } from "@newcar/core/src";
-
 import type { Animate } from "../animations";
+import { signals } from "../signals";
 import type { TimingFunction } from "../timing-functions";
 import { linear } from "../timing-functions";
 
@@ -60,7 +59,6 @@ export class Carobj implements CarobjOption {
   parent?: Carobj;
   animations: Animation[] = [];
   progress: number;
-  car: Car;
   responses = new Map<string, (object: Carobj) => Promise<void>>();
 
   /**
@@ -117,6 +115,12 @@ export class Carobj implements CarobjOption {
       child.update(context);
     }
     context.restore();
+    for (const signal of signals) {
+      const callback = this.responses.get(signal);
+      if (typeof callback !== "undefined") {
+        callback(this);
+      }
+    }
   }
 
   /**
@@ -126,7 +130,6 @@ export class Carobj implements CarobjOption {
   add(...children: Carobj[]): this {
     for (const child of children) {
       child.parent = this;
-      child.car = this.car;
       this.children.push(child);
     }
 
@@ -163,7 +166,7 @@ export class Carobj implements CarobjOption {
   }
 
   emit(signal: string): this {
-    this.car.signals.push(signal);
+    signals.push(signal);
 
     return this;
   }

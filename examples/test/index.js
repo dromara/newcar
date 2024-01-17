@@ -12,13 +12,9 @@ const scene = new $.Scene()
     }),
   )
   .add(
-    new $.Arc(100)
-      .animate($.move, 300, {
-        to: 100,
-      })
-      .respond("test", async (obj) => {
-        obj.radius = 500;
-      }),
+    new $.Arc(100).respond("test", async (obj) => {
+      obj.radius = 500;
+    }),
   );
 
 const car = $.newcar("#test");

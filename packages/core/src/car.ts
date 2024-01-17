@@ -6,7 +6,6 @@ export class Car {
   #playing: boolean;
   private lastUpdateTime: number;
   readonly context: CanvasRenderingContext2D;
-  signals: string[] = [];
 
   constructor(public element: HTMLCanvasElement, public scene: Scene) {
     this.playing = false;
@@ -44,12 +43,6 @@ export class Car {
             animation.by,
             animation.params ?? {},
           );
-        }
-      }
-      for (const signal of car.signals) {
-        const callback = object.responses.get(signal);
-        if (typeof callback !== "undefined") {
-          callback(object);
         }
       }
       object.update(car.context);
