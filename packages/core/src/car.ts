@@ -9,14 +9,13 @@ export type CarHookEventMap = {
   "frame-updated": Car;
 };
 
-export class Car extends EventTarget {
+export class Car {
   private _playing: boolean;
   private lastUpdateTime: number;
   readonly context: CanvasRenderingContext2D;
   readonly hook = mitt<CarHookEventMap>();
 
   constructor(public element: HTMLCanvasElement, public scene: Scene) {
-    super();
     this.playing = false;
     this.element.style.backgroundColor = "black";
     this.context = this.element.getContext("2d")!;
