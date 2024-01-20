@@ -46,6 +46,7 @@ export class Car extends EventTarget {
     }
     (function f(objects: typeof car.scene.objects) {
       for (const object of objects) {
+        object.beforeUpdate(car);
         for (const animation of object.animations) {
           if (animation.elapsed <= animation.duration) {
             animation.elapsed += elapsed;
@@ -58,6 +59,7 @@ export class Car extends EventTarget {
           }
         }
         f(object.children);
+        object.updated(car);
       }
     })(car.scene.objects);
     for (const object of car.scene.objects) {
