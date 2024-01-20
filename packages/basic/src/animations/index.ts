@@ -1,25 +1,20 @@
+import { changeProperty } from "./change-property";
+
 export type { Animate } from "./animate";
-export { axisInterval } from "./axis-interval";
-export { axisTickRotate } from "./axis-tick-rotate";
-export { axisTickWidth } from "./axis-tick-width";
-export { axisUnit } from "./axis-unit";
-export { axisWidth } from "./axis-width";
-export { border } from "./border";
-export { create } from "./create";
-export { functionDomain } from "./domain";
-export { fadeIn } from "./fade-in";
-export { fadeOut } from "./fade-out";
-export { functionDivision } from "./function-division";
-export { move } from "./move";
-export { moveCenter } from "./move-center";
-export { radius } from "./radius";
-export { rotate } from "./rotate";
-export { scale } from "./scale";
-export { textInput } from "./text-input";
-export { textSize } from "./text-size";
-export { transparency } from "./transparency";
-export { zoomIn } from "./zoom-in";
-export { zoomOut } from "./zoom-out";
+
+const _scale = ["scaleX", "scaleY"] as ["scaleX", "scaleY"];
+export const create = changeProperty("progress", 0, 1);
+export const destroy = changeProperty("progress", 1, 0);
+export const rotate = changeProperty("rotation");
+export const move = changeProperty(["x", "y"]);
+export const scale = changeProperty(_scale);
+export const zoomIn = changeProperty(_scale, 0, 1);
+export const zoomOut = changeProperty(_scale, 1, 0);
+export const transparency = changeProperty("transparency");
+export const fadeIn = changeProperty("transparency", 0, 1);
+export const fadeOut = changeProperty("transparency", 1, 0);
+export { changeProperty };
+
 // TODO: Text Input animation
 // TODO: MathFunction Transform animation
-// primary animations
+// TODO: Create animation

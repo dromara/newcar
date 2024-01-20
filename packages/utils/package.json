@@ -1,6 +1,6 @@
 {
   "name": "@newcar/utils",
-  "version": "0.6.3",
+  "version": "0.6.5",
   "description": "The utils of newcar",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
@@ -10,6 +10,9 @@
       "require": "./dist/newcar-utils.cjs",
       "types": "./dist/newcar-utils.d.ts"
     }
+  },
+  "scripts": {
+    "publish": "npm publish"
   },
   "types": "./dist/newcar-utils.d.ts"
 }

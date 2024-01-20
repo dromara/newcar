@@ -44,19 +44,23 @@ export class Car extends EventTarget {
     for (const update of car.scene.updates) {
       update(car.scene.elapsed);
     }
-    for (const object of car.scene.objects) {
-      object.beforeUpdate(car);
-      for (const animation of object.animations) {
-        if (animation.elapsed <= animation.duration) {
-          animation.elapsed += elapsed;
-          animation.animate(
-            object,
-            animation.elapsed / animation.duration,
-            animation.by,
-            animation.params ?? {},
-          );
+    (function f(objects: typeof car.scene.objects) {
+      for (const object of objects) {
+        for (const animation of object.animations) {
+          if (animation.elapsed <= animation.duration) {
+            animation.elapsed += elapsed;
+            animation.animate(
+              object,
+              animation.elapsed / animation.duration,
+              animation.by,
+              animation.params ?? {},
+            );
+          }
         }
+        f(object.children);
       }
+    })(car.scene.objects);
+    for (const object of car.scene.objects) {
       object.update(car.context);
       object.updated(car);
     }

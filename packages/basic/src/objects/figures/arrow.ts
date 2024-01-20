@@ -1,7 +1,5 @@
-import { Color } from "@newcar/utils";
 import type { Point, Vector } from "@newcar/utils";
-import { toVector } from "@newcar/utils";
-import { arrows } from "@newcar/utils";
+import { Color, arrows, toVector } from "@newcar/utils";
 
 import type { CarobjOption } from "../carobj";
 import { Carobj } from "../carobj";
@@ -54,7 +52,8 @@ export class Arrow extends Carobj implements ArrowOption {
     context.moveTo(this.fromX, this.fromY);
     context.lineTo(this.toX * this.progress, this.toY * this.progress);
     context.stroke();
-    context.translate(this.toX * this.progress, this.toY * this.progress);
+    context.save();
+    context.translate(this.toX, this.toY);
     const rad = Math.atan(
       Math.abs(this.fromY - this.toY) / Math.abs(this.fromX - this.toX),
     );
@@ -69,6 +68,7 @@ export class Arrow extends Carobj implements ArrowOption {
       fillColor: this.color,
     });
     arrow.update(context);
+    context.restore();
   }
 
   set from(point: Point) {
