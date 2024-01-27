@@ -14,9 +14,6 @@ export class Scene {
 
   add(...objects: Carobj[]): this {
     this.objects.push(...objects);
-    for (const object of this.objects) {
-      object.car = this.car;
-    }
 
     return this;
   }
