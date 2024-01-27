@@ -1,4 +1,3 @@
-import type { Carobj } from "@newcar/basic";
 import * as core from "@newcar/core";
 
 export * from "@newcar/basic";
@@ -6,17 +5,10 @@ export { Car, Scene } from "@newcar/core";
 export * from "@newcar/recorder";
 export * from "@newcar/utils";
 
-export const newcar = (
-  element: HTMLCanvasElement | string,
-  sceneOrObjects?: core.Scene | Carobj[],
-): core.Car =>
+export const newcar = (element: HTMLCanvasElement | string): core.Car =>
   new core.Car(
     typeof element === "string" ? document.querySelector(element)! : element,
-    sceneOrObjects === undefined
-      ? new core.Scene()
-      : Array.isArray(sceneOrObjects)
-      ? new core.Scene(sceneOrObjects)
-      : sceneOrObjects,
+    new core.Scene(),
   );
 
 // eslint-disable-next-line no-console

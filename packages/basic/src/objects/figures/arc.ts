@@ -36,7 +36,13 @@ export class Arc extends Figure implements ArcOption {
   override draw(context: CanvasRenderingContext2D): void {
     context.lineWidth = this.borderWidth;
     context.beginPath();
-    context.arc(0, 0, this.radius, this.start, this.end * this.progress);
+    context.arc(
+      0,
+      0,
+      this.radius * this.progress,
+      this.start,
+      this.end * this.progress,
+    );
     if (this.fillColor) {
       context.fillStyle = this.fillColor.toString();
       context.fill();

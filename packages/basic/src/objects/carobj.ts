@@ -1,3 +1,5 @@
+import type { Car } from "@newcar/core";
+
 import type { Animate } from "../animations";
 import type { TimingFunction } from "../timing-functions";
 import { linear } from "../timing-functions";
@@ -87,6 +89,12 @@ export class Carobj implements CarobjOption {
   // eslint-disable-next-line unused-imports/no-unused-vars
   draw(context: CanvasRenderingContext2D, ...args: any[]): void {}
 
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  beforeUpdate(car: Car): void {}
+
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  updated(car: Car): void {}
+
   /**
    * Update method, which will be called directly at each frame.
    * The method SHOULD NOT be modified,
@@ -147,6 +155,12 @@ export class Carobj implements CarobjOption {
       params,
     });
     // delete params.by;
+
+    return this;
+  }
+
+  setup(callback: (object: Carobj) => Promise<void>): this {
+    callback(this);
 
     return this;
   }

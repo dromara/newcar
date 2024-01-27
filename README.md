@@ -26,10 +26,18 @@ Newcar is a Highly configurable universal advanced engine, 2Born for creating an
 ## 🔖 Example
 
 ### Install
-Use your favorite manager to install newcar, there we use NPM as a example.
+
+Use your favorite manager to install newcar.
 
 ```shell
+# NPM
 npm install newcar
+
+# YARN
+yarn add newcar
+
+# PNPM
+pnpm add newcar
 ```
 
 ### Create
@@ -47,7 +55,7 @@ const animation = $.newcar("#canvas");
 And then, we need to create a scene for the animation and check out to it.
 
 ```javascript
-const scene = new $.Scene([], []);
+const scene = new $.Scene();
 animation.scene = scene;
 ```
 
@@ -59,63 +67,68 @@ animation.play();
 
 Now, the animation has been ran, in the following docs, we'll let it do something absorbing.
 
-### Add
+### Add a Object
 
-Newcar offers many objects so that you have more choice (We have basic lib and some offical mods, please refer to API Docs.) In this instance, we use `Text` as a example.There are two ways to add objects.
-
-```javascript
-// First way
-const scene = new $.Scene([new $.Text("Hello world!")], []);
-
-// Second way
-scene.add(new $.Text("Hello world!"));
-```
-
-If everything is okay, you may see a text object with "Hello world" appears on the canvas.
-
-### The callback function per frame
-
-The callback function will be called in each frame, and it allow user getting the current frame through a parameter.
-
-There are also two ways to set the callback function.
+Newcar offers many objects so that you have more choice (We have basic lib and some offical mods, please refer to API Docs.) In this instance, we use `Text` as a example.
 
 ```javascript
-// First way
-const scene = new $.Scene(
-  [],
-  [
-    (frame) => {
-      // ...
-    }
-  ]
+scene.add(
+  new $.Text("Hello world!", {
+    x: 100,
+    y: 100,
+    size: 50,
+  }),
 );
-
-// Second way
-scene.update((frame) => {
-  // ...
-});
 ```
 
-### Animation
+If everything is okay, you will see a text object with "Hello world" appears on the canvas.
 
-We need to use `animate()` to animate the object. The first parameter is the type of animations, the second is the holding frame of animation, and the finally is more parameters.
+### Set Up
+
+We use async function to control objects, the first paramter is itself, you can control its act.
+
+The codes below these texts can wait 100 frames and change the text to "Hi world".
 
 ```javascript
-scene.update((time) => {
-  text.animate($.moveTo, 100, {
-    x: 300,
-    y: 300
-  });
-});
+const scene = new $.Scene().add(
+  new $.Text("Hello world", {
+    x: 100,
+    y: 100,
+    size: 50,
+  }).setup(async (obj) => {
+    await $.sleep(100);
+    obj.text = "Hi world";
+  }),
+);
 ```
 
-These codes will let the text move to (300, 300) during 100 frame.
+### Animate
 
+We need to use `animate()` to animate the object. The first parameter is the function of animations, the second is the holding frame of animation, and the finally is more parameters.
+
+```javascript
+const scene = new $.Scene().add(
+  new $.Text("Hello world", {
+    x: 100,
+    y: 100,
+    size: 50,
+  }).setup(async (obj) => {
+    await $.sleep(100);
+    obj.animate($.move, 100, {
+      toX: 300,
+      toY: 300,
+    });
+  }),
+);
+```
+
+These codes will let the text move to (300, 300) during 100 frame
 
 ## 🧭 Future Plans
 
 - Add plugin system for the project, and make it has more flexibility.
 - Add charts module, to make the dynamic data animation.
+- Add geometry module.
 - Add skeleton module, let's make some animation!
 - Add event system to be a interactive animation engine.
 - Add UI.
@@ -125,9 +138,5 @@ These codes will let the text move to (300, 300) during 100 frame.
 ## 📖 Documentation
 
 The document is served on [newcar.js.org](https://newcar.js.org).
-
-## 📝 Contribution
-
-If you want to join the development or make a contribution, **please read the [Contribution Guide](./doc/README.md)**
 
 _Copyright (c) 2022-present, BugDuck Team_

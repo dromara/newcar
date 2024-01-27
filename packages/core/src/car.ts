@@ -1,11 +1,19 @@
 import { config } from "@newcar/utils";
+import mitt from "mitt";
 
 import type { Scene } from "./scene";
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type CarHookEventMap = {
+  "before-frame-update": Car;
+  "frame-updated": Car;
+};
+
 export class Car {
-  #playing: boolean;
+  private _playing: boolean;
   private lastUpdateTime: number;
   readonly context: CanvasRenderingContext2D;
+  readonly hook = mitt<CarHookEventMap>();
 
   constructor(public element: HTMLCanvasElement, public scene: Scene) {
     this.playing = false;
@@ -14,6 +22,8 @@ export class Car {
   }
 
   static update(car: Car): void {
+    car.hook.emit("before-frame-update", car);
+
     let elapsed: number;
     switch (config.timing) {
       case "frame": {
@@ -21,7 +31,7 @@ export class Car {
         break;
       }
       case "second": {
-        const currentTimestamp = Date.now();
+        const currentTimestamp = performance.now();
         const intervalTime = (currentTimestamp - car.lastUpdateTime) / 1000;
         car.lastUpdateTime = currentTimestamp;
         elapsed = intervalTime;
@@ -35,6 +45,7 @@ export class Car {
     }
     (function f(objects: typeof car.scene.objects) {
       for (const object of objects) {
+        object.beforeUpdate(car);
         for (const animation of object.animations) {
           if (animation.elapsed <= animation.duration) {
             animation.elapsed += elapsed;
@@ -47,11 +58,16 @@ export class Car {
           }
         }
         f(object.children);
+        object.updated(car);
       }
     })(car.scene.objects);
     for (const object of car.scene.objects) {
       object.update(car.context);
+      object.updated(car);
     }
+
+    car.hook.emit("frame-updated", car);
+
     if (car.playing) {
       requestAnimationFrame(() => Car.update(car));
     }
@@ -76,13 +92,13 @@ export class Car {
   }
 
   get playing(): boolean {
-    return this.#playing;
+    return this._playing;
   }
 
   set playing(playing: boolean) {
-    this.#playing = playing;
+    this._playing = playing;
     if (playing) {
-      this.lastUpdateTime = Date.now();
+      this.lastUpdateTime = performance.now();
       requestAnimationFrame(() => Car.update(this));
     }
   }

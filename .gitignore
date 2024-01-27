@@ -5,3 +5,4 @@
 /pnpm-lock.yaml
 .rollup.cache/
 /.VSCodeCounter/**
+.vscode
