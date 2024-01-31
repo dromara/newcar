@@ -57,6 +57,8 @@ export class NumberPlane extends Carobj {
     }
     this.axisY.tickRotation = this.axisX.rotation - this.axisY.rotation;
     this.axisX.tickRotation = Math.PI - this.axisY.tickRotation;
+    this.axisX.progress = this.progress;
+    this.axisY.progress = this.progress;
     this.axisX.update(context, NumberAxisStyle.Tick);
     this.axisY.update(context, NumberAxisStyle.Tick);
     this.axisX.update(context, NumberAxisStyle.Axis | NumberAxisStyle.Arrow);
@@ -73,6 +75,7 @@ export class NumberPlane extends Carobj {
         }
       }
     }
+    context.scale(-1, 1);
   }
 
   set trend(trend: TrendType) {
