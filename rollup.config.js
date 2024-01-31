@@ -50,6 +50,7 @@ export default [
     ],
     plugins,
     treeshake: true,
+    external: [],
   })),
   ...files.map((file) => ({
     input: `./packages/${file[0]}/dist/packages/${file[0]}/src/${file[1]}.d.ts`,
@@ -60,5 +61,6 @@ export default [
       },
     ],
     plugins: d,
+    external: [],
   })),
 ];
