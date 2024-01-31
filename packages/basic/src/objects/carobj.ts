@@ -160,7 +160,7 @@ export class Carobj implements CarobjOption {
   }
 
   setup(callback: (object: Carobj) => Promise<void>): this {
-    callback(this);
+    Promise.resolve().then(() => callback(this));
 
     return this;
   }
