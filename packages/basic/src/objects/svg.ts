@@ -5,7 +5,7 @@ import { Image } from "./image";
 import type { Sized } from "./interfaces";
 
 const svg2Blob = (xml: string): Blob =>
-  new Blob([xml], { type: "image/svg+xml;charset=utf-8" });
+  new Blob([xml], { type: "image/svg+xml" });
 
 const wrappedSvg = (svg: string, width?: number, height?: number): string =>
   `<${[

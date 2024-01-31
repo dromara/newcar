@@ -12,6 +12,7 @@ export { Polygon } from "./figures/polygon";
 export { Rectangle } from "./figures/rectangle";
 // maths
 export { MathFunction } from "./maths/math-function";
+export { MathTex } from "./maths/math-tex";
 export { NumberAxis } from "./maths/number-axis";
 export { NumberPlane } from "./maths/number-plane";
 // interfaces
