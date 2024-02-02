@@ -4,17 +4,17 @@
   "packageManager": "pnpm@8.15.1",
   "type": "module",
   "scripts": {
-    "info": "lerna info",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "release": "pnpm preversion && changeset version",
+    "format": "prettier --write .",
     "preversion": "pnpm clean && pnpm build",
-    "publish": "changeset publish",
     "build": "pnpm run --filter=* build",
     "dev": "pnpm run --parallel --filter=* dev",
     "serve": "vite ./examples/",
-    "format": "prettier --write .",
-    "clean": "rimraf -g ./packages/*/dist"
+    "clean": "rimraf -g ./packages/*/dist",
+    "change": "changeset add",
+    "release": "pnpm preversion && changeset version",
+    "publish": "changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
