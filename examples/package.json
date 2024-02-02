@@ -1,4 +1,5 @@
 {
+  "name": "@newcar/examples",
   "private": true,
   "dependencies": {
     "newcar": "workspace:*",

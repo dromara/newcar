@@ -46,7 +46,10 @@ export class Line extends Carobj implements LineOption {
     context.strokeStyle = this.color.toString();
     context.lineWidth = this.lineWidth;
     context.moveTo(this.fromX, this.fromY);
-    context.lineTo(this.fromX + (this.toX - this.fromX) * this.progress, this.fromY + (this.toY - this.fromY) * this.progress);
+    context.lineTo(
+      this.fromX + (this.toX - this.fromX) * this.progress,
+      this.fromY + (this.toY - this.fromY) * this.progress,
+    );
     context.stroke();
   }
 
