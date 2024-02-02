@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "dependencies": {
+    "newcar": "workspace:*",
+    "@newcar/utils": "workspace:*",
+    "@newcar/core": "workspace:*",
+    "@newcar/basic": "workspace:*",
+    "@newcar/mod-markdown": "workspace:*",
+    "@newcar/recorder": "workspace:*"
+  }
+}

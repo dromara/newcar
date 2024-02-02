@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="module" src="./index.js"></script>
-    <script src="../../packages/basic/node_modules/temml/dist/temml.min.js"></script>
+    <script type="module" defer src="./index.ts"></script>
+    <!-- <script src="../../packages/basic/node_modules/temml/dist/temml.min.js"></script> -->
     <title>Test</title>
   </head>
   <body>
@@ -72,11 +72,11 @@
       </foreignObject>
     </svg>
     <script>
-      const str = temml.renderToString(
-        `\\def\\d{\\mathrm{d}}
-\\oint_C \\vec{B}\\circ \\d\\vec{l} = \\mu_0 \\left( I_{\\text{enc}} + \\varepsilon_0 \\frac{\\d}{\\d t} \\int_S {\\vec{E} \\circ \\hat{n}}\\; \\d a \\right)`,
-      );
-      console.log(str);
+      //       const str = temml.renderToString(
+      //         `\\def\\d{\\mathrm{d}}
+      // \\oint_C \\vec{B}\\circ \\d\\vec{l} = \\mu_0 \\left( I_{\\text{enc}} + \\varepsilon_0 \\frac{\\d}{\\d t} \\int_S {\\vec{E} \\circ \\hat{n}}\\; \\d a \\right)`,
+      //       );
+      //       console.log(str);
     </script>
   </body>
 </html>

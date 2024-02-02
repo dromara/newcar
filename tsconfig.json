@@ -20,5 +20,5 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["packages/**/*"]
+  "include": ["packages/**/*", "examples/**/*"]
 }

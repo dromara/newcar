@@ -1,4 +1,4 @@
-import * as $ from "../../packages/newcar/dist/newcar.mjs";
+import * as $ from "newcar";
 
 const s = $.sleep;
 
@@ -6,7 +6,7 @@ const g = 10;
 const v = 150;
 const mu = 0.5;
 const l = 300;
-const x = (t) => {
+const x = (t: number) => {
   // 计算加速度
   var a = mu * g;
 

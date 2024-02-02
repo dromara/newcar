@@ -13,6 +13,7 @@
     "publish": "pnpm prepublish && pnpm run -filter=* publish",
     "build": "pnpm run --filter=* build",
     "dev": "pnpm run --parallel --filter=* dev",
+    "serve": "vite ./examples/",
     "format": "prettier --write \"packages/**/*.ts?(x)\"",
     "clean": "rimraf -g ./packages/*/dist"
   },
@@ -23,6 +24,7 @@
     "pkgroll": "^2.0.1",
     "prettier": "^2.8.8",
     "rimraf": "^3.0.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12"
   }
 }
