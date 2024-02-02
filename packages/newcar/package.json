@@ -8,16 +8,18 @@
     "animation"
   ],
   "scripts": {
-    "publish": "npm publish"
+    "publish": "npm publish",
+    "build": "pkgroll --sourcemap --minify",
+    "dev": "pkgroll -w"
   },
   "license": "Apache-2.0",
-  "types": "./dist/newcar.d.ts",
-  "module": "./dist/newcar.js",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.mjs",
   "exports": {
     ".": {
-      "import": "./dist/newcar.mjs",
-      "types": "./dist/newcar.d.ts",
-      "require": "./dist/newcar.cjs"
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs"
     }
   },
   "dependencies": {
@@ -25,5 +27,11 @@
     "@newcar/core": "workspace:0.6.5",
     "@newcar/recorder": "workspace:0.6.5",
     "@newcar/utils": "workspace:0.6.5"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

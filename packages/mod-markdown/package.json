@@ -9,12 +9,20 @@
     "marked": "^10.0.0"
   },
   "scripts": {
-    "publish": "npm publish"
+    "publish": "npm publish",
+    "build": "pkgroll --sourcemap --minify",
+    "dev": "pkgroll -w"
   },
   "exports": {
-    "types": "./dist/newcar-mod-markdown.d.ts",
-    "import": "./dist/newcar-mod-markdown.mjs",
-    "require": "./dist/newcar-mod-markdown.cjs"
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
   },
-  "types": "./dist/newcar-mod-markdown.d.ts"
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

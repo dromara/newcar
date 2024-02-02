@@ -10,8 +10,8 @@ export type CarHookEventMap = {
 };
 
 export class Car {
-  private _playing: boolean;
-  private lastUpdateTime: number;
+  private _playing!: boolean;
+  private lastUpdateTime!: number;
   readonly context: CanvasRenderingContext2D;
   readonly hook = mitt<CarHookEventMap>();
 

@@ -13,7 +13,7 @@ export const changeProperty = (
   to?: number,
 ): Animate =>
   Array.isArray(key)
-    ? (() => {
+    ? ((() => {
         const [keyX, keyY] = key;
 
         return (
@@ -36,8 +36,8 @@ export const changeProperty = (
           object[keyX] = interpolator(params.fromX, params.toX, by)(process);
           object[keyY] = interpolator(params.fromY, params.toY, by)(process);
         };
-      })()
-    : (
+      })() as Animate)
+    : (((
         object: Carobj,
         process: number,
         by: TimingFunction,
@@ -49,4 +49,4 @@ export const changeProperty = (
         params.from ??= from ?? object[key];
         params.to ??= to ?? object[key];
         object[key] = interpolator(params.from, params.to, by)(process);
-      };
+      }) as Animate);

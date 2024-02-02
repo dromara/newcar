@@ -3,12 +3,9 @@
  * @see https://www.desmos.com/calculator/yasltaa9um
  */
 
-/**
- * A continuous function that passes through points (0,0) and (1,1).
- * @param x The independent variable from 0 to 1.
- * @returns The dependent variable of x.
- */
-export type TimingFunction = (x: number) => number;
+import type { TimingFunction } from "@newcar/core";
+
+export type { TimingFunction };
 
 const c = 1.701_58;
 const n = 7.5625;

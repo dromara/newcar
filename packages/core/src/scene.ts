@@ -1,6 +1,5 @@
-import type { Carobj } from "@newcar/basic";
-
 import type { Car } from "./car";
+import type { Carobj } from "./carobj";
 
 export type UpdateFunction = (elapsed: number) => void;
 
@@ -8,7 +7,7 @@ export class Scene {
   elapsed = 0;
   objects: Carobj[] = [];
   updates: ((frame: number) => void)[] = [];
-  car: Car;
+  car!: Car;
 
   constructor() {}
 

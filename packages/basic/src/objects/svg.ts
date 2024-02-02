@@ -1,5 +1,3 @@
-import { DOMURL } from "@newcar/utils";
-
 import type { CarobjOption } from "./carobj";
 import { Image } from "./image";
 import type { Sized } from "./interfaces";
@@ -18,7 +16,7 @@ const wrappedSvg = (svg: string, width?: number, height?: number): string =>
     .join(" ")}>${svg}</svg>`;
 
 const solve = (svg: string, width?: number, height?: number): string =>
-  DOMURL.createObjectURL(svg2Blob(wrappedSvg(svg, width, height)));
+  window.URL.createObjectURL(svg2Blob(wrappedSvg(svg, width, height)));
 
 /**
  * The SVG object.

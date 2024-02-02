@@ -10,14 +10,22 @@
     "temml": "^0.10.22"
   },
   "scripts": {
-    "publish": "npm publish"
+    "publish": "npm publish",
+    "build": "pkgroll --sourcemap --minify",
+    "dev": "pkgroll -w"
   },
   "exports": {
     ".": {
-      "import": "./dist/newcar-basic.mjs",
-      "require": "./dist/newcar-basic.cjs",
-      "types": "./dist/newcar-basic.d.ts"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
     }
   },
-  "types": "./dist/newcar-basic.d.ts"
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
