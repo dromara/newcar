@@ -22,5 +22,8 @@
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "colorparsley": "^0.1.8"
   }
 }
