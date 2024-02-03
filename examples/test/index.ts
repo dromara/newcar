@@ -32,24 +32,10 @@ const scene = new $.Scene()
       obj.animate($.changeProperty("radius", 0, 100), 100);
     }),
   )
-  .add(
-    new $.MathTex(
-      `
-    \\def\\d{\\mathrm{d}}
-    \\oint_C \\vec{B}\\circ \\d\\vec{l} = \\mu_0 \\left( I_{\\text{enc}} + \\varepsilon_0 \\frac{\\d}{\\d t} \\int_S {\\vec{E} \\circ \\hat{n}}\\; \\d a \\right)
-    `,
-      {
-        x: 100,
-        y: 100,
-        width: 600,
-        height: 600,
-      },
-    ),
-  );
 
-// const car = $.newcar("#test");
-// car.scene = scene;
-// car.play();
+const car = $.newcar("#test");
+car.scene = scene;
+car.play();
 
 const recorder = new $.Recorder(car);
 recorder.record(100, (url) => {

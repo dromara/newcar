@@ -46,12 +46,14 @@ const scene = new $.Scene().add(
     x: 800,
     y: 450,
   })
+    .setup(async obj => {
+      obj.provide("test", "Hello world!");
+    })
     .add(
       new $.Arc(50, {
         x: -150,
       }).setup(async (obj) => {
-        console.log();
-        obj.y = obj.pa;
+        console.log(obj.inject("test"))
       }),
     )
     .add(
