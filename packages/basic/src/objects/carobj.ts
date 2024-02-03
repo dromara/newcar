@@ -1,2 +1,2 @@
-export type { CarobjOption } from "@newcar/core";
-export { Carobj } from "@newcar/core";
+export type { CarObjectOption } from "@newcar/core";
+export { CarObject } from "@newcar/core";

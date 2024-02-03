@@ -1,4 +1,4 @@
-import type { CarobjOption } from "./carobj";
+import type { CarObjectOption } from "./carobj";
 import type { Sized } from "./interfaces";
 import { Svg } from "./svg";
 
@@ -18,7 +18,7 @@ export class WebView extends Svg implements Sized {
    * @param options The options of the object.
    * @see SvgOption
    */
-  constructor(xhtml: string, options?: CarobjOption & Sized) {
+  constructor(xhtml: string, options?: CarObjectOption & Sized) {
     super(xhtml2Svg(xhtml), options);
     this.#xhtml = xhtml;
   }

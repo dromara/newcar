@@ -16,7 +16,7 @@ export type TimingFunction = (x: number) => number;
  * @param params Other parameters of the animation.
  */
 export type Animate = (
-  object: Carobj,
+  object: CarObject,
   process: number,
   by: TimingFunction,
   params?: Record<string, any>,
@@ -43,9 +43,9 @@ interface Animation {
  * @param transparency The transparency of the object from 0 to 1.
  * @param operation The operation of canva when rendering the object.
  * @param progress The progress of rendering.
- * @see Carobj
+ * @see CarObject
  */
-export interface CarobjOption {
+export interface CarObjectOption {
   display?: boolean;
   x?: number;
   y?: number;
@@ -56,14 +56,14 @@ export interface CarobjOption {
   rotation?: number;
   transparency?: number;
   operation?: GlobalCompositeOperation;
-  children?: Carobj[];
+  children?: CarObject[];
   progress?: number;
 }
 
 /**
  * The basic animation object of newcar.
  */
-export class Carobj implements CarobjOption {
+export class CarObject implements CarObjectOption {
   display: boolean;
   x: number;
   y: number;
@@ -74,17 +74,17 @@ export class Carobj implements CarobjOption {
   rotation: number;
   transparency: number;
   operation: GlobalCompositeOperation;
-  children: Carobj[] = [];
-  parent?: Carobj;
+  children: CarObject[] = [];
+  parent?: CarObject;
   animations: Animation[] = [];
   progress: number;
   data: Record<string, any> = {};
 
   /**
    * @param options The options for construct the object.
-   * @see CarobjOption
+   * @see CarObjectOption
    */
-  constructor(options?: CarobjOption) {
+  constructor(options?: CarObjectOption) {
     options ??= {};
     this.display = options.display ?? true;
     this.x = options.x ?? 0;
@@ -146,7 +146,7 @@ export class Carobj implements CarobjOption {
    * Add children to the object.
    * @param children The children to add.
    */
-  add(...children: Carobj[]): this {
+  add(...children: CarObject[]): this {
     for (const child of children) {
       child.parent = this;
       this.children.push(child);
@@ -194,7 +194,7 @@ export class Carobj implements CarobjOption {
   // 子组件从父组件中注入信息
   inject(key: string): any {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    let current: Carobj | undefined = this;
+    let current: CarObject | undefined = this;
     while (current) {
       if (key in current.data) {
         return current.data[key];

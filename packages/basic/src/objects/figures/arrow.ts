@@ -1,18 +1,18 @@
 import type { Point, Vector } from "@newcar/utils";
 import { Color, arrows, toVector } from "@newcar/utils";
 
-import type { CarobjOption } from "../carobj";
-import { Carobj } from "../carobj";
+import type { CarObjectOption } from "../carobj";
+import { CarObject } from "../carobj";
 import { Polygon } from "../figures/polygon";
 
 /**
  * The line options.
  * @param color The color of the line.
  * @param lineWidth The width of the line.
- * @see CarobjOption
+ * @see CarObjectOption
  * @see Line
  */
-export interface ArrowOption extends CarobjOption {
+export interface ArrowOption extends CarObjectOption {
   color?: Color;
   lineWidth?: number;
   arrow?: Point[];
@@ -21,7 +21,7 @@ export interface ArrowOption extends CarobjOption {
 /**
  * The line object.
  */
-export class Arrow extends Carobj implements ArrowOption {
+export class Arrow extends CarObject implements ArrowOption {
   color: Color;
   lineWidth: number;
   fromX: number;

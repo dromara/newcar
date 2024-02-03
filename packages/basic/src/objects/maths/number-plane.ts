@@ -1,4 +1,4 @@
-import { Carobj } from "../carobj";
+import { CarObject } from "../carobj";
 import { Text } from "../text";
 import type { NumberAxisOption, Trend, TrendType } from "./number-axis";
 import { NumberAxis, NumberAxisStyle, solve } from "./number-axis";
@@ -17,7 +17,7 @@ export type NumberPlaneOption = NumberPlaneAxisOption & {
 
 const nonInheritedProps = "trend,x,y,centerX,centerY,rotation";
 
-export class NumberPlane extends Carobj {
+export class NumberPlane extends CarObject {
   #trend: Trend | null;
   axisX: NumberAxis;
   axisY: NumberAxis;

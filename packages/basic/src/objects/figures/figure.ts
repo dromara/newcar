@@ -1,21 +1,21 @@
 import { Color } from "@newcar/utils";
 
-import type { CarobjOption } from "../carobj";
-import { Carobj } from "../carobj";
+import type { CarObjectOption } from "../carobj";
+import { CarObject } from "../carobj";
 import type { Bordered, Fillable } from "../interfaces";
 
 /**
  * The figure options.
- * @see CarobjOption
+ * @see CarObjectOption
  * @see Bordered
  * @see Fillable
  */
-export type FigureOption = CarobjOption & Bordered & Fillable;
+export type FigureOption = CarObjectOption & Bordered & Fillable;
 
 /**
  * The figure object.
  */
-export class Figure extends Carobj implements FigureOption {
+export class Figure extends CarObject implements FigureOption {
   borderWidth: number;
   borderColor: Color;
   fillColor?: Color;

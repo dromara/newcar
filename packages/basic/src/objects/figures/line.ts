@@ -1,17 +1,17 @@
 import type { Point, Vector } from "@newcar/utils";
 import { Color, toVector } from "@newcar/utils";
 
-import type { CarobjOption } from "../carobj";
-import { Carobj } from "../carobj";
+import type { CarObjectOption } from "../carobj";
+import { CarObject } from "../carobj";
 
 /**
  * The line options.
  * @param color The color of the line.
  * @param lineWidth The width of the line.
- * @see CarobjOption
+ * @see CarObjectOption
  * @see Line
  */
-export interface LineOption extends CarobjOption {
+export interface LineOption extends CarObjectOption {
   color?: Color;
   lineWidth?: number;
 }
@@ -19,7 +19,7 @@ export interface LineOption extends CarobjOption {
 /**
  * The line object.
  */
-export class Line extends Carobj implements LineOption {
+export class Line extends CarObject implements LineOption {
   color: Color;
   lineWidth: number;
   fromX: number;

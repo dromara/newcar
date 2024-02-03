@@ -1,7 +1,7 @@
 import { Color } from "@newcar/utils";
 
-import type { CarobjOption } from "../carobj";
-import { Carobj } from "../carobj";
+import type { CarObjectOption } from "../carobj";
+import { CarObject } from "../carobj";
 
 export type MathFunc = (x: number) => number;
 
@@ -11,10 +11,10 @@ export type MathFunc = (x: number) => number;
  * @param lineWidth The line width of the math function.
  * @param divisionX The number of horizontal divisions.
  * @param divisionY The number of vertical divisions.
- * @see CarobjOption
+ * @see CarObjectOption
  * @see Text
  */
-export interface MathFunctionOption extends CarobjOption {
+export interface MathFunctionOption extends CarObjectOption {
   color?: Color;
   lineWidth?: number;
   divisionX?: number;
@@ -24,7 +24,7 @@ export interface MathFunctionOption extends CarobjOption {
 /**
  * The math function object.
  */
-export class MathFunction extends Carobj {
+export class MathFunction extends CarObject {
   func: MathFunc;
   domain: [number, number];
   color: Color;
@@ -39,7 +39,7 @@ export class MathFunction extends Carobj {
    * @param fromY The start of range.
    * @param toY The end of range.
    * @param options The options of the object.
-   * @see CarobjOption
+   * @see CarObjectOption
    */
   constructor(
     func: MathFunc,

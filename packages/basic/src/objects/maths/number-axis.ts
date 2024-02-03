@@ -1,8 +1,8 @@
 import type { Point } from "@newcar/utils";
 import { Color, arrows } from "@newcar/utils";
 
-import type { CarobjOption } from "../carobj";
-import { Carobj } from "../carobj";
+import type { CarObjectOption } from "../carobj";
+import { CarObject } from "../carobj";
 import { Line } from "../figures/line";
 import { Polygon } from "../figures/polygon";
 import type { TextOption } from "../text";
@@ -59,10 +59,10 @@ export enum NumberAxisStyle {
  * @param color The color of the number axis.
  * @param arrow A array of `Point`, `null` for no arrow.
  * @param trend A `function` or `TextOption`, `null` for no trend.
- * @see CarobjOption
+ * @see CarObjectOption
  * @see NumberAxis
  */
-export interface NumberAxisOption extends CarobjOption {
+export interface NumberAxisOption extends CarObjectOption {
   unit?: number;
   interval?: number;
   axisWidth?: number;
@@ -78,7 +78,7 @@ export interface NumberAxisOption extends CarobjOption {
 /**
  * The number axis object.
  */
-export class NumberAxis extends Carobj implements NumberAxisOption {
+export class NumberAxis extends CarObject implements NumberAxisOption {
   unit: number;
   interval: number;
   axisWidth: number;
@@ -94,7 +94,7 @@ export class NumberAxis extends Carobj implements NumberAxisOption {
    * @param from The starting unit of the number axis.
    * @param to The ending unit of the number axis.
    * @param options The options for construct the object.
-   * @see CarobjOption
+   * @see CarObjectOption
    */
   constructor(
     public from: number,

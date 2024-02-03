@@ -1,6 +1,16 @@
-import * as $ from "newcar";
-
-const s = $.sleep;
+import {
+  sleep,
+  Scene,
+  CarObject,
+  Arc,
+  Color,
+  Line,
+  Arrow,
+  Text,
+  Rectangle,
+  move,
+  createCar,
+} from "newcar";
 
 const g = 10;
 const v = 150;
@@ -41,78 +51,78 @@ const x = (t: number) => {
   }
 };
 
-const scene = new $.Scene().add(
-  new $.Carobj({
+const scene = new Scene().add(
+  new CarObject({
     x: 800,
     y: 450,
   })
-    .setup(async obj => {
+    .setup(async (obj) => {
       obj.provide("test", "Hello world!");
     })
     .add(
-      new $.Arc(50, {
+      new Arc(50, {
         x: -150,
       }).setup(async (obj) => {
-        console.log(obj.inject("test"))
+        console.log(obj.inject("test"));
       }),
     )
     .add(
-      new $.Arc(50, {
+      new Arc(50, {
         x: 150,
       }),
     )
     .add(
-      new $.Arc(2, {
+      new Arc(2, {
         x: -150,
-        fillColor: $.Color.WHITE,
+        fillColor: Color.WHITE,
       }),
     )
     .add(
-      new $.Arc(2, {
+      new Arc(2, {
         x: 150,
-        fillColor: $.Color.WHITE,
+        fillColor: Color.WHITE,
       }),
     )
-    .add(new $.Line([-150, 50], [150, 50]))
-    .add(new $.Line([-150, -50], [150, -50]))
-    .add(new $.Arrow([-50, 75], [50, 75]))
+    .add(new Line([-150, 50], [150, 50]))
+    .add(new Line([-150, -50], [150, -50]))
+    .add(new Arrow([-50, 75], [50, 75]))
     .add(
-      new $.Text("v", {
+      new Text("v", {
         y: 85,
       }),
     )
     .add(
-      new $.Rectangle(-30, -30, 30, 30, {
+      new Rectangle(-30, -30, 30, 30, {
         x: -150,
         y: -80,
       })
         .add(
-          new $.Arc(2, {
-            fillColor: $.Color.WHITE,
+          new Arc(2, {
+            fillColor: Color.WHITE,
           }),
         )
         .add(
-          new $.Arrow([0, 0], [0, -150]).add(
-            new $.Text("N", {
+          new Arrow([0, 0], [0, -150]).add(
+            new Text("N", {
               y: -180,
             }),
           ),
         )
         .add(
-          new $.Arrow([0, 0], [0, 150]).add(
-            new $.Text("G = mg", {
+          new Arrow([0, 0], [0, 150]).add(
+            new Text("G = mg", {
               y: 180,
             }),
           ),
         )
         .add(
-          new $.Arrow([0, 0], [100, 0]).add(
-            new $.Text("f", {
+          new Arrow([0, 0], [100, 0]).add(
+            new Text("f", {
               x: 130,
             }),
           ),
         )
-        .animate($.move, 500, {
+        .animate(move, 500, {
           toX: 150,
           toY: -80,
           by: x,
@@ -120,6 +130,6 @@ const scene = new $.Scene().add(
     ),
 );
 
-const car = $.newcar("#canvas");
+const car = createCar("#canvas");
 car.scene = scene;
 car.play();

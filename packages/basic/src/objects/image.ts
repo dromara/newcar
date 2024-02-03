@@ -1,10 +1,10 @@
-import type { CarobjOption } from "./carobj";
-import { Carobj } from "./carobj";
+import type { CarObjectOption } from "./carobj";
+import { CarObject } from "./carobj";
 
 /**
  * The image object.
  */
-export class Image extends Carobj {
+export class Image extends CarObject {
   #url: string;
   protected ready: boolean;
   readonly image: HTMLImageElement = document.createElement("img");
@@ -12,9 +12,9 @@ export class Image extends Carobj {
   /**
    * @param url The url of the image.
    * @param options The options of the object.
-   * @see CarobjOption
+   * @see CarObjectOption
    */
-  constructor(url: string, options?: CarobjOption) {
+  constructor(url: string, options?: CarObjectOption) {
     super(options);
     this.url = url;
   }

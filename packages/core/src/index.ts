@@ -1,4 +1,4 @@
 export { Car } from "./car";
-export type { Animate, CarobjOption, TimingFunction } from "./carobj";
-export { Carobj, linear } from "./carobj";
+export type { Animate, CarObjectOption, TimingFunction } from "./carobj";
+export { CarObject, linear } from "./carobj";
 export { Scene } from "./scene";

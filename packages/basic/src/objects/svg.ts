@@ -1,4 +1,4 @@
-import type { CarobjOption } from "./carobj";
+import type { CarObjectOption } from "./carobj";
 import { Image } from "./image";
 import type { Sized } from "./interfaces";
 
@@ -29,9 +29,9 @@ export class Svg extends Image implements Sized {
   /**
    * @param svg The svg content.
    * @param options The options of the object.
-   * @see CarobjOption
+   * @see CarObjectOption
    */
-  constructor(svg: string, options?: CarobjOption & Sized) {
+  constructor(svg: string, options?: CarObjectOption & Sized) {
     super(solve(svg, (options ??= {}).width, options.height), options);
     this.#svg = svg;
     this.width = options.width;

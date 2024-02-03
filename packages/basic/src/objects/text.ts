@@ -1,7 +1,7 @@
 import { Color } from "@newcar/utils";
 
-import type { CarobjOption } from "./carobj";
-import { Carobj } from "./carobj";
+import type { CarObjectOption } from "./carobj";
+import { CarObject } from "./carobj";
 import type { Bordered } from "./interfaces";
 
 /**
@@ -11,11 +11,11 @@ import type { Bordered } from "./interfaces";
  * @param font The font of the text.
  * @param align The align of the text.
  * @param baseline The baseline of the text.
- * @see CarobjOption
+ * @see CarObjectOption
  * @see Bordered
  * @see Text
  */
-export interface TextOption extends CarobjOption, Bordered {
+export interface TextOption extends CarObjectOption, Bordered {
   size?: number;
   font?: string;
   color?: Color;
@@ -26,7 +26,7 @@ export interface TextOption extends CarobjOption, Bordered {
 /**
  * The text object.
  */
-export class Text extends Carobj implements TextOption {
+export class Text extends CarObject implements TextOption {
   text: string;
   size: number;
   font: string;
