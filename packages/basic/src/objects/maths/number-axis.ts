@@ -108,7 +108,7 @@ export class NumberAxis extends Carobj implements NumberAxisOption {
     this.tickWidth = options.tickWidth ?? 2;
     this.tickHeight = options.tickHeight ?? 10;
     this.tickRotation = options.tickRotation ?? Math.PI / 2;
-    this.tickColor = options.tickColor ?? Color.GREY;
+    this.tickColor = options.tickColor ?? Color.WHITE;
     this.color = options.color ?? Color.WHITE;
     this.arrow = options.arrow === undefined ? arrows.triangle : options.arrow;
     this.trend = options.trend;
