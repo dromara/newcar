@@ -1,11 +1,11 @@
 {
   "name": "@newcar/recorder",
-  "version": "0.6.5",
+  "version": "0.7.0",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "@newcar/core": "workspace:0.6.5",
-    "@newcar/utils": "workspace:0.6.5"
+    "@newcar/core": "workspace:0.7.0",
+    "@newcar/utils": "workspace:0.7.0"
   },
   "exports": {
     ".": {

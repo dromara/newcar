@@ -1,11 +1,11 @@
 {
   "name": "@newcar/mod-markdown",
-  "version": "0.6.5",
+  "version": "0.7.0",
   "description": "The markdown surport of newcar",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "@newcar/basic": "workspace:0.6.5",
+    "@newcar/basic": "workspace:0.7.0",
     "marked": "^10.0.0"
   },
   "scripts": {

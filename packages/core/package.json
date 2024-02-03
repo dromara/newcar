@@ -1,6 +1,6 @@
 {
   "name": "@newcar/core",
-  "version": "0.6.5",
+  "version": "0.7.0",
   "description": "The core of newcar.",
   "scripts": {
     "publish": "npm publish",
@@ -20,7 +20,7 @@
     }
   },
   "dependencies": {
-    "@newcar/utils": "workspace:0.6.5",
+    "@newcar/utils": "workspace:0.7.0",
     "mitt": "^3.0.1"
   },
   "types": "./dist/index.d.ts",
