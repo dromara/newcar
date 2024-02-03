@@ -191,7 +191,6 @@ export class CarObject implements CarObjectOption {
     return this;
   }
 
-  // 子组件从父组件中注入信息
   inject(key: string): any {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     let current: CarObject | undefined = this;
