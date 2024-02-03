@@ -24,8 +24,8 @@ export function solve(
   trend: TrendType,
   defaultOption: TextOption = { y: 16, size: 16 },
 ): Trend | null {
-  if (trend == null) {
-    return null;
+  if (trend === null) {
+    return trend as Trend;
   }
   let trender: Trender = String;
   const options: TextOption = { ...defaultOption }; // shallow copy

@@ -1,7 +1,8 @@
-import type { FigureOption } from "./figure";
-import { Figure } from "./figure";
 import type { Point, Vector } from "@newcar/utils";
 import { toVector } from "@newcar/utils";
+
+import type { FigureOption } from "./figure";
+import { Figure } from "./figure";
 
 /**
  * The rectangle options.
