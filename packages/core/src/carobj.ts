@@ -78,6 +78,7 @@ export class Carobj implements CarobjOption {
   parent?: Carobj;
   animations: Animation[] = [];
   progress: number;
+  data: Record<string, any> = {};
 
   /**
    * @param options The options for construct the object.
@@ -177,10 +178,31 @@ export class Carobj implements CarobjOption {
     return this;
   }
 
-  setup(callback: (object: Carobj) => Promise<void>): this {
+  setup(callback: (object: this) => Promise<void>): this {
     Promise.resolve().then(() => callback(this));
 
     return this;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  provide(key: string, value: any): this {
+    this.data[key] = value;
+
+    return this;
+  }
+
+  // 子组件从父组件中注入信息
+  inject(key: string): any {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    let current: Carobj | undefined = this;
+    while (current) {
+      if (key in current.data) {
+        return current.data[key];
+      }
+      current = current.parent;
+    }
+
+    return undefined;
   }
 
   get scale(): [number, number] {
