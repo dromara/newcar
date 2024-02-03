@@ -1,12 +1,30 @@
 import { colorParsley, colorToHex, colorToRGB } from "colorparsley";
 
+export type ColorRgba = [r: number, g: number, b: number, alpha: number];
+
 export class Color {
   private constructor(
-    readonly red?: number,
-    readonly green?: number,
-    readonly blue?: number,
+    readonly red: number,
+    readonly green: number,
+    readonly blue: number,
     readonly alpha: number = 1,
   ) {}
+
+  withAlpha(newAlpha: number): Color {
+    return Color.rgba(this.red, this.green, this.blue, newAlpha);
+  }
+
+  toArray(): ColorRgba {
+    return [this.red, this.green, this.blue, this.alpha];
+  }
+
+  toArrayFloat(): ColorRgba {
+    return [this.red / 255, this.green / 255, this.blue / 255, this.alpha];
+  }
+
+  toFloat4(): Float32Array {
+    return new Float32Array(this.toArrayFloat());
+  }
 
   /**
    * Generate a color by red, green, blue, alpha components,
@@ -120,3 +138,5 @@ export class Color {
   static readonly WHITE = Color.rgba(255, 255, 255);
   static readonly BLACK = Color.rgba(0, 0, 0);
 }
+
+Color.BLACK.
