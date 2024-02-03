@@ -19,6 +19,9 @@ const scene = new $.Scene()
       x: 100,
       y: 100,
     })
+    .add(
+      new $.MathFunction(Math.sin, -5, 5).animate($.create, 100)
+    )
   )
   .add(
     new $.Text("Hello world!")

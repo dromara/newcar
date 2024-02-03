@@ -65,7 +65,7 @@ export class MathFunction extends CarObject {
     // console.log(this.domain, 1 / this.divisionX);
     for (
       let x = this.domain[0];
-      x <= this.domain[1] * this.progress;
+      x <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
       x += 1 / this.divisionX
     ) {
       const value = this.func(x);
