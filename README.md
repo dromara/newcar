@@ -49,7 +49,7 @@ Via `newcar` to create a animation.
 ```javascript
 import * as $ from "newcar";
 
-const animation = $.createCar("#canvas");
+const animation = $.newcar("#canvas");
 ```
 
 And then, we need to create a scene for the animation and check out to it.
