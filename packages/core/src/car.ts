@@ -1,4 +1,6 @@
 import { config } from "@newcar/utils";
+import type { Canvas, CanvasKit, Paint, Surface } from "canvaskit-wasm";
+import CanvasKitInit from "canvaskit-wasm";
 import mitt from "mitt";
 
 import type { Scene } from "./scene";
@@ -12,13 +14,29 @@ export type CarHookEventMap = {
 export class Car {
   private _playing!: boolean;
   private lastUpdateTime!: number;
-  readonly context: CanvasRenderingContext2D;
+  // readonly context: CanvasRenderingContext2D;
+  readonly canvasKitLoaded = CanvasKitInit({
+    locateFile(_file) {
+      return config.canvaskitWasmFile;
+    },
+  });
+
+  canvaskit: CanvasKit;
+  paint: Paint;
+  surface: Surface;
+  canvas: Canvas;
+
   readonly hook = mitt<CarHookEventMap>();
 
   constructor(public element: HTMLCanvasElement, public scene: Scene) {
     this.playing = false;
     this.element.style.backgroundColor = "black";
-    this.context = this.element.getContext("2d")!;
+    // this.context = this.element.getContext("2d")!;
+    this.canvasKitLoaded.then((canvaskit) => {
+      this.canvaskit = canvaskit;
+      this.surface = canvaskit.MakeWebGLCanvasSurface(this.element);
+      this.paint = new canvaskit.Paint();
+    });
   }
 
   static update(car: Car): void {
@@ -39,7 +57,12 @@ export class Car {
       }
     }
     car.scene.elapsed += elapsed;
-    car.context.clearRect(0, 0, car.element.width, car.element.height);
+    // car.context.clearRect(0, 0, car.element.width, car.element.height);
+    function draw(canvas: Canvas) {
+      car.canvas = canvas;
+      canvas.clear(car.canvaskit.BLACK);
+    }
+    car.surface.drawOnce(draw);
     for (const update of car.scene.updates) {
       update(car.scene.elapsed);
     }
@@ -62,7 +85,7 @@ export class Car {
       }
     })(car.scene.objects);
     for (const object of car.scene.objects) {
-      object.update(car.context);
+      object.update(car.paint, car.canvas, car.canvaskit);
       object.updated(car);
     }
 

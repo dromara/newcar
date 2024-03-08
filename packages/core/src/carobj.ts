@@ -1,3 +1,6 @@
+/* eslint-disable unused-imports/no-unused-vars */
+import type { Canvas, CanvasKit, Paint } from "canvaskit-wasm";
+
 import type { Car } from "./car";
 
 export const linear: TimingFunction = (x: number) => x;
@@ -105,13 +108,16 @@ export class CarObject implements CarObjectOption {
    * This method is used for inherited classes to implement their rendering.
    * @param context The context instance of the canvas object.
    */
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  draw(context: CanvasRenderingContext2D, ...args: any[]): void {}
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
+  draw(
+    paint: Paint,
+    canvas: Canvas,
+    canvaskit: CanvasKit,
+    ...args: any[]
+  ): void {}
+
   beforeUpdate(car: Car): void {}
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
   updated(car: Car): void {}
 
   /**
@@ -121,25 +127,39 @@ export class CarObject implements CarObjectOption {
    * @param context The context instance of the canvas object.
    * @see draw()
    */
-  update(context: CanvasRenderingContext2D, ...args: any[]): void {
+  update(
+    paint: Paint,
+    canvas: Canvas,
+    canvaskit: CanvasKit,
+    ...args: any[]
+  ): void {
     if (!this.display) {
       return;
     }
 
-    context.save();
-    // Translate origin to the coordinate and set the rotation center.
-    context.translate(this.x + this.centerX, this.y + this.centerY);
-    context.rotate(this.rotation);
-    // After rotation, restore to the coordinate.
-    context.translate(-this.centerX, -this.centerY);
-    context.scale(this.scaleX, this.scaleY);
-    context.globalAlpha = this.transparency;
-    context.globalCompositeOperation = this.operation;
-    this.draw(context, ...args);
+    // context.save();
+    // // Translate origin to the coordinate and set the rotation center.
+    // context.translate(this.x + this.centerX, this.y + this.centerY);
+    // context.rotate(this.rotation);
+    // // After rotation, restore to the coordinate.
+    // context.translate(-this.centerX, -this.centerY);
+    // context.scale(this.scaleX, this.scaleY);
+    // context.globalAlpha = this.transparency;
+    // context.globalCompositeOperation = this.operation;
+    // this.draw(context, ...args);
+    // for (const child of this.children) {
+    //   child.update(context);
+    // }
+    // context.restore();
+    canvas.save();
+    canvas.rotate(this.rotation, this.centerX, this.centerY);
+    canvas.scale(this.scaleX, this.scaleY);
+    paint.setAlphaf(this.transparency);
+    this.draw(paint, canvas, canvaskit, ...args);
     for (const child of this.children) {
-      child.update(context);
+      child.update(paint, canvas, canvaskit);
     }
-    context.restore();
+    canvas.restore();
   }
 
   /**
