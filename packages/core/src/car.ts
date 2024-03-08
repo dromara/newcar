@@ -24,6 +24,7 @@ export class Car {
   canvaskit: CanvasKit;
   paint: Paint;
   surface: Surface;
+  canvas: Canvas;
   events: {
     "ready-to-play": (() => any)[];
   } = {
@@ -34,11 +35,12 @@ export class Car {
 
   constructor(public element: HTMLCanvasElement, public scene: Scene) {
     this.playing = false;
-    this.element.style.backgroundColor = "black";
+    // this.element.style.backgroundColor = "black";
     // this.context = this.element.getContext("2d")!;
     this.canvasKitLoaded.then((canvaskit) => {
       this.canvaskit = canvaskit;
       this.surface = canvaskit.MakeWebGLCanvasSurface(this.element);
+      this.canvas = this.surface.getCanvas();
       this.paint = new canvaskit.Paint();
       for (const callback of this.events["ready-to-play"]) {
         callback();
@@ -87,16 +89,12 @@ export class Car {
         object.updated(car);
       }
     })(car.scene.objects);
-
-    try {
-      car.surface.drawOnce((canvas: Canvas) => {
-        canvas.clear(car.canvaskit.BLACK);
-        for (const object of car.scene.objects) {
-          object.update(car.paint, canvas, car.canvaskit);
-          object.updated(car);
-        }
-      });
-    } catch (err) {}
+    car.canvas.clear(car.canvaskit.BLACK);
+    for (const object of car.scene.objects) {
+      object.update(car.paint, car.canvas, car.canvaskit);
+      object.updated(car);
+    }
+    car.surface.drawOnce(() => {});
     car.hook.emit("frame-updated", car);
 
     if (car.playing) {
