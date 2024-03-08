@@ -5,8 +5,8 @@ import { Figure } from "./figure";
 
 /**
  * The arc options.
- * @param from The start angle of the arc.
- * @param to The end angle of the arc.
+ * @param start The start angle of the arc,
+ * @param end The end angle of the arc.
  * @see FigureOption
  * @see Arc
  */
@@ -32,18 +32,32 @@ export class Arc extends Figure implements ArcOption {
     super((options ??= {}));
     this.radius = radius;
     this.start = options.start ?? 0;
-    this.end = options.end ?? 2 * Math.PI;
+    this.end = options.end ?? 360;
   }
 
   override draw(
     paint: Paint,
     canvas: Canvas,
     canvaskit: CanvasKit,
+    _element: HTMLCanvasElement,
     ..._args: any[]
   ): void {
-    paint.setStrokeWidth(this.borderWidth);
     paint.setColor(canvaskit.Color(255, 0, 0, 1.0));
-    canvas.drawCircle(this.x, this.y, this.radius, paint);
+    const rect = canvaskit.LTRBRect(
+      this.x - this.radius,
+      this.y - this.radius,
+      this.x + this.radius,
+      this.y + this.radius,
+    );
+
+    // Fill Arc.
+    paint.setStyle(canvaskit.PaintStyle.Fill);
+    canvas.drawArc(rect, this.start, this.end, false, paint);
+
+    // Stroke Arc.
+    paint.setStyle(canvaskit.PaintStyle.Stroke);
+    paint.setStrokeWidth(this.borderWidth);
+    canvas.drawArc(rect, this.start, this.end, false, paint);
   }
 
   // override draw(context: CanvasRenderingContext2D): void {

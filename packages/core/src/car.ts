@@ -14,7 +14,6 @@ export type CarHookEventMap = {
 export class Car {
   private _playing!: boolean;
   private lastUpdateTime!: number;
-  // readonly context: CanvasRenderingContext2D;
   readonly canvasKitLoaded = CanvasKitInit({
     locateFile(_file) {
       return config.canvaskitWasmFile;
@@ -28,15 +27,13 @@ export class Car {
   events: {
     "ready-to-play": (() => any)[];
   } = {
-      "ready-to-play": [],
-    };
+    "ready-to-play": [],
+  };
 
   readonly hook = mitt<CarHookEventMap>();
 
   constructor(public element: HTMLCanvasElement, public scene: Scene) {
     this.playing = false;
-    // this.element.style.backgroundColor = "black";
-    // this.context = this.element.getContext("2d")!;
     this.canvasKitLoaded.then((canvaskit) => {
       this.canvaskit = canvaskit;
       this.surface = canvaskit.MakeWebGLCanvasSurface(this.element);
@@ -66,7 +63,6 @@ export class Car {
       }
     }
     car.scene.elapsed += elapsed;
-    // car.context.clearRect(0, 0, car.element.width, car.element.height);
 
     for (const update of car.scene.updates) {
       update(car.scene.elapsed);
@@ -93,7 +89,7 @@ export class Car {
     car.surface.drawOnce((canvas) => {
       canvas.clear(car.canvaskit.BLACK);
       for (const object of car.scene.objects) {
-        object.update(car.paint, canvas, car.canvaskit);
+        object.update(car.paint, canvas, car.canvaskit, car.element);
         object.updated(car);
         car.surface = car.canvaskit.MakeWebGLCanvasSurface(car.element);
       }

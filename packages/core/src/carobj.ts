@@ -113,6 +113,7 @@ export class CarObject implements CarObjectOption {
     paint: Paint,
     canvas: Canvas,
     canvaskit: CanvasKit,
+    element: HTMLCanvasElement,
     ...args: any[]
   ): void {}
 
@@ -131,33 +132,19 @@ export class CarObject implements CarObjectOption {
     paint: Paint,
     canvas: Canvas,
     canvaskit: CanvasKit,
+    element: HTMLCanvasElement,
     ...args: any[]
   ): void {
     if (!this.display) {
       return;
     }
-
-    // context.save();
-    // // Translate origin to the coordinate and set the rotation center.
-    // context.translate(this.x + this.centerX, this.y + this.centerY);
-    // context.rotate(this.rotation);
-    // // After rotation, restore to the coordinate.
-    // context.translate(-this.centerX, -this.centerY);
-    // context.scale(this.scaleX, this.scaleY);
-    // context.globalAlpha = this.transparency;
-    // context.globalCompositeOperation = this.operation;
-    // this.draw(context, ...args);
-    // for (const child of this.children) {
-    //   child.update(context);
-    // }
-    // context.restore();
     canvas.save();
     canvas.rotate(this.rotation, this.centerX, this.centerY);
     canvas.scale(this.scaleX, this.scaleY);
     paint.setAlphaf(this.transparency);
-    this.draw(paint, canvas, canvaskit, ...args);
+    this.draw(paint, canvas, canvaskit, element, ...args);
     for (const child of this.children) {
-      child.update(paint, canvas, canvaskit);
+      child.update(paint, canvas, canvaskit, element);
     }
     canvas.restore();
   }
