@@ -25,6 +25,8 @@ export type AnimateFunction = (
   params?: Record<string, any>,
 ) => void;
 
+export type Setup = <T extends CarObject>(object: T) => Promise<void>;
+
 interface Animation {
   animate: AnimateFunction;
   duration: number;
@@ -82,6 +84,7 @@ export class CarObject implements CarObjectOption {
   animations: Animation[] = [];
   progress: number;
   data: Record<string, any> = {};
+  setups: Setup[] = [];
 
   /**
    * @param options The options for construct the object.
@@ -185,8 +188,8 @@ export class CarObject implements CarObjectOption {
     return this;
   }
 
-  setup(callback: (object: this) => Promise<void>): this {
-    Promise.resolve().then(() => callback(this));
+  setup(callback: Setup): this {
+    this.setups.push(callback);
 
     return this;
   }

@@ -35,7 +35,7 @@ export class Arc extends Figure implements ArcOption {
     this.end = options.end ?? 360;
   }
 
-  override draw(
+  draw(
     paint: Paint,
     canvas: Canvas,
     canvaskit: CanvasKit,

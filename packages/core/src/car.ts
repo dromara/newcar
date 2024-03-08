@@ -31,8 +31,10 @@ export class Car {
   };
 
   readonly hook = mitt<CarHookEventMap>();
+  #scene: Scene;
 
-  constructor(public element: HTMLCanvasElement, public scene: Scene) {
+  constructor(public element: HTMLCanvasElement, scene: Scene) {
+    this.#scene = scene;
     this.playing = false;
     this.canvasKitLoaded.then((canvaskit) => {
       this.canvaskit = canvaskit;
@@ -141,5 +143,22 @@ export class Car {
       this.lastUpdateTime = performance.now();
       requestAnimationFrame(() => Car.update(this));
     }
+  }
+
+  get scene(): Scene {
+    return this.#scene;
+  }
+
+  set scene(value: Scene) {
+    this.#scene = value;
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const car = this;
+    (function f(objects: typeof car.scene.objects) {
+      for (const object of objects) {
+        for (const setup of object.setups) {
+          Promise.resolve().then(() => setup(object));
+        }
+      }
+    })(car.scene.objects);
   }
 }

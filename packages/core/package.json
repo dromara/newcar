@@ -1,6 +1,6 @@
 {
   "name": "@newcar/core",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "The core of newcar.",
   "scripts": {
     "publish": "npm publish",
@@ -20,8 +20,8 @@
     }
   },
   "dependencies": {
-    "@newcar/utils": "workspace:0.7.0",
     "canvaskit-wasm": "^0.39.1",
+    "@newcar/utils": "workspace:0.7.1",
     "mitt": "^3.0.1"
   },
   "types": "./dist/index.d.ts",
