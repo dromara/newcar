@@ -18,7 +18,7 @@ export type TimingFunction = (x: number) => number;
  * @param process The process of the animation.
  * @param params Other parameters of the animation.
  */
-export type Animate = (
+export type AnimateFunction = (
   object: CarObject,
   process: number,
   by: TimingFunction,
@@ -26,7 +26,7 @@ export type Animate = (
 ) => void;
 
 interface Animation {
-  animate: Animate;
+  animate: AnimateFunction;
   duration: number;
   elapsed: number;
   by: TimingFunction;
@@ -182,7 +182,7 @@ export class CarObject implements CarObjectOption {
    * @param params The other parameters of this animation.
    */
   animate(
-    animate: Animate,
+    animate: AnimateFunction,
     duration: number,
     params?: Record<string, any> & { by?: TimingFunction },
   ): this {

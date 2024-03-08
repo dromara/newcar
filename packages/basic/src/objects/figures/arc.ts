@@ -1,3 +1,5 @@
+import type { Canvas, CanvasKit, Paint } from "canvaskit-wasm";
+
 import type { FigureOption } from "./figure";
 import { Figure } from "./figure";
 
@@ -33,21 +35,32 @@ export class Arc extends Figure implements ArcOption {
     this.end = options.end ?? 2 * Math.PI;
   }
 
-  override draw(context: CanvasRenderingContext2D): void {
-    context.lineWidth = this.borderWidth;
-    context.beginPath();
-    context.arc(
-      0,
-      0,
-      this.radius * this.progress,
-      this.start,
-      this.end * this.progress,
-    );
-    if (this.fillColor) {
-      context.fillStyle = this.fillColor.toString();
-      context.fill();
-    }
-    context.strokeStyle = this.borderColor.toString();
-    context.stroke();
+  override draw(
+    paint: Paint,
+    canvas: Canvas,
+    canvaskit: CanvasKit,
+    ..._args: any[]
+  ): void {
+    paint.setStrokeWidth(this.borderWidth);
+    paint.setColor(canvaskit.Color(255, 0, 0, 1.0));
+    canvas.drawCircle(this.x, this.y, this.radius, paint);
   }
+
+  // override draw(context: CanvasRenderingContext2D): void {
+  //   context.lineWidth = this.borderWidth;
+  //   context.beginPath();
+  //   context.arc(
+  //     0,
+  //     0,
+  //     this.radius * this.progress,
+  //     this.start,
+  //     this.end * this.progress,
+  //   );
+  //   if (this.fillColor) {
+  //     context.fillStyle = this.fillColor.toString();
+  //     context.fill();
+  //   }
+  //   context.strokeStyle = this.borderColor.toString();
+  //   context.stroke();
+  // }
 }

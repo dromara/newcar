@@ -24,7 +24,11 @@ export class Car {
   canvaskit: CanvasKit;
   paint: Paint;
   surface: Surface;
-  canvas: Canvas;
+  events: {
+    "ready-to-play": (() => any)[];
+  } = {
+    "ready-to-play": [],
+  };
 
   readonly hook = mitt<CarHookEventMap>();
 
@@ -36,6 +40,9 @@ export class Car {
       this.canvaskit = canvaskit;
       this.surface = canvaskit.MakeWebGLCanvasSurface(this.element);
       this.paint = new canvaskit.Paint();
+      for (const callback of this.events["ready-to-play"]) {
+        callback();
+      }
     });
   }
 
@@ -58,11 +65,7 @@ export class Car {
     }
     car.scene.elapsed += elapsed;
     // car.context.clearRect(0, 0, car.element.width, car.element.height);
-    function draw(canvas: Canvas) {
-      car.canvas = canvas;
-      canvas.clear(car.canvaskit.BLACK);
-    }
-    car.surface.drawOnce(draw);
+
     for (const update of car.scene.updates) {
       update(car.scene.elapsed);
     }
@@ -84,11 +87,16 @@ export class Car {
         object.updated(car);
       }
     })(car.scene.objects);
-    for (const object of car.scene.objects) {
-      object.update(car.paint, car.canvas, car.canvaskit);
-      object.updated(car);
-    }
 
+    try {
+      car.surface.drawOnce((canvas: Canvas) => {
+        canvas.clear(car.canvaskit.BLACK);
+        for (const object of car.scene.objects) {
+          object.update(car.paint, canvas, car.canvaskit);
+          object.updated(car);
+        }
+      });
+    } catch (err) {}
     car.hook.emit("frame-updated", car);
 
     if (car.playing) {
@@ -109,6 +117,17 @@ export class Car {
     this.playing = false;
     if (typeof at !== "undefined") {
       this.scene.elapsed = at;
+    }
+
+    return this;
+  }
+
+  on(event: "ready-to-play", callback: () => any): this {
+    switch (event) {
+      case "ready-to-play": {
+        this.events[event].push(callback);
+        break;
+      }
     }
 
     return this;

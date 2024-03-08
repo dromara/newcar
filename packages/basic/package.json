@@ -7,6 +7,7 @@
   "dependencies": {
     "@newcar/core": "workspace:0.7.0",
     "@newcar/utils": "workspace:0.7.0",
+    "canvaskit-wasm": "^0.39.1",
     "temml": "^0.10.22"
   },
   "scripts": {
