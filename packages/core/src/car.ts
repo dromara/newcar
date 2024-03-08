@@ -47,7 +47,7 @@ export class Car {
     });
   }
 
-  static update(car: Car): void {
+  static update(car: Car, canvas: Canvas): void {
     car.hook.emit("before-frame-update", car);
 
     let elapsed: number;
@@ -88,19 +88,19 @@ export class Car {
       }
     })(car.scene.objects);
 
-    car.surface.drawOnce((canvas) => {
-      canvas.clear(car.canvaskit.BLACK);
-      for (const object of car.scene.objects) {
-        object.update(car.paint, canvas, car.canvaskit, car.element);
-        object.updated(car);
-        car.surface = car.canvaskit.MakeWebGLCanvasSurface(car.element);
-      }
-    });
+    canvas.clear(car.canvaskit.BLACK);
+    for (const object of car.scene.objects) {
+      object.update(car.paint, canvas, car.canvaskit, car.element);
+      object.updated(car);
+      car.surface = car.canvaskit.MakeWebGLCanvasSurface(car.element);
+    }
 
     car.hook.emit("frame-updated", car);
 
     if (car.playing) {
-      requestAnimationFrame(() => Car.update(car));
+      car.surface.requestAnimationFrame((canvas: Canvas) =>
+        Car.update(car, canvas),
+      );
     }
   }
 
@@ -141,7 +141,9 @@ export class Car {
     this._playing = playing;
     if (playing) {
       this.lastUpdateTime = performance.now();
-      requestAnimationFrame(() => Car.update(this));
+      this.surface.requestAnimationFrame((canvas: Canvas) =>
+        Car.update(this, canvas),
+      );
     }
   }
 
