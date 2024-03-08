@@ -28,8 +28,8 @@ export class Car {
   events: {
     "ready-to-play": (() => any)[];
   } = {
-    "ready-to-play": [],
-  };
+      "ready-to-play": [],
+    };
 
   readonly hook = mitt<CarHookEventMap>();
 
@@ -89,12 +89,16 @@ export class Car {
         object.updated(car);
       }
     })(car.scene.objects);
-    car.canvas.clear(car.canvaskit.BLACK);
-    for (const object of car.scene.objects) {
-      object.update(car.paint, car.canvas, car.canvaskit);
-      object.updated(car);
-    }
-    car.surface.drawOnce(() => {});
+
+    car.surface.drawOnce((canvas) => {
+      canvas.clear(car.canvaskit.BLACK);
+      for (const object of car.scene.objects) {
+        object.update(car.paint, canvas, car.canvaskit);
+        object.updated(car);
+        car.surface = car.canvaskit.MakeWebGLCanvasSurface(car.element);
+      }
+    });
+
     car.hook.emit("frame-updated", car);
 
     if (car.playing) {
