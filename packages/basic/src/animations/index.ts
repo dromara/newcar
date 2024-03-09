@@ -1,6 +1,6 @@
 import { changeProperty } from "./change-property";
 
-export type { Animate } from "@newcar/core";
+export type { AnimateFunction } from "@newcar/core";
 
 const _scale = ["scaleX", "scaleY"] as ["scaleX", "scaleY"];
 export const create = changeProperty("progress", 0, 1);

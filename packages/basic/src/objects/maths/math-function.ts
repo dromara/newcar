@@ -56,21 +56,21 @@ export class MathFunction extends CarObject {
     this.divisionY = options.divisionY ?? 50;
   }
 
-  override draw(context: CanvasRenderingContext2D): void {
-    context.strokeStyle = this.color.toString();
-    context.lineWidth = (this.lineWidth / this.divisionX) * 2;
-    context.beginPath();
-    context.scale(this.divisionX, this.divisionY);
-    context.moveTo(this.domain[0], this.func(this.domain[0]));
-    // console.log(this.domain, 1 / this.divisionX);
-    for (
-      let x = this.domain[0];
-      x <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
-      x += 1 / this.divisionX
-    ) {
-      const value = this.func(x);
-      context.lineTo(x, value);
-    }
-    context.stroke();
-  }
+  // override draw(context: CanvasRenderingContext2D): void {
+  //   context.strokeStyle = this.color.toString();
+  //   context.lineWidth = (this.lineWidth / this.divisionX) * 2;
+  //   context.beginPath();
+  //   context.scale(this.divisionX, this.divisionY);
+  //   context.moveTo(this.domain[0], this.func(this.domain[0]));
+  //   // console.log(this.domain, 1 / this.divisionX);
+  //   for (
+  //     let x = this.domain[0];
+  //     x <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
+  //     x += 1 / this.divisionX
+  //   ) {
+  //     const value = this.func(x);
+  //     context.lineTo(x, value);
+  //   }
+  //   context.stroke();
+  // }
 }

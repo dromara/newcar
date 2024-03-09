@@ -114,63 +114,63 @@ export class NumberAxis extends CarObject implements NumberAxisOption {
     this.trend = options.trend;
   }
 
-  override draw(
-    context: CanvasRenderingContext2D,
-    style: NumberAxisStyle = NumberAxisStyle.All,
-  ): void {
-    const showAxis = style & NumberAxisStyle.Axis;
-    const showArrow = style & NumberAxisStyle.Arrow;
-    const showTick = style & NumberAxisStyle.Tick;
-    const showTrend = style & NumberAxisStyle.Trend;
+  // override draw(
+  //   context: CanvasRenderingContext2D,
+  //   style: NumberAxisStyle = NumberAxisStyle.All,
+  // ): void {
+  //   const showAxis = style & NumberAxisStyle.Axis;
+  //   const showArrow = style & NumberAxisStyle.Arrow;
+  //   const showTick = style & NumberAxisStyle.Tick;
+  //   const showTrend = style & NumberAxisStyle.Trend;
 
-    context.save();
+  //   context.save();
 
-    if (showTick || showTrend) {
-      for (let i = this.min; i <= this.max; i += this.interval) {
-        const offset = i * this.unit;
-        if (showTick && this.tickWidth) {
-          new Line([this.tickHeight[0], 0], [-this.tickHeight[1], 0], {
-            x: offset,
-            lineWidth: this.tickWidth,
-            rotation: this.tickRotation,
-            color: this.tickColor,
-            progress: this.progress,
-          }).update(context);
-        }
-        if (showTrend && this.trend) {
-          new Text(this.trend.trender(this.reverse ? -i : i), {
-            ...this.trend.options,
-            x: offset + (this.trend.options.x ?? 0),
-          }).update(context);
-        }
-      }
-      // Draw ticks and numbers.
-    }
+  //   if (showTick || showTrend) {
+  //     for (let i = this.min; i <= this.max; i += this.interval) {
+  //       const offset = i * this.unit;
+  //       if (showTick && this.tickWidth) {
+  //         new Line([this.tickHeight[0], 0], [-this.tickHeight[1], 0], {
+  //           x: offset,
+  //           lineWidth: this.tickWidth,
+  //           rotation: this.tickRotation,
+  //           color: this.tickColor,
+  //           progress: this.progress,
+  //         }).update(context);
+  //       }
+  //       if (showTrend && this.trend) {
+  //         new Text(this.trend.trender(this.reverse ? -i : i), {
+  //           ...this.trend.options,
+  //           x: offset + (this.trend.options.x ?? 0),
+  //         }).update(context);
+  //       }
+  //     }
+  //     // Draw ticks and numbers.
+  //   }
 
-    if (showAxis) {
-      new Line([this.from * this.unit, 0], [this.to * this.unit, 0], {
-        lineWidth: this.axisWidth,
-        color: this.color,
-        progress: this.progress,
-      }).update(context);
-    }
+  //   if (showAxis) {
+  //     new Line([this.from * this.unit, 0], [this.to * this.unit, 0], {
+  //       lineWidth: this.axisWidth,
+  //       color: this.color,
+  //       progress: this.progress,
+  //     }).update(context);
+  //   }
 
-    if (showArrow && this.arrow) {
-      if (this.reverse) {
-        context.scale(-1, 1);
-      }
-      new Polygon(this.arrow, {
-        borderWidth: 0,
-        fillColor: this.color,
-        x: (this.reverse ? -1 : 1) * this.to * this.unit,
-      }).update(context);
-      if (this.reverse) {
-        context.scale(-1, 1);
-      }
-    }
+  //   if (showArrow && this.arrow) {
+  //     if (this.reverse) {
+  //       context.scale(-1, 1);
+  //     }
+  //     new Polygon(this.arrow, {
+  //       borderWidth: 0,
+  //       fillColor: this.color,
+  //       x: (this.reverse ? -1 : 1) * this.to * this.unit,
+  //     }).update(context);
+  //     if (this.reverse) {
+  //       context.scale(-1, 1);
+  //     }
+  //   }
 
-    context.restore();
-  }
+  //   context.restore();
+  // }
 
   set tickHeight(height: number | [number, number]) {
     this.#tickHeight = Array.isArray(height) ? height : [height, height];

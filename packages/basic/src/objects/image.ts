@@ -19,11 +19,11 @@ export class Image extends CarObject {
     this.url = url;
   }
 
-  override draw(context: CanvasRenderingContext2D): void {
-    if (this.ready) {
-      context.drawImage(this.image, this.x, this.y);
-    }
-  }
+  // override draw(context: CanvasRenderingContext2D): void {
+  //   if (this.ready) {
+  //     context.drawImage(this.image, this.x, this.y);
+  //   }
+  // }
 
   get url(): string {
     return this.#url;

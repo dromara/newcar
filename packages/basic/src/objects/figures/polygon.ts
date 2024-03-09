@@ -36,26 +36,26 @@ export class Polygon extends Figure implements PolygonOption {
     this.lineJoin = options.lineJoin ?? "miter";
   }
 
-  override draw(context: CanvasRenderingContext2D): void {
-    context.strokeStyle = this.borderColor.toString();
-    context.lineWidth = this.borderWidth;
-    context.lineCap = this.lineCap;
-    context.lineJoin = this.lineJoin;
-    context.beginPath();
-    for (const [index, point] of this.points.entries()) {
-      if (index === 0) {
-        context.moveTo(...point);
-      } else {
-        context.lineTo(...point);
-      }
-    }
-    context.closePath();
-    context.stroke();
-    if (this.fillColor) {
-      context.fillStyle = this.fillColor.toString();
-      context.fill();
-    }
-  }
+  // override draw(context: CanvasRenderingContext2D): void {
+  //   context.strokeStyle = this.borderColor.toString();
+  //   context.lineWidth = this.borderWidth;
+  //   context.lineCap = this.lineCap;
+  //   context.lineJoin = this.lineJoin;
+  //   context.beginPath();
+  //   for (const [index, point] of this.points.entries()) {
+  //     if (index === 0) {
+  //       context.moveTo(...point);
+  //     } else {
+  //       context.lineTo(...point);
+  //     }
+  //   }
+  //   context.closePath();
+  //   context.stroke();
+  //   if (this.fillColor) {
+  //     context.fillStyle = this.fillColor.toString();
+  //     context.fill();
+  //   }
+  // }
 
   set points(points: Point[]) {
     this.#points = points.map(toVector);
