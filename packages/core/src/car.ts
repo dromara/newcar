@@ -92,7 +92,6 @@ export class Car {
     for (const object of car.scene.objects) {
       object.update(car.paint, canvas, car.canvaskit, car.element);
       object.updated(car);
-      car.surface = car.canvaskit.MakeWebGLCanvasSurface(car.element);
     }
 
     car.hook.emit("frame-updated", car);
