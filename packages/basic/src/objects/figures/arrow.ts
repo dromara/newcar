@@ -1,9 +1,10 @@
 import type { Point, Vector } from "@newcar/utils";
 import { Color, arrows, toVector } from "@newcar/utils";
+import type { Canvas, CanvasKit, Paint } from "canvaskit-wasm";
 
 import type { CarObjectOption } from "../carobj";
 import { CarObject } from "../carobj";
-import { Polygon } from "../figures/polygon";
+import { Polygon } from "./polygon";
 
 /**
  * The line options.
@@ -43,6 +44,44 @@ export class Arrow extends CarObject implements ArrowOption {
     this.color = options.color ?? Color.WHITE;
     this.lineWidth = options.lineWidth ?? 2;
     this.arrow = options.arrow === undefined ? arrows.triangle : options.arrow;
+  }
+
+  draw(
+    paint: Paint,
+    canvas: Canvas,
+    canvaskit: CanvasKit,
+    element: HTMLCanvasElement,
+    ..._args: any[]
+  ): void {
+    paint.setStyle(canvaskit.PaintStyle.Stroke);
+    paint.setStrokeWidth(this.lineWidth);
+    canvas.drawLine(
+      this.fromX,
+      this.fromY,
+      this.toX * this.progress,
+      this.toY * this.progress,
+      paint,
+    );
+    canvas.save();
+    canvas.translate(this.toX, this.toY);
+    const rad =
+      (Math.atan(
+        Math.abs(this.fromY - this.toY) / Math.abs(this.fromX - this.toX),
+      ) /
+        (2 * Math.PI)) *
+      360;
+    if (this.fromX > this.toX) {
+      canvas.scale(-1, 1);
+    }
+    if (this.fromY > this.toY) {
+      canvas.scale(1, -1);
+    }
+    canvas.rotate(rad, 0, 0);
+    const arrow = new Polygon(this.arrow, {
+      fillColor: this.color,
+    });
+    arrow.update(paint, canvas, canvaskit, element);
+    canvas.restore();
   }
 
   // override draw(context: CanvasRenderingContext2D): void {

@@ -1,3 +1,5 @@
+// TODO: Error Handlers
+
 import { config } from "@newcar/utils";
 import type { Canvas, CanvasKit, Paint, Surface } from "canvaskit-wasm";
 import CanvasKitInit from "canvaskit-wasm";

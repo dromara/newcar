@@ -42,7 +42,6 @@ export class Arc extends Figure implements ArcOption {
     _element: HTMLCanvasElement,
     ..._args: any[]
   ): void {
-    paint.setColor(canvaskit.Color(255, 0, 0, 1.0));
     const rect = canvaskit.LTRBRect(
       this.x - this.radius,
       this.y - this.radius,
@@ -53,7 +52,7 @@ export class Arc extends Figure implements ArcOption {
     // Fill Arc.
     if (this.fillColor) {
       paint.setStyle(canvaskit.PaintStyle.Fill);
-      canvas.drawArc(rect, this.start, this.end, false, paint);
+      canvas.drawArc(rect, this.start, this.end * this.progress, false, paint);
     }
 
     // Stroke Arc.

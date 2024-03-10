@@ -144,6 +144,7 @@ export class CarObject implements CarObjectOption {
     canvas.rotate(this.rotation, this.centerX, this.centerY);
     canvas.scale(this.scaleX, this.scaleY);
     paint.setAlphaf(this.transparency);
+    paint.setColor(canvaskit.WHITE);
     this.draw(paint, canvas, canvaskit, element, ...args);
     for (const child of this.children) {
       child.update(paint, canvas, canvaskit, element);

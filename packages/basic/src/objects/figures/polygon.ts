@@ -1,5 +1,6 @@
 import type { Point, Vector } from "@newcar/utils";
 import { toVector } from "@newcar/utils";
+import type { Canvas, CanvasKit, Paint } from "canvaskit-wasm";
 
 import type { FigureOption } from "./figure";
 import { Figure } from "./figure";
@@ -34,6 +35,30 @@ export class Polygon extends Figure implements PolygonOption {
     this.points = points;
     this.lineCap = options.lineCap ?? "butt";
     this.lineJoin = options.lineJoin ?? "miter";
+  }
+
+  draw(
+    paint: Paint,
+    canvas: Canvas,
+    canvaskit: CanvasKit,
+    _element: HTMLCanvasElement,
+    ..._args: any[]
+  ): void {
+    paint.setStrokeWidth(this.borderWidth);
+    const path = new canvaskit.Path();
+    for (const [index, point] of this.points.entries()) {
+      if (index === 0) {
+        path.moveTo(...point);
+      } else {
+        path.lineTo(...point);
+      }
+    }
+    // Fill
+    paint.setStyle(canvaskit.PaintStyle.Fill);
+    canvas.drawPath(path, paint);
+    // Stroke
+    paint.setStyle(canvaskit.PaintStyle.Stroke);
+    canvas.drawPath(path, paint);
   }
 
   // override draw(context: CanvasRenderingContext2D): void {

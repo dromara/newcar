@@ -1,4 +1,5 @@
 import * as $ from "newcar";
+$.config.canvaskitWasmFile = "../node_modules/canvaskit-wasm/bin/canvaskit.wasm";
 
 const s = $.sleep;
 
@@ -33,11 +34,13 @@ const scene = new $.Scene()
     })
   )
 
-const car = $.newcar("#test");
+const car = $.newcar("#canvas");
 car.scene = scene;
-car.play();
+car.on("ready-to-play", () =>  {
+  car.play()
+})
 
-const recorder = new $.Recorder(car);
-recorder.record(100, (url) => {
-  console.log(url);
-});
+// const recorder = new $.Recorder(car);
+// recorder.record(100, (url) => {
+//   console.log(url);
+// });

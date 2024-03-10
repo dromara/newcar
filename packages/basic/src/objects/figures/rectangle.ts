@@ -1,5 +1,6 @@
 import type { Point, Vector } from "@newcar/utils";
 import { toVector } from "@newcar/utils";
+import type { Canvas, CanvasKit, Paint } from "canvaskit-wasm";
 
 import type { FigureOption } from "./figure";
 import { Figure } from "./figure";
@@ -43,6 +44,23 @@ export class Rectangle extends Figure implements RectangleOption {
     this.fromY = fromY;
     this.toY = toY;
     this.lineJoin = options.lineJoin ?? "miter";
+  }
+
+  draw(
+    paint: Paint,
+    canvas: Canvas,
+    canvaskit: CanvasKit,
+    _element: HTMLCanvasElement,
+    ..._args: any[]
+  ): void {
+    // Stroke
+    paint.setStyle(canvaskit.PaintStyle.Stroke);
+    paint.setStrokeWidth(this.borderWidth);
+    canvas.drawRect4f(this.fromX, this.fromY, this.toX, this.toY, paint);
+
+    // Fill
+    paint.setStyle(canvaskit.PaintStyle.Fill);
+    canvas.drawRect4f(this.fromX, this.fromY, this.toX, this.toY, paint);
   }
 
   // override draw(context: CanvasRenderingContext2D): void {

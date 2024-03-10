@@ -1,5 +1,6 @@
 import type { Point, Vector } from "@newcar/utils";
 import { Color, toVector } from "@newcar/utils";
+import type { Canvas, CanvasKit, Paint } from "canvaskit-wasm";
 
 import type { CarObjectOption } from "../carobj";
 import { CarObject } from "../carobj";
@@ -39,6 +40,24 @@ export class Line extends CarObject implements LineOption {
     this.to = to;
     this.color = options.color ?? Color.WHITE;
     this.lineWidth = options.lineWidth ?? 2;
+  }
+
+  draw(
+    paint: Paint,
+    canvas: Canvas,
+    canvaskit: CanvasKit,
+    _element: HTMLCanvasElement,
+    ..._args: any[]
+  ): void {
+    paint.setStyle(canvaskit.PaintStyle.Stroke);
+    paint.setStrokeWidth(this.lineWidth);
+    canvas.drawLine(
+      this.fromX,
+      this.fromY,
+      this.fromX + (this.toX - this.fromX) * this.progress,
+      this.fromY + (this.toY - this.fromY) * this.progress,
+      paint,
+    );
   }
 
   // override draw(context: CanvasRenderingContext2D): void {
