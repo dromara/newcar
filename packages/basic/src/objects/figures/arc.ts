@@ -51,30 +51,14 @@ export class Arc extends Figure implements ArcOption {
     );
 
     // Fill Arc.
-    paint.setStyle(canvaskit.PaintStyle.Fill);
-    canvas.drawArc(rect, this.start, this.end, false, paint);
+    if (this.fillColor) {
+      paint.setStyle(canvaskit.PaintStyle.Fill);
+      canvas.drawArc(rect, this.start, this.end, false, paint);
+    }
 
     // Stroke Arc.
     paint.setStyle(canvaskit.PaintStyle.Stroke);
     paint.setStrokeWidth(this.borderWidth);
     canvas.drawArc(rect, this.start, this.end, false, paint);
   }
-
-  // override draw(context: CanvasRenderingContext2D): void {
-  //   context.lineWidth = this.borderWidth;
-  //   context.beginPath();
-  //   context.arc(
-  //     0,
-  //     0,
-  //     this.radius * this.progress,
-  //     this.start,
-  //     this.end * this.progress,
-  //   );
-  //   if (this.fillColor) {
-  //     context.fillStyle = this.fillColor.toString();
-  //     context.fill();
-  //   }
-  //   context.strokeStyle = this.borderColor.toString();
-  //   context.stroke();
-  // }
 }

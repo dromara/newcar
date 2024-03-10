@@ -46,7 +46,6 @@ interface Animation {
  * @param centerX The y coordinate of the center of rotation.
  * @param rotation The rotation angle of the object in radians.
  * @param transparency The transparency of the object from 0 to 1.
- * @param operation The operation of canva when rendering the object.
  * @param progress The progress of rendering.
  * @see CarObject
  */
@@ -60,7 +59,6 @@ export interface CarObjectOption {
   centerY?: number;
   rotation?: number;
   transparency?: number;
-  operation?: GlobalCompositeOperation;
   children?: CarObject[];
   progress?: number;
 }
@@ -101,7 +99,6 @@ export class CarObject implements CarObjectOption {
     this.centerY = options.centerY ?? 0;
     this.rotation = options.rotation ?? 0;
     this.transparency = options.transparency ?? 1;
-    this.operation = options.operation ?? "source-over";
     this.progress = options.progress ?? 1;
     options.children && this.add(...options.children);
   }
@@ -109,9 +106,12 @@ export class CarObject implements CarObjectOption {
   /**
    * Drawing method, which will be called at each frame.
    * This method is used for inherited classes to implement their rendering.
-   * @param context The context instance of the canvas object.
+   * @param paint The Paint Object of CanvasKit-WASM.
+   * @param canvas The Canvas Object of CanvasKit-WASM.
+   * @param canvaskit The CanvasKit Object of CanvasKit-WASM.
+   * @param element The element of canvas.
+   * @param args The other parameters.
    */
-
   draw(
     paint: Paint,
     canvas: Canvas,
@@ -128,7 +128,6 @@ export class CarObject implements CarObjectOption {
    * Update method, which will be called directly at each frame.
    * The method SHOULD NOT be modified,
    * instead, implement what you want to show in `draw()`.
-   * @param context The context instance of the canvas object.
    * @see draw()
    */
   update(
