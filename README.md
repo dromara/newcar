@@ -186,7 +186,6 @@ This is all the things of entry-level docs. If you like this project, please giv
 - Add event system to be a interactive animation engine.
 - Add UI.
 - Add physical engine for objects.
-- Use WebGL instead of Canvas2D.
 
 ## 📖 Documentation
 
