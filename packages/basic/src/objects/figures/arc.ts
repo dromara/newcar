@@ -58,6 +58,6 @@ export class Arc extends Figure implements ArcOption {
     // Stroke Arc.
     paint.setStyle(canvaskit.PaintStyle.Stroke);
     paint.setStrokeWidth(this.borderWidth);
-    canvas.drawArc(rect, this.start, this.end, false, paint);
+    canvas.drawArc(rect, this.start, this.end * this.progress, false, paint);
   }
 }

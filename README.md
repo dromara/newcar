@@ -176,6 +176,18 @@ You also can use timing function to control the speed of animation, just use par
 
 This is all the things of entry-level docs. If you like this project, please give us a star on GitHub.
 
+## 🧭 Future Plans
+
+- Add reactivity system like ReactJS and VueJS.
+- Add plugin system for the project, and make it has more flexibility.
+- Add charts module, to make the dynamic data animation.
+- Add geometry module.
+- Add skeleton module, let's make some animation!
+- Add event system to be a interactive animation engine.
+- Add UI.
+- Add physical engine for objects.
+- Use WebGL instead of Canvas2D.
+
 ## 📖 Documentation
 
 The document is served on [newcar.js.org](https://newcar.js.org).

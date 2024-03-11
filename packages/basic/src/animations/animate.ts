@@ -1,1 +1,1 @@
-export type { Animate } from "@newcar/core";
+export type { AnimateFunction } from "@newcar/core";

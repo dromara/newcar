@@ -56,12 +56,24 @@ export class Rectangle extends Figure implements RectangleOption {
     // Stroke
     paint.setStyle(canvaskit.PaintStyle.Stroke);
     paint.setStrokeWidth(this.borderWidth);
-    canvas.drawRect4f(this.fromX, this.fromY, this.toX, this.toY, paint);
+    canvas.drawRect4f(
+      this.fromX,
+      this.fromY,
+      this.toX * this.progress,
+      this.toY * this.progress,
+      paint,
+    );
 
     // Fill
     if (this.fillColor) {
       paint.setStyle(canvaskit.PaintStyle.Fill);
-      canvas.drawRect4f(this.fromX, this.fromY, this.toX, this.toY, paint);
+      canvas.drawRect4f(
+        this.fromX,
+        this.fromY,
+        this.toX * this.progress,
+        this.toY * this.progress,
+        paint,
+      );
     }
   }
 

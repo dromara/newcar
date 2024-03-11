@@ -1,7 +1,7 @@
 import { interpolator } from "../interpolator";
 import type { CarObject } from "../objects";
 import type { TimingFunction } from "../timing-functions";
-import type { Animate } from "./animate";
+import type { AnimateFunction } from "./animate";
 
 type NumbericKeys<T extends Record<string, any>> = {
   [K in keyof T]-?: T[K] extends number ? K : never;
@@ -13,7 +13,7 @@ export const changeProperty = (
     | [NumbericKeys<CarObject>, NumbericKeys<CarObject>],
   from?: number,
   to?: number,
-): Animate =>
+): AnimateFunction =>
   Array.isArray(key)
     ? ((() => {
         const [keyX, keyY] = key;
@@ -38,7 +38,7 @@ export const changeProperty = (
           object[keyX] = interpolator(params.fromX, params.toX, by)(process);
           object[keyY] = interpolator(params.fromY, params.toY, by)(process);
         };
-      })() as Animate)
+      })() as AnimateFunction)
     : (((
         object: CarObject,
         process: number,
@@ -51,4 +51,4 @@ export const changeProperty = (
         params.from ??= from ?? object[key];
         params.to ??= to ?? object[key];
         object[key] = interpolator(params.from, params.to, by)(process);
-      }) as Animate);
+      }) as AnimateFunction);
