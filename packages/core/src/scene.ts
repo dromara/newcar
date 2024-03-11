@@ -17,14 +17,8 @@ export class Scene {
     return this;
   }
 
-  update(update: UpdateFunction): this {
+  setUpdate(update: UpdateFunction): this {
     this.updates.push(update);
-
-    return this;
-  }
-
-  setup(setup: () => Promise<void>): this {
-    setup();
 
     return this;
   }

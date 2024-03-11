@@ -91,6 +91,9 @@ export class Car {
     canvas.clear(car.canvaskit.BLACK);
     for (const object of car.scene.objects) {
       object.update(car.paint, canvas, car.canvaskit, car.element);
+      for (const update of object.updates) {
+        update(object, car.scene.elapsed);
+      }
       object.updated(car);
     }
 

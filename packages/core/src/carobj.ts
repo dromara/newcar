@@ -25,7 +25,8 @@ export type AnimateFunction = (
   params?: Record<string, any>,
 ) => void;
 
-export type Setup = <T extends CarObject>(object: T) => Promise<void>;
+export type SetupFunction = <T extends CarObject>(object: T) => Promise<void>;
+export type UpdateFunction = <T extends CarObject>(object: T, elapsed: number) => any;
 
 interface Animation {
   animate: AnimateFunction;
@@ -82,7 +83,8 @@ export class CarObject implements CarObjectOption {
   animations: Animation[] = [];
   progress: number;
   data: Record<string, any> = {};
-  setups: Setup[] = [];
+  setups: SetupFunction[] = [];
+  updates: UpdateFunction[] = [];
 
   /**
    * @param options The options for construct the object.
@@ -189,8 +191,18 @@ export class CarObject implements CarObjectOption {
     return this;
   }
 
-  setup(callback: Setup): this {
+  /**
+   * Setup a function as a branch of program
+   * @param callback callback function
+   */
+  setup(callback: SetupFunction): this {
     this.setups.push(callback);
+
+    return this;
+  }
+
+  setUpdate(callback: UpdateFunction): this {
+    this.updates.push(callback);
 
     return this;
   }
