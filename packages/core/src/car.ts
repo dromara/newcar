@@ -135,6 +135,12 @@ export class Car {
     return this;
   }
 
+  check(scene: Scene): this {
+    this.scene = scene;
+
+    return this;
+  }
+
   get playing(): boolean {
     return this._playing;
   }
