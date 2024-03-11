@@ -59,8 +59,10 @@ export class Rectangle extends Figure implements RectangleOption {
     canvas.drawRect4f(this.fromX, this.fromY, this.toX, this.toY, paint);
 
     // Fill
-    paint.setStyle(canvaskit.PaintStyle.Fill);
-    canvas.drawRect4f(this.fromX, this.fromY, this.toX, this.toY, paint);
+    if (this.fillColor) {
+      paint.setStyle(canvaskit.PaintStyle.Fill);
+      canvas.drawRect4f(this.fromX, this.fromY, this.toX, this.toY, paint);
+    }
   }
 
   // override draw(context: CanvasRenderingContext2D): void {

@@ -1,4 +1,5 @@
 import { Color } from "@newcar/utils";
+import type { Canvas, CanvasKit, Paint } from "canvaskit-wasm";
 
 import type { CarObjectOption } from "../carobj";
 import { CarObject } from "../carobj";
@@ -56,21 +57,26 @@ export class MathFunction extends CarObject {
     this.divisionY = options.divisionY ?? 50;
   }
 
-  // override draw(context: CanvasRenderingContext2D): void {
-  //   context.strokeStyle = this.color.toString();
-  //   context.lineWidth = (this.lineWidth / this.divisionX) * 2;
-  //   context.beginPath();
-  //   context.scale(this.divisionX, this.divisionY);
-  //   context.moveTo(this.domain[0], this.func(this.domain[0]));
-  //   // console.log(this.domain, 1 / this.divisionX);
-  //   for (
-  //     let x = this.domain[0];
-  //     x <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
-  //     x += 1 / this.divisionX
-  //   ) {
-  //     const value = this.func(x);
-  //     context.lineTo(x, value);
-  //   }
-  //   context.stroke();
-  // }
+  draw(
+    paint: Paint,
+    canvas: Canvas,
+    canvaskit: CanvasKit,
+    _element: HTMLCanvasElement,
+    ..._args: any[]
+  ): void {
+    paint.setStyle(canvaskit.PaintStyle.Stroke);
+    paint.setStrokeWidth((this.lineWidth / this.divisionX) * 2);
+    const path = new canvaskit.Path();
+    canvas.scale(this.divisionX, this.divisionY);
+    path.moveTo(this.domain[0], this.func(this.domain[0]));
+    for (
+      let x = this.domain[0];
+      x <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
+      x += 1 / this.divisionX
+    ) {
+      const value = this.func(x);
+      path.lineTo(x, value);
+    }
+    canvas.drawPath(path, paint);
+  }
 }

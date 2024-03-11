@@ -1,5 +1,6 @@
 import type { Point } from "@newcar/utils";
 import { Color, arrows } from "@newcar/utils";
+import type { Canvas, CanvasKit, Paint } from "canvaskit-wasm";
 
 import type { CarObjectOption } from "../carobj";
 import { CarObject } from "../carobj";
@@ -114,62 +115,72 @@ export class NumberAxis extends CarObject implements NumberAxisOption {
     this.trend = options.trend;
   }
 
+  draw(
+    paint: Paint,
+    canvas: Canvas,
+    canvaskit: CanvasKit,
+    element: HTMLCanvasElement,
+    style: NumberAxisStyle = NumberAxisStyle.All,
+  ): void {
+    const showAxis = style & NumberAxisStyle.Axis;
+    const showArrow = style & NumberAxisStyle.Arrow;
+    const showTick = style & NumberAxisStyle.Tick;
+    const showTrend = style & NumberAxisStyle.Trend;
+
+    canvas.save();
+
+    if (showTick || showTrend) {
+      for (let i = this.min; i <= this.max; i += this.interval) {
+        const offset = i * this.unit;
+        if (showTick && this.tickWidth) {
+          new Line([this.tickHeight[0], 0], [-this.tickHeight[1], 0], {
+            x: offset,
+            lineWidth: this.tickWidth,
+            rotation: this.tickRotation,
+            color: this.tickColor,
+            progress: this.progress,
+          }).update(paint, canvas, canvaskit, element);
+        }
+        if (showTrend && this.trend) {
+          new Text(this.trend.trender(this.reverse ? -i : i), {
+            ...this.trend.options,
+            x: offset + (this.trend.options.x ?? 0),
+          }).update(paint, canvas, canvaskit, element);
+        }
+      }
+      // Draw ticks and numbers.
+    }
+
+    if (showAxis) {
+      new Line([this.from * this.unit, 0], [this.to * this.unit, 0], {
+        lineWidth: this.axisWidth,
+        color: this.color,
+        progress: this.progress,
+      }).update(paint, canvas, canvaskit, element);
+    }
+
+    if (showArrow && this.arrow) {
+      if (this.reverse) {
+        canvas.scale(-1, 1);
+      }
+      new Polygon(this.arrow, {
+        borderWidth: 0,
+        fillColor: this.color,
+        x: (this.reverse ? -1 : 1) * this.to * this.unit,
+      }).update(paint, canvas, canvaskit, element);
+      if (this.reverse) {
+        canvas.scale(-1, 1);
+      }
+    }
+
+    canvas.restore();
+  }
+
   // override draw(
   //   context: CanvasRenderingContext2D,
-  //   style: NumberAxisStyle = NumberAxisStyle.All,
+  //
   // ): void {
-  //   const showAxis = style & NumberAxisStyle.Axis;
-  //   const showArrow = style & NumberAxisStyle.Arrow;
-  //   const showTick = style & NumberAxisStyle.Tick;
-  //   const showTrend = style & NumberAxisStyle.Trend;
 
-  //   context.save();
-
-  //   if (showTick || showTrend) {
-  //     for (let i = this.min; i <= this.max; i += this.interval) {
-  //       const offset = i * this.unit;
-  //       if (showTick && this.tickWidth) {
-  //         new Line([this.tickHeight[0], 0], [-this.tickHeight[1], 0], {
-  //           x: offset,
-  //           lineWidth: this.tickWidth,
-  //           rotation: this.tickRotation,
-  //           color: this.tickColor,
-  //           progress: this.progress,
-  //         }).update(context);
-  //       }
-  //       if (showTrend && this.trend) {
-  //         new Text(this.trend.trender(this.reverse ? -i : i), {
-  //           ...this.trend.options,
-  //           x: offset + (this.trend.options.x ?? 0),
-  //         }).update(context);
-  //       }
-  //     }
-  //     // Draw ticks and numbers.
-  //   }
-
-  //   if (showAxis) {
-  //     new Line([this.from * this.unit, 0], [this.to * this.unit, 0], {
-  //       lineWidth: this.axisWidth,
-  //       color: this.color,
-  //       progress: this.progress,
-  //     }).update(context);
-  //   }
-
-  //   if (showArrow && this.arrow) {
-  //     if (this.reverse) {
-  //       context.scale(-1, 1);
-  //     }
-  //     new Polygon(this.arrow, {
-  //       borderWidth: 0,
-  //       fillColor: this.color,
-  //       x: (this.reverse ? -1 : 1) * this.to * this.unit,
-  //     }).update(context);
-  //     if (this.reverse) {
-  //       context.scale(-1, 1);
-  //     }
-  //   }
-
-  //   context.restore();
   // }
 
   set tickHeight(height: number | [number, number]) {

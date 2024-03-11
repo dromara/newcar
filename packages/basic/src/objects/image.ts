@@ -1,3 +1,6 @@
+import type { Canvas, Paint } from "canvaskit-wasm";
+import { CanvasKit } from "canvaskit-wasm";
+
 import type { CarObjectOption } from "./carobj";
 import { CarObject } from "./carobj";
 
@@ -24,6 +27,21 @@ export class Image extends CarObject {
   //     context.drawImage(this.image, this.x, this.y);
   //   }
   // }
+
+  draw(
+    paint: Paint,
+    canvas: Canvas,
+    canvaskit: CanvasKit,
+    _element: HTMLCanvasElement,
+    ..._args: any[]
+  ): void {
+    fetch(this.#url)
+      .then((response) => response.arrayBuffer())
+      .then((arrayBuffer) => {
+        const img = canvaskit.MakeImageFromEncoded(arrayBuffer);
+        canvas.drawImage(img, this.x, this.y, paint);
+      });
+  }
 
   get url(): string {
     return this.#url;

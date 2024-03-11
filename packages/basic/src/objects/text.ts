@@ -1,4 +1,5 @@
 import { Color } from "@newcar/utils";
+import type { Canvas, CanvasKit, Paint } from "canvaskit-wasm";
 
 import type { CarObjectOption } from "./carobj";
 import { CarObject } from "./carobj";
@@ -53,20 +54,17 @@ export class Text extends CarObject implements TextOption {
     this.borderColor = options.borderColor ?? Color.WHITE;
   }
 
+  draw(
+    paint: Paint,
+    canvas: Canvas,
+    canvaskit: CanvasKit,
+    element: HTMLCanvasElement,
+    ...args: any[]
+  ): void {
+    // TOFO: Text
+  }
+
   // override draw(context: CanvasRenderingContext2D): void {
-  //   context.font = `${this.size}px ${this.font}`;
-  //   context.fillStyle = this.color.toString();
-  //   context.textAlign = this.align;
-  //   context.textBaseline = this.baseline;
-  //   context.fillText(
-  //     this.text.slice(0, Math.round(this.progress * this.text.length)),
-  //     0,
-  //     0,
-  //   );
-  //   if (this.borderWidth) {
-  //     context.lineWidth = this.borderWidth;
-  //     context.strokeStyle = this.borderColor.toString();
-  //     context.strokeText(this.text, 0, 0);
-  //   }
+
   // }
 }

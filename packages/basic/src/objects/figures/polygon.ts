@@ -54,8 +54,11 @@ export class Polygon extends Figure implements PolygonOption {
       }
     }
     // Fill
-    paint.setStyle(canvaskit.PaintStyle.Fill);
-    canvas.drawPath(path, paint);
+    if (this.fillColor) {
+      paint.setStyle(canvaskit.PaintStyle.Fill);
+      canvas.drawPath(path, paint);
+    }
+
     // Stroke
     paint.setStyle(canvaskit.PaintStyle.Stroke);
     canvas.drawPath(path, paint);
