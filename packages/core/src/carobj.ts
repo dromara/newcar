@@ -26,7 +26,10 @@ export type AnimateFunction = (
 ) => void;
 
 export type SetupFunction = <T extends CarObject>(object: T) => Promise<void>;
-export type UpdateFunction = <T extends CarObject>(object: T, elapsed: number) => any;
+export type UpdateFunction = <T extends CarObject>(
+  object: T,
+  elapsed: number,
+) => any;
 
 interface Animation {
   animate: AnimateFunction;

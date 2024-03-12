@@ -43,10 +43,10 @@ export class Arc extends Figure implements ArcOption {
     ..._args: any[]
   ): void {
     const rect = canvaskit.LTRBRect(
-      this.x - this.radius,
-      this.y - this.radius,
-      this.x + this.radius,
-      this.y + this.radius,
+      -this.radius,
+      -this.radius,
+      this.radius,
+      this.radius,
     );
 
     // Fill Arc.

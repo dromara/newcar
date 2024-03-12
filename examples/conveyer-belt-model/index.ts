@@ -10,7 +10,10 @@ import {
   Rectangle,
   move,
   createCar,
+  config
 } from "newcar";
+
+config.canvaskitWasmFile = "../node_modules/canvaskit-wasm/bin/canvaskit.wasm";
 
 const g = 10;
 const v = 150;
@@ -132,4 +135,8 @@ const scene = new Scene().add(
 
 const car = createCar("#canvas");
 car.scene = scene;
-car.play();
+
+car.on("ready-to-play", () => {
+  car.play();
+});
+
