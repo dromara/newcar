@@ -52,10 +52,12 @@ export class Arc extends Figure implements ArcOption {
     // Fill Arc.
     if (this.fillColor) {
       paint.setStyle(canvaskit.PaintStyle.Fill);
+      paint.setColor(this.fillColor.toFloat4());
       canvas.drawArc(rect, this.start, this.end * this.progress, false, paint);
     }
 
     // Stroke Arc.
+    paint.setColor(this.borderColor.toFloat4());
     paint.setStyle(canvaskit.PaintStyle.Stroke);
     paint.setStrokeWidth(this.borderWidth);
     canvas.drawArc(rect, this.start, this.end * this.progress, false, paint);

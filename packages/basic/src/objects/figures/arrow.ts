@@ -55,6 +55,7 @@ export class Arrow extends CarObject implements ArrowOption {
   ): void {
     paint.setStyle(canvaskit.PaintStyle.Stroke);
     paint.setStrokeWidth(this.lineWidth);
+    paint.setColor(this.color.toFloat4());
     canvas.drawLine(
       this.fromX,
       this.fromY,
@@ -83,32 +84,6 @@ export class Arrow extends CarObject implements ArrowOption {
     arrow.update(paint, canvas, canvaskit, element);
     canvas.restore();
   }
-
-  // override draw(context: CanvasRenderingContext2D): void {
-  //   context.beginPath();
-  //   context.strokeStyle = this.color.toString();
-  //   context.lineWidth = this.lineWidth;
-  //   context.moveTo(this.fromX, this.fromY);
-  //   context.lineTo(this.toX * this.progress, this.toY * this.progress);
-  //   context.stroke();
-  //   context.save();
-  //   context.translate(this.toX, this.toY);
-  //   const rad = Math.atan(
-  //     Math.abs(this.fromY - this.toY) / Math.abs(this.fromX - this.toX),
-  //   );
-  //   if (this.fromX > this.toX) {
-  //     context.scale(-1, 1);
-  //   }
-  //   if (this.fromY > this.toY) {
-  //     context.scale(1, -1);
-  //   }
-  //   context.rotate(rad);
-  //   const arrow = new Polygon(this.arrow, {
-  //     fillColor: this.color,
-  //   });
-  //   arrow.update(context);
-  //   context.restore();
-  // }
 
   set from(point: Point) {
     [this.fromX, this.fromY] = toVector(point);

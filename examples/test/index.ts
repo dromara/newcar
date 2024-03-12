@@ -6,7 +6,9 @@ const s = $.sleep;
 const scene = new $.Scene()
 
   .add(
-    new $.Arc(100)
+    new $.Arc(100, {
+      borderColor: $.Color.parse("red")
+    })
   )
   .add(
     new $.Rectangle(0, 0, 100, 200).setup(async (obj) => {

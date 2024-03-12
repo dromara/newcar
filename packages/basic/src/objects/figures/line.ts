@@ -51,6 +51,7 @@ export class Line extends CarObject implements LineOption {
   ): void {
     paint.setStyle(canvaskit.PaintStyle.Stroke);
     paint.setStrokeWidth(this.lineWidth);
+    paint.setColor(this.color.toFloat4());
     canvas.drawLine(
       this.fromX,
       this.fromY,
@@ -59,18 +60,6 @@ export class Line extends CarObject implements LineOption {
       paint,
     );
   }
-
-  // override draw(context: CanvasRenderingContext2D): void {
-  //   context.beginPath();
-  //   context.strokeStyle = this.color.toString();
-  //   context.lineWidth = this.lineWidth;
-  //   context.moveTo(this.fromX, this.fromY);
-  //   context.lineTo(
-  //     this.fromX + (this.toX - this.fromX) * this.progress,
-  //     this.fromY + (this.toY - this.fromY) * this.progress,
-  //   );
-  //   context.stroke();
-  // }
 
   set from(point: Point) {
     [this.fromX, this.fromY] = toVector(point);

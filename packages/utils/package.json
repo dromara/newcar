@@ -24,6 +24,7 @@
     "access": "public"
   },
   "dependencies": {
+    "canvaskit-wasm": "^0.39.1",
     "colorparsley": "^0.1.8"
   }
 }

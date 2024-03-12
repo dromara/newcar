@@ -66,6 +66,7 @@ export class MathFunction extends CarObject {
   ): void {
     paint.setStyle(canvaskit.PaintStyle.Stroke);
     paint.setStrokeWidth((this.lineWidth / this.divisionX) * 2);
+    paint.setColor(this.color.toFloat4())
     const path = new canvaskit.Path();
     canvas.scale(this.divisionX, this.divisionY);
     path.moveTo(this.domain[0], this.func(this.domain[0]));
