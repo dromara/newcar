@@ -17,7 +17,7 @@ export class Recorder {
       }
     };
     this.recorder.onstop = () => {
-      const url = URL.createObjectURL(new Blob(data, { type: "video/webm" }));
+      const url = URL.createObjectURL(new Blob(data, { type: "video/mp4" }));
       callback(url);
     };
     this.recorder.start();
