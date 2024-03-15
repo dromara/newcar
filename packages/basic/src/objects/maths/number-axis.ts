@@ -108,7 +108,7 @@ export class NumberAxis extends CarObject implements NumberAxisOption {
     this.axisWidth = options.axisWidth ?? 2;
     this.tickWidth = options.tickWidth ?? 2;
     this.tickHeight = options.tickHeight ?? 10;
-    this.tickRotation = options.tickRotation ?? Math.PI / 2;
+    this.tickRotation = options.tickRotation ?? 360;
     this.tickColor = options.tickColor ?? Color.WHITE;
     this.color = options.color ?? Color.WHITE;
     this.arrow = options.arrow === undefined ? arrows.triangle : options.arrow;
