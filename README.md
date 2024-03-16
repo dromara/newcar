@@ -15,7 +15,7 @@
 
 ## Announcement
 
-Newcar is being refactored and rewrited, please refer to [https://github.com/Bug-Duck/newcar/tree/next](next) to get latest process.
+Newcar is being refactored and rewrited, please refer to [next](https://github.com/Bug-Duck/newcar/tree/next) to get latest process.
 
 ## 📔 Introduction
 
