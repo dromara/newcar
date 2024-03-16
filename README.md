@@ -118,8 +118,8 @@ scene.add(
   new Text("Hello world!", {
     x: 100,
     y: 100,
-    size: 50
-  })
+    size: 50,
+  }),
 );
 ```
 
@@ -140,11 +140,11 @@ const scene = new $.Scene().add(
   new Text("Hello world", {
     x: 100,
     y: 100,
-    size: 50
+    size: 50,
   }).setup(async (obj) => {
     await sleep(100);
     obj.text = "Hi world";
-  })
+  }),
 );
 ```
 
@@ -159,14 +159,14 @@ const scene = new $.Scene().add(
   new Text("Hello world", {
     x: 100,
     y: 100,
-    size: 50
+    size: 50,
   }).setup(async (obj) => {
     await sleep(100);
     obj.animate(move, 100, {
       toX: 300,
-      toY: 300
+      toY: 300,
     });
-  })
+  }),
 );
 ```
 

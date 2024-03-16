@@ -10,7 +10,7 @@ import {
   Rectangle,
   move,
   createCar,
-  config
+  config,
 } from "newcar";
 
 config.canvaskitWasmFile = "../node_modules/canvaskit-wasm/bin/canvaskit.wasm";
@@ -139,4 +139,3 @@ car.scene = scene;
 car.on("ready-to-play", () => {
   car.play();
 });
-
