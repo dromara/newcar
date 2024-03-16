@@ -36,6 +36,7 @@ export class Car {
   constructor(public element: HTMLCanvasElement, scene: Scene) {
     this.#scene = scene;
     this.playing = false;
+    this.element.style.backgroundColor = "black";
     this.canvasKitLoaded.then((canvaskit) => {
       this.canvaskit = canvaskit;
       this.surface = canvaskit.MakeWebGLCanvasSurface(this.element);
@@ -88,7 +89,6 @@ export class Car {
       }
     })(car.scene.objects);
 
-    canvas.clear(car.canvaskit.BLACK);
     for (const object of car.scene.objects) {
       object.update(car.paint, canvas, car.canvaskit, car.element);
       for (const update of object.updates) {
