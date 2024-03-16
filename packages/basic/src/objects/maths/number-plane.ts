@@ -48,7 +48,7 @@ export class NumberPlane extends CarObject {
     element: HTMLCanvasElement,
     ...args: any[]
   ): void {
-      this.axisX.tickHeight = [
+    this.axisX.tickHeight = [
       -this.axisY.from * this.axisY.unit,
       this.axisY.to * this.axisY.unit,
     ];
@@ -68,8 +68,20 @@ export class NumberPlane extends CarObject {
     this.axisY.progress = this.progress;
     this.axisX.update(paint, canvas, canvaskit, element, NumberAxisStyle.Tick);
     this.axisY.update(paint, canvas, canvaskit, element, NumberAxisStyle.Tick);
-    this.axisX.update(paint, canvas, canvaskit, element, NumberAxisStyle.Axis | NumberAxisStyle.Arrow);
-    this.axisY.update(paint, canvas, canvaskit, element, NumberAxisStyle.Axis | NumberAxisStyle.Arrow);
+    this.axisX.update(
+      paint,
+      canvas,
+      canvaskit,
+      element,
+      NumberAxisStyle.Axis | NumberAxisStyle.Arrow,
+    );
+    this.axisY.update(
+      paint,
+      canvas,
+      canvaskit,
+      element,
+      NumberAxisStyle.Axis | NumberAxisStyle.Arrow,
+    );
     if (this.trend) {
       for (const axis of [this.axisX, this.axisY]) {
         for (let i = axis.min; i <= axis.max; i += axis.interval) {
@@ -86,7 +98,7 @@ export class NumberPlane extends CarObject {
   }
 
   // override draw(context: CanvasRenderingContext2D): void {
-  
+
   // }
 
   set trend(trend: TrendType) {
