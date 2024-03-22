@@ -1,5 +1,6 @@
 import CanvasKitInit, { CanvasKit, CanvasKitInitOptions } from 'canvaskit-wasm'
 import { CarApp } from './app'
+import { CarPlugin } from './plugin'
 
 export type EngineStatus = 'pending' | 'ready' | 'error' | 'pause'
 
@@ -9,6 +10,7 @@ export class CarEngine {
   private _init: Promise<void>
   private _status: EngineStatus = 'pending'
   private _apps: CarApp[] = []
+  private _plugins: CarPlugin[] = []
 
   constructor(opts?: CanvasKitInitOptions) {
     this._ckInit = CanvasKitInit(opts)
@@ -24,6 +26,10 @@ export class CarEngine {
     
 
     this._status = 'ready'
+  }
+
+  register(plugin: CarPlugin) {
+    this._plugins.push(plugin)
   }
 
   get status() { return this._status }
