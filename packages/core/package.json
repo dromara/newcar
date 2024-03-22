@@ -1,0 +1,34 @@
+{
+  "name": "@newcar/core",
+  "version": "0.9.0",
+  "description": "The core of newcar.",
+  "scripts": {
+    "publish": "npm publish",
+    "build": "pkgroll --sourcemap --minify",
+    "dev": "pkgroll -w"
+  },
+  "keywords": [
+    "animation"
+  ],
+  "author": "BugDuck Team",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@newcar/utils": "workspace: ^0.9.0",
+    "canvaskit-wasm": "^0.39.1",
+    "mitt": "^3.0.1"
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
