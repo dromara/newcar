@@ -1,1 +1,1 @@
-export class CarApp {}
+export class App {}
