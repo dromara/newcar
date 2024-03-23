@@ -14,6 +14,7 @@ export class App {
 
   checkout(scene: Scene) {
     this._scene = scene
+    this._scene.root.preUpdate(this._ckNamespace, "") // TODO: reactive properties
   }
 
   update(canvas: Canvas) {

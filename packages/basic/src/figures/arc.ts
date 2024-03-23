@@ -9,7 +9,7 @@ export class Arc extends Widget {
     super()
   }
   
-  override predraw(ckNamespace: CanvasKit): void {
+  override preUpdate(ckNamespace: CanvasKit, propertyChanged: string): void {
     this.paint = new ckNamespace.Paint()
     this.rect = ckNamespace.LTRBRect(
       -this.radius,
@@ -19,16 +19,7 @@ export class Arc extends Widget {
     )
   }
   
-  override draw(canvas: Canvas, propertyChanged: string): void {
-    switch (propertyChanged) {
-      case 'radius': {
-        // ...
-        break
-      }
-      case 'color': {
-        // ...
-        break
-      }
-    }    
+  override draw(canvas: Canvas): void {
+    
   }
 }
