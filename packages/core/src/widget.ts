@@ -1,6 +1,8 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 
 export class Widget {
+  constructor() {}
+
   /**
    * The child-widgets of the widget.
    */

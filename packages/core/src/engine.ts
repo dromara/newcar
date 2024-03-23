@@ -1,5 +1,5 @@
 import CanvasKitInit, { CanvasKit, CanvasKitInitOptions } from 'canvaskit-wasm'
-import type { App } from './app'
+import { App } from './app'
 import type { CarPlugin } from './plugin'
 
 export type EngineStatus = 'pending' | 'ready' | 'error' | 'pause'
@@ -28,8 +28,17 @@ export class CarEngine {
     this._status = 'ready'
   }
 
-  usePlugin(plugin: CarPlugin) {
+  usePlugin(plugin: CarPlugin): this {
     this._plugins.push(plugin)
+
+    return this
+  }
+
+  createApp(element: HTMLCanvasElement): App {
+    return new App(
+      element,
+      this._ckNamespace
+    )
   }
 
   get status() { return this._status }
