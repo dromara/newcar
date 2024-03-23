@@ -1,0 +1,31 @@
+{
+  "name": "@newcar/basic",
+  "version": "0.7.1",
+  "description": "The basic objects, animations and interpolators of newcar.",
+  "author": "BugDuck Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "canvaskit-wasm": "^0.39.1",
+    "@newcar/core": "workspace: 0.9.0",
+    "@newcar/utils": "workspace: 0.9.0"
+  },
+  "scripts": {
+    "publish": "npm publish",
+    "build": "pkgroll --sourcemap --minify",
+    "dev": "pkgroll -w"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
