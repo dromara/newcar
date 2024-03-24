@@ -9,9 +9,9 @@ export class Arc extends Widget {
     super()
   }
   
-  override preUpdate(ckNamespace: CanvasKit, propertyChanged: string): void {
-    this.paint = new ckNamespace.Paint()
-    this.rect = ckNamespace.LTRBRect(
+  override preUpdate(CanvasKit: CanvasKit, propertyChanged: string): void {
+    this.paint = new CanvasKit.Paint()
+    this.rect = CanvasKit.LTRBRect(
       -this.radius,
       -this.radius,
       this.radius,

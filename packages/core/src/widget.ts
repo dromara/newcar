@@ -1,20 +1,20 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 
 export interface WidgetOptions {
-  style?: WidgetStyle,
-  x?: number,
-  y?: number,
-  centerX?: number,
-  centerY?: number,
-  progress?: number,
-  children?: Widget[],
+  style?: WidgetStyle
+  x?: number
+  y?: number
+  centerX?: number
+  centerY?: number
+  progress?: number
+  children?: Widget[]
 }
 
 export interface WidgetStyle {
-  scaleX?: number;
-  scaleY?: number;
-  rotation?: number;
-  transparency?: number;
+  scaleX?: number
+  scaleY?: number
+  rotation?: number
+  transparency?: number
 }
 
 export class Widget {
@@ -33,11 +33,9 @@ export class Widget {
     this.centerY = options.centerY ?? 0
     this.progress = options.progress ?? 1
     this.children = options.children ?? []
-    this.style = options.style ?? {
-      scaleX: 1,
-      scaleY: 1,
-      rotation: 0,
-      transparency: 0
+    if (this.style) {
+      this.style.scaleX = options.style.scaleX ?? 1
+      this.style.scaleY = options.style.scaleY ?? 1
     }
   }
 
@@ -53,13 +51,21 @@ export class Widget {
   parts: Widget[] = []
 
   /**
+   * Called when the widget is registered.
+   * @param CanvasKit The CanvasKit namespace
+   */
+  init(CanvasKit: CanvasKit) {}
+
+  /**
    * Preload the necessary items during drawing.
-   * Called when the widget is registered and the properties of the widget is changed.
+   * Called when the properties of the widget is changed.
    * In common, we use it to initializing Paint, Rect, Path, etc.
-   * @param ckNamespace The namespace of CanvasKit-WASM.
+   * @param CanvasKit The namespace of CanvasKit-WASM.
    * @param propertyChanged The changed property of this widget
    */
-  preUpdate(ckNamespace: CanvasKit, propertyChanged: string) {}
+  // TODO: 这里要不要整个订阅模式之类的。。。
+  // ...什么意思
+  preUpdate(CanvasKit: CanvasKit, propertyChanged: string) {}
 
   /**
    * Draw the object according to the style of the widget.

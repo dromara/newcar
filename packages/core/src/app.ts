@@ -1,37 +1,45 @@
 import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import type { Scene } from './scene'
+import { initial, pre } from './utils'
 
 export class App {
   private _scene: Scene
-  private _ckNamespace: CanvasKit
+  private _CanvasKit: CanvasKit
   private playing = false
-  private surface: Surface
+  surface: Surface
 
-  constructor(public element: HTMLCanvasElement, ckNamespace: CanvasKit) {
-    this._ckNamespace = ckNamespace
-    this.surface = this._ckNamespace.MakeWebGLCanvasSurface(this.element)
+  constructor(public element: HTMLCanvasElement, private CanvasKit: CanvasKit) {
+    this._CanvasKit = CanvasKit
+    this.surface = this._CanvasKit.MakeWebGLCanvasSurface(this.element)
+    console.log(this.surface)
   }
 
-  checkout(scene: Scene) {
+  checkout(scene: Scene): this {
     this._scene = scene
-    this._scene.root.preUpdate(this._ckNamespace, "") // TODO: reactive properties
+    initial(this._scene.root, this._CanvasKit)
+
+    return this
   }
 
-  update(canvas: Canvas) {
-    this.surface.requestAnimationFrame((canvas: Canvas) => {
-      // If user choose to pause, stop to request.
-      if (!this.playing) return
-      this.update(canvas)
-    })
+  static update(app: App, canvas: Canvas): void {
+    if (app.playing) {
+      app.surface.requestAnimationFrame((canvas: Canvas) =>
+        App.update(app, canvas)
+      );
+    }
   }
 
-  play() {
+  play(): this {
     this.playing = true
-    this.surface.requestAnimationFrame(this.update)
+    this.surface.requestAnimationFrame((canvas: Canvas) => App.update(this, canvas))
+
+    return this
   }
 
-  pause() {
+  pause(): this {
     this.playing = false
+
+    return this
   }
 
   get currentScene() {

@@ -2,45 +2,33 @@ import CanvasKitInit, { CanvasKit, CanvasKitInitOptions } from 'canvaskit-wasm'
 import { App } from './app'
 import type { CarPlugin } from './plugin'
 
-export type EngineStatus = 'pending' | 'ready' | 'error' | 'pause'
 
 export class CarEngine {
-  private _ckNamespace?: CanvasKit
-  private _ckInit: Promise<CanvasKit>
-  private _init: Promise<void>
-  private _status: EngineStatus = 'pending'
-  private _apps: App[] = []
-  private _plugins: CarPlugin[] = []
+  CanvasKit: CanvasKit
+  readonly apps: App[] = []
+  readonly plugins: CarPlugin[] = []
 
-  constructor(opts?: CanvasKitInitOptions) {
-    this._ckInit = CanvasKitInit(opts)
-    this._init = this._engineInit()
+  async init(canvasKitWasmFile: string) {
+    this.CanvasKit = await CanvasKitInit({
+      locateFile(_file) {
+        return canvasKitWasmFile
+      },
+    })
+    return this
   }
 
-  async whenReady() {
-    await this._init
-  }
-
-  private async _engineInit() {
-    this._ckNamespace = await this._ckInit
-    
-
-    this._status = 'ready'
-  }
-
-  usePlugin(plugin: CarPlugin): this {
-    this._plugins.push(plugin)
+  use(plugin: CarPlugin): this {
+    this.plugins.push(plugin)
 
     return this
   }
 
   createApp(element: HTMLCanvasElement): App {
-    return new App(
+    const app = new App(
       element,
-      this._ckNamespace
+      this.CanvasKit
     )
+    this.apps.push(app)
+    return app
   }
-
-  get status() { return this._status }
-
 }
