@@ -1,26 +1,30 @@
-import { CanvasKit } from 'canvaskit-wasm'
-import { Widget } from './widget'
+import type { Canvas, CanvasKit } from 'canvaskit-wasm'
+import type { Widget } from './widget'
 
-export const pre = (widget: Widget, CanvasKit: CanvasKit, prop: string) => {
-  widget.preUpdate(CanvasKit, prop)
+// export const pre = (widget: Widget, ck: CanvasKit, canvas: Canvas, prop: string) => {
+//   widget.predraw(CanvasKit, prop)
+//   for (const child of widget.children) {
+//     pre(child, CanvasKit, canvas, prop)
+//   }
+// }
+
+// export const setWidgetPropsProxy = (widget: Widget, ck: CanvasKit) => {
+//   console.log("set proxys!")
+//   const proxy = new Proxy(widget, {
+//     set(target, prop) {
+//       target.predraw(CanvasKit, prop as string)
+//       console.log('Change!')
+//       return true
+//     },
+//   })
+//   return proxy
+// }
+
+export const initial = (widget: Widget, ck: CanvasKit, canvas: Canvas) => {
+  widget.init(ck)
+  widget.draw(canvas)
+  // setWidgetPropsProxy(widget, CanvasKit)
   for (const child of widget.children) {
-    pre(child, CanvasKit, prop)
-  }
-}
-
-export const setWidgetPropsProxy = (widget: Widget, CanvasKit: CanvasKit) => {
-  new Proxy(widget, {
-    set(target, prop) {
-      target.preUpdate(CanvasKit, prop as string)
-      return true
-    },
-  })
-}
-
-export const initial = (widget: Widget, CanvasKit: CanvasKit) => {
-  widget.init(CanvasKit)
-  setWidgetPropsProxy(widget, CanvasKit)
-  for (const child of widget.children) {
-    initial(child, CanvasKit)
+    initial(child, ck, canvas)
   }
 }

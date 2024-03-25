@@ -54,7 +54,7 @@ export class Widget {
    * Called when the widget is registered.
    * @param CanvasKit The CanvasKit namespace
    */
-  init(CanvasKit: CanvasKit) {}
+  init(ck: CanvasKit) {}
 
   /**
    * Preload the necessary items during drawing.
@@ -63,9 +63,8 @@ export class Widget {
    * @param CanvasKit The namespace of CanvasKit-WASM.
    * @param propertyChanged The changed property of this widget
    */
-  // TODO: 这里要不要整个订阅模式之类的。。。
-  // ...什么意思
-  preUpdate(CanvasKit: CanvasKit, propertyChanged: string) {}
+
+  predraw(ck: CanvasKit, propertyChanged: string) {}
 
   /**
    * Draw the object according to the style of the widget.

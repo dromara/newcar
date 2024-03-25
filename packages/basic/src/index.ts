@@ -1,1 +1,1 @@
-export * from './figures/arc'
+export * from './widgets'

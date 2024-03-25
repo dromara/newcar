@@ -4,12 +4,12 @@ import type { CarPlugin } from './plugin'
 
 
 export class CarEngine {
-  CanvasKit: CanvasKit
+  ck: CanvasKit
   readonly apps: App[] = []
   readonly plugins: CarPlugin[] = []
 
   async init(canvasKitWasmFile: string) {
-    this.CanvasKit = await CanvasKitInit({
+    this.ck = await CanvasKitInit({
       locateFile(_file) {
         return canvasKitWasmFile
       },
@@ -26,7 +26,7 @@ export class CarEngine {
   createApp(element: HTMLCanvasElement): App {
     const app = new App(
       element,
-      this.CanvasKit
+      this.ck
     )
     this.apps.push(app)
     return app
