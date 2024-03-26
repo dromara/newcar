@@ -3,7 +3,9 @@ import { Arc } from "..";
 
 export const move = defineAnimation({
   act(widget, elapsed, process) {
-    widget.x += 10
-    widget.y += 10
+    widget.x += 1
+    widget.y += 1
+    console.log(widget);
+    
   }
 })

@@ -10,7 +10,6 @@ export class App {
   surface: Surface
   private playing = false
   private last: Widget
-  test: any
 
   constructor(public element: HTMLCanvasElement, private ck: CanvasKit) {
     if (element == void 0) {
@@ -46,7 +45,7 @@ export class App {
         // if (animation.startAt) {
           if (
             (animation.startAt <= app.scene.elapsed,
-            animation.during >= app.scene.elapsed)
+            animation.during + animation.startAt >= app.scene.elapsed)
           ) {
             animation.animation.act(
               widget,

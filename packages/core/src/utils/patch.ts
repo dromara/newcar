@@ -36,11 +36,14 @@ export function shallowEqual(objA: any, objB: any): string[] {
 }
 
 export function patch(old: Widget, now: Widget, ck: CanvasKit, canvas: Canvas) {
+  canvas.save()
   shallowEqual(old, now).forEach((param) => {
-    now.predraw(ck, param)
+    now.preupdate(ck, param)
   })
   now.children.forEach((child, index) => {
     patch(old.children[index], child, ck, canvas)
   })
-  now.draw(canvas)
+  // TODO: If the param is a object
+  now.update(canvas)
+  canvas.restore()
 }

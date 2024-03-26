@@ -9,8 +9,11 @@ await new CarEngine()
   .init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
   .then((engine) => {
     app = engine.createApp(document.querySelector('#canvas'))
-    circle = new Arc(10)
-    circle.animate(move, 100, 0)
+    circle = new Arc(10, {
+      x: 100,
+      y: 100
+    })
+    circle.animate(move, 200, 0)
     app.checkout(new Scene(circle))
     app.play()
   })

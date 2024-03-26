@@ -6,7 +6,7 @@ export class Arc extends Widget {
   rect: RRect
 
   constructor(public radius: number, options?: {}) {
-    super()
+    super(options)
   }
 
   override init(ck: CanvasKit): void {
@@ -33,7 +33,6 @@ export class Arc extends Widget {
   }
 
   override draw(canvas: Canvas): void {
-    canvas.translate(this.x, this.y)
     canvas.drawArc(this.rect, 0, 360, false, this.paint)
   }
 }

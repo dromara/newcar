@@ -1,5 +1,7 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import type { Animation, AnimationInstance } from './animation'
+import { patch } from './utils/patch'
+import { isNull } from '@newcar/utils'
 
 export interface WidgetOptions {
   style?: WidgetStyle
@@ -24,7 +26,12 @@ export class Widget {
   centerX: number // The center vector x of the widget.
   centerY: number // The center vector y of the widget.
   progress: number // The progress/process of a widget.
-  style: WidgetStyle // The style of the widget.
+  style: WidgetStyle = {
+    scaleX: 1,
+    scaleY: 1,
+    rotation: 0,
+    transparency: 0,
+  } // The style of the widget.
   isImplemented = false // If the widget is implemented by App.impl
   animationInstance: AnimationInstance[] = []
 
@@ -36,9 +43,11 @@ export class Widget {
     this.centerY = options.centerY ?? 0
     this.progress = options.progress ?? 1
     this.children = options.children ?? []
-    if (this.style) {
+    if (isNull(this.style)) {
       this.style.scaleX = options.style.scaleX ?? 1
       this.style.scaleY = options.style.scaleY ?? 1
+      this.style.rotation = options.style.rotation ?? 0
+      this.style.transparency = options.style.transparency ?? 0
     }
   }
 
@@ -52,6 +61,8 @@ export class Widget {
    * Differently with children, it is a part of the widget instead of a child of the widget.
    */
   parts: Widget[] = []
+
+  last: Widget = this
 
   /**
    * Called when the widget is registered.
@@ -80,7 +91,11 @@ export class Widget {
    * Called when the parameters is changed.
    * @param ck The namespace of CanvasKit-WASM.
    */
-  preupdate(ck: CanvasKit) {}
+  preupdate(ck: CanvasKit, propertyChanged: string): this {
+    this.predraw(ck, propertyChanged)
+
+    return this
+  }
 
   /**
    * Update the object according to the style of the widget.
@@ -88,21 +103,34 @@ export class Widget {
    * @param canvas The canvas object of CanvasKit-WASM.
    * @param propertyChanged The changed property of this widget
    */
-  update(canvas: Canvas) {
-    this.draw(canvas)
+  update(canvas: Canvas): this {
+    canvas.translate(this.x, this.y);
+    canvas.rotate(this.style.rotation, this.centerX, this.centerY);
+    canvas.scale(this.style.scaleX, this.style.scaleY);
+
+    this.draw(canvas);
+    for (const child of this.children) {
+      child.update(canvas);
+    }
+
+    return this
   }
 
   /**
    * Add children widgets for the widget.
    * @param children The added children.
    */
-  add(...children: Widget[]) {
+  add(...children: Widget[]): this {
     for (const child of children) {
       this.children.push(child)
     }
+
+    return this
   }
 
-  animate(animation: Animation, during: number, startAt?: number) {
+  animate(animation: Animation, during: number, startAt?: number): this {
     this.animationInstance.push({ startAt, during, animation })
+
+    return this
   }
 }

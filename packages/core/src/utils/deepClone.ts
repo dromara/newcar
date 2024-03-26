@@ -1,24 +1,27 @@
-export function deepClone<T>(obj: T): T {
-  // Check if the object is a primitive value, if so return it directly
-  if (obj === null || typeof obj !== 'object') {
+export function deepClone(obj: Object, map = new WeakMap()) {
+  if (typeof obj !== 'object' || obj === null) {
     return obj;
   }
 
-  // Check if the object is an array, if so create a new array and recursively deep clone each element
-  if (Array.isArray(obj)) {
-    const newArr = [];
-    for (let i = 0; i < obj.length; i++) {
-      newArr[i] = deepClone(obj[i]);
-    }
-    return newArr as unknown as T;
+  // 处理循环引用
+  if (map.has(obj)) {
+    return map.get(obj);
   }
 
-  // If the object is not an array, create a new object and recursively deep clone each property
-  const newObj = {} as T;
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      newObj[key] = deepClone(obj[key]);
+  let cloned: any[] | Record<string, any>;
+  if (Array.isArray(obj)) {
+    cloned = [];
+    map.set(obj, cloned);
+    for (let i = 0; i < obj.length; i++) {
+      cloned.push(deepClone(obj[i], map));
+    }
+  } else {
+    cloned = {};
+    map.set(obj, cloned);
+    for (let key in obj) {
+      cloned[key] = deepClone((obj as Record<string, any>)[key], map);
     }
   }
-  return newObj;
+
+  return cloned;
 }
