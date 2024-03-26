@@ -3,7 +3,8 @@ import { Arc } from "..";
 
 export const move = defineAnimation({
   act(widget, elapsed, process) {
-    widget.x += 0.01
-    widget.y += 0.01
+    // widget.x += 1
+    // widget.y += 1
+    widget.style.scaleX += 0.1
   }
 })

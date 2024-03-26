@@ -22,12 +22,12 @@ export class Arc extends Widget {
 
   override predraw(ck: CanvasKit, propertyChanged?: string): void {
     this.paint.setColor(ck.BLACK)
-    this.rect = ck.LTRBRect(
+    this.rect.set([
       -this.radius,
       -this.radius,
       this.radius,
       this.radius,
-    )
+    ])
   }
 
   override draw(canvas: Canvas): void {

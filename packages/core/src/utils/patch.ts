@@ -1,9 +1,12 @@
 import { Canvas, CanvasKit } from 'canvaskit-wasm'
 import { Widget } from '../widget'
+import { isEqual } from '@newcar/utils'
 import { deepClone } from './deep-clone'
 
 export function shallowEqual(objA: any, objB: any): string[] {
   const changedProperties: string[] = []
+
+  if (isEqual(objA, objB)) return changedProperties
 
   if (objA === objB) {
     return changedProperties
@@ -36,20 +39,19 @@ export function shallowEqual(objA: any, objB: any): string[] {
 }
 
 export function patch(old: Widget, now: Widget, ck: CanvasKit, canvas: Canvas) {
-  console.log(canvas);
   canvas.save()
-  console.log(shallowEqual(old, now))
-  shallowEqual(old, now).forEach((param) => {
+  const differences = shallowEqual(old, now)
+  differences.forEach((param) => {
     now.preupdate(ck, param)
-  })  
-  old.children.forEach((child, index) => {
-    console.log(index)
-    console.log(child, index)
-    canvas.save()
-    patch(child, now.children[index], ck, canvas)
-    canvas.restore()
+    if (param === 'style') {
+      const contrasts = shallowEqual(old.style, now.style)
+      contrasts.forEach(contrast => now.preupdate(ck, `style.${contrast}`))
+    }
+  })
+  now.update(canvas)
+  now.children.forEach((child, index) => {
+    patch(old.children[index], child, ck, canvas)
   })
   // TODO: If the param is a object
-  now.update(canvas)
   canvas.restore()
 }

@@ -1,6 +1,5 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import type { Animation, AnimationInstance } from './animation'
-import { patch } from './utils/patch'
 import { isNull } from '@newcar/utils'
 
 export interface WidgetOptions {
@@ -93,6 +92,7 @@ export class Widget {
    */
   preupdate(ck: CanvasKit, propertyChanged?: string): this {
     this.predraw(ck, propertyChanged)
+    console.log(propertyChanged)
 
     return this
   }
@@ -109,9 +109,6 @@ export class Widget {
     canvas.scale(this.style.scaleX, this.style.scaleY);
 
     this.draw(canvas);
-    for (const child of this.children) {
-      child.update(canvas);
-    }
 
     return this
   }

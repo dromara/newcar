@@ -22,12 +22,12 @@ export class App {
 
   checkout(scene: Scene): this {
     this.scene = scene
-    this.last = deepClone(this.scene.root)
+    this.last = this.scene.root
 
     return this
   }
 
-  update(app: App, canvas: Canvas): void {
+  static update(app: App, canvas: Canvas): void {
     // If this updating is this scene's origin, initial this scene.
     if (app.scene.elapsed === 0) {
       initial(app.scene.root, app.ck, canvas)
@@ -71,7 +71,7 @@ export class App {
     if (app.playing) {
       app.scene.elapsed += 1
       app.surface.requestAnimationFrame((canvas: Canvas) => {
-        app.update(app, canvas)
+        App.update(app, canvas)
       })
     }
   }
@@ -84,7 +84,7 @@ export class App {
     }
     this.playing = true
     this.surface.requestAnimationFrame((canvas: Canvas) => {
-      this.update(this, canvas)
+      App.update(this, canvas)
     })
 
     return this
