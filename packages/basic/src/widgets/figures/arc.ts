@@ -30,7 +30,6 @@ export class Arc extends Widget {
       this.radius,
       this.radius,
     )
-    console.log('predraw!')
   }
 
   override draw(canvas: Canvas): void {

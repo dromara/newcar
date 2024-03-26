@@ -1,5 +1,5 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
-import type { Widget } from './widget'
+import type { Widget } from '../widget'
 
 // export const pre = (widget: Widget, ck: CanvasKit, canvas: Canvas, prop: string) => {
 //   widget.predraw(CanvasKit, prop)

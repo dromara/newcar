@@ -24,6 +24,7 @@ export class Widget {
   centerY: number // The center vector y of the widget.
   progress: number // The progress/process of a widget.
   style: WidgetStyle // The style of the widget.
+  isImplemented = false // If the widget is implemented by App.impl
 
   constructor(options?: WidgetOptions) {
     options ??= {}
