@@ -91,7 +91,7 @@ export class Widget {
    * Called when the parameters is changed.
    * @param ck The namespace of CanvasKit-WASM.
    */
-  preupdate(ck: CanvasKit, propertyChanged: string): this {
+  preupdate(ck: CanvasKit, propertyChanged?: string): this {
     this.predraw(ck, propertyChanged)
 
     return this

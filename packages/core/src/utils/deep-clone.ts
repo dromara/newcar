@@ -3,7 +3,6 @@ export function deepClone(obj: Object, map = new WeakMap()) {
     return obj;
   }
 
-  // 处理循环引用
   if (map.has(obj)) {
     return map.get(obj);
   }

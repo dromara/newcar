@@ -18,11 +18,9 @@ export class Arc extends Widget {
       this.radius,
       this.radius,
     )
-    console.log('initial!')
   }
 
-  override predraw(ck: CanvasKit, propertyChanged: string): void {
-    this.paint = new ck.Paint()
+  override predraw(ck: CanvasKit, propertyChanged?: string): void {
     this.paint.setColor(ck.BLACK)
     this.rect = ck.LTRBRect(
       -this.radius,
@@ -33,6 +31,7 @@ export class Arc extends Widget {
   }
 
   override draw(canvas: Canvas): void {
+    console.log(canvas)
     canvas.drawArc(this.rect, 0, 360, false, this.paint)
   }
 }

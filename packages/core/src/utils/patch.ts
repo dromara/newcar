@@ -1,6 +1,6 @@
 import { Canvas, CanvasKit } from 'canvaskit-wasm'
 import { Widget } from '../widget'
-import { deepClone } from './deepClone'
+import { deepClone } from './deep-clone'
 
 export function shallowEqual(objA: any, objB: any): string[] {
   const changedProperties: string[] = []
@@ -36,12 +36,18 @@ export function shallowEqual(objA: any, objB: any): string[] {
 }
 
 export function patch(old: Widget, now: Widget, ck: CanvasKit, canvas: Canvas) {
+  console.log(canvas);
   canvas.save()
+  console.log(shallowEqual(old, now))
   shallowEqual(old, now).forEach((param) => {
     now.preupdate(ck, param)
-  })
-  now.children.forEach((child, index) => {
-    patch(old.children[index], child, ck, canvas)
+  })  
+  old.children.forEach((child, index) => {
+    console.log(index)
+    console.log(child, index)
+    canvas.save()
+    patch(child, now.children[index], ck, canvas)
+    canvas.restore()
   })
   // TODO: If the param is a object
   now.update(canvas)

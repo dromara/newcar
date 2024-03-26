@@ -3,7 +3,7 @@ import type { Widget } from '../widget'
 
 export const initial = (widget: Widget, ck: CanvasKit, canvas: Canvas) => {
   widget.init(ck)
-  widget.update(canvas)
+  widget.preupdate(ck ,"")
   for (const child of widget.children) {
     initial(child, ck, canvas)
   }
