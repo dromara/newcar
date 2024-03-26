@@ -10,8 +10,10 @@ export class App {
   surface: Surface
   private playing = false
   private last: Widget
+  updates: ((elapsed: number) => void)[] = []
 
   constructor(public element: HTMLCanvasElement, private ck: CanvasKit) {
+    element.style.backgroundColor = 'black'
     if (element == void 0) {
       console.warn(
         `[Newcar Warn] You are trying to use a undefined canvas element.`,
@@ -41,8 +43,8 @@ export class App {
       for (const animation of widget.animationInstance) {
         // if (animation.startAt) {
         if (
-          (animation.startAt <= app.scene.elapsed) &&
-          (animation.during + animation.startAt) >= app.scene.elapsed
+          animation.startAt <= app.scene.elapsed &&
+          animation.during + animation.startAt >= app.scene.elapsed
         ) {
           animation.animation.act(
             widget,
@@ -71,6 +73,9 @@ export class App {
     if (app.playing) {
       app.scene.elapsed += 1
       app.surface.requestAnimationFrame((canvas: Canvas) => {
+        for (const updateFunc of app.updates) {
+          updateFunc(app.scene.elapsed)
+        }
         App.update(app, canvas)
       })
     }
@@ -94,5 +99,13 @@ export class App {
     this.playing = false
 
     return this
+  }
+
+  /**
+   * Set up a update function to call it when the widget is changed.
+   * @param updateFunc The frame from having gone to current frame.
+   */
+  setUpdate(updateFunc: (elapsed: number) => void) {
+    this.updates.push(updateFunc)
   }
 }

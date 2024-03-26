@@ -1,7 +1,6 @@
 import { Canvas, CanvasKit } from 'canvaskit-wasm'
 import { Widget } from '../widget'
 import { isEqual } from '@newcar/utils'
-import { deepClone } from './deep-clone'
 
 export function shallowEqual(objA: any, objB: any): string[] {
   const changedProperties: string[] = []
@@ -23,17 +22,17 @@ export function shallowEqual(objA: any, objB: any): string[] {
 
   const keysA = Object.keys(objA)
   const keysB = Object.keys(objB)
+  const lengthA = keysA.length
+  const lengthB = keysB.length
 
-  // Use a Set to efficiently check for the presence of keys
   const keysBSet = new Set(keysB)
 
-  keysA.forEach((key) => {
+  for (let i = 0; i < lengthA; i++) {
+    const key = keysA[i]
     if (!keysBSet.has(key) || objA[key] !== objB[key]) {
       changedProperties.push(key)
     }
-  })
-
-  // console.log(changedProperties)
+  }
 
   return changedProperties
 }
@@ -41,17 +40,43 @@ export function shallowEqual(objA: any, objB: any): string[] {
 export function patch(old: Widget, now: Widget, ck: CanvasKit, canvas: Canvas) {
   canvas.save()
   const differences = shallowEqual(old, now)
-  differences.forEach((param) => {
+  for (const param of differences) {
     now.preupdate(ck, param)
     if (param === 'style') {
       const contrasts = shallowEqual(old.style, now.style)
       contrasts.forEach((contrast) => now.preupdate(ck, `style.${contrast}`))
     }
-  })
+  }
   now.update(canvas)
+  
+  const oldKeyToIdx = new Map<string, number>();
+  const newKeyToIdx = new Map<string, number>();
+
+  old.children.forEach((child, index) => {
+    oldKeyToIdx.set(child.key, index);
+  });
   now.children.forEach((child, index) => {
-    patch(old.children[index], child, ck, canvas)
-  })
-  // TODO: If the param is a object
+    newKeyToIdx.set(child.key, index);
+  });
+
+  // Update and add new widgets
+  now.children.forEach((newChild, newIndex) => {
+    const oldIndex = oldKeyToIdx.get(newChild.key);
+    if (oldIndex !== undefined) {
+      const oldChild = old.children[oldIndex];
+      patch(oldChild, newChild, ck, canvas);
+    } else {
+      // Add new child since it doesn't exist in the old children
+      now.children.push(newChild) // Implement this function based on how you add children to canvas
+    }
+  });
+
+  // Remove old widgets that are not present in new widgets
+  old.children.forEach((oldChild, oldIndex) => {
+    if (!newKeyToIdx.has(oldChild.key)) {
+      now.children.find(value => oldChild === value) // Implement this function based on how you remove children from canvas
+    }
+  });
+
   canvas.restore()
 }

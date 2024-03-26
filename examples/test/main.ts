@@ -9,12 +9,21 @@ await new CarEngine()
   .init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
   .then((engine) => {
     app = engine.createApp(document.querySelector('#canvas'))
-    circle = new Arc(100)
-    circle.animate(move, 10000000000, 0)
-    app.checkout(new Scene(circle.add(new Arc(20, {
-      x: 100,
-      y: 100
-    }))))
+    const root = new Widget()
+    const scene = new Scene(root)
+    for (let row = 0; row <= 10000; row += 10) {
+      for (let column = 0; column <= 1000; column += 10) {
+        root.add(new Arc(10, {
+          x: column,
+          y: row,
+          style: {
+            fillColor: null
+          }
+        }))
+      }
+    }
+    app.checkout(scene)
     app.play()
+    root.animate(move, 100, 0)
   })
 

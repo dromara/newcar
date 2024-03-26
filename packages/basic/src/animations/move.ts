@@ -5,6 +5,6 @@ export const move = defineAnimation({
   act(widget, elapsed, process) {
     // widget.x += 1
     // widget.y += 1
-    widget.style.scaleX += 0.1
+    widget.x += 10
   }
 })

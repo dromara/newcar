@@ -2,6 +2,8 @@ import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import type { Animation, AnimationInstance } from './animation'
 import { isNull } from '@newcar/utils'
 
+export let widgetCounter = 0
+
 export interface WidgetOptions {
   style?: WidgetStyle
   x?: number
@@ -33,6 +35,8 @@ export class Widget {
   } // The style of the widget.
   isImplemented = false // If the widget is implemented by App.impl
   animationInstance: AnimationInstance[] = []
+  updates: ((elapsed: number) => void)[] = []
+  key = `widget-${++widgetCounter}-${Date.now()}-${Math.random().toString(16).slice(2)}`
 
   constructor(options?: WidgetOptions) {
     options ??= {}
@@ -92,7 +96,7 @@ export class Widget {
    */
   preupdate(ck: CanvasKit, propertyChanged?: string): this {
     this.predraw(ck, propertyChanged)
-    console.log(propertyChanged)
+    
 
     return this
   }
@@ -129,5 +133,14 @@ export class Widget {
     this.animationInstance.push({ startAt, during, animation })
 
     return this
+  }
+
+
+  /**
+   * Set up a update function to call it when the widget is changed.
+   * @param updateFunc The frame from having gone to current frame.
+   */
+  setUpdate(updateFunc: (elapsed: number) => void) {
+    this.updates.push(updateFunc)
   }
 }
