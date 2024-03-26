@@ -1,13 +1,17 @@
 import { Canvas, CanvasKit, Paint, RRect } from 'canvaskit-wasm'
 import { Figure, FigureOptions } from './figure'
-import { isNull } from '@newcar/utils'
 
 export class Arc extends Figure {
   strokePaint: Paint
   fillPaint: Paint
   rect: RRect
 
-  constructor(public radius: number, options?: FigureOptions) {
+  constructor(
+    public radius: number,
+    public from: number,
+    public to: number,
+    options?: FigureOptions,
+  ) {
     super(options)
   }
 
@@ -52,10 +56,22 @@ export class Arc extends Figure {
   }
 
   override draw(canvas: Canvas): void {
-    if (!isNull(this.style.borderWidth)) {
-      canvas.drawArc(this.rect, 0, 360, false, this.strokePaint)
-    } else if (!isNull(this.style.fillColor)) {
-      canvas.drawArc(this.rect, 0, 360, false, this.fillPaint)
+    if (this.style.border) {
+      canvas.drawArc(
+        this.rect,
+        this.from,
+        this.to * this.progress,
+        false,
+        this.strokePaint,
+      )
+    } else if (this.style.fill) {
+      canvas.drawArc(
+        this.rect,
+        this.from,
+        this.to * this.progress,
+        false,
+        this.fillPaint,
+      )
     }
   }
 }

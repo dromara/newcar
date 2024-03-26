@@ -3,9 +3,11 @@ import { Widget } from "@newcar/core"
 import { Color } from "@newcar/utils";
 
 export interface FigureStyle extends WidgetStyle{
+  border?: boolean
   borderColor?: Color
-  borderWidth?: number | null
-  fillColor?: Color | null
+  borderWidth?: number
+  fill?: boolean
+  fillColor?: Color
 }
 
 export interface FigureOptions extends WidgetOptions {
@@ -22,5 +24,7 @@ export class Figure extends Widget {
     this.style.borderColor = options.style.borderColor ?? Color.WHITE
     this.style.borderWidth = options.style.borderWidth ?? 2
     this.style.fillColor = options.style.fillColor ?? Color.WHITE
+    this.style.fill = options.style.fill ?? true
+    this.style.border = options.style.border ?? false
   }
 }
