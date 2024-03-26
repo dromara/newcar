@@ -1,4 +1,5 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
+import type { Animation, AnimationInstance } from './animation'
 
 export interface WidgetOptions {
   style?: WidgetStyle
@@ -25,6 +26,7 @@ export class Widget {
   progress: number // The progress/process of a widget.
   style: WidgetStyle // The style of the widget.
   isImplemented = false // If the widget is implemented by App.impl
+  animationInstance: AnimationInstance[] = []
 
   constructor(options?: WidgetOptions) {
     options ??= {}
@@ -68,11 +70,17 @@ export class Widget {
   predraw(ck: CanvasKit, propertyChanged: string) {}
 
   /**
-   * Draw the object according to the style of the widget.
-   * Called when the style is changed.
+   * Draw the object according to the parameters of the widget.
+   * Called when the parameters is changed.
    * @param canvas The canvas object of CanvasKit-WASM.
    */
   draw(canvas: Canvas) {}
+
+  /**
+   * Called when the parameters is changed.
+   * @param ck The namespace of CanvasKit-WASM.
+   */
+  preupdate(ck: CanvasKit) {}
 
   /**
    * Update the object according to the style of the widget.
@@ -92,5 +100,9 @@ export class Widget {
     for (const child of children) {
       this.children.push(child)
     }
+  }
+
+  animate(animation: Animation, during: number, startAt?: number) {
+    this.animationInstance.push({ startAt, during, animation })
   }
 }

@@ -33,6 +33,7 @@ export class Arc extends Widget {
   }
 
   override draw(canvas: Canvas): void {
+    canvas.translate(this.x, this.y)
     canvas.drawArc(this.rect, 0, 360, false, this.paint)
   }
 }

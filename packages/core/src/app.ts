@@ -32,15 +32,45 @@ export class App {
   }
 
   static update(app: App, canvas: Canvas): void {
-    // If this updating is this scene's origin, initial this scene
+    // If this updating is this scene's origin, initial this scene.
     if (app.scene.elapsed === 0) {
       initial(app.scene.root, app.ck, canvas)
     }
     // Contrast the old widget and the new widget.
     patch(app.last, app.scene.root, app.ck, canvas)
-    // console.log(shallowEqual(app.last, deepClone(app.scene.root)))
-
     app.last = deepClone(app.scene.root)
+
+    // Animating.
+    ;(function animate(widget: Widget) {
+      for (const animation of widget.animationInstance) {
+        // if (animation.startAt) {
+          if (
+            (animation.startAt <= app.scene.elapsed,
+            animation.during >= app.scene.elapsed)
+          ) {
+            animation.animation.act(
+              widget,
+              app.scene.elapsed - animation.startAt,
+              (app.scene.elapsed - animation.startAt) / animation.during,
+            )
+          }
+        // } else {
+          // if (
+          //   (animation.startAt <= app.scene.elapsed,
+          //   animation.during >= app.scene.elapsed)
+          // ) {
+          //   animation.animation.act(
+          //     widget,
+          //     app.scene.elapsed - animation.startAt,
+          //     (app.scene.elapsed - animation.startAt) / animation.during,
+          //   )
+          // }
+        // }
+        for (const child of widget.children) {
+          animate(child)
+        }
+      }
+    })(app.scene.root)
 
     if (app.playing) {
       app.scene.elapsed += 1
