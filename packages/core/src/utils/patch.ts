@@ -45,7 +45,7 @@ export function patch(old: Widget, now: Widget, ck: CanvasKit, canvas: Canvas) {
     now.preupdate(ck, param)
     if (param === 'style') {
       const contrasts = shallowEqual(old.style, now.style)
-      contrasts.forEach(contrast => now.preupdate(ck, `style.${contrast}`))
+      contrasts.forEach((contrast) => now.preupdate(ck, `style.${contrast}`))
     }
   })
   now.update(canvas)
