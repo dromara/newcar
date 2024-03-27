@@ -15,7 +15,8 @@
     "change": "changeset add",
     "release": "pnpm preversion && changeset version",
     "publish": "changeset publish",
-    "add-widget": "node ./scripts/addWidget.cjs"
+    "add-widget": "node ./scripts/addWidget.cjs",
+    "add-element": "node ./scripts/addElement.cjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
