@@ -1,6 +1,7 @@
 import type { WidgetOptions, WidgetStyle } from "@newcar/core"
 import { Widget } from "@newcar/core"
 import { Color } from "@newcar/utils";
+import type { Paint } from "canvaskit-wasm";
 
 export interface FigureStyle extends WidgetStyle{
   border?: boolean
@@ -16,6 +17,8 @@ export interface FigureOptions extends WidgetOptions {
 
 export class Figure extends Widget {
   declare style: FigureStyle
+  strokePaint: Paint
+  fillPaint: Paint
 
   constructor(options?: FigureOptions) {
     options ??= {}

@@ -2,8 +2,6 @@ import { Canvas, CanvasKit, Paint, RRect } from 'canvaskit-wasm'
 import { Figure, FigureOptions } from './figure'
 
 export class Arc extends Figure {
-  strokePaint: Paint
-  fillPaint: Paint
   rect: RRect
 
   constructor(
@@ -15,7 +13,7 @@ export class Arc extends Figure {
     super(options)
   }
 
-  override init(ck: CanvasKit): void {
+  init(ck: CanvasKit): void {
     // Stroke
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
@@ -32,9 +30,11 @@ export class Arc extends Figure {
       this.radius,
       this.radius,
     )
+    this.strokePaint.setStyle(ck.PaintStyle.Stroke)
+    this.fillPaint.setStyle(ck.PaintStyle.Fill)
   }
 
-  override predraw(ck: CanvasKit, propertyChanged?: string): void {
+  predraw(ck: CanvasKit, propertyChanged?: string): void {
     switch (propertyChanged) {
       case 'radius': {
         this.rect.set([-this.radius, -this.radius, this.radius, this.radius])
@@ -55,7 +55,7 @@ export class Arc extends Figure {
     }
   }
 
-  override draw(canvas: Canvas): void {
+  draw(canvas: Canvas): void {
     if (this.style.border) {
       canvas.drawArc(
         this.rect,
@@ -64,7 +64,8 @@ export class Arc extends Figure {
         false,
         this.strokePaint,
       )
-    } else if (this.style.fill) {
+    }
+    if (this.style.fill) {
       canvas.drawArc(
         this.rect,
         this.from,

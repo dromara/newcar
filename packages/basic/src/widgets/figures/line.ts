@@ -1,6 +1,6 @@
 import { Widget, WidgetOptions, WidgetStyle } from "@newcar/core";
 import { Color } from "@newcar/utils";
-import { Vector2 } from "../../utils/vector2d";
+import { Vector2 } from "../../utils/vector2";
 import { Canvas, CanvasKit, Paint } from "canvaskit-wasm";
 
 export interface LineOptions extends WidgetOptions {
@@ -9,6 +9,7 @@ export interface LineOptions extends WidgetOptions {
 
 export interface LineStyle extends WidgetStyle {
   color?: Color
+  width?: number
 }
 
 export class Line extends Widget {
@@ -20,20 +21,23 @@ export class Line extends Widget {
     super(options)
   }
 
-  override init(ck: CanvasKit): void {
+  init(ck: CanvasKit): void {
     this.paint = new ck.Paint()
   }
 
-  override predraw(ck: CanvasKit, propertyChanged: string): void {
+  predraw(ck: CanvasKit, propertyChanged: string): void {
     switch (propertyChanged) {
       case 'style.color': {
         this.paint.setColor(this.style.color.toFloat4())
         break
       }
+      case 'style.width': {
+        this.paint.setStrokeWidth(this.style.width)
+      }
     }
   }
   
-  override draw(canvas: Canvas): void {
+  draw(canvas: Canvas): void {
     canvas.drawLine(
       this.from[0],
       this.from[1],
