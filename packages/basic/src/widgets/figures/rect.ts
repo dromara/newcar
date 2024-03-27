@@ -32,7 +32,12 @@ export class Rect extends Figure {
     console.log(propertyChanged)
     switch (propertyChanged) {
       case 'from' || 'to': {
-        this.rect.set([this.from[0], this.from[1], this.to[0], this.to[1]])
+        this.rect.set([
+          this.from[0],
+          this.from[1],
+          this.to[0] * this.progress,
+          this.to[1] * this.progress,
+        ])
         break
       }
       case 'style.borderColor': {
