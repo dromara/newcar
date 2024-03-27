@@ -1,2 +1,5 @@
 export * from './figures/arc'
+export * from './figures/circle'
 export * from './figures/figure'
+export * from './figures/rect'
+export * from './image-widget'

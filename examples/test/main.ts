@@ -1,9 +1,10 @@
 import { CarEngine, Scene, Widget, App } from '@newcar/core'
-import { Arc } from '@newcar/basic'
+import { Arc, Rect } from '@newcar/basic'
 import { move } from '@newcar/basic'
+import { Color } from 'newcar'
 
 let circle: any
-let app: any
+let app: App
 
 await new CarEngine()
   .init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
@@ -11,19 +12,14 @@ await new CarEngine()
     app = engine.createApp(document.querySelector('#canvas'))
     const root = new Widget()
     const scene = new Scene(root)
-    for (let row = 0; row <= 10000; row += 10) {
-      for (let column = 0; column <= 1000; column += 10) {
-        root.add(new Arc(10, {
-          x: column,
-          y: row,
-          style: {
-            fillColor: null
-          }
-        }))
-      }
-    }
+    // for (let row = 0; row <= 100; row += 10) {
+    //   for (let column = 0; column <= 10; column += 10) {
+    //   }
+    // }
+    // app.setUpdate((e) => {
+    //   scene.root.children[0].x += 1
+    // })
     app.checkout(scene)
+    root.add(new Arc(100, 0, 200)).animate(move, 100, 0)
     app.play()
-    root.animate(move, 100, 0)
   })
-

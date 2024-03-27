@@ -40,6 +40,7 @@ export function shallowEqual(objA: any, objB: any): string[] {
 export function patch(old: Widget, now: Widget, ck: CanvasKit, canvas: Canvas) {
   canvas.save()
   const differences = shallowEqual(old, now)
+  console.log(differences)
   for (const param of differences) {
     now.preupdate(ck, param)
     if (param === 'style') {

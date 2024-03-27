@@ -16,3 +16,7 @@ export const isEqual = (a: unknown, b: unknown): boolean => {
 export const isString = (v: unknown): v is void => {
   return typeof v === 'string'
 }
+
+export function isAsyncFunction(func: (...parameters: any[]) => any) {
+  return func.constructor.name === 'AsyncFunction';
+}

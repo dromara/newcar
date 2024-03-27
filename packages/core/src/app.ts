@@ -39,36 +39,7 @@ export class App {
     app.last = deepClone(app.scene.root)
 
     // Animating.
-    ;(function animate(widget: Widget) {
-      for (const animation of widget.animationInstance) {
-        // if (animation.startAt) {
-        if (
-          animation.startAt <= app.scene.elapsed &&
-          animation.during + animation.startAt >= app.scene.elapsed
-        ) {
-          animation.animation.act(
-            widget,
-            app.scene.elapsed - animation.startAt,
-            (app.scene.elapsed - animation.startAt) / animation.during,
-          )
-        }
-        // } else {
-        // if (
-        //   (animation.startAt <= app.scene.elapsed,
-        //   animation.during >= app.scene.elapsed)
-        // ) {
-        //   animation.animation.act(
-        //     widget,
-        //     app.scene.elapsed - animation.startAt,
-        //     (app.scene.elapsed - animation.startAt) / animation.during,
-        //   )
-        // }
-        // }
-        for (const child of widget.children) {
-          animate(child)
-        }
-      }
-    })(app.scene.root)
+    app.scene.root.runAnimation(app.scene.elapsed)
 
     if (app.playing) {
       app.scene.elapsed += 1

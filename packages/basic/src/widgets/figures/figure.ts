@@ -27,7 +27,7 @@ export class Figure extends Widget {
     this.style.borderColor = options.style.borderColor ?? Color.WHITE
     this.style.borderWidth = options.style.borderWidth ?? 2
     this.style.fillColor = options.style.fillColor ?? Color.WHITE
-    this.style.fill = options.style.fill ?? true
-    this.style.border = options.style.border ?? false
+    this.style.fill = options.style.fill ?? false
+    this.style.border = options.style.border ?? true
   }
 }

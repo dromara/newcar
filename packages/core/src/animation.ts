@@ -9,7 +9,7 @@ export function defineAnimation(animation: Animation): Animation {
 }
 
 export interface AnimationInstance {
-  startAt?: number
+  startAt: number
   during: number
   animation: Animation
 }

@@ -15,15 +15,21 @@ export class Rect extends Figure {
   constructor(public from: Vector2, public to: Vector2, options?: RectOptions) {
     options ??= {}
     super(options)
+    this.style ??= {}
   }
 
   init(ck: CanvasKit): void {
     this.rect = ck.LTRBRect(this.from[0], this.from[1], this.to[0], this.to[1])
+    this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
+    this.strokePaint.setColor(this.style.borderColor.toFloat4())
+    this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
+    this.fillPaint.setColor(this.style.fillColor.toFloat4())
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
+    console.log(propertyChanged)
     switch (propertyChanged) {
       case 'from' || 'to': {
         this.rect.set([this.from[0], this.from[1], this.to[0], this.to[1]])

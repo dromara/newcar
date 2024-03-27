@@ -34,9 +34,11 @@ export class Widget {
     transparency: 0,
   } // The style of the widget.
   isImplemented = false // If the widget is implemented by App.impl
-  animationInstance: AnimationInstance[] = []
+  animationInstances: AnimationInstance[] = []
   updates: ((elapsed: number) => void)[] = []
-  key = `widget-${++widgetCounter}-${Date.now()}-${Math.random().toString(16).slice(2)}`
+  key = `widget-${++widgetCounter}-${Date.now()}-${Math.random()
+    .toString(16)
+    .slice(2)}`
 
   constructor(options?: WidgetOptions) {
     options ??= {}
@@ -96,7 +98,6 @@ export class Widget {
    */
   preupdate(ck: CanvasKit, propertyChanged?: string): this {
     this.predraw(ck, propertyChanged)
-    
 
     return this
   }
@@ -108,11 +109,11 @@ export class Widget {
    * @param propertyChanged The changed property of this widget
    */
   update(canvas: Canvas): this {
-    canvas.translate(this.x, this.y);
-    canvas.rotate(this.style.rotation, this.centerX, this.centerY);
-    canvas.scale(this.style.scaleX, this.style.scaleY);
+    canvas.translate(this.x, this.y)
+    canvas.rotate(this.style.rotation, this.centerX, this.centerY)
+    canvas.scale(this.style.scaleX, this.style.scaleY)
 
-    this.draw(canvas);
+    this.draw(canvas)
 
     return this
   }
@@ -130,11 +131,28 @@ export class Widget {
   }
 
   animate(animation: Animation, during: number, startAt?: number): this {
-    this.animationInstance.push({ startAt, during, animation })
+    this.animationInstances.push({ startAt, during, animation })
 
     return this
   }
 
+  runAnimation(elapsed: number) {
+    for (const instance of this.animationInstances) {
+      if (
+        instance.startAt <= elapsed &&
+        instance.during + instance.startAt >= elapsed
+      ) {
+        instance.animation.act(
+          this,
+          elapsed - instance.startAt,
+          (elapsed - instance.startAt) / instance.during,
+        )
+      }
+    }
+    for (const child of this.children) {
+      child.runAnimation(elapsed)
+    }
+  }
 
   /**
    * Set up a update function to call it when the widget is changed.
