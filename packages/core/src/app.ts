@@ -4,6 +4,7 @@ import { initial } from './utils/initial'
 import { deepClone } from './utils/deep-clone'
 import { patch, shallowEqual } from './utils/patch'
 import { Widget } from './widget'
+import type { CarPlugin } from './plugin'
 
 export class App {
   scene: Scene
@@ -11,6 +12,7 @@ export class App {
   private playing = false
   private last: Widget
   updates: ((elapsed: number) => void)[] = []
+  plugins: CarPlugin[] = []
 
   constructor(public element: HTMLCanvasElement, private ck: CanvasKit) {
     element.style.backgroundColor = 'black'
@@ -78,5 +80,9 @@ export class App {
    */
   setUpdate(updateFunc: (elapsed: number) => void) {
     this.updates.push(updateFunc)
+  }
+
+  use(plugin: CarPlugin) {
+    this.plugins.push(plugin)
   }
 }
