@@ -49,35 +49,62 @@ export function patch(old: Widget, now: Widget, ck: CanvasKit, canvas: Canvas) {
     }
   }
   now.update(canvas)
-  
-  const oldKeyToIdx = new Map<string, number>();
-  const newKeyToIdx = new Map<string, number>();
 
+  const oldKeyToIdx = new Map<string, number>()
+  const newKeyToIdx = new Map<string, number>()
+
+  // Handle children
   old.children.forEach((child, index) => {
-    oldKeyToIdx.set(child.key, index);
-  });
+    oldKeyToIdx.set(child.key, index)
+  })
   now.children.forEach((child, index) => {
-    newKeyToIdx.set(child.key, index);
-  });
+    newKeyToIdx.set(child.key, index)
+  })
 
-  // Update and add new widgets
-  now.children.forEach((newChild, newIndex) => {
-    const oldIndex = oldKeyToIdx.get(newChild.key);
-    if (oldIndex !== undefined) {
-      const oldChild = old.children[oldIndex];
-      patch(oldChild, newChild, ck, canvas);
-    } else {
-      // Add new child since it doesn't exist in the old children
-      now.children.push(newChild) // Implement this function based on how you add children to canvas
-    }
-  });
+  {
+    // Update and add new widgets
+    let oldIndex, newIndex
+    now.children.forEach((newChild, newIndex) => {
+      oldIndex = oldKeyToIdx.get(newChild.key)
+      if (oldIndex !== undefined) {
+        const oldChild = old.children[oldIndex]
+        patch(oldChild, newChild, ck, canvas)
+      } else {
+        // Add new child since it doesn't exist in the old children
+        now.children.push(newChild) // Implement this function based on how you add children to canvas
+      }
+    })
+    // Remove old widgets that are not present in new widgets
+    old.children.forEach((oldChild, oldIndex) => {
+      if (!newKeyToIdx.has(oldChild.key)) {
+        now.children.find((value) => oldChild === value) // Implement this function based on how you remove children from canvas
+      }
+    })
+  }
 
-  // Remove old widgets that are not present in new widgets
-  old.children.forEach((oldChild, oldIndex) => {
-    if (!newKeyToIdx.has(oldChild.key)) {
-      now.children.find(value => oldChild === value) // Implement this function based on how you remove children from canvas
-    }
-  });
-
+  {
+    // Handle parts
+    old.parts.forEach((child, index) => {
+      oldKeyToIdx.set(child.key, index)
+    })
+    now.parts.forEach((child, index) => {
+      newKeyToIdx.set(child.key, index)
+    })
+    let oldIndex, newIndex
+    now.parts.forEach((newPart, newIndex) => {
+      oldIndex = oldKeyToIdx.get(newPart.key)
+      if (oldIndex !== undefined) {
+        const oldChild = old.children[oldIndex]
+        patch(oldChild, newPart, ck, canvas)
+      } else {
+        now.children.push(newPart)
+      }
+    })
+    old.parts.forEach((oldPart, oldIndex) => {
+      if (!newKeyToIdx.has(oldPart.key)) {
+        now.parts.find((value) => oldPart === value)
+      }
+    })
+  }
   canvas.restore()
 }

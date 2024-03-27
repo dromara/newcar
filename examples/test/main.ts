@@ -20,6 +20,9 @@ await new CarEngine()
     //   scene.root.children[0].x += 1
     // })
     app.checkout(scene)
-    root.add(new Arc(100, 0, 200)).animate(move, 100, 0)
+    root.add(new Arc(100, 0, 200)).animate(move, 100, 0).add(new Rect([0, 0], [20, 20], {
+      x: 300,
+      y: 300
+    }))
     app.play()
   })

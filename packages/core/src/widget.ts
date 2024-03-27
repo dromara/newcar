@@ -152,6 +152,9 @@ export class Widget {
     for (const child of this.children) {
       child.runAnimation(elapsed)
     }
+    for (const part of this.parts) {
+      part.runAnimation(elapsed)
+    }
   }
 
   /**
