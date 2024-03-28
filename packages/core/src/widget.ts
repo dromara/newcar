@@ -61,12 +61,6 @@ export class Widget {
    */
   children: Widget[] = []
 
-  /**
-   * The parts of a widget.
-   * Differently with children, it is a part of the widget instead of a child of the widget.
-   */
-  parts: Widget[] = []
-
   last: Widget = this
 
   /**

@@ -1,5 +1,5 @@
 import { CarEngine, Scene, Widget, App } from '@newcar/core'
-import { Arc, Arrow, Line, Rect } from '@newcar/basic'
+import { Arc, Arrow, ImageWidget, Line, Rect } from '@newcar/basic'
 import { move } from '@newcar/basic'
 import { Color } from 'newcar'
 
@@ -13,6 +13,6 @@ await new CarEngine()
     const root = new Widget()
     const scene = new Scene(root)
     app.checkout(scene)
-    root.add(new Arrow([0, 0], [100, 100]).add(new Line([0, 0], [100, 100])))
+    root.add(new ImageWidget('./brand.png'))
     app.play()
   })
