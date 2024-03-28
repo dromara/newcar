@@ -39,6 +39,7 @@ export class Line extends Widget {
       }
       case 'style.width': {
         this.paint.setStrokeWidth(this.style.width)
+        break
       }
     }
   }

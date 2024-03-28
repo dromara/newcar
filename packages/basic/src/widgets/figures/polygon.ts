@@ -35,7 +35,7 @@ export class Polygon extends Figure {
      // Fill
      this.fillPaint = new ck.Paint()
      this.fillPaint.setStyle(ck.PaintStyle.Fill)
-     this.fillPaint.setColor(this.style.borderColor.toFloat4())
+     this.fillPaint.setColor(this.style.fillColor.toFloat4())
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
