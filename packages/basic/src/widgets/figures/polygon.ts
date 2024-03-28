@@ -10,9 +10,8 @@ export interface PolygonStyle extends FigureStyle {}
 
 export class Polygon extends Figure {
   path: Path
-  points: Vector2[]
 
-  constructor(options?: PolygonOptions) {
+  constructor(public points: Vector2[], options?: PolygonOptions) {
     options ??= {}
     super(options)
   }
@@ -26,8 +25,17 @@ export class Polygon extends Figure {
         this.path.lineTo(...point);
       }
     }
-    this.strokePaint.setStyle(ck.PaintStyle.Stroke)
-    this.fillPaint.setStyle(ck.PaintStyle.Fill)
+    this.path.close()
+     // Stroke
+     this.strokePaint = new ck.Paint()
+     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
+     this.strokePaint.setColor(this.style.borderColor.toFloat4())
+     this.strokePaint.setStrokeWidth(this.style.borderWidth)
+
+     // Fill
+     this.fillPaint = new ck.Paint()
+     this.fillPaint.setStyle(ck.PaintStyle.Fill)
+     this.fillPaint.setColor(this.style.borderColor.toFloat4())
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
@@ -41,6 +49,7 @@ export class Polygon extends Figure {
             this.path.lineTo(...point);
           }
         }
+        this.path.close()
         break
       }
       case 'style.borderColor': {

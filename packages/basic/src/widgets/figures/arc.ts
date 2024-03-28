@@ -18,6 +18,7 @@ export class Arc extends Figure {
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
+    this.strokePaint.setStrokeWidth(this.style.borderWidth)
 
     // Fill
     this.fillPaint = new ck.Paint()
@@ -30,8 +31,6 @@ export class Arc extends Figure {
       this.radius,
       this.radius,
     )
-    this.strokePaint.setStyle(ck.PaintStyle.Stroke)
-    this.fillPaint.setStyle(ck.PaintStyle.Fill)
   }
 
   predraw(ck: CanvasKit, propertyChanged?: string): void {

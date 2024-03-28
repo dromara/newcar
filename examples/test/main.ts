@@ -1,5 +1,5 @@
 import { CarEngine, Scene, Widget, App } from '@newcar/core'
-import { Arc, Rect } from '@newcar/basic'
+import { Arc, Arrow, Line, Rect } from '@newcar/basic'
 import { move } from '@newcar/basic'
 import { Color } from 'newcar'
 
@@ -13,9 +13,6 @@ await new CarEngine()
     const root = new Widget()
     const scene = new Scene(root)
     app.checkout(scene)
-    root.add(new Arc(100, 0, 200)).animate(move, 100, 0).add(new Rect([0, 0], [20, 20], {
-      x: 300,
-      y: 300
-    }))
+    root.add(new Arrow([0, 0], [100, 100]).add(new Line([0, 0], [100, 100])))
     app.play()
   })

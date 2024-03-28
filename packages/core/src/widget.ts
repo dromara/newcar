@@ -130,7 +130,7 @@ export class Widget {
     return this
   }
 
-  animate(animation: Animation, during: number, startAt?: number): this {
+  animate(animation: Animation, startAt: number, during: number): this {
     this.animationInstances.push({ startAt, during, animation })
 
     return this
@@ -151,9 +151,6 @@ export class Widget {
     }
     for (const child of this.children) {
       child.runAnimation(elapsed)
-    }
-    for (const part of this.parts) {
-      part.runAnimation(elapsed)
     }
   }
 
