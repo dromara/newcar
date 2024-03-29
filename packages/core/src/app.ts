@@ -12,37 +12,61 @@ export class App {
   private playing = false
   private last: Widget
   updates: ((elapsed: number) => void)[] = []
-  plugins: CarPlugin[] = []
 
-  constructor(public element: HTMLCanvasElement, private ck: CanvasKit) {
+  constructor(public element: HTMLCanvasElement, private ck: CanvasKit, private plugins: CarPlugin[]) {
     element.style.backgroundColor = 'black'
     if (element == void 0) {
       console.warn(
         `[Newcar Warn] You are trying to use a undefined canvas element.`,
       )
     }
+    for (const plugin of this.plugins) {
+      plugin.beforeSurfaceLoaded(this)
+    }
     this.surface = this.ck.MakeWebGLCanvasSurface(this.element)
+    for (const plugin of this.plugins) {
+      plugin.onSurfaceLoaded(this, this.surface)
+    }
   }
 
   checkout(scene: Scene): this {
+    for (const plugin of this.plugins) {
+      plugin.beforeCheckout(this, scene)
+    }
     this.scene = scene
     this.last = this.scene.root
+    for (const plugin of this.plugins) {
+      plugin.onCheckout(this, this.scene)
+    }
 
     return this
   }
 
   static update(app: App, canvas: Canvas): void {
+    for (const plugin of app.plugins) {
+      plugin.beforeUpdate(app, app.scene.elapsed)
+    }
     // If this updating is this scene's origin, initial this scene.
     if (app.scene.elapsed === 0) {
       initial(app.scene.root, app.ck, canvas)
     }
-    // Contrast the old widget and the new widget.
+    // Contrast the old widget and the new widget and update them.
+    for (const plugin of app.plugins) {
+      plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
+    }
     patch(app.last, app.scene.root, app.ck, canvas)
+    for (const plugin of app.plugins) {
+      plugin.afterPatch(app, app.scene.elapsed, app.last, app.scene.root)
+    }
     app.last = deepClone(app.scene.root)
 
     // Animating.
     app.scene.root.runAnimation(app.scene.elapsed)
 
+    for (const plugin of app.plugins) {
+      plugin.afterUpdate(app, app.scene.elapsed)
+    }
+    
     if (app.playing) {
       app.scene.elapsed += 1
       app.surface.requestAnimationFrame((canvas: Canvas) => {

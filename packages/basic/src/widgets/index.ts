@@ -10,3 +10,4 @@ export * from './figures/line'
 // Others
 export * from './text'
 export * from './image-widget'
+export * from './svg'

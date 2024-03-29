@@ -32,7 +32,8 @@ export class CarEngine {
   createApp(element: HTMLCanvasElement): App {
     const app = new App(
       element,
-      this.ck
+      this.ck,
+      this.plugins
     )
     this.apps.push(app)
     return app
