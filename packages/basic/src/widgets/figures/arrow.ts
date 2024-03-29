@@ -11,8 +11,8 @@ export interface ArrowOptions extends FigureOptions {
 export interface ArrowStyle extends FigureStyle {}
 
 export class Arrow extends Figure {
-  tip: Polygon
-  trim: Line
+  private tip: Polygon
+  private trim: Line
   radian: number
 
   constructor(

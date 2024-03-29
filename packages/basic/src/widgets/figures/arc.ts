@@ -2,7 +2,7 @@ import { Canvas, CanvasKit, Paint, RRect } from 'canvaskit-wasm'
 import { Figure, FigureOptions } from './figure'
 
 export class Arc extends Figure {
-  rect: RRect
+  private rect: RRect
 
   constructor(
     public radius: number,

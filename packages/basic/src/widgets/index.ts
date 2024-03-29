@@ -8,4 +8,5 @@ export * from './figures/polygon'
 export * from './figures/line'
 
 // Others
+export * from './text'
 export * from './image-widget'

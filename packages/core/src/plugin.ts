@@ -1,4 +1,4 @@
-import type { Scene } from "../dist"
+import type { Scene } from "./scene"
 import type { App } from "./app"
 import type { CarEngine } from "./engine"
 import { Widget } from "./widget"
