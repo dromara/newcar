@@ -1,14 +1,28 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import type { Widget } from '../widget'
 import { isAsyncFunction } from '@newcar/utils'
+import { AsyncWidget, AsyncWidgetResponse } from '../asyncWidget'
 
-export const initial = (widget: Widget, ck: CanvasKit, canvas: Canvas) => {
-  if (isAsyncFunction(widget.init)) {
-    widget.init(ck)
-  } else {
-    widget.init(ck)
-  }
+export const initial = async (
+  widget: Widget | AsyncWidget,
+  ck: CanvasKit,
+  canvas: Canvas,
+) => {
+  !widget._isAsyncWidget()
+    ? widget.init(ck)
+    : await (async () => {
+        const res = await widget.init(ck)
+        if ((res as AsyncWidgetResponse).status === 'error') {
+          console.warn(
+            '[Newcar Warn] Failed to laod async widget, please check if your network.',
+          )
+        } else if ((res as AsyncWidgetResponse).status === 'ok') {
+          try {
+            widget.update(canvas)
+          } catch {}
+        }
+      })()
   for (const child of widget.children) {
-    initial(child, ck, canvas)
+    await initial(child, ck, canvas)
   }
 }

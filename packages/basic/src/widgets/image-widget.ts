@@ -1,39 +1,53 @@
-import { Widget, WidgetOptions, $sourcesLoaded } from '@newcar/core'
-import { Canvas, CanvasKit } from 'canvaskit-wasm'
+import {
+  Widget,
+  WidgetOptions,
+  $sourcesLoaded,
+  AsyncWidget,
+  AsyncWidgetResponse,
+} from '@newcar/core'
+import { Canvas, CanvasKit, Image } from 'canvaskit-wasm'
 
 export interface ImageWidgetOptions extends WidgetOptions {}
 
-export class ImageWidget extends Widget {
-  private image: any = null
-  private ready = false
+export class ImageWidget extends AsyncWidget {
+  private image: Image
 
-  constructor(public name: string, options?: ImageWidgetOptions) {
+  constructor(public src: string, options?: ImageWidgetOptions) {
     options ??= {}
     super(options)
   }
 
-  init(ck: CanvasKit): void {
+  async init(ck: CanvasKit): Promise<AsyncWidgetResponse> {
     try {
-      const imageData = $sourcesLoaded[this.name]
+      const response = await fetch(this.src)
+      const imageData = await response.arrayBuffer()
       this.image = ck.MakeImageFromEncoded(imageData)
-      this.ready = true
+      return {
+        status: 'ok',
+      }
     } catch (error) {
-      console.error('Failed to load image:', this.name, error)
-    }
-  }
-
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    switch (propertyChanged) {
-      case 'src': {
-        this.ready = false
-        this.init(ck)
+      return {
+        status: 'error',
       }
     }
   }
 
-  draw(canvas: Canvas): void {
-    if (this.ready) {
-      canvas.drawImage(this.image, 0, 0, null)
+  async predraw(
+    ck: CanvasKit,
+    propertyChanged: string,
+  ): Promise<AsyncWidgetResponse> {
+    switch (propertyChanged) {
+      case 'src': {
+        const res = await this.init(ck)
+        return res
+      }
     }
+    return {
+      status: 'ok',
+    }
+  }
+
+  draw(canvas: Canvas): void {
+    canvas.drawImage(this.image, 0, 0, null)
   }
 }

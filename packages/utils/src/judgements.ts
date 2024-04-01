@@ -9,6 +9,10 @@ export const isNull = (v: unknown): v is void => {
   return v == void 0
 }
 
+export const isUndefined = (v: unknown): v is void => {
+  return typeof v === 'undefined'
+}
+
 export const isEqual = (a: unknown, b: unknown): boolean => {
   return Object.is(a, b)
 }
@@ -18,5 +22,5 @@ export const isString = (v: unknown): v is void => {
 }
 
 export function isAsyncFunction(func: (...parameters: any[]) => any) {
-  return func.constructor.name === 'AsyncFunction';
+  return func.constructor.name === 'AsyncFunction'
 }

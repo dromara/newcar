@@ -1,6 +1,7 @@
 import { Canvas, CanvasKit } from 'canvaskit-wasm'
 import { Widget } from '../widget'
 import { isEqual } from '@newcar/utils'
+import { AsyncWidget, AsyncWidgetResponse } from '../asyncWidget'
 
 export function shallowEqual(objA: any, objB: any): string[] {
   const changedProperties: string[] = []
@@ -37,14 +38,36 @@ export function shallowEqual(objA: any, objB: any): string[] {
   return changedProperties
 }
 
-export function patch(old: Widget, now: Widget, ck: CanvasKit, canvas: Canvas) {
+export async function patch(
+  old: Widget | AsyncWidget,
+  now: Widget | AsyncWidget,
+  ck: CanvasKit,
+  canvas: Canvas,
+) {
   canvas.save()
   const differences = shallowEqual(old, now)
   for (const param of differences) {
-    now.preupdate(ck, param)
+    !now._isAsyncWidget()
+      ? (() => {
+          now.preupdate(ck, param)
+        })()
+      : await (async () => {
+          const res = await now.preupdate(ck, param)
+          if ((res as AsyncWidgetResponse).status === 'error') {
+            console.warn(
+              '[Newcar Warn] Failed to laod async widget, please check if your network.',
+            )
+          } else if ((res as AsyncWidgetResponse).status === 'ok') {
+            try {
+              now.update(canvas)
+            } catch {}
+          }
+        })()
     if (param === 'style') {
       const contrasts = shallowEqual(old.style, now.style)
-      contrasts.forEach((contrast) => now.preupdate(ck, `style.${contrast}`))
+      for (const contrast of contrasts) {
+        await now.preupdate(ck, contrast)
+      }
     }
   }
   now.update(canvas)
@@ -63,16 +86,16 @@ export function patch(old: Widget, now: Widget, ck: CanvasKit, canvas: Canvas) {
 
   // Update and add new widgets
   let oldIndex, newIndex
-  now.children.forEach((newChild, newIndex) => {
+  for (const newChild of now.children) {
     oldIndex = oldKeyToIdx.get(newChild.key)
     if (oldIndex !== undefined) {
       const oldChild = old.children[oldIndex]
-      patch(oldChild, newChild, ck, canvas)
+      await patch(oldChild, newChild, ck, canvas)
     } else {
       // Add new child since it doesn't exist in the old children
       now.children.push(newChild) // Implement this function based on how you add children to canvas
     }
-  })
+  }
   // Remove old widgets that are not present in new widgets
   old.children.forEach((oldChild, oldIndex) => {
     if (!newKeyToIdx.has(oldChild.key)) {

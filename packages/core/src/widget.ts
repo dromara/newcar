@@ -90,10 +90,8 @@ export class Widget {
    * Called when the parameters is changed.
    * @param ck The namespace of CanvasKit-WASM.
    */
-  preupdate(ck: CanvasKit, propertyChanged?: string): this {
+  preupdate(ck: CanvasKit, propertyChanged?: string) {
     this.predraw(ck, propertyChanged)
-
-    return this
   }
 
   /**
@@ -102,14 +100,12 @@ export class Widget {
    * @param canvas The canvas object of CanvasKit-WASM.
    * @param propertyChanged The changed property of this widget
    */
-  update(canvas: Canvas): this {
+  update(canvas: Canvas) {
     canvas.translate(this.x, this.y)
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
     canvas.scale(this.style.scaleX, this.style.scaleY)
 
     this.draw(canvas)
-
-    return this
   }
 
   /**
@@ -124,8 +120,8 @@ export class Widget {
     return this
   }
 
-  animate(animation: Animation, startAt: number, during: number): this {
-    this.animationInstances.push({ startAt, during, animation })
+  animate(animation: Animation, startAt: number, during: number, params: Record<string, any>): this {
+    this.animationInstances.push({ startAt, during, animation, params })
 
     return this
   }
@@ -154,5 +150,9 @@ export class Widget {
    */
   setUpdate(updateFunc: (elapsed: number) => void) {
     this.updates.push(updateFunc)
+  }
+
+  _isAsyncWidget() {
+    return false
   }
 }
