@@ -77,12 +77,30 @@ await new nc.Engine()
   .then(engine => {
     const defaultScene = new nc.Scene(new Widget()
       .add(
-        new nc.Arc(100)
+        new nc.Circle(100)
       )
     )
     engine.createApp().checkout(defaultScene).play()
   })
 ```
+
+## Animate It
+
+```typescript
+await new nc.Engine()
+  .init()
+  .then(engine => {
+    const defaultScene = new nc.Scene(new Widget()
+      .add(
+        new nc.Circle(100)
+          .animate(nc.create, 0, 30)
+      )
+    )
+    engine.createApp().checkout(defaultScene).play()
+  })
+```
+
+These codes will add a `create` animation to the `Circle` object.
 
 If everything is okay, you are going to see a circle were drawed on the canvas.
 
