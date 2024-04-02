@@ -21,9 +21,16 @@ await new CarEngine()
     app = engine.createApp(document.querySelector('#canvas'))
     const root = new Circle(100, {
       x: 1000,
-    }).animate(move, 0, 100, {
-      x: -2000,
     })
+      .animate(move, 0, 100, {
+        x: -2000,
+      })
+      .add(new ImageWidget('./brand.png'))
+      .add(
+        new Circle(100, {
+          x: 1000,
+        }),
+      )
     const scene = new Scene(root)
     app.checkout(scene)
     // root

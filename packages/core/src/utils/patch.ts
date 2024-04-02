@@ -57,10 +57,6 @@ export async function patch(
             console.warn(
               '[Newcar Warn] Failed to laod async widget, please check if your network.',
             )
-          } else if ((res as AsyncWidgetResponse).status === 'ok') {
-            try {
-              now.update(canvas)
-            } catch {}
           }
         })()
     if (param === 'style') {
@@ -70,8 +66,9 @@ export async function patch(
       }
     }
   }
-  now.update(canvas)
-  canvas.restore()
+  try {
+    now.update(canvas)
+  } catch {}
 
   const oldKeyToIdx = new Map<string, number>()
   const newKeyToIdx = new Map<string, number>()
@@ -96,6 +93,9 @@ export async function patch(
       now.children.push(newChild) // Implement this function based on how you add children to canvas
     }
   }
+
+  canvas.restore()
+
   // Remove old widgets that are not present in new widgets
   old.children.forEach((oldChild, oldIndex) => {
     if (!newKeyToIdx.has(oldChild.key)) {
