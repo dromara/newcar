@@ -30,7 +30,6 @@ export class Rect extends Figure {
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
-    console.log(propertyChanged)
     switch (propertyChanged) {
       case 'from' || 'to': {
         this.rect.set([

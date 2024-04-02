@@ -16,10 +16,6 @@ export const initial = async (
           console.warn(
             '[Newcar Warn] Failed to laod async widget, please check if your network.',
           )
-        } else if ((res as AsyncWidgetResponse).status === 'ok') {
-          try {
-            widget.update(canvas)
-          } catch {}
         }
       })()
   for (const child of widget.children) {

@@ -66,6 +66,7 @@ export async function patch(
       }
     }
   }
+
   try {
     now.update(canvas)
   } catch {}

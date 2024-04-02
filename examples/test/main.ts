@@ -19,18 +19,22 @@ await new CarEngine()
   .init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
   .then((engine) => {
     app = engine.createApp(document.querySelector('#canvas'))
-    const root = new Circle(100, {
-      x: 1000,
-    })
-      .animate(move, 0, 100, {
-        x: -2000,
-      })
-      .add(new ImageWidget('./brand.png'))
+    const root = new Widget()
       .add(
-        new Circle(100, {
-          x: 1000,
-        }),
+        new Rect([0, 0], [100, 100], {
+          y: 100
+        })
       )
+      .add(
+        new Text(
+          'Hello world!',
+          'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
+          {
+            y: 100
+          }
+        ),
+      )
+      // .add(new ImageWidget('./brand.png'))
     const scene = new Scene(root)
     app.checkout(scene)
     // root
