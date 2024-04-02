@@ -35,7 +35,7 @@ export class Widget {
   } // The style of the widget.
   isImplemented = false // If the widget is implemented by App.impl
   animationInstances: AnimationInstance[] = []
-  updates: ((elapsed: number) => void)[] = []
+  updates: ((elapsed: number, widget: Widget) => void)[] = []
   key = `widget-${++widgetCounter}-${Date.now()}-${Math.random()
     .toString(16)
     .slice(2)}`
@@ -120,8 +120,8 @@ export class Widget {
     return this
   }
 
-  animate(animation: Animation, startAt: number, during: number, params: Record<string, any>): this {
-    this.animationInstances.push({ startAt, during, animation, params })
+  animate(animation: Animation, startAt: number, during: number, params?: Record<string, any>): this {
+    this.animationInstances.push({ startAt, during, animation, params: params ?? {} })
 
     return this
   }
@@ -139,6 +139,9 @@ export class Widget {
         )
       }
     }
+    for (const update of this.updates) {
+      update(elapsed, this)
+    }
     for (const child of this.children) {
       child.runAnimation(elapsed)
     }
@@ -148,7 +151,7 @@ export class Widget {
    * Set up a update function to call it when the widget is changed.
    * @param updateFunc The frame from having gone to current frame.
    */
-  setUpdate(updateFunc: (elapsed: number) => void) {
+  setUpdate(updateFunc: (elapsed: number, widget: Widget) => void) {
     this.updates.push(updateFunc)
   }
 
