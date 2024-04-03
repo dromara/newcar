@@ -23,12 +23,12 @@ export class Rect extends Figure {
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
-    this.strokePaint.setAlphaf(0)
+    this.strokePaint.setAlphaf(this.style.transparency)
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
-    this.fillPaint.setAlphaf(0)
+    this.fillPaint.setAlphaf(this.style.transparency)
 
     // Alpha
     console.log('set!')
