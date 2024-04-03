@@ -47,6 +47,7 @@ export class Arrow extends Figure {
           style.scaleY = this.from[1] > this.to[1] ? -1 : 1
           return style
         })(this.style),
+        progress: this.progress,
       },
     )
     this.trim = new Line(this.from, this.to, {
@@ -54,6 +55,7 @@ export class Arrow extends Figure {
         color: this.style.borderColor,
         width: this.style.borderWidth,
       },
+      progress: this.progress
     })
     console.log(this.trim)
     this.children.push(this.trim, this.tip)
@@ -73,6 +75,10 @@ export class Arrow extends Figure {
         this.trim.from = this.from
         this.trim.to = this.to
         break
+      }
+      case 'progress': {
+        this.tip.progress = this.progress
+        this.trim.progress = this.progress
       }
     }
   }

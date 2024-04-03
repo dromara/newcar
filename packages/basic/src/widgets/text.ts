@@ -99,16 +99,28 @@ export class Text extends AsyncWidget {
       }
     }
     return {
-      status: 'ok'
+      status: 'ok',
     }
   }
 
   draw(canvas: Canvas): void {
     if (this.style.fill) {
-      canvas.drawText(this.text, this.x, this.y, this.fillPaint, this.font)
+      canvas.drawText(
+        this.text.slice(0, Math.round(this.progress * this.text.length)),
+        this.x,
+        this.y,
+        this.fillPaint,
+        this.font,
+      )
     }
     if (this.style.border) {
-      canvas.drawText(this.text, this.x, this.y, this.strokePaint, this.font)
+      canvas.drawText(
+        this.text.slice(0, Math.round(this.progress * this.text.length)),
+        this.x,
+        this.y,
+        this.strokePaint,
+        this.font,
+      )
     }
   }
 }

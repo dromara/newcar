@@ -7,4 +7,4 @@ export * from './widget'
 export * from './asyncWidget'
 
 export * from './apiPreload'
-// export * from './apiChangeProperty'
+export * from './apiChangeProperty'

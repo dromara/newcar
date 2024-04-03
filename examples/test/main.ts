@@ -8,8 +8,8 @@ import {
   Svg,
   Text,
   Circle,
+  move
 } from '@newcar/basic'
-import { move } from '@newcar/basic'
 import { Color, preload } from 'newcar'
 
 let circle: any
@@ -23,6 +23,9 @@ await new CarEngine()
       .add(
         new Rect([0, 0], [100, 100], {
           y: 100
+        }).animate(move, 0, 100, {
+          from: [100, 100],
+          to: [200, 200]
         })
       )
       .add(

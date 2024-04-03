@@ -121,7 +121,7 @@ export class Widget {
   }
 
   animate(animation: Animation, startAt: number, during: number, params?: Record<string, any>): this {
-    this.animationInstances.push({ startAt, during, animation, params: params ?? {} })
+    this.animationInstances.push({ startAt, during, animation, params: params ?? {}})
 
     return this
   }
@@ -136,6 +136,7 @@ export class Widget {
           this,
           elapsed - instance.startAt,
           (elapsed - instance.startAt) / instance.during,
+          instance.params
         )
       }
     }
