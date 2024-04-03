@@ -15,20 +15,20 @@
 
 ## 📔 Introduction
 
-Newcar is a Highly configurable universal advanced engine, to born for creating animation rapidly. You can use it in a lot of jobs, such as the **video clips**, **dynamic chart** (In the future) and even **2D game development** (Also in the future).
+Newcar is a highly configurable and advanced universal engine designed for rapid animation creation. It is suitable for a wide range of applications, including video clips, dynamic charts (planned for the future), and even 2D game development (also planned for the future).
 
-## 🌟 Feature
+## 🌟 Features
 
-- Rich API interfaces 🛠️: Powerful and diverse APIs that provide greater freedom in creating animations.
-- Based on CanvasKit-WASM 🧬: Based on CanvasKit-WASM, which reduced communication and data exchange between CPU and GPU ensures strong animation speed
-- High degree of customization ⚙️: Strong customizability, allowing for the creation of one's own animation style.
-- Chain syntax ⛓️: You can use chain syntax instead of saving object into variable, which makes the development efficient
+- **Rich API Interfaces** 🛠️: Offers powerful and diverse APIs, providing you with greater flexibility in animation creation.
+- **Based on CanvasKit-WASM** 🧬: Utilizes CanvasKit-WASM to minimize communication and data exchange between the CPU and GPU, ensuring robust animation performance.
+- **High Degree of Customization** ⚙️: Features strong customizability, allowing you to create unique animation styles.
+- **Chain Syntax** ⛓️: Enables the use of chain syntax for a more efficient development process, eliminating the need to save objects into variables.
 
-## ⌨️ Getting started
+## ⌨️ Getting Started
 
-### Create Project
+### Creating a Project
 
-Even though you can use any way to use Newcar, but we suggest to use Vite to create your project and use PNPM to manage you package
+Although Newcar can be used in various ways, we recommend using Vite for project creation and PNPM for package management.
 
 ```shell
 $ pnpm create vite project-name
@@ -36,17 +36,17 @@ $ cd project-name
 $ pnpm install
 ```
 
-Then, you need to select frameworks, you can use your favorite framework.
+Next, select your preferred framework.
 
-### Install
+### Installation
 
 ``` shell
 $ pnpm add newcar
 ```
 
-And then, you need to install CanvasKit-WASM's file. You can use your manager to install `canvaskit-wasm`, but there we use the file on CDN for fast.
+You will also need to install CanvasKit-WASM. For quick setup, we recommend using the CDN version.
 
-### Initialize
+### Initialization
 
 ```typescript
 import * as nc from 'newcar'
@@ -59,17 +59,15 @@ await new nc.Engine()
   })
 ```
 
-Firstly, we need await `init()` until CanvasKit is loaded completely.
+1. Await `init()` until CanvasKit is fully loaded.
+2. Create a `Scene` with a root widget as its first parameter.
+3. Check out to the `defaultScene` and play the animation.
 
-Secondly, creating a `Scene` and a root as the first parameter of `Scene`.
+Simple, right? Let's dive deeper.
 
-Finally, check out to the `defaultScene` and play the animation.
+### Adding Widgets as Root's Children
 
-Is it easy? Let's explore more deeply.
-
-### Add Widgets as Root's Children
-
-Now, let's do something absorbing.
+Now, let's add some excitement.
 
 ```typescript
 await new nc.Engine()
@@ -84,7 +82,7 @@ await new nc.Engine()
   })
 ```
 
-## Animate It
+## Animating It
 
 ```typescript
 await new nc.Engine()
@@ -102,10 +100,10 @@ await new nc.Engine()
 
 These codes will add a `create` animation to the `Circle` object.
 
-If everything is okay, you are going to see a circle were drawed on the canvas.
+If everything is set up correctly, you will see a circle drawn on the canvas.
 
 ## 📖 Documentation
 
-The document is served on [newcar.js.org](https://newcar.js.org).
+The documentation is available at [newcar.js.org](https://newcar.js.org).
 
-_Copyright (c) 2022-present, BugDuck Team_
+Copyright (c) 2022-present, BugDuck Team
