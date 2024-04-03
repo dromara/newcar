@@ -8,3 +8,4 @@ export * from './asyncWidget'
 
 export * from './apiPreload'
 export * from './apiChangeProperty'
+export * from './apiChangeStyle'

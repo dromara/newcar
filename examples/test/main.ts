@@ -8,7 +8,8 @@ import {
   Svg,
   Text,
   Circle,
-  move
+  move,
+  fadeIn
 } from '@newcar/basic'
 import { Color, preload } from 'newcar'
 
@@ -22,11 +23,11 @@ await new CarEngine()
     const root = new Widget()
       .add(
         new Rect([0, 0], [100, 100], {
-          y: 100
-        }).animate(move, 0, 100, {
-          from: [100, 100],
-          to: [200, 200]
-        })
+          y: 100,
+          style: {
+            transparency: 0.5
+          }
+        }).animate(fadeIn, 0, 300)
       )
       .add(
         new Text(
@@ -35,8 +36,9 @@ await new CarEngine()
           {
             y: 100
           }
-        ),
+        ).animate(fadeIn, 0, 100)
       )
+      .add(new ImageWidget('./brand.png').animate(fadeIn, 0, 300))
       // .add(new ImageWidget('./brand.png'))
     const scene = new Scene(root)
     app.checkout(scene)

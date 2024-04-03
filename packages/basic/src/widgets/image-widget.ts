@@ -5,12 +5,13 @@ import {
   AsyncWidget,
   AsyncWidgetResponse,
 } from '@newcar/core'
-import { Canvas, CanvasKit, Image } from 'canvaskit-wasm'
+import { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
 
 export interface ImageWidgetOptions extends WidgetOptions {}
 
 export class ImageWidget extends AsyncWidget {
   private image: Image
+  private paint: Paint
 
   constructor(public src: string, options?: ImageWidgetOptions) {
     options ??= {}
@@ -18,6 +19,8 @@ export class ImageWidget extends AsyncWidget {
   }
 
   async init(ck: CanvasKit): Promise<AsyncWidgetResponse> {
+    this.paint = new ck.Paint()
+    this.paint.setAlphaf(this.style.transparency)
     try {
       const response = await fetch(this.src)
       const imageData = await response.arrayBuffer()
@@ -41,6 +44,9 @@ export class ImageWidget extends AsyncWidget {
         const res = await this.init(ck)
         return res
       }
+      case 'style.transparency': {
+        this.paint.setAlphaf(this.style.transparency)
+      }
     }
     return {
       status: 'ok',
@@ -48,6 +54,6 @@ export class ImageWidget extends AsyncWidget {
   }
 
   draw(canvas: Canvas): void {
-    canvas.drawImage(this.image, 0, 0, null)
+    canvas.drawImage(this.image, 0, 0, this.paint)
   }
 }

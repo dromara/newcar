@@ -41,11 +41,13 @@ export class Text extends AsyncWidget {
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
+    this.strokePaint.setAlphaf(this.style.transparency)
 
     // Fill
     this.fillPaint = new ck.Paint()
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
+    this.fillPaint.setAlphaf(this.style.transparency)
 
     // Font
     try {
@@ -93,6 +95,8 @@ export class Text extends AsyncWidget {
           break
         }
       }
+      this.strokePaint.setAlphaf(this.style.transparency)
+      this.fillPaint.setAlphaf(this.style.transparency)
     } catch (error) {
       return {
         status: 'error',

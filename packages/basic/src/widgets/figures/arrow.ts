@@ -25,6 +25,12 @@ export class Arrow extends Figure {
   }
 
   init(ck: CanvasKit): void {
+    this.strokePaint.setAlphaf(this.style.transparency)
+    this.fillPaint.setAlphaf(this.style.transparency)
+    this.tip.strokePaint.setAlphaf(this.style.transparency)
+    this.tip.fillPaint.setAlphaf(this.style.transparency)
+    this.trim.paint.setAlphaf(this.style.transparency)
+    this.trim.paint.setAlphaf(this.style.transparency)
     this.radian =
       (Math.atan(
         Math.abs(this.from[1] - this.to[1]) /
@@ -55,9 +61,8 @@ export class Arrow extends Figure {
         color: this.style.borderColor,
         width: this.style.borderWidth,
       },
-      progress: this.progress
+      progress: this.progress,
     })
-    console.log(this.trim)
     this.children.push(this.trim, this.tip)
   }
 
@@ -79,7 +84,14 @@ export class Arrow extends Figure {
       case 'progress': {
         this.tip.progress = this.progress
         this.trim.progress = this.progress
+        break
       }
     }
+    this.strokePaint.setAlphaf(this.style.transparency)
+    this.fillPaint.setAlphaf(this.style.transparency)
+    this.tip.strokePaint.setAlphaf(this.style.transparency)
+    this.tip.fillPaint.setAlphaf(this.style.transparency)
+    this.trim.paint.setAlphaf(this.style.transparency)
+    this.trim.paint.setAlphaf(this.style.transparency)
   }
 }

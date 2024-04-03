@@ -106,4 +106,4 @@ If everything is set up correctly, you will see a circle drawn on the canvas.
 
 The documentation is available at [newcar.js.org](https://newcar.js.org).
 
-Copyright (c) 2022-present, BugDuck Team
+*Copyright (c) 2022-present, BugDuck Team*

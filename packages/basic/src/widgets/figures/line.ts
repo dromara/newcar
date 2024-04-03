@@ -29,6 +29,7 @@ export class Line extends Widget {
     this.paint.setStyle(ck.PaintStyle.Stroke)
     this.paint.setColor(this.style.color.toFloat4())
     this.paint.setStrokeWidth(this.style.width)
+    this.paint.setAlphaf(this.style.transparency)
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
@@ -42,6 +43,7 @@ export class Line extends Widget {
         break
       }
     }
+    this.paint.setAlphaf(this.style.transparency)
   }
 
   draw(canvas: Canvas): void {

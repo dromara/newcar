@@ -31,7 +31,7 @@ export class Widget {
     scaleX: 1,
     scaleY: 1,
     rotation: 0,
-    transparency: 0,
+    transparency: 1,
   } // The style of the widget.
   isImplemented = false // If the widget is implemented by App.impl
   animationInstances: AnimationInstance[] = []
@@ -52,7 +52,7 @@ export class Widget {
       this.style.scaleX = options.style.scaleX ?? 1
       this.style.scaleY = options.style.scaleY ?? 1
       this.style.rotation = options.style.rotation ?? 0
-      this.style.transparency = options.style.transparency ?? 0
+      this.style.transparency = options.style.transparency ?? 1
     }
   }
 

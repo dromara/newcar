@@ -1,3 +1,3 @@
-import { changeProperty } from "@newcar/core";
+import { changeStyle } from "@newcar/core";
 
-export const scale = changeProperty(['scaleX', 'scaleY'])
+export const scale = changeStyle(['scaleX', 'scaleY'])

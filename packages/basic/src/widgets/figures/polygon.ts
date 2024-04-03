@@ -20,22 +20,26 @@ export class Polygon extends Figure {
     this.path = new ck.Path()
     for (const [index, point] of this.points.entries()) {
       if (index === 0) {
-        this.path.moveTo(...point);
+        this.path.moveTo(...point)
       } else {
-        this.path.lineTo(...point);
+        this.path.lineTo(...point)
       }
     }
     this.path.close()
-     // Stroke
-     this.strokePaint = new ck.Paint()
-     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
-     this.strokePaint.setColor(this.style.borderColor.toFloat4())
-     this.strokePaint.setStrokeWidth(this.style.borderWidth)
+    // Stroke
+    this.strokePaint = new ck.Paint()
+    this.strokePaint.setStyle(ck.PaintStyle.Stroke)
+    this.strokePaint.setColor(this.style.borderColor.toFloat4())
+    this.strokePaint.setStrokeWidth(this.style.borderWidth)
 
-     // Fill
-     this.fillPaint = new ck.Paint()
-     this.fillPaint.setStyle(ck.PaintStyle.Fill)
-     this.fillPaint.setColor(this.style.fillColor.toFloat4())
+    // Fill
+    this.fillPaint = new ck.Paint()
+    this.fillPaint.setStyle(ck.PaintStyle.Fill)
+    this.fillPaint.setColor(this.style.fillColor.toFloat4())
+
+    // Alpha
+    this.strokePaint.setAlphaf(this.style.transparency)
+    this.fillPaint.setAlphaf(this.style.transparency)
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
@@ -44,9 +48,9 @@ export class Polygon extends Figure {
         this.path.moveTo(0, 0)
         for (const [index, point] of this.points.entries()) {
           if (index === 0) {
-            this.path.moveTo(...point);
+            this.path.moveTo(...point)
           } else {
-            this.path.lineTo(...point);
+            this.path.lineTo(...point)
           }
         }
         this.path.close()
@@ -65,12 +69,15 @@ export class Polygon extends Figure {
         break
       }
     }
+    this.strokePaint.setAlphaf(this.style.transparency)
+    this.fillPaint.setAlphaf(this.style.transparency)
   }
 
   draw(canvas: Canvas): void {
     if (this.style.border) {
       canvas.drawPath(this.path, this.strokePaint)
-    } if (this.style.fill) {
+    }
+    if (this.style.fill) {
       canvas.drawPath(this.path, this.fillPaint)
     }
   }

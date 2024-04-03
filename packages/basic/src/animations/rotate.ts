@@ -1,3 +1,3 @@
-import { changeProperty } from "@newcar/core";
+import { changeStyle } from "@newcar/core";
 
-export const rotate = changeProperty(['rotation'])
+export const rotate = changeStyle(['rotation'])

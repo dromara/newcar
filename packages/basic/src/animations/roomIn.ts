@@ -1,3 +1,3 @@
-import { changeProperty } from "@newcar/core";
+import { changeStyle } from "@newcar/core";
 
-export const roomIn = changeProperty(['scaleX', 'scaleY'], [0, 0], [1, 1])
+export const roomIn = changeStyle(['scaleX', 'scaleY'], [0, 0], [1, 1])

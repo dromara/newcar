@@ -52,17 +52,21 @@ export async function patch(
           now.preupdate(ck, param)
         })()
       : await (async () => {
-          const res = await now.preupdate(ck, param)
-          if ((res as AsyncWidgetResponse).status === 'error') {
-            console.warn(
-              '[Newcar Warn] Failed to laod async widget, please check if your network.',
-            )
-          }
+          try {
+            const res = await now.preupdate(ck, param)
+            if ((res as AsyncWidgetResponse).status === 'error') {
+              console.warn(
+                '[Newcar Warn] Failed to laod async widget, please check if your network.',
+              )
+            }
+          } catch {}
         })()
     if (param === 'style') {
       const contrasts = shallowEqual(old.style, now.style)
       for (const contrast of contrasts) {
-        await now.preupdate(ck, contrast)
+        try {
+          await now.preupdate(ck, `style.${contrast}`)
+        } catch {}
       }
     }
   }
