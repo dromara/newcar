@@ -49,7 +49,9 @@ export async function patch(
   for (const param of differences) {
     !now._isAsyncWidget()
       ? (() => {
-          now.preupdate(ck, param)
+          try {
+            now.preupdate(ck, param)
+          } catch {}
         })()
       : await (async () => {
           try {

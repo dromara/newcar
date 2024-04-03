@@ -1,4 +1,4 @@
-import { CarEngine, Scene, Widget, App } from '@newcar/core'
+import { CarEngine, Scene, Widget, App, changeProperty } from '@newcar/core'
 import {
   Arc,
   Arrow,
@@ -39,6 +39,7 @@ await new CarEngine()
         ).animate(fadeIn, 0, 100)
       )
       .add(new ImageWidget('./brand.png').animate(fadeIn, 0, 300))
+      .add(new Circle(200).animate(changeProperty('radius', 0, 400), 0, 100))
       // .add(new ImageWidget('./brand.png'))
     const scene = new Scene(root)
     app.checkout(scene)
