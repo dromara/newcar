@@ -5,7 +5,6 @@ import {
   ImageWidget,
   Line,
   Rect,
-  Svg,
   Text,
   Circle,
   move,
