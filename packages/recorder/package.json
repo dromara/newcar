@@ -1,0 +1,26 @@
+{
+  "name": "@newcar/recorder",
+  "version": "0.9.0",
+  "description": "The utils of newcar",
+  "author": "BugDuck Team",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "publish": "npm publish",
+    "build": "pkgroll --sourcemap --minify",
+    "dev": "pkgroll -w"
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

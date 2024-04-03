@@ -8,9 +8,9 @@ import {
   Text,
   Circle,
   move,
-  fadeIn
+  fadeIn,
 } from '@newcar/basic'
-import { Color, preload } from 'newcar'
+import { Color, preload, Recorder } from 'newcar'
 
 let circle: any
 let app: App
@@ -24,25 +24,30 @@ await new CarEngine()
         new Rect([0, 0], [100, 100], {
           y: 100,
           style: {
-            transparency: 0.5
-          }
-        }).animate(fadeIn, 0, 300)
+            transparency: 0.5,
+          },
+        }).animate(fadeIn, 0, 300),
       )
       .add(
         new Text(
           'Hello world!',
           'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
           {
-            y: 100
-          }
-        ).animate(fadeIn, 0, 100)
+            y: 100,
+          },
+        ).animate(fadeIn, 0, 100),
       )
       .add(new ImageWidget('./brand.png').animate(fadeIn, 0, 300))
       .add(new Circle(200).animate(changeProperty('radius', 0, 400), 0, 100))
-      // .add(new ImageWidget('./brand.png'))
+    // .add(new ImageWidget('./brand.png'))
     const scene = new Scene(root)
     app.checkout(scene)
     // root
     //   .add()
     app.play()
+
+    const r = new Recorder(document.querySelector('#canvas'), 'mp4')
+    r.start(3000, (url: string) => {
+      console.log(url)
+    })
   })
