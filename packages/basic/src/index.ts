@@ -1,4 +1,2 @@
-export * from "./animations";
-export * from "./interpolator";
-export * from "./objects";
-export * from "./timing-functions";
+export * from './widgets'
+export * from './animations'

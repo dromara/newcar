@@ -2,12 +2,9 @@
   "name": "@newcar/examples",
   "private": true,
   "dependencies": {
-    "@newcar/basic": "workspace:*",
-    "@newcar/core": "workspace:*",
-    "@newcar/mod-markdown": "workspace:*",
-    "@newcar/recorder": "workspace:*",
-    "@newcar/utils": "workspace:*",
     "canvaskit-wasm": "^0.39.1",
-    "newcar": "workspace:*"
+    "@newcar/core": "workspace:0.9.0",
+    "@newcar/basic": "workspace:0.9.0",
+    "newcar": "workspace:0.9.0"
   }
 }

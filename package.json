@@ -14,12 +14,12 @@
     "clean": "rimraf -g ./packages/*/dist",
     "change": "changeset add",
     "release": "pnpm preversion && changeset version",
-    "publish": "changeset publish"
+    "publish": "changeset publish",
+    "add-widget": "node ./scripts/addWidget.cjs",
+    "add-element": "node ./scripts/addElement.cjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
-    "@so1ve/eslint-config": "^0.106.2",
-    "eslint": "^8.56.0",
     "pkgroll": "^2.0.1",
     "prettier": "^2.8.8",
     "rimraf": "^3.0.2",

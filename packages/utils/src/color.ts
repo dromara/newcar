@@ -1,6 +1,6 @@
-import { colorParsley, colorToHex, colorToRGB } from "colorparsley";
+import { colorParsley, colorToHex, colorToRGB } from 'colorparsley'
 
-export type ColorRgba = [r: number, g: number, b: number, alpha: number];
+export type ColorRgba = [r: number, g: number, b: number, alpha: number]
 
 export class Color {
   private constructor(
@@ -11,19 +11,19 @@ export class Color {
   ) {}
 
   withAlpha(newAlpha: number): Color {
-    return Color.rgba(this.red, this.green, this.blue, newAlpha);
+    return Color.rgba(this.red, this.green, this.blue, newAlpha)
   }
 
   toArray(): ColorRgba {
-    return [this.red, this.green, this.blue, this.alpha];
+    return [this.red, this.green, this.blue, this.alpha]
   }
 
   toArrayFloat(): ColorRgba {
-    return [this.red / 255, this.green / 255, this.blue / 255, this.alpha];
+    return [this.red / 255, this.green / 255, this.blue / 255, this.alpha]
   }
 
   toFloat4(): Float32Array {
-    return new Float32Array(this.toArrayFloat());
+    return new Float32Array(this.toArrayFloat())
   }
 
   /**
@@ -37,7 +37,7 @@ export class Color {
    * @returns The color.
    */
   static rgba(red: number, green: number, blue: number, alpha?: number): Color {
-    return new Color(red, green, blue, alpha);
+    return new Color(red, green, blue, alpha)
   }
 
   /**
@@ -50,7 +50,7 @@ export class Color {
    * @returns The color.
    */
   static rgbaFloat(r: number, g: number, b: number, alpha?: number): Color {
-    return Color.rgba(r * 255, g * 255, b * 255, alpha);
+    return Color.rgba(r * 255, g * 255, b * 255, alpha)
   }
 
   /**
@@ -69,16 +69,16 @@ export class Color {
     lightness: number,
     alpha?: number,
   ): Color {
-    saturation /= 100;
-    lightness /= 100;
-    const a = saturation * Math.min(lightness, 1 - lightness);
+    saturation /= 100
+    lightness /= 100
+    const a = saturation * Math.min(lightness, 1 - lightness)
     function f(n: number): number {
-      const k = (n + hue / 30) % 12;
+      const k = (n + hue / 30) % 12
 
-      return lightness - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
+      return lightness - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))
     }
 
-    return Color.rgba(f(0), f(8), f(4), alpha);
+    return Color.rgba(f(0), f(8), f(4), alpha)
   }
 
   /**
@@ -90,7 +90,7 @@ export class Color {
    * @returns The color.
    */
   static hslaFloat(h: number, s: number, l: number, a: number): Color {
-    return Color.hsla(h, s * 100, l * 100, a);
+    return Color.hsla(h, s * 100, l * 100, a)
   }
 
   /**
@@ -98,7 +98,7 @@ export class Color {
    * @returns
    */
   toString(): string {
-    return this.toRgba();
+    return this.toRgba()
   }
 
   /**
@@ -107,7 +107,7 @@ export class Color {
    * @returns A string like `rgba(r, g, b, a)`.
    */
   toRgba(round = false): string {
-    return colorToRGB([this.red, this.green, this.blue, this.alpha], round);
+    return colorToRGB([this.red, this.green, this.blue, this.alpha], round)
   }
 
   /**
@@ -116,7 +116,7 @@ export class Color {
    * @returns A string like `#ffffff` or `#ffffffff`.
    */
   toHex(allow3 = false): string {
-    return colorToHex([this.red, this.green, this.blue, this.alpha], allow3);
+    return colorToHex([this.red, this.green, this.blue, this.alpha], allow3)
   }
 
   /**
@@ -126,15 +126,15 @@ export class Color {
    * @returns The color.
    */
   static parse(cssInput: string): Color {
-    const [r, g, b, a, v, s] = colorParsley(cssInput);
+    const [r, g, b, a, v, s] = colorParsley(cssInput)
 
-    if (!v || s !== "sRGB") {
-      throw new TypeError(`${cssInput} is an invalid color string`);
+    if (!v || s !== 'sRGB') {
+      throw new TypeError(`${cssInput} is an invalid color string`)
     }
 
-    return new Color(r, g, b, a);
+    return new Color(r, g, b, a)
   }
 
-  static readonly WHITE = Color.rgba(255, 255, 255);
-  static readonly BLACK = Color.rgba(0, 0, 0);
+  static readonly WHITE = Color.rgba(255, 255, 255)
+  static readonly BLACK = Color.rgba(0, 0, 0)
 }
