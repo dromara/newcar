@@ -14,7 +14,7 @@
     "clean": "rimraf -g ./packages/*/dist",
     "change": "changeset add",
     "release": "pnpm preversion && changeset version",
-    "publish": "changeset publish",
+    "pub": "changeset publish",
     "add-widget": "node ./scripts/addWidget.cjs",
     "add-element": "node ./scripts/addElement.cjs"
   },
