@@ -9,7 +9,9 @@ import {
   Circle,
   move,
   fadeIn,
+  create
 } from '@newcar/basic'
+import { MathFunction } from '@newcar/mod-math'
 import { Color, Recorder } from 'newcar'
 
 let circle: any
@@ -19,6 +21,9 @@ await new CarEngine()
   .init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
   .then((engine) => {
     app = engine.createApp(document.querySelector('#canvas'))
+    const ff = new MathFunction(Math.sin, [-10, 10], {
+      y: 100
+    })
     const root = new Widget()
       // .add(
       //   new Rect([0, 0], [100, 100], {
@@ -39,14 +44,16 @@ await new CarEngine()
       // )
       // .add(new ImageWidget('./brand.png').animate(fadeIn, 0, 300))
       // .add(new Circle(200).animate(changeProperty('radius', 0, 400), 0, 100))
-      .add(new Svg(`<rect width="100" height="100" fill="red"/>`, {
-        x: 100,
-        y: 100,
-        style: {
-          width: 200,
-          height: 200
-        }
-      }))
+      // .add(new Svg(`<rect width="100" height="100" fill="red"/>`, {
+      //   x: 100,
+      //   y: 100,
+      //   style: {
+      //     width: 200,
+      //     height: 200
+      //   }
+      .add(
+        ff.animate(create, 0, 30)
+      )
     // .add(new ImageWidget('./brand.png'))
     const scene = new Scene(root)
     app.checkout(scene)

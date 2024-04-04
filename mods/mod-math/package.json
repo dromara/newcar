@@ -2,7 +2,30 @@
   "name": "@newcar/mod-math",
   "version": "0.1.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "publish": "npm publish",
+    "build": "pkgroll --sourcemap --minify",
+    "dev": "pkgroll -w"
+  },
   "author": "BugDuck Team",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@newcar/core": "workspace:0.10.0",
+    "@newcar/utils": "workspace:0.10.0",
+    "canvaskit-wasm": "0.39.1"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

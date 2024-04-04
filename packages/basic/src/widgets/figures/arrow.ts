@@ -68,7 +68,8 @@ export class Arrow extends Figure {
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
     switch (propertyChanged) {
-      case 'from' || 'to': {
+      case 'from':
+      case 'to': {
         this.radian =
           (Math.atan(
             Math.abs(this.from[1] - this.to[1]) /
