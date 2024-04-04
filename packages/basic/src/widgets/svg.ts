@@ -1,7 +1,13 @@
-import { $sourcesLoaded, WidgetStyle, preload } from '@newcar/core'
-import { ImageWidget, ImageWidgetOptions } from './image-widget'
-import { CanvasKit, Canvas, AnimatedImage } from 'canvaskit-wasm'
-import { Figure } from './figures/figure'
+import {
+  AsyncWidget,
+  AsyncWidgetResponse,
+  WidgetOptions,
+  WidgetStyle,
+} from '@newcar/core'
+import { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
+
+const svg2Blob = (xml: string): Blob =>
+  new Blob([xml], { type: 'image/svg+xml' })
 
 //wraps a given string of SVG in an SVG element with optional width and height attributes.
 const wrappedSvg = (svg: string, width?: number, height?: number): string =>
@@ -14,62 +20,78 @@ const wrappedSvg = (svg: string, width?: number, height?: number): string =>
     .filter(Boolean) // If the width or height is zero, discard it.
     .join(' ')}>${svg}</svg>`
 
-//converts a SVG defined as a string into an ArrayBuffer which contains binary data
-function svg2Array(svg: string, width?: number, height?: number) {
-  const svgWrapped = wrappedSvg(svg, width, height)
-  const svgString = new TextEncoder().encode(svgWrapped)
-  return svgString.buffer
-}
+const solve = (svg: string, width?: number, height?: number): string =>
+  window.URL.createObjectURL(svg2Blob(wrappedSvg(svg, width, height)))
 
-export interface SvgOptions extends ImageWidgetOptions {
-  svg: String
+export interface SvgOptions extends WidgetOptions {
   style?: SvgStyle
 }
 
 export interface SvgStyle extends WidgetStyle {
-  width: number
-  height: number
+  width?: number
+  height?: number
 }
 
-export class Svg extends Figure {
-  private img: any
+export class Svg extends AsyncWidget {
   declare style: SvgStyle
+  private buffer: ArrayBuffer
+  private image: Image
+  private paint: Paint
 
-  constructor(
-    public svg: string,
-    public width?: number,
-    public height?: number,
-    options?: SvgOptions,
-  ) {
-    options ??= { svg }
+  constructor(public svg: string, options?: SvgOptions) {
+    options ??= {}
     super(options)
-    this.style ??= { width, height }
+    options.style ??= {}
+    this.style.width = options.style.width ?? null
+    this.style.height = options.style.height ?? null
   }
 
-  init(ck: CanvasKit): void {
-    // Stroke
-    this.strokePaint = new ck.Paint()
-
-    // Set the argument of canvaskit-wasm
-    this.fillPaint = new ck.Paint()
-    this.fillPaint.setStyle(ck.PaintStyle.Fill)
-    this.fillPaint
-  }
-
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    switch (propertyChanged) {
-      case 'svg' || 'style.width' || 'style.height': {
-        const imgData: Uint8Array = new Uint8Array(
-          svg2Array(this.svg, this.width, this.height),
-        )
-        this.img = ck.MakeImageFromEncoded(imgData)
-        break
+  async init(ck: CanvasKit): Promise<AsyncWidgetResponse> {
+    try {
+      this.paint = new ck.Paint()
+      this.image = ck.MakeImageFromEncoded(this.buffer)
+      this.paint.setAlphaf(this.style.transparency)
+      return {
+        status: 'ok',
+      }
+    } catch {
+      return {
+        status: 'error',
       }
     }
   }
 
+  async predraw(
+    ck: CanvasKit,
+    propertyChanged: string,
+  ): Promise<AsyncWidgetResponse> {
+    switch (propertyChanged) {
+      case 'svg':
+      case 'style.width':
+      case 'style.height': {
+        try {
+          this.buffer = await svg2Array(
+            wrappedSvg(this.svg, this.style.width, this.style.height),
+          )
+          this.image = ck.MakeImageFromEncoded(this.buffer)
+        } catch {
+          return {
+            status: 'error',
+          }
+        }
+        break
+      }
+      case 'style.transparency': {
+        this.paint.setAlphaf(this.style.transparency)
+      }
+    }
+    return {
+      status: 'ok',
+    }
+  }
+
   draw(canvas: Canvas): void {
-    canvas.drawImage(this.img, this.x, this.y)
+    console.log('3')
+    canvas.drawImage(this.image, this.x, this.y, this.paint)
   }
 }
-

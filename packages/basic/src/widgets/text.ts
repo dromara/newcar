@@ -1,4 +1,4 @@
-import { $sourcesLoaded, AsyncWidget, AsyncWidgetResponse } from '@newcar/core'
+import { AsyncWidget, AsyncWidgetResponse } from '@newcar/core'
 import type { Canvas, CanvasKit, Font, Paint, Typeface } from 'canvaskit-wasm'
 import { Figure, FigureOptions, FigureStyle } from './figures/figure'
 import { Color } from '@newcar/utils'

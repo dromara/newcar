@@ -1,7 +1,6 @@
 import {
   Widget,
   WidgetOptions,
-  $sourcesLoaded,
   AsyncWidget,
   AsyncWidgetResponse,
 } from '@newcar/core'
