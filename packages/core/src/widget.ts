@@ -152,8 +152,10 @@ export class Widget {
    * Set up a update function to call it when the widget is changed.
    * @param updateFunc The frame from having gone to current frame.
    */
-  setUpdate(updateFunc: (elapsed: number, widget: Widget) => void) {
+  setUpdate(updateFunc: (elapsed: number, widget: Widget) => void): this {
     this.updates.push(updateFunc)
+
+    return this
   }
 
   _isAsyncWidget() {
