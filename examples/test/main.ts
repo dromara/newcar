@@ -51,14 +51,20 @@ await new CarEngine()
       //     width: 200,
       //     height: 200
       //   }
-      // .add(new NumberAxis(-100, 100, {}))
+      .add(new NumberAxis(-100, 100, {
+        x: 500,
+        y: 200
+      }))
 
-      .add(
-        new Arrow([0, 0], [100, 100]).animate(move, 0, 100, {
-          from: [0, 0],
-          to: [100, 100],
-        }),
-      )
+      // .add(
+      //   new Arrow([0, 0], [100, 100]).animate(move, 0, 100, {
+      //     from: [0, 0],
+      //     to: [100, 100],
+      //   }).add(
+      //   new Arrow([0, 0], [100, 200])
+      // )
+      // )
+      
 
     // .add(new ImageWidget('./brand.png'))
     const scene = new Scene(root)

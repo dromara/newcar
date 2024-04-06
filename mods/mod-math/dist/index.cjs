@@ -104,9 +104,16 @@ class NumberAxis extends core.Widget {
   init(ck) {
     this.arrow = new basic.Arrow([this.from, 0], [this.to, 0], this.arrowOptions);
     for (let x = this.from; x <= this.to; x += this.interval) {
+      this.ticks.push(
+        new basic.Line(
+          [x, this.style.tickHeight[0]],
+          [x, this.style.tickHeight[1]],
+          this.tickOptions
+        )
+      );
       console.log(x);
     }
-    this.children.push(this.arrow);
+    this.children.push(this.arrow, ...this.ticks);
   }
 }
 

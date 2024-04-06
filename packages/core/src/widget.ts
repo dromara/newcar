@@ -36,7 +36,7 @@ export class Widget {
   isImplemented = false // If the widget is implemented by App.impl
   animationInstances: AnimationInstance[] = []
   updates: ((elapsed: number, widget: Widget) => void)[] = []
-  key = `widget-${++widgetCounter}-${Date.now()}-${Math.random()
+  key = `widget-${++widgetCounter}-${performance.now()}-${Math.random()
     .toString(16)
     .slice(2)}`
 
@@ -106,6 +106,8 @@ export class Widget {
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
 
     this.draw(canvas)
+
+    // Must rotate it to come back after draw, if do not, the rotation will be unaccessable, I don't know why.
     canvas.rotate(-this.style.rotation, this.centerX, this.centerY)
   }
 
@@ -121,8 +123,18 @@ export class Widget {
     return this
   }
 
-  animate(animation: Animation, startAt: number, during: number, params?: Record<string, any>): this {
-    this.animationInstances.push({ startAt, during, animation, params: params ?? {}})
+  animate(
+    animation: Animation,
+    startAt: number,
+    during: number,
+    params?: Record<string, any>,
+  ): this {
+    this.animationInstances.push({
+      startAt,
+      during,
+      animation,
+      params: params ?? {},
+    })
 
     return this
   }
@@ -137,7 +149,7 @@ export class Widget {
           this,
           elapsed - instance.startAt,
           (elapsed - instance.startAt) / instance.during,
-          instance.params
+          instance.params,
         )
       }
     }

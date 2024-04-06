@@ -1,6 +1,6 @@
 import { Widget } from '@newcar/core';
 import { Color } from '@newcar/utils';
-import { Arrow } from '@newcar/basic';
+import { Arrow, Line } from '@newcar/basic';
 
 var __defProp$1 = Object.defineProperty;
 var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -102,9 +102,16 @@ class NumberAxis extends Widget {
   init(ck) {
     this.arrow = new Arrow([this.from, 0], [this.to, 0], this.arrowOptions);
     for (let x = this.from; x <= this.to; x += this.interval) {
+      this.ticks.push(
+        new Line(
+          [x, this.style.tickHeight[0]],
+          [x, this.style.tickHeight[1]],
+          this.tickOptions
+        )
+      );
       console.log(x);
     }
-    this.children.push(this.arrow);
+    this.children.push(this.arrow, ...this.ticks);
   }
 }
 
