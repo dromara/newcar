@@ -1,5 +1,13 @@
 # @newcar/core
 
+## 0.10.3
+
+### Patch Changes
+
+- fix: Browser freezes when adding same composite component
+- Updated dependencies
+  - @newcar/utils@0.10.3
+
 ## 0.10.2
 
 ### Patch Changes

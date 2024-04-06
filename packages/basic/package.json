@@ -1,13 +1,13 @@
 {
   "name": "@newcar/basic",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "The basic objects, animations and interpolators of newcar.",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "dependencies": {
     "canvaskit-wasm": "^0.39.1",
-    "@newcar/core": "workspace:0.10.2",
-    "@newcar/utils": "workspace:0.10.2"
+    "@newcar/core": "workspace:0.10.3",
+    "@newcar/utils": "workspace:0.10.3"
   },
   "scripts": {
     "publish": "npm publish",
