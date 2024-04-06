@@ -1,5 +1,11 @@
 # @newcar/recorder
 
+## 0.10.2
+
+### Patch Changes
+
+- Fix some known bugs
+
 ## 0.10.1
 
 ### Patch Changes
