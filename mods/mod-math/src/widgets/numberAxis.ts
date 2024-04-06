@@ -66,7 +66,6 @@ export class NumberAxis extends Widget {
           this.tickOptions
         )
       )
-      console.log(x)
     }
     this.children.push(this.arrow, ...this.ticks)
   }

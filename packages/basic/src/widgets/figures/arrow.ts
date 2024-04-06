@@ -55,7 +55,6 @@ export class Arrow extends Figure {
       progress: this.progress,
     })
     this.children.push(this.trim, this.tip)
-
   }
 
   init(ck: CanvasKit): void {
@@ -65,8 +64,6 @@ export class Arrow extends Figure {
     this.fillPaint = new ck.Paint()
     this.strokePaint.setAlphaf(this.style.transparency)
     this.fillPaint.setAlphaf(this.style.transparency)
-    
-    console.log(this.tip, this.trim);
     
     this.tip.strokePaint.setAlphaf(this.style.transparency)
     this.tip.fillPaint.setAlphaf(this.style.transparency)

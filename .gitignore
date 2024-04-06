@@ -1,9 +1,11 @@
 /tsconfig.tsbuildinfo
 /node_modules/
 /packages/**/node_modules/
-/mods/**/node_modules/
-/plugins/**/node_modules/
 /packages/**/dist/
+/mods/**/node_modules/
+/mods/**/dist/
+/plugins/**/node_modules/
+/plugins/**/dist/
 /pnpm-lock.yaml
 .rollup.cache/
 /.VSCodeCounter/**
