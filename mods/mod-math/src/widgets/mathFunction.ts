@@ -66,7 +66,6 @@ export class MathFunction extends Widget {
       case 'lineWidth':
       case 'range':
       case 'domain': {
-        console.log(this.domain)
         this.path.reset()
         this.path.moveTo(this.domain[0], this.fn(this.domain[0]))
         for (

@@ -9,9 +9,9 @@ import {
   Circle,
   move,
   fadeIn,
-  create
+  create,
 } from '@newcar/basic'
-import { MathFunction } from '@newcar/mod-math'
+import { MathFunction, NumberAxis } from '@newcar/mod-math'
 import { Color, Recorder } from 'newcar'
 
 let circle: any
@@ -22,7 +22,7 @@ await new CarEngine()
   .then((engine) => {
     app = engine.createApp(document.querySelector('#canvas'))
     const ff = new MathFunction(Math.sin, [-10, 10], {
-      y: 100
+      y: 100,
     })
     const root = new Widget()
       // .add(
@@ -51,9 +51,15 @@ await new CarEngine()
       //     width: 200,
       //     height: 200
       //   }
+      // .add(new NumberAxis(-100, 100, {}))
+
       .add(
-        ff.animate(create, 0, 30)
+        new Arrow([0, 0], [100, 100]).animate(move, 0, 100, {
+          from: [0, 0],
+          to: [100, 100],
+        }),
       )
+
     // .add(new ImageWidget('./brand.png'))
     const scene = new Scene(root)
     app.checkout(scene)

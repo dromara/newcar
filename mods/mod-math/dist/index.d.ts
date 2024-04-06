@@ -1,6 +1,7 @@
 import { WidgetOptions, WidgetStyle, Widget } from '@newcar/core';
 import { Color } from '@newcar/utils';
 import { CanvasKit, Canvas } from 'canvaskit-wasm';
+import { ArrowOptions, LineOptions } from '@newcar/basic';
 
 type Domain = [number, number];
 
@@ -33,4 +34,34 @@ declare class MathFunction extends Widget {
     draw(canvas: Canvas): void;
 }
 
-export { MathFunction, type MathFunctionOptions, type MathFunctionStyle };
+type Trend = (counter: number) => number;
+interface NumberAxisOptions extends WidgetOptions {
+    style?: NumberAxisStyle;
+    unit?: number;
+    interval?: number;
+    trend?: Trend;
+    arrowOptions?: ArrowOptions;
+    tickOptions?: LineOptions;
+}
+interface NumberAxisStyle extends WidgetStyle {
+    tickWidth?: number;
+    tickRotation?: number;
+    tickColor?: Color;
+    color?: Color;
+    tickHeight?: [number, number];
+}
+declare class NumberAxis extends Widget {
+    from: number;
+    to: number;
+    style: NumberAxisStyle;
+    interval: number;
+    trend: Trend;
+    arrowOptions: ArrowOptions;
+    tickOptions: LineOptions;
+    private arrow;
+    private ticks;
+    constructor(from: number, to: number, options: NumberAxisOptions);
+    init(ck: CanvasKit): void;
+}
+
+export { MathFunction, type MathFunctionOptions, type MathFunctionStyle, NumberAxis, type NumberAxisOptions, type NumberAxisStyle, type Trend };
