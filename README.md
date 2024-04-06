@@ -44,7 +44,7 @@ Next, select your preferred framework.
 
 ### Installation
 
-``` shell
+```shell
 $ pnpm add newcar
 ```
 
@@ -55,12 +55,12 @@ You will also need to install CanvasKit-WASM. For quick setup, we recommend usin
 ```typescript
 import * as nc from 'newcar'
 
-await new nc.Engine()
-  .init()
-  .then(engine => {
-    const defaultScene = new nc.Scene(new Widget())
-    engine.createApp().checkout(defaultScene).play()
-  })
+const engine = await new nc.Engine().init(
+  '../node_modules/canvaskit-wasm/bin/canvaskit.wasm',
+)
+
+const defaultScene = new nc.Scene(new Widget())
+engine.createApp().checkout(defaultScene).play()
 ```
 
 1. Await `init()` until CanvasKit is fully loaded.
@@ -74,32 +74,18 @@ Simple, right? Let's dive deeper.
 Now, let's add some excitement.
 
 ```typescript
-await new nc.Engine()
-  .init()
-  .then(engine => {
-    const defaultScene = new nc.Scene(new Widget()
-      .add(
-        new nc.Circle(100)
-      )
-    )
-    engine.createApp().checkout(defaultScene).play()
-  })
+await new nc.Engine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
+const defaultScene = new nc.Scene(new Widget().add(new nc.Circle(100)))
+engine.createApp().checkout(defaultScene).play()
 ```
 
 ## Animating It
 
 ```typescript
-await new nc.Engine()
-  .init()
-  .then(engine => {
-    const defaultScene = new nc.Scene(new Widget()
-      .add(
-        new nc.Circle(100)
-          .animate(nc.create, 0, 30)
-      )
-    )
-    engine.createApp().checkout(defaultScene).play()
-  })
+await new nc.Engine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
+const defaultScene = new nc.Scene(
+  new Widget().add(new nc.Circle(100).animate(nc.create, 0, 30)),
+)
 ```
 
 These codes will add a `create` animation to the `Circle` object.
@@ -110,4 +96,4 @@ If everything is set up correctly, you will see a circle drawn on the canvas.
 
 The documentation is available at [newcar.js.org](https://newcar.js.org).
 
-*Copyright (c) 2022-present, BugDuck Team*
+_Copyright (c) 2022-present, BugDuck Team_
