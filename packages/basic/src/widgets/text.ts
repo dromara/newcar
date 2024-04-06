@@ -69,39 +69,33 @@ export class Text extends AsyncWidget {
     ck: CanvasKit,
     propertyChanged: string,
   ): Promise<AsyncWidgetResponse> {
-    try {
-      switch (propertyChanged) {
-        case 'fontname': {
-          const res = await fetch(this.fontpath)
-          const fontData = await res.arrayBuffer()
-          this.typeface = ck.Typeface.MakeFreeTypeFaceFromData(fontData)
-          this.font.setTypeface(this.typeface)
-          break
-        }
-        case 'style.size': {
-          this.font.setSize(this.style.size)
-          break
-        }
-        case 'style.borderColor': {
-          this.strokePaint.setColor(this.style.borderColor.toFloat4())
-          break
-        }
-        case 'style.borderWidth': {
-          this.strokePaint.setStrokeWidth(this.style.borderWidth)
-          break
-        }
-        case 'style.fillColor': {
-          this.fillPaint.setColor(this.style.fillColor.toFloat4())
-          break
-        }
+    switch (propertyChanged) {
+      case 'fontname': {
+        const res = await fetch(this.fontpath)
+        const fontData = await res.arrayBuffer()
+        this.typeface = ck.Typeface.MakeFreeTypeFaceFromData(fontData)
+        this.font.setTypeface(this.typeface)
+        break
       }
-      this.strokePaint.setAlphaf(this.style.transparency)
-      this.fillPaint.setAlphaf(this.style.transparency)
-    } catch (error) {
-      return {
-        status: 'error',
+      case 'style.size': {
+        this.font.setSize(this.style.size)
+        break
+      }
+      case 'style.borderColor': {
+        this.strokePaint.setColor(this.style.borderColor.toFloat4())
+        break
+      }
+      case 'style.borderWidth': {
+        this.strokePaint.setStrokeWidth(this.style.borderWidth)
+        break
+      }
+      case 'style.fillColor': {
+        this.fillPaint.setColor(this.style.fillColor.toFloat4())
+        break
       }
     }
+    this.strokePaint.setAlphaf(this.style.transparency)
+    this.fillPaint.setAlphaf(this.style.transparency)
     return {
       status: 'ok',
     }

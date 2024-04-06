@@ -11,7 +11,7 @@ import {
 } from '@newcar/basic'
 import { Canvas, CanvasKit } from 'canvaskit-wasm'
 
-export type Trend = (counter: number) => number
+export type Trend = (counter: number) => number | string
 
 export interface NumberAxisOptions extends WidgetOptions {
   style?: NumberAxisStyle
@@ -19,6 +19,7 @@ export interface NumberAxisOptions extends WidgetOptions {
   interval?: number
   trend?: Trend
   arrowOptions?: ArrowOptions
+  textOptions?: TextOptions
   enableUnit?: boolean
   unitFont?: string
 }
@@ -36,6 +37,7 @@ export class NumberAxis extends Widget {
   interval: number
   trend: Trend
   arrowOptions: ArrowOptions
+  textOptions: TextOptions
   unitFont: string | null
   private arrow: Arrow
   private ticks: Line[] = []
@@ -52,6 +54,7 @@ export class NumberAxis extends Widget {
     this.trend = options.trend ?? ((counter) => counter)
     this.interval = options.interval ?? 50
     this.arrowOptions = options.arrowOptions ?? {}
+    this.textOptions = options.textOptions ?? {}
     this.enableUnit = options.enableUnit ?? false
     this.unitFont = options.unitFont ?? null
     options.style ??= {}
@@ -61,6 +64,7 @@ export class NumberAxis extends Widget {
     this.style.tickWidth = options.style.tickWidth ?? 2
     this.style.color = options.style.color ?? Color.WHITE
     this.arrow = new Arrow([this.from, 0], [this.to, 0], this.arrowOptions)
+    let counter = (this.from - (this.from % this.interval)) / this.interval
     for (let x = this.from; x <= this.to; x += this.interval) {
       this.ticks.push(
         new Line(
@@ -75,11 +79,17 @@ export class NumberAxis extends Widget {
           }
         )
       )
-      this.units.push(new Text('test', this.unitFont!, {
-        x,
-        y: 5
+      console.log(this.trend(counter));
+      
+      this.units.push(new Text(this.trend(counter).toString(), this.unitFont!, {
+        x: x / 2,
+        y: 10,
+        style: {
+          size: 15
+        },
+        ...this.textOptions
       }))
-      // this.units.forEach(unit => unit.init(ck))
+      counter += 1
     }
     this.children.push(this.arrow, ...this.ticks, ...this.units)
   }
