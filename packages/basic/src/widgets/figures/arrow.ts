@@ -51,6 +51,7 @@ export class Arrow extends Figure {
       style: {
         color: this.style.borderColor,
         width: this.style.borderWidth,
+        ...this.style
       },
       progress: this.progress,
     })
@@ -59,17 +60,10 @@ export class Arrow extends Figure {
   }
 
   init(ck: CanvasKit): void {
-    this.trim.init(ck)
-    this.tip.init(ck)
     this.strokePaint = new ck.Paint()
     this.fillPaint = new ck.Paint()
     this.strokePaint.setAlphaf(this.style.transparency)
     this.fillPaint.setAlphaf(this.style.transparency)
-    
-    this.tip.strokePaint.setAlphaf(this.style.transparency)
-    this.tip.fillPaint.setAlphaf(this.style.transparency)
-    this.trim.paint.setAlphaf(this.style.transparency)
-    this.trim.paint.setAlphaf(this.style.transparency)
 
   }
 
@@ -94,12 +88,10 @@ export class Arrow extends Figure {
         this.trim.progress = this.progress
         break
       }
+      case 'style.transparency': {
+        this.tip.style.transparency = this.style.transparency
+        this.trim.style.transparency = this.style.transparency
+      }
     }
-    this.strokePaint.setAlphaf(this.style.transparency)
-    this.fillPaint.setAlphaf(this.style.transparency)
-    this.tip.strokePaint.setAlphaf(this.style.transparency)
-    this.tip.fillPaint.setAlphaf(this.style.transparency)
-    this.trim.paint.setAlphaf(this.style.transparency)
-    this.trim.paint.setAlphaf(this.style.transparency)
   }
 }
