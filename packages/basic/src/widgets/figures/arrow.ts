@@ -55,6 +55,7 @@ export class Arrow extends Figure {
       progress: this.progress,
     })
     this.children.push(this.trim, this.tip)
+    // WARN: Must push parts in constructor, if not, it will err
   }
 
   init(ck: CanvasKit): void {
@@ -69,6 +70,7 @@ export class Arrow extends Figure {
     this.tip.fillPaint.setAlphaf(this.style.transparency)
     this.trim.paint.setAlphaf(this.style.transparency)
     this.trim.paint.setAlphaf(this.style.transparency)
+
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
