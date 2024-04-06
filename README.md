@@ -74,7 +74,7 @@ Simple, right? Let's dive deeper.
 Now, let's add some excitement.
 
 ```typescript
-await new nc.Engine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
+const engine = await new nc.Engine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 const defaultScene = new nc.Scene(new Widget().add(new nc.Circle(100)))
 engine.createApp().checkout(defaultScene).play()
 ```
@@ -82,7 +82,7 @@ engine.createApp().checkout(defaultScene).play()
 ## Animating It
 
 ```typescript
-await new nc.Engine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
+const engine = await new nc.Engine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 const defaultScene = new nc.Scene(
   new Widget().add(new nc.Circle(100).animate(nc.create, 0, 30)),
 )
