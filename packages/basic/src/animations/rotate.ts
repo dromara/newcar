@@ -1,3 +1,3 @@
 import { changeStyle } from "@newcar/core";
 
-export const rotate = changeStyle(['rotation'])
+export const rotate = changeStyle('rotation')

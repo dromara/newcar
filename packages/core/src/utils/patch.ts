@@ -97,10 +97,10 @@ export async function patch(
       await patch(oldChild, newChild, ck, canvas)
     } else {
       // Add new child since it doesn't exist in the old children
-      now.children.push(newChild) // Implement this function based on how you add children to canvas
+      now.add(newChild) // Implement this function based on how you add children to canvas
     }
   }
-
+  
   canvas.restore()
 
   // Remove old widgets that are not present in new widgets

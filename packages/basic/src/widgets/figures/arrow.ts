@@ -55,7 +55,7 @@ export class Arrow extends Figure {
       },
       progress: this.progress,
     })
-    this.children.push(this.trim, this.tip)
+    this.add(this.trim, this.tip)
     // WARN: Must push parts in constructor, if not, it will err
   }
 

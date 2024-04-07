@@ -49,7 +49,7 @@ const root = new Widget().add(tt).add(
   })
 )
   // .add(tt)
-  .add(new Arrow([0, 0], [100, 100]).animate(fadeIn, 0, 30))
+  .add(new Arrow([0, 0], [100, 100]))
   // .add(new Arrow([0, 0], [100, 100]))
   // .add(new NumberAxis(-100, 100, {
   //   y: 100,
