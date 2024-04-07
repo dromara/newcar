@@ -48,12 +48,11 @@ export class Widget {
     this.centerY = options.centerY ?? 0
     this.progress = options.progress ?? 1
     this.children = options.children ?? []
-    if (isNull(this.style)) {
-      this.style.scaleX = options.style.scaleX ?? 1
-      this.style.scaleY = options.style.scaleY ?? 1
-      this.style.rotation = options.style.rotation ?? 0
-      this.style.transparency = options.style.transparency ?? 1
-    }
+    options.style ??= {}
+    this.style.scaleX = options.style.scaleX ?? 1
+    this.style.scaleY = options.style.scaleY ?? 1
+    this.style.rotation = options.style.rotation ?? 0
+    this.style.transparency = options.style.transparency ?? 1
   }
 
   /**
@@ -107,8 +106,8 @@ export class Widget {
 
     this.draw(canvas)
 
-    // Must rotate it to come back after draw, if do not, the rotation will be unaccessable, I don't know why.
-    canvas.rotate(-this.style.rotation, this.centerX, this.centerY)
+    // // Must rotate it to come back after draw, if do not, the rotation will be unaccessable, I don't know why.
+    // canvas.rotate(-this.style.rotation, this.centerX, this.centerY)
   }
 
   /**

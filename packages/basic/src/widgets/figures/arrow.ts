@@ -51,20 +51,13 @@ export class Arrow extends Figure {
       style: {
         color: this.style.borderColor,
         width: this.style.borderWidth,
+        rotation: this.style.rotation,
         ...this.style
       },
       progress: this.progress,
     })
     this.add(this.trim, this.tip)
     // WARN: Must push parts in constructor, if not, it will err
-  }
-
-  init(ck: CanvasKit): void {
-    this.strokePaint = new ck.Paint()
-    this.fillPaint = new ck.Paint()
-    this.strokePaint.setAlphaf(this.style.transparency)
-    this.fillPaint.setAlphaf(this.style.transparency)
-
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
