@@ -38,12 +38,12 @@ export class Arrow extends Figure {
       {
         x: this.to[0],
         y: this.to[1],
-        style: ((style: FigureStyle) => {
-          style.rotation = this.radian
-          style.scaleX = this.from[0] > this.to[0] ? -1 : 1
-          style.scaleY = this.from[1] > this.to[1] ? -1 : 1
-          return style
-        })(this.style),
+        style: {
+          scaleX: this.from[0] > this.to[0] ? -1 : 1,
+          scaleY: this.from[1] > this.to[1] ? -1 : 1,
+          rotation: this.radian,
+          ...this.style
+        },
         progress: this.progress,
       },
     )
@@ -51,7 +51,6 @@ export class Arrow extends Figure {
       style: {
         color: this.style.borderColor,
         width: this.style.borderWidth,
-        rotation: this.style.rotation,
         ...this.style
       },
       progress: this.progress,

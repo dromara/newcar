@@ -105,9 +105,6 @@ export class Widget {
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
 
     this.draw(canvas)
-
-    // // Must rotate it to come back after draw, if do not, the rotation will be unaccessable, I don't know why.
-    // canvas.rotate(-this.style.rotation, this.centerX, this.centerY)
   }
 
   /**
