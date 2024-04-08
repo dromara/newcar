@@ -15,7 +15,7 @@ export type Trend = (counter: number) => number | string
 
 export interface NumberAxisOptions extends WidgetOptions {
   style?: NumberAxisStyle
-  unit?: number
+  unit?: boolean
   interval?: number
   trend?: Trend
   arrowOptions?: ArrowOptions
@@ -39,6 +39,7 @@ export class NumberAxis extends Widget {
   arrowOptions: ArrowOptions
   textOptions: TextOptions
   unitFont: string | null
+  unit: boolean
   private arrow: Arrow
   private ticks: Line[] = []
   private enableUnit: boolean
@@ -47,7 +48,7 @@ export class NumberAxis extends Widget {
   constructor(
     public from: number,
     public to: number,
-    options: NumberAxisOptions,
+    options?: NumberAxisOptions,
   ) {
     options ??= {}
     super(options)
@@ -57,6 +58,7 @@ export class NumberAxis extends Widget {
     this.textOptions = options.textOptions ?? {}
     this.enableUnit = options.enableUnit ?? false
     this.unitFont = options.unitFont ?? null
+    this.unit = options.unit ?? false
     options.style ??= {}
     this.style.tickColor = options.style.tickColor ?? Color.WHITE
     this.style.tickHeight = options.style.tickHeight ?? [-5, 5]
@@ -74,26 +76,27 @@ export class NumberAxis extends Widget {
             style: {
               rotation: this.style.tickRotation,
               width: this.style.tickWidth,
-              color: this.style.color
-            }
-          }
-        )
+              color: this.style.color,
+            },
+          },
+        ),
       )
-      
-      this.units.push(new Text(this.trend(counter).toString(), this.unitFont!, {
-        x: x / 2,
-        y: 10,
-        style: {
-          size: 15
-        },
-        ...this.textOptions
-      }))
+      if (this.unit) {
+        this.units.push(
+          new Text(this.trend(counter).toString(), this.unitFont!, {
+            x: x / 2,
+            y: 10,
+            style: {
+              size: 15,
+            },
+            ...this.textOptions,
+          }),
+        )
+      }
       counter += 1
     }
     this.children.push(this.arrow, ...this.ticks, ...this.units)
   }
 
-  init(ck: CanvasKit): void {
-    
-  }
+  init(ck: CanvasKit): void {}
 }
