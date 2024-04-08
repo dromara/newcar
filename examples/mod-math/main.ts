@@ -20,13 +20,21 @@ root
     new mod_math.NumberPlane(-200, 200, -100, 100, {
       x: 400,
       y: 600,
+      axisXOptions: {
+        unit: true,
+        unitFont: 'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf'
+      },
+      axisYOptions: {
+        unit: true,
+        unitFont: 'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf'
+      }
     }).add(
       new mod_math.MathFunction((x) => -(x ** 2), [-4, 4]).animate(
         nc.create,
         0,
         30,
       ),
-    ),
+    )
   )
 
 app.checkout(scene)

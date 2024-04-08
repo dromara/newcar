@@ -10,7 +10,7 @@ export interface ImageWidgetOptions extends WidgetOptions {}
 
 export class ImageWidget extends AsyncWidget {
   private image: Image
-  private paint: Paint
+  paint: Paint
 
   constructor(public src: string, options?: ImageWidgetOptions) {
     options ??= {}

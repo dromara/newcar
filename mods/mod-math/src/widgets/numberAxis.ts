@@ -88,6 +88,7 @@ export class NumberAxis extends Widget {
             y: 10,
             style: {
               size: 15,
+              rotation: -this.style.rotation!
             },
             ...this.textOptions,
           }),
