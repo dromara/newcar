@@ -91,7 +91,6 @@ export class Svg extends AsyncWidget {
   }
 
   draw(canvas: Canvas): void {
-    console.log('3')
     canvas.drawImage(this.image, this.x, this.y, this.paint)
   }
 }

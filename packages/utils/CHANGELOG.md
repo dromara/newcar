@@ -1,5 +1,14 @@
 # @newcar/utils
 
+## 0.10.4
+
+### Patch Changes
+
+- Fix some known bugs
+
+  - fix: Failed to let rotation system invalid in some status.
+  - fix: Incorrect parameters getting makes some animations invalid.
+
 ## 0.10.3
 
 ### Patch Changes

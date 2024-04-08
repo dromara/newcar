@@ -1,5 +1,17 @@
 # @newcar/core
 
+## 0.10.4
+
+### Patch Changes
+
+- Fix some known bugs
+
+  - fix: Failed to let rotation system invalid in some status.
+  - fix: Incorrect parameters getting makes some animations invalid.
+
+- Updated dependencies
+  - @newcar/utils@0.10.4
+
 ## 0.10.3
 
 ### Patch Changes

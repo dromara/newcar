@@ -29,9 +29,6 @@ export class Rect extends Figure {
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
     this.fillPaint.setAlphaf(this.style.transparency)
-
-    // Alpha
-    console.log('set!')
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {

@@ -79,7 +79,6 @@ export class NumberAxis extends Widget {
           }
         )
       )
-      console.log(this.trend(counter));
       
       this.units.push(new Text(this.trend(counter).toString(), this.unitFont!, {
         x: x / 2,
