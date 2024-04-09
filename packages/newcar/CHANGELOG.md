@@ -1,5 +1,24 @@
 # newcar
 
+## 0.11.0
+
+### Minor Changes
+
+- This version basically move the old version(v0.7.0) into newcar next.
+
+  ## Features
+
+  - Add `Svg` widget
+  - Add `EasingFunction` and change-speed animation.
+
+### Patch Changes
+
+- Updated dependencies
+  - @newcar/recorder@0.11.0
+  - @newcar/basic@0.11.0
+  - @newcar/utils@0.11.0
+  - @newcar/core@0.11.0
+
 ## 0.10.4
 
 ### Patch Changes

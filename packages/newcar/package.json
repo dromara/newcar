@@ -1,6 +1,6 @@
 {
   "name": "newcar",
-  "version": "0.10.4",
+  "version": "0.11.0",
   "author": "BugDuck Team",
   "type": "module",
   "description": "A Highly configurable universal advanced engine, Born for creating animation rapidly.",
@@ -23,10 +23,10 @@
     }
   },
   "dependencies": {
-    "@newcar/basic": "workspace:0.10.4",
-    "@newcar/core": "workspace:0.10.4",
-    "@newcar/utils": "workspace:0.10.4",
-    "@newcar/recorder": "workspace:0.10.4"
+    "@newcar/basic": "workspace:0.11.0",
+    "@newcar/core": "workspace:0.11.0",
+    "@newcar/utils": "workspace:0.11.0",
+    "@newcar/recorder": "workspace:0.11.0"
   },
   "files": [
     "dist"
