@@ -19,8 +19,14 @@
       <img src="./assets/poster1.gif"/>
     </td>
     <td>
-      <img src="./assets//poster2.gif"/>
+      <img src="./assets/poster2.gif"/>
     </td>
+    <td>
+      <img src="./assets/poster3.gif"/>
+    </td>
+  </tr>
+  <tr>
+    <img src="./assets/poster4.gif"/>
   </tr>
 </table>
 
