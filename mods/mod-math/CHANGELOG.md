@@ -1,10 +1,7 @@
 # @newcar/mod-math
 
-## 0.1.1
+## 0.2.0
 
-### Patch Changes
+### Minor Changes
 
-- Updated dependencies
-  - @newcar/basic@0.10.4
-  - @newcar/utils@0.10.4
-  - @newcar/core@0.10.4
+- This version includes the basic math widget.
