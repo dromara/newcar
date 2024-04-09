@@ -39,7 +39,7 @@ export class NumberAxis extends Widget {
   arrowOptions: ArrowOptions
   textOptions: TextOptions
   unitFont: string | null
-  unit: boolean
+  private unit: boolean
   private arrow: Arrow
   private ticks: Line[] = []
   private enableUnit: boolean
@@ -82,21 +82,21 @@ export class NumberAxis extends Widget {
         ),
       )
       if (this.unit) {
-        this.units.push(
-          new Text(this.trend(counter).toString(), this.unitFont!, {
-            x: x / 2,
-            y: 10,
-            style: {
-              size: 15,
-              rotation: -this.style.rotation!
-            },
-            ...this.textOptions,
-          }),
-        )
+        const text = new Text(this.trend(counter).toString(), this.unitFont!, {
+          x: x / 2,
+          y: 10,
+          style: {
+            size: 15,
+            rotation: -this.style.rotation!,
+          },
+          ...this.textOptions,
+        })
+        this.units.push(text)
       }
       counter += 1
     }
     this.children.push(this.arrow, ...this.ticks, ...this.units)
+    console.log(this.units)
   }
 
   init(ck: CanvasKit): void {}

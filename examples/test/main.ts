@@ -33,33 +33,38 @@ const tt = new NumberAxis(-100, 100, {
       fillColor: Color.parse('red'),
     },
   },
-  unitFont:
-    'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
+  unitFont: 'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
 })
-const root = new Widget().add(tt).add(
-  new NumberAxis(-100, 100, {
-    x: 500,
-    y: 500,
-    arrowOptions: {
-      style: {
-        fillColor: Color.parse('red'),
-      },
-    },
-    unitFont:
+const root = new Widget({
+  x: 500,
+  y: 500,
+})
+  .add(
+    new Text(
+      'Hello world!',
       'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
-  })
-)
-  // .add(tt)
-  .add(new Arrow([0, 0], [100, 100]))
-  // .add(new Svg('<circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />', 200, 200, {
-  //   x: 200,
-  //   y: 200
-  // }))
-  // .add(new Arrow([0, 0], [100, 100]))
-  // .add(new NumberAxis(-100, 100, {
-  //   y: 100,
-  //   unitFont: 'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.tt'
-  // }))
+      {
+        style: {
+          rotation: 100
+        }
+      }
+    ),
+  )
+  .add(
+    new Text(
+      'Hi world!',
+      'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
+    ),
+  )
+// .add(new Svg('<circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />', 200, 200, {
+//   x: 200,
+//   y: 200
+// }))
+// .add(new Arrow([0, 0], [100, 100]))
+// .add(new NumberAxis(-100, 100, {
+//   y: 100,
+//   unitFont: 'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.tt'
+// }))
 // .add(
 //   new Rect([0, 0], [100, 100], {
 //     y: 100,

@@ -1,5 +1,5 @@
 import { AsyncWidget, AsyncWidgetResponse } from '@newcar/core'
-import type { Canvas, CanvasKit, Font, Paint, Typeface } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, Font, Paint, ParagraphStyle, TextAlign, TextBaseline, Typeface } from 'canvaskit-wasm'
 import { Figure, FigureOptions, FigureStyle } from './figures/figure'
 import { Color } from '@newcar/utils'
 
@@ -9,11 +9,13 @@ export interface TextOptions extends FigureOptions {
 
 export interface TextStyle extends FigureStyle {
   size?: number
+  align?: TextAlign
+  baseline?: TextBaseline
 }
 
 export class Text extends AsyncWidget {
-  private font: Font
-  private typeface: Typeface
+   font: Font
+  typeface: Typeface
   declare style: TextStyle
   strokePaint: Paint
   fillPaint: Paint
@@ -38,14 +40,17 @@ export class Text extends AsyncWidget {
     // Stroke
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
+    this.strokePaint.setStyle(ck.TextAlign.Center)
+    this.strokePaint.setStyle(ck.TextBaseline.Alphabetic)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.strokePaint.setAlphaf(this.style.transparency)
-
     // Fill
     this.fillPaint = new ck.Paint()
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
+    this.fillPaint.setStyle(ck.TextAlign.Center)
+    this.fillPaint.setStyle(ck.TextBaseline.Alphabetic)
     this.fillPaint.setAlphaf(this.style.transparency)
 
     // Font
