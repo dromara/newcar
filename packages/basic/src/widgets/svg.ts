@@ -1,6 +1,7 @@
 import {
   AsyncWidget,
   AsyncWidgetResponse,
+  Widget,
   WidgetOptions,
   WidgetStyle,
 } from '@newcar/core'
@@ -20,7 +21,7 @@ const wrappedSvg = (svg: string, width?: number, height?: number): string =>
     .filter(Boolean) // If the width or height is zero, discard it.
     .join(' ')}>${svg}</svg>`
 
-const solve = (svg: string, width?: number, height?: number): string =>
+const resolve = (svg: string, width?: number, height?: number): string =>
   window.URL.createObjectURL(svg2Blob(wrappedSvg(svg, width, height)))
 
 export interface SvgOptions extends WidgetOptions {
@@ -32,65 +33,43 @@ export interface SvgStyle extends WidgetStyle {
   height?: number
 }
 
-export class Svg extends AsyncWidget {
+export class Svg extends Widget {
   declare style: SvgStyle
-  private buffer: ArrayBuffer
-  private image: Image
   private paint: Paint
+  private image: HTMLImageElement = document.createElement('img')
+  ready = false
+  private vcanvas: OffscreenCanvas
+  private vcanvasContext: OffscreenCanvasRenderingContext2D
+  private imageData: Image
 
   constructor(public svg: string, options?: SvgOptions) {
     options ??= {}
     super(options)
     options.style ??= {}
-    this.style.width = options.style.width ?? null
-    this.style.height = options.style.height ?? null
+    this.style.width = options.style.width ?? 200
+    this.style.height = options.style.height ?? 200
+    this.vcanvas = new OffscreenCanvas(this.style.width, this.style.height)
+    this.vcanvasContext = this.vcanvas.getContext('2d')
   }
 
-  async init(ck: CanvasKit): Promise<AsyncWidgetResponse> {
-    try {
-      this.paint = new ck.Paint()
-      this.image = ck.MakeImageFromEncoded(this.buffer)
-      this.paint.setAlphaf(this.style.transparency)
-      return {
-        status: 'ok',
-      }
-    } catch {
-      return {
-        status: 'error',
-      }
+  init(ck: CanvasKit) {
+    this.image.src = resolve(this.svg, this.style.width, this.style.height)
+    this.image.onload = () => {
+      this.vcanvasContext.clearRect(0, 0, this.style.width, this.style.height)
+      this.vcanvasContext.drawImage(this.image, 0, 0)
+      this.imageData = ck.MakeImageFromCanvasImageSource(this.vcanvas)
+      this.ready = true
     }
   }
 
-  async predraw(
+  predraw(
     ck: CanvasKit,
     propertyChanged: string,
-  ): Promise<AsyncWidgetResponse> {
-    switch (propertyChanged) {
-      case 'svg':
-      case 'style.width':
-      case 'style.height': {
-        try {
-          this.buffer = await svg2Array(
-            wrappedSvg(this.svg, this.style.width, this.style.height),
-          )
-          this.image = ck.MakeImageFromEncoded(this.buffer)
-        } catch {
-          return {
-            status: 'error',
-          }
-        }
-        break
-      }
-      case 'style.transparency': {
-        this.paint.setAlphaf(this.style.transparency)
-      }
-    }
-    return {
-      status: 'ok',
-    }
-  }
+  ) {}
 
   draw(canvas: Canvas): void {
-    canvas.drawImage(this.image, this.x, this.y, this.paint)
+    if (this.ready) {
+      canvas.drawImage(this.imageData, this.x, this.y)
+    }
   }
 }
