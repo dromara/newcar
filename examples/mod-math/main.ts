@@ -1,5 +1,6 @@
 import * as nc from 'newcar'
 import * as mod_math from '@newcar/mod-math'
+import { easeInOutQuint } from '../../packages/basic/src'
 
 const engine = await new nc.CarEngine().init(
   '../node_modules/canvaskit-wasm/bin/canvaskit.wasm',
@@ -13,7 +14,9 @@ root
       x: 400,
       y: 200,
     }).add(
-      new mod_math.MathFunction(Math.cos, [-4, 4]).animate(nc.create, 0, 30),
+    new mod_math.MathFunction(Math.cos, [-4, 4]).animate(nc.create, 0, 100, {
+        by: easeInOutQuint
+      }),
     ),
   )
   .add(
@@ -26,7 +29,10 @@ root
         new mod_math.MathFunction((x) => -(x ** 2), [-4, 4]).animate(
           nc.create,
           0,
-          30,
+          100,
+          {
+            by: nc.easeInCirc
+          }
         ),
       )
   )

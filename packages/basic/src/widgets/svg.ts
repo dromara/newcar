@@ -54,10 +54,14 @@ export class Svg extends Widget {
 
   init(ck: CanvasKit) {
     this.image.src = resolve(this.svg, this.style.width, this.style.height)
+    console.log(this.image.src);
+    
     this.image.onload = () => {
       this.vcanvasContext.clearRect(0, 0, this.style.width, this.style.height)
       this.vcanvasContext.drawImage(this.image, 0, 0)
-      this.imageData = ck.MakeImageFromCanvasImageSource(this.vcanvas)
+      try {
+        this.imageData = ck.MakeImageFromCanvasImageSource(this.vcanvas)
+      } catch {}
       this.ready = true
     }
   }
@@ -65,7 +69,12 @@ export class Svg extends Widget {
   predraw(
     ck: CanvasKit,
     propertyChanged: string,
-  ) {}
+  ) {
+    if (propertyChanged === 'svg') {
+      this.ready = false
+      this.init(ck)
+    }
+  }
 
   draw(canvas: Canvas): void {
     if (this.ready) {

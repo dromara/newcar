@@ -56,7 +56,7 @@ const root = new Widget({
       'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
     ),
   )
-.add(new Svg('<circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />'))
+// .add(new Svg('<circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />'))
 // .add(new Arrow([0, 0], [100, 100]))
 // .add(new NumberAxis(-100, 100, {
 //   y: 100,
@@ -100,8 +100,3 @@ app.checkout(scene)
 //   .add()
 app.play()
 // tt.arrowOptions.style.fillColor = Color.parse('skyblue')
-
-const r = new Recorder(document.querySelector('#canvas'), 'mp4')
-r.start(3000, (url: string) => {
-  console.log(url)
-})
