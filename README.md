@@ -13,6 +13,19 @@
   <a href="https://www.npmjs.com/package/newcar"><img src="https://img.shields.io/npm/v/newcar.svg"/></a>
 </p>
 
+<table>
+  <tr>
+    <td>
+      <img src="./assets/poster1.gif"/>
+    </td>
+    <td>
+      <img src="./assets//poster2.gif"/>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 📔 Introduction
 
 Newcar is a highly configurable and advanced universal engine designed for rapid animation creation. It is suitable for a wide range of applications, including video clips, dynamic charts (planned for the future), and even 2D game development (also planned for the future).
