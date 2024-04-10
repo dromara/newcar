@@ -1,5 +1,13 @@
 # @newcar/core
 
+## 0.11.1
+
+### Patch Changes
+
+- Fixed incorrect coordinate of `Text` and its children
+- Updated dependencies
+  - @newcar/utils@0.11.1
+
 ## 0.11.0
 
 ### Minor Changes
