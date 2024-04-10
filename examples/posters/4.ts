@@ -8,21 +8,41 @@ const app = engine.createApp(document.querySelector('#poster'))
 
 const rcd = new nc.Recorder(document.querySelector('#poster'), 'mp4')
 
-const root = new nc.Widget().add(
-  new nc.Text("Hello, MY Newcar!", 'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf', {
-    y: 60,
-    x: 10,
-    style: {
-      size: 90
-    },
-  }).animate(nc.create, 0, 60)
-).setUpdate((e, w) => {
-  if (e === 10) {
-    rcd.start(1000, (url) => {
-      console.log(url)
-    })
-  }
-})
+const root = new nc.Widget()
+  // .add(
+  //   new nc.Text(
+  //     'Hello, MY Newcar!',
+  //     'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
+  //     {
+  //       style: {
+  //         size: 90,
+  //       },
+  //     },
+  //   )
+  //     .animate(nc.create, 0, 60)
+      .add(
+        new nc.Text(
+          'Hello, MY Newcar!',
+          'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
+          {
+            y: 50,
+            style: {
+              size: 90,
+            },
+          },
+        ),
+      )
+  // )
+  .add(new nc.Rect([0, 0], [100, 100], {
+    y: 50
+  }))
+  .setUpdate((e, w) => {
+    if (e === 10) {
+      rcd.start(1000, (url) => {
+        console.log(url)
+      })
+    }
+  })
 
 const scene = new nc.Scene(root)
 app.checkout(scene)

@@ -34,14 +34,13 @@ export class Text extends AsyncWidget {
     this.style.fillColor = options.style.fillColor ?? Color.WHITE
     this.style.fill = options.style.fill ?? true
     this.style.border = options.style.border ?? false
+    console.log(this.x, this.y)
   }
 
   async init(ck: CanvasKit): Promise<AsyncWidgetResponse> {
     // Stroke
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
-    this.strokePaint.setStyle(ck.TextAlign.Center)
-    this.strokePaint.setStyle(ck.TextBaseline.Alphabetic)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.strokePaint.setAlphaf(this.style.transparency)
@@ -49,8 +48,6 @@ export class Text extends AsyncWidget {
     this.fillPaint = new ck.Paint()
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
-    this.fillPaint.setStyle(ck.TextAlign.Center)
-    this.fillPaint.setStyle(ck.TextBaseline.Alphabetic)
     this.fillPaint.setAlphaf(this.style.transparency)
 
     // Font
@@ -109,8 +106,8 @@ export class Text extends AsyncWidget {
     if (this.style.fill) {
       canvas.drawText(
         this.text.slice(0, Math.round(this.progress * this.text.length)),
-        this.x,
-        this.y,
+        0,
+        0,
         this.fillPaint,
         this.font,
       )
@@ -118,8 +115,8 @@ export class Text extends AsyncWidget {
     if (this.style.border) {
       canvas.drawText(
         this.text.slice(0, Math.round(this.progress * this.text.length)),
-        this.x,
-        this.y,
+        0,
+        0,
         this.strokePaint,
         this.font,
       )
