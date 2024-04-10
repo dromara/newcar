@@ -71,7 +71,7 @@ export class NumberPlane extends Widget {
       )
       this.unitsX.push(
         new Text(counter.toString(), this.unitFont, {
-          x: x / 2,
+          x,
           y: 10,
           style: {
             size: 15,
@@ -96,7 +96,7 @@ export class NumberPlane extends Widget {
       )
       this.unitsY.push(
         new Text(counter.toString(), this.unitFont, {
-          y: y / 2,
+          y,
           x: 5,
           style: {
             size: 15,
