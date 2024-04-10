@@ -4,6 +4,38 @@ import { FigureOptions, FigureStyle, Figure } from './figure'
 import { Polygon } from './polygon'
 import { Line } from './line'
 
+/**
+ * Calculates the rotation angle for an arrow based on the line's start and end points,
+ * with the angle expressed in degrees. The angle is calculated with respect
+ * to the horizontal axis pointing to the right.
+ *
+ * @param startPoint The starting point of the line.
+ * @param endPoint The ending point of the line.
+ * @returns The rotation angle in degrees, where 0 degrees points to the right (east),
+ * and positive angles are measured clockwise.
+ */
+function calculateArrowRotationAngle(
+  startPoint: Vector2,
+  endPoint: Vector2,
+): number {
+  // Calculate the differences in the x and y coordinates
+  const dx = endPoint[0] - startPoint[0]
+  const dy = endPoint[1] - startPoint[1]
+
+  // Calculate the angle in radians using Math.atan2(dy, dx)
+  const angleRadians = Math.atan2(dy, dx)
+
+  // Convert the angle to degrees
+  let angleDegrees = angleRadians * (180 / Math.PI)
+
+  // Normalize the angle to the range [0, 360)
+  if (angleDegrees < 0) {
+    angleDegrees += 360
+  }
+
+  return angleDegrees
+}
+
 export interface ArrowOptions extends FigureOptions {
   style?: ArrowStyle
 }
@@ -22,13 +54,7 @@ export class Arrow extends Figure {
   ) {
     options ??= {}
     super(options)
-    this.radian =
-      (Math.atan(
-        Math.abs(this.from[1] - this.to[1]) /
-          Math.abs(this.from[0] - this.to[0]),
-      ) /
-        (2 * Math.PI)) *
-      360
+    this.radian = calculateArrowRotationAngle(this.from, this.to)
     this.tip = new Polygon(
       [
         [0, 10],
@@ -42,7 +68,7 @@ export class Arrow extends Figure {
           scaleX: this.from[0] > this.to[0] ? -1 : 1,
           scaleY: this.from[1] > this.to[1] ? -1 : 1,
           rotation: this.radian,
-          ...this.style
+          ...this.style,
         },
         progress: this.progress,
       },
@@ -51,11 +77,12 @@ export class Arrow extends Figure {
       style: {
         color: this.style.borderColor,
         width: this.style.borderWidth,
-        ...this.style
+        ...this.style,
       },
       progress: this.progress,
     })
     this.add(this.trim, this.tip)
+    console.log(this.tip)
     // WARN: Must push parts in constructor, if not, it will err
   }
 
@@ -63,13 +90,9 @@ export class Arrow extends Figure {
     switch (propertyChanged) {
       case 'from':
       case 'to': {
-        this.radian =
-          (Math.atan(
-            Math.abs(this.from[1] - this.to[1]) /
-              Math.abs(this.from[0] - this.to[0]),
-          ) /
-            (2 * Math.PI)) *
-          360
+        this.radian = calculateArrowRotationAngle(this.from, this.to)
+        console.log(this.radian)
+
         this.tip.style.rotation = this.radian
         this.trim.from = this.from
         this.trim.to = this.to

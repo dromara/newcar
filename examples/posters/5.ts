@@ -14,7 +14,7 @@ const root = new nc.Widget().add(
     y: 175
   }).add(
     new nc.Arrow([0, 0], [0, 100]).animate(nc.create, 0, 30)
-  ).add(new nc.Widget().add(new nc.Arrow([0, 0], [0, -100]).animate(nc.create, 0, 30)))
+  ).add(new nc.Widget().add(new nc.Arrow([0, 0], [100, -100]).animate(nc.create, 0, 30)))
 ).setUpdate((e, w) => {
   if (e === 20) {
     rcd.start(500, (url) => {
