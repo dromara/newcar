@@ -100,6 +100,14 @@ export class Text extends AsyncWidget {
         this.fillPaint.setColor(this.style.fillColor.toFloat4())
         break
       }
+      case 'style.offset':
+      case 'style.interval': {
+        this.strokePaint.setPathEffect(
+          ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
+        )
+        console.log("hello!");
+        
+      }
     }
     this.strokePaint.setAlphaf(this.style.transparency)
     this.fillPaint.setAlphaf(this.style.transparency)
