@@ -9,6 +9,16 @@ const app = engine.createApp(document.querySelector('#canvas'))
 const root = new nc.Widget()
 const scene = new nc.Scene(root)
 root
+.add(new nc.Circle(100, {
+  x: 300,
+  y: 300,
+  style: {
+    offset: 3,
+    interval: [10, 10],
+    border: true,
+    fill: false
+  }
+}).animate(nc.changeStyle('interval', [0, 100], [100, 0]), 1, 90))
   .add(
     new mod_math.NumberAxis(-200, 200, {
       x: 400,

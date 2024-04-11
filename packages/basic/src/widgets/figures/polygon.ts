@@ -35,6 +35,7 @@ export class Polygon extends Figure {
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
     this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
+    this.strokePaint.setPathEffect(ck.PathEffect.MakeDash(this.style.interval, this.style.offset))
 
     // Fill
     this.fillPaint = new ck.Paint()

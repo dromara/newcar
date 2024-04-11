@@ -1,6 +1,7 @@
-import { CanvasKit, EmbindEnumEntity } from "canvaskit-wasm";
+import { CanvasKit, EmbindEnumEntity } from 'canvaskit-wasm'
 
 export type Cap = 'butt' | 'round' | 'square'
+
 export function str2StrokeCap(ck: CanvasKit, str: Cap): EmbindEnumEntity {
   switch (str) {
     case 'butt': {

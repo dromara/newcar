@@ -13,6 +13,8 @@ export interface FigureStyle extends WidgetStyle{
   fillColor?: Color
   join?: Join
   cap?: Cap
+  offset?: number
+  interval?: [number, number]
 }
 
 export interface FigureOptions extends WidgetOptions {
@@ -35,5 +37,7 @@ export class Figure extends Widget {
     this.style.border = options.style.border ?? false
     this.style.join = options.style.join ?? 'miter'
     this.style.cap = options.style.cap ?? 'square'
+    this.style.offset = options.style.offset ?? 0
+    this.style.interval = options.style.interval ?? [1, 0]
   }
 }

@@ -104,6 +104,12 @@ export class Arrow extends Figure {
       case 'style.transparency': {
         this.tip.style.transparency = this.style.transparency
         this.trim.style.transparency = this.style.transparency
+        break
+      }
+      case 'style.offset':
+      case 'style.interval': {
+        this.tip.style.offset = this.style.offset
+        this.tip.style.interval = this.style.interval
       }
     }
   }
