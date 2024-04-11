@@ -14,20 +14,28 @@ export class AsyncWidget extends Widget {
 
   override async init(ck: CanvasKit): Promise<AsyncWidgetResponse> {
     return {
-      status: 'ok'
+      status: 'ok',
     }
   }
 
-  override async predraw(ck: CanvasKit, propertyChanged: string): Promise<AsyncWidgetResponse> {
+  override async predraw(
+    ck: CanvasKit,
+    propertyChanged: string,
+  ): Promise<AsyncWidgetResponse> {
     return {
-      status: 'ok'
+      status: 'ok',
     }
   }
 
-  override async preupdate(ck: CanvasKit, propertyChanged?: string): Promise<AsyncWidgetResponse> {
+  override async preupdate(
+    ck: CanvasKit,
+    propertyChanged?: string,
+  ): Promise<AsyncWidgetResponse> {
     const res = await this.predraw(ck, propertyChanged)
     if (res.status === 'error') {
-      console.warn('[Newcar Warn] Failed to laod async widget, please check if your network.')
+      console.warn(
+        '[Newcar Warn] Failed to laod async widget, please check if your network.',
+      )
     }
     return res
   }

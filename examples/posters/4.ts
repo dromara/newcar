@@ -22,20 +22,20 @@ const root = new nc.Widget()
   //     .animate(nc.create, 0, 60)
       .add(
         new nc.Text(
-          'Hello, MY Newcar!',
+          'Hello! My name is Newcar!',
           'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
           {
-            y: 50,
+            y: 100,
+            x: 100,
             style: {
-              size: 90,
+              size: 50,
+              border: true,
+              fill: false,
             },
           },
-        ),
+        ).animate(nc.stroke, 0, 200)
       )
   // )
-  .add(new nc.Rect([0, 0], [100, 100], {
-    y: 50
-  }))
   .setUpdate((e, w) => {
     if (e === 10) {
       rcd.start(1000, (url) => {

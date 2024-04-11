@@ -4,7 +4,7 @@ import { isNull } from '@newcar/utils'
 
 export let widgetCounter = 0
 
-export type WidgetInstance<T extends Widget> = T;
+export type WidgetInstance<T extends Widget> = T
 
 export interface WidgetOptions {
   style?: WidgetStyle

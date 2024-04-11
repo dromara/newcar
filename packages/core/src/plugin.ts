@@ -1,8 +1,8 @@
-import type { Scene } from "./scene"
-import type { App } from "./app"
-import type { CarEngine } from "./engine"
-import type { Widget } from "./widget"
-import type { Surface } from "canvaskit-wasm"
+import type { Scene } from './scene'
+import type { App } from './app'
+import type { CarEngine } from './engine'
+import type { Widget } from './widget'
+import type { Surface } from 'canvaskit-wasm'
 
 export interface CarPlugin {
   name: string

@@ -2,7 +2,6 @@ import CanvasKitInit, { CanvasKit, CanvasKitInitOptions } from 'canvaskit-wasm'
 import { App } from './app'
 import type { CarPlugin } from './plugin'
 
-
 export class CarEngine {
   ck: CanvasKit
   readonly apps: App[] = []
@@ -30,11 +29,7 @@ export class CarEngine {
   }
 
   createApp(element: HTMLCanvasElement): App {
-    const app = new App(
-      element,
-      this.ck,
-      this.plugins
-    )
+    const app = new App(element, this.ck, this.plugins)
     this.apps.push(app)
     return app
   }

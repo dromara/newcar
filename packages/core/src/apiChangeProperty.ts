@@ -1,10 +1,10 @@
-import { Widget } from './widget';
-import { Animation, defineAnimation } from './animation';
+import { Widget } from './widget'
+import { Animation, defineAnimation } from './animation'
 
 /**
  * Easing function type, which takes a progress ratio and returns an adjusted ratio.
  */
-type EasingFunction = (progress: number) => number;
+type EasingFunction = (progress: number) => number
 
 /**
  * Creates an animation that changes one or more properties of a widget over time.
@@ -20,50 +20,57 @@ export function changeProperty<T extends Widget>(
   propertyName: string | string[],
   defaultFrom?: number | number[],
   defaultTo?: number | number[],
-  by?: EasingFunction
+  by?: EasingFunction,
 ): Animation<T> {
   return defineAnimation({
-    act: (widget: Widget, elapsed: number, process: number, params: Record<string, any>) => {
+    act: (
+      widget: Widget,
+      elapsed: number,
+      process: number,
+      params: Record<string, any>,
+    ) => {
       // Determine the easing function, prefer the one from params if available.
-      const easingFunction = params.by ? params.by : by;
+      const easingFunction = params.by ? params.by : by
 
       // Apply the easing function to the process if provided
-      const adjustedProcess = easingFunction ? easingFunction(process) : process;
+      const adjustedProcess = easingFunction ? easingFunction(process) : process
 
       // Determine `from` and `to` values, using defaults if provided, else require them from `params`.
-      let from = defaultFrom !== undefined ? defaultFrom : params?.from;
-      let to = defaultTo !== undefined ? defaultTo : params?.to;
+      let from = defaultFrom !== undefined ? defaultFrom : params?.from
+      let to = defaultTo !== undefined ? defaultTo : params?.to
 
       // Ensure `from` and `to` values are provided either as defaults or through `params`.
       if (from === undefined || to === undefined) {
-        throw new Error('Animation requires `from` and `to` values to be provided either as defaults or through params.');
+        throw new Error(
+          'Animation requires `from` and `to` values to be provided either as defaults or through params.',
+        )
       }
 
       // Normalize `from` and `to` values to arrays if they are not already.
       if (!Array.isArray(from)) {
-        from = [from];
+        from = [from]
       }
       if (!Array.isArray(to)) {
-        to = [to];
+        to = [to]
       }
 
       // Apply the animation to each property.
       const applyChange = (prop: string, start: number, end: number) => {
-        const valueChange = (end - start) * adjustedProcess;
-        (widget as Record<string, any>)[prop] = start + valueChange;
-      };
+        const valueChange = (end - start) * adjustedProcess
+        ;(widget as Record<string, any>)[prop] = start + valueChange
+      }
 
       if (Array.isArray(propertyName)) {
         // Handle multiple properties.
         propertyName.forEach((prop, index) => {
-          const startValue = from[index] !== undefined ? from[index] : from[0]; // Use the first value as a fallback
-          const endValue = to[index] !== undefined ? to[index] : to[0]; // Use the first value as a fallback
-          applyChange(prop, startValue, endValue);
-        });
+          const startValue = from[index] !== undefined ? from[index] : from[0] // Use the first value as a fallback
+          const endValue = to[index] !== undefined ? to[index] : to[0] // Use the first value as a fallback
+          applyChange(prop, startValue, endValue)
+        })
       } else {
         // Handle a single property.
-        applyChange(propertyName, from[0], to[0]);
+        applyChange(propertyName, from[0], to[0])
       }
-    }
-  });
+    },
+  })
 }
