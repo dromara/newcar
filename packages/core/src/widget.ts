@@ -33,6 +33,7 @@ export class Widget {
     rotation: 0,
     transparency: 1,
   } // The style of the widget.
+  display = true
   isImplemented = false // If the widget is implemented by App.impl
   animationInstances: AnimationInstance[] = []
   updates: ((elapsed: number, widget: Widget) => void)[] = []
@@ -103,8 +104,9 @@ export class Widget {
     canvas.scale(this.style.scaleX, this.style.scaleY)
     canvas.translate(this.x, this.y)
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
-
-    this.draw(canvas)
+    if (this.display) {
+      this.draw(canvas)
+    }
   }
 
   /**
@@ -169,5 +171,15 @@ export class Widget {
 
   _isAsyncWidget() {
     return false
+  }
+
+  show(): this {
+    this.display = true
+    return this
+  }
+
+  hide(): this {
+    this.display = false
+    return this
   }
 }
