@@ -1,21 +1,21 @@
 import { Widget } from './widget'
 
-export interface Animation {
+export interface Animation<T> {
   act: (
-    widget: Widget,
+    widget: T,
     elapsed: number,
     process: number,
     params?: any
   ) => void
 }
 
-export function defineAnimation(animation: Animation): Animation {
+export function defineAnimation<T extends Widget>(animation: Animation<T>): Animation<T> {
   return animation
 }
 
 export interface AnimationInstance {
   startAt: number
   during: number
-  animation: Animation
+  animation: Animation<Widget>
   params?: Record<string, any>
 }

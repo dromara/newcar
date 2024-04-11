@@ -16,12 +16,12 @@ type EasingFunction = (progress: number) => number;
  * @param by Optional easing function to adjust the animation progress, can be overridden by params.by.
  * @returns An Animation object.
  */
-export function changeProperty(
+export function changeProperty<T extends Widget>(
   propertyName: string | string[],
   defaultFrom?: number | number[],
   defaultTo?: number | number[],
   by?: EasingFunction
-): Animation {
+): Animation<T> {
   return defineAnimation({
     act: (widget: Widget, elapsed: number, process: number, params: Record<string, any>) => {
       // Determine the easing function, prefer the one from params if available.

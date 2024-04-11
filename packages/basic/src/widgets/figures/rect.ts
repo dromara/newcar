@@ -71,6 +71,13 @@ export class Rect extends Figure {
       }
       case 'style.cap': {
         this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
+        break
+      }
+      case 'style.offset':
+      case 'style.interval': {
+        this.strokePaint.setPathEffect(
+          ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
+        )
       }
     }
     this.strokePaint.setAlphaf(this.style.transparency)

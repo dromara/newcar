@@ -18,7 +18,7 @@ root
     border: true,
     fill: false
   }
-}).animate(nc.changeStyle('interval', [0, 100], [100, 0]), 1, 90))
+}).animate(nc.stroke, 0, 100)
   .add(
     new mod_math.NumberAxis(-200, 200, {
       x: 400,
@@ -46,6 +46,6 @@ root
         ),
       )
   )
-
+)
 app.checkout(scene)
 app.play()

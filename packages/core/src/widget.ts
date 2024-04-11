@@ -4,6 +4,8 @@ import { isNull } from '@newcar/utils'
 
 export let widgetCounter = 0
 
+export type WidgetInstance<T extends Widget> = T;
+
 export interface WidgetOptions {
   style?: WidgetStyle
   x?: number
@@ -122,7 +124,7 @@ export class Widget {
   }
 
   animate(
-    animation: Animation,
+    animation: Animation<Widget>,
     startAt: number,
     during: number,
     params?: Record<string, any>,
