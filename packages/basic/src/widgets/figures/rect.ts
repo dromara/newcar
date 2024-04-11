@@ -1,6 +1,8 @@
 import type { Canvas, CanvasKit, Paint, RRect } from 'canvaskit-wasm'
 import type { Vector2 } from '../../utils/vector2'
 import { Figure, FigureOptions, FigureStyle } from './figure'
+import { str2StrokeJoin } from '../../utils/join'
+import { str2StrokeCap } from '../../utils/cap'
 
 export interface RectOptions extends FigureOptions {
   style?: RectStyle
@@ -25,6 +27,8 @@ export class Rect extends Figure {
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setAlphaf(this.style.transparency)
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
+    this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
+    this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
     this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
@@ -53,6 +57,13 @@ export class Rect extends Figure {
       case 'style.fillColor': {
         this.fillPaint.setColor(this.style.fillColor.toFloat4())
         break
+      }
+      case 'style.join': {
+        this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
+        break
+      }
+      case 'style.cap': {
+        this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
       }
     }
     this.strokePaint.setAlphaf(this.style.transparency)

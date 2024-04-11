@@ -2,6 +2,8 @@ import type { WidgetOptions, WidgetStyle } from "@newcar/core"
 import { Widget } from "@newcar/core"
 import { Color } from "@newcar/utils";
 import type { Paint } from "canvaskit-wasm";
+import { Join } from "../../utils/join";
+import { Cap } from "../../utils/cap";
 
 export interface FigureStyle extends WidgetStyle{
   border?: boolean
@@ -9,6 +11,8 @@ export interface FigureStyle extends WidgetStyle{
   borderWidth?: number
   fill?: boolean
   fillColor?: Color
+  join?: Join
+  cap?: Cap
 }
 
 export interface FigureOptions extends WidgetOptions {
@@ -29,5 +33,7 @@ export class Figure extends Widget {
     this.style.fillColor = options.style.fillColor ?? Color.WHITE
     this.style.fill = options.style.fill ?? true
     this.style.border = options.style.border ?? false
+    this.style.join = options.style.join ?? 'miter'
+    this.style.cap = options.style.cap ?? 'square'
   }
 }
