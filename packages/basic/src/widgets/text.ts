@@ -54,6 +54,11 @@ export class Text extends AsyncWidget {
     this.fillPaint = new ck.Paint()
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
+    new ck.ParagraphStyle({
+      textStyle: {
+        fontFamilies: []
+      }
+    })
     this.fillPaint.setAlphaf(this.style.transparency)
 
     // Font
