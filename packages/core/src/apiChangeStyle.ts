@@ -16,7 +16,7 @@ type EasingFunction = (progress: number) => number;
  * @param by Optional easing function to adjust the animation progress, can be overridden by params.by.
  * @returns An Animation object.
  */
-export function changeProperty(
+export function changeStyle(
   propertyName: string | string[],
   defaultFrom?: number | number[],
   defaultTo?: number | number[],

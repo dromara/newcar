@@ -16,7 +16,6 @@ export class Webview extends Svg {
   constructor(public xhtml: string, options?: WebviewOptions) {
     options ??= {}
     super(xhtml2Svg(xhtml), options)
-    console.log(this.svg);
   }
 
   // predraw(ck: CanvasKit, propertyChanged: string): void {

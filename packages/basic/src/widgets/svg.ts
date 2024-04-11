@@ -54,7 +54,6 @@ export class Svg extends Widget {
 
   init(ck: CanvasKit) {
     this.image.src = resolve(this.svg, this.style.width, this.style.height)
-    console.log(this.image.src);
     
     this.image.onload = () => {
       this.vcanvasContext.clearRect(0, 0, this.style.width, this.style.height)

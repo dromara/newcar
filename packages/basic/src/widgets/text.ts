@@ -34,7 +34,6 @@ export class Text extends AsyncWidget {
     this.style.fillColor = options.style.fillColor ?? Color.WHITE
     this.style.fill = options.style.fill ?? true
     this.style.border = options.style.border ?? false
-    console.log(this.x, this.y)
   }
 
   async init(ck: CanvasKit): Promise<AsyncWidgetResponse> {

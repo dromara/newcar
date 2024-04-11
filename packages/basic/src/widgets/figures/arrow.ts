@@ -82,7 +82,6 @@ export class Arrow extends Figure {
       progress: this.progress,
     })
     this.add(this.trim, this.tip)
-    console.log(this.tip)
     // WARN: Must push parts in constructor, if not, it will err
   }
 
@@ -91,7 +90,6 @@ export class Arrow extends Figure {
       case 'from':
       case 'to': {
         this.radian = calculateArrowRotationAngle(this.from, this.to)
-        console.log(this.radian)
 
         this.tip.style.rotation = this.radian
         this.trim.from = this.from

@@ -53,7 +53,6 @@ export class NumberPlane extends Widget {
     this.unitFont = options.unitFont!
     this.axisX = new NumberAxis(this.fromX, this.toX, this.axisXOptions)
     this.axisY = new NumberAxis(this.fromY, this.toY, this.axisYOptions)
-    console.log(this.axisY.style)
     this.gridOptions = options.gridOptions ?? {}
     let counter =
       (this.fromX - (this.fromX % this.axisX.interval)) / this.axisX.interval

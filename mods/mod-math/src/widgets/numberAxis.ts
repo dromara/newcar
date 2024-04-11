@@ -96,7 +96,6 @@ export class NumberAxis extends Widget {
       counter += 1
     }
     this.children.push(this.arrow, ...this.ticks, ...this.units)
-    console.log(this.units)
   }
 
   init(ck: CanvasKit): void {}
