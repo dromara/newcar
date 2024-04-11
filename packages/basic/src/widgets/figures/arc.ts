@@ -20,11 +20,14 @@ export class Arc extends Figure {
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.strokePaint.setAlphaf(this.style.transparency)
-    
-    const dash = ck.PathEffect.MakeDash([10, 5], 7)
-    console.log(dash);
-    
-    this.strokePaint.setPathEffect(dash)
+
+    try {
+      const dash = ck.PathEffect.MakeDash(
+        this.style.interval,
+        this.style.offset,
+      )
+      this.strokePaint.setPathEffect(dash)
+    } catch {}
 
     // Fill
     this.fillPaint = new ck.Paint()

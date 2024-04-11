@@ -29,7 +29,13 @@ export class Rect extends Figure {
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
     this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
-    this.strokePaint.setPathEffect(ck.PathEffect.MakeDash(this.style.interval, this.style.offset))
+    try {
+      const dash = ck.PathEffect.MakeDash(
+        this.style.interval,
+        this.style.offset,
+      )
+      this.strokePaint.setPathEffect(dash)
+    } catch {}
     this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())

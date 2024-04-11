@@ -43,7 +43,13 @@ export class Text extends AsyncWidget {
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.strokePaint.setAlphaf(this.style.transparency)
-    this.strokePaint.setPathEffect(ck.PathEffect.MakeDash(this.style.interval, this.style.offset))
+    try {
+      const dash = ck.PathEffect.MakeDash(
+        this.style.interval,
+        this.style.offset,
+      )
+      this.strokePaint.setPathEffect(dash)
+    } catch {}
     // Fill
     this.fillPaint = new ck.Paint()
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
