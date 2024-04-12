@@ -103,9 +103,9 @@ export class Widget {
    * @param propertyChanged The changed property of this widget
    */
   update(canvas: Canvas) {
-    canvas.scale(this.style.scaleX, this.style.scaleY)
     canvas.translate(this.x, this.y)
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
+    canvas.scale(this.style.scaleX, this.style.scaleY)
     if (this.display) {
       this.draw(canvas)
     }
