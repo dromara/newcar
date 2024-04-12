@@ -10,6 +10,8 @@ import {
   stroke,
 } from 'newcar'
 
+import * as nc from 'newcar'
+
 const e = await new CarEngine().init(
   '../node_modules/canvaskit-wasm/bin/canvaskit.wasm',
 )

@@ -5,9 +5,11 @@
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "canvaskit-wasm": "^0.39.1",
     "@newcar/core": "workspace:0.11.1",
     "@newcar/utils": "workspace:0.11.1"
+  },
+  "devDependencies": {
+    "canvaskit-wasm": "0.39.1"
   },
   "scripts": {
     "publish": "npm publish",

@@ -1,7 +1,5 @@
 import { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
 import { Figure, FigureOptions, FigureStyle } from './figure'
-import { str2StrokeJoin } from '../../utils/join'
-import { str2StrokeCap } from '../../utils/cap'
 import { $ck } from '@newcar/core'
 
 export interface PathOptions extends FigureOptions {
@@ -24,8 +22,6 @@ export class Path extends Figure {
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setAlphaf(this.style.transparency)
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
-    this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
-    this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
     try {
       const dash = ck.PathEffect.MakeDash(
         this.style.interval,
@@ -58,11 +54,11 @@ export class Path extends Figure {
         break
       }
       case 'style.join': {
-        this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
+        this.strokePaint.setStrokeJoin(this.style.join)
         break
       }
       case 'style.cap': {
-        this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
+        this.strokePaint.setStrokeCap(this.style.cap)
         break
       }
       case 'style.offset':

@@ -2,7 +2,7 @@
   "name": "@newcar/examples",
   "private": true,
   "dependencies": {
-    "canvaskit-wasm": "^0.39.1",
+    "canvaskit-wasm": "0.39.1",
     "@newcar/mod-math": "workspace:0.2.1",
     "newcar": "workspace:0.11.1"
   }

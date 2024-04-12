@@ -1,9 +1,7 @@
 import type { WidgetOptions, WidgetStyle } from "@newcar/core"
-import { Widget } from "@newcar/core"
+import { $ck, Widget } from "@newcar/core"
 import { Color } from "@newcar/utils";
-import type { Paint } from "canvaskit-wasm";
-import { Join } from "../../utils/join";
-import { Cap } from "../../utils/cap";
+import type { Paint, StrokeCap, StrokeJoin } from "canvaskit-wasm";
 
 export interface FigureStyle extends WidgetStyle{
   border?: boolean
@@ -11,8 +9,8 @@ export interface FigureStyle extends WidgetStyle{
   borderWidth?: number
   fill?: boolean
   fillColor?: Color
-  join?: Join
-  cap?: Cap
+  join?: StrokeJoin
+  cap?: StrokeCap
   offset?: number
   interval?: [number, number]
 }
@@ -35,8 +33,8 @@ export class Figure extends Widget {
     this.style.fillColor = options.style.fillColor ?? Color.WHITE
     this.style.fill = options.style.fill ?? true
     this.style.border = options.style.border ?? false
-    this.style.join = options.style.join ?? 'miter'
-    this.style.cap = options.style.cap ?? 'square'
+    this.style.join = options.style.join ?? $ck.StrokeJoin.Miter
+    this.style.cap = options.style.cap ?? $ck.StrokeCap.Square
     this.style.offset = options.style.offset ?? 0
     this.style.interval = options.style.interval ?? [1, 0]
   }
