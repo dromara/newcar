@@ -1,102 +1,80 @@
-import { CarEngine, Scene, Widget, App, changeProperty } from '@newcar/core'
 import {
-  Arc,
-  Arrow,
-  ImageWidget,
-  Line,
-  Rect,
+  CarEngine,
+  Path,
+  Recorder,
+  Scene,
   Text,
-  Circle,
-  move,
-  fadeIn,
+  Widget,
   create,
-  Svg,
-} from '@newcar/basic'
-import { MathFunction, NumberAxis } from '@newcar/mod-math'
-import { Color, Recorder } from 'newcar'
+  fadeIn,
+  stroke,
+} from 'newcar'
 
-let circle: any
-let app: App
-
-const engine = await new CarEngine().init(
+const e = await new CarEngine().init(
   '../node_modules/canvaskit-wasm/bin/canvaskit.wasm',
 )
-app = engine.createApp(document.querySelector('#canvas'))
-// const ff = new MathFunction(Math.sin, [-10, 10], {
-//   y: 100,
-// })
-const tt = new NumberAxis(-100, 100, {
-  x: 500,
-  y: 200,
-  arrowOptions: {
-    style: {
-      fillColor: Color.parse('red'),
-    },
-  },
-  unitFont: 'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
-})
-const root = new Widget({
-  x: 500,
-  y: 500,
-})
+
+const app = e.createApp(document.querySelector('#canvas'))
+
+const root = new Widget()
   .add(
     new Text(
-      'Hello world!',
+      'I AM A FOOLISH MAN',
+      'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
+      {
+        x: 200,
+        y: 450,
+        style: {
+          fill: false,
+          border: true,
+          size: 130,
+        },
+      },
+    )
+      .animate(stroke, 0, 200)
+      .animate(create, 0, 100),
+  )
+  .add(
+    new Text(
+      'I AM A FOOLISH MAN',
       'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
       {
         style: {
-          rotation: 100
-        }
-      }
-    ),
+          fill: true,
+          size: 130,
+        },
+        x: 200,
+        y: 450,
+      },
+    )
+      .animate(fadeIn, 20, 150)
+      .animate(create, 0, 100),
   )
   .add(
-    new Text(
-      'Hi world!',
-      'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
-    ),
+    new Path({
+      style: {
+        border: true,
+        fill: false
+      }
+    }).setUpdate((e, w: Path) => {
+      if (e === 0) {
+        w.addPathFromSVGString(`
+        M 10,30
+        A 20,20 0,0,1 50,30
+        A 20,20 0,0,1 90,30
+        Q 90,60 50,90
+        Q 10,60 10,30 z  
+      `)
+      w.path.arc(100, 100, 100, 0, 360)
+      }
+    }),
   )
-// .add(new Svg('<circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />'))
-// .add(new Arrow([0, 0], [100, 100]))
-// .add(new NumberAxis(-100, 100, {
-//   y: 100,
-//   unitFont: 'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.tt'
-// }))
-// .add(
-//   new Rect([0, 0], [100, 100], {
-//     y: 100,
-//     style: {
-//       transparency: 0.5,
-//     },
-//   }).animate(fadeIn, 0, 300),
-// )
-// .add(
-//   new Text(
-//     'Hello world!',
-//     'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
-//     {
-//       y: 100,
-//     },
-//   ).animate(fadeIn, 0, 100),
-// )
-// .add(new ImageWidget('./brand.png').animate(fadeIn, 0, 300))
-// .add(new Circle(200).animate(changeProperty('radius', 0, 400), 0, 100))
-// .add(new Svg(`<rect width="100" height="100" fill="red"/>`, {
-//   x: 100,
-//   y: 100,
-//   style: {
-//     width: 200,
-//     height: 200
-//   }
-// .add(new Widget().add(ff))
-// .add(
-//   new Arrow([0, 0], [100, 200])
-// )
-
-// .add(new ImageWidget('./brand.png'))
 const scene = new Scene(root)
+
 app.checkout(scene)
-// root
-//   .add()
+
+const rcd = new Recorder(document.querySelector('#canvas'), 'mp4')
+
+rcd.start(3000, (url) => console.log(url))
+
 app.play()
-// tt.arrowOptions.style.fillColor = Color.parse('skyblue')

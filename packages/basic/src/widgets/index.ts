@@ -6,6 +6,7 @@ export * from './figures/rect'
 export * from './figures/arrow'
 export * from './figures/polygon'
 export * from './figures/line'
+export * from './figures/path'
 
 // Others
 export * from './text'

@@ -2,6 +2,7 @@ import CanvasKitInit, { CanvasKit, CanvasKitInitOptions } from 'canvaskit-wasm'
 import { App } from './app'
 import type { CarPlugin } from './plugin'
 
+export let $ck: CanvasKit
 export class CarEngine {
   ck: CanvasKit
   readonly apps: App[] = []
@@ -19,6 +20,7 @@ export class CarEngine {
     for (const plugin of this.plugins) {
       plugin.onCanvasKitLoaded(this)
     }
+    $ck = this.ck
     return this
   }
 

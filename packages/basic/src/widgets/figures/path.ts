@@ -2,6 +2,7 @@ import { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
 import { Figure, FigureOptions, FigureStyle } from './figure'
 import { str2StrokeJoin } from '../../utils/join'
 import { str2StrokeCap } from '../../utils/cap'
+import { $ck } from '@newcar/core'
 
 export interface PathOptions extends FigureOptions {
   style?: PathStyle
@@ -10,8 +11,7 @@ export interface PathOptions extends FigureOptions {
 export interface PathStyle extends FigureStyle {}
 
 export class Path extends Figure {
-  path: ckPath
-  private ck: CanvasKit
+  path: ckPath = new $ck.Path()
 
   constructor(options?: PathOptions) {
     options ??= {}
@@ -19,15 +19,32 @@ export class Path extends Figure {
   }
 
   init(ck: CanvasKit): void {
-    this.path = new ck.Path()
-    for (const f in this.path) {
-      ;(this as Record<string, any>)[f] = (this.path as Record<string, any>)[f]
-    }
-    this.ck = ck
+    this.strokePaint = new ck.Paint()
+    this.strokePaint.setStyle(ck.PaintStyle.Stroke)
+    this.strokePaint.setColor(this.style.borderColor.toFloat4())
+    this.strokePaint.setAlphaf(this.style.transparency)
+    this.strokePaint.setStrokeWidth(this.style.borderWidth)
+    this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
+    this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
+    try {
+      const dash = ck.PathEffect.MakeDash(
+        this.style.interval,
+        this.style.offset,
+      )
+      this.strokePaint.setPathEffect(dash)
+    } catch {}
+    this.fillPaint = new ck.Paint()
+    this.fillPaint.setStyle(ck.PaintStyle.Fill)
+    this.fillPaint.setColor(this.style.fillColor.toFloat4())
+    this.fillPaint.setAlphaf(this.style.transparency)
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
     switch (propertyChanged) {
+      case 'path': {
+        
+        break
+      }
       case 'style.borderColor': {
         this.strokePaint.setColor(this.style.borderColor.toFloat4())
         break
@@ -60,22 +77,25 @@ export class Path extends Figure {
   }
 
   addPathFromSVGString(svg: string) {
-    this.path.addPath(this.ck.Path.MakeFromSVGString(svg))
+    this.path.addPath($ck.Path.MakeFromSVGString(svg))
   }
 
   addPathFromOptions(one: ckPath, two: ckPath, options: any) {
-    this.path.addPath(this.ck.Path.MakeFromOp(one, two, options))
+    this.path.addPath($ck.Path.MakeFromOp(one, two, options))
   }
 
   addFromPathInterpolation(start: ckPath, end: ckPath, weight: number) {
-    this.path.addPath(this.ck.Path.MakeFromPathInterpolation(start, end, weight))
+    this.path.addPath($ck.Path.MakeFromPathInterpolation(start, end, weight))
   }
 
   draw(canvas: Canvas): void {
+    // console.log(this.path);
     if (this.style.border) {
+      
       canvas.drawPath(this.path, this.strokePaint)
     }
     if (this.style.fill) {
+      console.log("www");
       canvas.drawPath(this.path, this.fillPaint)
     }
   }
