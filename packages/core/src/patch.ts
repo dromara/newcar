@@ -1,7 +1,7 @@
-import { Canvas, CanvasKit } from 'canvaskit-wasm'
-import { Widget } from './widget'
-import { isEqual } from '@newcar/utils'
-import { AsyncWidget, AsyncWidgetResponse } from './asyncWidget'
+import { Canvas, CanvasKit } from "canvaskit-wasm"
+import { AsyncWidget, AsyncWidgetResponse } from "./asyncWidget"
+import { Widget } from "./widget"
+import { isEqual } from "@newcar/utils"
 
 export function shallowEqual(objA: any, objB: any): string[] {
   const changedProperties: string[] = []
@@ -28,12 +28,31 @@ export function shallowEqual(objA: any, objB: any): string[] {
 
   const keysBSet = new Set(keysB)
 
+  // Function to check if the value is of a primitive type or an array
+  const isPrimitiveOrArray = (value: any) => {
+    return value !== Object(value) || Array.isArray(value);
+  }
+
   for (let i = 0; i < lengthA; i++) {
     const key = keysA[i]
-    if (!keysBSet.has(key) || objA[key] !== objB[key]) {
+    if (key === 'style') {
+      // Recursively compare the 'style' object
+      const styleDifferences = shallowEqual(objA.style, objB.style)
+      if (styleDifferences.length > 0) {
+        changedProperties.push(key)
+      }
+    } else if (!keysBSet.has(key) || (isPrimitiveOrArray(objA[key]) && objA[key] !== objB[key])) {
       changedProperties.push(key)
     }
   }
+
+  // Optionally, you might want to check for keys present in objB but not in objA
+  // This is optional and depends on your use case
+  keysB.forEach((key) => {
+    if (!keysA.includes(key) && isPrimitiveOrArray(objB[key])) {
+      changedProperties.push(key)
+    }
+  });
 
   return changedProperties
 }

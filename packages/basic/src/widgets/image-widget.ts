@@ -8,47 +8,35 @@ import { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
 
 export interface ImageWidgetOptions extends WidgetOptions {}
 
-export class ImageWidget extends AsyncWidget {
+export class ImageWidget extends Widget {
   private image: Image
   paint: Paint
 
-  constructor(public src: string, options?: ImageWidgetOptions) {
+  constructor(public imageArray: ArrayBuffer, options?: ImageWidgetOptions) {
     options ??= {}
     super(options)
   }
 
-  async init(ck: CanvasKit): Promise<AsyncWidgetResponse> {
+  init(ck: CanvasKit) {
     this.paint = new ck.Paint()
     this.paint.setAlphaf(this.style.transparency)
     try {
-      const response = await fetch(this.src)
-      const imageData = await response.arrayBuffer()
-      this.image = ck.MakeImageFromEncoded(imageData)
-      return {
-        status: 'ok',
-      }
-    } catch (error) {
-      return {
-        status: 'error',
-      }
-    }
+      this.image = ck.MakeImageFromEncoded(this.imageArray)
+    } catch (error) {}
   }
 
-  async predraw(
+  predraw(
     ck: CanvasKit,
     propertyChanged: string,
-  ): Promise<AsyncWidgetResponse> {
+  ) {
     switch (propertyChanged) {
-      case 'src': {
-        const res = await this.init(ck)
-        return res
+      case 'imageArray': {
+        this.image = ck.MakeImageFromEncoded(this.imageArray)
+        break
       }
       case 'style.transparency': {
         this.paint.setAlphaf(this.style.transparency)
       }
-    }
-    return {
-      status: 'ok',
     }
   }
 

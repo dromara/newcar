@@ -198,6 +198,7 @@ export class Text extends Widget {
         this.strokePaint.setPathEffect(
           ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
         )
+        break
       }
       case 'disableHinting':
       case 'ellipsis':

@@ -15,6 +15,7 @@ import {
 import * as nc from 'newcar'
 
 const defaultFont = await useFont('https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf')
+const img = await nc.useImage('./brand.png')
 
 const e = await new CarEngine().init(
   '../node_modules/canvaskit-wasm/bin/canvaskit.wasm',
@@ -93,6 +94,9 @@ const root = new Widget()
       x: 100,
       y: 100,
     })
+  )
+  .add(
+    new nc.ImageWidget(img)
   )
   
 const scene = new Scene(root)
