@@ -25,6 +25,7 @@ import type {
   ParagraphBuilder,
   Canvas,
   Paragraph as ckParagraph,
+  Paint,
 } from 'canvaskit-wasm'
 
 export interface InputItem {
@@ -58,6 +59,13 @@ export interface TextOptions extends WidgetOptions {
 }
 
 export interface TextStyle extends WidgetStyle {
+  offset?: number
+  interval?: number[]
+  fill?: boolean
+  border?: boolean
+  fillColor?: Color
+  borderWidth?: number
+  borderColor?: Color
   disableHinting?: boolean
   ellipsis?: string
   heightMultiplier?: number
@@ -89,6 +97,11 @@ export class Text extends Widget {
   applyRoundingHack?: boolean
   textStyle?: ckTextStyle
   width?: number
+  offset?: number
+  interval?: number[]
+
+  strokePaint: Paint
+  fillPaint: Paint
 
   constructor(
     text: (string | InputItem)[],
@@ -105,6 +118,13 @@ export class Text extends Widget {
     this.strutStyle = inputOptions.style.strutStyle ?? null
     this.applyRoundingHack = inputOptions.style.applyRoundingHack ?? false
     this.width = inputOptions.style.width ?? 1000
+    this.style.borderColor = inputOptions.style.borderColor ?? Color.WHITE
+    this.style.borderWidth = inputOptions.style.borderWidth ?? 2
+    this.style.fillColor = inputOptions.style.fillColor ?? Color.WHITE
+    this.style.fill = inputOptions.style.fill ?? true
+    this.style.border = inputOptions.style.border ?? false
+    this.style.interval = [1, 0]
+    this.style.offset = 0
     for (const item of text) {
       if (isString(item)) {
         this.text.push({
@@ -159,8 +179,48 @@ export class Text extends Widget {
     this.paragraph = this.builder.build()
   }
 
+  predraw(ck: CanvasKit, propertyChanged: string): void {
+    switch (propertyChanged) {
+      case 'style.borderColor': {
+        this.strokePaint.setColor(this.style.borderColor.toFloat4())
+        break
+      }
+      case 'style.borderWidth': {
+        this.strokePaint.setStrokeWidth(this.style.borderWidth)
+        break
+      }
+      case 'style.fillColor': {
+        this.fillPaint.setColor(this.style.fillColor.toFloat4())
+        break
+      }
+      case 'style.offset':
+      case 'style.interval': {
+        this.strokePaint.setPathEffect(
+          ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
+        )
+      }
+      case 'disableHinting':
+      case 'ellipsis':
+      case 'heightMultiplier':
+      case 'maxLines':
+      case 'replaceTabCharacters':
+      case 'strutStyle':
+      case 'textAlign':
+      case 'textDirection':
+      case 'textHeightBehavior':
+      case 'applyRoundingHack':
+      case 'textStyle': {
+        this.builder = ck.ParagraphBuilder.Make(
+          new ck.ParagraphStyle(this.style),
+          this.fontManager
+        )
+        break
+      }
+    }
+  }
+
   draw(canvas: Canvas): void {
-    this.paragraph.layout(1000000)
+    this.paragraph.layout(this.width)
     canvas.drawParagraph(this.paragraph, 0, 0)
   }
 }

@@ -15,7 +15,7 @@ export class Rect extends Figure {
   constructor(public from: Vector2, public to: Vector2, options?: RectOptions) {
     options ??= {}
     super(options)
-    this.style ??= {}
+    this.style ??= {} 
   }
 
   init(ck: CanvasKit): void {
