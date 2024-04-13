@@ -1,6 +1,6 @@
 {
   "name": "@newcar/utils",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "The utils of newcar",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
@@ -28,5 +28,8 @@
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"
+  },
+  "peerDependencies": {
+    "canvaskit-wasm": ">=0.39.1"
   }
 }

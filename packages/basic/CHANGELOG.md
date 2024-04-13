@@ -1,5 +1,14 @@
 # @newcar/basic
 
+## 0.12.1
+
+### Patch Changes
+
+- Fixed some import bug.
+- Updated dependencies
+  - @newcar/utils@0.12.1
+  - @newcar/core@0.12.1
+
 ## 0.12.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @newcar/utils
 
+## 0.12.1
+
+### Patch Changes
+
+- Fixed some import bug.
+
 ## 0.12.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 {
   "name": "@newcar/mod-math",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "",
   "scripts": {
     "publish": "npm publish",
@@ -10,12 +10,15 @@
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "@newcar/core": "workspace:0.12.0",
-    "@newcar/utils": "workspace:0.12.0",
-    "@newcar/basic": "workspace:0.12.0"
+    "@newcar/core": "workspace:0.12.1",
+    "@newcar/utils": "workspace:0.12.1",
+    "@newcar/basic": "workspace:0.12.1"
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"
+  },
+  "peerDependencies": {
+    "canvaskit-wasm": ">=0.39.1"
   },
   "exports": {
     ".": {
