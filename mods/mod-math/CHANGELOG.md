@@ -1,5 +1,11 @@
 # @newcar/mod-math
 
+## 0.3.0
+
+### Minor Changes
+
+- Adjsut code to newcar v0.12.0
+
 ## 0.2.1
 
 ### Patch Changes
