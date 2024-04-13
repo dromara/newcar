@@ -8,7 +8,6 @@ import {
   create,
   fadeIn,
   stroke,
-  Paragraph,
   useFont,
   Color
 } from 'newcar'
@@ -90,7 +89,7 @@ const root = new Widget()
     }).animate(fadeIn, 0, 90),
   )
   .add(
-    new Paragraph(['test1', 'test2'], {
+    new Text(['test1\n', 'test2'], {
       x: 100,
       y: 100,
     })

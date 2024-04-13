@@ -82,11 +82,10 @@ export class NumberAxis extends Widget {
         ),
       )
       if (this.unit) {
-        const text = new Text(this.trend(counter).toString(), this.unitFont!, {
+        const text = new Text([this.trend(counter).toString()], {
           x: x / 2,
           y: 10,
           style: {
-            size: 15,
             rotation: -this.style.rotation!,
           },
           ...this.textOptions,

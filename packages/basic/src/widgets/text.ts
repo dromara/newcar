@@ -1,144 +1,166 @@
-import { AsyncWidget, AsyncWidgetResponse } from '@newcar/core'
-import type { Canvas, CanvasKit, Font, Paint, ParagraphStyle, TextAlign, TextBaseline, Typeface } from 'canvaskit-wasm'
-import { Figure, FigureOptions, FigureStyle } from './figures/figure'
-import { Color } from '@newcar/utils'
+import {
+  $source,
+  AsyncWidget,
+  AsyncWidgetResponse,
+  Widget,
+  WidgetOptions,
+  WidgetStyle,
+} from '@newcar/core'
+import { Color, isString, isUndefined } from '@newcar/utils'
+import type {
+  CanvasKit,
+  FontMgr,
+  StrutStyle,
+  TextAlign,
+  TextDirection,
+  TextHeightBehavior,
+  TextStyle as ckTextStyle,
+  ParagraphStyle as ckParagraphStyle,
+  DecorationStyle,
+  TextFontFeatures,
+  FontStyle,
+  TextFontVariations,
+  TextShadow,
+  TextBaseline,
+  ParagraphBuilder,
+  Canvas,
+  Paragraph as ckParagraph,
+} from 'canvaskit-wasm'
 
-export interface TextOptions extends FigureOptions {
+export interface InputItem {
+  text: string
+  style: TextItemStyle
+}
+interface TextItemStyle {
+  backgroundColor?: Color
+  color?: Color
+  decoration?: number
+  decorationColor?: Color
+  decorationThickness?: number
+  decorationStyle?: DecorationStyle
+  fontFamilies?: string[]
+  fontFeatures?: TextFontFeatures[]
+  fontSize?: number
+  fontStyle?: FontStyle
+  fontVariations?: TextFontVariations[]
+  foregroundColor?: Color
+  heightMultiplier?: number
+  halfLeading?: boolean
+  letterSpacing?: number
+  locale?: string
+  shadows?: TextShadow[]
+  textBaseline?: TextBaseline
+  wordSpacing?: number
+}
+
+export interface TextOptions extends WidgetOptions {
   style?: TextStyle
 }
 
-export interface TextStyle extends FigureStyle {
-  size?: number
-  align?: TextAlign
-  baseline?: TextBaseline
+export interface TextStyle extends WidgetStyle {
+  disableHinting?: boolean
+  ellipsis?: string
+  heightMultiplier?: number
+  maxLines?: number
+  replaceTabCharacters?: boolean
+  strutStyle?: StrutStyle
+  textAlign?: TextAlign
+  textDirection?: TextDirection
+  textHeightBehavior?: TextHeightBehavior
+  applyRoundingHack?: boolean
+  textStyle?: ckTextStyle
+  width?: number
 }
-
-export class Text extends AsyncWidget {
-  font: Font
-  typeface: Typeface
+export class Text extends Widget {
+  private text: InputItem[] = []
+  private fontManager: FontMgr
   declare style: TextStyle
-  strokePaint: Paint
-  fillPaint: Paint
+  private builder: ParagraphBuilder
+  private paragraph: ckParagraph
+  disableHinting?: boolean
+  ellipsis?: string
+  heightMultiplier?: number
+  maxLines?: number
+  replaceTabCharacters?: boolean
+  strutStyle?: StrutStyle
+  textAlign?: TextAlign
+  textDirection?: TextDirection
+  textHeightBehavior?: TextHeightBehavior
+  applyRoundingHack?: boolean
+  textStyle?: ckTextStyle
+  width?: number
 
   constructor(
-    public text: string,
-    public fontpath: string,
-    options?: TextOptions,
+    text: (string | InputItem)[],
+    private inputOptions?: TextOptions,
   ) {
-    options ??= {}
-    super(options)
-    options.style ??= {}
-    this.style.size = options.style.size ?? 100
-    this.style.borderColor = options.style.borderColor ?? Color.WHITE
-    this.style.borderWidth = options.style.borderWidth ?? 2
-    this.style.fillColor = options.style.fillColor ?? Color.WHITE
-    this.style.fill = options.style.fill ?? true
-    this.style.border = options.style.border ?? false
+    inputOptions ??= {}
+    super(inputOptions)
+    inputOptions.style ??= {}
+    this.disableHinting = inputOptions.style.disableHinting ?? false
+    this.ellipsis = inputOptions.style.ellipsis ?? null
+    this.heightMultiplier = inputOptions.style.heightMultiplier ?? 1.0
+    this.maxLines = inputOptions.style.maxLines ?? null
+    this.replaceTabCharacters = inputOptions.style.replaceTabCharacters ?? true
+    this.strutStyle = inputOptions.style.strutStyle ?? null
+    this.applyRoundingHack = inputOptions.style.applyRoundingHack ?? false
+    this.width = inputOptions.style.width ?? 1000
+    for (const item of text) {
+      if (isString(item)) {
+        this.text.push({
+          text: item.toString(),
+          style: {
+            fontSize: 50,
+          },
+        })
+      } else {
+        this.text.push(item as InputItem)
+      }
+    }
   }
 
-  async init(ck: CanvasKit): Promise<AsyncWidgetResponse> {
-    // Stroke
-    this.strokePaint = new ck.Paint()
-    this.strokePaint.setStyle(ck.PaintStyle.Stroke)
-    this.strokePaint.setColor(this.style.borderColor.toFloat4())
-    this.strokePaint.setStrokeWidth(this.style.borderWidth)
-    this.strokePaint.setAlphaf(this.style.transparency)
-    try {
-      const dash = ck.PathEffect.MakeDash(
-        this.style.interval,
-        this.style.offset,
+  init(ck: CanvasKit) {
+    this.style.textStyle =
+      this.inputOptions.style.textStyle ?? new ck.TextStyle({})
+    this.textAlign = this.inputOptions.style.textAlign ?? ck.TextAlign.Start
+    this.textDirection =
+      this.inputOptions.style.textDirection ?? ck.TextDirection.LTR
+    this.textHeightBehavior =
+      this.inputOptions.style.textHeightBehavior ?? ck.TextHeightBehavior.All
+    this.fontManager = ck.FontMgr.FromData(...$source.fonts)
+    this.builder = ck.ParagraphBuilder.Make(
+      new ck.ParagraphStyle(this.style),
+      this.fontManager,
+    )
+    for (const item of this.text) {
+      this.builder.pushStyle(
+        new ck.TextStyle({
+          ...item.style,
+          ...{
+            backgroundColor: isUndefined(item.style.backgroundColor)
+              ? ck.Color4f(1, 1, 1, 0)
+              : item.style.backgroundColor.toFloat4(),
+            color: isUndefined(item.style.color)
+              ? ck.Color4f(1, 1, 1, 1)
+              : item.style.color.toFloat4(),
+            decorationColor: isUndefined(item.style.decorationColor)
+              ? ck.Color4f(1, 1, 1, 0)
+              : item.style.decorationColor.toFloat4(),
+            foregroundColor: isUndefined(item.style.foregroundColor)
+              ? ck.Color4f(1, 1, 1, 1)
+              : item.style.foregroundColor.toFloat4(),
+          },
+        }),
       )
-      this.strokePaint.setPathEffect(dash)
-    } catch {}
-    // Fill
-    this.fillPaint = new ck.Paint()
-    this.fillPaint.setColor(this.style.fillColor.toFloat4())
-    this.fillPaint.setStyle(ck.PaintStyle.Fill)
-    new ck.ParagraphStyle({
-      textStyle: {
-        fontFamilies: []
-      }
-    })
-    this.fillPaint.setAlphaf(this.style.transparency)
+      this.builder.addText(item.text)
+      // TODO: Stroke and Fill
+    }
 
-    // Font
-    try {
-      const res = await fetch(this.fontpath)
-      const fontData = await res.arrayBuffer()
-      this.typeface = ck.Typeface.MakeFreeTypeFaceFromData(fontData)
-      this.font = new ck.Font(this.typeface, this.style.size)
-      return {
-        status: 'ok',
-      }
-    } catch (error) {
-      return {
-        status: 'error',
-      }
-    }
-  }
-
-  async predraw(
-    ck: CanvasKit,
-    propertyChanged: string,
-  ): Promise<AsyncWidgetResponse> {
-    switch (propertyChanged) {
-      case 'fontname': {
-        const res = await fetch(this.fontpath)
-        const fontData = await res.arrayBuffer()
-        this.typeface = ck.Typeface.MakeFreeTypeFaceFromData(fontData)
-        this.font.setTypeface(this.typeface)
-        break
-      }
-      case 'style.size': {
-        this.font.setSize(this.style.size)
-        break
-      }
-      case 'style.borderColor': {
-        this.strokePaint.setColor(this.style.borderColor.toFloat4())
-        break
-      }
-      case 'style.borderWidth': {
-        this.strokePaint.setStrokeWidth(this.style.borderWidth)
-        break
-      }
-      case 'style.fillColor': {
-        this.fillPaint.setColor(this.style.fillColor.toFloat4())
-        break
-      }
-      case 'style.offset':
-      case 'style.interval': {
-        this.strokePaint.setPathEffect(
-          ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
-        )
-        console.log("hello!");
-        
-      }
-    }
-    this.strokePaint.setAlphaf(this.style.transparency)
-    this.fillPaint.setAlphaf(this.style.transparency)
-    return {
-      status: 'ok',
-    }
+    this.paragraph = this.builder.build()
   }
 
   draw(canvas: Canvas): void {
-    if (this.style.fill) {
-      canvas.drawText(
-        this.text.slice(0, Math.round(this.progress * this.text.length)),
-        0,
-        0,
-        this.fillPaint,
-        this.font,
-      )
-    }
-    if (this.style.border) {
-      canvas.drawText(
-        this.text.slice(0, Math.round(this.progress * this.text.length)),
-        0,
-        0,
-        this.strokePaint,
-        this.font,
-      )
-    }
+    this.paragraph.layout(1000000)
+    canvas.drawParagraph(this.paragraph, 0, 0)
   }
 }

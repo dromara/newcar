@@ -2,6 +2,8 @@ import * as nc from 'newcar'
 import * as mod_math from '@newcar/mod-math'
 import { easeInOutQuint } from '../../packages/basic/src'
 
+nc.useFont('https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf')
+
 const engine = await new nc.CarEngine().init(
   '../node_modules/canvaskit-wasm/bin/canvaskit.wasm',
 )
