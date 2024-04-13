@@ -1,5 +1,28 @@
 # @newcar/recorder
 
+## 0.12.0
+
+### Minor Changes
+
+- This version add some widgets in basic lib and fix some known bugs.
+
+  #### Bugs Fixed
+
+  - tip of arrows' direction is wrong
+  - getting double vector when widgets scaled.
+
+  #### Features
+
+  - LineJoin and LineCap
+  - the offset and interval of paths
+  - stroke animation
+  - Update Text to Skia(CanvasKit-WASM)'s Paragraph
+  - perfect diff algorithm
+
+  #### Breaking Changes
+
+  - the first parameters of constructor of `Text` has been changed to `(text | InputItem)[]`
+
 ## 0.11.1
 
 ### Patch Changes
