@@ -91,7 +91,6 @@ export class Path extends Figure {
       canvas.drawPath(this.path, this.strokePaint)
     }
     if (this.style.fill) {
-      console.log("www");
       canvas.drawPath(this.path, this.fillPaint)
     }
   }
