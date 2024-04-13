@@ -1,7 +1,7 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
-import type { Widget } from '../widget'
+import type { Widget } from './widget'
 import { isAsyncFunction } from '@newcar/utils'
-import { AsyncWidget, AsyncWidgetResponse } from '../asyncWidget'
+import { AsyncWidget, AsyncWidgetResponse } from './asyncWidget'
 
 export const initial = async (
   widget: Widget | AsyncWidget,

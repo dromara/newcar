@@ -14,7 +14,7 @@ export interface TextStyle extends FigureStyle {
 }
 
 export class Text extends AsyncWidget {
-   font: Font
+  font: Font
   typeface: Typeface
   declare style: TextStyle
   strokePaint: Paint

@@ -1,8 +1,8 @@
 import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import type { Scene } from './scene'
-import { initial } from './utils/initial'
+import { initial } from './initial'
 import { deepClone } from './utils/deep-clone'
-import { patch, shallowEqual } from './utils/patch'
+import { patch, shallowEqual } from './patch'
 import { Widget } from './widget'
 import type { CarPlugin } from './plugin'
 

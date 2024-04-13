@@ -8,9 +8,14 @@ import {
   create,
   fadeIn,
   stroke,
+  Paragraph,
+  useFont,
+  Color
 } from 'newcar'
 
 import * as nc from 'newcar'
+
+const defaultFont = await useFont('https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf')
 
 const e = await new CarEngine().init(
   '../node_modules/canvaskit-wasm/bin/canvaskit.wasm',
@@ -83,6 +88,12 @@ const root = new Widget()
       `)
       }
     }).animate(fadeIn, 0, 90),
+  )
+  .add(
+    new Paragraph(['test1', 'test2'], {
+      x: 100,
+      y: 100,
+    })
   )
   
 const scene = new Scene(root)

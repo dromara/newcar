@@ -1,7 +1,7 @@
 import { Canvas, CanvasKit } from 'canvaskit-wasm'
-import { Widget } from '../widget'
+import { Widget } from './widget'
 import { isEqual } from '@newcar/utils'
-import { AsyncWidget, AsyncWidgetResponse } from '../asyncWidget'
+import { AsyncWidget, AsyncWidgetResponse } from './asyncWidget'
 
 export function shallowEqual(objA: any, objB: any): string[] {
   const changedProperties: string[] = []
