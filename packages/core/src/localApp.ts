@@ -6,27 +6,30 @@ import { patch, shallowEqual } from './patch'
 import { Widget } from './widget'
 import type { CarPlugin } from './plugin'
 
-export class App {
+export class LocalApp {
   scene: Scene
   surface: Surface
   private playing = false
   private last: Widget
   updates: ((elapsed: number) => void)[] = []
+  canvas: Canvas
 
-  constructor(public element: HTMLCanvasElement, private ck: CanvasKit, private plugins: CarPlugin[]) {
-    element.style.backgroundColor = 'black'
-    if (element == void 0) {
-      console.warn(
-        `[Newcar Warn] You are trying to use a undefined canvas element.`,
-      )
-    }
+  constructor(
+    public width: number,
+    public height: number,
+    private ck: CanvasKit,
+    private plugins: CarPlugin[],
+  ) {
     for (const plugin of this.plugins) {
       plugin.beforeSurfaceLoaded(this)
     }
-    if (typeof window !== 'undefined') {
-      this.surface = this.ck.MakeWebGLCanvasSurface(this.element)
+    if (typeof window === 'undefined') {
+      this.surface = this.ck.MakeSurface(this.width, this.height)
+      this.canvas = this.surface.getCanvas()
     } else {
-      console.warn("[Newcar Warn] You are using nodejs to run Newcar, please use LocalApp.")
+      console.warn(
+        '[Newcar Warn] You are using browser to run Newcar local mode, please use normal App.',
+      )
     }
     for (const plugin of this.plugins) {
       plugin.onSurfaceLoaded(this, this.surface)
@@ -46,7 +49,7 @@ export class App {
     return this
   }
 
-  static update(app: App, canvas: Canvas): void {
+  static update(app: LocalApp, canvas: Canvas): void {
     for (const plugin of app.plugins) {
       plugin.beforeUpdate(app, app.scene.elapsed)
     }
@@ -70,36 +73,7 @@ export class App {
     for (const plugin of app.plugins) {
       plugin.afterUpdate(app, app.scene.elapsed)
     }
-    
-    if (app.playing) {
-      app.scene.elapsed += 1
-      app.surface.requestAnimationFrame((canvas: Canvas) => {
-        for (const updateFunc of app.updates) {
-          updateFunc(app.scene.elapsed)
-        }
-        App.update(app, canvas)
-      })
-    }
-  }
-
-  play(): this {
-    if (this.scene == void 0) {
-      console.warn(
-        `[Newcar Warn] Current scene is undefined, please checkout a usable scene.`,
-      )
-    }
-    this.playing = true
-    this.surface.requestAnimationFrame((canvas: Canvas) => {
-      App.update(this, canvas)
-    })
-
-    return this
-  }
-
-  pause(): this {
-    this.playing = false
-
-    return this
+    app.scene.elapsed += 1
   }
 
   /**
@@ -112,5 +86,15 @@ export class App {
 
   use(plugin: CarPlugin) {
     this.plugins.push(plugin)
+  }
+
+  getFrames(duration: number) {
+    const data = []
+    for (let elapsed = 0; elapsed <= duration; elapsed++) {
+      LocalApp.update(this, this.canvas)
+      data.push(this.surface.makeImageSnapshot().encodeToBytes())
+      this.canvas.clear(new Float32Array([0, 0, 0, 1]))
+    }
+    return data
   }
 }

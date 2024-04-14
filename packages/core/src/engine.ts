@@ -1,11 +1,12 @@
 import CanvasKitInit, { CanvasKit, CanvasKitInitOptions } from 'canvaskit-wasm'
 import { App } from './app'
+import { LocalApp } from './localApp'
 import type { CarPlugin } from './plugin'
 
 export let $ck: CanvasKit
 export class CarEngine {
   ck: CanvasKit
-  readonly apps: App[] = []
+  readonly apps: (App | LocalApp)[] = []
   readonly plugins: CarPlugin[] = []
 
   async init(canvasKitWasmFile: string) {
@@ -32,6 +33,12 @@ export class CarEngine {
 
   createApp(element: HTMLCanvasElement): App {
     const app = new App(element, this.ck, this.plugins)
+    this.apps.push(app)
+    return app
+  }
+
+  createLocalApp(width: number, height: number): LocalApp {
+    const app = new LocalApp(width, height, this.ck, this.plugins)
     this.apps.push(app)
     return app
   }

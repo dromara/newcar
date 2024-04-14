@@ -11,3 +11,5 @@ export * from './apiChangeProperty'
 export * from './apiChangeStyle'
 export * from './apiUseFont'
 export * from './apiUseImage'
+
+export * from './localApp'
