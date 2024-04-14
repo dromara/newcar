@@ -91,6 +91,7 @@ export class LocalApp {
   getFrames(duration: number) {
     const data = []
     for (let elapsed = 0; elapsed <= duration; elapsed++) {
+      this.scene.elapsed = elapsed
       LocalApp.update(this, this.canvas)
       data.push(this.surface.makeImageSnapshot().encodeToBytes())
       this.canvas.clear(new Float32Array([0, 0, 0, 1]))
