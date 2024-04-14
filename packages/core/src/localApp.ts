@@ -49,23 +49,25 @@ export class LocalApp {
     return this
   }
 
-  static update(app: LocalApp, canvas: Canvas): void {
+  static update(app: LocalApp): void {
     for (const plugin of app.plugins) {
       plugin.beforeUpdate(app, app.scene.elapsed)
     }
-    // If this updating is this scene's origin, initial this scene.
-    if (app.scene.elapsed === 0) {
-      initial(app.scene.root, app.ck, canvas)
-    }
+    initial(app.scene.root, app.ck, app.canvas)
     // Contrast the old widget and the new widget and update them.
     for (const plugin of app.plugins) {
       plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
     }
-    patch(app.last, app.scene.root, app.ck, canvas)
     for (const plugin of app.plugins) {
       plugin.afterPatch(app, app.scene.elapsed, app.last, app.scene.root)
     }
-    app.last = deepClone(app.scene.root)
+    (function draw(widget: Widget) {
+      widget.init(app.ck)
+      widget.draw(app.canvas)
+      for (const child of widget.children) {
+        draw(child)
+      }
+    })(app.scene.root)
 
     // Animating.
     app.scene.root.runAnimation(app.scene.elapsed)
@@ -91,10 +93,9 @@ export class LocalApp {
   getFrames(duration: number) {
     const data = []
     for (let elapsed = 0; elapsed <= duration; elapsed++) {
-      this.scene.elapsed = elapsed
-      LocalApp.update(this, this.canvas)
+      this.canvas.clear(this.ck.BLACK)
+      LocalApp.update(this)
       data.push(this.surface.makeImageSnapshot().encodeToBytes())
-      this.canvas.clear(new Float32Array([0, 0, 0, 1]))
     }
     return data
   }

@@ -1,0 +1,21 @@
+{
+  "name": "@newcar/cli",
+  "version": "1.0.0",
+  "description": "The cli tool of local Newcar",
+  "main": "src/index.mjs",
+  "type": "module",
+  "keywords": ["Animation", "CLI"],
+  "author": "BugDuck Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "clerc": "^0.42.2",
+    "fluent-ffmpeg": "^2.1.2"
+  },
+  "devDependencies": {
+    "canvaskit-wasm": "0.39.1",
+    "newcar": "workspace: 0.12.2"
+  },
+  "bin": {
+    "nc": "src/index.mjs"
+  }
+}
