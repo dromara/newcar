@@ -1,7 +1,9 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Bug-Duck/newcar/assets/73536163/0a17bf99-6ea5-483c-87f6-c9b284ad0030">
-  <img alt="Newcar Banner" src="https://github.com/Bug-Duck/newcar/assets/73536163/02dc932c-b718-4f83-be2c-8e665760e2cd">
-</picture>
+![Newcar Banner](https://github.com/Bug-Duck/newcar/assets/73536163/dccc3a53-d20f-44f3-9006-f491f60c6061)
+
+<div align="center">
+  <h1>Newcar</h1>
+  <p>A modern animation engine for JavaScript ecosystem</p>
+</div>
 
 <p align="center">
   <img src="https://img.shields.io/github/stars/Bug-Duck/newcar?color=yellowgreen&logo=github&style=flat-square" />
@@ -12,6 +14,10 @@
   <a href="https://www.npmjs.com/package/newcar"><img src="https://img.shields.io/npm/dw/newcar.svg"/></a>
   <a href="https://www.npmjs.com/package/newcar"><img src="https://img.shields.io/npm/v/newcar.svg"/></a>
 </p>
+
+---
+
+## Examples Preview
 
 <table>
   <tr>
