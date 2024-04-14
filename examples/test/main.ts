@@ -21,7 +21,7 @@ const e = await new CarEngine().init(
   '../node_modules/canvaskit-wasm/bin/canvaskit.wasm',
 )
 
-const app = e.createApp(document.querySelector('#canvas'))
+const app = e.createApp(document.querySelector('#canvas')).setBackgroundColor(nc.Color.parse('red'))
 
 const root = new Widget()
   // .add(

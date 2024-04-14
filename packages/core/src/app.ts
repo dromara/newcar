@@ -115,7 +115,9 @@ export class App {
     this.plugins.push(plugin)
   }
 
-  setBackgroundColor(color: Color) {
+  setBackgroundColor(color: Color): this {
     this.element.style.backgroundColor = color.toString()
+
+    return this
   }
 }
