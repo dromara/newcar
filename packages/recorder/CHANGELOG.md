@@ -1,5 +1,11 @@
 # @newcar/recorder
 
+## 0.12.2
+
+### Patch Changes
+
+- Add custom background color.
+
 ## 0.12.1
 
 ### Patch Changes

@@ -15,7 +15,7 @@ export class App {
   updates: ((elapsed: number) => void)[] = []
 
   constructor(public element: HTMLCanvasElement, private ck: CanvasKit, private plugins: CarPlugin[]) {
-    element.style.backgroundColor = 'black'
+    this.setBackgroundColor(Color.BLACK)
     if (element == void 0) {
       console.warn(
         `[Newcar Warn] You are trying to use a undefined canvas element.`,
@@ -115,8 +115,8 @@ export class App {
     this.plugins.push(plugin)
   }
 
-  setBackgroundColor(color: Color): this {
-    this.element.style.backgroundColor = color.toString()
+  setBackgroundColor(color: Color | 'transparent'): this {
+    color !== 'transparent' ? this.element.style.backgroundColor = color.toString() : this.element.style.backgroundColor = ""
 
     return this
   }

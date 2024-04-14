@@ -1,5 +1,16 @@
 # newcar
 
+## 0.12.2
+
+### Patch Changes
+
+- Add custom background color.
+- Updated dependencies
+  - @newcar/recorder@0.12.2
+  - @newcar/basic@0.12.2
+  - @newcar/utils@0.12.2
+  - @newcar/core@0.12.2
+
 ## 0.12.1
 
 ### Patch Changes

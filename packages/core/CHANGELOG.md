@@ -1,5 +1,13 @@
 # @newcar/core
 
+## 0.12.2
+
+### Patch Changes
+
+- Add custom background color.
+- Updated dependencies
+  - @newcar/utils@0.12.2
+
 ## 0.12.1
 
 ### Patch Changes
