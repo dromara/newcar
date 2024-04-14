@@ -5,6 +5,7 @@ import { deepClone } from './utils/deep-clone'
 import { patch, shallowEqual } from './patch'
 import { Widget } from './widget'
 import type { CarPlugin } from './plugin'
+import { Color } from '@newcar/utils'
 
 export class App {
   scene: Scene
@@ -112,5 +113,9 @@ export class App {
 
   use(plugin: CarPlugin) {
     this.plugins.push(plugin)
+  }
+
+  setBackgroundColor(color: Color) {
+    this.element.style.backgroundColor = color.toString()
   }
 }
