@@ -63,10 +63,12 @@ export class LocalApp {
     }
     (function draw(widget: Widget) {
       widget.init(app.ck)
-      widget.draw(app.canvas)
+      app.canvas.save()
+      widget.update(app.canvas)
       for (const child of widget.children) {
         draw(child)
       }
+      app.canvas.restore()
     })(app.scene.root)
 
     // Animating.

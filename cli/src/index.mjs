@@ -1,12 +1,19 @@
 #! /usr/bin/env node
 
-import { Clerc } from 'clerc'
+import {
+  Clerc,
+  helpPlugin,
+  versionPlugin,
+  completionsPlugin,
+  friendlyErrorPlugin,
+  notFoundPlugin,
+} from 'clerc'
 import ffmpeg from 'fluent-ffmpeg'
 import fs from 'fs'
 
 const main = Clerc.create()
   .name('Newcar Location Cli')
-  .scriptName('nc')
+  .scriptName('ncli')
   .version('1.0.0')
   .description('The offical cli to build local app')
   .command('export', 'Export Newcar Animation to videos.', {
@@ -28,22 +35,27 @@ const main = Clerc.create()
         fs.writeFileSync(fileName, uint8Array)
         return fileName
       })
-
-      // 使用fluent-ffmpeg将图片拼接成视频
       ffmpeg()
         .on('error', function (err) {
           console.error('An error occurred: ' + err.message)
         })
         .on('end', function () {
           console.log('Processing finished !')
-          // 清理临时文件
+          // clear image files
           tempFiles.forEach((file) => fs.unlinkSync(file))
         })
-        .input('temp_image_%d.png') // 输入文件名模式
-        .inputFPS(context.flags.fps) // 这里的1是输入的帧率，根据需要调整
-        .output(context.parameters.target) // 输出视频文件名
-        .outputFPS(30) // 输出的帧率，根据需要调整
+        .input('temp_image_%d.png')
+        .inputFPS(context.flags.fps)
+        .output(context.parameters.target)
+        .outputFPS(30)
         .run()
     })
   })
+  .use(
+    helpPlugin(),
+    versionPlugin(),
+    completionsPlugin(),
+    friendlyErrorPlugin(),
+    notFoundPlugin(),
+  )
   .parse()

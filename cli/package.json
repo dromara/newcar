@@ -16,6 +16,6 @@
     "newcar": "workspace: 0.12.2"
   },
   "bin": {
-    "nc": "src/index.mjs"
+    "ncli": "src/index.mjs"
   }
 }
