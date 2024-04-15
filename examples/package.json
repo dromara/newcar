@@ -3,7 +3,6 @@
   "private": true,
   "dependencies": {
     "canvaskit-wasm": "0.39.1",
-    "@newcar/mod-math": "workspace:*",
-    "newcar": "workspace:*"
+    "newcar": "workspace: 0.13.1"
   }
 }
