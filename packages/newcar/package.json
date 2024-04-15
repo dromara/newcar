@@ -17,16 +17,17 @@
   "module": "./dist/index.mjs",
   "exports": {
     ".": {
+      "dev": "./src/index.ts",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs"
     }
   },
   "dependencies": {
-    "@newcar/basic": "workspace:0.13.1",
-    "@newcar/core": "workspace:0.13.1",
-    "@newcar/utils": "workspace:0.13.1",
-    "@newcar/recorder": "workspace:0.13.1"
+    "@newcar/basic": "workspace:*",
+    "@newcar/core": "workspace:*",
+    "@newcar/utils": "workspace:*",
+    "@newcar/recorder": "workspace:*"
   },
   "files": [
     "dist"

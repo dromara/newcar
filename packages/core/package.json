@@ -14,13 +14,14 @@
   "license": "Apache-2.0",
   "exports": {
     ".": {
+      "dev": "./src/index.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     }
   },
   "dependencies": {
-    "@newcar/utils": "workspace:0.13.1",
+    "@newcar/utils": "workspace:*",
     "mitt": "^3.0.1"
   },
   "devDependencies": {

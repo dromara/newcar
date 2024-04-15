@@ -1,5 +1,6 @@
 import { Widget } from './widget'
 import { Animation, defineAnimation } from './animation'
+import { MaybeArray } from './types'
 
 /**
  * Easing function type, which takes a progress ratio and returns an adjusted ratio.
@@ -17,9 +18,9 @@ type EasingFunction = (progress: number) => number
  * @returns An Animation object.
  */
 export function changeStyle<T extends Widget>(
-  propertyName: string | string[],
-  defaultFrom?: number | number[],
-  defaultTo?: number | number[],
+  propertyName: MaybeArray<keyof T>,
+  defaultFrom?: MaybeArray<number>,
+  defaultTo?: MaybeArray<number>,
   by?: EasingFunction,
 ): Animation<T> {
   return defineAnimation({
