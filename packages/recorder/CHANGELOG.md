@@ -1,5 +1,11 @@
 # @newcar/recorder
 
+## 0.13.1
+
+### Patch Changes
+
+- fix: rect progress fails loading in local mode
+
 ## 0.13.0
 
 ### Minor Changes

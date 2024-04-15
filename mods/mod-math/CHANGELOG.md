@@ -1,5 +1,14 @@
 # @newcar/mod-math
 
+## 0.3.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @newcar/basic@0.13.1
+  - @newcar/utils@0.13.1
+  - @newcar/core@0.13.1
+
 ## 0.3.3
 
 ### Patch Changes

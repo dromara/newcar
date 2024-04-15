@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1",
-    "newcar": "workspace:0.13.0"
+    "newcar": "workspace:0.13.1"
   },
   "bin": {
     "ncli": "src/index.mjs"

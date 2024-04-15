@@ -1,5 +1,14 @@
 # @newcar/basic
 
+## 0.13.1
+
+### Patch Changes
+
+- fix: rect progress fails loading in local mode
+- Updated dependencies
+  - @newcar/utils@0.13.1
+  - @newcar/core@0.13.1
+
 ## 0.13.0
 
 ### Minor Changes
