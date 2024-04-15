@@ -20,5 +20,5 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["packages/**/*", "examples/**/*", "shims.d.ts"]
+  "include": ["packages/**/*", "examples/**/*", "shims.d.ts", "test"]
 }

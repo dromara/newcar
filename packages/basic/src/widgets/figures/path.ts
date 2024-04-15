@@ -74,14 +74,20 @@ export class Path extends Figure {
 
   addPathFromSVGString(svg: string) {
     this.path.addPath($ck.Path.MakeFromSVGString(svg))
+
+    return this
   }
 
   addPathFromOptions(one: ckPath, two: ckPath, options: any) {
     this.path.addPath($ck.Path.MakeFromOp(one, two, options))
+
+    return this
   }
 
   addFromPathInterpolation(start: ckPath, end: ckPath, weight: number) {
     this.path.addPath($ck.Path.MakeFromPathInterpolation(start, end, weight))
+
+    return this
   }
 
   draw(canvas: Canvas): void {
