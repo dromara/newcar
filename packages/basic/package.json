@@ -5,8 +5,8 @@
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "@newcar/core": "workspace:0.13.1",
-    "@newcar/utils": "workspace:0.13.1"
+    "@newcar/core": "workspace:*",
+    "@newcar/utils": "workspace:*"
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"
@@ -18,6 +18,7 @@
   },
   "exports": {
     ".": {
+      "dev": "./src/index.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
