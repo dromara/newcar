@@ -1,6 +1,7 @@
 import type { Canvas, CanvasKit, Paint, Path, RRect } from 'canvaskit-wasm'
 import { Figure, FigureOptions, FigureStyle } from './figure'
 import { Vector2 } from '../../utils/vector2'
+import { str2StrokeCap, str2StrokeJoin } from '../../utils/trans'
 export interface PolygonOptions extends FigureOptions {
   style?: FigureStyle
 }
@@ -30,8 +31,8 @@ export class Polygon extends Figure {
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
-    this.strokePaint.setStrokeJoin(this.style.join)
-    this.strokePaint.setStrokeCap(this.style.cap)
+    this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
+    this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
     try {
       const dash = ck.PathEffect.MakeDash(
         this.style.interval,
@@ -77,11 +78,11 @@ export class Polygon extends Figure {
         break
       }
       case 'style.join': {
-        this.strokePaint.setStrokeJoin(this.style.join)
+        this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
         break
       }
       case 'style.cap': {
-        this.strokePaint.setStrokeCap(this.style.cap)
+        this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
         break
       }
       case 'style.offset':

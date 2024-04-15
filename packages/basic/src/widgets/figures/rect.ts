@@ -1,6 +1,7 @@
 import type { Canvas, CanvasKit, Paint, RRect } from 'canvaskit-wasm'
 import type { Vector2 } from '../../utils/vector2'
 import { Figure, FigureOptions, FigureStyle } from './figure'
+import { str2StrokeCap, str2StrokeJoin } from '../../utils/trans'
 
 export interface RectOptions extends FigureOptions {
   style?: RectStyle
@@ -25,8 +26,8 @@ export class Rect extends Figure {
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setAlphaf(this.style.transparency)
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
-    this.strokePaint.setStrokeJoin(this.style.join)
-    this.strokePaint.setStrokeCap(this.style.cap)
+    this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
+    this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
     try {
       const dash = ck.PathEffect.MakeDash(
         this.style.interval,
@@ -64,11 +65,11 @@ export class Rect extends Figure {
         break
       }
       case 'style.join': {
-        this.strokePaint.setStrokeJoin(this.style.join)
+        this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
         break
       }
       case 'style.cap': {
-        this.strokePaint.setStrokeCap(this.style.cap)
+        this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
         break
       }
       case 'style.offset':

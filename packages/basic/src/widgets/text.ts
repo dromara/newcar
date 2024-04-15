@@ -8,12 +8,15 @@ import {
 } from '@newcar/core'
 import { Color, isString, isUndefined } from '@newcar/utils'
 import type {
-  CanvasKit,
-  FontMgr,
-  StrutStyle,
   TextAlign,
   TextDirection,
   TextHeightBehavior,
+  TextBaseline,
+} from '../utils/types'
+import type {
+  CanvasKit,
+  FontMgr,
+  StrutStyle,
   TextStyle as ckTextStyle,
   ParagraphStyle as ckParagraphStyle,
   DecorationStyle,
@@ -21,12 +24,12 @@ import type {
   FontStyle,
   TextFontVariations,
   TextShadow,
-  TextBaseline,
   ParagraphBuilder,
   Canvas,
   Paragraph as ckParagraph,
   Paint,
 } from 'canvaskit-wasm'
+import { str2TextAlign, str2TextBaseline, str2TextDirection, str2TextHeightBehavior } from '../utils/trans'
 
 export interface InputItem {
   text: string
@@ -76,7 +79,6 @@ export interface TextStyle extends WidgetStyle {
   textDirection?: TextDirection
   textHeightBehavior?: TextHeightBehavior
   applyRoundingHack?: boolean
-  textStyle?: ckTextStyle
   width?: number
 }
 export class Text extends Widget {
@@ -95,7 +97,6 @@ export class Text extends Widget {
   textDirection?: TextDirection
   textHeightBehavior?: TextHeightBehavior
   applyRoundingHack?: boolean
-  textStyle?: ckTextStyle
   width?: number
   offset?: number
   interval?: number[]
@@ -140,16 +141,20 @@ export class Text extends Widget {
   }
 
   init(ck: CanvasKit) {
-    this.style.textStyle =
-      this.inputOptions.style.textStyle ?? new ck.TextStyle({})
-    this.textAlign = this.inputOptions.style.textAlign ?? ck.TextAlign.Start
-    this.textDirection =
-      this.inputOptions.style.textDirection ?? ck.TextDirection.LTR
+    this.textAlign = this.inputOptions.style.textAlign ?? 'start'
+    this.textDirection = this.inputOptions.style.textDirection ?? 'ltr'
     this.textHeightBehavior =
-      this.inputOptions.style.textHeightBehavior ?? ck.TextHeightBehavior.All
+      this.inputOptions.style.textHeightBehavior ?? 'all'
     this.fontManager = ck.FontMgr.FromData(...$source.fonts)
     this.builder = ck.ParagraphBuilder.Make(
-      new ck.ParagraphStyle(this.style),
+      new ck.ParagraphStyle({
+        ...this.style,
+        ...{
+          textAlign: str2TextAlign(ck, this.textAlign),
+          textDirection: str2TextDirection(ck, this.textDirection),
+          textHeightBehavior: str2TextHeightBehavior(ck, this.textHeightBehavior),
+        },
+      }),
       this.fontManager,
     )
     for (const item of this.text) {
@@ -169,6 +174,9 @@ export class Text extends Widget {
             foregroundColor: isUndefined(item.style.foregroundColor)
               ? ck.Color4f(1, 1, 1, 1)
               : item.style.foregroundColor.toFloat4(),
+            textBaseline: isUndefined(item.style.textBaseline)
+              ? ck.TextBaseline.Alphabetic
+              : str2TextBaseline(ck, item.style.textBaseline)
           },
         }),
       )
@@ -210,13 +218,21 @@ export class Text extends Widget {
       case 'textDirection':
       case 'textHeightBehavior':
       case 'applyRoundingHack':
-      case 'textStyle': {
-        this.builder = ck.ParagraphBuilder.Make(
-          new ck.ParagraphStyle(this.style),
-          this.fontManager
-        )
-        break
-      }
+      // case 'textStyle': {
+      //   this.builder = ck.ParagraphBuilder.Make(
+      //     new ck.ParagraphStyle({
+      //       ...this.style,
+      //       ...{
+      //         textAlign: str2TextAlign(this.style.textAlign),
+      //         textDirection: str2TextDirection(this.style.textDirection),
+      //         textHeightBehavior: str2TextHeightBehavior(this.style.textHeightBehavior),
+      //         textStyle:
+      //       }
+      //     }),
+      //     this.fontManager,
+      //   )
+      //   break
+      // }
     }
   }
 
