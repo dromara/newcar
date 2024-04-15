@@ -130,11 +130,13 @@ export class Widget {
     during: number,
     params?: Record<string, any>,
   ): this {
+    params ??= {}
     this.animationInstances.push({
       startAt,
       during,
       animation,
-      params: params ?? {},
+      params: params,
+      mode: params.mode ?? 'positive',
     })
 
     return this
@@ -146,12 +148,25 @@ export class Widget {
         instance.startAt <= elapsed &&
         instance.during + instance.startAt >= elapsed
       ) {
-        instance.animation.act(
-          this,
-          elapsed - instance.startAt,
-          (elapsed - instance.startAt) / instance.during,
-          instance.params,
-        )
+        if (instance.mode === 'positive') {
+          instance.animation.act(
+            this,
+            elapsed - instance.startAt,
+            (elapsed - instance.startAt) / instance.during,
+            instance.params,
+          )
+        } else if (instance.mode === 'reverse') {
+          instance.animation.act(
+            this,
+            elapsed - instance.startAt,
+            1 - (elapsed - instance.startAt) / instance.during,
+            instance.params,
+          )
+        } else if (instance.mode === 'loop') {
+          const timeInCycle = (elapsed - instance.startAt) % instance.during
+          const process = timeInCycle / instance.during
+          instance.animation.act(this, elapsed, process, instance.params)
+        }
       }
     }
     for (const update of this.updates) {
