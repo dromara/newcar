@@ -1,5 +1,11 @@
 # @newcar/recorder
 
+## 0.13.0
+
+### Minor Changes
+
+- Local Mode of Newcar has been included in this version. Now you can use Newcar in Node with ncli!
+
 ## 0.12.2
 
 ### Patch Changes

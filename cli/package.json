@@ -4,7 +4,10 @@
   "description": "The cli tool of local Newcar",
   "main": "src/index.mjs",
   "type": "module",
-  "keywords": ["Animation", "CLI"],
+  "keywords": [
+    "Animation",
+    "CLI"
+  ],
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "dependencies": {
@@ -13,7 +16,7 @@
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1",
-    "newcar": "workspace: 0.12.2"
+    "newcar": "workspace:0.13.0"
   },
   "bin": {
     "ncli": "src/index.mjs"

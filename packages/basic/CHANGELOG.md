@@ -1,5 +1,17 @@
 # @newcar/basic
 
+## 0.13.0
+
+### Minor Changes
+
+- Local Mode of Newcar has been included in this version. Now you can use Newcar in Node with ncli!
+
+### Patch Changes
+
+- Updated dependencies
+  - @newcar/utils@0.13.0
+  - @newcar/core@0.13.0
+
 ## 0.12.2
 
 ### Patch Changes
