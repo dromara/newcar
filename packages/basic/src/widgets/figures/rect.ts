@@ -19,7 +19,7 @@ export class Rect extends Figure {
   }
 
   init(ck: CanvasKit): void {
-    this.rect = ck.LTRBRect(this.from[0], this.from[1], this.to[0], this.to[1])
+    this.rect = ck.LTRBRect(this.from[0], this.from[1], this.to[0] * this.progress, this.to[1] * this.progress)
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())

@@ -4,9 +4,7 @@ import { NumberPlane, MathFunction } from '@newcar/mod-math'
 const engine = await new nc.CarEngine().init(
   '../node_modules/canvaskit-wasm/bin/canvaskit.wasm',
 )
-const app = engine.createApp(document.querySelector('#poster'))
-
-const rcd = new nc.Recorder(document.querySelector('#poster'), 'mp4')
+const app = engine.createLocalApp(1600, 900)
 
 const root = new nc.Widget({
   x: 100,
@@ -42,14 +40,8 @@ const root = new nc.Widget({
     fillColor: nc.Color.parse('purple')
   }
 }).animate(nc.create, 0, 30))
-.setUpdate((e, w) => {
-    if (e === 10) {
-      rcd.start(1000, (url) => {
-        console.log(url)
-      })
-    }
-  })
 
 const scene = new nc.Scene(root)
 app.checkout(scene)
-app.play()
+
+export default app
