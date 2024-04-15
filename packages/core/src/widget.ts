@@ -162,10 +162,6 @@ export class Widget {
             1 - (elapsed - instance.startAt) / instance.during,
             instance.params,
           )
-        } else if (instance.mode === 'loop') {
-          const timeInCycle = (elapsed - instance.startAt) % instance.during
-          const process = timeInCycle / instance.during
-          instance.animation.act(this, elapsed, process, instance.params)
         }
       }
     }

@@ -18,6 +18,5 @@ export interface AnimationInstance {
   during: number
   animation: Animation<Widget>
   params?: Record<string, any>
-  mode: 'positive' | 'reverse' | 'loop'
-  cycle?: number
+  mode: 'positive' | 'reverse'
 }
