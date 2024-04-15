@@ -18,7 +18,7 @@ export const scene2 = new nc.Scene(
 )
 
 export const scene3 = new nc.Scene(
-  new nc.Arrow([50, 350], [350, 50]).animate(nc.create, 0, 30)
+  new nc.Arrow([50, 350], [350, 50]).animate(nc.create, 0, 30).animate(nc.changeProperty(''))
 )
 
 export const scene4 = new nc.Scene(

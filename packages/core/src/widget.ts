@@ -1,6 +1,7 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import type { Animation, AnimationInstance } from './animation'
 import { isNull } from '@newcar/utils'
+import { deepClone } from './utils/deepClone'
 
 export let widgetCounter = 0
 
@@ -183,5 +184,9 @@ export class Widget {
   hide(): this {
     this.display = false
     return this
+  }
+
+  copy() {
+    return deepClone(this)
   }
 }
