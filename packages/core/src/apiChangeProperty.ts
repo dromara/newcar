@@ -1,6 +1,6 @@
 import { Widget } from './widget'
 import { Animation, defineAnimation } from './animation'
-import { MaybeArray } from './types'
+import { MaybeArray, PickNumberKeys } from './types'
 
 /**
  * Easing function type, which takes a progress ratio and returns an adjusted ratio.
@@ -18,14 +18,14 @@ type EasingFunction = (progress: number) => number
  * @returns An Animation object.
  */
 export function changeProperty<T extends Widget>(
-  propertyName: MaybeArray<keyof T>,
+  propertyName: MaybeArray<PickNumberKeys<T>>,
   defaultFrom?: MaybeArray<number>,
   defaultTo?: MaybeArray<number>,
   by?: EasingFunction,
 ): Animation<T> {
   return defineAnimation({
     act: (
-      widget: Widget,
+      widget: T,
       elapsed: number,
       process: number,
       params: Record<string, any>,
@@ -56,9 +56,13 @@ export function changeProperty<T extends Widget>(
       }
 
       // Apply the animation to each property.
-      const applyChange = (prop: string, start: number, end: number) => {
+      const applyChange = (
+        prop: PickNumberKeys<T>,
+        start: number,
+        end: number,
+      ) => {
         const valueChange = (end - start) * adjustedProcess
-        ;(widget as Record<string, any>)[prop] = start + valueChange
+        ;(widget[prop] as any) = start + valueChange
       }
 
       if (Array.isArray(propertyName)) {
