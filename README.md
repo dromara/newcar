@@ -6,8 +6,8 @@
 </div>
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/Bug-Duck/newcar?color=yellowgreen&logo=github&style=flat-square" />
-  <img src="https://img.shields.io/github/forks/Bug-Duck/newcar?logo=github&style=flat-square" />
+  <img src="https://img.shields.io/github/stars/dromara/newcar?color=yellowgreen&logo=github&style=flat-square" />
+  <img src="https://img.shields.io/github/forks/dromara/newcar?logo=github&style=flat-square" />
   <img src="https://img.shields.io/github/license/Bug-Duck/newcar?color=skyblue&logo=github&style=flat-square" />
   <a href="https://twitter.com/bugduckteam"><img src="https://shields.io/badge/twitter-BugDuck_Team-blue?logo=twitter&style=flat-square" /></a>
   <a href="https://discord.gg/ANqgRc3C4b"><img src="https://shields.io/badge/discord-newcarjs-blue?logo=discord&style=flat-square" /></a>
