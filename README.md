@@ -124,4 +124,4 @@ The documentation is available at [newcar.js.org](https://newcar.js.org).
 
 _Copyright (c) 2022-present, BugDuck Team & Dromara Community_
 
-**Note: Newcar is a opensource project which belong to Dromara Community and maintained by BugDuck Team. The members of BugDuck is just join with a personal identity, BugDuck Team will always keep its dependent**
+**Note: Newcar is a open-source project which belong to Dromara Community and maintained by BugDuck Team. The members of BugDuck just join with a personal identity, BugDuck Team will always keep its independence**
