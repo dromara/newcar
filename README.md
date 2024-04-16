@@ -122,4 +122,4 @@ If everything is set up correctly, you will see a circle drawn on the canvas.
 
 The documentation is available at [newcar.js.org](https://newcar.js.org).
 
-_Copyright (c) 2022-present, BugDuck Team_
+_Copyright (c) 2022-present, BugDuck Team & Dromara Conmunity_
