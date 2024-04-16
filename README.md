@@ -1,4 +1,4 @@
-![Newcar Banner](https://github.com/Bug-Duck/newcar/assets/73536163/dccc3a53-d20f-44f3-9006-f491f60c6061)
+![Newcar Banner](https://github.com/dromara/newcar/assets/73536163/dccc3a53-d20f-44f3-9006-f491f60c6061)
 
 <div align="center">
   <h1>Newcar</h1>
@@ -122,4 +122,6 @@ If everything is set up correctly, you will see a circle drawn on the canvas.
 
 The documentation is available at [newcar.js.org](https://newcar.js.org).
 
-_Copyright (c) 2022-present, BugDuck Team & Dromara Conmunity_
+_Copyright (c) 2022-present, BugDuck Team & Dromara Community_
+
+**Note: Newcar is a opensource project which belong to Dromara Community and maintained by BugDuck Team. The members of BugDuck is just join with a personal identity, BugDuck Team will always keep its dependent**
