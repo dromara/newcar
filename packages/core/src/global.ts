@@ -1,6 +1,6 @@
 export const $source: {
-  fonts?: ArrayBuffer[]
-  images?: ArrayBuffer[]
+  fonts: ArrayBuffer[]
+  images: ArrayBuffer[]
 } = {
   fonts: [],
   images: []

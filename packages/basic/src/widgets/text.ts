@@ -29,7 +29,12 @@ import type {
   Paragraph as ckParagraph,
   Paint,
 } from 'canvaskit-wasm'
-import { str2TextAlign, str2TextBaseline, str2TextDirection, str2TextHeightBehavior } from '../utils/trans'
+import {
+  str2TextAlign,
+  str2TextBaseline,
+  str2TextDirection,
+  str2TextHeightBehavior,
+} from '../utils/trans'
 
 export interface InputItem {
   text: string
@@ -152,7 +157,10 @@ export class Text extends Widget {
         ...{
           textAlign: str2TextAlign(ck, this.textAlign),
           textDirection: str2TextDirection(ck, this.textDirection),
-          textHeightBehavior: str2TextHeightBehavior(ck, this.textHeightBehavior),
+          textHeightBehavior: str2TextHeightBehavior(
+            ck,
+            this.textHeightBehavior,
+          ),
         },
       }),
       this.fontManager,
@@ -176,7 +184,7 @@ export class Text extends Widget {
               : item.style.foregroundColor.toFloat4(),
             textBaseline: isUndefined(item.style.textBaseline)
               ? ck.TextBaseline.Alphabetic
-              : str2TextBaseline(ck, item.style.textBaseline)
+              : str2TextBaseline(ck, item.style.textBaseline),
           },
         }),
       )

@@ -2,7 +2,37 @@
   "name": "@newcar/mod-markdown",
   "version": "0.1.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "publish": "npm publish",
+    "build": "pkgroll --sourcemap --minify",
+    "dev": "pkgroll -w"
+  },
   "author": "BugDuck Team",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@newcar/core": "workspace:*",
+    "@newcar/utils": "workspace:*",
+    "@newcar/basic": "workspace:*"
+  },
+  "devDependencies": {
+    "canvaskit-wasm": "0.39.1"
+  },
+  "peerDependencies": {
+    "canvaskit-wasm": ">=0.39.1"
+  },
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
