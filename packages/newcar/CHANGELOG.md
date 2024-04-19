@@ -1,5 +1,21 @@
 # newcar
 
+## 0.14.0
+
+### Minor Changes
+
+- - Perfect types system
+  - the copy function od `Widget`
+  - the reverse mode of animation
+
+### Patch Changes
+
+- Updated dependencies
+  - @newcar/recorder@0.14.0
+  - @newcar/basic@0.14.0
+  - @newcar/utils@0.14.0
+  - @newcar/core@0.14.0
+
 ## 0.13.1
 
 ### Patch Changes

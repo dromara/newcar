@@ -1,6 +1,6 @@
 {
   "name": "@newcar/mod-math",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "",
   "scripts": {
     "publish": "npm publish",
