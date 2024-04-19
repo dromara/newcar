@@ -3,6 +3,7 @@ import { Vector2 } from '../../utils/vector2'
 import { FigureOptions, FigureStyle, Figure } from './figure'
 import { Polygon } from './polygon'
 import { Line } from './line'
+import { deepMerge } from '@newcar/utils'
 
 /**
  * Calculates the rotation angle for an arrow based on the line's start and end points,
@@ -74,11 +75,10 @@ export class Arrow extends Figure {
       },
     )
     this.trim = new Line(this.from, this.to, {
-      style: {
+      style: deepMerge({
         color: this.style.borderColor,
         width: this.style.borderWidth,
-        ...this.style,
-      },
+      }, this.style),
       progress: this.progress,
     })
     this.add(this.trim, this.tip)

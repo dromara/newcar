@@ -24,3 +24,7 @@ export const isString = (v: unknown): v is void => {
 export function isAsyncFunction(func: (...parameters: any[]) => any) {
   return func.constructor.name === 'AsyncFunction'
 }
+
+export function isObject(item: any): boolean {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}

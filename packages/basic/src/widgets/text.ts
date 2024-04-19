@@ -6,7 +6,7 @@ import {
   WidgetOptions,
   WidgetStyle,
 } from '@newcar/core'
-import { Color, isString, isUndefined } from '@newcar/utils'
+import { Color, isString, isUndefined, deepMerge } from '@newcar/utils'
 import type {
   TextAlign,
   TextDirection,
@@ -167,9 +167,8 @@ export class Text extends Widget {
     )
     for (const item of this.text) {
       this.builder.pushStyle(
-        new ck.TextStyle({
-          ...item.style,
-          ...{
+        new ck.TextStyle(
+          deepMerge(item.style, {
             backgroundColor: isUndefined(item.style.backgroundColor)
               ? ck.Color4f(1, 1, 1, 0)
               : item.style.backgroundColor.toFloat4(),
@@ -185,8 +184,8 @@ export class Text extends Widget {
             textBaseline: isUndefined(item.style.textBaseline)
               ? ck.TextBaseline.Alphabetic
               : str2TextBaseline(ck, item.style.textBaseline),
-          },
-        }),
+          }),
+        ),
       )
       this.builder.addText(item.text)
       // TODO: Stroke and Fill
@@ -226,21 +225,22 @@ export class Text extends Widget {
       case 'textDirection':
       case 'textHeightBehavior':
       case 'applyRoundingHack':
-      // case 'textStyle': {
-      //   this.builder = ck.ParagraphBuilder.Make(
-      //     new ck.ParagraphStyle({
-      //       ...this.style,
-      //       ...{
-      //         textAlign: str2TextAlign(this.style.textAlign),
-      //         textDirection: str2TextDirection(this.style.textDirection),
-      //         textHeightBehavior: str2TextHeightBehavior(this.style.textHeightBehavior),
-      //         textStyle:
-      //       }
-      //     }),
-      //     this.fontManager,
-      //   )
-      //   break
-      // }
+      case 'textStyle': {
+        this.builder = ck.ParagraphBuilder.Make(
+          new ck.ParagraphStyle(
+            deepMerge(this.style, {
+              textAlign: str2TextAlign(ck, this.textAlign),
+              textDirection: str2TextDirection(ck, this.textDirection),
+              textHeightBehavior: str2TextHeightBehavior(
+                ck,
+                this.textHeightBehavior,
+              ),
+            }),
+          ),
+          this.fontManager,
+        )
+        break
+      }
     }
   }
 

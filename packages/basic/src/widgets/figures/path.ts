@@ -41,7 +41,6 @@ export class Path extends Figure {
   predraw(ck: CanvasKit, propertyChanged: string): void {
     switch (propertyChanged) {
       case 'path': {
-        
         break
       }
       case 'style.borderColor': {
@@ -96,7 +95,6 @@ export class Path extends Figure {
   draw(canvas: Canvas): void {
     // console.log(this.path);
     if (this.style.border) {
-      
       canvas.drawPath(this.path, this.strokePaint)
     }
     if (this.style.fill) {
