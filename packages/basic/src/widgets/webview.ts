@@ -1,10 +1,12 @@
-import { Canvas, CanvasKit } from "canvaskit-wasm";
-import { Svg, SvgOptions, SvgStyle } from "./svg";
+import type { SvgOptions, SvgStyle } from './svg'
+import { Svg } from './svg'
 
-const xhtml2Svg = (xhtml: string): string => `\
+function xhtml2Svg(xhtml: string): string {
+  return `\
 <foreignObject width="100%" height="100%">\
 <div xmlns="http://www.w3.org/1999/xhtml" style="color: white;">\
-${xhtml}</div></foreignObject>`;
+${xhtml}</div></foreignObject>`
+}
 
 export interface WebviewOptions extends SvgOptions {
   style?: WebviewStyle

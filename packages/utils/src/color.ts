@@ -112,7 +112,7 @@ export class Color {
 
   /**
    * Get the string for this color in RGBA Hex format.
-   * @param [allow3=false] Allow to generate `#rgb` instead of `#rrggbb`
+   * @param [allow3] Allow to generate `#rgb` instead of `#rrggbb`
    * @returns A string like `#ffffff` or `#ffffffff`.
    */
   toHex(allow3 = false): string {
@@ -128,9 +128,8 @@ export class Color {
   static parse(cssInput: string): Color {
     const [r, g, b, a, v, s] = colorParsley(cssInput)
 
-    if (!v || s !== 'sRGB') {
+    if (!v || s !== 'sRGB')
       throw new TypeError(`${cssInput} is an invalid color string`)
-    }
 
     return new Color(r, g, b, a)
   }

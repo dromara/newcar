@@ -1,5 +1,6 @@
-import { Canvas, CanvasKit, Paint, RRect } from 'canvaskit-wasm'
-import { Figure, FigureOptions } from './figure'
+import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
+import type { FigureOptions } from './figure'
+import { Figure } from './figure'
 
 export class Arc extends Figure {
   private rect: RRect
@@ -27,7 +28,8 @@ export class Arc extends Figure {
         this.style.offset,
       )
       this.strokePaint.setPathEffect(dash)
-    } catch {}
+    }
+    catch {}
 
     // Fill
     this.fillPaint = new ck.Paint()

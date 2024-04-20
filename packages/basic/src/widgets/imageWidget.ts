@@ -1,10 +1,10 @@
+import type {
+  WidgetOptions,
+} from '@newcar/core'
 import {
   Widget,
-  WidgetOptions,
-  AsyncWidget,
-  AsyncWidgetResponse,
 } from '@newcar/core'
-import { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
 
 export interface ImageWidgetOptions extends WidgetOptions {}
 
@@ -22,7 +22,8 @@ export class ImageWidget extends Widget {
     this.paint.setAlphaf(this.style.transparency)
     try {
       this.image = ck.MakeImageFromEncoded(this.imageArray)
-    } catch (error) {}
+    }
+    catch (error) {}
   }
 
   predraw(

@@ -1,7 +1,8 @@
-import { Widget, WidgetOptions, WidgetStyle } from '@newcar/core'
+import type { WidgetOptions, WidgetStyle } from '@newcar/core'
+import { Widget } from '@newcar/core'
 import { Color } from '@newcar/utils'
-import { Vector2 } from '../../utils/vector2'
-import { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
+import type { Vector2 } from '../../utils/vector2'
 
 export interface LineOptions extends WidgetOptions {
   style?: LineStyle

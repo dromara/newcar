@@ -1,7 +1,9 @@
-import type { Canvas, CanvasKit, Paint, Path, RRect } from 'canvaskit-wasm'
-import { Figure, FigureOptions, FigureStyle } from './figure'
-import { Vector2 } from '../../utils/vector2'
+import type { Canvas, CanvasKit, Path } from 'canvaskit-wasm'
+import type { Vector2 } from '../../utils/vector2'
 import { str2StrokeCap, str2StrokeJoin } from '../../utils/trans'
+import type { FigureOptions, FigureStyle } from './figure'
+import { Figure } from './figure'
+
 export interface PolygonOptions extends FigureOptions {
   style?: FigureStyle
 }
@@ -19,11 +21,10 @@ export class Polygon extends Figure {
   init(ck: CanvasKit): void {
     this.path = new ck.Path()
     for (const [index, point] of this.points.entries()) {
-      if (index === 0) {
+      if (index === 0)
         this.path.moveTo(...point)
-      } else {
+      else
         this.path.lineTo(...point)
-      }
     }
     this.path.close()
     // Stroke
@@ -39,7 +40,8 @@ export class Polygon extends Figure {
         this.style.offset,
       )
       this.strokePaint.setPathEffect(dash)
-    } catch {}
+    }
+    catch {}
 
     // Fill
     this.fillPaint = new ck.Paint()
@@ -56,11 +58,10 @@ export class Polygon extends Figure {
       case 'points': {
         this.path.moveTo(0, 0)
         for (const [index, point] of this.points.entries()) {
-          if (index === 0) {
+          if (index === 0)
             this.path.moveTo(...point)
-          } else {
+          else
             this.path.lineTo(...point)
-          }
         }
         this.path.close()
         break
@@ -97,11 +98,10 @@ export class Polygon extends Figure {
   }
 
   draw(canvas: Canvas): void {
-    if (this.style.border) {
+    if (this.style.border)
       canvas.drawPath(this.path, this.strokePaint)
-    }
-    if (this.style.fill) {
+
+    if (this.style.fill)
       canvas.drawPath(this.path, this.fillPaint)
-    }
   }
 }

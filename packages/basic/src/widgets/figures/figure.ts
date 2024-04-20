@@ -1,10 +1,10 @@
-import type { WidgetOptions, WidgetStyle } from "@newcar/core"
-import { $ck, Widget } from "@newcar/core"
-import { Color } from "@newcar/utils";
-import type { Paint } from "canvaskit-wasm";
-import { StrokeJoin, StrokeCap } from "../../utils/types";
+import type { WidgetOptions, WidgetStyle } from '@newcar/core'
+import { Widget } from '@newcar/core'
+import { Color } from '@newcar/utils'
+import type { Paint } from 'canvaskit-wasm'
+import type { StrokeCap, StrokeJoin } from '../../utils/types'
 
-export interface FigureStyle extends WidgetStyle{
+export interface FigureStyle extends WidgetStyle {
   border?: boolean
   borderColor?: Color
   borderWidth?: number

@@ -1,9 +1,6 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import type { Animation, AnimationInstance } from './animation'
-import { isNull } from '@newcar/utils'
 import { deepClone } from './utils/deepClone'
-
-export let widgetCounter = 0
 
 export type WidgetInstance<T extends Widget> = T
 
@@ -36,11 +33,12 @@ export class Widget {
     rotation: 0,
     transparency: 1,
   } // The style of the widget.
+
   display = true
   isImplemented = false // If the widget is implemented by App.impl
   animationInstances: AnimationInstance[] = []
   updates: ((elapsed: number, widget: Widget) => void)[] = []
-  key = `widget-${++widgetCounter}-${performance.now()}-${Math.random()
+  key = `widget-${0}-${performance.now()}-${Math.random()
     .toString(16)
     .slice(2)}`
 
@@ -68,9 +66,9 @@ export class Widget {
 
   /**
    * Called when the widget is registered.
-   * @param CanvasKit The CanvasKit namespace
+   * @param _ck The CanvasKit namespace
    */
-  init(ck: CanvasKit) {}
+  init(_ck: CanvasKit) {}
 
   /**
    * Preload the necessary items during drawing.
@@ -80,14 +78,14 @@ export class Widget {
    * @param propertyChanged The changed property of this widget
    */
 
-  predraw(ck: CanvasKit, propertyChanged: string) {}
+  predraw(_ck: CanvasKit, _propertyChanged: string) {}
 
   /**
    * Draw the object according to the parameters of the widget.
    * Called when the parameters is changed.
-   * @param canvas The canvas object of CanvasKit-WASM.
+   * @param _canvas The canvas object of CanvasKit-WASM.
    */
-  draw(canvas: Canvas) {}
+  draw(_canvas: Canvas) {}
 
   /**
    * Called when the parameters is changed.
@@ -101,15 +99,13 @@ export class Widget {
    * Update the object according to the style of the widget.
    * Called when the style is changed.
    * @param canvas The canvas object of CanvasKit-WASM.
-   * @param propertyChanged The changed property of this widget
    */
   update(canvas: Canvas) {
     canvas.translate(this.x, this.y)
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
     canvas.scale(this.style.scaleX, this.style.scaleY)
-    if (this.display) {
+    if (this.display)
       this.draw(canvas)
-    }
   }
 
   /**
@@ -117,9 +113,8 @@ export class Widget {
    * @param children The added children.
    */
   add(...children: Widget[]): this {
-    for (const child of children) {
+    for (const child of children)
       this.children.push(child)
-    }
 
     return this
   }
@@ -135,7 +130,7 @@ export class Widget {
       startAt,
       during,
       animation,
-      params: params,
+      params,
       mode: params.mode ?? 'positive',
     })
 
@@ -145,8 +140,8 @@ export class Widget {
   runAnimation(elapsed: number) {
     for (const instance of this.animationInstances) {
       if (
-        instance.startAt <= elapsed &&
-        instance.during + instance.startAt >= elapsed
+        instance.startAt <= elapsed
+        && instance.during + instance.startAt >= elapsed
       ) {
         if (instance.mode === 'positive') {
           instance.animation.act(
@@ -155,7 +150,8 @@ export class Widget {
             (elapsed - instance.startAt) / instance.during,
             instance.params,
           )
-        } else if (instance.mode === 'reverse') {
+        }
+        else if (instance.mode === 'reverse') {
           instance.animation.act(
             this,
             elapsed - instance.startAt,
@@ -165,12 +161,11 @@ export class Widget {
         }
       }
     }
-    for (const update of this.updates) {
+    for (const update of this.updates)
       update(elapsed, this)
-    }
-    for (const child of this.children) {
+
+    for (const child of this.children)
       child.runAnimation(elapsed)
-    }
   }
 
   /**

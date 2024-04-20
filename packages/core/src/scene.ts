@@ -1,4 +1,4 @@
-import { Widget } from './widget'
+import type { Widget } from './widget'
 
 export class Scene {
   elapsed = 0

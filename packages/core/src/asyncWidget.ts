@@ -1,5 +1,6 @@
-import type { Canvas, CanvasKit } from 'canvaskit-wasm'
-import { Widget, WidgetOptions } from './widget'
+import type { CanvasKit } from 'canvaskit-wasm'
+import type { WidgetOptions } from './widget'
+import { Widget } from './widget'
 
 export interface AsyncWidgetResponse {
   status: 'ok' | 'error'
@@ -12,15 +13,15 @@ export class AsyncWidget extends Widget {
     super(options)
   }
 
-  override async init(ck: CanvasKit): Promise<AsyncWidgetResponse> {
+  override async init(_ck: CanvasKit): Promise<AsyncWidgetResponse> {
     return {
       status: 'ok',
     }
   }
 
   override async predraw(
-    ck: CanvasKit,
-    propertyChanged: string,
+    _ck: CanvasKit,
+    _propertyChanged: string,
   ): Promise<AsyncWidgetResponse> {
     return {
       status: 'ok',

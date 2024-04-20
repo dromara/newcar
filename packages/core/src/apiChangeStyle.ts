@@ -1,6 +1,7 @@
-import { Widget, WidgetStyle } from './widget'
-import { Animation, defineAnimation } from './animation'
-import { MaybeArray, PickNumberKeys } from './types'
+import type { Widget, WidgetStyle } from './widget'
+import type { Animation } from './animation'
+import { defineAnimation } from './animation'
+import type { MaybeArray, PickNumberKeys } from './types'
 
 /**
  * Easing function type, which takes a progress ratio and returns an adjusted ratio.
@@ -48,12 +49,11 @@ export function changeStyle<T extends Widget>(
       }
 
       // Normalize `from` and `to` values to arrays if they are not already.
-      if (!Array.isArray(from)) {
+      if (!Array.isArray(from))
         from = [from]
-      }
-      if (!Array.isArray(to)) {
+
+      if (!Array.isArray(to))
         to = [to]
-      }
 
       // Apply the animation to each property.
       const applyChange = (
@@ -72,7 +72,8 @@ export function changeStyle<T extends Widget>(
           const endValue = to[index] !== undefined ? to[index] : to[0] // Use the first value as a fallback
           applyChange(prop, startValue, endValue)
         })
-      } else {
+      }
+      else {
         // Handle a single property.
         applyChange(propertyName, from[0], to[0])
       }

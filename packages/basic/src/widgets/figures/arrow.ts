@@ -1,9 +1,10 @@
-import { Canvas, CanvasKit } from 'canvaskit-wasm'
-import { Vector2 } from '../../utils/vector2'
-import { FigureOptions, FigureStyle, Figure } from './figure'
+import type { CanvasKit } from 'canvaskit-wasm'
+import { deepMerge } from '@newcar/utils'
+import type { Vector2 } from '../../utils/vector2'
+import type { FigureOptions, FigureStyle } from './figure'
+import { Figure } from './figure'
 import { Polygon } from './polygon'
 import { Line } from './line'
-import { deepMerge } from '@newcar/utils'
 
 /**
  * Calculates the rotation angle for an arrow based on the line's start and end points,
@@ -30,9 +31,8 @@ function calculateArrowRotationAngle(
   let angleDegrees = angleRadians * (180 / Math.PI)
 
   // Normalize the angle to the range [0, 360)
-  if (angleDegrees < 0) {
+  if (angleDegrees < 0)
     angleDegrees += 360
-  }
 
   return angleDegrees
 }

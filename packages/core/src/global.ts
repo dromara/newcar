@@ -3,5 +3,5 @@ export const $source: {
   images: ArrayBuffer[]
 } = {
   fonts: [],
-  images: []
+  images: [],
 }

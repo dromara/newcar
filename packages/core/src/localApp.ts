@@ -1,9 +1,7 @@
 import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import type { Scene } from './scene'
 import { initial } from './initial'
-import { deepClone } from './utils/deepClone'
-import { patch, shallowEqual } from './patch'
-import { Widget } from './widget'
+import type { Widget } from './widget'
 import type { CarPlugin } from './plugin'
 
 export class LocalApp {
@@ -20,63 +18,62 @@ export class LocalApp {
     private ck: CanvasKit,
     private plugins: CarPlugin[],
   ) {
-    for (const plugin of this.plugins) {
+    for (const plugin of this.plugins)
       plugin.beforeSurfaceLoaded(this)
-    }
+
     if (typeof window === 'undefined') {
       this.surface = this.ck.MakeSurface(this.width, this.height)
       this.canvas = this.surface.getCanvas()
-    } else {
+    }
+    else {
       console.warn(
         '[Newcar Warn] You are using browser to run Newcar local mode, please use normal App.',
       )
     }
-    for (const plugin of this.plugins) {
+    for (const plugin of this.plugins)
       plugin.onSurfaceLoaded(this, this.surface)
-    }
   }
 
   checkout(scene: Scene): this {
-    for (const plugin of this.plugins) {
+    for (const plugin of this.plugins)
       plugin.beforeCheckout(this, scene)
-    }
+
     this.scene = scene
     this.last = this.scene.root
-    for (const plugin of this.plugins) {
+    for (const plugin of this.plugins)
       plugin.onCheckout(this, this.scene)
-    }
 
     return this
   }
 
   static update(app: LocalApp): void {
-    for (const plugin of app.plugins) {
+    for (const plugin of app.plugins)
       plugin.beforeUpdate(app, app.scene.elapsed)
-    }
+
     initial(app.scene.root, app.ck, app.canvas)
     // Contrast the old widget and the new widget and update them.
-    for (const plugin of app.plugins) {
+    for (const plugin of app.plugins)
       plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
-    }
-    for (const plugin of app.plugins) {
-      plugin.afterPatch(app, app.scene.elapsed, app.last, app.scene.root)
-    }
+
+    for (const plugin of app.plugins)
+      plugin.afterPatch(app, app.scene.elapsed, app.last, app.scene.root);
+
     (function draw(widget: Widget) {
       widget.init(app.ck)
       app.canvas.save()
       widget.update(app.canvas)
-      for (const child of widget.children) {
+      for (const child of widget.children)
         draw(child)
-      }
+
       app.canvas.restore()
     })(app.scene.root)
 
     // Animating.
     app.scene.root.runAnimation(app.scene.elapsed)
 
-    for (const plugin of app.plugins) {
+    for (const plugin of app.plugins)
       plugin.afterUpdate(app, app.scene.elapsed)
-    }
+
     app.scene.elapsed += 1
   }
 

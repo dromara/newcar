@@ -1,18 +1,19 @@
-import {
-  AsyncWidget,
-  AsyncWidgetResponse,
-  Widget,
+import type {
   WidgetOptions,
   WidgetStyle,
 } from '@newcar/core'
-import { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
+import {
+  Widget,
+} from '@newcar/core'
+import type { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
 
-const svg2Blob = (xml: string): Blob =>
-  new Blob([xml], { type: 'image/svg+xml' })
+function svg2Blob(xml: string): Blob {
+  return new Blob([xml], { type: 'image/svg+xml' })
+}
 
-//wraps a given string of SVG in an SVG element with optional width and height attributes.
-const wrappedSvg = (svg: string, width?: number, height?: number): string =>
-  `<${[
+// wraps a given string of SVG in an SVG element with optional width and height attributes.
+function wrappedSvg(svg: string, width?: number, height?: number): string {
+  return `<${[
     'svg',
     `xmlns="http://www.w3.org/2000/svg"`,
     width && `width="${width}"`,
@@ -20,9 +21,11 @@ const wrappedSvg = (svg: string, width?: number, height?: number): string =>
   ]
     .filter(Boolean) // If the width or height is zero, discard it.
     .join(' ')}>${svg}</svg>`
+}
 
-const resolve = (svg: string, width?: number, height?: number): string =>
-  window.URL.createObjectURL(svg2Blob(wrappedSvg(svg, width, height)))
+function resolve(svg: string, width?: number, height?: number): string {
+  return window.URL.createObjectURL(svg2Blob(wrappedSvg(svg, width, height)))
+}
 
 export interface SvgOptions extends WidgetOptions {
   style?: SvgStyle
@@ -54,13 +57,14 @@ export class Svg extends Widget {
 
   init(ck: CanvasKit) {
     this.image.src = resolve(this.svg, this.style.width, this.style.height)
-    
+
     this.image.onload = () => {
       this.vcanvasContext.clearRect(0, 0, this.style.width, this.style.height)
       this.vcanvasContext.drawImage(this.image, 0, 0)
       try {
         this.imageData = ck.MakeImageFromCanvasImageSource(this.vcanvas)
-      } catch {}
+      }
+      catch {}
       this.ready = true
     }
   }
@@ -76,8 +80,7 @@ export class Svg extends Widget {
   }
 
   draw(canvas: Canvas): void {
-    if (this.ready) {
+    if (this.ready)
       canvas.drawImage(this.imageData, this.x, this.y)
-    }
   }
 }

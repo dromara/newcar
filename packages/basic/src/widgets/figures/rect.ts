@@ -1,7 +1,8 @@
-import type { Canvas, CanvasKit, Paint, RRect } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
 import type { Vector2 } from '../../utils/vector2'
-import { Figure, FigureOptions, FigureStyle } from './figure'
 import { str2StrokeCap, str2StrokeJoin } from '../../utils/trans'
+import type { FigureOptions, FigureStyle } from './figure'
+import { Figure } from './figure'
 
 export interface RectOptions extends FigureOptions {
   style?: RectStyle
@@ -16,7 +17,7 @@ export class Rect extends Figure {
   constructor(public from: Vector2, public to: Vector2, options?: RectOptions) {
     options ??= {}
     super(options)
-    this.style ??= {} 
+    this.style ??= {}
   }
 
   init(ck: CanvasKit): void {
@@ -34,7 +35,8 @@ export class Rect extends Figure {
         this.style.offset,
       )
       this.strokePaint.setPathEffect(dash)
-    } catch {}
+    }
+    catch {}
     this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
@@ -84,11 +86,10 @@ export class Rect extends Figure {
   }
 
   draw(canvas: Canvas): void {
-    if (this.style.border) {
+    if (this.style.border)
       canvas.drawRect(this.rect, this.strokePaint)
-    }
-    if (this.style.fill) {
+
+    if (this.style.fill)
       canvas.drawRect(this.rect, this.fillPaint)
-    }
   }
 }

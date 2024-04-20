@@ -1,7 +1,8 @@
-import { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
-import { Figure, FigureOptions, FigureStyle } from './figure'
+import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
 import { $ck } from '@newcar/core'
 import { str2StrokeCap, str2StrokeJoin } from '../../utils/trans'
+import type { FigureOptions, FigureStyle } from './figure'
+import { Figure } from './figure'
 
 export interface PathOptions extends FigureOptions {
   style?: PathStyle
@@ -31,7 +32,8 @@ export class Path extends Figure {
         this.style.offset,
       )
       this.strokePaint.setPathEffect(dash)
-    } catch {}
+    }
+    catch {}
     this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
@@ -94,11 +96,10 @@ export class Path extends Figure {
 
   draw(canvas: Canvas): void {
     // console.log(this.path);
-    if (this.style.border) {
+    if (this.style.border)
       canvas.drawPath(this.path, this.strokePaint)
-    }
-    if (this.style.fill) {
+
+    if (this.style.fill)
       canvas.drawPath(this.path, this.fillPaint)
-    }
   }
 }

@@ -1,17 +1,17 @@
 #! /usr/bin/env node
 
+import fs from 'node:fs'
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
+import ffmpeg from 'fluent-ffmpeg'
 import {
   Clerc,
-  helpPlugin,
-  versionPlugin,
   completionsPlugin,
   friendlyErrorPlugin,
+  helpPlugin,
   notFoundPlugin,
+  versionPlugin,
 } from 'clerc'
-import ffmpeg from 'fluent-ffmpeg'
-import fs from 'fs'
-import path from 'path'
-import { pathToFileURL } from 'url'
 
 const main = Clerc.create()
   .name('Newcar Location Cli')
@@ -39,13 +39,13 @@ const main = Clerc.create()
           return fileName
         })
         ffmpeg()
-          .on('error', function (err) {
-            console.error('An error occurred: ' + err.message)
+          .on('error', (err) => {
+            console.error(`An error occurred: ${err.message}`)
           })
-          .on('end', function () {
+          .on('end', () => {
             console.log('Processing finished !')
             // clear image files
-            tempFiles.forEach((file) => fs.unlinkSync(file))
+            tempFiles.forEach(file => fs.unlinkSync(file))
           })
           .input(path.resolve('./temp_image_%d.png'))
           .inputFPS(context.flags.fps)

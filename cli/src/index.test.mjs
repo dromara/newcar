@@ -10,7 +10,7 @@ const root = new nc.Circle(100, {
 }).animate(nc.create, 0, 60).animate(nc.move, 60, 60, {
   from: [800, 100],
   to: [800, 800],
-  by: nc.easeBounce
+  by: nc.easeBounce,
 })
 const scene = new nc.Scene(root)
 app.checkout(scene)

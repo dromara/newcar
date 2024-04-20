@@ -1,6 +1,6 @@
-import { $source } from "./global"
+import { $source } from './global'
 
-export const useFont = async (src: string) => {
+export async function useFont(src: string) {
   const response = await fetch(src)
   const array = await response.arrayBuffer()
   $source.fonts.push(array)

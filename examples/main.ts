@@ -2,6 +2,8 @@ import { CarEngine } from 'newcar'
 import { Markdown } from '@newcar/mod-markdown'
 import { Angle } from '@newcar/mod-geometry'
 
+import * as nc from 'newcar'
+
 await nc.useFont(
   'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
 )
@@ -9,8 +11,6 @@ await nc.useFont(
 const engine = await new CarEngine().init(
   './node_modules/canvaskit-wasm/bin/canvaskit.wasm',
 )
-
-import * as nc from 'newcar'
 
 export const scene1 = new nc.Scene(
   new nc.Circle(100, {

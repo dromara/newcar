@@ -1,8 +1,9 @@
-import { WidgetOptions, WidgetStyle, Widget } from '@newcar/core'
+import type { WidgetOptions, WidgetStyle } from '@newcar/core'
+import { Widget } from '@newcar/core'
 import { Color } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
-import { Domain } from '../utils/domain'
-import { Range } from '../utils/range'
+import type { Domain } from '../utils/domain'
+import type { Range } from '../utils/range'
 
 export interface MathFunctionOptions extends WidgetOptions {
   divisionY?: number
@@ -33,7 +34,7 @@ export class MathFunction extends Widget {
   ) {
     options ??= {}
     super(options)
-    this.range = options.range ?? [-Infinity, Infinity]
+    this.range = options.range ?? [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY]
     this.divisionX = options.divisionX ?? 50
     this.divisionY = options.divisionY ?? 50
     options.style ??= {}
@@ -70,8 +71,8 @@ export class MathFunction extends Widget {
         this.path.moveTo(this.domain[0], this.fn(this.domain[0]))
         for (
           let x = this.domain[0];
-          x <=
-          this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
+          x
+          <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
           x += 1 / this.divisionX
         ) {
           const value = this.fn(x)

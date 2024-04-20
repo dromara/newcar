@@ -1,23 +1,25 @@
-export const createCanvas = (w?: number, h?: number): HTMLCanvasElement => {
+export function createCanvas(w?: number, h?: number): HTMLCanvasElement {
   const el = document.createElement('canvas')
-  if (w != null) el.width = w
-  if (h != null) el.height = h
+  if (w != null)
+    el.width = w
+  if (h != null)
+    el.height = h
   return el
 }
 
-export const isNull = (v: unknown): v is void => {
+export function isNull(v: unknown): v is void {
   return v == void 0
 }
 
-export const isUndefined = (v: unknown): v is void => {
+export function isUndefined(v: unknown): v is void {
   return typeof v === 'undefined'
 }
 
-export const isEqual = (a: unknown, b: unknown): boolean => {
+export function isEqual(a: unknown, b: unknown): boolean {
   return Object.is(a, b)
 }
 
-export const isString = (v: unknown): v is void => {
+export function isString(v: unknown): v is void {
   return typeof v === 'string'
 }
 
@@ -26,5 +28,5 @@ export function isAsyncFunction(func: (...parameters: any[]) => any) {
 }
 
 export function isObject(item: any): boolean {
-  return (item && typeof item === 'object' && !Array.isArray(item));
+  return (item && typeof item === 'object' && !Array.isArray(item))
 }

@@ -1,7 +1,10 @@
-import { Widget, WidgetOptions, WidgetStyle } from '@newcar/core'
-import { NumberAxis, NumberAxisOptions } from './numberAxis'
+import type { WidgetOptions, WidgetStyle } from '@newcar/core'
+import { Widget } from '@newcar/core'
 import { Color } from '@newcar/utils'
-import { Line, LineOptions, Text, TextOptions } from '@newcar/basic'
+import type { LineOptions } from '@newcar/basic'
+import { Line, Text } from '@newcar/basic'
+import { NumberAxis } from './numberAxis'
+import type { NumberAxisOptions } from './numberAxis'
 
 export interface NumberPlaneOptions extends WidgetOptions {
   style?: NumberPlaneStyle
@@ -54,8 +57,8 @@ export class NumberPlane extends Widget {
     this.axisX = new NumberAxis(this.fromX, this.toX, this.axisXOptions)
     this.axisY = new NumberAxis(this.fromY, this.toY, this.axisYOptions)
     this.gridOptions = options.gridOptions ?? {}
-    let counter =
-      (this.fromX - (this.fromX % this.axisX.interval)) / this.axisX.interval
+    let counter
+      = (this.fromX - (this.fromX % this.axisX.interval)) / this.axisX.interval
     for (
       let x = this.axisX.from;
       x <= this.axisX.to;
@@ -86,8 +89,8 @@ export class NumberPlane extends Widget {
       )
       counter += 1
     }
-    counter =
-      (this.fromY - (this.fromY % this.axisY.interval)) / this.axisY.interval
+    counter
+      = (this.fromY - (this.fromY % this.axisY.interval)) / this.axisY.interval
     for (
       let y = this.axisY.from;
       y <= this.axisY.to;

@@ -1,10 +1,11 @@
-import {
+import type {
   Canvas,
   CanvasKit,
-  TextStyle,
   ParagraphBuilder,
+  TextStyle,
 } from 'canvaskit-wasm'
-import { $source, Widget, WidgetOptions } from '@newcar/core'
+import type { WidgetOptions } from '@newcar/core'
+import { $source, Widget } from '@newcar/core'
 import { Color } from '@newcar/utils'
 
 export interface MarkdownOptions extends WidgetOptions {
@@ -52,11 +53,10 @@ export class Markdown extends Widget {
   predraw(ck: CanvasKit, propertyChanged: string): void {
     // 重新构建段落当文本或样式更改
     if (
-      propertyChanged === 'text' ||
-      propertyChanged.match('textStyle.')
-    ) {
+      propertyChanged === 'text'
+      || propertyChanged.match('textStyle.')
+    )
       this.buildParagraph(ck)
-    }
   }
 
   private buildParagraph(ck: CanvasKit) {
@@ -92,7 +92,8 @@ export class Markdown extends Widget {
 
         builder.addText(line.slice(2))
         builder.pop()
-      } else if (line.match('## ')) {
+      }
+      else if (line.match('## ')) {
         builder.pushStyle(
           new ck.TextStyle({
             fontSize: 20,
@@ -101,7 +102,8 @@ export class Markdown extends Widget {
         )
         builder.addText(line.slice(3))
         builder.pop()
-      } else if (line.match('### ')) {
+      }
+      else if (line.match('### ')) {
         builder.pushStyle(
           new ck.TextStyle({
             fontSize: 18,
@@ -110,13 +112,16 @@ export class Markdown extends Widget {
         )
         builder.addText(line.slice(4))
         builder.pop()
-      } else if (line.match('- ') !== null || line.match(/\* /) !== null || line.match(/\+/) !== null) {
+      }
+      else if (line.match('- ') !== null || line.match(/\* /) !== null || line.match(/\+/) !== null) {
         builder.addText(`• ${line.slice(2)}`)
-      } else if (line.match(/\!\[/)) {
+      }
+      else if (line.match(/\!\[/)) {
         this.handleImage(line, builder, ck)
-      } else if (line.match(/\[/)) {
+      }
+      else if (line.match(/\[/)) {
         builder.pushStyle(new ck.TextStyle({
-          color: ck.BLUE
+          color: ck.BLUE,
         }))
         builder.addText(line.replace(/\[/, '').replace(/\]/, '').replace(/(.+)/, ''))
         builder.pop()

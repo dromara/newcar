@@ -1,4 +1,4 @@
-import { FigureOptions } from './figure'
+import type { FigureOptions } from './figure'
 import { Arc } from './arc'
 
 export class Circle extends Arc {

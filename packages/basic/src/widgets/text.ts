@@ -1,34 +1,32 @@
-import {
-  $source,
-  AsyncWidget,
-  AsyncWidgetResponse,
-  Widget,
+import type {
   WidgetOptions,
   WidgetStyle,
 } from '@newcar/core'
-import { Color, isString, isUndefined, deepMerge } from '@newcar/utils'
+import {
+  $source,
+  Widget,
+} from '@newcar/core'
+import { Color, deepMerge, isString, isUndefined } from '@newcar/utils'
 import type {
-  TextAlign,
-  TextDirection,
-  TextHeightBehavior,
-  TextBaseline,
-} from '../utils/types'
-import type {
+  Canvas,
   CanvasKit,
-  FontMgr,
-  StrutStyle,
-  TextStyle as ckTextStyle,
-  ParagraphStyle as ckParagraphStyle,
   DecorationStyle,
-  TextFontFeatures,
+  FontMgr,
   FontStyle,
+  Paint,
+  ParagraphBuilder,
+  StrutStyle,
+  TextFontFeatures,
   TextFontVariations,
   TextShadow,
-  ParagraphBuilder,
-  Canvas,
   Paragraph as ckParagraph,
-  Paint,
 } from 'canvaskit-wasm'
+import type {
+  TextAlign,
+  TextBaseline,
+  TextDirection,
+  TextHeightBehavior,
+} from '../utils/types'
 import {
   str2TextAlign,
   str2TextBaseline,
@@ -139,7 +137,8 @@ export class Text extends Widget {
             fontSize: 50,
           },
         })
-      } else {
+      }
+      else {
         this.text.push(item as InputItem)
       }
     }
@@ -148,8 +147,8 @@ export class Text extends Widget {
   init(ck: CanvasKit) {
     this.textAlign = this.inputOptions.style.textAlign ?? 'start'
     this.textDirection = this.inputOptions.style.textDirection ?? 'ltr'
-    this.textHeightBehavior =
-      this.inputOptions.style.textHeightBehavior ?? 'all'
+    this.textHeightBehavior
+      = this.inputOptions.style.textHeightBehavior ?? 'all'
     this.fontManager = ck.FontMgr.FromData(...$source.fonts)
     this.builder = ck.ParagraphBuilder.Make(
       new ck.ParagraphStyle({
