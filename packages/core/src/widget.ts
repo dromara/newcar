@@ -1,6 +1,8 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import type { Animation, AnimationInstance } from './animation'
 import { deepClone } from './utils/deepClone'
+import type { AnimationTree } from './animationTree';
+import { analyseAnimationTree } from './animationTree'
 
 export type WidgetInstance<T extends Widget> = T
 
@@ -135,6 +137,10 @@ export class Widget {
     })
 
     return this
+  }
+
+  animateTree(tree: AnimationTree, startAt: number) {
+    this.animationInstances.push(...analyseAnimationTree(tree, startAt))
   }
 
   runAnimation(elapsed: number) {
