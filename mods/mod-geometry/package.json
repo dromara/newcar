@@ -2,13 +2,37 @@
   "name": "@newcar/mod-geometry",
   "version": "0.1.1",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "publish": "npm publish",
+    "build": "pkgroll --sourcemap --minify",
+    "dev": "pkgroll -w"
+  },
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "@newcar/basic": "workspace:0.14.0",
-    "@newcar/core": "workspace:0.14.0",
-    "@newcar/utils": "workspace:0.14.0",
+    "@newcar/core": "workspace:*",
+    "@newcar/utils": "workspace:*",
+    "@newcar/basic": "workspace:*"
+  },
+  "devDependencies": {
     "canvaskit-wasm": "0.39.1"
+  },
+  "peerDependencies": {
+    "canvaskit-wasm": ">=0.39.1"
+  },
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

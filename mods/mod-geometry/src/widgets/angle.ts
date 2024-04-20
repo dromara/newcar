@@ -26,11 +26,13 @@ export class Angle extends Widget {
   unitSystem: 'angle' | 'radian'
   declare style: AngleStyle
   paint: Paint
+  endSide: Line
   private endX: number
   private endY: number
   constructor(
     public basis: Line,
     public value: number,
+    public length: number,
     options?: AngleOptions,
   ) {
     options ??= {}
@@ -42,6 +44,10 @@ export class Angle extends Widget {
     this.style.graduatedArc = options.style.graduatedArc ?? true
     this.style.join = options.style.join ?? 'miter'
     this.style.cap = options.style.cap ?? 'square'
+    this.endX = this.basis.to[0] + length * Math.cos(this.value)
+    this.endY = this.basis.to[1] + length * Math.sin(this.value)
+    this.endSide = new Line(this.basis.from, [this.endX, this.endY])
+    this.add(this.basis, this.endSide)
   }
 
   init(ck: CanvasKit): void {
@@ -49,22 +55,16 @@ export class Angle extends Widget {
     this.paint.setColor(this.style.color!.toFloat4())
     this.paint.setStrokeJoin(str2StrokeJoin(ck, this.style.join!))
     this.paint.setStrokeCap(str2StrokeCap(ck, this.style.cap!))
-    this.endX = this.basis[0] + length * Math.cos(this.value)
-    this.endY = this.basis[1] + length * Math.sin(this.value)
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
     switch (propertyChanged) {
       case 'value': {
-        this.endX = this.basis[0] + length * Math.cos(this.value)
-        this.endY = this.basis[1] + length * Math.sin(this.value)
+        this.endX = this.basis.to[0] + length * Math.cos(this.value)
+        this.endY = this.basis.to[1] + length * Math.sin(this.value)
+        this.endSide.to = [this.endX, this.endY]
         break
       }
     }
-  }
-
-  draw(canvas: Canvas): void {
-    canvas.drawLine(...this.basis.from, ...this.basis.to, this.paint)
-    canvas.drawLine(...this.basis.from, this.endX, this.endY, this.paint)
   }
 }
