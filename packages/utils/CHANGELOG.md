@@ -1,5 +1,11 @@
 # @newcar/utils
 
+## 0.14.1
+
+### Patch Changes
+
+- fix: Failed to load sources under the node.
+
 ## 0.14.0
 
 ### Minor Changes

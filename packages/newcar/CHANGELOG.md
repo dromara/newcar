@@ -1,5 +1,16 @@
 # newcar
 
+## 0.14.1
+
+### Patch Changes
+
+- fix: Failed to load sources under the node.
+- Updated dependencies
+  - @newcar/basic@0.14.1
+  - @newcar/core@0.14.1
+  - @newcar/recorder@0.14.1
+  - @newcar/utils@0.14.1
+
 ## 0.14.0
 
 ### Minor Changes
