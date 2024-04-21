@@ -94,4 +94,9 @@ export class Arc extends Figure {
       )
     }
   }
+
+  isIn(x: number, y: number): boolean {
+    const distance = Math.sqrt(x * x + y * y);
+    return distance <= this.radius
+  }
 }

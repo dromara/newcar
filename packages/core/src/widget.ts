@@ -118,8 +118,10 @@ export class Widget {
    * @param children The added children.
    */
   add(...children: Widget[]): this {
-    for (const child of children)
+    for (const child of children) {
+      child.parent = child
       this.children.push(child)
+    }
 
     return this
   }
@@ -217,11 +219,22 @@ export class Widget {
     return deepClone(this)
   }
 
-  isIn(): boolean {
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  isIn(x: number, y: number): boolean {
     return false
   }
 
-  isOnSide(): boolean {
-    return false
+  static getAbsoluteCoordinates(widget: Widget): { x: number, y: number } {
+    let x = widget.x;
+    let y = widget.y;
+    let parent = widget.parent;
+  
+    while (parent) {
+      x += parent.x;
+      y += parent.y;
+      parent = parent.parent;
+    }
+  
+    return { x, y };
   }
 }
