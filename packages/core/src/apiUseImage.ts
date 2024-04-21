@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import path from 'node:path'
 import { $source } from './global'
 
 export async function useImage(src: string) {
@@ -8,7 +9,7 @@ export async function useImage(src: string) {
     $source.images.push(array)
     return array
   } else {
-    const buffer = fs.readFileSync(src)
+    const buffer = fs.readFileSync(path.resolve(src))
     const array = buffer.buffer.slice(
       buffer.byteOffset,
       buffer.byteOffset + buffer.byteLength

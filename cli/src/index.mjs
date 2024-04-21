@@ -3,6 +3,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { exec } from 'node:child_process'
 import ffmpeg from 'fluent-ffmpeg'
 import {
   Clerc,
@@ -13,7 +14,7 @@ import {
   versionPlugin,
 } from 'clerc'
 
-const main = Clerc.create()
+export const main = Clerc.create()
   .name('Newcar Location Cli')
   .scriptName('ncli')
   .version('1.0.0')
@@ -43,6 +44,7 @@ const main = Clerc.create()
             console.error(`An error occurred: ${err.message}`)
           })
           .on('end', () => {
+            // eslint-disable-next-line no-console
             console.log('Processing finished !')
             // clear image files
             tempFiles.forEach(file => fs.unlinkSync(file))
@@ -54,6 +56,12 @@ const main = Clerc.create()
           .run()
       },
     )
+  })
+  .command('create', 'Creating a local Newcar project.', {
+    parameters: ['<name>'],
+  })
+  .on('create', (context) => {
+    exec(`git clone https://github.com/dromara/newcar-local-template.git ${context.parameters.name}`)
   })
   .use(
     helpPlugin(),

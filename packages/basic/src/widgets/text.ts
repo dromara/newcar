@@ -151,23 +151,25 @@ export class Text extends Widget {
       = this.inputOptions.style.textHeightBehavior ?? 'all'
     this.fontManager = ck.FontMgr.FromData(...$source.fonts)
     this.builder = ck.ParagraphBuilder.Make(
-      new ck.ParagraphStyle({
-        ...this.style,
-        ...{
+      new ck.ParagraphStyle(deepMerge({
           textAlign: str2TextAlign(ck, this.textAlign),
           textDirection: str2TextDirection(ck, this.textDirection),
           textHeightBehavior: str2TextHeightBehavior(
             ck,
             this.textHeightBehavior,
           ),
+          textStyle: {
+            color: ck.WHITE
+          }
         },
-      }),
+        this.style
+      )),
       this.fontManager,
     )
     for (const item of this.text) {
       this.builder.pushStyle(
         new ck.TextStyle(
-          deepMerge(item.style, {
+          deepMerge({
             backgroundColor: isUndefined(item.style.backgroundColor)
               ? ck.Color4f(1, 1, 1, 0)
               : item.style.backgroundColor.toFloat4(),
@@ -183,7 +185,7 @@ export class Text extends Widget {
             textBaseline: isUndefined(item.style.textBaseline)
               ? ck.TextBaseline.Alphabetic
               : str2TextBaseline(ck, item.style.textBaseline),
-          }),
+          }, item.style),
         ),
       )
       this.builder.addText(item.text)

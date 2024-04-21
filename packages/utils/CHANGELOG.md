@@ -1,5 +1,11 @@
 # @newcar/utils
 
+## 0.14.2
+
+### Patch Changes
+
+- fix: failed to load sources under local mode.
+
 ## 0.14.1
 
 ### Patch Changes

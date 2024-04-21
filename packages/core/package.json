@@ -1,10 +1,10 @@
 {
   "name": "@newcar/core",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "description": "The core of newcar.",
   "scripts": {
     "publish": "npm publish",
-    "build": "pkgroll --sourcemap --minify",
+    "build": "pkgroll --sourcemap",
     "dev": "pkgroll -w"
   },
   "keywords": [

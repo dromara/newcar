@@ -1,6 +1,6 @@
 {
   "name": "@newcar/basic",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "description": "The basic objects, animations and interpolators of newcar.",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "publish": "npm publish",
-    "build": "pkgroll --sourcemap --minify",
+    "build": "pkgroll --sourcemap",
     "dev": "pkgroll -w"
   },
   "exports": {
