@@ -13,3 +13,5 @@ export * from './apiUseFont'
 export * from './apiUseImage'
 
 export * from './localApp'
+
+export * from './event'

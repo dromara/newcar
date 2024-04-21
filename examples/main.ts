@@ -16,7 +16,9 @@ export const scene1 = new nc.Scene(
   new nc.Circle(100, {
     x: 200,
     y: 200,
-  }).animate(nc.create, 0, 30),
+  }).animate(nc.create, 0, 30).on(nc.keyPressed, (widget, keycode) => {
+    console.log(keycode)
+  })
 )
 
 export const scene2 = new nc.Scene(

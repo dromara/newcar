@@ -3,6 +3,7 @@ import type { Animation, AnimationInstance } from './animation'
 import { deepClone } from './utils/deepClone'
 import type { AnimationTree } from './animationTree';
 import { analyseAnimationTree } from './animationTree'
+import type { Event, EventInstance } from './event';
 
 export type WidgetInstance<T extends Widget> = T
 
@@ -39,6 +40,7 @@ export class Widget {
   display = true
   isImplemented = false // If the widget is implemented by App.impl
   animationInstances: AnimationInstance[] = []
+  eventInstances: EventInstance[] = []
   updates: ((elapsed: number, widget: Widget) => void)[] = []
   key = `widget-${0}-${performance.now()}-${Math.random()
     .toString(16)
@@ -139,6 +141,18 @@ export class Widget {
     return this
   }
 
+  on(event: Event, effect: (widget: Widget, ...args: any[]) => any): this {
+    this.eventInstances.push({
+      event,
+      effect
+    })
+    if (typeof window === 'undefined') 
+      console.warn('[Newcar Warn] You are using local mode, events system was not supported')
+    event.operation(this, effect)
+
+    return this
+  }
+
   animateTree(tree: AnimationTree, startAt: number) {
     this.animationInstances.push(...analyseAnimationTree(tree, startAt))
   }
@@ -198,7 +212,15 @@ export class Widget {
     return this
   }
 
-  copy() {
+  copy(): this {
     return deepClone(this)
+  }
+
+  isIn(): boolean {
+    return false
+  }
+
+  isOnSide(): boolean {
+    return false
   }
 }
