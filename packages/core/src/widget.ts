@@ -45,6 +45,7 @@ export class Widget {
   key = `widget-${0}-${performance.now()}-${Math.random()
     .toString(16)
     .slice(2)}`
+  parent: Widget | null
 
   constructor(options?: WidgetOptions) {
     options ??= {}
