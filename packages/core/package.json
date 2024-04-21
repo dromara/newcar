@@ -25,7 +25,6 @@
     "mitt": "^3.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.12.7",
     "canvaskit-wasm": "0.39.1"
   },
   "types": "./dist/index.d.ts",

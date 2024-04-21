@@ -26,6 +26,7 @@
     "typescript": "^5.3.3",
     "vite": "^5.0.12",
     "@antfu/eslint-config": "^2.15.0",
-    "eslint": "^9.0.0"
+    "eslint": "^9.0.0",
+    "@types/node": "^20.12.7"
   }
 }

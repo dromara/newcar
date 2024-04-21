@@ -1,4 +1,7 @@
+import path from 'node:path'
 import * as n from 'newcar'
+
+const i = await n.useImage(path.resolve('../assets/poster1.gif'))
 
 const engine = await new n.CarEngine().init('./node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 const app = engine.createLocalApp(600, 600)
