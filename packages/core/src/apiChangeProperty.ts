@@ -41,11 +41,17 @@ export function changeProperty<T extends Widget>(
       let from = defaultFrom !== undefined ? defaultFrom : params?.from
       let to = defaultTo !== undefined ? defaultTo : params?.to
 
-      // Ensure `from` and `to` values are provided either as defaults or through `params`.
-      if (from === undefined || to === undefined) {
-        throw new Error(
-          'Animation requires `from` and `to` values to be provided either as defaults or through params.',
-        )
+      // If `from` and `to` values are not provided either as defaults or through `params`, use the widget's current values.
+      if (from === undefined && to === undefined) {
+        from = Array.isArray(propertyName) ? propertyName.map(prop => widget[prop]) : widget[propertyName]
+        to = from
+      }
+      // If only one of `from` or `to` value is provided, use the widget's current value for the missing one.
+      else if (from === undefined) {
+        from = Array.isArray(propertyName) ? propertyName.map(prop => widget[prop]) : widget[propertyName]
+      }
+      else if (to === undefined) {
+        to = Array.isArray(propertyName) ? propertyName.map(prop => widget[prop]) : widget[propertyName]
       }
 
       // Normalize `from` and `to` values to arrays if they are not already.
