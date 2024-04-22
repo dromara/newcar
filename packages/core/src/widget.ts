@@ -1,9 +1,9 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import type { Animation, AnimationInstance } from './animation'
 import { deepClone } from './utils/deepClone'
-import type { AnimationTree } from './animationTree';
+import type { AnimationTree } from './animationTree'
 import { analyseAnimationTree } from './animationTree'
-import type { Event, EventInstance } from './event';
+import type { Event, EventInstance } from './event'
 
 export type WidgetInstance<T extends Widget> = T
 
@@ -45,6 +45,7 @@ export class Widget {
   key = `widget-${0}-${performance.now()}-${Math.random()
     .toString(16)
     .slice(2)}`
+
   parent: Widget | null
   hasSet = false
 
@@ -148,9 +149,9 @@ export class Widget {
   on(event: Event, effect: (widget: Widget, ...args: any[]) => any): this {
     this.eventInstances.push({
       event,
-      effect
+      effect,
     })
-    if (typeof window === 'undefined') 
+    if (typeof window === 'undefined')
       console.warn('[Newcar Warn] You are using local mode, events system was not supported')
     return this
   }
@@ -191,10 +192,18 @@ export class Widget {
   }
 
   setEventListener(element: HTMLCanvasElement) {
-    for (const instance of this.eventInstances) 
+    for (const instance of this.eventInstances) {
       instance.event.operation(this, instance.effect, element)
+      for (const child of this.children) {
+        child.eventInstances.push({
+          effect: instance.effect,
+          event: instance.event,
+        })
+      }
+    }
+
     this.hasSet = true
-    for (const child of this.children) 
+    for (const child of this.children)
       child.setEventListener(element)
   }
 
@@ -232,24 +241,24 @@ export class Widget {
   }
 
   static getAbsoluteCoordinates(widget: Widget): { x: number, y: number } {
-    let x = widget.x;
-    let y = widget.y;
-    let parent = widget.parent;
-  
+    let x = widget.x
+    let y = widget.y
+    let parent = widget.parent
+
     while (parent) {
-      x += parent.x;
-      y += parent.y;
-      parent = parent.parent;
+      x += parent.x
+      y += parent.y
+      parent = parent.parent
     }
-  
-    return { x, y };
+
+    return { x, y }
   }
 
   static absoluteToRelative(widget: Widget, x: number, y: number): { x: number, y: number } {
-    const { x: widgetX, y: widgetY } = Widget.getAbsoluteCoordinates(widget);
-    const relativeX = x - widgetX;
-    const relativeY = y - widgetY;
-  
-    return { x: relativeX, y: relativeY };
+    const { x: widgetX, y: widgetY } = Widget.getAbsoluteCoordinates(widget)
+    const relativeX = x - widgetX
+    const relativeY = y - widgetY
+
+    return { x: relativeX, y: relativeY }
   }
 }
