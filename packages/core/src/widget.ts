@@ -46,6 +46,7 @@ export class Widget {
     .toString(16)
     .slice(2)}`
   parent: Widget | null
+  hasSet = false
 
   constructor(options?: WidgetOptions) {
     options ??= {}
@@ -151,8 +152,6 @@ export class Widget {
     })
     if (typeof window === 'undefined') 
       console.warn('[Newcar Warn] You are using local mode, events system was not supported')
-    event.operation(this, effect)
-
     return this
   }
 
@@ -189,6 +188,14 @@ export class Widget {
 
     for (const child of this.children)
       child.runAnimation(elapsed)
+  }
+
+  setEventListener(element: HTMLCanvasElement) {
+    for (const instance of this.eventInstances) 
+      instance.event.operation(this, instance.effect, element)
+    this.hasSet = true
+    for (const child of this.children) 
+      child.setEventListener(element)
   }
 
   /**
@@ -236,5 +243,13 @@ export class Widget {
     }
   
     return { x, y };
+  }
+
+  static absoluteToRelative(widget: Widget, x: number, y: number): { x: number, y: number } {
+    const { x: widgetX, y: widgetY } = Widget.getAbsoluteCoordinates(widget);
+    const relativeX = x - widgetX;
+    const relativeY = y - widgetY;
+  
+    return { x: relativeX, y: relativeY };
   }
 }

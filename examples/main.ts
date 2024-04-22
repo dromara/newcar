@@ -13,10 +13,7 @@ const engine = await new CarEngine().init(
 )
 
 export const scene1 = new nc.Scene(
-  new nc.Circle(100, {
-    x: 200,
-    y: 200,
-  }).animate(nc.create, 0, 30).on(nc.keyPressed, (widget, keycode) => {
+  new nc.Circle(100).animate(nc.create, 0, 30).on(nc.click, (widget, keycode) => {
     console.log(keycode)
   })
 )
