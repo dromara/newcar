@@ -1,8 +1,8 @@
-import { Widget, defineEvent } from '@newcar/core'
+import { Widget, defineEvent } from "@newcar/core";
 
-export const click = defineEvent({
-  operation(widget, effect: (widget: Widget, x: number, y: number) => any, element) {
-    element.addEventListener('click', (event: MouseEvent) => {
+export const mouseEnter = defineEvent({
+  operation(widget, effect, element) {
+    element.addEventListener('mouseenter', (event) => {
       const rect = element.getBoundingClientRect()
       const absoluteX = event.clientX - rect.left
       const absoluteY = event.clientY - rect.top
@@ -11,7 +11,5 @@ export const click = defineEvent({
       if (isIn)
         effect(widget, x, y)
     })
-  },
+  }
 })
-
-// Engine -> App -> Scene -> Widget(root)
