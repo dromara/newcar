@@ -25,7 +25,10 @@ export const scene2 = new nc.Scene(
 export const scene3 = new nc.Scene(
   new nc.Arrow([50, 350], [350, 50])
     .animate(nc.create, 0, 30)
-    .on(nc.)
+    .on(nc.click, (w, x, y) => {
+      console.log('www');
+      
+    })
 )
 
 export const scene4 = new nc.Scene(

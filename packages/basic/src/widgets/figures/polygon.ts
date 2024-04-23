@@ -106,22 +106,25 @@ export class Polygon extends Figure {
   }
 
   isIn(x: number, y: number): boolean {
-    let inside = false;
-    const n = this.points.length;
+    let inside = false
+    const n = this.points.length
 
     for (let i = 0, j = n - 1; i < n; j = i++) {
-        const xi = this.points[i][0];
-        const yi = this.points[i][1];
-        const xj = this.points[j][0];
-        const yj = this.points[j][1];
+      const xi = this.points[i][0]
+      const yi = this.points[i][1]
+      const xj = this.points[j][0]
+      const yj = this.points[j][1]
 
-        const intersect =
-            ((yi > y) !== (yj > y)) &&
-            (x < ((xj - xi) * (y - yi)) / (yj - yi) + xi);
+      const intersect
+      = ((yi > y) !== (yj > y))
+      && (x < ((xj - xi) * (y - yi)) / (yj - yi) + xi)
 
-        if (intersect) inside = !inside;
+      if (intersect)
+        inside = !inside
     }
+    console.log(inside);
+    
 
-    return inside;
+    return inside
   }
 }
