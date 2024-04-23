@@ -122,8 +122,6 @@ export class Polygon extends Figure {
       if (intersect)
         inside = !inside
     }
-    console.log(inside);
-    
 
     return inside
   }

@@ -13,10 +13,12 @@ const engine = await new CarEngine().init(
 )
 
 export const scene1 = new nc.Scene(
-  new nc.Circle(100).animate(nc.create, 0, 30).on(nc.click, (widget, keycode) => {
-    console.log(keycode)
-  })
-)
+  new nc.Circle(100).animate(nc.create, 0, 30).on(nc.click, (w, x, y) => {
+    w.x = x
+    w.y = y
+    console.log(x, y);
+    
+  }))
 
 export const scene2 = new nc.Scene(
   new nc.Line([0, 0], [400, 400]).animate(nc.create, 0, 30),
@@ -25,10 +27,6 @@ export const scene2 = new nc.Scene(
 export const scene3 = new nc.Scene(
   new nc.Arrow([50, 350], [350, 50])
     .animate(nc.create, 0, 30)
-    .on(nc.click, (w, x, y) => {
-      console.log('www');
-      
-    })
 )
 
 export const scene4 = new nc.Scene(
