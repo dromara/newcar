@@ -1,8 +1,9 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import type { Animation, AnimationInstance } from './animation'
 import { deepClone } from './utils/deepClone'
-import type { AnimationTree } from './animationTree';
+import type { AnimationTree } from './animationTree'
 import { analyseAnimationTree } from './animationTree'
+import type { Event, EventInstance } from './event'
 
 export type WidgetInstance<T extends Widget> = T
 
@@ -39,10 +40,14 @@ export class Widget {
   display = true
   isImplemented = false // If the widget is implemented by App.impl
   animationInstances: AnimationInstance[] = []
+  eventInstances: EventInstance[] = []
   updates: ((elapsed: number, widget: Widget) => void)[] = []
   key = `widget-${0}-${performance.now()}-${Math.random()
     .toString(16)
     .slice(2)}`
+
+  parent: Widget | null
+  hasSet = false
 
   constructor(options?: WidgetOptions) {
     options ??= {}
@@ -115,8 +120,10 @@ export class Widget {
    * @param children The added children.
    */
   add(...children: Widget[]): this {
-    for (const child of children)
+    for (const child of children) {
+      child.parent = child
       this.children.push(child)
+    }
 
     return this
   }
@@ -136,6 +143,16 @@ export class Widget {
       mode: params.mode ?? 'positive',
     })
 
+    return this
+  }
+
+  on(event: Event, effect: (widget: Widget, ...args: any[]) => any): this {
+    this.eventInstances.push({
+      event,
+      effect,
+    })
+    if (typeof window === 'undefined')
+      console.warn('[Newcar Warn] You are using local mode, events system was not supported')
     return this
   }
 
@@ -174,6 +191,22 @@ export class Widget {
       child.runAnimation(elapsed)
   }
 
+  setEventListener(element: HTMLCanvasElement) {
+    for (const instance of this.eventInstances) {
+      instance.event.operation(this, instance.effect, element)
+      for (const child of this.children) {
+        child.eventInstances.push({
+          effect: instance.effect,
+          event: instance.event,
+        })
+      }
+    }
+
+    this.hasSet = true
+    for (const child of this.children)
+      child.setEventListener(element)
+  }
+
   /**
    * Set up a update function to call it when the widget is changed.
    * @param updateFunc The frame from having gone to current frame.
@@ -198,7 +231,34 @@ export class Widget {
     return this
   }
 
-  copy() {
+  copy(): this {
     return deepClone(this)
+  }
+
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  isIn(x: number, y: number): boolean {
+    return false
+  }
+
+  static getAbsoluteCoordinates(widget: Widget): { x: number, y: number } {
+    let x = widget.x
+    let y = widget.y
+    let parent = widget.parent
+
+    while (parent) {
+      x += parent.x
+      y += parent.y
+      parent = parent.parent
+    }
+
+    return { x, y }
+  }
+
+  static absoluteToRelative(widget: Widget, x: number, y: number): { x: number, y: number } {
+    const { x: widgetX, y: widgetY } = Widget.getAbsoluteCoordinates(widget)
+    const relativeX = x - widgetX
+    const relativeY = y - widgetY
+
+    return { x: relativeX, y: relativeY }
   }
 }

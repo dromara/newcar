@@ -94,4 +94,13 @@ export class Arc extends Figure {
       )
     }
   }
+
+  isIn(x: number, y: number): boolean {
+    const dx = x - this.x; // x轴方向上的距离
+    const dy = y - this.y; // y轴方向上的距离
+    const distance = Math.sqrt(dx * dx + dy * dy); // 与圆心的距离
+
+    // 判断是否在圆内
+    return distance <= this.radius;
+}
 }

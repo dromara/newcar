@@ -92,4 +92,13 @@ export class Rect extends Figure {
     if (this.style.fill)
       canvas.drawRect(this.rect, this.fillPaint)
   }
+
+  isIn(x: number, y: number): boolean {
+    const rectX = Math.abs(this.from[0])
+    const rectY = Math.abs(this.from[1])
+    const rectWidth = Math.abs(this.from[0] - this.to[0])
+    const rectHeight = Math.abs(this.from[1] - this.to[1])
+
+    return x >= rectX && x <= rectX + rectWidth && y >= rectY && y <= rectY + rectHeight
+  }
 }

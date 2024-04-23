@@ -56,4 +56,11 @@ export class Line extends Widget {
       this.paint,
     )
   }
+
+  isIn(x: number, y: number): boolean {
+    const slope = (this.to[1] - this.from[1]) / (this.to[0] - this.from[0]);
+    const yIntercept = this.from[1] - slope * this.from[0]
+    const expectedY = slope * x + yIntercept;
+    return Math.abs(y - expectedY) < Number.EPSILON;
+  }
 }
