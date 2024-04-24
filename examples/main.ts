@@ -27,6 +27,9 @@ export const scene2 = new nc.Scene(
 export const scene3 = new nc.Scene(
   new nc.Arrow([50, 350], [350, 50])
     .animate(nc.create, 0, 30)
+    .on(nc.mouseMove, (w, x, y) => {
+      console.log(w, x, y)
+    })
 )
 
 export const scene4 = new nc.Scene(
@@ -57,26 +60,15 @@ export const scene4 = new nc.Scene(
 )
 
 const scene5 = new nc.Scene(
-  new Markdown(
-    `
-# Hello Newcar!
-
-No let us use the markdown to write!
-
-This is [ALink](https://bugduck.org)
-
-This is a list
-
-- Hello
-- Newcar
-
-And this is a [link](xxx)
-`,
-    {
-      x: 100,
-      y: 100,
-    },
-  ),
+  new nc.Polygon(
+    [
+      [200, 300],
+      [400, 500],
+      [100, 100]
+    ]
+  ).on(nc.click, (w, x, y) => {
+    console.log(w, x, y)
+  })
 )
 
 const scene6 = new nc.Scene(new Angle(new nc.Line([100, 100], [200, 100]), 45, 100))

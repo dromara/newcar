@@ -192,15 +192,9 @@ export class Widget {
   }
 
   setEventListener(element: HTMLCanvasElement) {
-    for (const instance of this.eventInstances) {
+    for (const instance of this.eventInstances) 
       instance.event.operation(this, instance.effect, element)
-      for (const child of this.children) {
-        child.eventInstances.push({
-          effect: instance.effect,
-          event: instance.event,
-        })
-      }
-    }
+    
 
     this.hasSet = true
     for (const child of this.children)
@@ -241,24 +235,28 @@ export class Widget {
   }
 
   static getAbsoluteCoordinates(widget: Widget): { x: number, y: number } {
-    let x = widget.x
-    let y = widget.y
-    let parent = widget.parent
-
-    while (parent) {
-      x += parent.x
-      y += parent.y
-      parent = parent.parent
+    function getCoordinates(widget: Widget, x: number, y: number): { x: number, y: number } {
+      let parent = widget.parent
+      let absoluteX = x
+      let absoluteY = y
+  
+      while (parent) {
+        absoluteX += parent.x
+        absoluteY += parent.y
+        parent = parent.parent
+      }
+  
+      return { x: absoluteX, y: absoluteY }
     }
-
-    return { x, y }
+  
+    return getCoordinates(widget, widget.x, widget.y)
   }
-
+  
   static absoluteToRelative(widget: Widget, x: number, y: number): { x: number, y: number } {
-    const { x: widgetX, y: widgetY } = Widget.getAbsoluteCoordinates(widget)
-    const relativeX = x - widgetX
-    const relativeY = y - widgetY
-
+    const { x: absoluteX, y: absoluteY } = Widget.getAbsoluteCoordinates(widget)
+    const relativeX = x - absoluteX
+    const relativeY = y - absoluteY
+  
     return { x: relativeX, y: relativeY }
   }
 }

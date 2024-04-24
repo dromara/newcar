@@ -2,7 +2,7 @@ import { Widget, defineEvent } from "@newcar/core";
 
 export const mouseLeave = defineEvent({
   operation(widget, effect, element) {
-    element.addEventListener('mouseleave', (event) => {
+    element.addEventListener('mouseout', (event) => {
       const rect = element.getBoundingClientRect()
       const absoluteX = event.clientX - rect.left
       const absoluteY = event.clientY - rect.top

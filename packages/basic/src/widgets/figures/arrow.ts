@@ -5,6 +5,7 @@ import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 import { Polygon } from './polygon'
 import { Line } from './line'
+import { Widget } from '@newcar/core'
 
 /**
  * Calculates the rotation angle for an arrow based on the line's start and end points,
@@ -113,4 +114,14 @@ export class Arrow extends Figure {
       }
     }
   }
+
+  isIn(x: number, y: number): boolean {
+    const dx = x - this.tip.x;
+    const dy = y - this.tip.y;
+
+    const rotatedX = dx * Math.cos(this.tip.style.rotation) - dy * Math.sin(this.tip.style.rotation);
+    const rotatedY = dx * Math.sin(this.tip.style.rotation) + dy * Math.cos(this.tip.style.rotation);
+
+    return this.tip.isIn(rotatedX, rotatedY) || this.trim.isIn(x, y);
+}
 }

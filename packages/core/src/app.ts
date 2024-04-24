@@ -41,8 +41,8 @@ export class App {
     this.last = this.scene.root
     for (const plugin of this.plugins)
       plugin.onCheckout(this, this.scene)
-    if (!scene.root.hasSet)
-      scene.root.setEventListener(this.element)
+    // if (!scene.root.hasSet)
+    scene.root.setEventListener(this.element)
     return this
   }
 
