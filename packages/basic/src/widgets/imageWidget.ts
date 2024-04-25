@@ -44,4 +44,8 @@ export class ImageWidget extends Widget {
   draw(canvas: Canvas): void {
     canvas.drawImage(this.image, 0, 0, this.paint)
   }
+
+  isIn(x: number, y: number): boolean {
+    return x >= 0 && x <= 0 + this.image.width() && y >= 0 && y <= 0 + this.image.height()
+  }
 }
