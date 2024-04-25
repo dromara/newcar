@@ -1,5 +1,11 @@
 # @newcar/utils
 
+## 0.15.0
+
+### Minor Changes
+
+- This version will be the last 0.x version!
+
 ## 0.14.2
 
 ### Patch Changes

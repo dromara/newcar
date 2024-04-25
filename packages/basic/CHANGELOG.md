@@ -1,5 +1,17 @@
 # @newcar/basic
 
+## 0.15.0
+
+### Minor Changes
+
+- This version will be the last 0.x version!
+
+### Patch Changes
+
+- Updated dependencies
+  - @newcar/core@0.15.0
+  - @newcar/utils@0.15.0
+
 ## 0.14.2
 
 ### Patch Changes
