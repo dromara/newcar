@@ -74,14 +74,16 @@ export function changeProperty<T extends Widget>(
       if (Array.isArray(propertyName)) {
         // Handle multiple properties.
         propertyName.forEach((prop, index) => {
-          const startValue = from[index] !== undefined ? from[index] : from[0] // Use the first value as a fallback
-          const endValue = to[index] !== undefined ? to[index] : to[0] // Use the first value as a fallback
+          const startValue = from[index] !== undefined ? from[index] : widget[prop] // Use widget's value as a fallback
+          const endValue = to[index] !== undefined ? to[index] : widget[prop] // Use widget's value as a fallback
           applyChange(prop, startValue, endValue)
         })
       }
       else {
         // Handle a single property.
-        applyChange(propertyName, from[0], to[0])
+        const startValue = from[0] !== undefined ? from[0] : widget[propertyName] // Use widget's value as a fallback
+        const endValue = to[0] !== undefined ? to[0] : widget[propertyName] // Use widget's value as a fallback
+        applyChange(propertyName, startValue, endValue)
       }
     },
   })
