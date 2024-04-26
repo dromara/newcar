@@ -7,6 +7,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "preversion": "pnpm clean && pnpm build",
     "build": "pnpm run --filter=* build",
     "dev": "pnpm run --parallel --filter=* dev",

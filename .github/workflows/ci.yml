@@ -44,4 +44,4 @@ jobs:
         run: npm i prettier
 
       - name: Run prettier check
-        run: npx prettier --check .
+        run: npm run format:check
