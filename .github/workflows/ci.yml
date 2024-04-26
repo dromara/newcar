@@ -21,10 +21,10 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm i
-
-      - name: Install typescript
-        run: npm install --global typescript
+        run: |
+          npm i pnpm -g
+          pnpm install
+          pnpm install --global typescript
 
       - name: TypeScript check
         run: tsc --noEmit
