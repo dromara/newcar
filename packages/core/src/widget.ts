@@ -131,7 +131,7 @@ export class Widget {
   }
 
   animate(
-    animation: Animation<Widget>,
+    animation: Animation<any>,
     startAt: number,
     during: number,
     params?: Record<string, any>,
