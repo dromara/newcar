@@ -7,7 +7,6 @@
 /plugins/**/node_modules/
 /plugins/**/dist/
 /cli/node_modules/
-/pnpm-lock.yaml
 .rollup.cache/
 /.VSCodeCounter/**
 .vscode
