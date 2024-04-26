@@ -1,6 +1,6 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
+import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/core'
 import type { Vector2 } from '../../utils/vector2'
-import { str2StrokeCap, str2StrokeJoin } from '../../utils/trans'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 
@@ -8,7 +8,7 @@ export interface RectOptions extends FigureOptions {
   style?: RectStyle
 }
 
-export interface RectStyle extends FigureStyle {}
+export interface RectStyle extends FigureStyle { }
 
 export class Rect extends Figure {
   declare style: RectStyle
@@ -36,11 +36,15 @@ export class Rect extends Figure {
       )
       this.strokePaint.setPathEffect(dash)
     }
-    catch {}
+    catch { }
     this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
     this.fillPaint.setAlphaf(this.style.transparency)
+
+    // Blend Mode
+    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
@@ -79,6 +83,12 @@ export class Rect extends Figure {
         this.strokePaint.setPathEffect(
           ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
         )
+        break
+      }
+      case 'style.blendMode': {
+        // Blend Mode
+        this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+        this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
       }
     }
     this.strokePaint.setAlphaf(this.style.transparency)

@@ -5,7 +5,6 @@ import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 import { Polygon } from './polygon'
 import { Line } from './line'
-import { Widget } from '@newcar/core'
 
 /**
  * Calculates the rotation angle for an arrow based on the line's start and end points,

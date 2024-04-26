@@ -1,5 +1,5 @@
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
-import { Widget } from '@newcar/core'
+import { Widget, str2BlendMode } from '@newcar/core'
 import { Color } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
 import type { Vector2 } from '../../utils/vector2'
@@ -31,6 +31,7 @@ export class Line extends Widget {
     this.paint.setColor(this.style.color.toFloat4())
     this.paint.setStrokeWidth(this.style.width)
     this.paint.setAlphaf(this.style.transparency)
+    this.paint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
@@ -41,6 +42,11 @@ export class Line extends Widget {
       }
       case 'style.width': {
         this.paint.setStrokeWidth(this.style.width)
+        break
+      }
+      case 'style.blendMode': {
+        // Blend Mode
+        this.paint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
         break
       }
     }

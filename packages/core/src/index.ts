@@ -15,3 +15,7 @@ export * from './apiUseImage'
 export * from './localApp'
 
 export * from './event'
+
+export * from './utils/deepClone'
+export * from './utils/types'
+export * from './utils/trans'

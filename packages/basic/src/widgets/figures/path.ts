@@ -1,6 +1,6 @@
 import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
 import { $ck } from '@newcar/core'
-import { str2StrokeCap, str2StrokeJoin } from '../../utils/trans'
+import { str2StrokeCap, str2StrokeJoin } from '../../../../core/src/utils/trans'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 

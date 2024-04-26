@@ -1,6 +1,6 @@
 import type { Canvas, CanvasKit, Path } from 'canvaskit-wasm'
+import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/core'
 import type { Vector2 } from '../../utils/vector2'
-import { str2StrokeCap, str2StrokeJoin } from '../../utils/trans'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 
@@ -8,7 +8,7 @@ export interface PolygonOptions extends FigureOptions {
   style?: FigureStyle
 }
 
-export interface PolygonStyle extends FigureStyle {}
+export interface PolygonStyle extends FigureStyle { }
 
 export class Polygon extends Figure {
   path: Path
@@ -41,7 +41,7 @@ export class Polygon extends Figure {
       )
       this.strokePaint.setPathEffect(dash)
     }
-    catch {}
+    catch { }
 
     // Fill
     this.fillPaint = new ck.Paint()
@@ -51,6 +51,10 @@ export class Polygon extends Figure {
     // Alpha
     this.strokePaint.setAlphaf(this.style.transparency)
     this.fillPaint.setAlphaf(this.style.transparency)
+
+    // Blend Mode
+    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
@@ -91,6 +95,12 @@ export class Polygon extends Figure {
         this.strokePaint.setPathEffect(
           ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
         )
+        break
+      }
+      case 'style.blendMode': {
+        // Blend Mode
+        this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+        this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
       }
     }
     this.strokePaint.setAlphaf(this.style.transparency)
@@ -110,7 +120,7 @@ export class Polygon extends Figure {
    * this.points: [[x0,y0],[x1,y1]......] 多边形的路径
    */
   isIn(x: number, y: number) {
-  // px，py为p点的x和y坐标
+    // px，py为p点的x和y坐标
     const px = x
     const py = y
     let flag = false

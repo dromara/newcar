@@ -1,10 +1,12 @@
 import type {
   WidgetOptions,
   WidgetStyle,
+// eslint-disable-next-line import/no-duplicates
 } from '@newcar/core'
 import {
   $source,
   Widget,
+// eslint-disable-next-line import/no-duplicates
 } from '@newcar/core'
 import { Color, deepMerge, isString, isUndefined } from '@newcar/utils'
 import type {
@@ -26,13 +28,15 @@ import type {
   TextBaseline,
   TextDirection,
   TextHeightBehavior,
-} from '../utils/types'
+// eslint-disable-next-line import/no-duplicates
+} from '@newcar/core'
 import {
   str2TextAlign,
   str2TextBaseline,
   str2TextDirection,
   str2TextHeightBehavior,
-} from '../utils/trans'
+// eslint-disable-next-line import/no-duplicates
+} from '@newcar/core'
 
 export interface InputItem {
   text: string

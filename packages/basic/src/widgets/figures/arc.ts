@@ -1,4 +1,5 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
+import { str2BlendMode } from '@newcar/core'
 import type { FigureOptions } from './figure'
 import { Figure } from './figure'
 
@@ -29,13 +30,17 @@ export class Arc extends Figure {
       )
       this.strokePaint.setPathEffect(dash)
     }
-    catch {}
+    catch { }
 
     // Fill
     this.fillPaint = new ck.Paint()
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setAlphaf(this.style.transparency)
+
+    // Blend Mode
+    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
 
     this.rect = ck.LTRBRect(
       -this.radius,
@@ -68,6 +73,13 @@ export class Arc extends Figure {
         this.strokePaint.setPathEffect(
           ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
         )
+        break
+      }
+      case 'style.blendMode': {
+        // Blend Mode
+        this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+        this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+        break
       }
     }
     this.strokePaint.setAlphaf(this.style.transparency)
@@ -102,5 +114,5 @@ export class Arc extends Figure {
 
     // 判断是否在圆内
     return distance <= this.radius;
-}
+  }
 }

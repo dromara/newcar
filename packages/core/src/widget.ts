@@ -4,6 +4,7 @@ import { deepClone } from './utils/deepClone'
 import type { AnimationTree } from './animationTree'
 import { analyseAnimationTree } from './animationTree'
 import type { Event, EventInstance } from './event'
+import type { BlendMode } from './utils/types'
 
 export type WidgetInstance<T extends Widget> = T
 
@@ -22,6 +23,7 @@ export interface WidgetStyle {
   scaleY?: number
   rotation?: number
   transparency?: number
+  blendMode?: BlendMode
 }
 
 export class Widget {
@@ -62,6 +64,7 @@ export class Widget {
     this.style.scaleY = options.style.scaleY ?? 1
     this.style.rotation = options.style.rotation ?? 0
     this.style.transparency = options.style.transparency ?? 1
+    this.style.blendMode = options.style.blendMode ?? 'srcOver'
   }
 
   /**
