@@ -1,5 +1,16 @@
 # newcar
 
+## 0.15.1
+
+### Patch Changes
+
+- perfect `changeProperty` and `changeStyle`
+- Updated dependencies
+  - @newcar/basic@0.15.1
+  - @newcar/core@0.15.1
+  - @newcar/recorder@0.15.1
+  - @newcar/utils@0.15.1
+
 ## 0.15.0
 
 ### Minor Changes
