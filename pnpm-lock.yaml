@@ -55,16 +55,16 @@ importers:
   examples:
     dependencies:
       '@newcar/mod-geometry':
-        specifier: workspace:0.1.4
+        specifier: workspace:0.1.5
         version: link:../mods/mod-geometry
       '@newcar/mod-markdown':
-        specifier: workspace:0.1.4
+        specifier: workspace:0.1.5
         version: link:../mods/mod-markdown
       canvaskit-wasm:
         specifier: 0.39.1
         version: 0.39.1
       newcar:
-        specifier: workspace:0.15.0
+        specifier: workspace:0.15.1
         version: link:../packages/newcar
 
   mods/mod-chart: {}
