@@ -1,15 +1,8 @@
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import { Color } from '@newcar/utils'
-import type {
-  ArrowOptions,
-  TextOptions,
-} from '@newcar/basic'
-import {
-  Arrow,
-  Line,
-  Text,
-} from '@newcar/basic'
+import type { ArrowOptions, TextOptions } from '@newcar/basic'
+import { Arrow, Line, Text } from '@newcar/basic'
 import type { CanvasKit } from 'canvaskit-wasm'
 
 export type Trend = (counter: number) => number | string
@@ -53,7 +46,7 @@ export class NumberAxis extends Widget {
   ) {
     options ??= {}
     super(options)
-    this.trend = options.trend ?? (counter => counter)
+    this.trend = options.trend ?? ((counter) => counter)
     this.interval = options.interval ?? 50
     this.arrowOptions = options.arrowOptions ?? {}
     this.textOptions = options.textOptions ?? {}

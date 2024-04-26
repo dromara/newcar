@@ -114,8 +114,7 @@ export class Widget {
     canvas.translate(this.x, this.y)
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
     canvas.scale(this.style.scaleX, this.style.scaleY)
-    if (this.display)
-      this.draw(canvas)
+    if (this.display) this.draw(canvas)
   }
 
   /**
@@ -155,7 +154,9 @@ export class Widget {
       effect,
     })
     if (typeof window === 'undefined')
-      console.warn('[Newcar Warn] You are using local mode, events system was not supported')
+      console.warn(
+        '[Newcar Warn] You are using local mode, events system was not supported',
+      )
     return this
   }
 
@@ -166,8 +167,8 @@ export class Widget {
   runAnimation(elapsed: number) {
     for (const instance of this.animationInstances) {
       if (
-        instance.startAt <= elapsed
-        && instance.during + instance.startAt >= elapsed
+        instance.startAt <= elapsed &&
+        instance.during + instance.startAt >= elapsed
       ) {
         if (instance.mode === 'positive') {
           instance.animation.act(
@@ -176,8 +177,7 @@ export class Widget {
             (elapsed - instance.startAt) / instance.during,
             instance.params,
           )
-        }
-        else if (instance.mode === 'reverse') {
+        } else if (instance.mode === 'reverse') {
           instance.animation.act(
             this,
             elapsed - instance.startAt,
@@ -187,21 +187,17 @@ export class Widget {
         }
       }
     }
-    for (const update of this.updates)
-      update(elapsed, this)
+    for (const update of this.updates) update(elapsed, this)
 
-    for (const child of this.children)
-      child.runAnimation(elapsed)
+    for (const child of this.children) child.runAnimation(elapsed)
   }
 
   setEventListener(element: HTMLCanvasElement) {
-    for (const instance of this.eventInstances) 
+    for (const instance of this.eventInstances)
       instance.event.operation(this, instance.effect, element)
-    
 
     this.hasSet = true
-    for (const child of this.children)
-      child.setEventListener(element)
+    for (const child of this.children) child.setEventListener(element)
   }
 
   /**
@@ -237,29 +233,37 @@ export class Widget {
     return false
   }
 
-  static getAbsoluteCoordinates(widget: Widget): { x: number, y: number } {
-    function getCoordinates(widget: Widget, x: number, y: number): { x: number, y: number } {
+  static getAbsoluteCoordinates(widget: Widget): { x: number; y: number } {
+    function getCoordinates(
+      widget: Widget,
+      x: number,
+      y: number,
+    ): { x: number; y: number } {
       let parent = widget.parent
       let absoluteX = x
       let absoluteY = y
-  
+
       while (parent) {
         absoluteX += parent.x
         absoluteY += parent.y
         parent = parent.parent
       }
-  
+
       return { x: absoluteX, y: absoluteY }
     }
-  
+
     return getCoordinates(widget, widget.x, widget.y)
   }
-  
-  static absoluteToRelative(widget: Widget, x: number, y: number): { x: number, y: number } {
+
+  static absoluteToRelative(
+    widget: Widget,
+    x: number,
+    y: number,
+  ): { x: number; y: number } {
     const { x: absoluteX, y: absoluteY } = Widget.getAbsoluteCoordinates(widget)
     const relativeX = x - absoluteX
     const relativeY = y - absoluteY
-  
+
     return { x: relativeX, y: relativeY }
   }
 }

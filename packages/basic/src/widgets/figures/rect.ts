@@ -8,20 +8,29 @@ export interface RectOptions extends FigureOptions {
   style?: RectStyle
 }
 
-export interface RectStyle extends FigureStyle { }
+export interface RectStyle extends FigureStyle {}
 
 export class Rect extends Figure {
   declare style: RectStyle
   rect: RRect
 
-  constructor(public from: Vector2, public to: Vector2, options?: RectOptions) {
+  constructor(
+    public from: Vector2,
+    public to: Vector2,
+    options?: RectOptions,
+  ) {
     options ??= {}
     super(options)
     this.style ??= {}
   }
 
   init(ck: CanvasKit): void {
-    this.rect = ck.LTRBRect(this.from[0], this.from[1], this.to[0] * this.progress, this.to[1] * this.progress)
+    this.rect = ck.LTRBRect(
+      this.from[0],
+      this.from[1],
+      this.to[0] * this.progress,
+      this.to[1] * this.progress,
+    )
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
@@ -35,8 +44,7 @@ export class Rect extends Figure {
         this.style.offset,
       )
       this.strokePaint.setPathEffect(dash)
-    }
-    catch { }
+    } catch {}
     this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
@@ -96,11 +104,9 @@ export class Rect extends Figure {
   }
 
   draw(canvas: Canvas): void {
-    if (this.style.border)
-      canvas.drawRect(this.rect, this.strokePaint)
+    if (this.style.border) canvas.drawRect(this.rect, this.strokePaint)
 
-    if (this.style.fill)
-      canvas.drawRect(this.rect, this.fillPaint)
+    if (this.style.fill) canvas.drawRect(this.rect, this.fillPaint)
   }
 
   isIn(x: number, y: number): boolean {
@@ -109,6 +115,11 @@ export class Rect extends Figure {
     const rectWidth = Math.abs(this.from[0] - this.to[0])
     const rectHeight = Math.abs(this.from[1] - this.to[1])
 
-    return x >= rectX && x <= rectX + rectWidth && y >= rectY && y <= rectY + rectHeight
+    return (
+      x >= rectX &&
+      x <= rectX + rectWidth &&
+      y >= rectY &&
+      y <= rectY + rectHeight
+    )
   }
 }

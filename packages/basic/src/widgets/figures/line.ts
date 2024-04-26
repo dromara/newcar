@@ -17,7 +17,11 @@ export class Line extends Widget {
   paint: Paint
   declare style: LineStyle
 
-  constructor(public from: Vector2, public to: Vector2, options?: LineOptions) {
+  constructor(
+    public from: Vector2,
+    public to: Vector2,
+    options?: LineOptions,
+  ) {
     options ??= {}
     super(options)
     options.style ??= {}
@@ -64,9 +68,9 @@ export class Line extends Widget {
   }
 
   isIn(x: number, y: number): boolean {
-    const slope = (this.to[1] - this.from[1]) / (this.to[0] - this.from[0]);
+    const slope = (this.to[1] - this.from[1]) / (this.to[0] - this.from[0])
     const yIntercept = this.from[1] - slope * this.from[0]
-    const expectedY = slope * x + yIntercept;
-    return Math.abs(y - expectedY) < Number.EPSILON;
+    const expectedY = slope * x + yIntercept
+    return Math.abs(y - expectedY) < Number.EPSILON
   }
 }

@@ -31,8 +31,7 @@ function calculateArrowRotationAngle(
   let angleDegrees = angleRadians * (180 / Math.PI)
 
   // Normalize the angle to the range [0, 360)
-  if (angleDegrees < 0)
-    angleDegrees += 360
+  if (angleDegrees < 0) angleDegrees += 360
 
   return angleDegrees
 }
@@ -75,10 +74,13 @@ export class Arrow extends Figure {
       },
     )
     this.trim = new Line(this.from, this.to, {
-      style: deepMerge({
-        color: this.style.borderColor,
-        width: this.style.borderWidth,
-      }, this.style),
+      style: deepMerge(
+        {
+          color: this.style.borderColor,
+          width: this.style.borderWidth,
+        },
+        this.style,
+      ),
       progress: this.progress,
     })
     this.add(this.trim, this.tip)
@@ -115,12 +117,16 @@ export class Arrow extends Figure {
   }
 
   isIn(x: number, y: number): boolean {
-    const dx = x - this.tip.x;
-    const dy = y - this.tip.y;
+    const dx = x - this.tip.x
+    const dy = y - this.tip.y
 
-    const rotatedX = dx * Math.cos(this.tip.style.rotation) - dy * Math.sin(this.tip.style.rotation);
-    const rotatedY = dx * Math.sin(this.tip.style.rotation) + dy * Math.cos(this.tip.style.rotation);
+    const rotatedX =
+      dx * Math.cos(this.tip.style.rotation) -
+      dy * Math.sin(this.tip.style.rotation)
+    const rotatedY =
+      dx * Math.sin(this.tip.style.rotation) +
+      dy * Math.cos(this.tip.style.rotation)
 
-    return this.tip.isIn(rotatedX, rotatedY) || this.trim.isIn(x, y);
-}
+    return this.tip.isIn(rotatedX, rotatedY) || this.trim.isIn(x, y)
+  }
 }

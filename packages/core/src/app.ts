@@ -14,33 +14,36 @@ export class App {
   private last: Widget
   updates: ((elapsed: number) => void)[] = []
 
-  constructor(public element: HTMLCanvasElement, private ck: CanvasKit, private plugins: CarPlugin[]) {
+  constructor(
+    public element: HTMLCanvasElement,
+    private ck: CanvasKit,
+    private plugins: CarPlugin[],
+  ) {
     this.setBackgroundColor(Color.BLACK)
     if (element === void 0) {
       console.warn(
         `[Newcar Warn] You are trying to use a undefined canvas element.`,
       )
     }
-    for (const plugin of this.plugins)
-      plugin.beforeSurfaceLoaded(this)
+    for (const plugin of this.plugins) plugin.beforeSurfaceLoaded(this)
 
     if (typeof window !== 'undefined')
       this.surface = this.ck.MakeWebGLCanvasSurface(this.element)
     else
-      console.warn('[Newcar Warn] You are using nodejs to run Newcar, please use LocalApp.')
+      console.warn(
+        '[Newcar Warn] You are using nodejs to run Newcar, please use LocalApp.',
+      )
 
     for (const plugin of this.plugins)
       plugin.onSurfaceLoaded(this, this.surface)
   }
 
   checkout(scene: Scene): this {
-    for (const plugin of this.plugins)
-      plugin.beforeCheckout(this, scene)
+    for (const plugin of this.plugins) plugin.beforeCheckout(this, scene)
 
     this.scene = scene
     this.last = this.scene.root
-    for (const plugin of this.plugins)
-      plugin.onCheckout(this, this.scene)
+    for (const plugin of this.plugins) plugin.onCheckout(this, this.scene)
     // if (!scene.root.hasSet)
     scene.root.setEventListener(this.element)
     return this
@@ -51,8 +54,7 @@ export class App {
       plugin.beforeUpdate(app, app.scene.elapsed)
 
     // If this updating is this scene's origin, initial this scene.
-    if (app.scene.elapsed === 0)
-      initial(app.scene.root, app.ck, canvas)
+    if (app.scene.elapsed === 0) initial(app.scene.root, app.ck, canvas)
 
     // Contrast the old widget and the new widget and update them.
     for (const plugin of app.plugins)
@@ -67,14 +69,12 @@ export class App {
     // Animating.
     app.scene.root.runAnimation(app.scene.elapsed)
 
-    for (const plugin of app.plugins)
-      plugin.afterUpdate(app, app.scene.elapsed)
+    for (const plugin of app.plugins) plugin.afterUpdate(app, app.scene.elapsed)
 
     if (app.playing) {
       app.scene.elapsed += 1
       app.surface.requestAnimationFrame((canvas: Canvas) => {
-        for (const updateFunc of app.updates)
-          updateFunc(app.scene.elapsed)
+        for (const updateFunc of app.updates) updateFunc(app.scene.elapsed)
 
         App.update(app, canvas)
       })
@@ -114,7 +114,9 @@ export class App {
   }
 
   setBackgroundColor(color: Color | 'transparent'): this {
-    color !== 'transparent' ? this.element.style.backgroundColor = color.toString() : this.element.style.backgroundColor = ''
+    color !== 'transparent'
+      ? (this.element.style.backgroundColor = color.toString())
+      : (this.element.style.backgroundColor = '')
 
     return this
   }

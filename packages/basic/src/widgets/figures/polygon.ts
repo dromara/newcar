@@ -8,12 +8,15 @@ export interface PolygonOptions extends FigureOptions {
   style?: FigureStyle
 }
 
-export interface PolygonStyle extends FigureStyle { }
+export interface PolygonStyle extends FigureStyle {}
 
 export class Polygon extends Figure {
   path: Path
 
-  constructor(public points: Vector2[], options?: PolygonOptions) {
+  constructor(
+    public points: Vector2[],
+    options?: PolygonOptions,
+  ) {
     options ??= {}
     super(options)
   }
@@ -21,10 +24,8 @@ export class Polygon extends Figure {
   init(ck: CanvasKit): void {
     this.path = new ck.Path()
     for (const [index, point] of this.points.entries()) {
-      if (index === 0)
-        this.path.moveTo(...point)
-      else
-        this.path.lineTo(...point)
+      if (index === 0) this.path.moveTo(...point)
+      else this.path.lineTo(...point)
     }
     this.path.close()
     // Stroke
@@ -40,8 +41,7 @@ export class Polygon extends Figure {
         this.style.offset,
       )
       this.strokePaint.setPathEffect(dash)
-    }
-    catch { }
+    } catch {}
 
     // Fill
     this.fillPaint = new ck.Paint()
@@ -62,10 +62,8 @@ export class Polygon extends Figure {
       case 'points': {
         this.path.moveTo(0, 0)
         for (const [index, point] of this.points.entries()) {
-          if (index === 0)
-            this.path.moveTo(...point)
-          else
-            this.path.lineTo(...point)
+          if (index === 0) this.path.moveTo(...point)
+          else this.path.lineTo(...point)
         }
         this.path.close()
         break
@@ -108,11 +106,9 @@ export class Polygon extends Figure {
   }
 
   draw(canvas: Canvas): void {
-    if (this.style.border)
-      canvas.drawPath(this.path, this.strokePaint)
+    if (this.style.border) canvas.drawPath(this.path, this.strokePaint)
 
-    if (this.style.fill)
-      canvas.drawPath(this.path, this.fillPaint)
+    if (this.style.fill) canvas.drawPath(this.path, this.fillPaint)
   }
 
   /**
@@ -133,25 +129,26 @@ export class Polygon extends Figure {
       const ty = this.points[j][1] // 线段终点y坐标
 
       // 点与多边形顶点重合
-      if ((sx === px && sy === py) || (tx === px && ty === py))
-        return true
+      if ((sx === px && sy === py) || (tx === px && ty === py)) return true
 
       // 点的射线和多边形的一条边重合，并且点在边上
-      if ((sy === ty && sy === py) && ((sx > px && tx < px) || (sx < px && tx > px)))
+      if (
+        sy === ty &&
+        sy === py &&
+        ((sx > px && tx < px) || (sx < px && tx > px))
+      )
         return true
 
       // 判断线段两端点是否在射线两侧
       if ((sy < py && ty >= py) || (sy >= py && ty < py)) {
         // 求射线和线段的交点x坐标，交点y坐标当然是py
-        const x = sx + (py - sy) * (tx - sx) / (ty - sy)
+        const x = sx + ((py - sy) * (tx - sx)) / (ty - sy)
 
         // 点在多边形的边上
-        if (x === px)
-          return true
+        if (x === px) return true
 
         // x大于px来保证射线是朝右的，往一个方向射，假如射线穿过多边形的边界，flag取反一下
-        if (x > px)
-          flag = !flag
+        if (x > px) flag = !flag
       }
     }
 

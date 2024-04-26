@@ -34,14 +34,26 @@ export function changeStyle<T extends Widget>(
       const easingFunction = params.by ? params.by : by
       const adjustedProcess = easingFunction ? easingFunction(process) : process
 
-      let from = params.from !== undefined ? params.from : (defaultFrom !== undefined ? defaultFrom : Array.isArray(propertyName) ? propertyName.map(prop => widget.style[prop]) : widget.style[propertyName]);
-      let to = params.to !== undefined ? params.to : (defaultTo !== undefined ? defaultTo : Array.isArray(propertyName) ? propertyName.map(prop => widget.style[prop]) : widget.style[propertyName]);
+      let from =
+        params.from !== undefined
+          ? params.from
+          : defaultFrom !== undefined
+            ? defaultFrom
+            : Array.isArray(propertyName)
+              ? propertyName.map((prop) => widget.style[prop])
+              : widget.style[propertyName]
+      let to =
+        params.to !== undefined
+          ? params.to
+          : defaultTo !== undefined
+            ? defaultTo
+            : Array.isArray(propertyName)
+              ? propertyName.map((prop) => widget.style[prop])
+              : widget.style[propertyName]
 
-      if (!Array.isArray(from))
-        from = [from]
+      if (!Array.isArray(from)) from = [from]
 
-      if (!Array.isArray(to))
-        to = [to]
+      if (!Array.isArray(to)) to = [to]
 
       const applyChange = (
         prop: PickNumberKeys<WidgetStyle>,
@@ -54,13 +66,17 @@ export function changeStyle<T extends Widget>(
 
       if (Array.isArray(propertyName)) {
         propertyName.forEach((prop, index) => {
-          const startValue = from[index] !== undefined ? from[index] : widget.style[prop]
-          const endValue = to[index] !== undefined ? to[index] : widget.style[prop]
+          const startValue =
+            from[index] !== undefined ? from[index] : widget.style[prop]
+          const endValue =
+            to[index] !== undefined ? to[index] : widget.style[prop]
           applyChange(prop, startValue, endValue)
         })
       } else {
-        const startValue = from[0] !== undefined ? from[0] : widget.style[propertyName]
-        const endValue = to[0] !== undefined ? to[0] : widget.style[propertyName]
+        const startValue =
+          from[0] !== undefined ? from[0] : widget.style[propertyName]
+        const endValue =
+          to[0] !== undefined ? to[0] : widget.style[propertyName]
         applyChange(propertyName, startValue, endValue)
       }
     },

@@ -12,7 +12,7 @@ export async function useImage(src: string) {
     const buffer = fs.readFileSync(path.resolve(src))
     const array = buffer.buffer.slice(
       buffer.byteOffset,
-      buffer.byteOffset + buffer.byteLength
+      buffer.byteOffset + buffer.byteLength,
     )
     $source.images.push(array)
     return array

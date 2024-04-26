@@ -1,4 +1,4 @@
-import { Widget, defineEvent } from "@newcar/core";
+import { Widget, defineEvent } from '@newcar/core'
 
 export const drag = defineEvent({
   operation(widget, effect, element) {
@@ -8,8 +8,7 @@ export const drag = defineEvent({
       const absoluteY = event.clientY - rect.top
       const { x, y } = Widget.absoluteToRelative(widget, absoluteX, absoluteY)
       const isIn = widget.isIn(x, y)
-      if (isIn)
-        effect(widget, x, y)
+      if (isIn) effect(widget, x, y)
     })
-  }
+  },
 })

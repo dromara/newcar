@@ -18,8 +18,18 @@ export interface CarPlugin {
   beforeCheckout?: (app: App | LocalApp, scene: Scene) => void
   onCheckout?: (app: App | LocalApp, scene: Scene) => void
   beforeUpdate?: (app: App | LocalApp, elapsed: number) => void
-  beforePatch?: (app: App | LocalApp, elapsed: number, old: Widget, now: Widget) => void
-  afterPatch?: (app: App | LocalApp, elapsed: number, old: Widget, now: Widget) => void
+  beforePatch?: (
+    app: App | LocalApp,
+    elapsed: number,
+    old: Widget,
+    now: Widget,
+  ) => void
+  afterPatch?: (
+    app: App | LocalApp,
+    elapsed: number,
+    old: Widget,
+    now: Widget,
+  ) => void
   // beforeAnimate?: (app: App | LocalApp, elapsed: number) => void
   // onAnimate?: (app: App | LocalApp, elapsed: number, widget: Widget) => void
   // afterAnimate?: (app: App | LocalApp, elapsed: number, widget: Widget) => void

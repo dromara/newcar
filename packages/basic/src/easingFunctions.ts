@@ -15,8 +15,7 @@ const n = 7.5625
 const d = 2.75
 
 function invent(f: TimingFunction): TimingFunction {
-  return (x: number): number =>
-    1 - f(1 - x)
+  return (x: number): number => 1 - f(1 - x)
 }
 
 function solve(
@@ -38,26 +37,26 @@ function _(
   return [easeIn, easeOut, easeInOut]
 }
 
-export const linear: TimingFunction = x => x
+export const linear: TimingFunction = (x) => x
 
-const easeSine: TimingFunction = x => 1 - Math.cos((x * Math.PI) / 2)
+const easeSine: TimingFunction = (x) => 1 - Math.cos((x * Math.PI) / 2)
 export const [easeInSine, easeOutSine, easeInOutSine] = _(easeSine)
 
-export const [easeInQuad, easeOutQuad, easeInOutQuad] = _(x => x ** 2)
-export const [easeInCubic, easeOutCubic, easeInOutCubic] = _(x => x ** 3)
-export const [easeInQuart, easeOutQuart, easeInOutQuart] = _(x => x ** 4)
-export const [easeInQuint, easeOutQuint, easeInOutQuint] = _(x => x ** 5)
+export const [easeInQuad, easeOutQuad, easeInOutQuad] = _((x) => x ** 2)
+export const [easeInCubic, easeOutCubic, easeInOutCubic] = _((x) => x ** 3)
+export const [easeInQuart, easeOutQuart, easeInOutQuart] = _((x) => x ** 4)
+export const [easeInQuint, easeOutQuint, easeInOutQuint] = _((x) => x ** 5)
 
-const easeExpo: TimingFunction = x => x || 2 ** (10 * x - 10)
-const easeCirc: TimingFunction = x => 1 - Math.sqrt(1 - x ** 2)
-const easeBack: TimingFunction = x => (c + 1) * x ** 3 - c * x ** 2
+const easeExpo: TimingFunction = (x) => x || 2 ** (10 * x - 10)
+const easeCirc: TimingFunction = (x) => 1 - Math.sqrt(1 - x ** 2)
+const easeBack: TimingFunction = (x) => (c + 1) * x ** 3 - c * x ** 2
 export const [easeInExpo, easeOutExpo, easeInOutExpo] = _(easeExpo)
 export const [easeInCirc, easeOutCirc, easeInOutCirc] = _(easeCirc)
 export const [easeInBack, easeOutBack, easeInOutBack] = _(easeBack)
 
-const easeElastic: TimingFunction = x =>
+const easeElastic: TimingFunction = (x) =>
   -Math.sin(((80 * x - 44.5) * Math.PI) / 9) * 2 ** (20 * x - 11)
-export const easeInElastic: TimingFunction = x =>
+export const easeInElastic: TimingFunction = (x) =>
   -Math.sin(((20 * x - 21.5) * Math.PI) / 3) * 2 ** (10 * x - 10)
 export const easeOutElastic: TimingFunction = invent(easeInElastic)
 export const easeInOutElastic: TimingFunction = solve(easeElastic)

@@ -18,14 +18,12 @@ export class LocalApp {
     private ck: CanvasKit,
     private plugins: CarPlugin[],
   ) {
-    for (const plugin of this.plugins)
-      plugin.beforeSurfaceLoaded(this)
+    for (const plugin of this.plugins) plugin.beforeSurfaceLoaded(this)
 
     if (typeof window === 'undefined') {
       this.surface = this.ck.MakeSurface(this.width, this.height)
       this.canvas = this.surface.getCanvas()
-    }
-    else {
+    } else {
       console.warn(
         '[Newcar Warn] You are using browser to run Newcar local mode, please use normal App.',
       )
@@ -35,13 +33,11 @@ export class LocalApp {
   }
 
   checkout(scene: Scene): this {
-    for (const plugin of this.plugins)
-      plugin.beforeCheckout(this, scene)
+    for (const plugin of this.plugins) plugin.beforeCheckout(this, scene)
 
     this.scene = scene
     this.last = this.scene.root
-    for (const plugin of this.plugins)
-      plugin.onCheckout(this, this.scene)
+    for (const plugin of this.plugins) plugin.onCheckout(this, this.scene)
 
     return this
   }
@@ -56,14 +52,12 @@ export class LocalApp {
       plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
 
     for (const plugin of app.plugins)
-      plugin.afterPatch(app, app.scene.elapsed, app.last, app.scene.root);
-
-    (function draw(widget: Widget) {
+      plugin.afterPatch(app, app.scene.elapsed, app.last, app.scene.root)
+    ;(function draw(widget: Widget) {
       widget.init(app.ck)
       app.canvas.save()
       widget.update(app.canvas)
-      for (const child of widget.children)
-        draw(child)
+      for (const child of widget.children) draw(child)
 
       app.canvas.restore()
     })(app.scene.root)
@@ -71,8 +65,7 @@ export class LocalApp {
     // Animating.
     app.scene.root.runAnimation(app.scene.elapsed)
 
-    for (const plugin of app.plugins)
-      plugin.afterUpdate(app, app.scene.elapsed)
+    for (const plugin of app.plugins) plugin.afterUpdate(app, app.scene.elapsed)
 
     app.scene.elapsed += 1
   }

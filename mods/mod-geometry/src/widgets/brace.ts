@@ -19,7 +19,11 @@ export class Brace extends Widget {
   paint: Paint
   parts: Widget
 
-  constructor(public from: Vector2, public to: Vector2, options?: BraceOptions) {
+  constructor(
+    public from: Vector2,
+    public to: Vector2,
+    options?: BraceOptions,
+  ) {
     options ??= {}
     super(options)
     options.style ??= {}
@@ -35,6 +39,7 @@ export class Brace extends Widget {
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
     // eslint-disable-next-line no-empty
-    if (propertyChanged === 'length') { }
+    if (propertyChanged === 'length') {
+    }
   }
 }

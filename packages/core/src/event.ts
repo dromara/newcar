@@ -1,7 +1,11 @@
-import type { Widget } from "./widget"
+import type { Widget } from './widget'
 
 export interface Event {
-  operation: (widget: Widget, effect: (widget: Widget, ...arg: any[]) => any, element: HTMLCanvasElement) => void
+  operation: (
+    widget: Widget,
+    effect: (widget: Widget, ...arg: any[]) => any,
+    element: HTMLCanvasElement,
+  ) => void
 }
 
 export function defineEvent(event: Event): Event {

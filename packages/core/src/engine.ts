@@ -12,16 +12,14 @@ export class CarEngine {
   readonly plugins: CarPlugin[] = []
 
   async init(canvasKitWasmFile: string) {
-    for (const plugin of this.plugins)
-      plugin.beforeCanvasKitLoaded(this)
+    for (const plugin of this.plugins) plugin.beforeCanvasKitLoaded(this)
 
     this.ck = await CanvasKitInit({
       locateFile(_file) {
         return canvasKitWasmFile
       },
     })
-    for (const plugin of this.plugins)
-      plugin.onCanvasKitLoaded(this)
+    for (const plugin of this.plugins) plugin.onCanvasKitLoaded(this)
 
     $ck = this.ck
     return this

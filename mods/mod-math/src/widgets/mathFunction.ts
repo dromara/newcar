@@ -34,7 +34,10 @@ export class MathFunction extends Widget {
   ) {
     options ??= {}
     super(options)
-    this.range = options.range ?? [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY]
+    this.range = options.range ?? [
+      Number.NEGATIVE_INFINITY,
+      Number.POSITIVE_INFINITY,
+    ]
     this.divisionX = options.divisionX ?? 50
     this.divisionY = options.divisionY ?? 50
     options.style ??= {}
@@ -71,8 +74,8 @@ export class MathFunction extends Widget {
         this.path.moveTo(this.domain[0], this.fn(this.domain[0]))
         for (
           let x = this.domain[0];
-          x
-          <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
+          x <=
+          this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
           x += 1 / this.divisionX
         ) {
           const value = this.fn(x)

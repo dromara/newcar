@@ -1,10 +1,5 @@
-import type {
-  WidgetOptions,
-  WidgetStyle,
-} from '@newcar/core'
-import {
-  Widget,
-} from '@newcar/core'
+import type { WidgetOptions, WidgetStyle } from '@newcar/core'
+import { Widget } from '@newcar/core'
 import type { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
 
 function svg2Blob(xml: string): Blob {
@@ -45,7 +40,10 @@ export class Svg extends Widget {
   private vcanvasContext: OffscreenCanvasRenderingContext2D
   private imageData: Image
 
-  constructor(public svg: string, options?: SvgOptions) {
+  constructor(
+    public svg: string,
+    options?: SvgOptions,
+  ) {
     options ??= {}
     super(options)
     options.style ??= {}
@@ -63,16 +61,12 @@ export class Svg extends Widget {
       this.vcanvasContext.drawImage(this.image, 0, 0)
       try {
         this.imageData = ck.MakeImageFromCanvasImageSource(this.vcanvas)
-      }
-      catch {}
+      } catch {}
       this.ready = true
     }
   }
 
-  predraw(
-    ck: CanvasKit,
-    propertyChanged: string,
-  ) {
+  predraw(ck: CanvasKit, propertyChanged: string) {
     if (propertyChanged === 'svg') {
       this.ready = false
       this.init(ck)
@@ -80,7 +74,6 @@ export class Svg extends Widget {
   }
 
   draw(canvas: Canvas): void {
-    if (this.ready)
-      canvas.drawImage(this.imageData, this.x, this.y)
+    if (this.ready) canvas.drawImage(this.imageData, this.x, this.y)
   }
 }

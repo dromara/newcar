@@ -20,13 +20,17 @@ export function analyseAnimationTree(tree: AnimationTree, start: number) {
     animation: tree.animation,
     mode: tree.mode,
   })
-  if(Array.isArray(tree.next)) {
+  if (Array.isArray(tree.next)) {
     for (const item of tree.next) {
-      if ((item as AnimationTree).next) 
-        animations.push(...analyseAnimationTree(item as AnimationTree, start + tree.duration))
+      if ((item as AnimationTree).next)
+        animations.push(
+          ...analyseAnimationTree(item as AnimationTree, start + tree.duration),
+        )
       else
-        console.warn('[Newcar Warn] You are trying to add a Animation or AnimationInstance object as next, please use AnimationTree object')
+        console.warn(
+          '[Newcar Warn] You are trying to add a Animation or AnimationInstance object as next, please use AnimationTree object',
+        )
+    }
+    return animations
   }
-  return animations
-}
 }

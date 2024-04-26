@@ -1,6 +1,6 @@
 packages:
-  - "packages/*"
-  - "mods/*"
-  - "plugins/*"
-  - "cli"
-  - "examples"
+  - 'packages/*'
+  - 'mods/*'
+  - 'plugins/*'
+  - 'cli'
+  - 'examples'

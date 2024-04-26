@@ -6,17 +6,15 @@ import type { Widget } from './widget'
 export function shallowEqual(objA: any, objB: any): string[] {
   const changedProperties: string[] = []
 
-  if (isEqual(objA, objB))
-    return changedProperties
+  if (isEqual(objA, objB)) return changedProperties
 
-  if (objA === objB)
-    return changedProperties
+  if (objA === objB) return changedProperties
 
   if (
-    typeof objA !== 'object'
-    || objA === null
-    || typeof objB !== 'object'
-    || objB === null
+    typeof objA !== 'object' ||
+    objA === null ||
+    typeof objB !== 'object' ||
+    objB === null
   )
     return changedProperties
 
@@ -36,10 +34,11 @@ export function shallowEqual(objA: any, objB: any): string[] {
     if (key === 'style') {
       // Recursively compare the 'style' object
       const styleDifferences = shallowEqual(objA.style, objB.style)
-      if (styleDifferences.length > 0)
-        changedProperties.push(key)
-    }
-    else if (!keysBSet.has(key) || (isPrimitiveOrArray(objA[key]) && objA[key] !== objB[key])) {
+      if (styleDifferences.length > 0) changedProperties.push(key)
+    } else if (
+      !keysBSet.has(key) ||
+      (isPrimitiveOrArray(objA[key]) && objA[key] !== objB[key])
+    ) {
       changedProperties.push(key)
     }
   }
@@ -67,35 +66,31 @@ export async function patch(
       ? (() => {
           try {
             now.preupdate(ck, param)
-          }
-          catch {}
+          } catch {}
         })()
       : await (async () => {
-        try {
-          const res = await now.preupdate(ck, param)
-          if ((res as AsyncWidgetResponse).status === 'error') {
-            console.warn(
-              '[Newcar Warn] Failed to laod async widget, please check if your network.',
-            )
-          }
-        }
-        catch {}
-      })()
+          try {
+            const res = await now.preupdate(ck, param)
+            if ((res as AsyncWidgetResponse).status === 'error') {
+              console.warn(
+                '[Newcar Warn] Failed to laod async widget, please check if your network.',
+              )
+            }
+          } catch {}
+        })()
     if (param === 'style') {
       const contrasts = shallowEqual(old.style, now.style)
       for (const contrast of contrasts) {
         try {
           await now.preupdate(ck, `style.${contrast}`)
-        }
-        catch {}
+        } catch {}
       }
     }
   }
 
   try {
     now.update(canvas)
-  }
-  catch {}
+  } catch {}
 
   const oldKeyToIdx = new Map<string, number>()
   const newKeyToIdx = new Map<string, number>()
@@ -115,8 +110,7 @@ export async function patch(
     if (oldIndex !== undefined) {
       const oldChild = old.children[oldIndex]
       await patch(oldChild, newChild, ck, canvas)
-    }
-    else {
+    } else {
       // Add new child since it doesn't exist in the old children
       now.add(newChild) // Implement this function based on how you add children to canvas
     }
@@ -127,6 +121,6 @@ export async function patch(
   // Remove old widgets that are not present in new widgets
   old.children.forEach((oldChild, _oldIndex) => {
     if (!newKeyToIdx.has(oldChild.key))
-      now.children.find(value => oldChild === value) // Implement this function based on how you remove children from canvas
+      now.children.find((value) => oldChild === value) // Implement this function based on how you remove children from canvas
   })
 }

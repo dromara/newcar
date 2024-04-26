@@ -1,12 +1,5 @@
-import type {
-  StrokeCap,
-  StrokeJoin,
-} from '@newcar/basic'
-import { Arc ,
-  Line,
-  str2StrokeCap,
-  str2StrokeJoin,
-} from '@newcar/basic'
+import type { StrokeCap, StrokeJoin } from '@newcar/basic'
+import { Arc, Line, str2StrokeCap, str2StrokeJoin } from '@newcar/basic'
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import { Color } from '@newcar/utils'
@@ -22,8 +15,8 @@ export interface AngleStyle extends WidgetStyle {
   graduatedArc?: boolean
   join?: StrokeJoin
   cap?: StrokeCap
-  width?: number,
-  gauge?: boolean,
+  width?: number
+  gauge?: boolean
   guageColor?: Color
 }
 
@@ -58,7 +51,7 @@ export class Angle extends Widget {
       style: {
         borderColor: this.style.guageColor,
         borderWidth: this.style.width,
-      }
+      },
     })
     this.add(this.basis, this.endSide)
   }

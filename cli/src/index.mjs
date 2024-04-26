@@ -48,7 +48,7 @@ export const main = Clerc.create()
             // eslint-disable-next-line no-console
             console.log('Processing finished !')
             // clear image files
-            tempFiles.forEach(file => fs.unlinkSync(file))
+            tempFiles.forEach((file) => fs.unlinkSync(file))
           })
           .input(path.resolve('./temp_image_%d.png'))
           .inputFPS(context.flags.fps)
@@ -62,8 +62,12 @@ export const main = Clerc.create()
     parameters: ['<name>'],
   })
   .on('create', (context) => {
-    execSync(`git clone https://github.com/dromara/newcar-local-template.git ${context.parameters.name} --depth=1`)
-    fs.rmSync(path.resolve(context.parameters.name, '.git'), { recursive: true })
+    execSync(
+      `git clone https://github.com/dromara/newcar-local-template.git ${context.parameters.name} --depth=1`,
+    )
+    fs.rmSync(path.resolve(context.parameters.name, '.git'), {
+      recursive: true,
+    })
   })
   .use(
     helpPlugin(),

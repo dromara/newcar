@@ -1,12 +1,12 @@
 import type {
   WidgetOptions,
   WidgetStyle,
-// eslint-disable-next-line import/no-duplicates
+  // eslint-disable-next-line import/no-duplicates
 } from '@newcar/core'
 import {
   $source,
   Widget,
-// eslint-disable-next-line import/no-duplicates
+  // eslint-disable-next-line import/no-duplicates
 } from '@newcar/core'
 import { Color, deepMerge, isString, isUndefined } from '@newcar/utils'
 import type {
@@ -28,14 +28,14 @@ import type {
   TextBaseline,
   TextDirection,
   TextHeightBehavior,
-// eslint-disable-next-line import/no-duplicates
+  // eslint-disable-next-line import/no-duplicates
 } from '@newcar/core'
 import {
   str2TextAlign,
   str2TextBaseline,
   str2TextDirection,
   str2TextHeightBehavior,
-// eslint-disable-next-line import/no-duplicates
+  // eslint-disable-next-line import/no-duplicates
 } from '@newcar/core'
 
 export interface InputItem {
@@ -141,8 +141,7 @@ export class Text extends Widget {
             fontSize: 50,
           },
         })
-      }
-      else {
+      } else {
         this.text.push(item as InputItem)
       }
     }
@@ -151,45 +150,51 @@ export class Text extends Widget {
   init(ck: CanvasKit) {
     this.textAlign = this.inputOptions.style.textAlign ?? 'start'
     this.textDirection = this.inputOptions.style.textDirection ?? 'ltr'
-    this.textHeightBehavior
-      = this.inputOptions.style.textHeightBehavior ?? 'all'
+    this.textHeightBehavior =
+      this.inputOptions.style.textHeightBehavior ?? 'all'
     this.fontManager = ck.FontMgr.FromData(...$source.fonts)
     this.builder = ck.ParagraphBuilder.Make(
-      new ck.ParagraphStyle(deepMerge({
-          textAlign: str2TextAlign(ck, this.textAlign),
-          textDirection: str2TextDirection(ck, this.textDirection),
-          textHeightBehavior: str2TextHeightBehavior(
-            ck,
-            this.textHeightBehavior,
-          ),
-          textStyle: {
-            color: ck.WHITE
-          }
-        },
-        this.style
-      )),
+      new ck.ParagraphStyle(
+        deepMerge(
+          {
+            textAlign: str2TextAlign(ck, this.textAlign),
+            textDirection: str2TextDirection(ck, this.textDirection),
+            textHeightBehavior: str2TextHeightBehavior(
+              ck,
+              this.textHeightBehavior,
+            ),
+            textStyle: {
+              color: ck.WHITE,
+            },
+          },
+          this.style,
+        ),
+      ),
       this.fontManager,
     )
     for (const item of this.text) {
       this.builder.pushStyle(
         new ck.TextStyle(
-          deepMerge({
-            backgroundColor: isUndefined(item.style.backgroundColor)
-              ? ck.Color4f(1, 1, 1, 0)
-              : item.style.backgroundColor.toFloat4(),
-            color: isUndefined(item.style.color)
-              ? ck.Color4f(1, 1, 1, 1)
-              : item.style.color.toFloat4(),
-            decorationColor: isUndefined(item.style.decorationColor)
-              ? ck.Color4f(1, 1, 1, 0)
-              : item.style.decorationColor.toFloat4(),
-            foregroundColor: isUndefined(item.style.foregroundColor)
-              ? ck.Color4f(1, 1, 1, 1)
-              : item.style.foregroundColor.toFloat4(),
-            textBaseline: isUndefined(item.style.textBaseline)
-              ? ck.TextBaseline.Alphabetic
-              : str2TextBaseline(ck, item.style.textBaseline),
-          }, item.style),
+          deepMerge(
+            {
+              backgroundColor: isUndefined(item.style.backgroundColor)
+                ? ck.Color4f(1, 1, 1, 0)
+                : item.style.backgroundColor.toFloat4(),
+              color: isUndefined(item.style.color)
+                ? ck.Color4f(1, 1, 1, 1)
+                : item.style.color.toFloat4(),
+              decorationColor: isUndefined(item.style.decorationColor)
+                ? ck.Color4f(1, 1, 1, 0)
+                : item.style.decorationColor.toFloat4(),
+              foregroundColor: isUndefined(item.style.foregroundColor)
+                ? ck.Color4f(1, 1, 1, 1)
+                : item.style.foregroundColor.toFloat4(),
+              textBaseline: isUndefined(item.style.textBaseline)
+                ? ck.TextBaseline.Alphabetic
+                : str2TextBaseline(ck, item.style.textBaseline),
+            },
+            item.style,
+          ),
         ),
       )
       this.builder.addText(item.text)
@@ -255,20 +260,19 @@ export class Text extends Widget {
   }
 
   isIn(x: number, y: number): boolean {
-    let top = 0;
-    let bottom = 0;
-  
+    let top = 0
+    let bottom = 0
+
     for (const item of this.text) {
-      bottom += item.style.fontSize; // Add the height of each line
-  
+      bottom += item.style.fontSize // Add the height of each line
+
       // Check if the coordinates (x, y) are within the bounding box of the current line
-      if (x >= 0 && x <= this.style.width && y >= top && y <= bottom) 
-        return true;
-      
-  
-      top = bottom; // Set the top of the next line to the bottom of the current line
+      if (x >= 0 && x <= this.style.width && y >= top && y <= bottom)
+        return true
+
+      top = bottom // Set the top of the next line to the bottom of the current line
     }
-  
-    return false;
+
+    return false
   }
 }

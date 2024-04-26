@@ -18,7 +18,10 @@ export class Markdown extends Widget {
   private textStyle: TextStyle
   private width: number
 
-  constructor(public text: string, options: MarkdownOptions) {
+  constructor(
+    public text: string,
+    options: MarkdownOptions,
+  ) {
     super(options)
     this.textStyle = options.textStyle || {
       color: Color.WHITE.toFloat4(),
@@ -52,10 +55,7 @@ export class Markdown extends Widget {
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
     // 重新构建段落当文本或样式更改
-    if (
-      propertyChanged === 'text'
-      || propertyChanged.match('textStyle.')
-    )
+    if (propertyChanged === 'text' || propertyChanged.match('textStyle.'))
       this.buildParagraph(ck)
   }
 
@@ -92,8 +92,7 @@ export class Markdown extends Widget {
 
         builder.addText(line.slice(2))
         builder.pop()
-      }
-      else if (line.match('## ')) {
+      } else if (line.match('## ')) {
         builder.pushStyle(
           new ck.TextStyle({
             fontSize: 20,
@@ -102,8 +101,7 @@ export class Markdown extends Widget {
         )
         builder.addText(line.slice(3))
         builder.pop()
-      }
-      else if (line.match('### ')) {
+      } else if (line.match('### ')) {
         builder.pushStyle(
           new ck.TextStyle({
             fontSize: 18,
@@ -112,21 +110,25 @@ export class Markdown extends Widget {
         )
         builder.addText(line.slice(4))
         builder.pop()
-      }
-      else if (line.match('- ') !== null || line.match(/\* /) !== null || line.match(/\+/) !== null) {
+      } else if (
+        line.match('- ') !== null ||
+        line.match(/\* /) !== null ||
+        line.match(/\+/) !== null
+      ) {
         builder.addText(`• ${line.slice(2)}`)
-      }
-      else if (line.match(/\!\[/)) {
+      } else if (line.match(/\!\[/)) {
         this.handleImage(line, builder, ck)
-      }
-      else if (line.match(/\[/)) {
-        builder.pushStyle(new ck.TextStyle({
-          color: ck.BLUE,
-        }))
-        builder.addText(line.replace(/\[/, '').replace(/\]/, '').replace(/(.+)/, ''))
+      } else if (line.match(/\[/)) {
+        builder.pushStyle(
+          new ck.TextStyle({
+            color: ck.BLUE,
+          }),
+        )
+        builder.addText(
+          line.replace(/\[/, '').replace(/\]/, '').replace(/(.+)/, ''),
+        )
         builder.pop()
-      }
-      else {
+      } else {
         builder.addText(line)
       }
       builder.addText('\n')

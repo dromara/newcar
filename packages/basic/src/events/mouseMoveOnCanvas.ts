@@ -1,4 +1,4 @@
-import { Widget, defineEvent } from "@newcar/core";
+import { Widget, defineEvent } from '@newcar/core'
 
 export const mouseMoveOnCanvas = defineEvent({
   operation(widget, effect, element) {
@@ -9,5 +9,5 @@ export const mouseMoveOnCanvas = defineEvent({
       const { x, y } = Widget.absoluteToRelative(widget, absoluteX, absoluteY)
       effect(widget, x, y)
     })
-  }
+  },
 })

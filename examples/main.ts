@@ -16,15 +16,15 @@ export const scene1 = new nc.Scene(
   new nc.Circle(100).animate(nc.create, 0, 30).on(nc.click, (w, x, y) => {
     w.x = x
     w.y = y
-  }))
+  }),
+)
 
 export const scene2 = new nc.Scene(
   new nc.Line([0, 0], [400, 400]).animate(nc.create, 0, 30),
 )
 
 export const scene3 = new nc.Scene(
-  new nc.Arrow([50, 350], [350, 50])
-    .animate(nc.create, 0, 30)
+  new nc.Arrow([50, 350], [350, 50]).animate(nc.create, 0, 30),
 )
 
 export const scene4 = new nc.Scene(
@@ -55,18 +55,18 @@ export const scene4 = new nc.Scene(
 )
 
 const scene5 = new nc.Scene(
-  new nc.Polygon(
-    [
-      [200, 300],
-      [400, 500],
-      [100, 100]
-    ]
-  ).on(nc.click, (w, x, y) => {
+  new nc.Polygon([
+    [200, 300],
+    [400, 500],
+    [100, 100],
+  ]).on(nc.click, (w, x, y) => {
     console.log(w, x, y)
-  })
+  }),
 )
 
-const scene6 = new nc.Scene(new Angle(new nc.Line([100, 100], [200, 100]), 45, 100))
+const scene6 = new nc.Scene(
+  new Angle(new nc.Line([100, 100], [200, 100]), 45, 100),
+)
 
 const scene7 = new nc.Scene(new Brace([100, 100], [200, 200]))
 
