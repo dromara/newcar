@@ -24,7 +24,6 @@ jobs:
         run: |
           npm i pnpm -g
           pnpm install
-          pnpm install --global typescript
 
       - name: TypeScript check
         run: tsc --noEmit
