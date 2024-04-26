@@ -3,7 +3,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { exec } from 'node:child_process'
+import { execSync } from 'node:child_process'
 import ffmpeg from 'fluent-ffmpeg'
 import {
   Clerc,
@@ -13,11 +13,12 @@ import {
   notFoundPlugin,
   versionPlugin,
 } from 'clerc'
+import pkg from '../package.json' assert { type: 'json' }
 
 export const main = Clerc.create()
   .name('Newcar Location Cli')
   .scriptName('ncli')
-  .version('1.0.0')
+  .version(pkg.version)
   .description('The offical cli to build local app')
   .command('export', 'Export Newcar Animation to videos.', {
     parameters: ['<jsfile>', '<duration>', '<target>'],
@@ -61,7 +62,8 @@ export const main = Clerc.create()
     parameters: ['<name>'],
   })
   .on('create', (context) => {
-    exec(`git clone https://github.com/dromara/newcar-local-template.git ${context.parameters.name}`)
+    execSync(`git clone https://github.com/dromara/newcar-local-template.git ${context.parameters.name} --depth=1`)
+    fs.rmSync(path.resolve(context.parameters.name, '.git'), { recursive: true })
   })
   .use(
     helpPlugin(),
