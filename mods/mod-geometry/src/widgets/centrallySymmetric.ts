@@ -1,12 +1,12 @@
 import { Widget, type WidgetOptions } from '@newcar/core'
 
-export class Axisymmetric extends Widget {
+export class centrallySymmetric extends Widget {
   mirror: Widget
   constructor(origin: Widget, options?: WidgetOptions) {
     options ??= {}
     super(options)
     this.mirror = origin.copy()
-    this.mirror.style.scaleX = -1
+    this.mirror.style.rotation! += 180
     this.add(this.mirror)
   }
 }

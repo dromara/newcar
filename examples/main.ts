@@ -1,6 +1,6 @@
 import { CarEngine } from 'newcar'
 import { Markdown } from '@newcar/mod-markdown'
-import { Angle } from '@newcar/mod-geometry'
+import { Angle, Brace } from '@newcar/mod-geometry'
 
 import * as nc from 'newcar'
 
@@ -16,8 +16,6 @@ export const scene1 = new nc.Scene(
   new nc.Circle(100).animate(nc.create, 0, 30).on(nc.click, (w, x, y) => {
     w.x = x
     w.y = y
-    console.log(x, y);
-    
   }))
 
 export const scene2 = new nc.Scene(
@@ -27,9 +25,6 @@ export const scene2 = new nc.Scene(
 export const scene3 = new nc.Scene(
   new nc.Arrow([50, 350], [350, 50])
     .animate(nc.create, 0, 30)
-    .on(nc.mouseMove, (w, x, y) => {
-      console.log(w, x, y)
-    })
 )
 
 export const scene4 = new nc.Scene(
@@ -73,6 +68,8 @@ const scene5 = new nc.Scene(
 
 const scene6 = new nc.Scene(new Angle(new nc.Line([100, 100], [200, 100]), 45, 100))
 
+const scene7 = new nc.Scene(new Brace([100, 100], [200, 200]))
+
 const app1 = engine.createApp(document.querySelector('#a1'))
 app1.checkout(scene1)
 app1.play()
@@ -96,3 +93,7 @@ app5.play()
 const app6 = engine.createApp(document.querySelector('#b1'))
 app6.checkout(scene6)
 app6.play()
+
+const app7 = engine.createApp(document.querySelector('#b2'))
+app7.checkout(scene7)
+app7.play()

@@ -1,2 +1,5 @@
 export * from './dot'
 export * from './angle'
+export * from './axisymmetric'
+export * from './centrallySymmetric'
+export * from './brace'

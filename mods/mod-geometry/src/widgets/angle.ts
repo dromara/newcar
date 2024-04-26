@@ -2,7 +2,7 @@ import type {
   StrokeCap,
   StrokeJoin,
 } from '@newcar/basic'
-import {
+import { Arc ,
   Line,
   str2StrokeCap,
   str2StrokeJoin,
@@ -22,7 +22,9 @@ export interface AngleStyle extends WidgetStyle {
   graduatedArc?: boolean
   join?: StrokeJoin
   cap?: StrokeCap
-  width?: number
+  width?: number,
+  gauge?: boolean,
+  guageColor?: Color
 }
 
 export class Angle extends Widget {
@@ -32,6 +34,7 @@ export class Angle extends Widget {
   endSide: Line
   private endX: number
   private endY: number
+  guage: Arc
   constructor(
     public basis: Line,
     public value: number,
@@ -47,9 +50,16 @@ export class Angle extends Widget {
     this.style.graduatedArc = options.style.graduatedArc ?? true
     this.style.join = options.style.join ?? 'miter'
     this.style.cap = options.style.cap ?? 'square'
+    this.style.guageColor = options.style.guageColor ?? Color.WHITE
     this.endX = this.basis.to[0] + length * Math.cos(this.value)
     this.endY = this.basis.to[1] + length * Math.sin(this.value)
     this.endSide = new Line(this.basis.from, [this.endX, this.endY])
+    this.guage = new Arc(50, this.basis.style.rotation, this.value, {
+      style: {
+        borderColor: this.style.guageColor,
+        borderWidth: this.style.width,
+      }
+    })
     this.add(this.basis, this.endSide)
   }
 
