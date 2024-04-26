@@ -1,8 +1,8 @@
-name: "CI"
+name: 'CI'
 on:
   push:
     branches:
-      - "**"
+      - '**'
   pull_request:
     branches:
       - main
