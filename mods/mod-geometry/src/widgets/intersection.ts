@@ -4,10 +4,7 @@ import { Widget } from '@newcar/core'
 export class Intersection extends Widget {
   clones: Widget[] = []
 
-  constructor(
-    public widgets: Widget[],
-    options?: WidgetOptions,
-  ) {
+  constructor(public widgets: Widget[], options?: WidgetOptions) {
     options ??= {}
     super(options)
     for (const widget of this.widgets) {

@@ -13,10 +13,7 @@ export interface PolygonStyle extends FigureStyle {}
 export class Polygon extends Figure {
   path: Path
 
-  constructor(
-    public points: Vector2[],
-    options?: PolygonOptions,
-  ) {
+  constructor(public points: Vector2[], options?: PolygonOptions) {
     options ??= {}
     super(options)
   }

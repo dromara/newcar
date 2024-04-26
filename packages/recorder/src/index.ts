@@ -2,10 +2,7 @@ export class Recorder {
   private stream
   private recorder: MediaRecorder
 
-  constructor(
-    public element: HTMLCanvasElement,
-    public type: 'webm' | 'mp4',
-  ) {
+  constructor(public element: HTMLCanvasElement, public type: 'webm' | 'mp4') {
     this.stream = this.element.captureStream()
     this.recorder = new MediaRecorder(this.stream, {
       mimeType: 'video/webm',

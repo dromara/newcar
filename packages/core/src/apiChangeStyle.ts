@@ -38,18 +38,18 @@ export function changeStyle<T extends Widget>(
         params.from !== undefined
           ? params.from
           : defaultFrom !== undefined
-            ? defaultFrom
-            : Array.isArray(propertyName)
-              ? propertyName.map((prop) => widget.style[prop])
-              : widget.style[propertyName]
+          ? defaultFrom
+          : Array.isArray(propertyName)
+          ? propertyName.map((prop) => widget.style[prop])
+          : widget.style[propertyName]
       let to =
         params.to !== undefined
           ? params.to
           : defaultTo !== undefined
-            ? defaultTo
-            : Array.isArray(propertyName)
-              ? propertyName.map((prop) => widget.style[prop])
-              : widget.style[propertyName]
+          ? defaultTo
+          : Array.isArray(propertyName)
+          ? propertyName.map((prop) => widget.style[prop])
+          : widget.style[propertyName]
 
       if (!Array.isArray(from)) from = [from]
 

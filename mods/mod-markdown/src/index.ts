@@ -18,10 +18,7 @@ export class Markdown extends Widget {
   private textStyle: TextStyle
   private width: number
 
-  constructor(
-    public text: string,
-    options: MarkdownOptions,
-  ) {
+  constructor(public text: string, options: MarkdownOptions) {
     super(options)
     this.textStyle = options.textStyle || {
       color: Color.WHITE.toFloat4(),

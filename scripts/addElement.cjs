@@ -61,7 +61,9 @@ async function main() {
         insertPosition = updatedData.lastIndexOf('}')
       } else {
         const regex = new RegExp(
-          `export interface .*${target.charAt(0).toUpperCase() + target.slice(1)}`,
+          `export interface .*${
+            target.charAt(0).toUpperCase() + target.slice(1)
+          }`,
           'g',
         )
         const matches = [...updatedData.matchAll(regex)]

@@ -65,7 +65,7 @@ export const easeBounce: TimingFunction = (x: number): number =>
   x < 1 / d
     ? n * x ** 2
     : x < 2 / d
-      ? n * (x - 1.5 / d) ** 2 + 0.75
-      : x < 2.5 / d
-        ? n * (x - 2.25 / d) ** 2 + 0.9375
-        : n * (x - 2.625 / d) ** 2 + 0.984_375
+    ? n * (x - 1.5 / d) ** 2 + 0.75
+    : x < 2.5 / d
+    ? n * (x - 2.25 / d) ** 2 + 0.9375
+    : n * (x - 2.625 / d) ** 2 + 0.984_375

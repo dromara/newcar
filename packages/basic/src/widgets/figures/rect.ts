@@ -14,11 +14,7 @@ export class Rect extends Figure {
   declare style: RectStyle
   rect: RRect
 
-  constructor(
-    public from: Vector2,
-    public to: Vector2,
-    options?: RectOptions,
-  ) {
+  constructor(public from: Vector2, public to: Vector2, options?: RectOptions) {
     options ??= {}
     super(options)
     this.style ??= {}

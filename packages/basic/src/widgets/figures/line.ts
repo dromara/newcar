@@ -17,11 +17,7 @@ export class Line extends Widget {
   paint: Paint
   declare style: LineStyle
 
-  constructor(
-    public from: Vector2,
-    public to: Vector2,
-    options?: LineOptions,
-  ) {
+  constructor(public from: Vector2, public to: Vector2, options?: LineOptions) {
     options ??= {}
     super(options)
     options.style ??= {}

@@ -8,10 +8,7 @@ export class ImageWidget extends Widget {
   private image: Image
   paint: Paint
 
-  constructor(
-    public imageArray: ArrayBuffer,
-    options?: ImageWidgetOptions,
-  ) {
+  constructor(public imageArray: ArrayBuffer, options?: ImageWidgetOptions) {
     options ??= {}
     super(options)
   }

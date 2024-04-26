@@ -40,10 +40,7 @@ export class Svg extends Widget {
   private vcanvasContext: OffscreenCanvasRenderingContext2D
   private imageData: Image
 
-  constructor(
-    public svg: string,
-    options?: SvgOptions,
-  ) {
+  constructor(public svg: string, options?: SvgOptions) {
     options ??= {}
     super(options)
     options.style ??= {}
