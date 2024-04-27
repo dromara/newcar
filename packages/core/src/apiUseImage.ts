@@ -8,8 +8,7 @@ export async function useImage(src: string) {
     const array = await response.arrayBuffer()
     $source.images.push(array)
     return array
-  }
-  else {
+  } else {
     const buffer = fs.readFileSync(path.resolve(src))
     const array = buffer.buffer.slice(
       buffer.byteOffset,

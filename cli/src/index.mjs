@@ -48,7 +48,7 @@ export const main = Clerc.create()
             // eslint-disable-next-line no-console
             console.log('Processing finished !')
             // clear image files
-            tempFiles.forEach(file => fs.unlinkSync(file))
+            tempFiles.forEach((file) => fs.unlinkSync(file))
           })
           .input(path.resolve('./temp_image_%d.png'))
           .inputFPS(context.flags.fps)

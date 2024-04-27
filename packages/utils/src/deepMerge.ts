@@ -10,13 +10,11 @@ export function deepMerge<
     if (isObject(source[key])) {
       if (isObject(target[key])) {
         output[key] = deepMerge(target[key], source[key])
-      }
-      else {
+      } else {
         // Directly assign if the corresponding key in target is not an object
         output[key] = source[key]
       }
-    }
-    else {
+    } else {
       output[key] = source[key]
     }
   })

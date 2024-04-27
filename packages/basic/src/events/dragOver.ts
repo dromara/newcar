@@ -8,8 +8,7 @@ export const dragOver = defineEvent({
       const absoluteY = event.clientY - rect.top
       const { x, y } = Widget.absoluteToRelative(widget, absoluteX, absoluteY)
       const isIn = widget.isIn(x, y)
-      if (isIn)
-        effect(widget, x, y)
+      if (isIn) effect(widget, x, y)
     })
   },
 })

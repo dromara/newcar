@@ -18,8 +18,7 @@ export class ImageWidget extends Widget {
     this.paint.setAlphaf(this.style.transparency)
     try {
       this.image = ck.MakeImageFromEncoded(this.imageArray)
-    }
-    catch (error) {}
+    } catch (error) {}
   }
 
   predraw(ck: CanvasKit, propertyChanged: string) {
@@ -40,10 +39,10 @@ export class ImageWidget extends Widget {
 
   isIn(x: number, y: number): boolean {
     return (
-      x >= 0
-      && x <= 0 + this.image.width()
-      && y >= 0
-      && y <= 0 + this.image.height()
+      x >= 0 &&
+      x <= 0 + this.image.width() &&
+      y >= 0 &&
+      y <= 0 + this.image.height()
     )
   }
 }

@@ -74,8 +74,8 @@ export class MathFunction extends Widget {
         this.path.moveTo(this.domain[0], this.fn(this.domain[0]))
         for (
           let x = this.domain[0];
-          x
-          <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
+          x <=
+          this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
           x += 1 / this.divisionX
         ) {
           const value = this.fn(x)

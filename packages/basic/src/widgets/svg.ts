@@ -58,8 +58,7 @@ export class Svg extends Widget {
       this.vcanvasContext.drawImage(this.image, 0, 0)
       try {
         this.imageData = ck.MakeImageFromCanvasImageSource(this.vcanvas)
-      }
-      catch {}
+      } catch {}
       this.ready = true
     }
   }
@@ -72,7 +71,6 @@ export class Svg extends Widget {
   }
 
   draw(canvas: Canvas): void {
-    if (this.ready)
-      canvas.drawImage(this.imageData, this.x, this.y)
+    if (this.ready) canvas.drawImage(this.imageData, this.x, this.y)
   }
 }

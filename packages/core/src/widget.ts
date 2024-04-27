@@ -114,8 +114,7 @@ export class Widget {
     canvas.translate(this.x, this.y)
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
     canvas.scale(this.style.scaleX, this.style.scaleY)
-    if (this.display)
-      this.draw(canvas)
+    if (this.display) this.draw(canvas)
   }
 
   /**
@@ -169,8 +168,8 @@ export class Widget {
   runAnimation(elapsed: number) {
     for (const instance of this.animationInstances) {
       if (
-        instance.startAt <= elapsed
-        && instance.during + instance.startAt >= elapsed
+        instance.startAt <= elapsed &&
+        instance.during + instance.startAt >= elapsed
       ) {
         if (instance.mode === 'positive') {
           instance.animation.act(
@@ -179,8 +178,7 @@ export class Widget {
             (elapsed - instance.startAt) / instance.during,
             instance.params,
           )
-        }
-        else if (instance.mode === 'reverse') {
+        } else if (instance.mode === 'reverse') {
           instance.animation.act(
             this,
             elapsed - instance.startAt,
@@ -236,12 +234,12 @@ export class Widget {
     return false
   }
 
-  static getAbsoluteCoordinates(widget: Widget): { x: number, y: number } {
+  static getAbsoluteCoordinates(widget: Widget): { x: number; y: number } {
     function getCoordinates(
       widget: Widget,
       x: number,
       y: number,
-    ): { x: number, y: number } {
+    ): { x: number; y: number } {
       let parent = widget.parent
       let absoluteX = x
       let absoluteY = y
@@ -262,7 +260,7 @@ export class Widget {
     widget: Widget,
     x: number,
     y: number,
-  ): { x: number, y: number } {
+  ): { x: number; y: number } {
     const { x: absoluteX, y: absoluteY } = Widget.getAbsoluteCoordinates(widget)
     const relativeX = x - absoluteX
     const relativeY = y - absoluteY

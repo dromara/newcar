@@ -13,8 +13,7 @@ export function svg2path(svgString: string): PathData[] {
 
   svgElement.querySelectorAll('*').forEach((el) => {
     const pathData = elementToPathDataWithCoords(el)
-    if (pathData)
-      paths.push(pathData)
+    if (pathData) paths.push(pathData)
   })
 
   return paths
@@ -31,19 +30,19 @@ function elementToPathDataWithCoords(element: Element): PathData | null {
       path = element.getAttribute('d') || ''
       break
     case 'rect':
-      [x, y] = getPos(element, 'x', 'y')
+      ;[x, y] = getPos(element, 'x', 'y')
       path = rectToPath(element)
       break
     case 'circle':
-      [x, y] = getPos(element, 'cx', 'cy')
+      ;[x, y] = getPos(element, 'cx', 'cy')
       path = circleToPath(element)
       break
     case 'ellipse':
-      [x, y] = getPos(element, 'cx', 'cy')
+      ;[x, y] = getPos(element, 'cx', 'cy')
       path = ellipseToPath(element)
       break
     case 'line':
-      [x, y] = getPos(element, 'x1', 'y1')
+      ;[x, y] = getPos(element, 'x1', 'y1')
       path = lineToPath(element)
       break
     case 'polygon':
@@ -62,14 +61,16 @@ function elementToPathDataWithCoords(element: Element): PathData | null {
   return { x, y, path }
 }
 
-function getFirstPoint(points: string): { x: number, y: number } {
+function getFirstPoint(points: string): { x: number; y: number } {
   const [firstPoint] = points.split(' ')
   const [x, y] = firstPoint.split(',').map(Number)
   return { x, y }
 }
 
 function pointsToPath(element: Element): string {
-  return `M${element.getAttribute('points')}${element.tagName.toLowerCase() === 'polygon' ? ' Z' : ''}`
+  return `M${element.getAttribute('points')}${
+    element.tagName.toLowerCase() === 'polygon' ? ' Z' : ''
+  }`
 }
 
 function rectToPath(rect: Element): string {
@@ -79,12 +80,16 @@ function rectToPath(rect: Element): string {
 
 function circleToPath(circle: Element): string {
   const [cx, cy, r] = getPos(circle, 'cx', 'cy', 'r')
-  return `M ${cx - r}, ${cy} a ${r},${r} 0 1,0 ${2 * r},0 a ${r},${r} 0 1,0 ${-2 * r},0`
+  return `M ${cx - r}, ${cy} a ${r},${r} 0 1,0 ${2 * r},0 a ${r},${r} 0 1,0 ${
+    -2 * r
+  },0`
 }
 
 function ellipseToPath(ellipse: Element): string {
   const [cx, cy, rx, ry] = getPos(ellipse, 'cx', 'cy', 'rx', 'ry')
-  return `M ${cx - rx}, ${cy} a ${rx},${ry} 0 1,0 ${2 * rx},0 a ${rx},${ry} 0 1,0 ${-2 * rx},0`
+  return `M ${cx - rx}, ${cy} a ${rx},${ry} 0 1,0 ${
+    2 * rx
+  },0 a ${rx},${ry} 0 1,0 ${-2 * rx},0`
 }
 
 function lineToPath(line: Element): string {
@@ -93,6 +98,8 @@ function lineToPath(line: Element): string {
 }
 
 function getPos(el: Element, ...attrs: string[]): number[] {
-  const values = attrs.map((attr) => Number.parseFloat(el.getAttribute(attr) || '0'))
+  const values = attrs.map((attr) =>
+    Number.parseFloat(el.getAttribute(attr) || '0'),
+  )
   return values
 }

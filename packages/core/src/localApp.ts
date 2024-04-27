@@ -23,8 +23,7 @@ export class LocalApp {
     if (typeof window === 'undefined') {
       this.surface = this.ck.MakeSurface(this.width, this.height)
       this.canvas = this.surface.getCanvas()
-    }
-    else {
+    } else {
       console.warn(
         '[Newcar Warn] You are using browser to run Newcar local mode, please use normal App.',
       )

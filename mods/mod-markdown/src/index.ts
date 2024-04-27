@@ -74,7 +74,6 @@ export class Markdown extends Widget {
     builder: ParagraphBuilder,
     ck: CanvasKit,
   ) {
-
     const lines = text.split('\n')
     lines.forEach((line) => {
       if (line.match('# ')) {
@@ -87,8 +86,7 @@ export class Markdown extends Widget {
 
         builder.addText(line.slice(2))
         builder.pop()
-      }
-      else if (line.match('## ')) {
+      } else if (line.match('## ')) {
         builder.pushStyle(
           new ck.TextStyle({
             fontSize: 20,
@@ -97,8 +95,7 @@ export class Markdown extends Widget {
         )
         builder.addText(line.slice(3))
         builder.pop()
-      }
-      else if (line.match('### ')) {
+      } else if (line.match('### ')) {
         builder.pushStyle(
           new ck.TextStyle({
             fontSize: 18,
@@ -107,8 +104,7 @@ export class Markdown extends Widget {
         )
         builder.addText(line.slice(4))
         builder.pop()
-      }
-      else if (line.match('#### ')) {
+      } else if (line.match('#### ')) {
         builder.pushStyle(
           new ck.TextStyle({
             fontSize: 16,
@@ -117,8 +113,7 @@ export class Markdown extends Widget {
         )
         builder.addText(line.slice(4))
         builder.pop()
-      }
-      else if (line.match('##### ')) {
+      } else if (line.match('##### ')) {
         builder.pushStyle(
           new ck.TextStyle({
             fontSize: 13,
@@ -127,8 +122,7 @@ export class Markdown extends Widget {
         )
         builder.addText(line.slice(4))
         builder.pop()
-      }
-      else if (line.match('#### ')) {
+      } else if (line.match('#### ')) {
         builder.pushStyle(
           new ck.TextStyle({
             fontSize: 10,
@@ -137,18 +131,15 @@ export class Markdown extends Widget {
         )
         builder.addText(line.slice(4))
         builder.pop()
-      }
-      else if (
-        line.match('- ') !== null
-        || line.match(/\* /) !== null
-        || line.match(/\+/) !== null
+      } else if (
+        line.match('- ') !== null ||
+        line.match(/\* /) !== null ||
+        line.match(/\+/) !== null
       ) {
         builder.addText(`• ${line.slice(2)}`)
-      }
-      else if (line.match(/\!\[/)) {
+      } else if (line.match(/\!\[/)) {
         this.handleImage(line, builder, ck)
-      }
-      else if (line.match(/\[/)) {
+      } else if (line.match(/\[/)) {
         builder.pushStyle(
           new ck.TextStyle({
             color: ck.BLUE,
@@ -158,15 +149,13 @@ export class Markdown extends Widget {
           line.replace(/\[/, '').replace(/\]/, '').replace(/(.+)/, ''),
         )
         builder.pop()
-      }
-      else if (line.match(/`.+`/)) {
+      } else if (line.match(/`.+`/)) {
         builder.pushStyle(
           new ck.TextStyle({
-            backgroundColor: ck.Color(211, 211, 211, 1)
-          })
+            backgroundColor: ck.Color(211, 211, 211, 1),
+          }),
         )
-      }
-      else {
+      } else {
         builder.addText(line)
       }
       builder.addText('\n')

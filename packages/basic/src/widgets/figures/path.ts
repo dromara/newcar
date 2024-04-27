@@ -32,8 +32,7 @@ export class Path extends Figure {
         this.style.offset,
       )
       this.strokePaint.setPathEffect(dash)
-    }
-    catch {}
+    } catch {}
     this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
@@ -96,10 +95,8 @@ export class Path extends Figure {
 
   draw(canvas: Canvas): void {
     // console.log(this.path);
-    if (this.style.border)
-      canvas.drawPath(this.path, this.strokePaint)
+    if (this.style.border) canvas.drawPath(this.path, this.strokePaint)
 
-    if (this.style.fill)
-      canvas.drawPath(this.path, this.fillPaint)
+    if (this.style.fill) canvas.drawPath(this.path, this.fillPaint)
   }
 }
