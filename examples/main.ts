@@ -55,7 +55,12 @@ export const scene4 = new nc.Scene(
 )
 
 const scene5 = new nc.Scene(
-  new Tex('x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}')
+  new Tex('x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}', {
+    style: {
+      scaleX: 0.1,
+      scaleY: 0.1
+    }
+  })
 )
 
 const scene6 = new nc.Scene(

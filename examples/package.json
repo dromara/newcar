@@ -2,10 +2,12 @@
   "name": "@newcar/examples",
   "private": true,
   "dependencies": {
+    "@newcar/mod-geometry": "workspace:0.1.5",
+    "@newcar/mod-markdown": "workspace:0.1.5",
+    "@newcar/mod-math": "workspace:*",
     "canvaskit-wasm": "0.39.1",
     "newcar": "workspace:0.15.1",
-    "@newcar/mod-markdown": "workspace:0.1.5",
-    "@newcar/mod-geometry": "workspace:0.1.5",
-    "@newcar/mod-math": "workspace:*"
-  }
+    "vite-plugin-node-polyfills": "^0.21.0"
+  },
+  "type": "commonjs"
 }
