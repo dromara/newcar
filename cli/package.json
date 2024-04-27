@@ -4,6 +4,12 @@
   "description": "The cli tool of local Newcar",
   "main": "src/index.mjs",
   "type": "module",
+  "scripts": {
+    "build": "FLUENTFFMPEG_COV=false esbuild index.ts --bundle --platform=node --outfile=bin/index.cjs",
+    "run": "node bin/index.cjs",
+    "dev": "npm run build && npm run run",
+    "test:create": "ncli create"
+  },
   "keywords": [
     "Animation",
     "CLI"
@@ -11,14 +17,22 @@
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "clerc": "^0.42.2",
-    "fluent-ffmpeg": "^2.1.2"
+    "@inquirer/prompts": "^5.0.2",
+    "commander": "^12.0.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "inquirer": "^9.2.20",
+    "ora": "^8.0.1",
+    "picocolors": "^1.0.0"
   },
   "devDependencies": {
+    "@newcar/core": "workspace:*",
+    "@types/fluent-ffmpeg": "^2.1.24",
+    "@types/inquirer": "^9.0.7",
     "canvaskit-wasm": "0.39.1",
+    "esbuild": "^0.20.2",
     "newcar": "workspace:*"
   },
   "bin": {
-    "ncli": "src/index.mjs"
+    "ncli": "bin/index.cjs"
   }
 }
