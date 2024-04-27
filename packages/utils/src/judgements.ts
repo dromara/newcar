@@ -1,7 +1,9 @@
 export function createCanvas(w?: number, h?: number): HTMLCanvasElement {
   const el = document.createElement('canvas')
-  if (w != null) el.width = w
-  if (h != null) el.height = h
+  if (w != null)
+    el.width = w
+  if (h != null)
+    el.height = h
   return el
 }
 

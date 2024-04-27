@@ -1,5 +1,4 @@
 import type { Vector2 } from '@newcar/basic'
-import { Line } from '@newcar/basic'
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import { Color } from '@newcar/utils'

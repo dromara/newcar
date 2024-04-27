@@ -1,6 +1,6 @@
 import { CarEngine } from 'newcar'
-import { Markdown } from '@newcar/mod-markdown'
 import { Angle, Brace } from '@newcar/mod-geometry'
+import { Tex } from '@newcar/mod-math'
 
 import * as nc from 'newcar'
 
@@ -55,13 +55,7 @@ export const scene4 = new nc.Scene(
 )
 
 const scene5 = new nc.Scene(
-  new nc.Polygon([
-    [200, 300],
-    [400, 500],
-    [100, 100],
-  ]).on(nc.click, (w, x, y) => {
-    console.log(w, x, y)
-  }),
+  new Tex('x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}')
 )
 
 const scene6 = new nc.Scene(

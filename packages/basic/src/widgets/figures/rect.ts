@@ -40,7 +40,8 @@ export class Rect extends Figure {
         this.style.offset,
       )
       this.strokePaint.setPathEffect(dash)
-    } catch {}
+    }
+    catch {}
     this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
@@ -100,9 +101,11 @@ export class Rect extends Figure {
   }
 
   draw(canvas: Canvas): void {
-    if (this.style.border) canvas.drawRect(this.rect, this.strokePaint)
+    if (this.style.border)
+      canvas.drawRect(this.rect, this.strokePaint)
 
-    if (this.style.fill) canvas.drawRect(this.rect, this.fillPaint)
+    if (this.style.fill)
+      canvas.drawRect(this.rect, this.fillPaint)
   }
 
   isIn(x: number, y: number): boolean {
@@ -112,10 +115,10 @@ export class Rect extends Figure {
     const rectHeight = Math.abs(this.from[1] - this.to[1])
 
     return (
-      x >= rectX &&
-      x <= rectX + rectWidth &&
-      y >= rectY &&
-      y <= rectY + rectHeight
+      x >= rectX
+      && x <= rectX + rectWidth
+      && y >= rectY
+      && y <= rectY + rectHeight
     )
   }
 }

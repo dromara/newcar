@@ -29,7 +29,8 @@ export class Arc extends Figure {
         this.style.offset,
       )
       this.strokePaint.setPathEffect(dash)
-    } catch {}
+    }
+    catch {}
 
     // Fill
     this.fillPaint = new ck.Paint()

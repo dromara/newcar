@@ -8,7 +8,8 @@ export async function useFont(src: string) {
     const array = await response.arrayBuffer()
     $source.fonts.push(array)
     return array
-  } else {
+  }
+  else {
     const buffer = fs.readFileSync(path.resolve(src))
     const array = buffer.buffer.slice(
       buffer.byteOffset,

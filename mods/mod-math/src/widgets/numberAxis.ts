@@ -46,7 +46,7 @@ export class NumberAxis extends Widget {
   ) {
     options ??= {}
     super(options)
-    this.trend = options.trend ?? ((counter) => counter)
+    this.trend = options.trend ?? (counter => counter)
     this.interval = options.interval ?? 50
     this.arrowOptions = options.arrowOptions ?? {}
     this.textOptions = options.textOptions ?? {}

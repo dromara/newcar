@@ -27,12 +27,12 @@ export class App {
     }
     for (const plugin of this.plugins) plugin.beforeSurfaceLoaded(this)
 
-    if (typeof window !== 'undefined')
-      this.surface = this.ck.MakeWebGLCanvasSurface(this.element)
-    else
+    if (typeof window !== 'undefined') { this.surface = this.ck.MakeWebGLCanvasSurface(this.element) }
+    else {
       console.warn(
         '[Newcar Warn] You are using nodejs to run Newcar, please use LocalApp.',
       )
+    }
 
     for (const plugin of this.plugins)
       plugin.onSurfaceLoaded(this, this.surface)
@@ -54,7 +54,8 @@ export class App {
       plugin.beforeUpdate(app, app.scene.elapsed)
 
     // If this updating is this scene's origin, initial this scene.
-    if (app.scene.elapsed === 0) initial(app.scene.root, app.ck, canvas)
+    if (app.scene.elapsed === 0)
+      initial(app.scene.root, app.ck, canvas)
 
     // Contrast the old widget and the new widget and update them.
     for (const plugin of app.plugins)
