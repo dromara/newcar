@@ -72,7 +72,6 @@ export class App {
 
     // Process setup generation function
     app.scene.root.runSetup(app.scene.elapsed)
-    
 
     for (const plugin of app.plugins) plugin.afterUpdate(app, app.scene.elapsed)
 
