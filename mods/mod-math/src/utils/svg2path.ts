@@ -31,23 +31,19 @@ function elementToPathDataWithCoords(element: Element): PathData | null {
       path = element.getAttribute('d') || ''
       break
     case 'rect':
-      x = Number.parseFloat(element.getAttribute('x') || '0')
-      y = Number.parseFloat(element.getAttribute('y') || '0')
+      [x, y] = getPos(element, 'x', 'y')
       path = rectToPath(element)
       break
     case 'circle':
-      x = Number.parseFloat(element.getAttribute('cx') || '0')
-      y = Number.parseFloat(element.getAttribute('cy') || '0')
+      [x, y] = getPos(element, 'cx', 'cy')
       path = circleToPath(element)
       break
     case 'ellipse':
-      x = Number.parseFloat(element.getAttribute('cx') || '0')
-      y = Number.parseFloat(element.getAttribute('cy') || '0')
+      [x, y] = getPos(element, 'cx', 'cy')
       path = ellipseToPath(element)
       break
     case 'line':
-      x = Number.parseFloat(element.getAttribute('x1') || '0')
-      y = Number.parseFloat(element.getAttribute('y1') || '0')
+      [x, y] = getPos(element, 'x1', 'y1')
       path = lineToPath(element)
       break
     case 'polygon':
@@ -77,32 +73,26 @@ function pointsToPath(element: Element): string {
 }
 
 function rectToPath(rect: Element): string {
-  const x = Number.parseFloat(rect.getAttribute('x') || '0')
-  const y = Number.parseFloat(rect.getAttribute('y') || '0')
-  const width = Number.parseFloat(rect.getAttribute('width') || '0')
-  const height = Number.parseFloat(rect.getAttribute('height') || '0')
+  const [x, y, width, height] = getPos(rect, 'x', 'y', 'width', 'height')
   return `M${x},${y} h${width} v${height} h${-width} Z`
 }
 
 function circleToPath(circle: Element): string {
-  const cx = Number.parseFloat(circle.getAttribute('cx') || '0')
-  const cy = Number.parseFloat(circle.getAttribute('cy') || '0')
-  const r = Number.parseFloat(circle.getAttribute('r') || '0')
+  const [cx, cy, r] = getPos(circle, 'cx', 'cy', 'r')
   return `M ${cx - r}, ${cy} a ${r},${r} 0 1,0 ${2 * r},0 a ${r},${r} 0 1,0 ${-2 * r},0`
 }
 
 function ellipseToPath(ellipse: Element): string {
-  const cx = Number.parseFloat(ellipse.getAttribute('cx') || '0')
-  const cy = Number.parseFloat(ellipse.getAttribute('cy') || '0')
-  const rx = Number.parseFloat(ellipse.getAttribute('rx') || '0')
-  const ry = Number.parseFloat(ellipse.getAttribute('ry') || '0')
+  const [cx, cy, rx, ry] = getPos(ellipse, 'cx', 'cy', 'rx', 'ry')
   return `M ${cx - rx}, ${cy} a ${rx},${ry} 0 1,0 ${2 * rx},0 a ${rx},${ry} 0 1,0 ${-2 * rx},0`
 }
 
 function lineToPath(line: Element): string {
-  const x1 = Number.parseFloat(line.getAttribute('x1') || '0')
-  const y1 = Number.parseFloat(line.getAttribute('y1') || '0')
-  const x2 = Number.parseFloat(line.getAttribute('x2') || '0')
-  const y2 = Number.parseFloat(line.getAttribute('y2') || '0')
+  const [x1, y1, x2, y2] = getPos(line, 'x1', 'y1', 'x2', 'y2')
   return `M${x1},${y1} L${x2},${y2}`
+}
+
+function getPos(el: Element, ...attrs: string[]): number[] {
+  const values = attrs.map((attr) => Number.parseFloat(el.getAttribute(attr) || '0'))
+  return values
 }
