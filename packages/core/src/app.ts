@@ -70,6 +70,10 @@ export class App {
     // Animating.
     app.scene.root.runAnimation(app.scene.elapsed)
 
+    // Process setup generation function
+    app.scene.root.runSetup(app.scene.elapsed)
+    
+
     for (const plugin of app.plugins) plugin.afterUpdate(app, app.scene.elapsed)
 
     if (app.playing) {
