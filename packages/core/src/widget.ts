@@ -80,7 +80,7 @@ export class Widget {
    * Called when the widget is registered.
    * @param _ck The CanvasKit namespace
    */
-  init(_ck: CanvasKit) { }
+  init(_ck: CanvasKit) {}
 
   /**
    * Preload the necessary items during drawing.
@@ -90,14 +90,14 @@ export class Widget {
    * @param propertyChanged The changed property of this widget
    */
 
-  predraw(_ck: CanvasKit, _propertyChanged: string) { }
+  predraw(_ck: CanvasKit, _propertyChanged: string) {}
 
   /**
    * Draw the object according to the parameters of the widget.
    * Called when the parameters is changed.
    * @param _canvas The canvas object of CanvasKit-WASM.
    */
-  draw(_canvas: Canvas) { }
+  draw(_canvas: Canvas) {}
 
   /**
    * Called when the parameters is changed.
@@ -116,8 +116,7 @@ export class Widget {
     canvas.translate(this.x, this.y)
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
     canvas.scale(this.style.scaleX, this.style.scaleY)
-    if (this.display)
-      this.draw(canvas)
+    if (this.display) this.draw(canvas)
   }
 
   /**
@@ -171,8 +170,8 @@ export class Widget {
   runAnimation(elapsed: number) {
     for (const instance of this.animationInstances) {
       if (
-        instance.startAt <= elapsed
-        && instance.during + instance.startAt >= elapsed
+        instance.startAt <= elapsed &&
+        instance.during + instance.startAt >= elapsed
       ) {
         if (instance.mode === 'positive') {
           instance.animation.act(
@@ -181,8 +180,7 @@ export class Widget {
             (elapsed - instance.startAt) / instance.during,
             instance.params,
           )
-        }
-        else if (instance.mode === 'reverse') {
+        } else if (instance.mode === 'reverse') {
           instance.animation.act(
             this,
             elapsed - instance.startAt,
@@ -207,15 +205,22 @@ export class Widget {
 
   async runSetup(elapsed: number) {
     for (const setupFunc of this.setups) {
-      const generator = setupFunc(this, (animation: Animation<any>, duration: number, params: Record<string, any>) => {
-        this.animationInstances.push({
-          startAt: elapsed,
-          during: duration,
-          animation,
-          params,
-          mode: params.mode ?? 'positive',
-        })
-      })
+      const generator = setupFunc(
+        this,
+        (
+          animation: Animation<any>,
+          duration: number,
+          params: Record<string, any>,
+        ) => {
+          this.animationInstances.push({
+            startAt: elapsed,
+            during: duration,
+            animation,
+            params,
+            mode: params.mode ?? 'positive',
+          })
+        },
+      )
 
       let result = generator.next()
       while (!result.done) {
@@ -226,18 +231,18 @@ export class Widget {
         result = generator.next()
       }
     }
-    for (const child of this.children)
-      child.runSetup(elapsed)
+    for (const child of this.children) child.runSetup(elapsed)
   }
 
   async handleWait(waitInstruction: ReturnType<typeof wait>) {
     const { duration, unit } = waitInstruction
     if (unit === 'second') {
-      await new Promise(resolve => setTimeout(resolve, duration * 1000))
-    }
-    else if (unit === 'frame') {
+      await new Promise((resolve) => setTimeout(resolve, duration * 1000))
+    } else if (unit === 'frame') {
       // 假设帧率为 60 fps
-      await new Promise(resolve => setTimeout(resolve, (duration / 60) * 1000))
+      await new Promise((resolve) =>
+        setTimeout(resolve, (duration / 60) * 1000),
+      )
     }
   }
 
@@ -278,12 +283,12 @@ export class Widget {
     return false
   }
 
-  static getAbsoluteCoordinates(widget: Widget): { x: number, y: number } {
+  static getAbsoluteCoordinates(widget: Widget): { x: number; y: number } {
     function getCoordinates(
       widget: Widget,
       x: number,
       y: number,
-    ): { x: number, y: number } {
+    ): { x: number; y: number } {
       let parent = widget.parent
       let absoluteX = x
       let absoluteY = y
@@ -304,7 +309,7 @@ export class Widget {
     widget: Widget,
     x: number,
     y: number,
-  ): { x: number, y: number } {
+  ): { x: number; y: number } {
     const { x: absoluteX, y: absoluteY } = Widget.getAbsoluteCoordinates(widget)
     const relativeX = x - absoluteX
     const relativeY = y - absoluteY

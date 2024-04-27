@@ -9,14 +9,10 @@
     "baseUrl": "./",
     "module": "ESNext",
     "paths": {
-      "@newcar/core": ["../packages/core/src/index.ts"],
+      "@newcar/core": ["../packages/core/src/index.ts"]
     },
     "resolveJsonModule": true
   },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
 }
