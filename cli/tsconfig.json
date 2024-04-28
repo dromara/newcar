@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "skipLibCheck": true,
     "baseUrl": "./",
     "module": "ESNext",
+    "moduleResolution": "node",
     "paths": {
       "@newcar/core": ["../packages/core/src/index.ts"]
     },
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "strict": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]

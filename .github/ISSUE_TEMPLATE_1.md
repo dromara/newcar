@@ -17,4 +17,3 @@ What browser or nodejs/deno/bun version you are using...
 
 [ ] I have read the contribution rules.
 [ ] No uncivilized content in this issue.
-

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import process from 'node:process'
 import { Command } from 'commander'
 import pkg from './package.json' assert { type: 'json' }
 

@@ -1,27 +1,33 @@
 {
   "name": "newcar",
-  "version": "0.15.1",
-  "author": "BugDuck Team",
   "type": "module",
+  "version": "0.15.1",
   "description": "A Highly configurable universal advanced engine, Born for creating animation rapidly.",
+  "author": "BugDuck Team",
+  "license": "Apache-2.0",
   "keywords": [
     "animation"
+  ],
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
   ],
   "scripts": {
     "publish": "npm publish",
     "build": "pkgroll --sourcemap --minify",
     "dev": "pkgroll -w"
   },
-  "license": "Apache-2.0",
-  "types": "./dist/index.d.ts",
-  "module": "./dist/index.mjs",
-  "exports": {
-    ".": {
-      "dev": "./src/index.ts",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs"
-    }
+  "peerDependencies": {
+    "canvaskit-wasm": ">=0.39.1"
   },
   "dependencies": {
     "@newcar/basic": "workspace:*",
@@ -29,13 +35,7 @@
     "@newcar/recorder": "workspace:*",
     "@newcar/utils": "workspace:*"
   },
-  "files": [
-    "dist"
-  ],
   "publishConfig": {
     "access": "public"
-  },
-  "peerDependencies": {
-    "canvaskit-wasm": ">=0.39.1"
   }
 }

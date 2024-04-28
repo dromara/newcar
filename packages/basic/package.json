@@ -4,6 +4,26 @@
   "description": "The basic objects, animations and interpolators of newcar.",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "publish": "npm publish",
+    "build": "pkgroll --sourcemap",
+    "dev": "pkgroll -w"
+  },
+  "peerDependencies": {
+    "canvaskit-wasm": ">=0.39.1"
+  },
   "dependencies": {
     "@newcar/core": "workspace:*",
     "@newcar/utils": "workspace:*"
@@ -11,27 +31,7 @@
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"
   },
-  "scripts": {
-    "publish": "npm publish",
-    "build": "pkgroll --sourcemap",
-    "dev": "pkgroll -w"
-  },
-  "exports": {
-    ".": {
-      "dev": "./src/index.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "publishConfig": {
     "access": "public"
-  },
-  "peerDependencies": {
-    "canvaskit-wasm": ">=0.39.1"
   }
 }

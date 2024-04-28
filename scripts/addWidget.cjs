@@ -1,5 +1,5 @@
 // add-elements-interactive.js
-
+const process = require('node:process')
 const fs = require('node:fs')
 const readline = require('node:readline')
 
@@ -10,14 +10,15 @@ const rl = readline.createInterface({
 
 // 定义一个函数来异步地询问问题，并返回答案的Promise
 function ask(question) {
-  return new Promise((resolve) => rl.question(question, resolve))
+  return new Promise(resolve => rl.question(question, resolve))
 }
 
 async function main() {
   let filePath = process.argv[2]
   const itemsString = process.argv[3]
 
-  if (!filePath) filePath = await ask('Enter the file path: ')
+  if (!filePath)
+    filePath = await ask('Enter the file path: ')
 
   let items = []
   if (!itemsString) {
@@ -35,7 +36,8 @@ async function main() {
         process.exit(1)
       }
     }
-  } else {
+  }
+  else {
     items = itemsString.split(';').map((item) => {
       const [target, key, type, defaultValue] = item.split(',')
       return { target, key, type, defaultValue }
@@ -52,14 +54,15 @@ async function main() {
     let updatedData = data
 
     items.forEach(({ target, key, type, defaultValue }) => {
-      const contentToAdd =
-        target === 'class'
+      const contentToAdd
+        = target === 'class'
           ? `  ${key}: ${type} = ${defaultValue};\n`
           : `  ${key}?: ${type};\n`
       let insertPosition
       if (target === 'class') {
         insertPosition = updatedData.lastIndexOf('}')
-      } else {
+      }
+      else {
         const regex = new RegExp(
           `export interface .*${
             target.charAt(0).toUpperCase() + target.slice(1)
@@ -79,14 +82,16 @@ async function main() {
           contentToAdd,
           updatedData.slice(insertPosition),
         ].join('')
-      } else {
+      }
+      else {
         console.error(`Could not find insertion point for target ${target}.`)
       }
     })
 
     // 写回文件
     fs.writeFile(filePath, updatedData, 'utf8', (err) => {
-      if (err) console.error('Error writing file:', err)
+      if (err)
+        console.error('Error writing file:', err)
       else console.log(`Batch update completed in ${filePath}.`)
     })
   })

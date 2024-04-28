@@ -141,7 +141,8 @@ export class Text extends Widget {
             fontSize: 50,
           },
         })
-      } else {
+      }
+      else {
         this.text.push(item as InputItem)
       }
     }
@@ -150,8 +151,8 @@ export class Text extends Widget {
   init(ck: CanvasKit) {
     this.textAlign = this.inputOptions.style.textAlign ?? 'start'
     this.textDirection = this.inputOptions.style.textDirection ?? 'ltr'
-    this.textHeightBehavior =
-      this.inputOptions.style.textHeightBehavior ?? 'all'
+    this.textHeightBehavior
+      = this.inputOptions.style.textHeightBehavior ?? 'all'
     this.fontManager = ck.FontMgr.FromData(...$source.fonts)
     this.builder = ck.ParagraphBuilder.Make(
       new ck.ParagraphStyle(

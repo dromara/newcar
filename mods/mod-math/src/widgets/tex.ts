@@ -37,6 +37,7 @@ export class Tex extends Widget {
       return adaptor.outerHTML(node)
     }
     for (const path of svg2path(this.convertTexToSVG(this.tex))) {
+      // eslint-disable-next-line no-console
       console.log(path)
       this.path.moveTo(path.x, path.y)
       this.path.addPath(ck.Path.MakeFromSVGString(path.path))
@@ -48,6 +49,7 @@ export class Tex extends Widget {
     switch (propertyChanged) {
       case 'tex': {
         for (const path of svg2path(this.convertTexToSVG(this.tex))) {
+          // eslint-disable-next-line no-console
           console.log(path)
           this.path.moveTo(path.x, path.y)
           this.path.addPath(ck.Path.MakeFromSVGString(path.path))

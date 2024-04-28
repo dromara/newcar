@@ -1,14 +1,16 @@
-import ora from 'ora'
+/* eslint-disable no-console */
 import fs from 'node:fs'
-import pc from 'picocolors'
 import { resolve } from 'node:path'
+import ora from 'ora'
+import pc from 'picocolors'
 import { projectName, projectPath } from './config'
 
 import { checkPath, fetchTemplate, setupProject } from './project'
 
-export default async function create(name: string, options: any[]) {
-  if (!name) name = await projectName()
-  let newDir = await projectPath()
+export default async function create(name: string, _options: any[]) {
+  if (!name)
+    name = await projectName()
+  const newDir = await projectPath()
   const path = resolveProjectPath(newDir ? name : '.')
 
   await checkPath(path)
@@ -26,16 +28,18 @@ export default async function create(name: string, options: any[]) {
 
   const duration = Date.now() - startTime
   console.log()
-  console.log(pc.green(`Project created in ${pc.cyan(duration + 'ms')}`))
+  console.log(pc.green(`Project created in ${pc.cyan(`${duration}ms`)}`))
   console.log()
   console.log(`Now run the following commands:`)
-  if (newDir) console.log(pc.bold(`cd ${name}`))
+  if (newDir)
+    console.log(pc.bold(`cd ${name}`))
   console.log(pc.bold(`npm install`))
   console.log(pc.bold(`npm run dev`))
 }
 
 export function resolveProjectPath(path: string): string {
   path = resolve(path)
-  if (!fs.existsSync(path)) fs.mkdirSync(path)
+  if (!fs.existsSync(path))
+    fs.mkdirSync(path)
   return path
 }

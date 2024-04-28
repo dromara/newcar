@@ -59,7 +59,7 @@ const scene5 = new nc.Scene(
   new Tex('x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}', {
     style: {
       scaleX: 0.01,
-      scaleY: 0.01
+      scaleY: 0.01,
     },
     x: 100,
     y: 100,

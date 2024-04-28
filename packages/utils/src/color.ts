@@ -49,8 +49,8 @@ export class Color {
    * @param alpha The ALPHA component.  (0.~1.)
    * @returns The color.
    */
-  static rgbaFloat(r: number, g: number, b: number, alpha?: number): Color {
-    return Color.rgba(r * 255, g * 255, b * 255, alpha)
+  static rgbaFloat(red: number, green: number, blue: number, alpha?: number): Color {
+    return Color.rgba(red * 255, green * 255, blue * 255, alpha)
   }
 
   /**
@@ -95,7 +95,7 @@ export class Color {
 
   /**
    *
-   * @returns
+   * @returns color string
    */
   toString(): string {
     return this.toRgba()

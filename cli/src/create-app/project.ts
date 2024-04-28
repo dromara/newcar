@@ -1,6 +1,7 @@
-import * as iq from '@inquirer/prompts'
+import process from 'node:process'
 import { existsSync, rmSync } from 'node:fs'
 import { execSync } from 'node:child_process'
+import * as iq from '@inquirer/prompts'
 
 export async function checkPath(path: string) {
   if (existsSync(path)) {
@@ -12,11 +13,10 @@ export async function checkPath(path: string) {
       ],
       default: false,
     })
-    if (overwrite) {
+    if (overwrite)
       rmSync(path, { recursive: true })
-    } else {
+    else
       process.exit(1)
-    }
   }
 }
 
@@ -28,4 +28,4 @@ export function fetchTemplate(path: string) {
   rmSync(`${path}/.git`, { recursive: true })
 }
 
-export function setupProject(path: string, name: string) {}
+export function setupProject(_path: string, _name: string) {}

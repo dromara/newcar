@@ -1,20 +1,23 @@
 {
   "name": "@newcar/cli",
+  "type": "module",
   "version": "1.1.0",
   "description": "The cli tool of local Newcar",
+  "author": "BugDuck Team",
+  "license": "Apache-2.0",
+  "keywords": [
+    "Animation",
+    "CLI"
+  ],
   "main": "src/index.mjs",
-  "type": "module",
+  "bin": {
+    "ncli": "bin/index.cjs"
+  },
   "scripts": {
     "build": "esbuild index.ts --bundle --platform=node --outfile=bin/index.cjs",
     "run": "node bin/index.cjs",
     "dev": "esbuild index.ts --bundle --platform=node --outfile=bin/index.cjs --watch"
   },
-  "keywords": [
-    "Animation",
-    "CLI"
-  ],
-  "author": "BugDuck Team",
-  "license": "Apache-2.0",
   "dependencies": {
     "@inquirer/prompts": "^5.0.2",
     "commander": "^12.0.0",
@@ -29,8 +32,5 @@
     "@types/inquirer": "^9.0.7",
     "canvaskit-wasm": "0.39.1",
     "esbuild": "^0.20.2"
-  },
-  "bin": {
-    "ncli": "bin/index.cjs"
   }
 }

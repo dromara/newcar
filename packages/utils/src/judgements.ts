@@ -1,15 +1,17 @@
 export function createCanvas(w?: number, h?: number): HTMLCanvasElement {
   const el = document.createElement('canvas')
-  if (w != null) el.width = w
-  if (h != null) el.height = h
+  if (w != null)
+    el.width = w
+  if (h != null)
+    el.height = h
   return el
 }
 
-export function isNull(v: unknown): v is void {
-  return v == void 0
+export function isNull(v: unknown): boolean {
+  return v === null
 }
 
-export function isUndefined(v: unknown): v is void {
+export function isUndefined(v: unknown): boolean {
   return typeof v === 'undefined'
 }
 
@@ -17,7 +19,7 @@ export function isEqual(a: unknown, b: unknown): boolean {
   return Object.is(a, b)
 }
 
-export function isString(v: unknown): v is void {
+export function isString(v: unknown): boolean {
   return typeof v === 'string'
 }
 

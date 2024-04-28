@@ -116,7 +116,8 @@ export class Widget {
     canvas.translate(this.x, this.y)
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
     canvas.scale(this.style.scaleX, this.style.scaleY)
-    if (this.display) this.draw(canvas)
+    if (this.display)
+      this.draw(canvas)
   }
 
   /**
@@ -170,8 +171,8 @@ export class Widget {
   runAnimation(elapsed: number) {
     for (const instance of this.animationInstances) {
       if (
-        instance.startAt <= elapsed &&
-        instance.during + instance.startAt >= elapsed
+        instance.startAt <= elapsed
+        && instance.during + instance.startAt >= elapsed
       ) {
         if (instance.mode === 'positive') {
           instance.animation.act(
@@ -180,7 +181,8 @@ export class Widget {
             (elapsed - instance.startAt) / instance.during,
             instance.params,
           )
-        } else if (instance.mode === 'reverse') {
+        }
+        else if (instance.mode === 'reverse') {
           instance.animation.act(
             this,
             elapsed - instance.startAt,
@@ -237,10 +239,11 @@ export class Widget {
   async handleWait(waitInstruction: ReturnType<typeof wait>) {
     const { duration, unit } = waitInstruction
     if (unit === 'second') {
-      await new Promise((resolve) => setTimeout(resolve, duration * 1000))
-    } else if (unit === 'frame') {
+      await new Promise(resolve => setTimeout(resolve, duration * 1000))
+    }
+    else if (unit === 'frame') {
       // 假设帧率为 60 fps
-      await new Promise((resolve) =>
+      await new Promise(resolve =>
         setTimeout(resolve, (duration / 60) * 1000),
       )
     }
@@ -283,12 +286,12 @@ export class Widget {
     return false
   }
 
-  static getAbsoluteCoordinates(widget: Widget): { x: number; y: number } {
+  static getAbsoluteCoordinates(widget: Widget): { x: number, y: number } {
     function getCoordinates(
       widget: Widget,
       x: number,
       y: number,
-    ): { x: number; y: number } {
+    ): { x: number, y: number } {
       let parent = widget.parent
       let absoluteX = x
       let absoluteY = y
@@ -309,7 +312,7 @@ export class Widget {
     widget: Widget,
     x: number,
     y: number,
-  ): { x: number; y: number } {
+  ): { x: number, y: number } {
     const { x: absoluteX, y: absoluteY } = Widget.getAbsoluteCoordinates(widget)
     const relativeX = x - absoluteX
     const relativeY = y - absoluteY

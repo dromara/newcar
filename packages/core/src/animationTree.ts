@@ -26,7 +26,8 @@ export function analyseAnimationTree(tree: AnimationTree, start: number) {
         animations.push(
           ...analyseAnimationTree(item as AnimationTree, start + tree.duration),
         )
-      } else {
+      }
+      else {
         console.warn(
           '[Newcar Warn] You are trying to add a Animation or AnimationInstance object as next, please use AnimationTree object',
         )
