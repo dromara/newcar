@@ -10,3 +10,4 @@
 .rollup.cache/
 /.VSCodeCounter/**
 .vscode
+.idea
