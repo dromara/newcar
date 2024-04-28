@@ -5,10 +5,9 @@
   "main": "src/index.mjs",
   "type": "module",
   "scripts": {
-    "build": "FLUENTFFMPEG_COV=false esbuild index.ts --bundle --platform=node --outfile=bin/index.cjs",
+    "build": "esbuild index.ts --bundle --platform=node --outfile=bin/index.cjs",
     "run": "node bin/index.cjs",
-    "dev": "npm run build && npm run run",
-    "test:create": "ncli create"
+    "dev": "npm run build && npm run run"
   },
   "keywords": [
     "Animation",
