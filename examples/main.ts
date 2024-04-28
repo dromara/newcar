@@ -1,6 +1,7 @@
-import { CarEngine } from 'newcar'
+import { CarEngine, Color } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { Tex } from '@newcar/mod-math'
+import { BarChart } from '@newcar/mod-chart'
 
 import * as nc from 'newcar'
 
@@ -71,6 +72,41 @@ const scene6 = new nc.Scene(
 
 const scene7 = new nc.Scene(new Brace([100, 100], [200, 200]))
 
+const scene8 = new nc.Scene(
+  new BarChart(
+    {
+      labels: ['A', 'B', 'C', 'D'],
+      datasets: [
+        {
+          label: 'Series 1',
+          data: [12, 19, 3, 5],
+          backgroundColor: [
+            Color.rgba(255, 99, 132, 0.2),
+            Color.rgba(255, 159, 64, 0.2),
+            Color.rgba(255, 205, 86, 0.2),
+            Color.rgba(75, 192, 192, 0.2),
+          ],
+          borderColor: [
+            Color.rgba(255, 99, 132),
+            Color.rgba(255, 159, 64),
+            Color.rgba(255, 205, 86),
+            Color.rgba(75, 192, 192),
+          ],
+        },
+      ],
+    },
+    {
+      x: 50,
+      y: 50,
+      size: {
+        width: 300,
+        height: 300,
+      },
+      indexAxis: 'x',
+    },
+  ),
+)
+
 const app1 = engine.createApp(document.querySelector('#a1'))
 app1.checkout(scene1)
 app1.play()
@@ -98,3 +134,7 @@ app6.play()
 const app7 = engine.createApp(document.querySelector('#b2'))
 app7.checkout(scene7)
 app7.play()
+
+const app8 = engine.createApp(document.querySelector('#c1'))
+app8.checkout(scene8)
+app8.play()

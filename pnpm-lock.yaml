@@ -75,6 +75,9 @@ importers:
 
   examples:
     dependencies:
+      '@newcar/mod-chart':
+        specifier: workspace:*
+        version: link:../mods/mod-chart
       '@newcar/mod-geometry':
         specifier: workspace:0.1.5
         version: link:../mods/mod-geometry
@@ -94,7 +97,21 @@ importers:
         specifier: ^0.21.0
         version: 0.21.0(vite@5.2.10)
 
-  mods/mod-chart: {}
+  mods/mod-chart:
+    dependencies:
+      '@newcar/basic':
+        specifier: workspace:*
+        version: link:../../packages/basic
+      '@newcar/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@newcar/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+    devDependencies:
+      canvaskit-wasm:
+        specifier: 0.39.1
+        version: 0.39.1
 
   mods/mod-geometry:
     dependencies:
