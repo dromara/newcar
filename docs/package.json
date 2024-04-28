@@ -1,0 +1,20 @@
+{
+  "name": "@newcar/docs",
+  "private": true,
+  "scripts": {
+    "docs:dev": "vitepress dev content",
+    "docs:build": "vitepress build content",
+    "docs:preview": "vitepress preview content"
+  },
+  "dependencies": {
+    "@newcar/mod-math": "workspace:*",
+    "canvaskit-wasm": "0.39.1",
+    "newcar": "workspace:*",
+    "unplugin-vue-components": "^0.26.0"
+  },
+  "devDependencies": {
+    "unocss": "^0.59.4",
+    "vitepress": "^1.1.4",
+    "vue": "^3.4.25"
+  }
+}

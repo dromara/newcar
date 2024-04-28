@@ -1,12 +1,6 @@
 /tsconfig.tsbuildinfo
-/node_modules/
-/packages/**/node_modules/
-/packages/**/dist/
-/mods/**/node_modules/
-/mods/**/dist/
-/plugins/**/node_modules/
-/plugins/**/dist/
-/cli/node_modules/
+node_modules
+dist
 .rollup.cache/
 /.VSCodeCounter/**
 .idea

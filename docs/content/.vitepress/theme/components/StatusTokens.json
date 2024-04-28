@@ -1,0 +1,12 @@
+{
+  "en-US": {
+    "title": "Notice",
+    "msg": "This documentation is version 0.9.0+, If you want to know version 0.8.0 and ago, please refer to our old site.",
+    "button": "Visit old site"
+  },
+  "zh-CN": {
+    "title": "注意",
+    "msg": "此文档的版本为 0.9.0+，如果想知道 0.8.0 版本之前的用法，请参阅旧的网站。",
+    "button": "旧版站点"
+  }
+}

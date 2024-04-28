@@ -1,0 +1,46 @@
+{
+  "hash": "123d92c6",
+  "configHash": "4a24372b",
+  "lockfileHash": "919fcfd9",
+  "browserHash": "586958a6",
+  "optimized": {
+    "vue": {
+      "src": "../../../../../node_modules/.pnpm/vue@3.4.25_typescript@5.4.5/node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "7cde3ce3",
+      "needsInterop": false
+    },
+    "vitepress > @vue/devtools-api": {
+      "src": "../../../../../node_modules/.pnpm/@vue+devtools-api@7.1.3_vue@3.4.25_typescript@5.4.5_/node_modules/@vue/devtools-api/dist/index.js",
+      "file": "vitepress___@vue_devtools-api.js",
+      "fileHash": "38c244e2",
+      "needsInterop": false
+    },
+    "vitepress > @vueuse/core": {
+      "src": "../../../../../node_modules/.pnpm/@vueuse+core@10.9.0_vue@3.4.25_typescript@5.4.5_/node_modules/@vueuse/core/index.mjs",
+      "file": "vitepress___@vueuse_core.js",
+      "fileHash": "9f7f2dc2",
+      "needsInterop": false
+    },
+    "colorparsley": {
+      "src": "../../../../../node_modules/.pnpm/colorparsley@0.1.8/node_modules/colorparsley/src/colorparsley.js",
+      "file": "colorparsley.js",
+      "fileHash": "b11fce28",
+      "needsInterop": false
+    },
+    "canvaskit-wasm": {
+      "src": "../../../../../node_modules/.pnpm/canvaskit-wasm@0.39.1/node_modules/canvaskit-wasm/bin/canvaskit.js",
+      "file": "canvaskit-wasm.js",
+      "fileHash": "efe20cf5",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-BIVATHRD": {
+      "file": "chunk-BIVATHRD.js"
+    },
+    "chunk-Y2F7D3TJ": {
+      "file": "chunk-Y2F7D3TJ.js"
+    }
+  }
+}
