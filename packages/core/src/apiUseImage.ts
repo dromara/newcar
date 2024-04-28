@@ -1,5 +1,3 @@
-import fs from 'node:fs'
-import path from 'node:path'
 import { $source } from './global'
 
 export async function useImage(src: string) {
@@ -10,6 +8,8 @@ export async function useImage(src: string) {
     return array
   }
   else {
+    const fs = await import('node:fs')
+    const path = await import('node:path')
     const buffer = fs.readFileSync(path.resolve(src))
     const array = buffer.buffer.slice(
       buffer.byteOffset,
