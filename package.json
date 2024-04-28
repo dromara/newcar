@@ -1,7 +1,7 @@
 {
   "name": "@newcar/monorepo",
   "private": true,
-  "packageManager": "pnpm@8.15.1",
+  "packageManager": "pnpm@9.0.6",
   "type": "module",
   "scripts": {
     "lint": "eslint .",
@@ -17,17 +17,21 @@
     "release": "pnpm preversion && changeset version",
     "pub": "changeset publish",
     "add-widget": "node ./scripts/addWidget.cjs",
-    "add-element": "node ./scripts/addElement.cjs"
+    "add-element": "node ./scripts/addElement.cjs",
+    "dep": "taze -r",
+    "dep:write": "taze -rw"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^2.16.0",
     "@changesets/cli": "^2.27.1",
-    "pkgroll": "^2.0.1",
+    "@types/node": "^20.12.7",
+    "eslint": "^9.1.1",
+    "pkgroll": "^2.0.2",
+    "pnpm": "^9.0.6",
     "prettier": "^2.8.8",
     "rimraf": "^3.0.2",
-    "typescript": "^5.3.3",
-    "vite": "^5.0.12",
-    "@antfu/eslint-config": "^2.15.0",
-    "eslint": "^9.0.0",
-    "@types/node": "^20.12.7"
+    "taze": "^0.13.7",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10"
   }
 }

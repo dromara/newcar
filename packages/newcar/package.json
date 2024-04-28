@@ -26,8 +26,8 @@
   "dependencies": {
     "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
-    "@newcar/utils": "workspace:*",
-    "@newcar/recorder": "workspace:*"
+    "@newcar/recorder": "workspace:*",
+    "@newcar/utils": "workspace:*"
   },
   "files": [
     "dist"

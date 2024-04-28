@@ -10,9 +10,9 @@
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "dependencies": {
+    "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
-    "@newcar/utils": "workspace:*",
-    "@newcar/basic": "workspace:*"
+    "@newcar/utils": "workspace:*"
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"

@@ -4,3 +4,4 @@ packages:
   - 'plugins/*'
   - 'cli'
   - 'examples'
+  - docs
