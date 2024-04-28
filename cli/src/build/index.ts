@@ -4,16 +4,15 @@ import { resolve } from 'node:path'
 // @ts-ignore
 import ffmpeg from 'fluent-ffmpeg/lib/fluent-ffmpeg.js'
 
-import type { HandlerContext } from 'clerc/index'
 import type { LocalApp as App } from '@newcar/core'
 
-export default async function build(context: HandlerContext<any>) {
-  const app = await resolveApp(context.parameters.input as string)
+export default async function build(input: string, duration: string | number, target: string, options: Record<string, string>) {
+  const app = await resolveApp(input)
 
-  const [duration, output, fps] = [
-    Number(context.parameters.duration as string),
-    context.parameters.target as string,
-    Number(context.flags.fps as string),
+  duration = Number(duration)
+  const [output, fps] = [
+    target as string,
+    Number(options.fps),
   ]
 
   const imagesArray = app.getFrames(duration)

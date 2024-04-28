@@ -57,9 +57,6 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
     devDependencies:
-      '@newcar/core':
-        specifier: workspace:*
-        version: link:../packages/core
       '@types/fluent-ffmpeg':
         specifier: ^2.1.24
         version: 2.1.24
@@ -72,9 +69,6 @@ importers:
       esbuild:
         specifier: ^0.20.2
         version: 0.20.2
-      newcar:
-        specifier: workspace:*
-        version: link:../packages/newcar
 
   examples:
     dependencies:
