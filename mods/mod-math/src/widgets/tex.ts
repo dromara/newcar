@@ -1,5 +1,5 @@
-import type { AsyncWidgetResponse, WidgetOptions } from '@newcar/core'
-import { AsyncWidget } from '@newcar/core'
+import type { WidgetOptions } from '@newcar/core'
+import { Widget } from '@newcar/core'
 import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
 import { mathjax } from 'mathjax-full/js/mathjax.js'
 import { TeX } from 'mathjax-full/js/input/tex.js'
@@ -8,7 +8,7 @@ import { liteAdaptor } from 'mathjax-full/js/adaptors/liteAdaptor.js'
 import { RegisterHTMLHandler } from 'mathjax-full/js/handlers/html.js'
 import { svg2path } from '../utils/svg2path'
 
-export class Tex extends AsyncWidget {
+export class Tex extends Widget {
   path: Path
   paint: Paint
   convertTexToSVG: (tex: string) => any
@@ -17,7 +17,7 @@ export class Tex extends AsyncWidget {
     super(options)
   }
 
-  async init(ck: CanvasKit): Promise<AsyncWidgetResponse> {
+  init(ck: CanvasKit): void {
     this.path = new ck.Path()
     this.paint = new ck.Paint()
     this.paint.setColor(ck.WHITE)
@@ -36,11 +36,24 @@ export class Tex extends AsyncWidget {
       })
       return adaptor.outerHTML(node)
     }
-    for (const path of svg2path(this.convertTexToSVG(this.tex)))
-      this.path.addPath(ck.Path.MakeFromSVGString(path.path)!)
+    for (const path of svg2path(this.convertTexToSVG(this.tex))) {
+      console.log(path)
+      this.path.moveTo(path.x, path.y)
+      this.path.addPath(ck.Path.MakeFromSVGString(path.path))
+      this.path.moveTo(-path.x, -path.y)
+    }
+  }
 
-    return {
-      status: 'ok',
+  predraw(ck: CanvasKit, propertyChanged: string): void {
+    switch (propertyChanged) {
+      case 'tex': {
+        for (const path of svg2path(this.convertTexToSVG(this.tex))) {
+          console.log(path)
+          this.path.moveTo(path.x, path.y)
+          this.path.addPath(ck.Path.MakeFromSVGString(path.path))
+          this.path.moveTo(-path.x, -path.y)
+        }
+      }
     }
   }
 

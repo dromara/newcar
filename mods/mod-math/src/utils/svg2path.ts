@@ -1,105 +1,74 @@
-interface PathData {
-  x: number
-  y: number
-  path: string
+/* eslint-disable no-case-declarations */
+import { mat2d, vec2 } from 'gl-matrix'
+
+/**
+ * 解析 SVG 变换字符串。
+ * @param {string} transformStr - 变换字符串。
+ * @returns {mat2d} - 变换矩阵。
+ */
+function parseTransform(transformStr: string) {
+  const matrix = mat2d.create()
+  const regex = /(\w+)\(([^)]+)\)/g
+  let match
+
+  // eslint-disable-next-line no-cond-assign
+  while ((match = regex.exec(transformStr)) !== null) {
+    const [_, type, args] = match
+    const values = args.split(',').map(Number.parseFloat)
+    switch (type) {
+      case 'translate':
+        mat2d.translate(matrix, matrix, new Float32Array(values))
+        break
+      case 'rotate':
+        const angle = values[0] * Math.PI / 180
+        mat2d.rotate(matrix, matrix, angle)
+        break
+      case 'scale':
+        mat2d.scale(matrix, matrix, new Float32Array(values))
+        break
+      default:
+        console.error(`Unsupported transform type: ${type}`)
+    }
+  }
+
+  return matrix
 }
 
-export function svg2path(svgString: string): PathData[] {
+/**
+ * 应用变换到路径。
+ * @param {string} pathData - SVG 路径数据。
+ * @param {string} transform - 变换字符串。
+ * @returns {{ x: number, y: number, path: string }} - 变换后的路径信息。
+ */
+function applyTransforms(pathData: string, transform: string) {
+  const matrix = parseTransform(transform)
+  const point = vec2.fromValues(0, 0) // 假设路径起始于 (0, 0)
+  vec2.transformMat2d(point, point, matrix)
+
+  return {
+    x: point[0],
+    y: point[1],
+    path: pathData,
+  }
+}
+
+/**
+ * 从 SVG 字符串内容中提取所有路径并应用变换。
+ * @param {string} svgContent - SVG 文件的完整内容。
+ * @returns {Array} - 变换后的路径信息数组。
+ */
+export function svg2path(svgContent: string) {
   const parser = new DOMParser()
-  const svgDoc = parser.parseFromString(svgString, 'image/svg+xml')
-  const svgElement = svgDoc.documentElement
+  const xmlDoc = parser.parseFromString(svgContent, 'image/svg+xml')
+  const paths: { x: any, y: any, path: any }[] = []
 
-  const paths: PathData[] = []
-
-  svgElement.querySelectorAll('*').forEach((el) => {
-    const pathData = elementToPathDataWithCoords(el)
-    if (pathData) paths.push(pathData)
+  const pathElements = xmlDoc.querySelectorAll('path')
+  pathElements.forEach((pathElem) => {
+    const pathData = pathElem.getAttribute('d')
+    const transform = pathElem.closest('g')?.getAttribute('transform') || ''
+    const transformedPath = applyTransforms(pathData, transform)
+    paths.push(transformedPath)
   })
 
   return paths
-}
-
-function elementToPathDataWithCoords(element: Element): PathData | null {
-  const tagName = element.tagName.toLowerCase()
-  let path = ''
-  let x = 0
-  let y = 0
-
-  switch (tagName) {
-    case 'path':
-      path = element.getAttribute('d') || ''
-      break
-    case 'rect':
-      ;[x, y] = getPos(element, 'x', 'y')
-      path = rectToPath(element)
-      break
-    case 'circle':
-      ;[x, y] = getPos(element, 'cx', 'cy')
-      path = circleToPath(element)
-      break
-    case 'ellipse':
-      ;[x, y] = getPos(element, 'cx', 'cy')
-      path = ellipseToPath(element)
-      break
-    case 'line':
-      ;[x, y] = getPos(element, 'x1', 'y1')
-      path = lineToPath(element)
-      break
-    case 'polygon':
-    case 'polyline':
-      path = pointsToPath(element)
-      // eslint-disable-next-line no-case-declarations
-      const points = getFirstPoint(element.getAttribute('points') || '')
-      x = points.x
-      y = points.y
-      break
-    default:
-      console.warn(`Unsupported SVG element type: ${tagName}`)
-      return null
-  }
-
-  return { x, y, path }
-}
-
-function getFirstPoint(points: string): { x: number; y: number } {
-  const [firstPoint] = points.split(' ')
-  const [x, y] = firstPoint.split(',').map(Number)
-  return { x, y }
-}
-
-function pointsToPath(element: Element): string {
-  return `M${element.getAttribute('points')}${
-    element.tagName.toLowerCase() === 'polygon' ? ' Z' : ''
-  }`
-}
-
-function rectToPath(rect: Element): string {
-  const [x, y, width, height] = getPos(rect, 'x', 'y', 'width', 'height')
-  return `M${x},${y} h${width} v${height} h${-width} Z`
-}
-
-function circleToPath(circle: Element): string {
-  const [cx, cy, r] = getPos(circle, 'cx', 'cy', 'r')
-  return `M ${cx - r}, ${cy} a ${r},${r} 0 1,0 ${2 * r},0 a ${r},${r} 0 1,0 ${
-    -2 * r
-  },0`
-}
-
-function ellipseToPath(ellipse: Element): string {
-  const [cx, cy, rx, ry] = getPos(ellipse, 'cx', 'cy', 'rx', 'ry')
-  return `M ${cx - rx}, ${cy} a ${rx},${ry} 0 1,0 ${
-    2 * rx
-  },0 a ${rx},${ry} 0 1,0 ${-2 * rx},0`
-}
-
-function lineToPath(line: Element): string {
-  const [x1, y1, x2, y2] = getPos(line, 'x1', 'y1', 'x2', 'y2')
-  return `M${x1},${y1} L${x2},${y2}`
-}
-
-function getPos(el: Element, ...attrs: string[]): number[] {
-  const values = attrs.map((attr) =>
-    Number.parseFloat(el.getAttribute(attr) || '0'),
-  )
-  return values
 }

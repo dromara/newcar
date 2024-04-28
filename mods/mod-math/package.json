@@ -13,8 +13,8 @@
     "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
     "@newcar/utils": "workspace:*",
-    "mathjax-full": "^3.2.2",
-    "texsvg": "^2.1.0"
+    "gl-matrix": "^3.4.3",
+    "mathjax-full": "^3.2.2"
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"
