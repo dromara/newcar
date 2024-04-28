@@ -1,0 +1,15 @@
+{
+  "name": "newcar-local-template",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "export": "ncli export main.mjs"
+  },
+  "dependencies": {
+    "canvaskit-wasm": "^0.39.1",
+    "newcar": "^0.14.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

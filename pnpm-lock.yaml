@@ -50,6 +50,9 @@ importers:
       inquirer:
         specifier: ^9.2.20
         version: 9.2.20
+      newcar:
+        specifier: workspace:^
+        version: link:../packages/newcar
       ora:
         specifier: ^8.0.1
         version: 8.0.1

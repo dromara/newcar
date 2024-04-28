@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import { resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 // @ts-ignore
 import ffmpeg from 'fluent-ffmpeg/lib/fluent-ffmpeg.js'
@@ -22,11 +23,11 @@ export default async function build(input: string, duration: string | number, ta
     return fileName
   })
 
-  exportFile(resolve(output), tempFiles, fps)
+  exportFile(pathToFileURL(resolve(output)).href, tempFiles, fps)
 }
 
 async function resolveApp(path: string): Promise<App> {
-  const app = (await import(resolve(path))) as {
+  const app = (await import(pathToFileURL(resolve(path)).href)) as {
     default: App
   }
   return app.default
@@ -45,7 +46,7 @@ async function exportFile(path: string, files: string[], fps: number) {
     })
     .input(resolve('./temp_image_%d.png'))
     .inputFPS(fps)
-    .output(resolve(path as string))
+    .output(path)
     .outputFPS(30)
     .run()
 }
