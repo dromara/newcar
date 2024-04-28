@@ -9,6 +9,7 @@ export default antfu({
   ignores: [
     '**/fixtures',
     'cli/bin',
-    '**/.vitepress',
+    '**/.vitepress/cache',
+    '**/.vitepress/dist',
   ],
 })
