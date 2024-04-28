@@ -9,5 +9,4 @@
 /cli/node_modules/
 .rollup.cache/
 /.VSCodeCounter/**
-.vscode
 .idea
