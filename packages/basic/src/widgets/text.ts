@@ -252,6 +252,36 @@ export class Text extends Widget {
         )
         break
       }
+      case 'progress': {
+        const totalLength = this.text.reduce((sum, item) => sum + item.text.length, 0)
+        const charsToShow = Math.floor(this.progress * totalLength)
+        let currentLength = 0
+
+        this.builder.reset() // 清除现有的builder内容
+
+        for (const item of this.text) {
+          if (currentLength >= charsToShow)
+            break
+
+          const remainingChars = charsToShow - currentLength
+          const textPart = remainingChars >= item.text.length ? item.text : item.text.substring(0, remainingChars)
+
+          this.builder.pushStyle(
+            new ck.TextStyle(
+              deepMerge({
+                color: ck.Color4f(1, 1, 1, 1),
+              }, item.style as TextStyle),
+            ),
+          )
+          this.builder.addText(textPart)
+
+          currentLength += item.text.length
+        }
+
+        this.paragraph = this.builder.build()
+        this.paragraph.layout(this.width)
+        break
+      }
     }
   }
 

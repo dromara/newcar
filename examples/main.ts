@@ -2,8 +2,10 @@ import { CarEngine, Color } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { Tex } from '@newcar/mod-math'
 import { BarChart } from '@newcar/mod-chart'
+import { Markdown } from '@newcar/mod-markdown'
 
 import * as nc from 'newcar'
+import { Scene } from '@newcar/core'
 
 await nc.useFont(
   'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
@@ -56,11 +58,7 @@ export const scene4 = new nc.Scene(
 )
 
 const scene5 = new nc.Scene(
-  new Tex('x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}', {
-    style: {
-      scaleX: 0.01,
-      scaleY: 0.01,
-    },
+  new nc.Text(['www']).animate(nc.create, 0, 30, {
     x: 100,
     y: 100,
   }),
@@ -107,6 +105,23 @@ const scene8 = new nc.Scene(
   ),
 )
 
+const scene9 = new nc.Scene(new Markdown(`
+# \`Hello\`
+
+## Name
+
+My name is **Acbox**
+
+## Age
+
+15
+
+## Products
+
+- Newcar Animation Engine
+- tntjs(achieved)
+`, {}))
+
 const app1 = engine.createApp(document.querySelector('#a1'))
 app1.checkout(scene1)
 app1.play()
@@ -138,3 +153,7 @@ app7.play()
 const app8 = engine.createApp(document.querySelector('#c1'))
 app8.checkout(scene8)
 app8.play()
+
+const app9 = engine.createApp(document.querySelector('#d1'))
+app9.checkout(scene9)
+app9.play()

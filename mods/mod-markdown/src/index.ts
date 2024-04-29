@@ -53,20 +53,7 @@ export class Markdown extends Widget {
   predraw(ck: CanvasKit, propertyChanged: string): void {
     // 重新构建段落当文本或样式更改
     if (propertyChanged === 'text' || propertyChanged.match('textStyle.'))
-      this.buildParagraph(ck)
-  }
-
-  private buildParagraph(ck: CanvasKit) {
-    const paragraphStyle = new ck.ParagraphStyle({
-      textStyle: this.textStyle,
-    })
-    const builder = ck.ParagraphBuilder.Make(
-      paragraphStyle,
-      ck.FontMgr.FromData(...$source.fonts)!,
-    )
-    this.parseMarkdown(this.text, builder, ck)
-    this.paragraph = builder.build()
-    this.paragraph.layout(this.width)
+      this.init(ck)
   }
 
   private parseMarkdown(
@@ -74,101 +61,57 @@ export class Markdown extends Widget {
     builder: ParagraphBuilder,
     ck: CanvasKit,
   ) {
+    const parseInline = (line: string, currentStyle: TextStyle, ck: CanvasKit, builder: ParagraphBuilder, startIndex: number = 0) => {
+      const regex = /\*\*(.*?)\*\*|__(.*?)__|\*(.*?)\*|_(.*?)_|~~(.*?)~~|\+\+(.*?)\+\+|`(.*?)`/
+      const match = regex.exec(line.substring(startIndex))
+
+      if (!match) {
+        // 如果没有找到更多匹配，添加剩余的文本
+        builder.addText(line.substring(startIndex))
+        return
+      }
+
+      // 添加匹配之前的文本
+      if (match.index + startIndex > startIndex)
+        builder.addText(line.substring(startIndex, match.index + startIndex))
+
+      const matchedText = match[1] ?? match[2] ?? match[3] ?? match[4] ?? match[5] ?? match[6] ?? match[7]
+      const styleUpdate = { ...currentStyle }
+
+      if (match[0].startsWith('**') || match[0].startsWith('__'))
+        styleUpdate.fontStyle = { ...(styleUpdate.fontStyle || {}), weight: ck.FontWeight.Bold }
+      else if (match[0].startsWith('*') || match[0].startsWith('_'))
+        styleUpdate.fontStyle = { ...(styleUpdate.fontStyle || {}), slant: ck.FontSlant.Italic }
+      else if (match[0].startsWith('~~'))
+        styleUpdate.decoration = ck.LineThroughDecoration
+      else if (match[0].startsWith('++'))
+        styleUpdate.decoration = ck.UnderlineDecoration
+      else if (match[0].startsWith('`'))
+        styleUpdate.backgroundColor = ck.Color(211, 211, 211, 1)
+
+      // 应用当前匹配的样式
+      builder.pushStyle(new ck.TextStyle(styleUpdate))
+      builder.addText(matchedText)
+      builder.pop()
+
+      // 递归处理剩余的文本
+      parseInline(line, currentStyle, ck, builder, match.index + match[0].length + startIndex)
+    }
+
     const lines = text.split('\n')
     lines.forEach((line) => {
-      if (line.match('# ')) {
-        builder.pushStyle(
-          new ck.TextStyle({
-            fontSize: 24,
-            color: this.textStyle.color,
-          }),
-        )
-
-        builder.addText(line.slice(2))
+      if (line.startsWith('# ')) {
+      // 应用标题样式
+        const titleStyle = { fontSize: 24, color: this.textStyle.color }
+        builder.pushStyle(new ck.TextStyle(titleStyle))
+        parseInline(line.slice(2), titleStyle, ck, builder) // 传递修剪掉‘# ’的line部分
         builder.pop()
-      }
-      else if (line.match('## ')) {
-        builder.pushStyle(
-          new ck.TextStyle({
-            fontSize: 20,
-            color: this.textStyle.color,
-          }),
-        )
-        builder.addText(line.slice(3))
-        builder.pop()
-      }
-      else if (line.match('### ')) {
-        builder.pushStyle(
-          new ck.TextStyle({
-            fontSize: 18,
-            color: this.textStyle.color,
-          }),
-        )
-        builder.addText(line.slice(4))
-        builder.pop()
-      }
-      else if (line.match('#### ')) {
-        builder.pushStyle(
-          new ck.TextStyle({
-            fontSize: 16,
-            color: this.textStyle.color,
-          }),
-        )
-        builder.addText(line.slice(4))
-        builder.pop()
-      }
-      else if (line.match('##### ')) {
-        builder.pushStyle(
-          new ck.TextStyle({
-            fontSize: 13,
-            color: this.textStyle.color,
-          }),
-        )
-        builder.addText(line.slice(4))
-        builder.pop()
-      }
-      else if (line.match('#### ')) {
-        builder.pushStyle(
-          new ck.TextStyle({
-            fontSize: 10,
-            color: this.textStyle.color,
-          }),
-        )
-        builder.addText(line.slice(4))
-        builder.pop()
-      }
-      else if (
-        line.match('- ') !== null
-        || line.match(/\* /) !== null
-        || line.match(/\+/) !== null
-      ) {
-        builder.addText(`• ${line.slice(2)}`)
-      }
-      else if (line.match(/\!\[/)) {
-        this.handleImage(line, builder, ck)
-      }
-      else if (line.match(/\[/)) {
-        builder.pushStyle(
-          new ck.TextStyle({
-            color: ck.BLUE,
-          }),
-        )
-        builder.addText(
-          line.replace(/\[/, '').replace(/\]/, '').replace(/(.+)/, ''),
-        )
-        builder.pop()
-      }
-      else if (line.match(/`.+`/)) {
-        builder.pushStyle(
-          new ck.TextStyle({
-            backgroundColor: ck.Color(211, 211, 211, 1),
-          }),
-        )
       }
       else {
-        builder.addText(line)
+      // 应用正常文本样式
+        parseInline(line, this.textStyle, ck, builder)
       }
-      builder.addText('\n')
+      builder.addText('\n') // 每行后添加换行符
     })
   }
 
