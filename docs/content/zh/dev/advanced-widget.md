@@ -218,6 +218,8 @@ export class Arrow extends Figure {
 
 在上面的代码中，我们添加了 `trim` (箭头的杆) 和 `tip` (箭头的尖)， 然后对其进行旋转组合，就成了箭头
 
-:::warn
+:::tip
+
 请在 `construnctor` 里创建并加入子组件，因为init只有动画play后才会进行调用，所以可能会有一定的几率报错
+
 :::

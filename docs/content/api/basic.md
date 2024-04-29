@@ -168,5 +168,3 @@ In addition to the options inherited from Widget, the Svg class has the followin
 
 - `width: number` (optional): Width of the SVG.
 - `height: number` (optional): Height of the SVG.
-
-Please note that this documentation is based on the code snippets provided and may not include all details or options. Refer to the original code or documentation for any omissions or further clarifications.
