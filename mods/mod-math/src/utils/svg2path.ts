@@ -64,7 +64,7 @@ export function svg2path(svgContent: string) {
 
   const pathElements = xmlDoc.querySelectorAll('path')
   pathElements.forEach((pathElem) => {
-    const pathData = pathElem.getAttribute('d')
+    const pathData = pathElem.getAttribute('d')!
     const transform = pathElem.closest('g')?.getAttribute('transform') || ''
     const transformedPath = applyTransforms(pathData, transform)
     paths.push(transformedPath)
