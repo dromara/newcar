@@ -1,5 +1,11 @@
 # @newcar/mod-markdown
 
+## 0.2.0
+
+### Minor Changes
+
+- Basically add Markdown syntax for this mod
+
 ## 0.1.5
 
 ### Patch Changes
