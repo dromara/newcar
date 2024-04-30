@@ -2,6 +2,7 @@ import { CarEngine, Color, Scene } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { BarChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
+import { Tex } from '@newcar/mod-math'
 
 import * as nc from 'newcar'
 
@@ -56,9 +57,11 @@ export const scene4 = new nc.Scene(
 )
 
 const scene5 = new nc.Scene(
-  new nc.Text(['www']).animate(nc.create, 0, 30, {
-    x: 100,
-    y: 100,
+  new Tex(`dy/dx, \\mathrm{d}y/\\mathrm{d}x, \\frac{dy}{dx}, \\frac{\mathrm{d}y}{\\mathrm{d}x}, \\frac{\\partial^2}{\\partial x_1\\partial x_2}y`, {
+    style: {
+      scaleX: 0.1,
+      scaleY: 0.1,
+    },
   }),
 )
 

@@ -306,4 +306,6 @@ export class Text extends Widget {
 
     return false
   }
+
+  // TODO: Stroke and Fill Mode
 }
