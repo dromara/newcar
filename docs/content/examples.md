@@ -25,7 +25,7 @@ const root = new Widget().add(
 );
 const scene = new Scene(root);
 app.checkout(scene);
-app.play;
+app.play();
 ```
 
 :::
