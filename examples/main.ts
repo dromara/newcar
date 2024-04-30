@@ -69,7 +69,7 @@ const scene6 = new nc.Scene(
   new Angle(new nc.Line([100, 100], [200, 100]), 45, 100),
 )
 
-const scene7 = new nc.Scene(new Brace([100, 100], [200, 200]))
+const scene7 = new nc.Scene(new Brace([0, 0], [200, 200]))
 
 const scene8 = new nc.Scene(
   new BarChart(

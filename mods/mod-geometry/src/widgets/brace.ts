@@ -2,7 +2,7 @@ import type { Vector2 } from '@newcar/basic'
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import { Color } from '@newcar/utils'
-import type { CanvasKit, Paint, Path } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
 
 export interface BraceOptions extends WidgetOptions {
   style?: BraceStyle
@@ -31,14 +31,29 @@ export class Brace extends Widget {
 
   init(ck: CanvasKit): void {
     this.paint = new ck.Paint()
+    this.path = new ck.Path()
     this.paint.setStyle(ck.PaintStyle.Stroke)
     this.paint.setColor(this.style.color.toFloat4())
     this.paint.setAlphaf(this.style.transparency)
+    this.paint.setStrokeWidth(3)
+    const length = Math.sqrt((this.to[0] - this.from[0]) ** 2 + (this.to[1] - this.from[1]))
+
+    this.path.moveTo(...this.from)
+    this.path.lineTo(this.from[0] + 10, this.from[1] - 10)
+    this.path.lineTo(this.from[0] + 10 + (length - 20) / 2, this.from[1] - 10)
+    this.path.lineTo(this.from[0] + 20 + (length - 20) / 2, this.from[1] - 20)
+    this.path.lineTo(this.from[0] + 30 + (length - 20) / 2, this.from[1] - 10)
+    this.path.lineTo(this.from[0] + 30 + length - 20, this.from[1] - 10)
+    this.path.lineTo(this.from[0] + 40 + length - 20, this.from[1])
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
     // eslint-disable-next-line no-empty
     if (propertyChanged === 'length') {
     }
+  }
+
+  draw(canvas: Canvas): void {
+    canvas.drawPath(this.path, this.paint)
   }
 }
