@@ -1,6 +1,7 @@
 import type {
   Canvas,
   CanvasKit,
+  Paragraph,
   ParagraphBuilder,
   TextStyle,
 } from 'canvaskit-wasm'
@@ -10,11 +11,11 @@ import { Color } from '@newcar/utils'
 
 export interface MarkdownOptions extends WidgetOptions {
   textStyle?: TextStyle
-  width?: number // 宽度用于布局和换行
+  width?: number
 }
 
 export class Markdown extends Widget {
-  private paragraph: any // 这将是CanvasKit的Paragraph对象
+  private paragraph: Paragraph
   private textStyle: TextStyle
   private width: number
 
@@ -24,7 +25,7 @@ export class Markdown extends Widget {
       color: Color.WHITE.toFloat4(),
       fontSize: 16,
     }
-    this.width = options.width || 500 // 默认宽度
+    this.width = options.width || 500
   }
 
   init(ck: CanvasKit): void {
@@ -51,7 +52,6 @@ export class Markdown extends Widget {
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
-    // 重新构建段落当文本或样式更改
     if (propertyChanged === 'text' || propertyChanged.match('textStyle.'))
       this.init(ck)
   }
@@ -66,12 +66,9 @@ export class Markdown extends Widget {
       const match = regex.exec(line.substring(startIndex))
 
       if (!match) {
-        // 如果没有找到更多匹配，添加剩余的文本
         builder.addText(line.substring(startIndex))
         return
       }
-
-      // 添加匹配之前的文本
       if (match.index + startIndex > startIndex)
         builder.addText(line.substring(startIndex, match.index + startIndex))
 
@@ -87,31 +84,61 @@ export class Markdown extends Widget {
       else if (match[0].startsWith('++'))
         styleUpdate.decoration = ck.UnderlineDecoration
       else if (match[0].startsWith('`'))
-        styleUpdate.backgroundColor = ck.Color(211, 211, 211, 1)
-
-      // 应用当前匹配的样式
+        styleUpdate.backgroundColor = ck.Color(211, 211, 211, 0.3)
       builder.pushStyle(new ck.TextStyle(styleUpdate))
       builder.addText(matchedText)
       builder.pop()
-
-      // 递归处理剩余的文本
       parseInline(line, currentStyle, ck, builder, match.index + match[0].length + startIndex)
     }
 
     const lines = text.split('\n')
     lines.forEach((line) => {
       if (line.startsWith('# ')) {
-      // 应用标题样式
         const titleStyle = { fontSize: 24, color: this.textStyle.color }
         builder.pushStyle(new ck.TextStyle(titleStyle))
-        parseInline(line.slice(2), titleStyle, ck, builder) // 传递修剪掉‘# ’的line部分
+        parseInline(line.slice(2), titleStyle, ck, builder)
+        builder.pop()
+      }
+      else if (line.startsWith('## ')) {
+        const titleStyle = { fontSize: 21, color: this.textStyle.color }
+        builder.pushStyle(new ck.TextStyle(titleStyle))
+        parseInline(line.slice(2), titleStyle, ck, builder)
+        builder.pop()
+      }
+      else if (line.startsWith('### ')) {
+        const titleStyle = { fontSize: 18, color: this.textStyle.color }
+        builder.pushStyle(new ck.TextStyle(titleStyle))
+        parseInline(line.slice(2), titleStyle, ck, builder)
+        builder.pop()
+      }
+      else if (line.startsWith('#### ')) {
+        const titleStyle = { fontSize: 15, color: this.textStyle.color }
+        builder.pushStyle(new ck.TextStyle(titleStyle))
+        parseInline(line.slice(2), titleStyle, ck, builder)
+        builder.pop()
+      }
+      else if (line.startsWith('##### ')) {
+        const titleStyle = { fontSize: 12, color: this.textStyle.color }
+        builder.pushStyle(new ck.TextStyle(titleStyle))
+        parseInline(line.slice(2), titleStyle, ck, builder)
+        builder.pop()
+      }
+      else if (line.startsWith('###### ')) {
+        const titleStyle = { fontSize: 9, color: this.textStyle.color }
+        builder.pushStyle(new ck.TextStyle(titleStyle))
+        parseInline(line.slice(2), titleStyle, ck, builder)
+        builder.pop()
+      }
+      else if (line.match(/( +)?- .+/) || line.match(/( +)? \+.+/) || line.match(/( +)? \* .+/)) {
+        const listStyle = { fontSize: 16, color: this.textStyle.color }
+        builder.pushStyle(new ck.TextStyle(listStyle))
+        parseInline(line.replace(/(.+)?(-|\*|\+)/, '·'), listStyle, ck, builder)
         builder.pop()
       }
       else {
-      // 应用正常文本样式
         parseInline(line, this.textStyle, ck, builder)
       }
-      builder.addText('\n') // 每行后添加换行符
+      builder.addText('\n')
     })
   }
 
@@ -125,8 +152,6 @@ export class Markdown extends Widget {
     if (match) {
       const altText = match[1]
       const imageUrl = match[2]
-      // 示例中不包含如何在CanvasKit中处理图像，这里只是一个占位符
-      // 实际应用中可能需要加载图像并创建一个图像着色器
       builder.addText(`[Image: ${altText} at ${imageUrl}]`)
     }
   }

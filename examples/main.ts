@@ -1,11 +1,9 @@
-import { CarEngine, Color } from 'newcar'
+import { CarEngine, Color, Scene } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
-import { Tex } from '@newcar/mod-math'
 import { BarChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
 
 import * as nc from 'newcar'
-import { Scene } from '@newcar/core'
 
 await nc.useFont(
   'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
@@ -120,7 +118,12 @@ My name is **Acbox**
 
 - Newcar Animation Engine
 - tntjs(achieved)
-`, {}))
+`, {
+  style: {
+    scaleX: 1.2,
+    scaleY: 1.2,
+  },
+}))
 
 const app1 = engine.createApp(document.querySelector('#a1'))
 app1.checkout(scene1)
