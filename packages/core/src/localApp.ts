@@ -2,7 +2,7 @@ import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import type { Scene } from './scene'
 import { initial } from './initial'
 import type { Widget } from './widget'
-import type { CarPlugin } from './plugin'
+import type { GlobalPlugin } from './plugin'
 
 export class LocalApp {
   scene: Scene
@@ -16,7 +16,7 @@ export class LocalApp {
     public width: number,
     public height: number,
     private ck: CanvasKit,
-    private plugins: CarPlugin[],
+    private plugins: GlobalPlugin[],
   ) {
     for (const plugin of this.plugins) plugin.beforeSurfaceLoaded(this)
 
@@ -53,7 +53,7 @@ export class LocalApp {
       plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
 
     for (const plugin of app.plugins)
-      plugin.afterPatch(app, app.scene.elapsed, app.last, app.scene.root)
+      plugin.onPatch(app, app.scene.elapsed, app.last, app.scene.root)
     ;(function draw(widget: Widget) {
       widget.init(app.ck)
       app.canvas.save()
@@ -66,7 +66,7 @@ export class LocalApp {
     // Animating.
     app.scene.root.runAnimation(app.scene.elapsed)
 
-    for (const plugin of app.plugins) plugin.afterUpdate(app, app.scene.elapsed)
+    for (const plugin of app.plugins) plugin.onUpdate(app, app.scene.elapsed)
 
     app.scene.elapsed += 1
   }
@@ -79,7 +79,7 @@ export class LocalApp {
     this.updates.push(updateFunc)
   }
 
-  use(plugin: CarPlugin) {
+  use(plugin: GlobalPlugin) {
     this.plugins.push(plugin)
   }
 
