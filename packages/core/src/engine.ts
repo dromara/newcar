@@ -2,14 +2,14 @@ import type { CanvasKit } from 'canvaskit-wasm'
 import CanvasKitInit from 'canvaskit-wasm'
 import { App } from './app'
 import { LocalApp } from './localApp'
-import type { CarPlugin } from './plugin'
+import type { GlobalPlugin } from './plugin'
 
 // eslint-disable-next-line import/no-mutable-exports
 export let $ck: CanvasKit
 export class CarEngine {
   ck: CanvasKit
   readonly apps: (App | LocalApp)[] = []
-  readonly plugins: CarPlugin[] = []
+  readonly plugins: GlobalPlugin[] = []
 
   async init(canvasKitWasmFile: string) {
     for (const plugin of this.plugins) plugin.beforeCanvasKitLoaded(this)
@@ -25,7 +25,7 @@ export class CarEngine {
     return this
   }
 
-  use(plugin: CarPlugin): this {
+  use(plugin: GlobalPlugin): this {
     this.plugins.push(plugin)
 
     return this

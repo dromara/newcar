@@ -2,7 +2,7 @@ import { CarEngine, Color, Scene } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { BarChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
-import { Tex } from '@newcar/mod-math'
+// import { Tex } from '@newcar/mod-math'
 
 import * as nc from 'newcar'
 
@@ -56,14 +56,14 @@ export const scene4 = new nc.Scene(
     .animate(nc.stroke, 0, 90),
 )
 
-const scene5 = new nc.Scene(
-  new Tex(`dy/dx, \\mathrm{d}y/\\mathrm{d}x, \\frac{dy}{dx}, \\frac{\mathrm{d}y}{\\mathrm{d}x}, \\frac{\\partial^2}{\\partial x_1\\partial x_2}y`, {
-    style: {
-      scaleX: 0.1,
-      scaleY: 0.1,
-    },
-  }),
-)
+// const scene5 = new nc.Scene(
+//   new Tex(`dy/dx, \\mathrm{d}y/\\mathrm{d}x, \\frac{dy}{dx}, \\frac{\mathrm{d}y}{\\mathrm{d}x}, \\frac{\\partial^2}{\\partial x_1\\partial x_2}y`, {
+//     style: {
+//       scaleX: 0.1,
+//       scaleY: 0.1,
+//     },
+//   }),
+// )
 
 const scene6 = new nc.Scene(
   new Angle(new nc.Line([100, 100], [200, 100]), 45, 100),
@@ -144,9 +144,9 @@ const app4 = engine.createApp(document.querySelector('#a4'))
 app4.checkout(scene4)
 app4.play()
 
-const app5 = engine.createApp(document.querySelector('#a5'))
-app5.checkout(scene5)
-app5.play()
+// const app5 = engine.createApp(document.querySelector('#a5'))
+// app5.checkout(scene5)
+// app5.play()
 
 const app6 = engine.createApp(document.querySelector('#b1'))
 app6.checkout(scene6)

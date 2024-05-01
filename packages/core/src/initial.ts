@@ -8,7 +8,11 @@ export async function initial(
   canvas: Canvas,
 ) {
   !widget._isAsyncWidget()
-    ? widget.init(ck)
+    ? (() => {
+        widget.plugins.forEach(plugin => plugin.beforeInitializing(widget, ck))
+        widget.init(ck)
+        widget.plugins.forEach(plugin => plugin.onInitializing(widget, ck))
+      })()
     : await (async () => {
       const res = await widget.init(ck)
       if ((res as AsyncWidgetResponse).status === 'error') {

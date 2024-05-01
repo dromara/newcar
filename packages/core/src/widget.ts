@@ -6,6 +6,7 @@ import { analyseAnimationTree } from './animationTree'
 import type { Event, EventInstance } from './event'
 import type { BlendMode } from './utils/types'
 import type { wait } from './apiWait'
+import type { WidgetPlugin } from './plugin'
 
 export type WidgetInstance<T extends Widget> = T
 
@@ -28,6 +29,7 @@ export interface WidgetStyle {
 }
 
 export class Widget {
+  plugins: WidgetPlugin[] = []
   x: number // The vector x of the widget.
   y: number // The vector y of the widget.
   centerX: number // The center vector x of the widget.
@@ -80,7 +82,7 @@ export class Widget {
    * Called when the widget is registered.
    * @param _ck The CanvasKit namespace
    */
-  init(_ck: CanvasKit) {}
+  init(_ck: CanvasKit) { }
 
   /**
    * Preload the necessary items during drawing.
@@ -90,14 +92,14 @@ export class Widget {
    * @param propertyChanged The changed property of this widget
    */
 
-  predraw(_ck: CanvasKit, _propertyChanged: string) {}
+  predraw(_ck: CanvasKit, _propertyChanged: string) { }
 
   /**
    * Draw the object according to the parameters of the widget.
    * Called when the parameters is changed.
    * @param _canvas The canvas object of CanvasKit-WASM.
    */
-  draw(_canvas: Canvas) {}
+  draw(_canvas: Canvas) { }
 
   /**
    * Called when the parameters is changed.
@@ -116,8 +118,13 @@ export class Widget {
     canvas.translate(this.x, this.y)
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
     canvas.scale(this.style.scaleX, this.style.scaleY)
-    if (this.display)
+    if (this.display) {
+      for (const plugin of this.plugins)
+        plugin.beforeDraw(this, canvas)
       this.draw(canvas)
+      for (const plugin of this.plugins)
+        plugin.onDraw(this, canvas)
+    }
   }
 
   /**
@@ -213,6 +220,10 @@ export class Widget {
     this.updates.push(updateFunc)
 
     return this
+  }
+
+  use(...plugins: WidgetPlugin[]) {
+    this.plugins.push(...plugins)
   }
 
   _isAsyncWidget() {

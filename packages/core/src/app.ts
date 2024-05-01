@@ -5,7 +5,7 @@ import { initial } from './initial'
 import { deepClone } from './utils/deepClone'
 import { patch } from './patch'
 import type { Widget } from './widget'
-import type { CarPlugin } from './plugin'
+import type { GlobalPlugin } from './plugin'
 
 export class App {
   scene: Scene
@@ -17,7 +17,7 @@ export class App {
   constructor(
     public element: HTMLCanvasElement,
     private ck: CanvasKit,
-    private plugins: CarPlugin[],
+    private plugins: GlobalPlugin[],
   ) {
     this.setBackgroundColor(Color.BLACK)
     if (element === void 0) {
@@ -65,17 +65,21 @@ export class App {
 
     patch(app.last, app.scene.root, app.ck, canvas)
     for (const plugin of app.plugins)
-      plugin.afterPatch(app, app.scene.elapsed, app.last, app.scene.root)
+      plugin.onPatch(app, app.scene.elapsed, app.last, app.scene.root)
 
     app.last = deepClone(app.scene.root)
 
     // Animating.
+    for (const plugin of app.plugins)
+      plugin.beforeAnimate(app, app.scene.elapsed, app.scene.root)
     app.scene.root.runAnimation(app.scene.elapsed)
+    for (const plugin of app.plugins)
+      plugin.onAnimate(app, app.scene.elapsed, app.scene.root)
 
     // // Process setup generation function
     // app.scene.root.runSetup(app.scene.elapsed)
 
-    for (const plugin of app.plugins) plugin.afterUpdate(app, app.scene.elapsed)
+    for (const plugin of app.plugins) plugin.onUpdate(app, app.scene.elapsed)
 
     if (app.playing) {
       app.scene.elapsed += 1
@@ -115,7 +119,7 @@ export class App {
     this.updates.push(updateFunc)
   }
 
-  use(plugin: CarPlugin) {
+  use(plugin: GlobalPlugin) {
     this.plugins.push(plugin)
   }
 
