@@ -48,8 +48,8 @@ export class Polygon extends Figure {
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
 
     // Alpha
-    this.strokePaint.setAlphaf(this.style.transparency)
-    this.fillPaint.setAlphaf(this.style.transparency)
+    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
+    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
 
     // Blend Mode
     this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
@@ -101,8 +101,8 @@ export class Polygon extends Figure {
         this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
       }
     }
-    this.strokePaint.setAlphaf(this.style.transparency)
-    this.fillPaint.setAlphaf(this.style.transparency)
+    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
+    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
   }
 
   draw(canvas: Canvas): void {

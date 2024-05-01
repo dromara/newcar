@@ -21,7 +21,7 @@ export class Arc extends Figure {
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
-    this.strokePaint.setAlphaf(this.style.transparency)
+    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
 
     try {
       const dash = ck.PathEffect.MakeDash(
@@ -36,7 +36,7 @@ export class Arc extends Figure {
     this.fillPaint = new ck.Paint()
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
-    this.fillPaint.setAlphaf(this.style.transparency)
+    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
 
     // Blend Mode
     this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
@@ -82,8 +82,8 @@ export class Arc extends Figure {
         break
       }
     }
-    this.strokePaint.setAlphaf(this.style.transparency)
-    this.fillPaint.setAlphaf(this.style.transparency)
+    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
+    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
   }
 
   draw(canvas: Canvas): void {

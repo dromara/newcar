@@ -30,7 +30,7 @@ export class Rect extends Figure {
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
-    this.strokePaint.setAlphaf(this.style.transparency)
+    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
     this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
@@ -45,7 +45,7 @@ export class Rect extends Figure {
     this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
-    this.fillPaint.setAlphaf(this.style.transparency)
+    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
 
     // Blend Mode
     this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
@@ -96,8 +96,8 @@ export class Rect extends Figure {
         this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
       }
     }
-    this.strokePaint.setAlphaf(this.style.transparency)
-    this.fillPaint.setAlphaf(this.style.transparency)
+    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
+    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
   }
 
   draw(canvas: Canvas): void {
