@@ -72,8 +72,8 @@ export class App {
     // Animating.
     app.scene.root.runAnimation(app.scene.elapsed)
 
-    // Process setup generation function
-    app.scene.root.runSetup(app.scene.elapsed)
+    // // Process setup generation function
+    // app.scene.root.runSetup(app.scene.elapsed)
 
     for (const plugin of app.plugins) plugin.afterUpdate(app, app.scene.elapsed)
 
@@ -124,6 +124,17 @@ export class App {
       ? (this.element.style.backgroundColor = color.toString())
       : (this.element.style.backgroundColor = '')
 
+    return this
+  }
+
+  destroy(): this {
+    this.pause()
+    this.updates = []
+    if (this.surface) {
+      this.surface.dispose()
+      this.surface = null as any
+    }
+    this.element = null as any
     return this
   }
 }

@@ -205,54 +205,6 @@ export class Widget {
     for (const child of this.children) child.setEventListener(element)
   }
 
-  async runSetup(elapsed: number) {
-    for (const setupFunc of this.setups) {
-      const generator = setupFunc(
-        this,
-        (
-          animation: Animation<any>,
-          duration: number,
-          params: Record<string, any>,
-        ) => {
-          this.animationInstances.push({
-            startAt: elapsed,
-            during: duration,
-            animation,
-            params,
-            mode: params.mode ?? 'positive',
-          })
-        },
-      )
-
-      let result = generator.next()
-      while (!result.done) {
-        const waitInstruction = result.value
-        if (waitInstruction && waitInstruction.duration)
-          await this.handleWait(waitInstruction)
-
-        result = generator.next()
-      }
-    }
-    for (const child of this.children) child.runSetup(elapsed)
-  }
-
-  async handleWait(waitInstruction: ReturnType<typeof wait>) {
-    const { duration, unit } = waitInstruction
-    if (unit === 'second') {
-      await new Promise(resolve => setTimeout(resolve, duration * 1000))
-    }
-    else if (unit === 'frame') {
-      // 假设帧率为 60 fps
-      await new Promise(resolve =>
-        setTimeout(resolve, (duration / 60) * 1000),
-      )
-    }
-  }
-
-  setup(call: GeneratorFunction) {
-    this.setups.push(call)
-  }
-
   /**
    * Set up a update function to call it when the widget is changed.
    * @param updateFunc The frame from having gone to current frame.
