@@ -34,7 +34,7 @@ export class Brace extends Widget {
     this.path = new ck.Path()
     this.paint.setStyle(ck.PaintStyle.Stroke)
     this.paint.setColor(this.style.color.toFloat4())
-    this.paint.setAlphaf(this.style.transparency)
+    this.paint.setAlphaf(this.style.transparency * this.style.color.alpha)
     this.paint.setStrokeWidth(3)
     const length = Math.sqrt((this.to[0] - this.from[0]) ** 2 + (this.to[1] - this.from[1]))
 

@@ -30,7 +30,7 @@ export class Line extends Widget {
     this.paint.setStyle(ck.PaintStyle.Stroke)
     this.paint.setColor(this.style.color.toFloat4())
     this.paint.setStrokeWidth(this.style.width)
-    this.paint.setAlphaf(this.style.transparency)
+    this.paint.setAlphaf(this.style.transparency * this.style.color.alpha)
     this.paint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
   }
 
@@ -50,7 +50,7 @@ export class Line extends Widget {
         break
       }
     }
-    this.paint.setAlphaf(this.style.transparency)
+    this.paint.setAlphaf(this.style.transparency * this.style.color.alpha)
   }
 
   draw(canvas: Canvas): void {

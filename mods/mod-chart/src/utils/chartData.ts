@@ -1,13 +1,10 @@
-import type { Color } from '@newcar/utils'
+import type { ChartDataUnit } from '../widgets'
 
-export interface ChartData {
+export interface ChartData<ChartStyle> {
   labels: string[]
   datasets: {
     label: string
-    data: number[]
-    backgroundColor?: Color[]
-    borderColor?: Color[]
-    borderWidth?: number
-    borderRadius?: number
+    data: ChartDataUnit<ChartStyle>[]
+    style?: ChartStyle
   }[]
 }
