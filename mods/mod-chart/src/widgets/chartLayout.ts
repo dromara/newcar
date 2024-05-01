@@ -1,9 +1,9 @@
-import { Figure, Line, Text } from '@newcar/basic'
+import { Figure, Line, Rect, Text } from '@newcar/basic'
 import type { WidgetStyle } from '@newcar/core'
 import type { CanvasKit, Paint } from 'canvaskit-wasm'
 import { Color } from '@newcar/utils'
-import type { ChartData } from '../utils/chartData'
-import type { ChartOption } from '../utils/chartOption'
+import stringWidth from 'string-width'
+import type { ChartData, ChartOption, ChartStyle } from '../utils'
 
 export interface ChartLayoutOptions extends ChartOption {
 }
@@ -32,8 +32,10 @@ export class ChartLayout extends Figure {
   yGrids: Line[]
   xLabels: Text[]
   yLabels: Text[]
+  legends: Rect[]
+  legendLabels: Text[]
 
-  constructor(public data: ChartData, options?: ChartLayoutOptions) {
+  constructor(public data: ChartData<ChartStyle>, options?: ChartLayoutOptions) {
     options ??= {
       size: {
         width: 200,
@@ -47,22 +49,16 @@ export class ChartLayout extends Figure {
     this.style.gridWidth = options.gridWidth ?? 1
 
     const minDataValue = Math.min(
-      ...data.datasets.flatMap((set) => {
-        return set.data
-      }),
+      ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.value),
       options.suggestedMin ?? 0,
     )
     const maxDataValue = options.suggestedMax
       ? Math.max(
-        ...data.datasets.flatMap((set) => {
-          return set.data
-        }),
+        ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.value),
         options.suggestedMax,
       )
       : Math.max(
-        ...data.datasets.flatMap((set) => {
-          return set.data
-        }),
+        ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.value),
       )
     const range = maxDataValue - minDataValue
     const magnitude = Math.floor(Math.log10(range))
@@ -94,7 +90,7 @@ export class ChartLayout extends Figure {
     })
 
     if (this.indexAxis === 'x') {
-      this.xGrids = this.data.labels.map((label, index) => {
+      this.xGrids = this.data.labels.map((_label, index) => {
         return new Line(
           [((index + 1) * this.size.width) / this.data.labels.length, 0],
           [
@@ -133,6 +129,7 @@ export class ChartLayout extends Figure {
       })
 
       this.yGrids = []
+      this.yLabels = []
 
       for (let i = this.min; i <= this.max; i += this.interval) {
         this.yGrids.push(
@@ -156,11 +153,6 @@ export class ChartLayout extends Figure {
             },
           ),
         )
-      }
-
-      this.yLabels = []
-
-      for (let i = this.min; i <= this.max; i += this.interval) {
         this.yLabels.push(
           new Text(
             [
@@ -173,12 +165,12 @@ export class ChartLayout extends Figure {
               },
             ],
             {
-              x: -8 - i.toString().length * 12,
+              x: -8 - stringWidth(i.toString()) * 12,
               y:
                 this.size.height - 8
                 - ((i - this.min) / (this.max - this.min)) * this.size.height,
               style: {
-                width: i.toString().length * 12,
+                width: stringWidth(i.toString()) * 12,
                 textAlign: 'right',
               },
             },
@@ -187,7 +179,7 @@ export class ChartLayout extends Figure {
       }
     }
     else {
-      this.yGrids = this.data.labels.map((label, index) => {
+      this.yGrids = this.data.labels.map((_label, index) => {
         return new Line(
           [-5, (index * this.size.height) / this.data.labels.length],
           [
@@ -214,10 +206,10 @@ export class ChartLayout extends Figure {
             },
           ],
           {
-            x: -8 - label.length * 12,
+            x: -8 - stringWidth(label) * 12,
             y: ((index + 0.5) * this.size.height) / this.data.labels.length - 8,
             style: {
-              width: label.length * 12,
+              width: stringWidth(label) * 12,
               textAlign: 'right',
             },
           },
@@ -225,6 +217,7 @@ export class ChartLayout extends Figure {
       })
 
       this.xGrids = []
+      this.xLabels = []
 
       for (let i = this.min; i <= this.max; i += this.interval) {
         this.xGrids.push(
@@ -245,11 +238,6 @@ export class ChartLayout extends Figure {
             },
           ),
         )
-      }
-
-      this.xLabels = []
-
-      for (let i = this.min; i <= this.max; i += this.interval) {
         this.xLabels.push(
           new Text(
             [
@@ -275,6 +263,60 @@ export class ChartLayout extends Figure {
       }
     }
 
+    this.legends = []
+    this.legendLabels = []
+    const legendWidthPrefix = [0]
+    for (let i = 1; i <= this.data.datasets.length; i++) {
+      legendWidthPrefix[i] = legendWidthPrefix[i - 1]
+      legendWidthPrefix[i] += stringWidth(this.data.datasets[i - 1].label) * 12 + 24
+    }
+    for (let i = 0; i < this.data.datasets.length; i++) {
+      this.legends.push(
+        new Rect(
+          [
+            this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i],
+            -26,
+          ],
+          [
+            this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i] + 20,
+            -10,
+          ],
+          {
+            style: {
+              fillColor: this.data.datasets[i].style.backgroundColor
+              ?? (this.data.datasets[i].data[0].style.backgroundColor ?? Color.WHITE),
+              borderColor: this.data.datasets[i].style.borderColor
+              ?? (this.data.datasets[i].data[0].style.borderColor ?? Color.WHITE),
+              borderWidth: this.data.datasets[i].style.borderWidth
+              ?? (this.data.datasets[i].data[0].style.borderWidth ?? 1),
+              border: true,
+            },
+          },
+        ),
+      )
+      this.legendLabels.push(
+        new Text(
+          [
+            {
+              text: this.data.datasets[i].label,
+              style: {
+                color: this.style.gridColor,
+                fontSize: 16,
+              },
+            },
+          ],
+          {
+            x: this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i] + 24,
+            y: -28,
+            style: {
+              width: stringWidth(this.data.datasets[i].label) * 12,
+              textAlign: 'center',
+            },
+          },
+        ),
+      )
+    }
+
     this.add(
       this.xAxis,
       this.yAxis,
@@ -282,6 +324,8 @@ export class ChartLayout extends Figure {
       ...this.xLabels,
       ...this.yGrids,
       ...this.yLabels,
+      ...this.legends,
+      ...this.legendLabels,
     )
   }
 

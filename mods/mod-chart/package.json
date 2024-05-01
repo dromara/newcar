@@ -27,7 +27,8 @@
   "dependencies": {
     "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
-    "@newcar/utils": "workspace:*"
+    "@newcar/utils": "workspace:*",
+    "string-width": "^7.1.0"
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"

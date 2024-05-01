@@ -1,9 +1,7 @@
 import { Figure, Rect } from '@newcar/basic'
-import type { WidgetStyle } from '@newcar/core'
 import { Color } from '@newcar/utils'
 import type { CanvasKit, Paint } from 'canvaskit-wasm'
-import type { ChartData } from '../utils/chartData'
-import type { ChartOption } from '../utils/chartOption'
+import type { ChartData, ChartOption, ChartStyle } from '../utils'
 import { ChartLayout } from './chartLayout'
 
 export interface BarChartOptions extends ChartOption {
@@ -11,7 +9,9 @@ export interface BarChartOptions extends ChartOption {
   barPercentage?: number
 }
 
-export interface BarChartStyle extends WidgetStyle {}
+export interface BarChartStyle extends ChartStyle {
+  borderRadius?: number
+}
 
 export class BarChart extends Figure {
   declare style: BarChartStyle
@@ -23,7 +23,7 @@ export class BarChart extends Figure {
   barSets: Rect[][]
 
   constructor(
-    public data: ChartData,
+    public data: ChartData<BarChartStyle>,
     options?: BarChartOptions,
   ) {
     options ??= {
@@ -45,14 +45,18 @@ export class BarChart extends Figure {
       const categorySize = gridSize * this.categoryPercentage
       const barSize = (categorySize / this.data.datasets.length) * this.barPercentage
       this.barSets = this.data.datasets.map((set, setIndex) => {
-        return set.data.map((value, index) => {
+        set.style.backgroundColor ??= Color.WHITE.withAlpha(0.2)
+        set.style.borderColor ??= Color.WHITE
+        set.style.borderWidth ??= 1
+        set.style.border ??= true
+        return set.data.map((unit, index) => {
           return new Rect(
             [
               (index * this.layout.size.width) / this.data.labels.length
               + (gridSize - categorySize) / 2
               + (setIndex * categorySize) / this.data.datasets.length
               + (categorySize / this.data.datasets.length - barSize) / 2,
-              this.layout.size.height - (value * this.layout.size.height) / this.layout.max,
+              this.layout.size.height - (unit.value * this.layout.size.height) / this.layout.max,
             ],
             [
               (index * this.layout.size.width) / this.data.labels.length
@@ -64,8 +68,10 @@ export class BarChart extends Figure {
             ],
             {
               style: {
-                fillColor: set.backgroundColor ? set.backgroundColor[index] : Color.WHITE,
-                borderColor: set.borderColor ? set.borderColor[index] : Color.WHITE,
+                fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
+                borderColor: unit.style.borderColor ?? set.style.borderColor,
+                borderWidth: unit.style.borderWidth ?? set.style.borderWidth,
+                border: unit.style.border ?? set.style.border,
               },
             },
           )
@@ -77,7 +83,11 @@ export class BarChart extends Figure {
       const categorySize = gridSize * this.categoryPercentage
       const barSize = (categorySize / this.data.datasets.length) * this.barPercentage
       this.barSets = this.data.datasets.map((set, setIndex) => {
-        return set.data.map((value, index) => {
+        set.style.backgroundColor ??= Color.WHITE.withAlpha(0.2)
+        set.style.borderColor ??= Color.WHITE
+        set.style.borderWidth ??= 1
+        set.style.border ??= true
+        return set.data.map((unit, index) => {
           return new Rect(
             [
               0,
@@ -88,7 +98,7 @@ export class BarChart extends Figure {
               + this.layout.style.gridWidth / 2,
             ],
             [
-              (value * this.layout.size.width) / this.layout.max,
+              (unit.value * this.layout.size.width) / this.layout.max,
               (index * this.layout.size.height) / this.data.labels.length
               + (gridSize - categorySize) / 2
               + (setIndex * categorySize) / this.data.datasets.length
@@ -97,8 +107,10 @@ export class BarChart extends Figure {
             ],
             {
               style: {
-                fillColor: set.backgroundColor ? set.backgroundColor[index] : Color.WHITE,
-                borderColor: set.borderColor ? set.borderColor[index] : Color.WHITE,
+                fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
+                borderColor: unit.style.borderColor ?? set.style.borderColor,
+                borderWidth: unit.style.borderWidth ?? set.style.borderWidth,
+                border: unit.style.border ?? set.style.border,
               },
             },
           )

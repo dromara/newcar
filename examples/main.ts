@@ -1,6 +1,6 @@
-import { CarEngine, Color, Scene } from 'newcar'
+import { CarEngine, Color } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
-import { BarChart } from '@newcar/mod-chart'
+import { BarChart, ChartDataUnit, ChartUtil } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
 // import { Tex } from '@newcar/mod-math'
 
@@ -74,23 +74,49 @@ const scene7 = new nc.Scene(new Brace([0, 0], [200, 200]))
 const scene8 = new nc.Scene(
   new BarChart(
     {
-      labels: ['A', 'B', 'C', 'D'],
+      labels: ['AB', 'BB', 'CB', 'DB'],
       datasets: [
         {
           label: 'Series 1',
-          data: [12, 19, 3, 5],
-          backgroundColor: [
-            Color.rgba(255, 99, 132, 0.2),
-            Color.rgba(255, 159, 64, 0.2),
-            Color.rgba(255, 205, 86, 0.2),
-            Color.rgba(75, 192, 192, 0.2),
+          data: ChartUtil.dataUnits([12, 19, 3, 5]),
+          style: {
+            backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
+            borderColor: Color.parse('#66CCFF'),
+            borderWidth: 1,
+          },
+        },
+        {
+          label: 'Series 2',
+          data: [
+            new ChartDataUnit(12, {
+              style: {
+                backgroundColor: Color.rgba(255, 99, 132, 0.2),
+                borderColor: Color.rgba(255, 99, 132),
+              },
+            }),
+            new ChartDataUnit(19, {
+              style: {
+                backgroundColor: Color.rgba(255, 159, 64, 0.2),
+                borderColor: Color.rgba(255, 159, 64),
+              },
+            }),
+            new ChartDataUnit(3, {
+              style: {
+                backgroundColor: Color.rgba(255, 205, 86, 0.2),
+                borderColor: Color.rgba(255, 205, 86),
+              },
+            }),
+            new ChartDataUnit(5, {
+              style: {
+                backgroundColor: Color.rgba(75, 192, 192, 0.2),
+                borderColor: Color.rgba(75, 192, 192),
+              },
+            }),
           ],
-          borderColor: [
-            Color.rgba(255, 99, 132),
-            Color.rgba(255, 159, 64),
-            Color.rgba(255, 205, 86),
-            Color.rgba(75, 192, 192),
-          ],
+          style: {
+            backgroundColor: Color.rgba(255, 99, 132, 0.2),
+            borderColor: Color.rgba(255, 99, 132),
+          },
         },
       ],
     },
