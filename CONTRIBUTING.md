@@ -44,7 +44,7 @@ plugins
 - mods: The offical mods of Newcar
 - packages: the core and other packages that core is dependent on or be dependented
   - basic: There are many basic figures in there, please refer to [newcar.js.org](https://newcar.js.org) to see them
-- plugions: The offcial plugins of Newcar
+- plugins: The offcial plugins of Newcar
 
 And you can custom some widget for our offical lib, the guide is in out [documentation](https://newcar.js.org).
 
