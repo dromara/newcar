@@ -1,11 +1,12 @@
 import { Figure, Line, Rect, Text } from '@newcar/basic'
 import type { WidgetStyle } from '@newcar/core'
-import type { CanvasKit, Paint } from 'canvaskit-wasm'
+import type { Paint } from 'canvaskit-wasm'
 import { Color } from '@newcar/utils'
 import stringWidth from 'string-width'
 import type { ChartData, ChartOption, ChartStyle } from '../utils'
 
 export interface ChartLayoutOptions extends ChartOption {
+  endColumn?: boolean
 }
 
 export interface ChartLayoutStyle extends WidgetStyle {
@@ -21,6 +22,7 @@ export class ChartLayout extends Figure {
   }
 
   indexAxis: 'x' | 'y'
+  endColumn: boolean
 
   paint: Paint
   min: number
@@ -45,6 +47,7 @@ export class ChartLayout extends Figure {
     super(options)
     this.size = options.size
     this.indexAxis = options.indexAxis ?? 'x'
+    this.endColumn = options.endColumn ?? true
     this.style.gridColor = options.gridColor ?? Color.WHITE
     this.style.gridWidth = options.gridWidth ?? 1
 
@@ -90,11 +93,14 @@ export class ChartLayout extends Figure {
     })
 
     if (this.indexAxis === 'x') {
+      const gridSize = this.size.width
+        / (this.endColumn ? this.data.labels.length : this.data.labels.length - 1)
       this.xGrids = this.data.labels.map((_label, index) => {
         return new Line(
-          [((index + 1) * this.size.width) / this.data.labels.length, 0],
+          [(index + 1) * gridSize, 0],
           [
-            ((index + 1) * this.size.width) / this.data.labels.length,
+            ((index + 1) * this.size.width)
+            / (this.endColumn ? this.data.labels.length : this.data.labels.length - 1),
             this.size.height + 5,
           ],
           {
@@ -106,6 +112,9 @@ export class ChartLayout extends Figure {
           },
         )
       })
+      if (!this.endColumn)
+        this.xGrids.pop()
+
       this.xLabels = this.data.labels.map((label, index) => {
         return new Text(
           [
@@ -118,10 +127,10 @@ export class ChartLayout extends Figure {
             },
           ],
           {
-            x: (index * this.size.width) / this.data.labels.length,
+            x: index * gridSize - gridSize / 2,
             y: this.size.height + 4,
             style: {
-              width: this.size.width / this.data.labels.length,
+              width: gridSize,
               textAlign: 'center',
             },
           },
@@ -307,7 +316,7 @@ export class ChartLayout extends Figure {
           ],
           {
             x: this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i] + 24,
-            y: -28,
+            y: -27,
             style: {
               width: stringWidth(this.data.datasets[i].label) * 12,
               textAlign: 'center',
@@ -328,20 +337,4 @@ export class ChartLayout extends Figure {
       ...this.legendLabels,
     )
   }
-
-  init(ck: CanvasKit): void {
-    this.paint = new ck.Paint()
-    // this.paint.setColor(this.style.borderColor!.withAlpha(0.5).toFloat4())
-  }
-
-  // predraw(ck: CanvasKit, propertyChanged: string): void {
-  //   switch (propertyChanged) {
-  //     case 'value': {
-  //       this.endX = this.basis.to[0] + length * Math.cos(this.value)
-  //       this.endY = this.basis.to[1] + length * Math.sin(this.value)
-  //       this.endSide.to = [this.endX, this.endY]
-  //       break
-  //     }
-  //   }
-  // }
 }
