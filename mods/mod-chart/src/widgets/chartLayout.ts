@@ -1,6 +1,6 @@
 import { Figure, Line, Rect, Text } from '@newcar/basic'
 import type { WidgetStyle } from '@newcar/core'
-import type { CanvasKit, Paint } from 'canvaskit-wasm'
+import type { Paint } from 'canvaskit-wasm'
 import { Color } from '@newcar/utils'
 import stringWidth from 'string-width'
 import type { ChartData, ChartOption, ChartStyle } from '../utils'
@@ -328,20 +328,4 @@ export class ChartLayout extends Figure {
       ...this.legendLabels,
     )
   }
-
-  init(ck: CanvasKit): void {
-    this.paint = new ck.Paint()
-    // this.paint.setColor(this.style.borderColor!.withAlpha(0.5).toFloat4())
-  }
-
-  // predraw(ck: CanvasKit, propertyChanged: string): void {
-  //   switch (propertyChanged) {
-  //     case 'value': {
-  //       this.endX = this.basis.to[0] + length * Math.cos(this.value)
-  //       this.endY = this.basis.to[1] + length * Math.sin(this.value)
-  //       this.endSide.to = [this.endX, this.endY]
-  //       break
-  //     }
-  //   }
-  // }
 }

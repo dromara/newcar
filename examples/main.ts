@@ -78,7 +78,7 @@ const scene8 = new nc.Scene(
       datasets: [
         {
           label: 'Series 1',
-          data: ChartUtil.dataUnits([12, 19, 3, 5]),
+          data: ChartUtil.dataUnits([2, 5, 21, 14]),
           style: {
             backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
             borderColor: Color.parse('#66CCFF'),
@@ -129,7 +129,7 @@ const scene8 = new nc.Scene(
       },
       indexAxis: 'x',
     },
-  ),
+  ).animate(nc.create, 0, 30),
 )
 
 const scene9 = new nc.Scene(new Markdown(`

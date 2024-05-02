@@ -56,7 +56,7 @@ export class BarChart extends Figure {
               + (gridSize - categorySize) / 2
               + (setIndex * categorySize) / this.data.datasets.length
               + (categorySize / this.data.datasets.length - barSize) / 2,
-              this.layout.size.height - (unit.value * this.layout.size.height) / this.layout.max,
+              this.layout.size.height - (unit.value * this.progress * this.layout.size.height) / this.layout.max,
             ],
             [
               (index * this.layout.size.width) / this.data.labels.length
@@ -98,7 +98,7 @@ export class BarChart extends Figure {
               + this.layout.style.gridWidth / 2,
             ],
             [
-              (unit.value * this.layout.size.width) / this.layout.max,
+              (unit.value * this.progress * this.layout.size.width) / this.layout.max,
               (index * this.layout.size.height) / this.data.labels.length
               + (gridSize - categorySize) / 2
               + (setIndex * categorySize) / this.data.datasets.length
@@ -119,22 +119,26 @@ export class BarChart extends Figure {
     }
 
     this.add(this.layout, ...this.barSets.flat())
-    // this.endSide = new Line(this.basis.from, [this.endX, this.endY])
-    // this.add(this.basis, this.endSide)
   }
 
-  init(ck: CanvasKit): void {
-    this.paint = new ck.Paint()
+  predraw(_ck: CanvasKit, propertyChanged: string): void {
+    switch (propertyChanged) {
+      case 'progress': {
+        if (this.layout.indexAxis === 'x') {
+          this.barSets.forEach((set, setIndex) => {
+            set.forEach((bar, index) => {
+              bar.from[1] = this.layout.size.height - (this.data.datasets[setIndex].data[index].value * this.progress * this.layout.size.height) / this.layout.max
+            })
+          })
+        }
+        else {
+          this.barSets.forEach((set, setIndex) => {
+            set.forEach((bar, index) => {
+              bar.from[0] = (this.data.datasets[setIndex].data[index].value * this.progress * this.layout.size.width) / this.layout.max
+            })
+          })
+        }
+      }
+    }
   }
-
-  // predraw(ck: CanvasKit, propertyChanged: string): void {
-  //   switch (propertyChanged) {
-  //     case 'value': {
-  //       this.endX = this.basis.to[0] + length * Math.cos(this.value)
-  //       this.endY = this.basis.to[1] + length * Math.sin(this.value)
-  //       this.endSide.to = [this.endX, this.endY]
-  //       break
-  //     }
-  //   }
-  // }
 }
