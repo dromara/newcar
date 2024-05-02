@@ -1,6 +1,6 @@
 import { CarEngine, Color } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
-import { BarChart, ChartDataUnit, ChartUtil } from '@newcar/mod-chart'
+import { BarChart, ChartDataUnit, ChartUtil, LineChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
 // import { Tex } from '@newcar/mod-math'
 
@@ -132,7 +132,67 @@ const scene8 = new nc.Scene(
   ).animate(nc.create, 0, 30),
 )
 
-const scene9 = new nc.Scene(new Markdown(`
+const scene9 = new nc.Scene(
+  new LineChart(
+    {
+      labels: ['AB', 'BB', 'CB', 'DB'],
+      datasets: [
+        {
+          label: 'Series 1',
+          data: ChartUtil.dataUnits([2, 5, 21, 14]),
+          style: {
+            backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
+            borderColor: Color.parse('#66CCFF'),
+          },
+        },
+        {
+          label: 'Series 2',
+          data: [
+            new ChartDataUnit(12, {
+              style: {
+                backgroundColor: Color.rgba(255, 99, 132, 0.2),
+                borderColor: Color.rgba(255, 99, 132),
+              },
+            }),
+            new ChartDataUnit(19, {
+              style: {
+                backgroundColor: Color.rgba(255, 159, 64, 0.2),
+                borderColor: Color.rgba(255, 159, 64),
+              },
+            }),
+            new ChartDataUnit(3, {
+              style: {
+                backgroundColor: Color.rgba(255, 205, 86, 0.2),
+                borderColor: Color.rgba(255, 205, 86),
+              },
+            }),
+            new ChartDataUnit(5, {
+              style: {
+                backgroundColor: Color.rgba(75, 192, 192, 0.2),
+                borderColor: Color.rgba(75, 192, 192),
+              },
+            }),
+          ],
+          style: {
+            backgroundColor: Color.rgba(255, 99, 132, 0.2),
+            borderColor: Color.rgba(255, 99, 132),
+          },
+        },
+      ],
+    },
+    {
+      x: 50,
+      y: 50,
+      size: {
+        width: 300,
+        height: 300,
+      },
+      indexAxis: 'x',
+    },
+  ).animate(nc.create, 0, 30),
+)
+
+const scene10 = new nc.Scene(new Markdown(`
 # \`Hello\`
 
 ## Name
@@ -186,6 +246,10 @@ const app8 = engine.createApp(document.querySelector('#c1'))
 app8.checkout(scene8)
 app8.play()
 
-const app9 = engine.createApp(document.querySelector('#d1'))
+const app9 = engine.createApp(document.querySelector('#c2'))
 app9.checkout(scene9)
 app9.play()
+
+const app10 = engine.createApp(document.querySelector('#d1'))
+app10.checkout(scene10)
+app10.play()
