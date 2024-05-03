@@ -187,7 +187,7 @@ const scene9 = new nc.Scene(
         width: 300,
         height: 300,
       },
-      indexAxis: 'x',
+      indexAxis: 'y',
     },
   ).animate(nc.create, 0, 30),
 )
