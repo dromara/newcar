@@ -5,3 +5,7 @@ export class Scene {
 
   constructor(public root: Widget) {}
 }
+
+export function createScene(root: Widget) {
+  return new Scene(root)
+}
