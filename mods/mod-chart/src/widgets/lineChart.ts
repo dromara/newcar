@@ -47,7 +47,7 @@ export class LineChart extends Figure {
       endColumn: false,
     })
 
-    this.dotSets = this.data.datasets.map((set, setIndex) => {
+    this.dotSets = this.data.datasets.map((set) => {
       set.style.backgroundColor ??= Color.WHITE.withAlpha(0.2)
       set.style.borderColor ??= Color.WHITE
       set.style.borderWidth ??= 1
@@ -60,7 +60,9 @@ export class LineChart extends Figure {
             unit.style.dotSize ?? set.style.dotSize,
             {
               x: index * gridSize,
-              y: this.layout.size.height - (unit.value * this.progress * this.layout.size.height) / this.layout.max,
+              y: this.layout.size.height
+              - ((unit.value * this.progress - this.layout.min) * this.layout.size.height)
+              / (this.layout.max - this.layout.min),
               style: {
                 fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
                 borderColor: unit.style.borderColor ?? set.style.borderColor,
@@ -77,7 +79,7 @@ export class LineChart extends Figure {
           return new Circle(
             unit.style.dotSize ?? set.style.dotSize,
             {
-              x: (this.data.datasets[setIndex].data[index].value * this.progress * this.layout.size.width) / this.layout.max,
+              x: ((unit.value * this.progress - this.layout.min) * this.layout.size.width) / (this.layout.max - this.layout.min),
               y: this.layout.size.height - index * gridSize,
               style: {
                 fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
@@ -155,7 +157,9 @@ export class LineChart extends Figure {
           const gridSize = this.layout.size.width / (this.data.labels.length - 1)
           for (let i = 0; i < this.dotSets.length; i++) {
             for (let j = 0; j < this.dotSets[i].length; j++) {
-              this.dotSets[i][j].y = this.layout.size.height - (this.data.datasets[i].data[j].value * this.progress * this.layout.size.height) / this.layout.max
+              this.dotSets[i][j].y = this.layout.size.height
+              - ((this.data.datasets[i].data[j].value * this.progress - this.layout.min) * this.layout.size.height)
+              / (this.layout.max - this.layout.min)
               this.dotSets[i][j].x = j * gridSize
             }
           }
@@ -164,7 +168,7 @@ export class LineChart extends Figure {
           const gridSize = this.layout.size.height / (this.data.labels.length - 1)
           for (let i = 0; i < this.dotSets.length; i++) {
             for (let j = 0; j < this.dotSets[i].length; j++) {
-              this.dotSets[i][j].x = (this.data.datasets[i].data[j].value * this.progress * this.layout.size.width) / this.layout.max
+              this.dotSets[i][j].x = ((this.data.datasets[i].data[j].value * this.progress - this.layout.min) * this.layout.size.width) / (this.layout.max - this.layout.min)
               this.dotSets[i][j].y = this.layout.size.height - j * gridSize
             }
           }

@@ -78,7 +78,7 @@ const scene8 = new nc.Scene(
       datasets: [
         {
           label: 'Series 1',
-          data: ChartUtil.dataUnits([2, 5, 21, 14]),
+          data: ChartUtil.dataUnits([2, 5, -15, 14]),
           style: {
             backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
             borderColor: Color.parse('#66CCFF'),
@@ -127,9 +127,9 @@ const scene8 = new nc.Scene(
         width: 300,
         height: 300,
       },
-      indexAxis: 'x',
+      indexAxis: 'y',
     },
-  ).animate(nc.create, 0, 30),
+  ).animate(nc.create, 0, 100),
 )
 
 const scene9 = new nc.Scene(
@@ -139,7 +139,7 @@ const scene9 = new nc.Scene(
       datasets: [
         {
           label: 'Series 1',
-          data: ChartUtil.dataUnits([2, 5, 21, 14]),
+          data: ChartUtil.dataUnits([2, 5, -15, 14]),
           style: {
             backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
             borderColor: Color.parse('#66CCFF'),
@@ -189,7 +189,7 @@ const scene9 = new nc.Scene(
       },
       indexAxis: 'x',
     },
-  ).animate(nc.create, 0, 30),
+  ).animate(nc.create, 0, 100),
 )
 
 const scene10 = new nc.Scene(new Markdown(`

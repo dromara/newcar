@@ -127,7 +127,7 @@ export class ChartLayout extends Figure {
             },
           ],
           {
-            x: index * gridSize - gridSize / 2,
+            x: index * gridSize - (this.endColumn ? 0 : gridSize / 2),
             y: this.size.height + 4,
             style: {
               width: gridSize,
@@ -188,12 +188,14 @@ export class ChartLayout extends Figure {
       }
     }
     else {
+      const gridSize = this.size.height
+        / (this.endColumn ? this.data.labels.length : this.data.labels.length - 1)
       this.yGrids = this.data.labels.map((_label, index) => {
         return new Line(
-          [-5, (index * this.size.height) / this.data.labels.length],
+          [-5, index * gridSize],
           [
             this.size.width,
-            (index * this.size.height) / this.data.labels.length,
+            index * gridSize,
           ],
           {
             style: {
@@ -203,6 +205,10 @@ export class ChartLayout extends Figure {
           },
         )
       })
+
+      if (!this.endColumn)
+        this.yGrids.pop()
+
       this.yLabels = this.data.labels.map((label, index) => {
         return new Text(
           [
@@ -216,7 +222,7 @@ export class ChartLayout extends Figure {
           ],
           {
             x: -8 - stringWidth(label) * 12,
-            y: ((index + 0.5) * this.size.height) / this.data.labels.length - 8,
+            y: index * gridSize + (this.endColumn ? gridSize / 2 : 0) - 8,
             style: {
               width: stringWidth(label) * 12,
               textAlign: 'right',

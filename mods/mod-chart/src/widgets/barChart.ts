@@ -56,7 +56,8 @@ export class BarChart extends Figure {
               + (gridSize - categorySize) / 2
               + (setIndex * categorySize) / this.data.datasets.length
               + (categorySize / this.data.datasets.length - barSize) / 2,
-              this.layout.size.height - (unit.value * this.progress * this.layout.size.height) / this.layout.max,
+              this.layout.size.height - ((unit.value * this.progress - this.layout.min) * this.layout.size.height)
+              / (this.layout.max - this.layout.min),
             ],
             [
               (index * this.layout.size.width) / this.data.labels.length
@@ -64,7 +65,8 @@ export class BarChart extends Figure {
               + (setIndex * categorySize) / this.data.datasets.length
               + (categorySize / this.data.datasets.length - barSize) / 2
               + barSize,
-              this.layout.size.height - this.layout.style.gridWidth / 2,
+              this.layout.size.height - (0 - this.layout.min)
+              / (this.layout.max - this.layout.min) * this.layout.size.height,
             ],
             {
               style: {
@@ -90,7 +92,7 @@ export class BarChart extends Figure {
         return set.data.map((unit, index) => {
           return new Rect(
             [
-              0,
+              (0 - this.layout.min) / (this.layout.max - this.layout.min) * this.layout.size.width,
               (index * this.layout.size.height) / this.data.labels.length
               + (gridSize - categorySize) / 2
               + (setIndex * categorySize) / this.data.datasets.length
@@ -98,7 +100,8 @@ export class BarChart extends Figure {
               + this.layout.style.gridWidth / 2,
             ],
             [
-              (unit.value * this.progress * this.layout.size.width) / this.layout.max,
+              ((unit.value * this.progress - this.layout.min) * this.layout.size.width)
+              / (this.layout.max - this.layout.min),
               (index * this.layout.size.height) / this.data.labels.length
               + (gridSize - categorySize) / 2
               + (setIndex * categorySize) / this.data.datasets.length
@@ -127,14 +130,17 @@ export class BarChart extends Figure {
         if (this.layout.indexAxis === 'x') {
           this.barSets.forEach((set, setIndex) => {
             set.forEach((bar, index) => {
-              bar.from[1] = this.layout.size.height - (this.data.datasets[setIndex].data[index].value * this.progress * this.layout.size.height) / this.layout.max
+              bar.from[1] = this.layout.size.height
+              - ((this.data.datasets[setIndex].data[index].value * this.progress - this.layout.min) * this.layout.size.height)
+              / (this.layout.max - this.layout.min)
             })
           })
         }
         else {
           this.barSets.forEach((set, setIndex) => {
             set.forEach((bar, index) => {
-              bar.from[0] = (this.data.datasets[setIndex].data[index].value * this.progress * this.layout.size.width) / this.layout.max
+              bar.to[0] = ((this.data.datasets[setIndex].data[index].value * this.progress - this.layout.min) * this.layout.size.width)
+              / (this.layout.max - this.layout.min)
             })
           })
         }
