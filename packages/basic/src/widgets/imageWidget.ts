@@ -16,6 +16,7 @@ export class ImageWidget extends Widget {
   init(ck: CanvasKit) {
     this.paint = new ck.Paint()
     this.paint.setAlphaf(this.style.transparency)
+    this.paint.setAntiAlias(this.style.antiAlias)
     try {
       this.image = ck.MakeImageFromEncoded(this.imageArray)
     }

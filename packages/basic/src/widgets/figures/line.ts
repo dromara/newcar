@@ -32,6 +32,7 @@ export class Line extends Widget {
     this.paint.setStrokeWidth(this.style.width)
     this.paint.setAlphaf(this.style.transparency * this.style.color.alpha)
     this.paint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+    this.paint.setAntiAlias(this.style.antiAlias)
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {

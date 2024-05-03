@@ -110,7 +110,7 @@ import * as nc from "newcar";
 const engine = await new nc.CarEngine().init("../node_modules/canvaskit-wasm/bin/canvaskit.wasm");
 const app = engine.createApp(document.querySelector("#canvas"));
 const root = new nc.Circle(100);
-const scene = new nc.Scene(root);
+const scene = nc.createScene(root);
 app.checkout(scene);
 app.play();
 ```

@@ -33,6 +33,7 @@ export class Polygon extends Figure {
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
     this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
+    this.strokePaint.setAntiAlias(this.style.antiAlias)
     try {
       const dash = ck.PathEffect.MakeDash(
         this.style.interval,
@@ -54,6 +55,8 @@ export class Polygon extends Figure {
     // Blend Mode
     this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
     this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+
+    this.fillPaint.setAntiAlias(this.style.antiAlias)
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {

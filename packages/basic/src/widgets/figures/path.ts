@@ -26,6 +26,7 @@ export class Path extends Figure {
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
     this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
+    this.strokePaint.setAntiAlias(this.style.antiAlias)
     try {
       const dash = ck.PathEffect.MakeDash(
         this.style.interval,
@@ -38,6 +39,7 @@ export class Path extends Figure {
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
     this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
+    this.fillPaint.setAntiAlias(this.style.antiAlias)
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {

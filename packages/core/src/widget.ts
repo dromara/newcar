@@ -26,6 +26,7 @@ export interface WidgetStyle {
   rotation?: number
   transparency?: number
   blendMode?: BlendMode
+  antiAlias?: boolean
 }
 
 export class Widget {
@@ -69,6 +70,7 @@ export class Widget {
     this.style.rotation = options.style.rotation ?? 0
     this.style.transparency = options.style.transparency ?? 1
     this.style.blendMode = options.style.blendMode ?? 'srcOver'
+    this.style.antiAlias = options.style.antiAlias ?? true
   }
 
   /**
