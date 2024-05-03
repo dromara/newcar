@@ -222,7 +222,7 @@ export class ChartLayout extends Figure {
           ],
           {
             x: -8 - stringWidth(label) * 12,
-            y: index * gridSize - 8,
+            y: index * gridSize + (this.endColumn ? gridSize / 2 : 0) - 8,
             style: {
               width: stringWidth(label) * 12,
               textAlign: 'right',
