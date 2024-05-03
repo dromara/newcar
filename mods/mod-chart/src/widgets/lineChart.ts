@@ -147,6 +147,9 @@ export class LineChart extends Figure {
 
       // Blend Mode
       this.strokePaints[i].setBlendMode(str2BlendMode(ck, this.style.blendMode))
+
+      // AntiAlias
+      this.strokePaints[i].setAntiAlias(this.style.antiAlias)
     }
   }
 
