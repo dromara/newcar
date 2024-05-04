@@ -1,5 +1,6 @@
 {
   "name": "@newcar/docs",
+  "version": null,
   "private": true,
   "scripts": {
     "docs:dev": "vitepress dev content",
