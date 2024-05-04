@@ -1,15 +1,23 @@
-import { Circle, Figure } from '@newcar/basic'
+import { Circle } from '@newcar/basic'
 import { Color } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
 import type { StrokeCap, StrokeJoin } from '@newcar/core'
 import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/core'
-import type { ChartData, ChartOption, ChartStyle } from '../utils'
 import { bezierControlPoints } from '../utils/bezierControlPoints'
-import { ChartLayout } from './chartLayout'
+import type {
+  BaseSimpleChartData,
+  BaseSimpleChartDataSet,
+  BaseSimpleChartOptions,
+  BaseSimpleChartStyle,
+} from './baseSimpleChart'
+import {
+  BaseSimpleChart,
+} from './baseSimpleChart'
+import type { ChartDataUnit } from './chartDataUnit'
 
-export interface LineChartOptions extends ChartOption {}
+export interface LineChartOptions extends BaseSimpleChartOptions {}
 
-export interface LineChartStyle extends ChartStyle {
+export interface LineChartStyle extends BaseSimpleChartStyle {
   dotSize?: number
   borderDashInterval?: number[]
   borderDashOffset?: number
@@ -17,34 +25,35 @@ export interface LineChartStyle extends ChartStyle {
   borderCapStyle?: StrokeCap
   lineWidth?: number
   tension?: number
+  showLine?: boolean
 }
 
-export class LineChart extends Figure {
+export interface LineChartDataSet extends BaseSimpleChartDataSet {
+  data: ChartDataUnit<LineChartStyle>[]
+  style?: LineChartStyle
+}
+
+export interface LineChartData extends BaseSimpleChartData {
+  datasets: LineChartDataSet[]
+}
+
+export class LineChart extends BaseSimpleChart {
   declare style: LineChartStyle
   categoryPercentage: number
   barPercentage: number
 
   paths: Path[]
   strokePaints: Paint[]
-  layout: ChartLayout
   dotSets: Circle[][]
 
   constructor(
-    public data: ChartData<LineChartStyle>,
+    public data: LineChartData,
     options?: LineChartOptions,
   ) {
-    options ??= {
-      size: {
-        width: 200,
-        height: 200,
-      },
-    }
-    super(options)
-    this.layout = new ChartLayout(data, {
-      ...options,
-      x: 0,
-      y: 0,
+    options ??= {}
+    super(data, {
       endColumn: false,
+      ...options,
     })
 
     this.dotSets = this.data.datasets.map((set) => {
@@ -54,15 +63,15 @@ export class LineChart extends Figure {
       set.style.border ??= true
       set.style.dotSize ??= 5
       if (this.layout.indexAxis === 'x') {
-        const gridSize = this.layout.size.width / (this.data.labels.length - 1)
         return set.data.map((unit, index) => {
           return new Circle(
             unit.style.dotSize ?? set.style.dotSize,
             {
-              x: index * gridSize,
+              x: (this.layout.index.pos[index] - this.layout.index.min)
+              / (this.layout.index.max - this.layout.index.min) * this.layout.size.width,
               y: this.layout.size.height
-              - ((unit.value * this.progress - this.layout.min) * this.layout.size.height)
-              / (this.layout.max - this.layout.min),
+              - ((unit.value * this.progress - this.layout.cross.min) * this.layout.size.height)
+              / (this.layout.cross.max - this.layout.cross.min),
               style: {
                 fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
                 borderColor: unit.style.borderColor ?? set.style.borderColor,
@@ -74,13 +83,14 @@ export class LineChart extends Figure {
         })
       }
       else {
-        const gridSize = this.layout.size.height / (this.data.labels.length - 1)
         return set.data.map((unit, index) => {
           return new Circle(
             unit.style.dotSize ?? set.style.dotSize,
             {
-              x: ((unit.value * this.progress - this.layout.min) * this.layout.size.width) / (this.layout.max - this.layout.min),
-              y: this.layout.size.height - index * gridSize,
+              x: ((unit.value * this.progress - this.layout.cross.min) * this.layout.size.width)
+              / (this.layout.cross.max - this.layout.cross.min),
+              y: this.layout.size.height - (this.layout.index.pos[index] - this.layout.index.min)
+              / (this.layout.index.max - this.layout.index.min) * this.layout.size.height,
               style: {
                 fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
                 borderColor: unit.style.borderColor ?? set.style.borderColor,
@@ -93,7 +103,7 @@ export class LineChart extends Figure {
       }
     })
 
-    this.add(this.layout, ...this.dotSets.flat())
+    this.add(...this.dotSets.flat())
   }
 
   init(ck: CanvasKit) {
@@ -157,22 +167,19 @@ export class LineChart extends Figure {
     switch (propertyChanged) {
       case 'progress': {
         if (this.layout.indexAxis === 'x') {
-          const gridSize = this.layout.size.width / (this.data.labels.length - 1)
           for (let i = 0; i < this.dotSets.length; i++) {
             for (let j = 0; j < this.dotSets[i].length; j++) {
               this.dotSets[i][j].y = this.layout.size.height
-              - ((this.data.datasets[i].data[j].value * this.progress - this.layout.min) * this.layout.size.height)
-              / (this.layout.max - this.layout.min)
-              this.dotSets[i][j].x = j * gridSize
+              - (this.data.datasets[i].data[j].value * this.progress - this.layout.cross.min)
+              / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.height
             }
           }
         }
         else {
-          const gridSize = this.layout.size.height / (this.data.labels.length - 1)
           for (let i = 0; i < this.dotSets.length; i++) {
             for (let j = 0; j < this.dotSets[i].length; j++) {
-              this.dotSets[i][j].x = ((this.data.datasets[i].data[j].value * this.progress - this.layout.min) * this.layout.size.width) / (this.layout.max - this.layout.min)
-              this.dotSets[i][j].y = this.layout.size.height - j * gridSize
+              this.dotSets[i][j].x = (this.data.datasets[i].data[j].value * this.progress - this.layout.cross.min)
+              / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.width
             }
           }
         }
@@ -207,7 +214,10 @@ export class LineChart extends Figure {
   }
 
   draw(canvas: Canvas): void {
-    for (let i = 0; i < this.paths.length; i++)
-      canvas.drawPath(this.paths[i], this.strokePaints[i])
+    for (let i = 0; i < this.paths.length; i++) {
+      const showLine = this.data.datasets[i].style.showLine ?? true
+      if (showLine)
+        canvas.drawPath(this.paths[i], this.strokePaints[i])
+    }
   }
 }
