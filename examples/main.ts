@@ -143,6 +143,7 @@ const scene9 = new nc.Scene(
           style: {
             backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
             borderColor: Color.parse('#66CCFF'),
+            showLine: false,
           },
         },
         {

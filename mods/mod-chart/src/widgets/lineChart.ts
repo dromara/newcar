@@ -17,6 +17,7 @@ export interface LineChartStyle extends ChartStyle {
   borderCapStyle?: StrokeCap
   lineWidth?: number
   tension?: number
+  showLine?: boolean
 }
 
 export class LineChart extends Figure {
@@ -207,7 +208,10 @@ export class LineChart extends Figure {
   }
 
   draw(canvas: Canvas): void {
-    for (let i = 0; i < this.paths.length; i++)
-      canvas.drawPath(this.paths[i], this.strokePaints[i])
+    for (let i = 0; i < this.paths.length; i++) {
+      const showLine = this.data.datasets[i].style.showLine ?? true
+      if (showLine)
+        canvas.drawPath(this.paths[i], this.strokePaints[i])
+    }
   }
 }
