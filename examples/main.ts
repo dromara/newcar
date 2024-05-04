@@ -1,6 +1,6 @@
 import { CarEngine, Color } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
-import { BarChart, ChartDataUnit, ChartUtil, LineChart } from '@newcar/mod-chart'
+import { BarChart, ChartDataUnit, ChartUtil, LineChart, MixedChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
 // import { Tex } from '@newcar/mod-math'
 
@@ -127,7 +127,7 @@ const scene8 = new nc.Scene(
         width: 300,
         height: 300,
       },
-      indexAxis: 'y',
+      indexAxis: 'x',
     },
   ).animate(nc.create, 0, 100),
 )
@@ -188,12 +188,105 @@ const scene9 = new nc.Scene(
         width: 300,
         height: 300,
       },
-      indexAxis: 'x',
+      indexAxis: 'y',
     },
   ).animate(nc.create, 0, 100),
 )
 
-const scene10 = new nc.Scene(new Markdown(`
+const scene10 = new nc.Scene(
+  new MixedChart<typeof BarChart | typeof LineChart>(
+    [
+      {
+        Chart: LineChart,
+        data: {
+          labels: ['AB', 'BB', 'CB', 'DB'],
+          datasets: [
+            {
+              label: 'Line 1',
+              data: ChartUtil.dataUnits([2, 5, -15, 14]),
+              style: {
+                backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
+                borderColor: Color.parse('#66CCFF'),
+              },
+            },
+            {
+              label: 'Line 2',
+              data: ChartUtil.dataUnits([14, -5, 4, 0]),
+              style: {
+                backgroundColor: Color.parse('#00FFFF').withAlpha(0.2),
+                borderColor: Color.parse('#00FFFF'),
+                showLine: false,
+              },
+            },
+          ],
+        },
+        options: {
+          indexAxis: 'y',
+        },
+      },
+      {
+        Chart: BarChart,
+        data: {
+          labels: ['AB', 'BB', 'CB', 'DB'],
+          datasets: [
+            {
+              label: 'Bar 1',
+              data: ChartUtil.dataUnits([-14, 5, -4, 18]),
+              style: {
+                backgroundColor: Color.parse('#FFFF00').withAlpha(0.2),
+                borderColor: Color.parse('#FFFF00'),
+              },
+            },
+            {
+              label: 'Bar 2',
+              data: [
+                new ChartDataUnit(12, {
+                  style: {
+                    backgroundColor: Color.rgba(255, 99, 132, 0.2),
+                    borderColor: Color.rgba(255, 99, 132),
+                  },
+                }),
+                new ChartDataUnit(19, {
+                  style: {
+                    backgroundColor: Color.rgba(255, 159, 64, 0.2),
+                    borderColor: Color.rgba(255, 159, 64),
+                  },
+                }),
+                new ChartDataUnit(3, {
+                  style: {
+                    backgroundColor: Color.rgba(255, 205, 86, 0.2),
+                    borderColor: Color.rgba(255, 205, 86),
+                  },
+                }),
+                new ChartDataUnit(5, {
+                  style: {
+                    backgroundColor: Color.rgba(75, 192, 192, 0.2),
+                    borderColor: Color.rgba(75, 192, 192),
+                  },
+                }),
+              ],
+              style: {
+                backgroundColor: Color.rgba(255, 99, 132, 0.2),
+                borderColor: Color.rgba(255, 99, 132),
+              },
+            },
+          ],
+        },
+        options: {
+          indexAxis: 'y',
+        },
+      },
+    ],
+    {
+      x: 50,
+      y: 50,
+      indexAxis: 'x',
+    },
+  )
+    .animate(nc.create, 0, 100),
+)
+
+const scene11 = new nc.Scene(new Markdown(`
 # \`Hello\`
 
 ## Name
@@ -251,6 +344,10 @@ const app9 = engine.createApp(document.querySelector('#c2'))
 app9.checkout(scene9)
 app9.play()
 
-const app10 = engine.createApp(document.querySelector('#d1'))
+const app10 = engine.createApp(document.querySelector('#c3'))
 app10.checkout(scene10)
 app10.play()
+
+const app11 = engine.createApp(document.querySelector('#d1'))
+app11.checkout(scene11)
+app11.play()

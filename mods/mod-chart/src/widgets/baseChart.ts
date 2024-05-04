@@ -7,14 +7,18 @@ import type { ChartDataUnit } from './chartDataUnit'
 export interface BaseChartOptions extends WidgetOptions {
   indexAxis?: 'x' | 'y'
   scales?: {
-    x?: {
+    index?: {
       beginAtZero?: boolean
+      suggestedMin?: number
+      suggestedMax?: number
     }
-    y?: {
+    cross?: {
       beginAtZero?: boolean
+      suggestedMin?: number
+      suggestedMax?: number
     }
   }
-  size: {
+  size?: {
     width: number
     height: number
   }
@@ -22,8 +26,8 @@ export interface BaseChartOptions extends WidgetOptions {
   suggestedMax?: number
   gridColor?: Color
   gridWidth?: number
-  layout?: ChartLayout
   endColumn?: boolean
+  layout?: ChartLayout
 }
 
 export interface BaseChartStyle extends WidgetStyle {
@@ -40,7 +44,7 @@ export interface BaseChartDataSet {
 }
 
 export interface BaseChartData {
-  labels: string[]
+  labels?: string[]
   datasets: BaseChartDataSet[]
 }
 
@@ -48,12 +52,7 @@ export class BaseChart extends Figure {
   constructor(
     options?: BaseChartOptions,
   ) {
-    options ??= {
-      size: {
-        width: 200,
-        height: 200,
-      },
-    }
+    options ??= {}
     super(options)
   }
 }

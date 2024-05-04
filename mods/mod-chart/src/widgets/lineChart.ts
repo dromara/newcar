@@ -50,15 +50,10 @@ export class LineChart extends BaseSimpleChart {
     public data: LineChartData,
     options?: LineChartOptions,
   ) {
-    options ??= {
-      size: {
-        width: 200,
-        height: 200,
-      },
-    }
+    options ??= {}
     super(data, {
-      ...options,
       endColumn: false,
+      ...options,
     })
 
     this.dotSets = this.data.datasets.map((set) => {
@@ -68,15 +63,15 @@ export class LineChart extends BaseSimpleChart {
       set.style.border ??= true
       set.style.dotSize ??= 5
       if (this.layout.indexAxis === 'x') {
-        const gridSize = this.layout.size.width / (this.data.labels.length - 1)
         return set.data.map((unit, index) => {
           return new Circle(
             unit.style.dotSize ?? set.style.dotSize,
             {
-              x: index * gridSize,
+              x: (this.layout.index.pos[index] - this.layout.index.min)
+              / (this.layout.index.max - this.layout.index.min) * this.layout.size.width,
               y: this.layout.size.height
-              - ((unit.value * this.progress - this.layout.min) * this.layout.size.height)
-              / (this.layout.max - this.layout.min),
+              - ((unit.value * this.progress - this.layout.cross.min) * this.layout.size.height)
+              / (this.layout.cross.max - this.layout.cross.min),
               style: {
                 fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
                 borderColor: unit.style.borderColor ?? set.style.borderColor,
@@ -88,13 +83,14 @@ export class LineChart extends BaseSimpleChart {
         })
       }
       else {
-        const gridSize = this.layout.size.height / (this.data.labels.length - 1)
         return set.data.map((unit, index) => {
           return new Circle(
             unit.style.dotSize ?? set.style.dotSize,
             {
-              x: ((unit.value * this.progress - this.layout.min) * this.layout.size.width) / (this.layout.max - this.layout.min),
-              y: this.layout.size.height - index * gridSize,
+              x: ((unit.value * this.progress - this.layout.cross.min) * this.layout.size.width)
+              / (this.layout.cross.max - this.layout.cross.min),
+              y: this.layout.size.height - (this.layout.index.pos[index] - this.layout.index.min)
+              / (this.layout.index.max - this.layout.index.min) * this.layout.size.height,
               style: {
                 fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
                 borderColor: unit.style.borderColor ?? set.style.borderColor,
@@ -107,7 +103,7 @@ export class LineChart extends BaseSimpleChart {
       }
     })
 
-    this.add(this.layout, ...this.dotSets.flat())
+    this.add(...this.dotSets.flat())
   }
 
   init(ck: CanvasKit) {
@@ -171,22 +167,19 @@ export class LineChart extends BaseSimpleChart {
     switch (propertyChanged) {
       case 'progress': {
         if (this.layout.indexAxis === 'x') {
-          const gridSize = this.layout.size.width / (this.data.labels.length - 1)
           for (let i = 0; i < this.dotSets.length; i++) {
             for (let j = 0; j < this.dotSets[i].length; j++) {
               this.dotSets[i][j].y = this.layout.size.height
-              - ((this.data.datasets[i].data[j].value * this.progress - this.layout.min) * this.layout.size.height)
-              / (this.layout.max - this.layout.min)
-              this.dotSets[i][j].x = j * gridSize
+              - (this.data.datasets[i].data[j].value * this.progress - this.layout.cross.min)
+              / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.height
             }
           }
         }
         else {
-          const gridSize = this.layout.size.height / (this.data.labels.length - 1)
           for (let i = 0; i < this.dotSets.length; i++) {
             for (let j = 0; j < this.dotSets[i].length; j++) {
-              this.dotSets[i][j].x = ((this.data.datasets[i].data[j].value * this.progress - this.layout.min) * this.layout.size.width) / (this.layout.max - this.layout.min)
-              this.dotSets[i][j].y = this.layout.size.height - j * gridSize
+              this.dotSets[i][j].x = (this.data.datasets[i].data[j].value * this.progress - this.layout.cross.min)
+              / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.width
             }
           }
         }

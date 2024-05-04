@@ -25,31 +25,95 @@ export class ChartLayout extends BaseChart {
   endColumn: boolean
 
   paint: Paint
-  min: number
-  max: number
-  interval: number
-  xAxis: Line
-  yAxis: Line
-  xGrids: Line[]
-  yGrids: Line[]
-  xLabels: Text[]
-  yLabels: Text[]
   legends: Rect[]
   legendLabels: Text[]
 
+  index: {
+    min: number
+    max: number
+    interval: number
+    pos: number[]
+    posLine: number[]
+    axis: Line
+    ticks: Line[]
+    grids: Line[]
+    labels: Text[]
+  }
+
+  cross: {
+    min: number
+    max: number
+    interval: number
+    pos: number[]
+    axis: Line
+    ticks: Line[]
+    grids: Line[]
+    labels: Text[]
+  }
+
   constructor(public data: BaseChartData, options?: ChartLayoutOptions) {
-    options ??= {
-      size: {
-        width: 200,
-        height: 200,
-      },
-    }
+    options ??= {}
     super(options)
-    this.size = options.size
+    this.size = options.size ?? { width: 300, height: 300 }
     this.indexAxis = options.indexAxis ?? 'x'
     this.endColumn = options.endColumn ?? true
     this.style.gridColor = options.gridColor ?? Color.WHITE
     this.style.gridWidth = options.gridWidth ?? 1
+
+    this.index = {
+      min: 0,
+      max: 0,
+      interval: 0,
+      pos: [],
+      posLine: [],
+      axis: new Line(
+        [0, 0],
+        [0, 0],
+        {
+          style: {
+            color: this.style.gridColor,
+            width: this.style.gridWidth,
+            transparency: 0.6,
+          },
+        },
+      ),
+      ticks: [],
+      grids: [],
+      labels: [],
+    }
+
+    if (data.labels) {
+      this.index.min = 0
+      this.index.max = this.endColumn ? data.labels.length : data.labels.length - 1
+      this.index.interval = 1
+      for (let i = 0; i < data.labels.length; i++)
+        this.index.pos.push(this.endColumn ? i + 0.5 : i)
+      for (let i = 0; i < data.labels.length; i++)
+        this.index.posLine.push(i)
+      if (this.endColumn)
+        this.index.posLine.push(data.labels.length)
+    }
+
+    this.cross = {
+      min: 0,
+      max: 0,
+      interval: 0,
+      pos: [],
+      axis: new Line(
+        [0, 0],
+        [0, 0],
+        {
+          style: {
+            color: this.style.gridColor,
+            width: this.style.gridWidth,
+            transparency: 0.6,
+          },
+        },
+      ),
+      ticks: [],
+      grids: [],
+      labels: [],
+    }
 
     const minDataValue = Math.min(
       ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.value),
@@ -65,94 +129,50 @@ export class ChartLayout extends BaseChart {
       )
     const range = maxDataValue - minDataValue
     const magnitude = Math.floor(Math.log10(range))
-    this.interval = 10 ** magnitude
+    this.cross.interval = 10 ** magnitude
 
-    if (range / this.interval < 5)
-      this.interval /= (Math.ceil(range / this.interval) === 2 ? 4 : 2)
+    if (range / this.cross.interval < 5)
+      this.cross.interval /= (Math.ceil(range / this.cross.interval) === 2 ? 4 : 2)
 
-    this.min = Math.floor(minDataValue / this.interval) * this.interval
-    this.max = Math.ceil(maxDataValue / this.interval) * this.interval
+    this.cross.min = Math.floor(minDataValue / this.cross.interval) * this.cross.interval
+    this.cross.max = Math.ceil(maxDataValue / this.cross.interval) * this.cross.interval
 
-    this.xAxis = new Line(
-      [-5, this.size.height],
-      [this.size.width, this.size.height],
-      {
-        style: {
-          color: this.style.gridColor,
-          width: this.style.gridWidth,
-          transparency: 0.6,
-        },
-      },
-    )
-    this.yAxis = new Line([0, this.size.height + 5], [0, 0], {
-      style: {
-        color: this.style.gridColor,
-        width: this.style.gridWidth,
-        transparency: 0.6,
-      },
-    })
+    for (let i = this.cross.min; i <= this.cross.max; i += this.cross.interval)
+      this.cross.pos.push(i)
 
     if (this.indexAxis === 'x') {
-      const gridSize = this.size.width
-        / (this.endColumn ? this.data.labels.length : this.data.labels.length - 1)
-      this.xGrids = this.data.labels.map((_label, index) => {
-        return new Line(
-          [(index + 1) * gridSize, 0],
-          [
-            ((index + 1) * this.size.width)
-            / (this.endColumn ? this.data.labels.length : this.data.labels.length - 1),
-            this.size.height + 5,
-          ],
-          {
-            style: {
-              color: this.style.gridColor,
-              width: this.style.gridWidth,
-              transparency: 0.3,
-            },
-          },
-        )
-      })
-      if (!this.endColumn)
-        this.xGrids.pop()
+      this.index.axis.from = [0, this.size.height]
+      this.index.axis.to = [this.size.width, this.size.height]
 
-      this.xLabels = this.data.labels.map((label, index) => {
-        return new Text(
-          [
+      this.index.pos.forEach((pos) => {
+        this.index.labels.push(
+          new Text(
+            [
+              {
+                text: pos.toString(),
+                style: {
+                  color: this.style.gridColor,
+                  fontSize: 16,
+                },
+              },
+            ],
             {
-              text: label,
+              x: (pos - this.index.interval / 2 - this.index.min) / (this.index.max - this.index.min) * this.size.width,
+              y: this.size.height + 4,
               style: {
-                color: this.style.gridColor,
-                fontSize: 16,
+                width: this.index.interval / (this.index.max - this.index.min) * this.size.width,
+                textAlign: 'center',
               },
             },
-          ],
-          {
-            x: index * gridSize - (this.endColumn ? 0 : gridSize / 2),
-            y: this.size.height + 4,
-            style: {
-              width: gridSize,
-              textAlign: 'center',
-            },
-          },
+          ),
         )
       })
 
-      this.yGrids = []
-      this.yLabels = []
-
-      for (let i = this.min; i <= this.max; i += this.interval) {
-        this.yGrids.push(
+      this.index.posLine.forEach((pos) => {
+        this.index.ticks.push(
           new Line(
-            [
-              -5,
-              this.size.height
-              - ((i - this.min) / (this.max - this.min)) * this.size.height,
-            ],
-            [
-              this.size.width,
-              this.size.height
-              - ((i - this.min) / (this.max - this.min)) * this.size.height,
-            ],
+            [(pos - this.index.min) / (this.index.max - this.index.min) * this.size.width, this.size.height],
+            [(pos - this.index.min) / (this.index.max - this.index.min) * this.size.width, this.size.height + 5],
             {
               style: {
                 color: this.style.gridColor,
@@ -162,7 +182,63 @@ export class ChartLayout extends BaseChart {
             },
           ),
         )
-        this.yLabels.push(
+        this.index.grids.push(
+          new Line(
+            [(pos - this.index.min) / (this.index.max - this.index.min) * this.size.width, 0],
+            [(pos - this.index.min) / (this.index.max - this.index.min) * this.size.width, this.size.height],
+            {
+              style: {
+                color: this.style.gridColor,
+                width: this.style.gridWidth,
+                transparency: 0.3,
+              },
+            },
+          ),
+        )
+      })
+
+      if (data.labels) {
+        this.index.pos.forEach((pos, index) => {
+          this.index.labels[index] = new Text(
+            [
+              {
+                text: data.labels[index],
+                style: {
+                  color: this.style.gridColor,
+                  fontSize: 16,
+                },
+              },
+            ],
+            {
+              x: (pos - this.index.interval / 2 - this.index.min) / (this.index.max - this.index.min) * this.size.width,
+              y: this.size.height + 4,
+              style: {
+                width: this.index.interval / (this.index.max - this.index.min) * this.size.width,
+                textAlign: 'center',
+              },
+            },
+          )
+        })
+      }
+
+      this.cross.axis.from = [0, this.size.height]
+      this.cross.axis.to = [0, 0]
+
+      for (let i = this.cross.min; i <= this.cross.max; i += this.cross.interval) {
+        this.cross.ticks.push(
+          new Line(
+            [0, this.size.height - (i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.height],
+            [-5, this.size.height - (i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.height],
+            {
+              style: {
+                color: this.style.gridColor,
+                width: this.style.gridWidth,
+                transparency: 0.3,
+              },
+            },
+          ),
+        )
+        this.cross.labels.push(
           new Text(
             [
               {
@@ -175,9 +251,7 @@ export class ChartLayout extends BaseChart {
             ],
             {
               x: -8 - stringWidth(i.toString()) * 12,
-              y:
-                this.size.height - 8
-                - ((i - this.min) / (this.max - this.min)) * this.size.height,
+              y: this.size.height - 8 - (i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.height,
               style: {
                 width: stringWidth(i.toString()) * 12,
                 textAlign: 'right',
@@ -185,35 +259,30 @@ export class ChartLayout extends BaseChart {
             },
           ),
         )
+        this.cross.grids.push(
+          new Line(
+            [0, this.size.height - (i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.height],
+            [this.size.width, this.size.height - (i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.height],
+            {
+              style: {
+                color: this.style.gridColor,
+                width: this.style.gridWidth,
+                transparency: 0.3,
+              },
+            },
+          ),
+        )
       }
     }
     else {
-      const gridSize = this.size.height
-        / (this.endColumn ? this.data.labels.length : this.data.labels.length - 1)
-      this.yGrids = this.data.labels.map((_label, index) => {
-        return new Line(
-          [-5, index * gridSize],
-          [
-            this.size.width,
-            index * gridSize,
-          ],
-          {
-            style: {
-              color: this.style.gridColor,
-              transparency: 0.3,
-            },
-          },
-        )
-      })
+      this.index.axis.from = [0, this.size.height]
+      this.index.axis.to = [0, 0]
 
-      if (!this.endColumn)
-        this.yGrids.pop()
-
-      this.yLabels = this.data.labels.map((label, index) => {
-        return new Text(
+      this.index.pos.forEach((pos, index) => {
+        this.index.labels[index] = new Text(
           [
             {
-              text: label,
+              text: pos.toString(),
               style: {
                 color: this.style.gridColor,
                 fontSize: 16,
@@ -221,39 +290,87 @@ export class ChartLayout extends BaseChart {
             },
           ],
           {
-            x: -8 - stringWidth(label) * 12,
-            y: index * gridSize + (this.endColumn ? gridSize / 2 : 0) - 8,
+            x: -8 - stringWidth(pos.toString()) * 12,
+            y: this.size.height - 8 - (pos - this.index.min) / (this.index.max - this.index.min) * this.size.height,
             style: {
-              width: stringWidth(label) * 12,
+              width: stringWidth(pos.toString()) * 12,
               textAlign: 'right',
             },
           },
         )
       })
 
-      this.xGrids = []
-      this.xLabels = []
-
-      for (let i = this.min; i <= this.max; i += this.interval) {
-        this.xGrids.push(
+      this.index.posLine.forEach((pos) => {
+        this.index.ticks.push(
           new Line(
-            [
-              ((i - this.min) / (this.max - this.min)) * this.size.width,
-              0,
-            ],
-            [
-              ((i - this.min) / (this.max - this.min)) * this.size.width,
-              this.size.height + 5,
-            ],
+            [0, this.size.height - (pos - this.index.min) / (this.index.max - this.index.min) * this.size.height],
+            [-5, this.size.height - (pos - this.index.min) / (this.index.max - this.index.min) * this.size.height],
             {
               style: {
                 color: this.style.gridColor,
+                width: this.style.gridWidth,
                 transparency: 0.3,
               },
             },
           ),
         )
-        this.xLabels.push(
+        this.index.grids.push(
+          new Line(
+            [0, this.size.height - (pos - this.index.min) / (this.index.max - this.index.min) * this.size.height],
+            [this.size.width, this.size.height - (pos - this.index.min) / (this.index.max - this.index.min) * this.size.height],
+            {
+              style: {
+                color: this.style.gridColor,
+                width: this.style.gridWidth,
+                transparency: 0.3,
+              },
+            },
+          ),
+        )
+      })
+
+      if (data.labels) {
+        this.index.pos.forEach((pos, index) => {
+          this.index.labels[index] = new Text(
+            [
+              {
+                text: data.labels[index],
+                style: {
+                  color: this.style.gridColor,
+                  fontSize: 16,
+                },
+              },
+            ],
+            {
+              x: -8 - stringWidth(data.labels[index]) * 12,
+              y: this.size.height - 8 - (pos - this.index.min) / (this.index.max - this.index.min) * this.size.height,
+              style: {
+                width: stringWidth(data.labels[index]) * 12,
+                textAlign: 'right',
+              },
+            },
+          )
+        })
+      }
+
+      this.cross.axis.from = [0, this.size.height]
+      this.cross.axis.to = [this.size.width, this.size.height]
+
+      for (let i = this.cross.min; i <= this.cross.max; i += this.cross.interval) {
+        this.cross.ticks.push(
+          new Line(
+            [(i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.width, this.size.height],
+            [(i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.width, this.size.height + 5],
+            {
+              style: {
+                color: this.style.gridColor,
+                width: this.style.gridWidth,
+                transparency: 0.3,
+              },
+            },
+          ),
+        )
+        this.cross.labels.push(
           new Text(
             [
               {
@@ -265,18 +382,41 @@ export class ChartLayout extends BaseChart {
               },
             ],
             {
-              x:
-                ((i - this.min) / (this.max - this.min)) * this.size.width - this.size.width / ((this.max - this.min) / this.interval) / 2,
+              x: (i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.width - stringWidth(i.toString()) * 6,
               y: this.size.height + 4,
               style: {
-                width: this.size.width / ((this.max - this.min) / this.interval),
+                width: stringWidth(i.toString()) * 12,
                 textAlign: 'center',
+              },
+            },
+          ),
+        )
+        this.cross.grids.push(
+          new Line(
+            [(i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.width, 0],
+            [(i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.width, this.size.height],
+            {
+              style: {
+                color: this.style.gridColor,
+                width: this.style.gridWidth,
+                transparency: 0.3,
               },
             },
           ),
         )
       }
     }
+
+    this.add(
+      this.index.axis,
+      ...this.index.ticks,
+      ...this.index.labels,
+      ...this.index.grids,
+      this.cross.axis,
+      ...this.cross.ticks,
+      ...this.cross.labels,
+      ...this.cross.grids,
+    )
 
     this.legends = []
     this.legendLabels = []
@@ -333,12 +473,6 @@ export class ChartLayout extends BaseChart {
     }
 
     this.add(
-      this.xAxis,
-      this.yAxis,
-      ...this.xGrids,
-      ...this.xLabels,
-      ...this.yGrids,
-      ...this.yLabels,
       ...this.legends,
       ...this.legendLabels,
     )

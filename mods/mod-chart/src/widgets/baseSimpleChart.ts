@@ -27,14 +27,13 @@ export class BaseSimpleChart extends BaseChart {
     public data: BaseSimpleChartData,
     options?: BaseSimpleChartOptions,
   ) {
-    options ??= {
-      size: {
-        width: 200,
-        height: 200,
-      },
-    }
+    options ??= {}
     super(options)
-    this.layout = new ChartLayout(data, {
+    this.layout = options.layout ?? new ChartLayout(data, {
+      size: {
+        width: options.size.width ?? 300,
+        height: options.size.width ?? 300,
+      },
       ...options,
       x: 0,
       y: 0,
