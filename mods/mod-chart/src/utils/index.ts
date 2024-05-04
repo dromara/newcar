@@ -1,1 +1,1 @@
-export * from './chartUtil'
+export * as ChartUtil from './chartUtil'
