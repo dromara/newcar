@@ -1,15 +1,23 @@
-import { Circle, Figure } from '@newcar/basic'
+import { Circle } from '@newcar/basic'
 import { Color } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
 import type { StrokeCap, StrokeJoin } from '@newcar/core'
 import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/core'
-import type { ChartData, ChartOption, ChartStyle } from '../utils'
 import { bezierControlPoints } from '../utils/bezierControlPoints'
-import { ChartLayout } from './chartLayout'
+import type {
+  BaseSimpleChartData,
+  BaseSimpleChartDataSet,
+  BaseSimpleChartOptions,
+  BaseSimpleChartStyle,
+} from './baseSimpleChart'
+import {
+  BaseSimpleChart,
+} from './baseSimpleChart'
+import type { ChartDataUnit } from './chartDataUnit'
 
-export interface LineChartOptions extends ChartOption {}
+export interface LineChartOptions extends BaseSimpleChartOptions {}
 
-export interface LineChartStyle extends ChartStyle {
+export interface LineChartStyle extends BaseSimpleChartStyle {
   dotSize?: number
   borderDashInterval?: number[]
   borderDashOffset?: number
@@ -20,18 +28,26 @@ export interface LineChartStyle extends ChartStyle {
   showLine?: boolean
 }
 
-export class LineChart extends Figure {
+export interface LineChartDataSet extends BaseSimpleChartDataSet {
+  data: ChartDataUnit<LineChartStyle>[]
+  style?: LineChartStyle
+}
+
+export interface LineChartData extends BaseSimpleChartData {
+  datasets: LineChartDataSet[]
+}
+
+export class LineChart extends BaseSimpleChart {
   declare style: LineChartStyle
   categoryPercentage: number
   barPercentage: number
 
   paths: Path[]
   strokePaints: Paint[]
-  layout: ChartLayout
   dotSets: Circle[][]
 
   constructor(
-    public data: ChartData<LineChartStyle>,
+    public data: LineChartData,
     options?: LineChartOptions,
   ) {
     options ??= {
@@ -40,11 +56,8 @@ export class LineChart extends Figure {
         height: 200,
       },
     }
-    super(options)
-    this.layout = new ChartLayout(data, {
+    super(data, {
       ...options,
-      x: 0,
-      y: 0,
       endColumn: false,
     })
 

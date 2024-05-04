@@ -1,29 +1,43 @@
-import { Figure, Rect } from '@newcar/basic'
+import { Rect } from '@newcar/basic'
 import { Color } from '@newcar/utils'
 import type { CanvasKit, Paint } from 'canvaskit-wasm'
-import type { ChartData, ChartOption, ChartStyle } from '../utils'
-import { ChartLayout } from './chartLayout'
+import type {
+  BaseSimpleChartData,
+  BaseSimpleChartDataSet,
+  BaseSimpleChartOptions,
+  BaseSimpleChartStyle,
+} from './baseSimpleChart'
+import { BaseSimpleChart } from './baseSimpleChart'
+import type { ChartDataUnit } from './chartDataUnit'
 
-export interface BarChartOptions extends ChartOption {
+export interface BarChartOptions extends BaseSimpleChartOptions {
   categoryPercentage?: number
   barPercentage?: number
 }
 
-export interface BarChartStyle extends ChartStyle {
+export interface BarChartStyle extends BaseSimpleChartStyle {
   borderRadius?: number
 }
 
-export class BarChart extends Figure {
+export interface BarChartDataSet extends BaseSimpleChartDataSet {
+  data: ChartDataUnit<BarChartStyle>[]
+  style?: BarChartStyle
+}
+
+export interface BarChartData extends BaseSimpleChartData {
+  datasets: BarChartDataSet[]
+}
+
+export class BarChart extends BaseSimpleChart {
   declare style: BarChartStyle
   categoryPercentage: number
   barPercentage: number
 
   paint: Paint
-  layout: ChartLayout
   barSets: Rect[][]
 
   constructor(
-    public data: ChartData<BarChartStyle>,
+    public data: BarChartData,
     options?: BarChartOptions,
   ) {
     options ??= {
@@ -32,10 +46,7 @@ export class BarChart extends Figure {
         height: 200,
       },
     }
-    super(options)
-    options.x = 0
-    options.y = 0
-    this.layout = new ChartLayout(data, options)
+    super(data, options)
 
     this.categoryPercentage = options.categoryPercentage ?? 0.8
     this.barPercentage = options.barPercentage ?? 0.8
@@ -121,7 +132,7 @@ export class BarChart extends Figure {
       })
     }
 
-    this.add(this.layout, ...this.barSets.flat())
+    this.add(...this.barSets.flat())
   }
 
   predraw(_ck: CanvasKit, propertyChanged: string): void {

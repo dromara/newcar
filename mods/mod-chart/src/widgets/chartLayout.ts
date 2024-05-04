@@ -1,12 +1,12 @@
-import { Figure, Line, Rect, Text } from '@newcar/basic'
+import { Line, Rect, Text } from '@newcar/basic'
 import type { WidgetStyle } from '@newcar/core'
 import type { Paint } from 'canvaskit-wasm'
 import { Color } from '@newcar/utils'
 import stringWidth from 'string-width'
-import type { ChartData, ChartOption, ChartStyle } from '../utils'
+import type { BaseChartData, BaseChartOptions } from './baseChart'
+import { BaseChart } from './baseChart'
 
-export interface ChartLayoutOptions extends ChartOption {
-  endColumn?: boolean
+export interface ChartLayoutOptions extends BaseChartOptions {
 }
 
 export interface ChartLayoutStyle extends WidgetStyle {
@@ -14,7 +14,7 @@ export interface ChartLayoutStyle extends WidgetStyle {
   gridWidth?: number
 }
 
-export class ChartLayout extends Figure {
+export class ChartLayout extends BaseChart {
   declare style: ChartLayoutStyle
   size: {
     width: number
@@ -37,7 +37,7 @@ export class ChartLayout extends Figure {
   legends: Rect[]
   legendLabels: Text[]
 
-  constructor(public data: ChartData<ChartStyle>, options?: ChartLayoutOptions) {
+  constructor(public data: BaseChartData, options?: ChartLayoutOptions) {
     options ??= {
       size: {
         width: 200,
