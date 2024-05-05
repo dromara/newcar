@@ -1,119 +1,123 @@
-import { defineConfig } from "vitepress";
+import { defineConfig } from 'vitepress'
 
 export const enConfig = defineConfig({
-  lang: "en-US",
-  description: "The modern animation engine",
+  lang: 'en-US',
+  description: 'The modern animation engine',
 
   themeConfig: {
-    siteTitle: "Newcar Official Docs",
+    siteTitle: 'Newcar Official Docs',
     outline: {
-      label: "On this page"
+      label: 'On this page',
     },
     docFooter: {
-      prev: "Previous",
-      next: "Next"
+      prev: 'Previous',
+      next: 'Next',
     },
     editLink: {
-      text: "Suggest to this page",
-      pattern: "https://github.com/Bug-Duck/newcar-docs/tree/main/docs/:path"
+      text: 'Suggest to this page',
+      pattern: 'https://github.com/Bug-Duck/newcar-docs/tree/main/docs/:path',
     },
     nav: [
       {
-        text: "Tutorials",
-        link: "/getting-started"
+        text: 'Tutorials',
+        link: '/getting-started',
       },
       {
-        text: "API Reference",
-        link: "/api/"
+        text: 'API Reference',
+        link: '/api/',
       },
       {
-        text: "Members",
-        link: "/members"
+        text: 'Members',
+        link: '/members',
       },
       {
-        text: "Sponsor",
-        link: "https://afdian.net/a/newcar"
-      }
+        text: 'Sponsor',
+        link: 'https://afdian.net/a/newcar',
+      },
     ],
     sidebar: {
-      "/": [
+      '/': [
         {
-          text: "Examples",
-          link: "/examples"
+          text: 'Examples',
+          link: '/examples',
         },
         {
-          text: "Getting Started",
-          link: "/getting-started"
+          text: 'Getting Started',
+          link: '/getting-started',
         },
         {
-          text: "Advanced",
+          text: 'Advanced',
           items: [
             {
-              text: "Animation",
-              link: "/advanced/animation"
+              text: 'Animation',
+              link: '/advanced/animation',
             },
             {
-              text: "Parents-Children Widget",
-              link: "/advanced/parents-children-widget"
+              text: 'Parents-Children Widget',
+              link: '/advanced/parents-children-widget',
             },
             {
-              text: "Color System",
-              link: "/advanced/color-system"
+              text: 'Color System',
+              link: '/advanced/color-system',
             },
             {
-              text: "Frame-by-Frame called",
-              link: "/advanced/update-function"
+              text: 'Frame-by-Frame called',
+              link: '/advanced/update-function',
             },
             {
-              text: "Resource Preloading",
-              link: "/advanced/preload"
+              text: 'Resource Preloading',
+              link: '/advanced/preload',
             },
             {
-              text: "Recorder",
-              link: "/advanced/recorder"
+              text: 'Event System',
+              link: '/advanced/event-system',
             },
             {
-              text: "Local Mode",
-              link: "/advanced/local-mode"
-            }
-          ]
-        },
-        {
-          text: "API",
-          items: [
-            {
-              text: "Basic",
-              link: "/api/basic"
+              text: 'Recorder',
+              link: '/advanced/recorder',
             },
             {
-              text: "Animations",
-              link: "/api/animations"
+              text: 'Local Mode',
+              link: '/advanced/local-mode',
             },
-            {
-              text: "Others",
-              link: "/api/others"
-            }
           ],
-          link: "/api/"
         },
         {
-          text: "Custom",
+          text: 'API',
           items: [
             {
-              text: "Basic Widget",
-              link: "/dev/basic-widget"
+              text: 'Basic',
+              link: '/api/basic',
             },
             {
-              text: "Advanced Widget",
-              link: "/dev/advanced-widget"
+              text: 'Animations',
+              link: '/api/animations',
             },
             {
-              text: "Animation Defination",
-              link: "/dev/animation-defination"
-            }
-          ]
-        }
-      ]
-    }
-  }
-});
+              text: 'Others',
+              link: '/api/others',
+            },
+          ],
+          link: '/api/',
+        },
+        {
+          text: 'Custom',
+          items: [
+            {
+              text: 'Basic Widget',
+              link: '/dev/basic-widget',
+            },
+            {
+              text: 'Advanced Widget',
+              link: '/dev/advanced-widget',
+            },
+            {
+              text: 'Animation Defination',
+              link: '/dev/animation-defination',
+            },
+          ],
+        },
+      ],
+    },
+  },
+})
