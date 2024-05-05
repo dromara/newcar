@@ -9,6 +9,7 @@ import type { wait } from './apiWait'
 import type { WidgetPlugin } from './plugin'
 
 export type WidgetInstance<T extends Widget> = T
+type SetupFunction = (widget: Widget) => Generator<number, void, unknown>
 
 export interface WidgetOptions {
   style?: WidgetStyle
@@ -48,7 +49,7 @@ export class Widget {
   animationInstances: AnimationInstance[] = []
   eventInstances: EventInstance[] = []
   updates: ((elapsed: number, widget: Widget) => void)[] = []
-  setups: GeneratorFunction[] = []
+  setups: Array<{ generator: Generator<number, void, unknown>, nextFrame: number }> = []
   key = `widget-${0}-${performance.now()}-${Math.random()
     .toString(16)
     .slice(2)}`
@@ -222,6 +223,28 @@ export class Widget {
     this.updates.push(updateFunc)
 
     return this
+  }
+
+  setup(setupFunc: SetupFunction): this {
+    const generator = setupFunc(this)
+    this.setups.push({ generator, nextFrame: 0 })
+    return this
+  }
+
+  processSetups(elapsed: number) {
+    this.setups.forEach((setup) => {
+      if (elapsed >= setup.nextFrame) {
+        const result = setup.generator.next()
+        if (!result.done && typeof result.value === 'number')
+          setup.nextFrame = elapsed + result.value // Set the next frame
+        else
+          setup.nextFrame = Number.POSITIVE_INFINITY // Marked done
+      }
+    })
+
+    // Clean up Generationer that has finished.
+    this.setups = this.setups.filter(setup => setup.nextFrame !== Number.POSITIVE_INFINITY)
+    this.children.forEach(child => child.processSetups(elapsed))
   }
 
   use(...plugins: WidgetPlugin[]) {
