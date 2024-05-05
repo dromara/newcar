@@ -25,7 +25,7 @@ export default async function build(input: string, duration: string | number, ta
     return fileName
   })
 
-  exportFile(pathToFileURL(resolve(output)).href, tempFiles, fps)
+  exportFile(resolve(output), tempFiles, fps)
 }
 
 async function resolveApp(path: string): Promise<App> {
@@ -43,7 +43,6 @@ async function exportFile(path: string, files: string[], fps: number) {
     .on('end', () => {
       // eslint-disable-next-line no-console
       console.log('Processing finished!')
-      // clear image files
       files.forEach(file => fs.unlinkSync(file))
     })
     .input(resolve('./temp_image_%d.png'))
