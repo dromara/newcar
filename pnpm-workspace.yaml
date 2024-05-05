@@ -2,6 +2,7 @@ packages:
   - 'packages/*'
   - 'mods/*'
   - 'plugins/*'
+  - 'test/*'
   - cli
   - examples
   - docs
