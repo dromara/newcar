@@ -190,7 +190,7 @@ const scene9 = new nc.Scene(
       },
       indexAxis: 'y',
     },
-  ).animate(nc.create, 0, 100),
+  ).animate(nc.create, 0, 60),
 )
 
 const scene10 = new nc.Scene(

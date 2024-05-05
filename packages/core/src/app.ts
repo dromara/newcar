@@ -6,12 +6,16 @@ import { deepClone } from './utils/deepClone'
 import { patch } from './patch'
 import type { Widget } from './widget'
 import type { GlobalPlugin } from './plugin'
+import { type Config, defineConfig } from './config'
 
 export class App {
   scene: Scene
   surface: Surface
   private playing = false
   private last: Widget
+  private lastFrameTime = performance.now()
+  private currentFrameTime = performance.now()
+  config: Config
   updates: ((elapsed: number) => void)[] = []
 
   constructor(
@@ -20,6 +24,10 @@ export class App {
     private plugins: GlobalPlugin[],
   ) {
     this.setBackgroundColor(Color.BLACK)
+    this.config = defineConfig({
+      unit: 'frame',
+      fps: 60,
+    })
     if (element === void 0) {
       console.warn(
         `[Newcar Warn] You are trying to use a undefined canvas element.`,
@@ -52,14 +60,21 @@ export class App {
   }
 
   static update(app: App, canvas: Canvas): void {
+    app.currentFrameTime = performance.now()
+    const timeSinceLastFrame = app.currentFrameTime - app.lastFrameTime
+    if (timeSinceLastFrame < app.frameDuration) {
+      app.surface.requestAnimationFrame((canvas: Canvas) => {
+        App.update(app, canvas)
+      })
+      return
+    }
+
     for (const plugin of app.plugins)
       plugin.beforeUpdate(app, app.scene.elapsed)
 
-    // If this updating is this scene's origin, initial this scene.
     if (app.scene.elapsed === 0)
       initial(app.scene.root, app.ck, canvas)
 
-    // Contrast the old widget and the new widget and update them.
     for (const plugin of app.plugins)
       plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
 
@@ -69,26 +84,25 @@ export class App {
 
     app.last = deepClone(app.scene.root)
 
-    // Animating.
     for (const plugin of app.plugins)
       plugin.beforeAnimate(app, app.scene.elapsed, app.scene.root)
     app.scene.root.runAnimation(app.scene.elapsed)
     for (const plugin of app.plugins)
       plugin.onAnimate(app, app.scene.elapsed, app.scene.root)
 
-    // // Process setup generation function
-    // app.scene.root.runSetup(app.scene.elapsed)
-
     for (const plugin of app.plugins) plugin.onUpdate(app, app.scene.elapsed)
 
     if (app.playing) {
       app.scene.elapsed += 1
+      app.lastFrameTime = app.currentFrameTime
       app.surface.requestAnimationFrame((canvas: Canvas) => {
-        for (const updateFunc of app.updates) updateFunc(app.scene.elapsed)
-
         App.update(app, canvas)
       })
     }
+  }
+
+  private get frameDuration() {
+    return 1000 / this.config.fps
   }
 
   play(): this {
