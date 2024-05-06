@@ -26,6 +26,7 @@ export interface LineChartStyle extends BaseSimpleChartStyle {
   lineWidth?: number
   tension?: number
   showLine?: boolean
+  animateIndex?: boolean
 }
 
 export interface LineChartDataSet extends BaseSimpleChartDataSet {
@@ -35,6 +36,7 @@ export interface LineChartDataSet extends BaseSimpleChartDataSet {
 
 export interface LineChartData extends BaseSimpleChartData {
   datasets: LineChartDataSet[]
+  style?: LineChartStyle
 }
 
 export class LineChart extends BaseSimpleChart {
@@ -56,18 +58,27 @@ export class LineChart extends BaseSimpleChart {
       ...options,
     })
 
+    if (data.labels) {
+      data.datasets.forEach((set) => {
+        set.data.forEach((unit, index) => {
+          unit.index = this.layout.index.pos[index]
+        })
+      })
+    }
+
     this.dotSets = this.data.datasets.map((set) => {
-      set.style.backgroundColor ??= Color.WHITE.withAlpha(0.2)
-      set.style.borderColor ??= Color.WHITE
-      set.style.borderWidth ??= 1
-      set.style.border ??= true
-      set.style.dotSize ??= 5
+      set.style ??= {}
+      set.style.backgroundColor ??= this.data.style?.backgroundColor ?? Color.WHITE.withAlpha(0.2)
+      set.style.borderColor ??= this.data.style?.borderColor ?? Color.WHITE
+      set.style.borderWidth ??= this.data.style?.borderWidth ?? 1
+      set.style.border ??= this.data.style?.border ?? true
+      set.style.dotSize ??= this.data.style?.dotSize ?? 5
       if (this.layout.indexAxis === 'x') {
-        return set.data.map((unit, index) => {
+        return set.data.map((unit) => {
           return new Circle(
-            unit.style.dotSize ?? set.style.dotSize,
+            unit.weight ?? unit.style.dotSize ?? set.style.dotSize,
             {
-              x: (this.layout.index.pos[index] - this.layout.index.min)
+              x: (unit.index - this.layout.index.min)
               / (this.layout.index.max - this.layout.index.min) * this.layout.size.width,
               y: this.layout.size.height
               - ((unit.cross * this.progress - this.layout.cross.min) * this.layout.size.height)
@@ -83,13 +94,13 @@ export class LineChart extends BaseSimpleChart {
         })
       }
       else {
-        return set.data.map((unit, index) => {
+        return set.data.map((unit) => {
           return new Circle(
-            unit.style.dotSize ?? set.style.dotSize,
+            unit.weight ?? unit.style.dotSize ?? set.style.dotSize,
             {
               x: ((unit.cross * this.progress - this.layout.cross.min) * this.layout.size.width)
               / (this.layout.cross.max - this.layout.cross.min),
-              y: this.layout.size.height - (this.layout.index.pos[index] - this.layout.index.min)
+              y: this.layout.size.height - (unit.index - this.layout.index.min)
               / (this.layout.index.max - this.layout.index.min) * this.layout.size.height,
               style: {
                 fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
@@ -112,12 +123,16 @@ export class LineChart extends BaseSimpleChart {
     this.strokePaints = []
 
     for (let i = 0; i < this.dotSets.length; i++) {
-      const borderColor = this.data.datasets[i].style.borderColor
-        ?? (this.data.datasets[i].data[0].style.borderColor ?? Color.WHITE)
-      const lineWidth = this.data.datasets[i].style.lineWidth
-        ?? (this.data.datasets[i].data[0].style.lineWidth ?? 3)
-      const tension = this.data.datasets[i].style.tension
-        ?? (this.data.datasets[i].data[0].style.tension ?? 0.1)
+      const borderColor = this.data.datasets[i].style?.borderColor
+        ?? this.data.style?.borderColor ?? Color.WHITE
+      const lineWidth = this.data.datasets[i].style?.lineWidth
+        ?? this.data.style?.lineWidth ?? 3
+      const tension = this.data.datasets[i].style?.tension
+        ?? this.data.style?.tension ?? 0.1
+      const borderJoinStyle = this.data.datasets[i].style?.borderJoinStyle
+        ?? this.data.style?.borderJoinStyle ?? 'miter'
+      const borderCapStyle = this.data.datasets[i].style?.borderCapStyle
+        ?? this.data.style?.borderCapStyle ?? 'butt'
       this.paths[i] = new ck.Path()
       const controlPoints = bezierControlPoints(this.dotSets[i], tension, false)
       for (let j = 0; j < this.dotSets[i].length; j++) {
@@ -141,8 +156,8 @@ export class LineChart extends BaseSimpleChart {
       this.strokePaints[i].setStyle(ck.PaintStyle.Stroke)
       this.strokePaints[i].setColor(borderColor.toFloat4())
       this.strokePaints[i].setStrokeWidth(lineWidth)
-      this.strokePaints[i].setStrokeJoin(str2StrokeJoin(ck, this.data.datasets[i].style.borderJoinStyle ?? 'miter'))
-      this.strokePaints[i].setStrokeCap(str2StrokeCap(ck, this.data.datasets[i].style.borderCapStyle ?? 'butt'))
+      this.strokePaints[i].setStrokeJoin(str2StrokeJoin(ck, borderJoinStyle ?? 'miter'))
+      this.strokePaints[i].setStrokeCap(str2StrokeCap(ck, borderCapStyle ?? 'butt'))
       try {
         const dash = ck.PathEffect.MakeDash(
           this.style.borderDashInterval,
@@ -153,7 +168,7 @@ export class LineChart extends BaseSimpleChart {
       catch {}
 
       // Alpha
-      this.strokePaints[i].setAlphaf(this.style.transparency * this.data.datasets[i].style.borderColor.alpha)
+      this.strokePaints[i].setAlphaf(this.style.transparency * borderColor.alpha)
 
       // Blend Mode
       this.strokePaints[i].setBlendMode(str2BlendMode(ck, this.style.blendMode))
@@ -172,6 +187,13 @@ export class LineChart extends BaseSimpleChart {
               this.dotSets[i][j].y = this.layout.size.height
               - (this.data.datasets[i].data[j].cross * this.progress - this.layout.cross.min)
               / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.height
+              this.dotSets[i][j].x
+                = (this.data.datasets[i].data[j].style?.animateIndex
+                ?? this.data.datasets[i].style?.animateIndex
+                ?? this.data.style?.animateIndex ?? false)
+                  ? (this.data.datasets[i].data[j].index * this.progress - this.layout.index.min) / (this.layout.index.max - this.layout.index.min)
+                  * this.layout.size.width
+                  : this.dotSets[i][j].x
             }
           }
         }
@@ -180,7 +202,22 @@ export class LineChart extends BaseSimpleChart {
             for (let j = 0; j < this.dotSets[i].length; j++) {
               this.dotSets[i][j].x = (this.data.datasets[i].data[j].cross * this.progress - this.layout.cross.min)
               / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.width
+              this.dotSets[i][j].y
+                = (this.data.datasets[i].data[j].style?.animateIndex
+                ?? this.data.datasets[i].style?.animateIndex
+                ?? this.data.style?.animateIndex ?? false)
+                  ? this.layout.size.height - (this.data.datasets[i].data[j].index * this.progress - this.layout.index.min)
+                  / (this.layout.index.max - this.layout.index.min) * this.layout.size.height
+                  : this.dotSets[i][j].y
             }
+          }
+        }
+
+        for (let i = 0; i < this.dotSets.length; i++) {
+          for (let j = 0; j < this.dotSets[i].length; j++) {
+            this.dotSets[i][j].radius = this.data.datasets[i].data[j].weight
+              ? this.progress * this.data.datasets[i].data[j].weight
+              : this.dotSets[i][j].radius
           }
         }
 
@@ -215,7 +252,7 @@ export class LineChart extends BaseSimpleChart {
 
   draw(canvas: Canvas): void {
     for (let i = 0; i < this.paths.length; i++) {
-      const showLine = this.data.datasets[i].style.showLine ?? true
+      const showLine = this.data.datasets[i].style?.showLine ?? this.data.style?.showLine ?? true
       if (showLine)
         canvas.drawPath(this.paths[i], this.strokePaints[i])
     }

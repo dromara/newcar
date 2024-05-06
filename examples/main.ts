@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { CarEngine, Color } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
-import { BarChart, ChartDataUnit, ChartUtil, LineChart, MixedChart } from '@newcar/mod-chart'
+import { BarChart, BubbleChart, ChartDataUnit, ChartUtil, LineChart, MixedChart, ScatterChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
 // import { Tex } from '@newcar/mod-math'
 
@@ -72,13 +72,13 @@ const scene6 = new nc.Scene(
 
 const scene7 = new nc.Scene(new Brace([0, 0], [200, 200]))
 
-const scene8 = new nc.Scene(
+const sceneChart1 = new nc.Scene(
   new BarChart(
     {
       labels: ['AB', 'BB', 'CB', 'DB'],
       datasets: [
         {
-          label: 'Series 1',
+          label: 'Bar 1',
           data: ChartUtil.dataUnits([2, 5, -15, 14]),
           style: {
             backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
@@ -87,7 +87,7 @@ const scene8 = new nc.Scene(
           },
         },
         {
-          label: 'Series 2',
+          label: 'Bar 2',
           data: [
             new ChartDataUnit(12, {
               style: {
@@ -133,51 +133,54 @@ const scene8 = new nc.Scene(
   ).animate(nc.create, 0, 100),
 )
 
-const scene9 = new nc.Scene(
-  new LineChart(
+const sceneChart2 = new nc.Scene(
+  new ScatterChart(
     {
-      labels: ['AB', 'BB', 'CB', 'DB'],
+      // labels: ['AB', 'BB', 'CB', 'DB'],
       datasets: [
         {
-          label: 'Series 1',
-          data: ChartUtil.dataUnits([2, 5, -15, 14]),
+          label: 'Scatter 1',
+          data: ChartUtil.dataUnits([
+            { index: -12, cross: 2 },
+            { index: -5, cross: 5 },
+            { index: 5, cross: -15 },
+            { index: 4, cross: 14 },
+          ]),
           style: {
             backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
             borderColor: Color.parse('#66CCFF'),
-            showLine: false,
           },
         },
+      ],
+    },
+    {
+      x: 50,
+      y: 50,
+      size: {
+        width: 300,
+        height: 300,
+      },
+      indexAxis: 'x',
+    },
+  ).animate(nc.create, 0, 100),
+)
+
+const sceneChart3 = new nc.Scene(
+  new LineChart(
+    {
+      // labels: ['AB', 'BB', 'CB', 'DB'],
+      datasets: [
         {
-          label: 'Series 2',
-          data: [
-            new ChartDataUnit(12, {
-              style: {
-                backgroundColor: Color.rgba(255, 99, 132, 0.2),
-                borderColor: Color.rgba(255, 99, 132),
-              },
-            }),
-            new ChartDataUnit(19, {
-              style: {
-                backgroundColor: Color.rgba(255, 159, 64, 0.2),
-                borderColor: Color.rgba(255, 159, 64),
-              },
-            }),
-            new ChartDataUnit(3, {
-              style: {
-                backgroundColor: Color.rgba(255, 205, 86, 0.2),
-                borderColor: Color.rgba(255, 205, 86),
-              },
-            }),
-            new ChartDataUnit(5, {
-              style: {
-                backgroundColor: Color.rgba(75, 192, 192, 0.2),
-                borderColor: Color.rgba(75, 192, 192),
-              },
-            }),
-          ],
+          label: 'Line 1',
+          data: ChartUtil.dataUnits([
+            { index: -12, cross: 2 },
+            { index: -5, cross: 5 },
+            { index: 5, cross: -15 },
+            { index: 4, cross: 14 },
+          ]),
           style: {
-            backgroundColor: Color.rgba(255, 99, 132, 0.2),
-            borderColor: Color.rgba(255, 99, 132),
+            backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
+            borderColor: Color.parse('#66CCFF'),
           },
         },
       ],
@@ -201,7 +204,39 @@ const scene9 = new nc.Scene(
   }),
 )
 
-const scene10 = new nc.Scene(
+const sceneChart4 = new nc.Scene(
+  new BubbleChart(
+    {
+      // labels: ['AB', 'BB', 'CB', 'DB'],
+      datasets: [
+        {
+          label: 'Bubble 1',
+          data: ChartUtil.dataUnits([
+            { index: -12, cross: 2, weight: 25 },
+            { index: -5, cross: 5, weight: 10 },
+            { index: 5, cross: -15, weight: 15 },
+            { index: 4, cross: 14, weight: 20 },
+          ]),
+          style: {
+            backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
+            borderColor: Color.parse('#66CCFF'),
+          },
+        },
+      ],
+    },
+    {
+      x: 50,
+      y: 50,
+      size: {
+        width: 300,
+        height: 300,
+      },
+      indexAxis: 'y',
+    },
+  ).animate(nc.create, 0, 100),
+)
+
+const sceneChart5 = new nc.Scene(
   new MixedChart<typeof BarChart | typeof LineChart>(
     [
       {
@@ -345,17 +380,25 @@ const app7 = engine.createApp(document.querySelector('#b2'))
 app7.checkout(scene7)
 app7.play()
 
-const app8 = engine.createApp(document.querySelector('#c1'))
-app8.checkout(scene8)
-app8.play()
+const appChart1 = engine.createApp(document.querySelector('#c1'))
+appChart1.checkout(sceneChart1)
+appChart1.play()
 
-const app9 = engine.createApp(document.querySelector('#c2'))
-app9.checkout(scene9)
-app9.play()
+const appChart2 = engine.createApp(document.querySelector('#c2'))
+appChart2.checkout(sceneChart2)
+appChart2.play()
 
-const app10 = engine.createApp(document.querySelector('#c3'))
-app10.checkout(scene10)
-app10.play()
+const appChart3 = engine.createApp(document.querySelector('#c3'))
+appChart3.checkout(sceneChart3)
+appChart3.play()
+
+const appChart4 = engine.createApp(document.querySelector('#c4'))
+appChart4.checkout(sceneChart4)
+appChart4.play()
+
+const appChart5 = engine.createApp(document.querySelector('#c5'))
+appChart5.checkout(sceneChart5)
+appChart5.play()
 
 const app11 = engine.createApp(document.querySelector('#d1'))
 app11.checkout(scene11)
