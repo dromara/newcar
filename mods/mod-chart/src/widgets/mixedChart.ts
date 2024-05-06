@@ -42,6 +42,8 @@ export class MixedChart<T extends typeof BaseSimpleChart> extends BaseChart {
     })
 
     this.layout = new ChartLayout(data, {
+      endColumn: true,
+      edgeOffset: !(options.endColumn ?? setOptions.endColumn ?? true), // endColumn: false -> beginOffset: true
       ...setOptions,
       ...options,
       x: 0,
