@@ -125,7 +125,7 @@ importers:
         specifier: 0.39.1
         version: 0.39.1
       newcar:
-        specifier: workspace:1.0.0-alpha.3
+        specifier: workspace:1.0.0-alpha.4
         version: link:../packages/newcar
       vite-plugin-node-polyfills:
         specifier: ^0.21.0
