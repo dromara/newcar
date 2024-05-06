@@ -6,4 +6,4 @@ packages:
   - cli
   - examples
   - docs
-  # - playground
+  - playground

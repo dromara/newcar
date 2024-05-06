@@ -2,7 +2,7 @@
   "name": "@newcar/monorepo",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@9.0.6",
+  "packageManager": "pnpm@9.1.0",
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -26,18 +26,18 @@
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.16.0",
+    "@antfu/eslint-config": "^2.16.1",
     "@changesets/cli": "^2.27.1",
-    "@types/node": "^20.12.7",
-    "eslint": "^9.1.1",
+    "@types/node": "^20.12.9",
+    "eslint": "^9.2.0",
     "lint-staged": "^15.2.2",
     "pkgroll": "^2.0.2",
-    "pnpm": "^9.0.6",
+    "pnpm": "^9.1.0",
     "rimraf": "^3.0.2",
     "simple-git-hooks": "^2.11.1",
-    "taze": "^0.13.7",
+    "taze": "^0.13.8",
     "typescript": "^5.4.5",
-    "vite": "^5.2.10"
+    "vite": "^5.2.11"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
