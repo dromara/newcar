@@ -8,7 +8,7 @@
     "@newcar/mod-markdown": "workspace:0.3.1",
     "@newcar/mod-math": "workspace:*",
     "canvaskit-wasm": "0.39.1",
-    "newcar": "workspace:1.0.0-alpha.2",
+    "newcar": "workspace:1.0.0-alpha.3",
     "vite-plugin-node-polyfills": "^0.21.0"
   }
 }
