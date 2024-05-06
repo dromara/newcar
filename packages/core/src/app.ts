@@ -106,12 +106,13 @@ export class App {
     return 1000 / this.config.fps
   }
 
-  play(): this {
+  play(frame: number): this {
     if (this.scene === void 0) {
       console.warn(
         `[Newcar Warn] Current scene is undefined, please checkout a usable scene.`,
       )
     }
+    this.scene.elapsed = frame
     this.playing = true
     this.surface.requestAnimationFrame((canvas: Canvas) => {
       App.update(this, canvas)
@@ -120,7 +121,8 @@ export class App {
     return this
   }
 
-  pause(): this {
+  pause(frame: number): this {
+    this.scene.elapsed = frame
     this.playing = false
 
     return this
@@ -147,7 +149,7 @@ export class App {
   }
 
   destroy(): this {
-    this.pause()
+    this.pause(0)
     this.updates = []
     if (this.surface) {
       this.surface.dispose()
