@@ -26,6 +26,7 @@ export interface BarChartDataSet extends BaseSimpleChartDataSet {
 
 export interface BarChartData extends BaseSimpleChartData {
   datasets: BarChartDataSet[]
+  style?: BarChartStyle
 }
 
 export class BarChart extends BaseSimpleChart {
@@ -107,8 +108,7 @@ export class BarChart extends BaseSimpleChart {
               (index * this.layout.size.height) / this.data.labels.length
               + (gridSize - categorySize) / 2
               + (setIndex * categorySize) / this.data.datasets.length
-              + (categorySize / this.data.datasets.length - barSize) / 2
-              + this.layout.style.gridWidth / 2,
+              + (categorySize / this.data.datasets.length - barSize) / 2,
             ],
             [
               ((unit.cross * this.progress - this.layout.cross.min) * this.layout.size.width)

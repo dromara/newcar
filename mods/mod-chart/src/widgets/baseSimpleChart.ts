@@ -16,6 +16,7 @@ export interface BaseSimpleChartDataSet extends BaseChartDataSet {
 
 export interface BaseSimpleChartData extends BaseChartData {
   datasets: BaseSimpleChartDataSet[]
+  style?: BaseSimpleChartStyle
 }
 
 export class BaseSimpleChart extends BaseChart {

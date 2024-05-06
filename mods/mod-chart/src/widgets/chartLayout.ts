@@ -10,8 +10,22 @@ export interface ChartLayoutOptions extends BaseChartOptions {
 }
 
 export interface ChartLayoutStyle extends WidgetStyle {
-  gridColor?: Color
-  gridWidth?: number
+}
+
+interface ChartAxis {
+  suggestedMin: number
+  suggestedMax: number
+  gridColor: Color
+  gridWidth: number
+  min: number
+  max: number
+  interval: number
+  pos: number[]
+  posLine?: number[]
+  axis?: Line
+  ticks: Line[]
+  grids: Line[]
+  labels: Text[]
 }
 
 export class ChartLayout extends BaseChart {
@@ -29,28 +43,8 @@ export class ChartLayout extends BaseChart {
   legends: Rect[]
   legendLabels: Text[]
 
-  index: {
-    min: number
-    max: number
-    interval: number
-    pos: number[]
-    posLine: number[]
-    axis: Line
-    ticks: Line[]
-    grids: Line[]
-    labels: Text[]
-  }
-
-  cross: {
-    min: number
-    max: number
-    interval: number
-    pos: number[]
-    axis: Line
-    ticks: Line[]
-    grids: Line[]
-    labels: Text[]
-  }
+  index: ChartAxis
+  cross: ChartAxis
 
   constructor(public data: BaseChartData, options?: ChartLayoutOptions) {
     options ??= {}
@@ -59,30 +53,41 @@ export class ChartLayout extends BaseChart {
     this.indexAxis = options.indexAxis ?? 'x'
     this.endColumn = options.endColumn ?? true
     this.edgeOffset = options.edgeOffset ?? false
-    this.style.gridColor = options.gridColor ?? Color.WHITE
-    this.style.gridWidth = options.gridWidth ?? 1
 
     this.index = {
+      suggestedMin: options.axis?.index?.suggestedMin
+      ?? options.suggestedMin
+      ?? (options.axis?.index?.beginAtZero ?? true)
+        ? 0
+        : Number.MAX_VALUE,
+      suggestedMax: options.axis?.index?.suggestedMax
+      ?? options.suggestedMax
+      ?? (options.axis?.index?.beginAtZero ?? true)
+        ? Number.MIN_VALUE
+        : 0,
+      gridColor: options.axis?.index?.gridColor ?? options.gridColor ?? Color.WHITE,
+      gridWidth: options.axis?.index?.gridWidth ?? options.gridWidth ?? 1,
       min: 0,
       max: 0,
       interval: 0,
       pos: [],
       posLine: [],
-      axis: new Line(
-        [0, 0],
-        [0, 0],
-        {
-          style: {
-            color: this.style.gridColor,
-            width: this.style.gridWidth,
-            transparency: 0.6,
-          },
-        },
-      ),
       ticks: [],
       grids: [],
       labels: [],
     }
+
+    this.index.axis = new Line(
+      [0, 0],
+      [0, this.size.height],
+      {
+        style: {
+          color: this.index.gridColor,
+          width: this.index.gridWidth,
+          transparency: 0.6,
+        },
+      },
+    )
 
     if (data.labels) {
       this.index.min = 0
@@ -101,52 +106,52 @@ export class ChartLayout extends BaseChart {
         this.index.posLine.push(data.labels.length - 0.5)
       }
     }
+    else {
+      this.generateAxisRange(
+        this.index,
+        data.datasets.flatMap(set => (set.data.map(unit => (unit.index)))),
+      )
+      this.index.posLine = this.index.pos
+    }
 
     this.cross = {
+      suggestedMin: options.axis?.cross?.suggestedMin
+      ?? options.suggestedMin
+      ?? (options.axis?.cross?.beginAtZero ?? true)
+        ? 0
+        : Number.MAX_VALUE,
+      suggestedMax: options.axis?.cross?.suggestedMax
+      ?? options.suggestedMax
+      ?? (options.axis?.cross?.beginAtZero ?? true)
+        ? Number.MIN_VALUE
+        : 0,
+      gridColor: options.axis?.cross?.gridColor ?? options.gridColor ?? Color.WHITE,
+      gridWidth: options.axis?.cross?.gridWidth ?? options.gridWidth ?? 1,
       min: 0,
       max: 0,
       interval: 0,
       pos: [],
-      axis: new Line(
-        [0, 0],
-        [0, 0],
-        {
-          style: {
-            color: this.style.gridColor,
-            width: this.style.gridWidth,
-            transparency: 0.6,
-          },
-        },
-      ),
       ticks: [],
       grids: [],
       labels: [],
     }
 
-    const minDataValue = Math.min(
-      ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.cross),
-      options.suggestedMin ?? 0,
+    this.cross.axis = new Line(
+      [0, this.size.height],
+      [this.size.width, this.size.height],
+      {
+        style: {
+          color: this.cross.gridColor,
+          width: this.cross.gridWidth,
+          transparency: 0.6,
+        },
+      },
     )
-    const maxDataValue = options.suggestedMax
-      ? Math.max(
-        ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.cross),
-        options.suggestedMax,
-      )
-      : Math.max(
-        ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.cross),
-      )
-    const range = maxDataValue - minDataValue
-    const magnitude = Math.floor(Math.log10(range))
-    this.cross.interval = 10 ** magnitude
 
-    if (range / this.cross.interval < 5)
-      this.cross.interval /= (Math.ceil(range / this.cross.interval) === 2 ? 4 : 2)
-
-    this.cross.min = Math.floor(minDataValue / this.cross.interval) * this.cross.interval
-    this.cross.max = Math.ceil(maxDataValue / this.cross.interval) * this.cross.interval
-
-    for (let i = this.cross.min; i <= this.cross.max; i += this.cross.interval)
-      this.cross.pos.push(i)
+    this.generateAxisRange(
+      this.cross,
+      data.datasets.flatMap(set => (set.data.map(unit => (unit.cross)))),
+    )
 
     if (this.indexAxis === 'x') {
       this.index.axis.from = [0, this.size.height]
@@ -159,7 +164,7 @@ export class ChartLayout extends BaseChart {
               {
                 text: pos.toString(),
                 style: {
-                  color: this.style.gridColor,
+                  color: this.index.gridColor,
                   fontSize: 16,
                 },
               },
@@ -183,8 +188,8 @@ export class ChartLayout extends BaseChart {
             [(pos - this.index.min) / (this.index.max - this.index.min) * this.size.width, this.size.height + 5],
             {
               style: {
-                color: this.style.gridColor,
-                width: this.style.gridWidth,
+                color: this.index.gridColor,
+                width: this.index.gridWidth,
                 transparency: 0.3,
               },
             },
@@ -196,8 +201,8 @@ export class ChartLayout extends BaseChart {
             [(pos - this.index.min) / (this.index.max - this.index.min) * this.size.width, this.size.height],
             {
               style: {
-                color: this.style.gridColor,
-                width: this.style.gridWidth,
+                color: this.index.gridColor,
+                width: this.index.gridWidth,
                 transparency: 0.3,
               },
             },
@@ -212,7 +217,7 @@ export class ChartLayout extends BaseChart {
               {
                 text: data.labels[index],
                 style: {
-                  color: this.style.gridColor,
+                  color: this.index.gridColor,
                   fontSize: 16,
                 },
               },
@@ -239,8 +244,8 @@ export class ChartLayout extends BaseChart {
             [-5, this.size.height - (i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.height],
             {
               style: {
-                color: this.style.gridColor,
-                width: this.style.gridWidth,
+                color: this.cross.gridColor,
+                width: this.cross.gridWidth,
                 transparency: 0.3,
               },
             },
@@ -252,7 +257,7 @@ export class ChartLayout extends BaseChart {
               {
                 text: i.toString(),
                 style: {
-                  color: this.style.gridColor,
+                  color: this.cross.gridColor,
                   fontSize: 16,
                 },
               },
@@ -273,8 +278,8 @@ export class ChartLayout extends BaseChart {
             [this.size.width, this.size.height - (i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.height],
             {
               style: {
-                color: this.style.gridColor,
-                width: this.style.gridWidth,
+                color: this.cross.gridColor,
+                width: this.cross.gridWidth,
                 transparency: 0.3,
               },
             },
@@ -292,7 +297,7 @@ export class ChartLayout extends BaseChart {
             {
               text: pos.toString(),
               style: {
-                color: this.style.gridColor,
+                color: this.index.gridColor,
                 fontSize: 16,
               },
             },
@@ -315,8 +320,8 @@ export class ChartLayout extends BaseChart {
             [-5, this.size.height - (pos - this.index.min) / (this.index.max - this.index.min) * this.size.height],
             {
               style: {
-                color: this.style.gridColor,
-                width: this.style.gridWidth,
+                color: this.index.gridColor,
+                width: this.index.gridWidth,
                 transparency: 0.3,
               },
             },
@@ -328,8 +333,8 @@ export class ChartLayout extends BaseChart {
             [this.size.width, this.size.height - (pos - this.index.min) / (this.index.max - this.index.min) * this.size.height],
             {
               style: {
-                color: this.style.gridColor,
-                width: this.style.gridWidth,
+                color: this.index.gridColor,
+                width: this.index.gridWidth,
                 transparency: 0.3,
               },
             },
@@ -344,7 +349,7 @@ export class ChartLayout extends BaseChart {
               {
                 text: data.labels[index],
                 style: {
-                  color: this.style.gridColor,
+                  color: this.index.gridColor,
                   fontSize: 16,
                 },
               },
@@ -371,8 +376,8 @@ export class ChartLayout extends BaseChart {
             [(i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.width, this.size.height + 5],
             {
               style: {
-                color: this.style.gridColor,
-                width: this.style.gridWidth,
+                color: this.cross.gridColor,
+                width: this.cross.gridWidth,
                 transparency: 0.3,
               },
             },
@@ -384,7 +389,7 @@ export class ChartLayout extends BaseChart {
               {
                 text: i.toString(),
                 style: {
-                  color: this.style.gridColor,
+                  color: this.cross.gridColor,
                   fontSize: 16,
                 },
               },
@@ -405,8 +410,8 @@ export class ChartLayout extends BaseChart {
             [(i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.width, this.size.height],
             {
               style: {
-                color: this.style.gridColor,
-                width: this.style.gridWidth,
+                color: this.cross.gridColor,
+                width: this.cross.gridWidth,
                 transparency: 0.3,
               },
             },
@@ -463,7 +468,7 @@ export class ChartLayout extends BaseChart {
             {
               text: this.data.datasets[i].label,
               style: {
-                color: this.style.gridColor,
+                color: this.index.gridColor,
                 fontSize: 16,
               },
             },
@@ -484,5 +489,22 @@ export class ChartLayout extends BaseChart {
       ...this.legends,
       ...this.legendLabels,
     )
+  }
+
+  private generateAxisRange(axis: ChartAxis, data: number[]) {
+    const minDataValue = Math.min(...data, axis.suggestedMin)
+    const maxDataValue = Math.max(...data, axis.suggestedMax)
+    const range = maxDataValue - minDataValue
+    const magnitude = Math.floor(Math.log10(range))
+    axis.interval = 10 ** magnitude
+
+    if (range / axis.interval < 5)
+      axis.interval /= (Math.ceil(range / axis.interval) === 2 ? 4 : 2)
+
+    axis.min = Math.floor(minDataValue / axis.interval) * axis.interval
+    axis.max = Math.ceil(maxDataValue / axis.interval) * axis.interval
+
+    for (let i = axis.min; i <= axis.max; i += axis.interval)
+      axis.pos.push(i)
   }
 }
