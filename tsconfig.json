@@ -21,5 +21,10 @@
     "isolatedModules": true,
     "skipLibCheck": true
   },
-  "include": ["packages/**/*", "examples/**/*", "shims.d.ts", "test"]
+  "include": [
+    "packages/**/*.ts",
+    "examples/**/*.ts",
+    "**/shims.d.ts",
+    "test"
+  ]
 }

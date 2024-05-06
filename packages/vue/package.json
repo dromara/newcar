@@ -1,25 +1,25 @@
 {
   "name": "@newcar/vue",
-  "version": "1.0.0-alpha.4",
+  "type": "module",
+  "version": "1.0.0-alpha.2",
   "description": "The components and hooks of newcar",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "exports": {
     ".": {
-      "dev": "./src/index.ts",
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": "./dist/newcar.js",
+      "require": "./dist/newcar.cjs"
     }
   },
-  "types": "./hooks.d.ts",
+  "module": "./dist/newcar.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "publish": "npm publish",
-    "build": "pkgroll --sourcemap --minify",
-    "dev": "pkgroll -w"
+    "build": "vite build"
   },
   "publishConfig": {
     "access": "public"
@@ -32,6 +32,8 @@
     "vue": "^3.4.26"
   },
   "devDependencies": {
-    "canvaskit-wasm": "0.39.1"
+    "@vitejs/plugin-vue": "^5.0.4",
+    "canvaskit-wasm": "0.39.1",
+    "vite-plugin-dts": "^3.9.1"
   }
 }

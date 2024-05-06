@@ -5,5 +5,3 @@ declare module 'vue' {
     $carengine: CarEngine
   }
 }
-
-export * from 'vue'
