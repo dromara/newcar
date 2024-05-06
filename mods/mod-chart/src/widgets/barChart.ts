@@ -41,7 +41,11 @@ export class BarChart extends BaseSimpleChart {
     options?: BarChartOptions,
   ) {
     options ??= {}
-    super(data, options)
+    super(data, {
+      endColumn: true,
+      beginOffset: !(options.endColumn ?? true),
+      ...options,
+    })
 
     this.categoryPercentage = options.categoryPercentage ?? 0.8
     this.barPercentage = options.barPercentage ?? 0.8
@@ -63,7 +67,7 @@ export class BarChart extends BaseSimpleChart {
               / (this.layout.index.max - this.layout.index.min) * this.layout.size.width
               + (gridSize - categorySize) / 2 + (setIndex * categorySize) / this.data.datasets.length
               + (categorySize / this.data.datasets.length - barSize) / 2,
-              this.layout.size.height - ((unit.value * this.progress - this.layout.cross.min) * this.layout.size.height)
+              this.layout.size.height - ((unit.cross * this.progress - this.layout.cross.min) * this.layout.size.height)
               / (this.layout.cross.max - this.layout.cross.min),
             ],
             [
@@ -107,7 +111,7 @@ export class BarChart extends BaseSimpleChart {
               + this.layout.style.gridWidth / 2,
             ],
             [
-              ((unit.value * this.progress - this.layout.cross.min) * this.layout.size.width)
+              ((unit.cross * this.progress - this.layout.cross.min) * this.layout.size.width)
               / (this.layout.cross.max - this.layout.cross.min),
               (index * this.layout.size.height) / this.data.labels.length
               + (gridSize - categorySize) / 2
@@ -138,7 +142,7 @@ export class BarChart extends BaseSimpleChart {
           this.barSets.forEach((set, setIndex) => {
             set.forEach((bar, index) => {
               bar.from[1] = this.layout.size.height
-              - ((this.data.datasets[setIndex].data[index].value * this.progress - this.layout.cross.min) * this.layout.size.height)
+              - ((this.data.datasets[setIndex].data[index].cross * this.progress - this.layout.cross.min) * this.layout.size.height)
               / (this.layout.cross.max - this.layout.cross.min)
             })
           })
@@ -146,7 +150,7 @@ export class BarChart extends BaseSimpleChart {
         else {
           this.barSets.forEach((set, setIndex) => {
             set.forEach((bar, index) => {
-              bar.to[0] = ((this.data.datasets[setIndex].data[index].value * this.progress - this.layout.cross.min) * this.layout.size.width)
+              bar.to[0] = ((this.data.datasets[setIndex].data[index].cross * this.progress - this.layout.cross.min) * this.layout.size.width)
               / (this.layout.cross.max - this.layout.cross.min)
             })
           })

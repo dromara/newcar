@@ -23,6 +23,7 @@ export class ChartLayout extends BaseChart {
 
   indexAxis: 'x' | 'y'
   endColumn: boolean
+  beginOffset: boolean
 
   paint: Paint
   legends: Rect[]
@@ -57,6 +58,7 @@ export class ChartLayout extends BaseChart {
     this.size = options.size ?? { width: 300, height: 300 }
     this.indexAxis = options.indexAxis ?? 'x'
     this.endColumn = options.endColumn ?? true
+    this.beginOffset = options.beginOffset ?? false
     this.style.gridColor = options.gridColor ?? Color.WHITE
     this.style.gridWidth = options.gridWidth ?? 1
 
@@ -92,6 +94,12 @@ export class ChartLayout extends BaseChart {
         this.index.posLine.push(i)
       if (this.endColumn)
         this.index.posLine.push(data.labels.length)
+      if (this.beginOffset) {
+        this.index.min -= 0.5
+        this.index.max += 0.5
+        this.index.posLine.unshift(-0.5)
+        this.index.posLine.push(data.labels.length - 0.5)
+      }
     }
 
     this.cross = {
@@ -116,16 +124,16 @@ export class ChartLayout extends BaseChart {
     }
 
     const minDataValue = Math.min(
-      ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.value),
+      ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.cross),
       options.suggestedMin ?? 0,
     )
     const maxDataValue = options.suggestedMax
       ? Math.max(
-        ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.value),
+        ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.cross),
         options.suggestedMax,
       )
       : Math.max(
-        ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.value),
+        ...data.datasets.flatMap(set => set.data).flatMap(unit => unit.cross),
       )
     const range = maxDataValue - minDataValue
     const magnitude = Math.floor(Math.log10(range))
