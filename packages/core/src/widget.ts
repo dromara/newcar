@@ -5,7 +5,6 @@ import type { AnimationTree } from './animationTree'
 import { analyseAnimationTree } from './animationTree'
 import type { Event, EventInstance } from './event'
 import type { BlendMode } from './utils/types'
-import type { wait } from './apiWait'
 import type { WidgetPlugin } from './plugin'
 
 export type WidgetInstance<T extends Widget> = T

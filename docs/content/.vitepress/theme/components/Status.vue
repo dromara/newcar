@@ -1,8 +1,8 @@
 <script setup>
-import { useData } from "vitepress";
-import tokens from "./StatusTokens.json";
+import { useData } from 'vitepress'
+import tokens from './StatusTokens.json'
 
-const { lang } = useData();
+const { lang } = useData()
 </script>
 
 <template>

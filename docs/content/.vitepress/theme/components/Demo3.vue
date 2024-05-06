@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { App } from 'newcar'
-import { CarEngine, Scene, Widget, create } from 'newcar'
-import { MathFunction, NumberPlane } from '@newcar/mod-math'
+import { CarEngine, Scene, Widget } from 'newcar'
+import { NumberPlane } from '@newcar/mod-math'
 import { onMounted, ref } from 'vue'
 
 let app: App

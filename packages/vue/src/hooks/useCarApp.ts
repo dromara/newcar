@@ -1,4 +1,4 @@
-import type { App, CarEngine, Scene } from '@newcar/core'
+import type { App, Scene } from '@newcar/core'
 import { type Ref, onMounted, ref } from './hooks'
 
 export function useCarApp(scene: Scene) {
