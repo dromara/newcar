@@ -191,7 +191,7 @@ const scene9 = new nc.Scene(
       },
       indexAxis: 'y',
     },
-  ).animate(nc.create, 0, 60).setup(function *(_widget: nc.Widget) {
+  ).animate(nc.create, 0, 60).setup(function* (_widget: nc.Widget) {
     yield 60
     console.log('1')
     yield 60

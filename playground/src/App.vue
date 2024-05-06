@@ -1,25 +1,51 @@
+<!-- eslint-disable no-new -->
 <script setup lang="ts">
 import * as monaco from 'monaco-editor'
-import { onMounted, ref } from 'vue'
+import type { Ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import * as nc from 'newcar'
+
+const width = ref(window.innerWidth / 2)
+const height = ref(width.value / 16 * 9)
 
 const isPause = ref(true)
 
+const defaultCodes
+= `function animate(nc, element) {
+  new nc.CarEngine()
+    .init('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm')
+    .then(engine => {
+      const app = engine.createApp(element)
+      const root = new nc.Circle(100)
+      const scene = new nc.Scene(root)
+      app.checkout(scene)
+      app.play()
+    })
+}
+`
+
+const canvas: Ref<HTMLCanvasElement | null> = ref(null)
+
 onMounted(() => {
-  monaco.editor.create(document.getElementById('editor')!, {
-    value:
-`import * as nc from newcar
-const engine = await new nc.CarEngine()
-  .init('unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm')
-const app = engine.createApp(document.querySelector('#canvas'))
-const root = new nc.Widget()
-const scene = nc.createScene(root)
-app.checkout(scene)
-app.play()
-`,
-    language: 'javascript',
-    automaticLayout: true,
-    theme: 'vs-dark',
-    fontSize: 20,
+  let editor: any
+  try {
+    editor = monaco.editor.create(document.getElementById('editor')!, {
+      value: defaultCodes,
+      language: 'javascript',
+      automaticLayout: true,
+      theme: 'vs-dark',
+      fontSize: 16,
+    })
+  }
+  catch {}
+
+  watch(isPause, (newvalue, _oldvalue) => {
+    if (!newvalue) {
+      (function (_nc: any, _element: HTMLCanvasElement) {
+        // eslint-disable-next-line no-eval
+        eval(`(${editor.getValue()})(_nc, _element)`)
+      })(nc, canvas.value!)
+    }
   })
 })
 </script>
@@ -41,7 +67,7 @@ app.play()
   </div>
   <div class="float-left">
     <div id="editor" class="fixed w-[50%] h-full" />
-    <canvas id="canvas" class="w-[50%] h-[56.25%] fixed left-[50%] top-[4rem] bg-black" width="800" height="450" />
+    <canvas ref="canvas" class="fixed left-[50%] top-[4rem] bg-black" :width="width" :height="height" />
     <div id="canvas" class="w-[50%] fixed bottom-[25%] text-center left-[50%]">
       <button><i class="fa fa-backward scale-[2] text-white px-5 hover:text-sky-300" /></button>
       <button>
