@@ -19,7 +19,7 @@ const defaultCodes
       const root = new nc.Circle(100)
       const scene = new nc.Scene(root)
       app.checkout(scene)
-      app.play()
+      app.play(0)
     })
 }
 `
@@ -27,18 +27,16 @@ const defaultCodes
 const canvas: Ref<HTMLCanvasElement | null> = ref(null)
 
 onMounted(() => {
-  let editor: any
-  try {
-    editor = monaco.editor.create(document.getElementById('editor')!, {
-      value: defaultCodes,
-      language: 'javascript',
-      automaticLayout: true,
-      theme: 'vs-dark',
-      fontSize: 16,
-    })
-  }
-  catch {}
-
+  const editor = monaco.editor.create(document.getElementById('editor')!, {
+    value: defaultCodes,
+    language: 'javascript',
+    automaticLayout: true,
+    theme: 'vs-dark',
+    fontSize: 16,
+  })
+  editor.onDidChangeModelContent((_e) => {
+    isPause.value = true
+  })
   watch(isPause, (newvalue, _oldvalue) => {
     if (!newvalue) {
       (function (_nc: any, _element: HTMLCanvasElement) {
