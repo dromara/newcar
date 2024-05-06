@@ -43,7 +43,7 @@ export class BarChart extends BaseSimpleChart {
     options ??= {}
     super(data, {
       endColumn: true,
-      beginOffset: !(options.endColumn ?? true),
+      edgeOffset: !(options.endColumn ?? true),
       ...options,
     })
 

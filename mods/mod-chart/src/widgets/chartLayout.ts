@@ -23,7 +23,7 @@ export class ChartLayout extends BaseChart {
 
   indexAxis: 'x' | 'y'
   endColumn: boolean
-  beginOffset: boolean
+  edgeOffset: boolean
 
   paint: Paint
   legends: Rect[]
@@ -58,7 +58,7 @@ export class ChartLayout extends BaseChart {
     this.size = options.size ?? { width: 300, height: 300 }
     this.indexAxis = options.indexAxis ?? 'x'
     this.endColumn = options.endColumn ?? true
-    this.beginOffset = options.beginOffset ?? false
+    this.edgeOffset = options.edgeOffset ?? false
     this.style.gridColor = options.gridColor ?? Color.WHITE
     this.style.gridWidth = options.gridWidth ?? 1
 
@@ -94,7 +94,7 @@ export class ChartLayout extends BaseChart {
         this.index.posLine.push(i)
       if (this.endColumn)
         this.index.posLine.push(data.labels.length)
-      if (this.beginOffset) {
+      if (this.edgeOffset) {
         this.index.min -= 0.5
         this.index.max += 0.5
         this.index.posLine.unshift(-0.5)

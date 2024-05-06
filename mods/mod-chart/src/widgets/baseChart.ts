@@ -27,7 +27,7 @@ export interface BaseChartOptions extends WidgetOptions {
   gridColor?: Color
   gridWidth?: number
   endColumn?: boolean
-  beginOffset?: boolean
+  edgeOffset?: boolean
   layout?: ChartLayout
 }
 
