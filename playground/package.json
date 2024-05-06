@@ -17,7 +17,7 @@
     "@vitejs/plugin-vue": "^5.0.4",
     "autoprefixer": "^10.4.19",
     "monaco-editor": "^0.48.0",
-    "newcar": "workspace:1.0.0-alpha.6",
+    "newcar": "latest",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
