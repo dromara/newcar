@@ -17,6 +17,7 @@ export class App {
   private currentFrameTime = performance.now()
   config: Config
   updates: ((elapsed: number) => void)[] = []
+  cleared: boolean
 
   constructor(
     public element: HTMLCanvasElement,
@@ -91,6 +92,10 @@ export class App {
     for (const plugin of app.plugins)
       plugin.onAnimate(app, app.scene.elapsed, app.scene.root)
 
+    if (app.cleared) {
+      canvas.clear(Color.parse(app.element.style.backgroundColor).toFloat4())
+      app.cleared = false
+    }
     for (const plugin of app.plugins) plugin.onUpdate(app, app.scene.elapsed)
 
     if (app.playing) {
@@ -157,5 +162,9 @@ export class App {
     }
     this.element = null as any
     return this
+  }
+
+  clear() {
+    this.cleared = true
   }
 }

@@ -12,7 +12,7 @@ const isPause = ref(true)
 
 const defaultCodes
 = `function animate(nc, element) {
-  new nc.CarEngine()
+  return new nc.CarEngine()
     .init('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm')
     .then(engine => {
       const app = engine.createApp(element)
@@ -34,14 +34,17 @@ onMounted(() => {
     theme: 'vs-dark',
     fontSize: 16,
   })
-  editor.onDidChangeModelContent((_e) => {
-    isPause.value = true
-  })
   watch(isPause, (newvalue, _oldvalue) => {
     if (!newvalue) {
       (function (_nc: any, _element: HTMLCanvasElement) {
         // eslint-disable-next-line no-eval
-        eval(`(${editor.getValue()})(_nc, _element)`)
+        const app = eval(`(${editor.getValue()})(_nc, _element)`)
+        app.then((a) => {
+          editor.onDidChangeModelContent((_e) => {
+            isPause.value = true
+            a.pause(0)
+          })
+        })
       })(nc, canvas.value!)
     }
   })
