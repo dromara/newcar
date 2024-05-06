@@ -6,7 +6,6 @@ import { Markdown } from '@newcar/mod-markdown'
 // import { Tex } from '@newcar/mod-math'
 
 import * as nc from 'newcar'
-import type { Widget } from '@newcar/core'
 
 await nc.useFont(
   'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
@@ -192,7 +191,7 @@ const scene9 = new nc.Scene(
       },
       indexAxis: 'y',
     },
-  ).animate(nc.create, 0, 60).setup(function *(_widget: Widget) {
+  ).animate(nc.create, 0, 60).setup(function *(_widget: nc.Widget) {
     yield 60
     console.log('1')
     yield 60
