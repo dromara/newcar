@@ -20,6 +20,7 @@ const defaultCodes
       const scene = new nc.Scene(root)
       app.checkout(scene)
       app.play(0)
+      return app
     })
 }
 `
@@ -43,6 +44,7 @@ onMounted(() => {
           editor.onDidChangeModelContent((_e) => {
             isPause.value = true
             a.pause(0)
+            a.clear()
           })
         })
       })(nc, canvas.value!)
