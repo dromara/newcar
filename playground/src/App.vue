@@ -19,7 +19,7 @@ app.play()
     language: 'javascript',
     automaticLayout: true,
     theme: 'vs-dark',
-    fontSize: 28,
+    fontSize: 20,
   })
 })
 </script>
