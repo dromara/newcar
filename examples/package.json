@@ -1,6 +1,6 @@
 {
   "name": "@newcar/examples",
-  "type": "commonjs",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@newcar/mod-chart": "workspace:*",
