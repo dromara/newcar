@@ -306,7 +306,7 @@ importers:
         specifier: ^0.48.0
         version: 0.48.0
       newcar:
-        specifier: ^1.0.0-alpha.7
+        specifier: latest
         version: link:../packages/newcar
       postcss:
         specifier: ^8.4.38
