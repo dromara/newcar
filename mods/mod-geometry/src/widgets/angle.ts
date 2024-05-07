@@ -1,7 +1,6 @@
-import type { StrokeCap, StrokeJoin } from '@newcar/basic'
-import { Arc, Line, str2StrokeCap, str2StrokeJoin } from '@newcar/basic'
-import type { WidgetOptions, WidgetStyle } from '@newcar/core'
-import { Widget } from '@newcar/core'
+import type { StrokeCap, StrokeJoin, WidgetOptions, WidgetStyle } from '@newcar/core'
+import { Widget, str2StrokeCap, str2StrokeJoin } from '@newcar/core'
+import { Arc, Line } from '@newcar/basic'
 import { Color } from '@newcar/utils'
 import type { CanvasKit, Paint } from 'canvaskit-wasm'
 
