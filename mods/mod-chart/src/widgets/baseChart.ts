@@ -4,28 +4,24 @@ import type { Color } from '@newcar/utils'
 import type { ChartLayout } from './chartLayout'
 import type { ChartDataUnit } from './chartDataUnit'
 
-export interface BaseChartOptions extends WidgetOptions {
+export interface ChartAxisOptions extends WidgetOptions {
+  beginAtZero?: boolean
+  suggestedMin?: number
+  suggestedMax?: number
+  gridColor?: Color
+  gridWidth?: number
+}
+
+export interface BaseChartOptions extends ChartAxisOptions {
   indexAxis?: 'x' | 'y'
-  scales?: {
-    index?: {
-      beginAtZero?: boolean
-      suggestedMin?: number
-      suggestedMax?: number
-    }
-    cross?: {
-      beginAtZero?: boolean
-      suggestedMin?: number
-      suggestedMax?: number
-    }
+  axis?: {
+    index?: ChartAxisOptions
+    cross?: ChartAxisOptions
   }
   size?: {
     width: number
     height: number
   }
-  suggestedMin?: number
-  suggestedMax?: number
-  gridColor?: Color
-  gridWidth?: number
   endColumn?: boolean
   edgeOffset?: boolean
   layout?: ChartLayout
@@ -47,6 +43,7 @@ export interface BaseChartDataSet {
 export interface BaseChartData {
   labels?: string[]
   datasets: BaseChartDataSet[]
+  style?: BaseChartStyle
 }
 
 export class BaseChart extends Figure {

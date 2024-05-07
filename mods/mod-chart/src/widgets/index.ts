@@ -1,5 +1,7 @@
 export * from './chartDataUnit'
 export * from './chartLayout'
 export * from './barChart'
+export * from './scatterChart'
+export * from './bubbleChart'
 export * from './lineChart'
 export * from './mixedChart'
