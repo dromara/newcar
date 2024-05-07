@@ -23,8 +23,8 @@ export const enConfig = defineConfig({
         link: '/getting-started',
       },
       {
-        text: 'API Reference',
-        link: '/api/',
+        text: 'Playground',
+        link: 'https://playground.newcarjs.org',
       },
       {
         text: 'Members',

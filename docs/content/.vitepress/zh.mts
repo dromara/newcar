@@ -23,6 +23,10 @@ export const zhConfig = defineConfig({
         link: '/zh/getting-started',
       },
       {
+        text: '试验场',
+        link: 'https://playground.newcarjs.org',
+      },
+      {
         text: '项目成员',
         link: '/zh/members',
       },
