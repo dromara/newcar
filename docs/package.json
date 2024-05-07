@@ -2,9 +2,9 @@
   "name": "@newcar/docs",
   "private": true,
   "scripts": {
-    "docs:dev": "vitepress dev content",
-    "docs:build": "vitepress build content",
-    "docs:preview": "vitepress preview content"
+    "dev": "vitepress dev content",
+    "build": "vitepress build content",
+    "preview": "vitepress preview content"
   },
   "dependencies": {
     "@newcar/mod-math": "latest",
