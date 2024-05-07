@@ -48,18 +48,14 @@ interface TextItemStyle {
   decoration?: number
   decorationColor?: Color
   decorationThickness?: number
-  decorationStyle?: DecorationStyle
   fontFamilies?: string[]
-  fontFeatures?: TextFontFeatures[]
   fontSize?: number
   fontStyle?: FontStyle
-  fontVariations?: TextFontVariations[]
   foregroundColor?: Color
   heightMultiplier?: number
   halfLeading?: boolean
   letterSpacing?: number
   locale?: string
-  shadows?: TextShadow[]
   textBaseline?: TextBaseline
   wordSpacing?: number
 }
@@ -81,7 +77,6 @@ export interface TextStyle extends WidgetStyle {
   heightMultiplier?: number
   maxLines?: number
   replaceTabCharacters?: boolean
-  strutStyle?: StrutStyle
   textAlign?: TextAlign
   textDirection?: TextDirection
   textHeightBehavior?: TextHeightBehavior
@@ -104,7 +99,6 @@ export class Text extends Widget {
   textDirection?: TextDirection
   textHeightBehavior?: TextHeightBehavior
   applyRoundingHack?: boolean
-  width?: number
   offset?: number
   interval?: number[]
 
@@ -123,9 +117,9 @@ export class Text extends Widget {
     this.heightMultiplier = inputOptions.style.heightMultiplier ?? 1.0
     this.maxLines = inputOptions.style.maxLines ?? null
     this.replaceTabCharacters = inputOptions.style.replaceTabCharacters ?? true
-    this.strutStyle = inputOptions.style.strutStyle ?? null
+    // this.strutStyle = inputOptions.style.strutStyle ?? null
     this.applyRoundingHack = inputOptions.style.applyRoundingHack ?? false
-    this.width = inputOptions.style.width ?? 1000
+    this.style.width = inputOptions.style.width ?? 200
     this.style.borderColor = inputOptions.style.borderColor ?? Color.WHITE
     this.style.borderWidth = inputOptions.style.borderWidth ?? 2
     this.style.fillColor = inputOptions.style.fillColor ?? Color.WHITE
@@ -149,7 +143,7 @@ export class Text extends Widget {
   }
 
   init(ck: CanvasKit) {
-    this.textAlign = this.inputOptions.style.textAlign ?? 'start'
+    this.textAlign = this.inputOptions.style.textAlign ?? 'left'
     this.textDirection = this.inputOptions.style.textDirection ?? 'ltr'
     this.textHeightBehavior
       = this.inputOptions.style.textHeightBehavior ?? 'all'
@@ -279,14 +273,14 @@ export class Text extends Widget {
         }
 
         this.paragraph = this.builder.build()
-        this.paragraph.layout(this.width)
+        this.paragraph.layout(this.style.width)
         break
       }
     }
   }
 
   draw(canvas: Canvas): void {
-    this.paragraph.layout(this.width)
+    this.paragraph.layout(this.style.width)
     canvas.drawParagraph(this.paragraph, 0, 0)
   }
 

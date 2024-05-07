@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { CarEngine, Color } from 'newcar'
+import { CarEngine, Color, Text } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { BarChart, BubbleChart, ChartDataUnit, ChartUtil, LineChart, MixedChart, ScatterChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
@@ -65,6 +65,15 @@ export const scene4 = new nc.Scene(
 //     },
 //   }),
 // )
+
+const sceneX = new nc.Scene(
+  new Text(['Hello'], {
+    style: {
+      textAlign: 'center',
+      width: 400,
+    },
+  }),
+)
 
 const scene6 = new nc.Scene(
   new Angle(new nc.Line([100, 100], [200, 100]), 45, 100),
@@ -403,3 +412,7 @@ appChart5.play()
 const app11 = engine.createApp(document.querySelector('#d1'))
 app11.checkout(scene11)
 app11.play()
+
+const appX = engine.createApp(document.querySelector('#a6'))
+appX.checkout(sceneX)
+appX.play()
