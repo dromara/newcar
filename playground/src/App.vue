@@ -16,10 +16,12 @@ const defaultCodes
     .init('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm')
     .then(engine => {
       const app = engine.createApp(element)
-      const root = new nc.Circle(100)
+      const root = new nc.Circle(100).animate(nc.move, 0, 30, {
+        to: [200, 300]
+      })
       const scene = new nc.Scene(root)
       app.checkout(scene)
-      app.play(0)
+      app.play()
       return app
     })
 }
@@ -43,9 +45,14 @@ onMounted(() => {
         app.then((a) => {
           editor.onDidChangeModelContent((_e) => {
             isPause.value = true
-            a.pause(0)
             a.clear()
+            a.pause(0)
           })
+          // watch(isPause, (newvalue, _oldvalue) => {
+          //   a.clear()
+          //   if (!newvalue)
+          //     a.play(0)
+          // })
         })
       })(nc, canvas.value!)
     }
