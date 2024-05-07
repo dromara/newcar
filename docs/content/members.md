@@ -97,6 +97,14 @@ const members = [
       { icon: 'x', link: 'https://twitter.com/dy_xiaodong' }
     ]
   },
+  {
+    avatar: 'https://avatars.githubusercontent.com/u/51940778?v=4',
+    name: 'jiwangyihao',
+    title: 'Programmer | Documentation',
+    links: [
+      { icon: 'github', link: 'https://github.com/jiwangyihao' },
+    ],
+  },
 ]
 </script>
 

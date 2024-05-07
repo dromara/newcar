@@ -87,7 +87,24 @@ const members = [
       { icon: 'github', link: 'https://github.com/linesoft2' },
       { icon: 'x', link: 'https://twitter.com/linesoft_zyl' }
     ]
-  }
+  },
+  {
+    avatar: 'https://avatars.githubusercontent.com/u/51940778?v=4',
+    name: '吉王义昊',
+    title: '代码贡献者 | 文档维护者',
+    links: [
+      { icon: 'github', link: 'https://github.com/jiwangyihao' },
+    ],
+  },
+  {
+    avatar: 'https://avatars.githubusercontent.com/u/84657208?v=4',
+    name: '小东',
+    title: '代码贡献者 | 文档维护者',
+    links: [
+      { icon: 'github', link: 'https://github.com/xiaodong2008' },
+      { icon: 'x', link: 'https://twitter.com/dy_xiaodong' }
+    ]
+  },
 ]
 </script>
 
