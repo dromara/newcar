@@ -16,7 +16,12 @@ const engine = await new CarEngine().init(
 )
 
 export const scene1 = new nc.Scene(
-  new nc.Circle(100).animate(nc.create, 0, 30).on(nc.click, (w, x, y) => {
+  new nc.Circle(100, {
+    style: {
+      border: true,
+      fill: false,
+    },
+  }).animate(nc.stroke, 0, 30).on(nc.click, (w, x, y) => {
     w.x = x
     w.y = y
   }),
@@ -71,8 +76,12 @@ const sceneX = new nc.Scene(
     style: {
       textAlign: 'center',
       width: 400,
+      border: true,
+      borderWidth: 1,
+      borderColor: Color.parse('red'),
+      fill: false,
     },
-  }),
+  }).animate(nc.stroke, 0, 100),
 )
 
 const scene6 = new nc.Scene(

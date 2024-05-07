@@ -37,6 +37,8 @@ import {
   str2TextHeightBehavior,
   // eslint-disable-next-line import/no-duplicates
 } from '@newcar/core'
+// eslint-disable-next-line import/no-duplicates
+import { str2BlendMode } from '@newcar/core'
 
 export interface InputItem {
   text: string
@@ -125,8 +127,8 @@ export class Text extends Widget {
     this.style.fillColor = inputOptions.style.fillColor ?? Color.WHITE
     this.style.fill = inputOptions.style.fill ?? true
     this.style.border = inputOptions.style.border ?? false
-    this.style.interval = [1, 0]
-    this.style.offset = 0
+    this.style.interval = inputOptions.style.interval ?? [1, 0]
+    this.style.offset = inputOptions.style.offset ?? 0
     for (const item of text) {
       if (isString(item)) {
         this.text.push({
@@ -143,6 +145,30 @@ export class Text extends Widget {
   }
 
   init(ck: CanvasKit) {
+    // Stroke
+    this.strokePaint = new ck.Paint()
+    this.strokePaint.setStyle(ck.PaintStyle.Stroke)
+    this.strokePaint.setColor(this.style.borderColor.toFloat4())
+    this.strokePaint.setStrokeWidth(this.style.borderWidth)
+    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
+    this.strokePaint.setAntiAlias(this.style.antiAlias)
+    const dash = ck.PathEffect.MakeDash(
+      this.style.interval,
+      this.style.offset,
+    )
+    this.strokePaint.setPathEffect(dash)
+
+    // Fill
+    this.fillPaint = new ck.Paint()
+    this.fillPaint.setColor(this.style.fillColor.toFloat4())
+    this.fillPaint.setStyle(ck.PaintStyle.Fill)
+    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
+    this.fillPaint.setAntiAlias(this.style.antiAlias)
+
+    // Blend Mode
+    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+
     this.textAlign = this.inputOptions.style.textAlign ?? 'left'
     this.textDirection = this.inputOptions.style.textDirection ?? 'ltr'
     this.textHeightBehavior
@@ -168,30 +194,32 @@ export class Text extends Widget {
       this.fontManager,
     )
     for (const item of this.text) {
-      this.builder.pushStyle(
-        new ck.TextStyle(
-          deepMerge(
-            {
-              backgroundColor: isUndefined(item.style.backgroundColor)
-                ? ck.Color4f(1, 1, 1, 0)
-                : item.style.backgroundColor.toFloat4(),
-              color: isUndefined(item.style.color)
-                ? ck.Color4f(1, 1, 1, 1)
-                : item.style.color.toFloat4(),
-              decorationColor: isUndefined(item.style.decorationColor)
-                ? ck.Color4f(1, 1, 1, 0)
-                : item.style.decorationColor.toFloat4(),
-              foregroundColor: isUndefined(item.style.foregroundColor)
-                ? ck.Color4f(1, 1, 1, 1)
-                : item.style.foregroundColor.toFloat4(),
-              textBaseline: isUndefined(item.style.textBaseline)
-                ? ck.TextBaseline.Alphabetic
-                : str2TextBaseline(ck, item.style.textBaseline),
-            },
-            item.style,
-          ),
+      const style = new ck.TextStyle(
+        deepMerge(
+          {
+            backgroundColor: isUndefined(item.style.backgroundColor)
+              ? ck.Color4f(1, 1, 1, 0)
+              : item.style.backgroundColor.toFloat4(),
+            color: isUndefined(item.style.color)
+              ? ck.Color4f(1, 1, 1, 1)
+              : item.style.color.toFloat4(),
+            decorationColor: isUndefined(item.style.decorationColor)
+              ? ck.Color4f(1, 1, 1, 0)
+              : item.style.decorationColor.toFloat4(),
+            foregroundColor: isUndefined(item.style.foregroundColor)
+              ? ck.Color4f(1, 1, 1, 1)
+              : item.style.foregroundColor.toFloat4(),
+            textBaseline: isUndefined(item.style.textBaseline)
+              ? ck.TextBaseline.Alphabetic
+              : str2TextBaseline(ck, item.style.textBaseline),
+          },
+          item.style,
         ),
       )
+      const bg = new ck.Paint()
+      bg.setColor(style.backgroundColor)
+      this.builder.pushPaintStyle(style, this.style.border ? this.strokePaint : this.fillPaint, bg)
+
       this.builder.addText(item.text)
       // TODO: Stroke and Fill
     }
@@ -218,6 +246,7 @@ export class Text extends Widget {
         this.strokePaint.setPathEffect(
           ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
         )
+        this.predraw(ck, 'progress')
         break
       }
       case 'disableHinting':
@@ -260,12 +289,18 @@ export class Text extends Widget {
           const remainingChars = charsToShow - currentLength
           const textPart = remainingChars >= item.text.length ? item.text : item.text.substring(0, remainingChars)
 
-          this.builder.pushStyle(
-            new ck.TextStyle(
-              deepMerge({
-                color: ck.Color4f(1, 1, 1, 1),
-              }, item.style as TextStyle),
-            ),
+          const style = new ck.TextStyle(
+            deepMerge({
+              color: ck.Color4f(1, 1, 1, 1),
+            }, item.style as TextStyle),
+          )
+          // console.log(style)
+          const bg = new ck.Paint()
+          bg.setColor(style.backgroundColor)
+          this.builder.pushPaintStyle(
+            style,
+            this.style.border ? this.strokePaint : this.fillPaint,
+            bg,
           )
           this.builder.addText(textPart)
 
