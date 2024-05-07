@@ -46,16 +46,14 @@ export class Tex extends Widget {
   predraw(ck: CanvasKit, propertyChanged: string): void {
     switch (propertyChanged) {
       case 'tex': {
-        for (const path of svg2path(this.convertTexToSVG(this.tex))) {
-          this.path.moveTo(path.x, path.y)
-          this.path.addPath(ck.Path.MakeFromSVGString(path.path))
-          this.path.moveTo(-path.x, -path.y)
-        }
+        for (const path of svg2path(this.convertTexToSVG(this.tex)))
+          this.path.addPath(ck.Path.MakeFromSVGString(path.path)?.transform(ck.Matrix.translated(this.x, this.y)))
       }
     }
   }
 
   draw(canvas: Canvas): void {
+    canvas.scale(0.05, -0.05)
     canvas.drawPath(this.path, this.paint)
   }
 }
