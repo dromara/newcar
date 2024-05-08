@@ -28,7 +28,7 @@ export const zhConfig = defineConfig({
       },
       {
         text: 'API参考',
-        link: 'apis.newcarjs.org',
+        link: 'https://apis.newcarjs.org',
       },
       {
         text: '试验场',
