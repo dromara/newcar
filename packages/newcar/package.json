@@ -1,7 +1,7 @@
 {
   "name": "newcar",
   "type": "module",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-beta.0",
   "description": "A Highly configurable universal advanced engine, Born for creating animation rapidly.",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
