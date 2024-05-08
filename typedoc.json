@@ -1,0 +1,8 @@
+{
+  "entryPoints": ["packages/*", "mods/*"],
+  "exclude": ["packages/vue", "mods/mod-ui"],
+  "name": "Newcar API References",
+  "entryPointStrategy": "packages",
+  "includeVersion": false,
+  "out": "./docs/apis"
+}

@@ -21,6 +21,7 @@
     "docs:preview": "pnpm --filter=@newcar/docs docs:preview",
     "play:dev": "pnpm --filter=@newcar/playground dev",
     "play:build": "pnpm --filter=@newcar/playground build",
+    "api:generate": "pnpm typedoc",
     "dep": "taze -r",
     "dep:write": "taze -rw",
     "prepare": "simple-git-hooks"
@@ -36,6 +37,7 @@
     "rimraf": "^3.0.2",
     "simple-git-hooks": "^2.11.1",
     "taze": "^0.13.8",
+    "typedoc": "^0.25.13",
     "typescript": "^5.4.5",
     "vite": "^5.2.11"
   },

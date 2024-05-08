@@ -24,6 +24,7 @@
   "include": [
     "packages/**/*.ts",
     "examples/**/*.ts",
+    "mods/**/*.ts",
     "**/shims.d.ts",
     "test"
   ]
