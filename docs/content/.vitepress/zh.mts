@@ -87,24 +87,6 @@ export const zhConfig = defineConfig({
           ],
         },
         {
-          text: 'API参考',
-          items: [
-            {
-              text: '基础图形包',
-              link: 'zh/api/basic',
-            },
-            {
-              text: '基础动画',
-              link: 'zh/api/animations',
-            },
-            {
-              text: '其他',
-              link: 'zh/api/others',
-            },
-          ],
-          link: 'zh/zpi/',
-        },
-        {
           text: '自定义',
           items: [
             {

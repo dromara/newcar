@@ -87,24 +87,6 @@ export const enConfig = defineConfig({
           ],
         },
         {
-          text: 'API',
-          items: [
-            {
-              text: 'Basic',
-              link: '/api/basic',
-            },
-            {
-              text: 'Animations',
-              link: '/api/animations',
-            },
-            {
-              text: 'Others',
-              link: '/api/others',
-            },
-          ],
-          link: '/api/',
-        },
-        {
           text: 'Custom',
           items: [
             {
