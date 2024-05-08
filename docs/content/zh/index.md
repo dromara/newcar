@@ -15,7 +15,7 @@ hero:
       link: zh/getting-started
     - theme: alt
       text: API 参考
-      link: zh/api/index
+      link: https://apis.newcarjs.org
 
 features:
   - title: 丰富的 API 🛠️

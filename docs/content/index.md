@@ -15,7 +15,7 @@ hero:
       link: /getting-started
     - theme: alt
       text: API Reference
-      link: /api/
+      link: https://apis.newcarjs.org
 
 features:
   - title: Rich API interfaces 🛠️
