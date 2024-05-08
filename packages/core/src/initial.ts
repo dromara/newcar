@@ -2,6 +2,10 @@ import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import type { Widget } from './widget'
 import type { AsyncWidget, AsyncWidgetResponse } from './asyncWidget'
 
+/**
+ * Initializing a widget and his children
+ * @param widget The `Widget` object that need to initialize
+ */
 export async function initial(
   widget: Widget | AsyncWidget,
   ck: CanvasKit,

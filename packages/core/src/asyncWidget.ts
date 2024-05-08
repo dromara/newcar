@@ -6,6 +6,9 @@ export interface AsyncWidgetResponse {
   status: 'ok' | 'error'
 }
 
+/**
+ * @see Widget
+ */
 export class AsyncWidget extends Widget {
   ready = false
 

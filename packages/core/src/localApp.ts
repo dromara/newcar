@@ -4,6 +4,9 @@ import { initial } from './initial'
 import type { Widget } from './widget'
 import type { GlobalPlugin } from './plugin'
 
+/**
+ * @see Widget
+ */
 export class LocalApp {
   scene: Scene
   surface: Surface
@@ -83,6 +86,11 @@ export class LocalApp {
     this.plugins.push(plugin)
   }
 
+  /**
+   * Get every frame's image data
+   * @param duration The duration
+   * @returns The image data list.
+   */
   getFrames(duration: number) {
     const data = []
     for (let elapsed = 0; elapsed <= duration; elapsed++) {

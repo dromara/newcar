@@ -8,17 +8,35 @@ import type { Widget } from './widget'
 import type { GlobalPlugin } from './plugin'
 import { type Config, defineConfig } from './config'
 
+/**
+ * A object that control a single animatiopn canvas.
+ */
 export class App {
+  /**
+   * The current scene of this app
+   */
   scene: Scene
   surface: Surface
   private playing = false
   private last: Widget
   private lastFrameTime = performance.now()
   private currentFrameTime = performance.now()
+  /**
+   * The App config.
+   */
   config: Config
+  /**
+   * Updating group, which call them every update calling.
+   */
   updates: ((elapsed: number) => void)[] = []
   cleared: boolean
 
+  /**
+   * The Constructor of `App`
+   * @param element The `<canvas>` element.
+   * @param ck The CanvasKit Namespace.
+   * @param plugins The plugins provided by `CarEngine`.
+   */
   constructor(
     public element: HTMLCanvasElement,
     private ck: CanvasKit,
@@ -49,6 +67,11 @@ export class App {
       plugin.onSurfaceLoaded(this, this.surface)
   }
 
+  /**
+   * Checkout a scene.
+   * @param scene The scene that is going to be changed.
+   * @returns this
+   */
   checkout(scene: Scene): this {
     for (const plugin of this.plugins) plugin.beforeCheckout(this, scene)
 
@@ -60,6 +83,11 @@ export class App {
     return this
   }
 
+  /**
+   * The rendering and uodate function, which called every frame.
+   * @param app The `App` object.
+   * @param canvas The `Canvas` object of CanvasKit-WASM
+   */
   static update(app: App, canvas: Canvas): void {
     app.currentFrameTime = performance.now()
     const timeSinceLastFrame = app.currentFrameTime - app.lastFrameTime
@@ -111,6 +139,11 @@ export class App {
     return 1000 / this.config.fps
   }
 
+  /**
+   * Start to play this animation app
+   * @param frame Play at `frame`
+   * @returns this
+   */
   play(frame?: number): this {
     if (this.scene === void 0) {
       console.warn(
@@ -126,6 +159,11 @@ export class App {
     return this
   }
 
+  /**
+   * Pause the animation of this app.
+   * @param frame pause at `frame`
+   * @returns this
+   */
   pause(frame?: number): this {
     this.scene.elapsed ??= frame
     this.playing = false
@@ -141,26 +179,24 @@ export class App {
     this.updates.push(updateFunc)
   }
 
+  /**
+   * Add a plugin for this app.
+   * @param plugin The `CarPlugin`
+   */
   use(plugin: GlobalPlugin) {
     this.plugins.push(plugin)
   }
 
+  /**
+   * Set the background color
+   * @param color The `Color` object
+   * @returns this
+   */
   setBackgroundColor(color: Color | 'transparent'): this {
     color !== 'transparent'
       ? (this.element.style.backgroundColor = color.toString())
       : (this.element.style.backgroundColor = '')
 
-    return this
-  }
-
-  destroy(): this {
-    this.pause(0)
-    this.updates = []
-    if (this.surface) {
-      this.surface.dispose()
-      this.surface = null as any
-    }
-    this.element = null as any
     return this
   }
 

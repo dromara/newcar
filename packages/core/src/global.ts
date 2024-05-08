@@ -1,5 +1,8 @@
 import { defineConfig } from './config'
 
+/**
+ * The global preloaded sources.
+ */
 export const $source: {
   fonts: ArrayBuffer[]
   images: ArrayBuffer[]

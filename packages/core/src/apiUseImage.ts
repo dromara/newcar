@@ -1,5 +1,10 @@
 import { $source } from './global'
 
+/**
+ * Preloading a image.
+ * @param src The path of this image.
+ * @returns The image that be with ArrayBuffer type.
+ */
 export async function useImage(src: string) {
   if (typeof window !== 'undefined') {
     const response = await fetch(src)

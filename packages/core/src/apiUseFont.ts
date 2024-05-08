@@ -1,5 +1,10 @@
 import { $source } from './global'
 
+/**
+ * Preloading a font file.
+ * @param src The font file's path.
+ * @returns The Font with `ArrayBuffer` type.
+ */
 export async function useFont(src: string) {
   if (typeof window !== 'undefined') {
     const response = await fetch(src)
