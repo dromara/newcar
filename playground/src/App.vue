@@ -77,12 +77,18 @@ onMounted(() => {
     <Suspense>
       <canvas ref="canvas" class="fixed left-[50%] top-[4rem] bg-black" :width="width" :height="height" />
     </Suspense><div id="canvas" class="w-[50%] fixed bottom-[25%] text-center left-[50%]">
-      <button><i class="fa fa-backward scale-[2] text-white px-5 hover:text-sky-300" /></button>
-      <button>
-        <i v-if="isPause" class="fa fa-play scale-[2] text-white px-5 hover:text-sky-300" @click="isPause = false" />
-        <i v-else class="fa fa-pause scale-[2] text-white px-5 hover:text-sky-300" @click="isPause = true" />
+      <button class="scale-[2]">
+        <i class="fa fa-backward text-white m-5 hover:text-sky-300" />
       </button>
-      <button><i class="fa fa-forward scale-[2] text-white px-5 hover:text-sky-300" /></button>
+      <button v-if="isPause" class="scale-[2]">
+        <i class="fa fa-play text-white m-5 hover:text-sky-300" @click="isPause = false" />
+      </button>
+      <button v-else>
+        <i class="fa fa-pause text-white m-5 hover:text-sky-300" @click="isPause = true" />
+      </button>
+      <button class="scale-[2]">
+        <i class="fa fa-forward text-white m-5 hover:text-sky-300" />
+      </button>
     </div>
   </div>
 </template>
