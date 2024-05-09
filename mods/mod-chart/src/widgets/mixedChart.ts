@@ -1,4 +1,5 @@
 import type { CanvasKit } from 'canvaskit-wasm'
+import { DateTime } from 'luxon'
 import { ChartLayout } from './chartLayout'
 import type { BaseChartOptions, BaseChartStyle } from './baseChart'
 import { BaseChart } from './baseChart'
@@ -97,6 +98,15 @@ export class MixedChart<T extends typeof BaseSimpleChart> extends BaseChart {
         setOptions[key] = option[key]
     })
 
+    chartSet.forEach((set) => {
+      set.data.datasets.forEach((dataset) => {
+        dataset.data.forEach((dataUnit, index) => {
+          if (!(!dataUnit.isIndexDate() && dataUnit.index) && set.data.labels && set.data.labels[index] instanceof DateTime)
+            dataUnit.index = <DateTime> set.data.labels[index]
+        })
+      })
+    })
+
     this.layout = new ChartLayout(data, {
       gridAlign: true,
       edgeOffset: !(options.gridAlign ?? setOptions.gridAlign ?? true), // endColumn: false -> beginOffset: true
@@ -105,6 +115,16 @@ export class MixedChart<T extends typeof BaseSimpleChart> extends BaseChart {
       x: 0,
       y: 0,
     })
+
+    chartSet.forEach((set) => {
+      set.data.datasets.forEach((dataset) => {
+        dataset.data.forEach((dataUnit, index) => {
+          if (!(!dataUnit.isIndexDate() && dataUnit.index) && set.data.labels && typeof set.data.labels[index] === 'string')
+            dataUnit.index = this.layout.index.pos[index]
+        })
+      })
+    })
+
     this.charts = chartSet.map(set => new set.Chart(set.data, {
       ...options,
       x: 0,

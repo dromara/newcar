@@ -1,6 +1,7 @@
 import { Figure } from '@newcar/basic'
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import type { Color } from '@newcar/utils'
+import type { DateTime, DateTimeUnit } from 'luxon'
 import type { ChartLayout } from './chartLayout'
 import type { ChartDataUnit } from './chartDataUnit'
 
@@ -28,7 +29,7 @@ export interface ChartAxisOptions extends WidgetOptions {
    * It is optional.
    * If not provided, the suggestedMin will be `0` when `beginAtZero` is `true` and `undefined` when `beginAtZero` is `false`.
    */
-  suggestedMin?: number
+  suggestedMin?: number | DateTime
   /**
    * @property number suggestedMax
    * @description
@@ -37,7 +38,7 @@ export interface ChartAxisOptions extends WidgetOptions {
    * It is optional.
    * If not provided, the suggestedMax will be `undefined`.
    */
-  suggestedMax?: number
+  suggestedMax?: number | DateTime
   /**
    * @property Color girdColor
    * @description
@@ -57,6 +58,25 @@ export interface ChartAxisOptions extends WidgetOptions {
 }
 
 /**
+ * DateTimeFormatOptions
+ * @interface
+ * @category General
+ * @description
+ * DateTimeFormatOptions is an interface that defines the options of the date time format.
+ */
+export interface DateTimeFormatOptions {
+  year: 'year'
+  quarter: 'quarter'
+  month: 'month' | 'monthShort' | 'monthLong'
+  week: 'weekNumber'
+  day: 'day' | 'weekday' | 'localWeekNumber' | 'weekdayLong' | 'weekdayShort' | 'ordinal'
+  hour: 'hour'
+  minute: 'minute'
+  second: 'second'
+  millisecond: 'millisecond'
+}
+
+/**
  * BaseChartOptions
  * @interface
  * @category General
@@ -72,6 +92,32 @@ export interface BaseChartOptions extends ChartAxisOptions {
    * If not provided, the index-axis will be 'x'.
    */
   indexAxis?: 'x' | 'y'
+  /**
+   * @property 'number' | 'label' | 'date' indexType
+   * @description
+   * indexType is a string that represents the type of the index-axis.
+   * To be noted that the indexType can't be mixed in a chart.
+   * It is optional.
+   * If not provided, the indexType will be 'label' when labels are provided as strings,
+   * 'date' when labels are provided as DateTimes or {@link ChartDataUnit#isIndexDate} are DateTimes.
+   * and 'number' when {@link ChartDataUnit#isIndexDate} are not DateTimes.
+   */
+  indexType?: 'label' | 'number' | 'date'
+  /**
+   * @property DateTimeUnit indexIntervalUnit
+   * @description
+   * indexIntervalUnit is a string that represents the interval unit of the index-axis.
+   * To be noted that the indexIntervalUnit only works when the indexType is 'date'.
+   * It is optional.
+   * If not provided, the indexIntervalUnit will be generated automatically.
+   */
+  indexIntervalUnit?: DateTimeUnit
+  /**
+   * @property DateTimeFormatOptions dateFormatOptions
+   * @description
+   * dateFormatOptions is an object that defines the options of the date time format.
+   */
+  dateFormatOptions?: DateTimeFormatOptions
   /**
    * @property object axis
    * @description
@@ -223,7 +269,7 @@ export interface BaseChartData {
    * It is optional.
    * If not provided, the labels will be generated automatically.
    */
-  labels?: string[]
+  labels?: string[] | DateTime[]
   /**
    * @property BaseChartDataSet[] datasets
    * @description

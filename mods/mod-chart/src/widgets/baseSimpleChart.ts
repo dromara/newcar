@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon'
 import type { BaseChartData, BaseChartDataSet, BaseChartOptions, BaseChartStyle } from './baseChart'
 import { BaseChart } from './baseChart'
 import type { ChartDataUnit } from './chartDataUnit'
@@ -72,6 +73,14 @@ export class BaseSimpleChart extends BaseChart {
   ) {
     options ??= {}
     super(options)
+
+    this.data.datasets.forEach((dataset) => {
+      dataset.data.forEach((dataUnit, index) => {
+        if (!dataUnit.index && this.data.labels && this.data.labels[index] instanceof DateTime)
+          dataUnit.index = <DateTime> this.data.labels[index]
+      })
+    })
+
     this.layout = options.layout ?? new ChartLayout(data, {
       size: {
         width: options.size.width ?? 300,
@@ -80,6 +89,13 @@ export class BaseSimpleChart extends BaseChart {
       ...options,
       x: 0,
       y: 0,
+    })
+
+    this.data.datasets.forEach((dataset) => {
+      dataset.data.forEach((dataUnit, index) => {
+        if (!(!dataUnit.isIndexDate() && dataUnit.index) && this.data.labels && typeof this.data.labels[index] === 'string')
+          dataUnit.index = this.layout.index.pos[index]
+      })
     })
 
     if (!options.layout)

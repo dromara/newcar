@@ -49,7 +49,7 @@ export interface BubbleChartData extends LineChartData {
  * The BubbleChart is a variation of the ScatterChart that displays three dimensions of data.
  * Each point on the chart is represented by a circle, where the index and cross axis coordinates represent the first two dimensions,
  * and the size of the circle represents the third dimension.
- * In fact, the BubbleChart is a LineChart with the `showLine` option set to `false` and the `animateIndex` option set to `true`.
+ * In fact, the BubbleChart is a LineChart with the `showLine` option set to `false` and the `animateIndex` option set to `true` when the index type is a number
  * (which means it is actually the same as the ScatterChart)
  */
 export class BubbleChart extends LineChart {
@@ -83,7 +83,7 @@ export class BubbleChart extends LineChart {
       ...data,
       style: {
         showLine: false,
-        animateIndex: true,
+        animateIndex: this.layout.indexType === 'number',
         ...data.style,
       },
     }

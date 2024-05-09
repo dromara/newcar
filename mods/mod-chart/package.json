@@ -28,6 +28,8 @@
     "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
     "@newcar/utils": "workspace:*",
+    "@types/luxon": "^3.4.2",
+    "luxon": "^3.4.4",
     "string-width": "^7.1.0"
   },
   "devDependencies": {

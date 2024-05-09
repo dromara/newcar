@@ -3,7 +3,9 @@ import type { WidgetStyle } from '@newcar/core'
 import type { Paint } from 'canvaskit-wasm'
 import { Color } from '@newcar/utils'
 import stringWidth from 'string-width'
-import type { BaseChartData, BaseChartOptions } from './baseChart'
+import type { DateTimeUnit } from 'luxon'
+import { DateTime } from 'luxon'
+import type { BaseChartData, BaseChartOptions, DateTimeFormatOptions } from './baseChart'
 import { BaseChart } from './baseChart'
 
 /**
@@ -30,11 +32,11 @@ interface ChartAxis {
   /**
    * Suggested minimum value.
    */
-  suggestedMin: number
+  suggestedMin: number | DateTime
   /**
    * Suggested maximum value.
    */
-  suggestedMax: number
+  suggestedMax: number | DateTime
   /**
    * Grid color.
    */
@@ -63,6 +65,10 @@ interface ChartAxis {
    * Positions of the grid lines and the ticks.
    */
   posLine?: number[]
+  /**
+   * Label texts.
+   */
+  labelTexts?: string[]
   /**
    * Axis line.
    */
@@ -137,6 +143,31 @@ export class ChartLayout extends BaseChart {
    */
   indexAxis: 'x' | 'y'
   /**
+   * The type of the index-axis.
+   * @public
+   * @type 'label' | 'number' | 'date'
+   * @default 'label'
+   * @description
+   * {@link BaseChartOptions#indexType}
+   */
+  indexType: 'label' | 'number' | 'date'
+  /**
+   * The interval unit of the index-axis.
+   * @public
+   * @type DateTimeUnit
+   * @description
+   * {@link BaseChartOptions#indexIntervalUnit}
+   */
+  indexIntervalUnit?: DateTimeUnit
+  /**
+   * The date format options of the index-axis.
+   * @public
+   * @type DateTimeFormatOptions
+   * @description
+   * {@link BaseChartOptions#dateFormatOptions}
+   */
+  dateFormatOptions?: DateTimeFormatOptions
+  /**
    * Whether the grid aligns with the index-axis.
    * @public
    * @type boolean
@@ -189,20 +220,46 @@ export class ChartLayout extends BaseChart {
     super(options)
     this.size = options.size ?? { width: 300, height: 300 }
     this.indexAxis = options.indexAxis ?? 'x'
+    this.indexType = options.indexType
+    ?? (data.labels && data.labels.every(label => (typeof label === 'string')))
+      ? 'label'
+      : (data.labels && data.labels.every(label => (label instanceof DateTime)))
+      || (data.datasets.flatMap(set => (set.data.map(unit => (unit.isIndexDate())))).every(isDate => (isDate)))
+          ? 'date'
+          : 'number'
+    this.indexIntervalUnit = options.indexIntervalUnit
+    this.dateFormatOptions = {
+      year: 'year',
+      quarter: 'quarter',
+      month: 'monthLong',
+      week: 'weekNumber',
+      day: 'weekdayLong',
+      hour: 'hour',
+      minute: 'minute',
+      second: 'second',
+      millisecond: 'millisecond',
+      ...options.dateFormatOptions,
+    }
     this.gridAlign = options.gridAlign ?? true
     this.edgeOffset = options.edgeOffset ?? false
+
+    // indexType validation
+    if (this.indexType === 'label' && !data.labels)
+      throw new Error('indexType is label but labels are not provided')
+    if (this.indexType === 'date' && data.datasets.flatMap(set => (set.data.map(unit => (unit.isIndexDate())))).some(isDate => (!isDate)))
+      throw new Error('indexType is date but some index/labels are not DateTimes')
+    if (this.indexType === 'number' && data.datasets.flatMap(set => (set.data.map(unit => (unit.isIndexDate())))).some(isDate => (isDate)))
+      throw new Error('indexType is number but some index are DateTimes')
 
     this.index = {
       suggestedMin: options.axis?.index?.suggestedMin
       ?? options.suggestedMin
       ?? (options.axis?.index?.beginAtZero ?? true)
         ? 0
-        : Number.MAX_VALUE,
+        : Number.POSITIVE_INFINITY,
       suggestedMax: options.axis?.index?.suggestedMax
       ?? options.suggestedMax
-      ?? (options.axis?.index?.beginAtZero ?? true)
-        ? Number.MIN_VALUE
-        : 0,
+      ?? Number.NEGATIVE_INFINITY,
       gridColor: options.axis?.index?.gridColor ?? options.gridColor ?? Color.WHITE,
       gridWidth: options.axis?.index?.gridWidth ?? options.gridWidth ?? 1,
       min: 0,
@@ -210,6 +267,7 @@ export class ChartLayout extends BaseChart {
       interval: 0,
       pos: [],
       posLine: [],
+      labelTexts: [],
       ticks: [],
       grids: [],
       labels: [],
@@ -227,29 +285,42 @@ export class ChartLayout extends BaseChart {
       },
     )
 
-    if (data.labels) {
+    if (this.indexType === 'label') {
       this.index.min = 0
-      this.index.max = this.gridAlign ? data.labels.length : data.labels.length - 1
+      this.index.max = data.labels.length - 1
       this.index.interval = 1
       for (let i = 0; i < data.labels.length; i++)
-        this.index.pos.push(this.gridAlign ? i + 0.5 : i)
-      for (let i = 0; i < data.labels.length; i++)
-        this.index.posLine.push(i)
-      if (this.gridAlign)
-        this.index.posLine.push(data.labels.length)
-      if (this.edgeOffset) {
-        this.index.min -= 0.5
-        this.index.max += 0.5
-        this.index.posLine.unshift(-0.5)
-        this.index.posLine.push(data.labels.length - 0.5)
-      }
+        this.index.pos.push(i)
+      this.index.labelTexts = data.labels.map(label => (label.toString()))
+    }
+    else if (this.indexType === 'date') {
+      this.generateDateAxisRange(
+        this.index,
+        data.datasets.flatMap(set => (set.data.map(unit => (unit.indexDate())))),
+      )
+      this.data.datasets.forEach((dataset) => {
+        dataset.data.forEach((dataUnit) => {
+          dataUnit.intervalUnit = this.indexIntervalUnit
+        })
+      })
     }
     else {
       this.generateAxisRange(
         this.index,
         data.datasets.flatMap(set => (set.data.map(unit => (unit.index)))),
       )
-      this.index.posLine = this.index.pos
+    }
+    this.index.posLine = [...this.index.pos]
+    if (this.gridAlign) {
+      this.index.max += this.index.interval
+      this.index.pos = this.index.pos.map(pos => (pos + 0.5 * this.index.interval))
+      this.index.posLine.push(this.index.posLine[this.index.posLine.length - 1] + this.index.interval)
+    }
+    if (this.edgeOffset) {
+      this.index.min -= 0.5 * this.index.interval
+      this.index.max += 0.5 * this.index.interval
+      this.index.posLine.unshift(-0.5 * this.index.interval)
+      this.index.posLine.push(this.index.posLine[this.index.posLine.length - 1] + 0.5 * this.index.interval)
     }
 
     this.cross = {
@@ -295,12 +366,12 @@ export class ChartLayout extends BaseChart {
       this.index.axis.from = [0, this.size.height]
       this.index.axis.to = [this.size.width, this.size.height]
 
-      this.index.pos.forEach((pos) => {
+      this.index.pos.forEach((pos, index) => {
         this.index.labels.push(
           new Text(
             [
               {
-                text: pos.toString(),
+                text: this.index.labelTexts[index] ?? pos.toString(),
                 style: {
                   color: this.index.gridColor,
                   fontSize: 16,
@@ -347,30 +418,6 @@ export class ChartLayout extends BaseChart {
           ),
         )
       })
-
-      if (data.labels) {
-        this.index.pos.forEach((pos, index) => {
-          this.index.labels[index] = new Text(
-            [
-              {
-                text: data.labels[index],
-                style: {
-                  color: this.index.gridColor,
-                  fontSize: 16,
-                },
-              },
-            ],
-            {
-              x: (pos - this.index.interval / 2 - this.index.min) / (this.index.max - this.index.min) * this.size.width,
-              y: this.size.height + 4,
-              style: {
-                width: this.index.interval / (this.index.max - this.index.min) * this.size.width,
-                textAlign: 'center',
-              },
-            },
-          )
-        })
-      }
 
       this.cross.axis.from = [0, this.size.height]
       this.cross.axis.to = [0, 0]
@@ -433,7 +480,7 @@ export class ChartLayout extends BaseChart {
         this.index.labels[index] = new Text(
           [
             {
-              text: pos.toString(),
+              text: this.index.labelTexts[index] ?? pos.toString(),
               style: {
                 color: this.index.gridColor,
                 fontSize: 16,
@@ -441,10 +488,10 @@ export class ChartLayout extends BaseChart {
             },
           ],
           {
-            x: -8 - stringWidth(pos.toString()) * 12,
+            x: -8 - stringWidth(this.index.labelTexts[index] ?? pos.toString()) * 12,
             y: this.size.height - 8 - (pos - this.index.min) / (this.index.max - this.index.min) * this.size.height,
             style: {
-              width: stringWidth(pos.toString()) * 12,
+              width: stringWidth(this.index.labelTexts[index] ?? pos.toString()) * 12,
               textAlign: 'right',
             },
           },
@@ -479,30 +526,6 @@ export class ChartLayout extends BaseChart {
           ),
         )
       })
-
-      if (data.labels) {
-        this.index.pos.forEach((pos, index) => {
-          this.index.labels[index] = new Text(
-            [
-              {
-                text: data.labels[index],
-                style: {
-                  color: this.index.gridColor,
-                  fontSize: 16,
-                },
-              },
-            ],
-            {
-              x: -8 - stringWidth(data.labels[index]) * 12,
-              y: this.size.height - 8 - (pos - this.index.min) / (this.index.max - this.index.min) * this.size.height,
-              style: {
-                width: stringWidth(data.labels[index]) * 12,
-                textAlign: 'right',
-              },
-            },
-          )
-        })
-      }
 
       this.cross.axis.from = [0, this.size.height]
       this.cross.axis.to = [this.size.width, this.size.height]
@@ -636,8 +659,8 @@ export class ChartLayout extends BaseChart {
    * @param data - The data.
    */
   private generateAxisRange(axis: ChartAxis, data: number[]) {
-    const minDataValue = Math.min(...data, axis.suggestedMin)
-    const maxDataValue = Math.max(...data, axis.suggestedMax)
+    const minDataValue = Math.min(...data, typeof axis.suggestedMin === 'number' ? axis.suggestedMin : Number.NEGATIVE_INFINITY)
+    const maxDataValue = Math.max(...data, typeof axis.suggestedMax === 'number' ? axis.suggestedMax : Number.POSITIVE_INFINITY)
     const range = maxDataValue - minDataValue
     const magnitude = Math.floor(Math.log10(range))
     axis.interval = 10 ** magnitude
@@ -650,5 +673,47 @@ export class ChartLayout extends BaseChart {
 
     for (let i = axis.min; i <= axis.max; i += axis.interval)
       axis.pos.push(i)
+  }
+
+  private generateDateAxisRange(axis: ChartAxis, data: DateTime[]) {
+    const dateTypes: DateTimeUnit[] = ['year', 'month', 'week', 'day', 'hour', 'minute', 'second', 'millisecond']
+    const minDataValue = DateTime.min(...data, axis.suggestedMin instanceof DateTime ? axis.suggestedMin : data[0])
+    const maxDataValue = DateTime.max(...data, axis.suggestedMax instanceof DateTime ? axis.suggestedMax : data[0])
+    let range = maxDataValue.diff(minDataValue, dateTypes).toObject()
+    axis.interval = 1
+    if (this.indexIntervalUnit === undefined) {
+      for (const dateType of dateTypes) {
+        if (range[`${dateType}s`] !== 0) {
+          this.indexIntervalUnit = dateType
+          break
+        }
+      }
+    }
+    while (dateTypes.shift() !== this.indexIntervalUnit) {
+      //
+    }
+    dateTypes.unshift(this.indexIntervalUnit)
+
+    let date = minDataValue.startOf(this.indexIntervalUnit)
+    range = maxDataValue.diff(date, dateTypes).toObject()
+    for (const dateType of dateTypes) {
+      if (dateType !== this.indexIntervalUnit) {
+        if (range[`${dateType}s`] > 0) {
+          range[`${this.indexIntervalUnit}s`]++
+          break
+        }
+      }
+    }
+    // if (range[`${this.indexIntervalUnit}s`] < 5)
+    //   axis.interval /= (Math.ceil(range[`${this.indexIntervalUnit}s`]) === 2 ? 4 : 2)
+    axis.min = minDataValue.startOf(this.indexIntervalUnit)
+      .get(this.indexIntervalUnit !== 'week' ? this.indexIntervalUnit : 'weekYear')
+    axis.max = axis.min + range[`${this.indexIntervalUnit}s`]
+
+    for (let i = axis.min; i <= axis.max; i += axis.interval) {
+      axis.pos.push(i)
+      axis.labelTexts.push(date[this.dateFormatOptions[this.indexIntervalUnit]].toString())
+      date = date.plus({ [this.indexIntervalUnit]: axis.interval })
+    }
   }
 }

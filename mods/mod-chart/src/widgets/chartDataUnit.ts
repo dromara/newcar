@@ -1,4 +1,6 @@
 import { Widget, type WidgetOptions } from '@newcar/core'
+import type { DateTimeUnit } from 'luxon'
+import { DateTime } from 'luxon'
 
 /**
  * ChartDataOptions
@@ -23,7 +25,7 @@ export interface ChartDataOptions<ChartStyle> extends WidgetOptions {
  * @property {number} [weight] - Weight value (display forms may differ depending on the chart type)
  */
 export interface ChartData {
-  index?: number
+  index?: number | DateTime
   cross?: number
   weight?: number
 }
@@ -45,6 +47,12 @@ export class ChartDataUnit<ChartStyle> extends Widget {
   declare style: ChartStyle
 
   /**
+   * Interval unit
+   * @type {DateTimeUnit}
+   */
+  intervalUnit?: DateTimeUnit
+
+  /**
    * ChartDataUnit constructor
    * @public
    * @param {number | ChartData} value - Value
@@ -62,8 +70,35 @@ export class ChartDataUnit<ChartStyle> extends Widget {
   /**
    * Index value
    */
-  get index() {
-    return (<ChartData> this.value).index
+  get index(): number {
+    if (!((<ChartData> this.value).index instanceof DateTime)) {
+      return <number>(<ChartData> this.value).index
+    }
+    else {
+      const date = <DateTime> (<ChartData> this.value).index
+      if (!this.intervalUnit)
+        throw new Error('Interval unit is not set')
+      const start = date.startOf(this.intervalUnit)
+      const end = date.endOf(this.intervalUnit)
+      if (this.intervalUnit !== 'week')
+        return start.get(this.intervalUnit) + date.diff(start).as('milliseconds') / (end.diff(start).as('milliseconds'))
+      else
+        return start.get('weekNumber') + date.diff(start).as('milliseconds') / (end.diff(start).as('milliseconds'))
+    }
+  }
+
+  /**
+   * returns the index value as a DateTime
+   */
+  indexDate() {
+    return <DateTime> (<ChartData> this.value).index
+  }
+
+  /**
+   * returns whether the index value is a DateTime
+   */
+  isIndexDate() {
+    return (<ChartData> this.value).index instanceof DateTime
   }
 
   /**
@@ -84,7 +119,7 @@ export class ChartDataUnit<ChartStyle> extends Widget {
    * Set index value
    * @param index
    */
-  set index(index: number) {
+  set index(index: number | DateTime) {
     (<ChartData> this.value).index = index
   }
 

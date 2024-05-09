@@ -47,7 +47,7 @@ export interface ScatterChartData extends LineChartData {
  * @extends LineChart
  * @description
  * The ScatterChart is a variation of the LineChart that displays individual data points.
- * In fact, the ScatterChart is a LineChart with the `showLine` option set to `false` and the `animateIndex` option set to `true`.
+ * In fact, the ScatterChart is a LineChart with the `showLine` option set to `false` and the `animateIndex` option set to `true` when the index type is a number.
  */
 export class ScatterChart extends LineChart {
   declare style: ScatterChartStyle
@@ -71,7 +71,7 @@ export class ScatterChart extends LineChart {
       style: {
         ...data.style,
         showLine: false,
-        animateIndex: true,
+        animateIndex: this.layout.indexType === 'number',
       },
     }
   }
