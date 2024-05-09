@@ -341,7 +341,7 @@ const sceneChart5 = new nc.Scene(
       x: 50,
       y: 50,
       indexAxis: 'x',
-      endColumn: false,
+      gridAlign: false,
     },
   )
     .animate(nc.create, 0, 100),

@@ -1,7 +1,29 @@
+/**
+ * Calculate the distance between two points
+ * @param current - The current point
+ * @param current.x
+ * @param current.y
+ * @param previous - The previous point
+ * @param previous.x
+ * @param previous.y
+ */
 function distanceBetweenPoints(current: { x: number, y: number }, previous: { x: number, y: number }) {
   return Math.sqrt((current.x - previous.x) ** 2 + (current.y - previous.y) ** 2)
 }
 
+/**
+ * Calculate the spline curve
+ * @param firstPoint - The first point
+ * @param firstPoint.x
+ * @param firstPoint.y
+ * @param middlePoint - The middle point
+ * @param middlePoint.x
+ * @param middlePoint.y
+ * @param afterPoint - The after point
+ * @param afterPoint.x
+ * @param afterPoint.y
+ * @param t - The tension
+ */
 export function splineCurve(
   firstPoint: { x: number, y: number },
   middlePoint: { x: number, y: number },
@@ -39,6 +61,14 @@ export function splineCurve(
   }
 }
 
+/**
+ * Calculate the bezier control points
+ * @param points - The points
+ * @param points.x
+ * @param points.y
+ * @param tension - The tension
+ * @param loop - Whether the points are loop
+ */
 export function bezierControlPoints(
   points: { x: number, y: number }[],
   tension: number,

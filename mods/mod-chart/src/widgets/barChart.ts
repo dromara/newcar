@@ -1,6 +1,6 @@
 import { Rect } from '@newcar/basic'
 import { Color } from '@newcar/utils'
-import type { CanvasKit, Paint } from 'canvaskit-wasm'
+import type { CanvasKit } from 'canvaskit-wasm'
 import type {
   BaseSimpleChartData,
   BaseSimpleChartDataSet,
@@ -10,41 +10,109 @@ import type {
 import { BaseSimpleChart } from './baseSimpleChart'
 import type { ChartDataUnit } from './chartDataUnit'
 
+/**
+ * BarChart options.
+ * @public
+ * @interface
+ * @category BarChart
+ * @extends BaseSimpleChartOptions
+ * @property categoryPercentage - The percentage of the category width in the grid width. Default is 0.8.
+ * @property barPercentage - The percentage of the bar width in the category width. Default is 0.8.
+ */
 export interface BarChartOptions extends BaseSimpleChartOptions {
   categoryPercentage?: number
   barPercentage?: number
 }
 
+/**
+ * BarChart style.
+ * @public
+ * @interface
+ * @category BarChart
+ * @extends BaseSimpleChartStyle
+ * @property borderRadius - The border radius of the bar. Default is 0. Not supported yet.
+ */
 export interface BarChartStyle extends BaseSimpleChartStyle {
   borderRadius?: number
 }
 
+/**
+ * BarChart data set.
+ * @public
+ * @interface
+ * @category BarChart
+ * @extends BaseSimpleChartDataSet
+ * @property data - The data of the BarChart.
+ * @property style - The style of the data set.
+ */
 export interface BarChartDataSet extends BaseSimpleChartDataSet {
   data: ChartDataUnit<BarChartStyle>[]
   style?: BarChartStyle
 }
 
+/**
+ * BarChart data.
+ * @public
+ * @interface
+ * @category BarChart
+ * @extends BaseSimpleChartData
+ * @property datasets - The data sets of the bar chart.
+ * @property style - The style of the bar chart.
+ */
 export interface BarChartData extends BaseSimpleChartData {
   datasets: BarChartDataSet[]
   style?: BarChartStyle
 }
 
+/**
+ * BarChart widget.
+ * @public
+ * @category BarChart
+ * @class
+ * @extends BaseSimpleChart
+ */
 export class BarChart extends BaseSimpleChart {
+  /**
+   * The style of the BarChart.
+   * @public
+   * @type BarChartStyle
+   */
   declare style: BarChartStyle
+  /**
+   * The percentage of the category width in the grid width.
+   * @public
+   * @type number
+   * @default 0.8
+   */
   categoryPercentage: number
+  /**
+   * The percentage of the bar width in the category width.
+   * @public
+   * @type number
+   * @default 0.8
+   */
   barPercentage: number
 
-  paint: Paint
+  /**
+   * The bar sets of the BarChart.
+   */
   barSets: Rect[][]
 
+  /**
+   * Create a BarChart.
+   * @public
+   * @constructor
+   * @param data - The data of the BarChart.
+   * @param options - The options of the BarChart.
+   */
   constructor(
     public data: BarChartData,
     options?: BarChartOptions,
   ) {
     options ??= {}
     super(data, {
-      endColumn: true,
-      edgeOffset: !(options.endColumn ?? true),
+      gridAlign: true,
+      edgeOffset: !(options.gridAlign ?? true),
       ...options,
     })
 
