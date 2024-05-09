@@ -15,46 +15,162 @@ import {
 } from './baseSimpleChart'
 import type { ChartDataUnit } from './chartDataUnit'
 
+/**
+ * LineChart options.
+ * @public
+ * @interface
+ * @category LineChart
+ * @extends BaseSimpleChartOptions
+ */
 export interface LineChartOptions extends BaseSimpleChartOptions {}
 
+/**
+ * LineChart style.
+ * @public
+ * @interface
+ * @category LineChart
+ * @extends BaseSimpleChartStyle
+ */
 export interface LineChartStyle extends BaseSimpleChartStyle {
+  /**
+   * @property number dotSize
+   * @description
+   * dotSize is a number that represents the size of the dots in the line chart.
+   * It is optional.
+   * If not provided, the dotSize will be `5`.
+   */
   dotSize?: number
+  /**
+   * @property number[] borderDashInterval
+   * @description
+   * borderDashInterval is an array of numbers that represents the intervals of the dashed border.
+   * It is optional.
+   * If not provided, the borderDashInterval will be `undefined`.
+   */
   borderDashInterval?: number[]
+  /**
+   * @property number borderDashOffset
+   * @description
+   * borderDashOffset is a number that represents the offset of the dashed border.
+   * It is optional.
+   * If not provided, the borderDashOffset will be `0`.
+   */
   borderDashOffset?: number
+  /**
+   * @property StrokeJoin borderJoinStyle
+   * @description
+   * borderJoinStyle is a string that represents the style of the border join.
+   * It is optional.
+   * If not provided, the borderJoinStyle will be `miter`.
+   */
   borderJoinStyle?: StrokeJoin
+  /**
+   * @property StrokeCap borderCapStyle
+   * @description
+   * borderCapStyle is a string that represents the style of the border cap.
+   * It is optional.
+   * If not provided, the borderCapStyle will be `butt`.
+   */
   borderCapStyle?: StrokeCap
+  /**
+   * @property number lineWidth
+   * @description
+   * lineWidth is a number that represents the width of the line in the line chart.
+   * It is optional.
+   * If not provided, the lineWidth will be `3`.
+   */
   lineWidth?: number
+  /**
+   * @property number tension
+   * @description
+   * tension is a number that represents the tension of the line in the line chart, which is used to create a Bézier curve.
+   * It is optional.
+   * If not provided, the tension will be `0.1`.
+   */
   tension?: number
+  /**
+   * @property boolean showLine
+   * @description
+   * showLine is a boolean that represents whether to show the line in the line chart.
+   * It is optional.
+   * If not provided, the showLine will be `true`.
+   */
   showLine?: boolean
+  /**
+   * @property boolean animateIndex
+   * @description
+   * animateIndex is a boolean that represents whether to add animation to the index value of the data points in the line chart.
+   * It is optional.
+   * If not provided, the animateIndex will be `false`.
+   */
   animateIndex?: boolean
 }
 
+/**
+ * LineChart dataset.
+ * @public
+ * @interface
+ * @category LineChart
+ * @extends BaseSimpleChartDataSet
+ */
 export interface LineChartDataSet extends BaseSimpleChartDataSet {
   data: ChartDataUnit<LineChartStyle>[]
   style?: LineChartStyle
 }
 
+/**
+ * LineChart data.
+ * @public
+ * @interface
+ * @category LineChart
+ * @extends BaseSimpleChartData
+ */
 export interface LineChartData extends BaseSimpleChartData {
   datasets: LineChartDataSet[]
   style?: LineChartStyle
 }
 
+/**
+ * Line chart widget.
+ * @public
+ * @category LineChart
+ * @class
+ * @extends BaseSimpleChart
+ * @description
+ * LineChart is a class that extends BaseSimpleChart and is used to create a line chart widget.
+ * In fact, LineChart can also be used to create a scatter chart and a bubble chart.
+ */
 export class LineChart extends BaseSimpleChart {
+  /**
+   * The style of the LineChart.
+   */
   declare style: LineChartStyle
-  categoryPercentage: number
-  barPercentage: number
 
+  /**
+   * The paths of the lines in the LineChart.
+   */
   paths: Path[]
+  /**
+   * The stroke paints for the lines in the LineChart.
+   */
   strokePaints: Paint[]
+  /**
+   * The dot sets of the LineChart.
+   */
   dotSets: Circle[][]
 
+  /**
+   * Create a LineChart.
+   * @param data - The data of the LineChart.
+   * @param options - The options of the LineChart.
+   */
   constructor(
     public data: LineChartData,
     options?: LineChartOptions,
   ) {
     options ??= {}
     super(data, {
-      endColumn: false,
+      gridAlign: false,
       ...options,
     })
 
