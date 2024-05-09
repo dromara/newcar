@@ -104,7 +104,12 @@ onMounted(async () => {
   </div>
   <div class="float-left">
     <div id="editor" class="fixed w-[50%] h-full" />
-    <canvas ref="canvas" class="fixed left-[50%] top-[4rem] bg-black" :width="width" :height="height" />
+    <canvas
+      ref="canvas" class="fixed left-[50%] top-[4rem] bg-black" width="1600" height="900" :style="{
+        width: `${width}px`,
+        height: `${height}px`,
+      }"
+    />
     <div id="canvas" class="w-[50%] fixed bottom-[25%] text-center left-[50%]">
       <button class="scale-[2]">
         <i class="fa fa-backward text-white m-5 hover:text-sky-300" />
