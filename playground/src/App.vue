@@ -25,14 +25,12 @@ const canvaskitFileIsChanged = ref(false)
 const errorMessage = ref('')
 
 const code = ref(
-`function animate(nc, app) {
-  const root = new nc.Circle(100).animate(nc.move, 0, 30, {
-    to: [200, 300]
-  })
-  const scene = new nc.Scene(root)
-  app.checkout(scene)
-  return app
-}
+`const root = new nc.Circle(100).animate(nc.move, 0, 30, {
+  to: [200, 300]
+})
+const scene = new nc.Scene(root)
+app.checkout(scene)
+return app
 `,
 )
 const defaultCodes
@@ -53,9 +51,8 @@ onMounted(async () => {
   let app = engine.createApp(canvas.value!)
   watch(isPause, (newvalue, _oldvalue) => {
     if (!newvalue) {
-      (function (_nc, _app: nc.App) {
-        eval(`(${editor.getValue()})(_nc, _app)`)
-      })(nc, app)
+      // eslint-disable-next-line no-new-func
+      new Function('nc', 'app', editor.getValue())(nc, app)
       app.play()
     }
     else {
@@ -123,19 +120,6 @@ onMounted(async () => {
       </button>
     </div>
   </div>
-  <template v-if="newPageIsDisplay">
-    <div class="fixed top-16 right-0 bg-gray-600 border-2 border-gray-300 h-24 w-96">
-      <input class="relative top-2 h-8 w-[23rem] left-2 right-2 rounded-2xl">
-      <div class="relative top-4 px-2">
-        <button class="bg-sky-300 w-[11rem] h-8 float-left rounded-2xl">
-          Yes
-        </button>
-        <button class="bg-gray-300 w-[11rem] h-8 float-right rounded-2xl">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </template>
   <template v-if="settingsIsDisplay">
     <div class="fixed top-[15%] w-[70%] h-[70%] left-[15%] bg-gray-600 border border-gray-300">
       <div class="w-full bg-gray-800 h-8">
