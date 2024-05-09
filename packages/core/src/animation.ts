@@ -29,7 +29,7 @@ export function defineAnimation<T extends Widget>(
 /**
  * The Animation that have get instanted.
  */
-export interface AnimationInstance {
+export interface AnimationInstance<T extends Widget> {
   /**
    * The animation's started time.
    */
@@ -43,7 +43,7 @@ export interface AnimationInstance {
   /**
    * The object Animation.
    */
-  animation: Animation<Widget>
+  animation: Animation<T>
 
   /**
    * The other parameters.

@@ -3,7 +3,7 @@ import type { Widget } from './widget'
 /**
  * The event interface.
  */
-export interface Event {
+export interface Event<T> {
   /**
    * The operation when set event.
    * @param widget The widget's self.
@@ -12,21 +12,21 @@ export interface Event {
    * @returns
    */
   operation: (
-    widget: Widget,
+    widget: T,
     effect: (widget: Widget, ...arg: any[]) => any,
     element: HTMLCanvasElement,
   ) => void
 }
 
-export function defineEvent(event: Event): Event {
+export function defineEvent<T extends Widget>(event: Event<T>): Event<T> {
   return event
 }
 
-export interface EventInstance {
+export interface EventInstance<T extends Widget> {
   /**
    * The event object.
    */
-  event: Event
+  event: Event<T>
 
   /**
    * The effected function.
