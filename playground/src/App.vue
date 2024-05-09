@@ -5,14 +5,19 @@ import * as monaco from 'monaco-editor'
 import type { Ref } from 'vue'
 import { onMounted, ref, watch } from 'vue'
 import * as nc from 'newcar'
+import writeText from 'clipboard-copy'
 
 const width = ref(window.innerWidth / 2)
 const height = ref(width.value / 16 * 9)
 
 const isPause = ref(true)
+const newPageIsDisplay = ref(false)
 
-const defaultCodes
-= `function animate(nc, app) {
+const paramsStr = window.location.search
+const params = new URLSearchParams(paramsStr)
+const codes = params.get('codes')
+const code = ref(
+`function animate(nc, app) {
   const root = new nc.Circle(100).animate(nc.move, 0, 30, {
     to: [200, 300]
   })
@@ -20,9 +25,13 @@ const defaultCodes
   app.checkout(scene)
   return app
 }
-`
+`,
+)
+const defaultCodes
+= codes ?? code.value
 
 const canvas: Ref<HTMLCanvasElement | null> = ref(null)
+const share: Ref<HTMLElement | null> = ref(null)
 
 onMounted(async () => {
   const editor = monaco.editor.create(document.getElementById('editor')!, {
@@ -48,6 +57,12 @@ onMounted(async () => {
   editor.onDidChangeModelContent((_event) => {
     isPause.value = true
   })
+  share.value!.onclick = () => {
+    writeText(`https://playground.newcarjs.org/?codes=${editor.getValue()}`).then(() => {
+      // eslint-disable-next-line no-alert
+      window.alert('Shared link has been copied!')
+    })
+  }
 })
 </script>
 
@@ -58,8 +73,8 @@ onMounted(async () => {
       <li class="text-white m-3 text-center items-center text-3xl font-thin float-left select-none">
         Newcar Playground
       </li>
-      <li class="text-white m-4 text-center items-center text-2xl font-thin float-right hover:text-sky-300 select-none">
-        New +
+      <li ref="share" class="text-white m-4 text-center items-center text-2xl font-thin float-right hover:text-sky-300 select-none">
+        Share <i class="fa fa-share" />
       </li>
       <li class="text-white m-4 text-center items-center text-2xl font-thin float-right hover:text-sky-300 select-none">
         Settings <i class="fa fa-cogs" />
@@ -84,4 +99,17 @@ onMounted(async () => {
       </button>
     </div>
   </div>
+  <template v-if="newPageIsDisplay">
+    <div class="fixed top-16 right-0 bg-gray-600 border-2 border-gray-300 h-24 w-96">
+      <input class="relative top-2 h-8 w-[23rem] left-2 right-2 rounded-2xl">
+      <div class="relative top-4 px-2">
+        <button class="bg-sky-300 w-[11rem] h-8 float-left rounded-2xl">
+          Yes
+        </button>
+        <button class="bg-gray-300 w-[11rem] h-8 float-right rounded-2xl">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </template>
 </template>
