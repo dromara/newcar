@@ -1,5 +1,11 @@
 # @newcar/playground
 
+## 0.4.0
+
+### Minor Changes
+
+- reactivity
+
 ## 0.3.1
 
 ### Patch Changes
