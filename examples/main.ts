@@ -6,6 +6,7 @@ import { Markdown } from '@newcar/mod-markdown'
 // import { Tex } from '@newcar/mod-math'
 
 import * as nc from 'newcar'
+import { DateTime, Duration } from 'luxon'
 
 await nc.useFont(
   'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
@@ -92,7 +93,12 @@ const scene7 = new nc.Scene(new Brace([0, 0], [200, 200]))
 const sceneChart1 = new nc.Scene(
   new BarChart(
     {
-      labels: ['AB', 'BB', 'CB', 'DB'],
+      labels: ChartUtil.dateSequence(
+        DateTime.fromISO('2021-01-01').setLocale('en-US'),
+        Duration.fromObject({ months: 4 }),
+        'month',
+        1,
+      ),
       datasets: [
         {
           label: 'Bar 1',
@@ -254,28 +260,24 @@ const sceneChart4 = new nc.Scene(
 )
 
 const sceneChart5 = new nc.Scene(
-  new MixedChart<typeof BarChart | typeof LineChart>(
+  new MixedChart<typeof BarChart | typeof LineChart | typeof BubbleChart>(
     [
       {
         Chart: LineChart,
         data: {
-          labels: ['AB', 'BB', 'CB', 'DB'],
+          labels: ChartUtil.dateSequence(
+            DateTime.fromISO('2021-02-01').setLocale('en-US'),
+            Duration.fromObject({ months: 3.5 }),
+            'month',
+            0.5,
+          ),
           datasets: [
             {
               label: 'Line 1',
-              data: ChartUtil.dataUnits([2, 5, -15, 14]),
+              data: ChartUtil.dataUnits([2, 5, -15, 14, 2, 5, 3]),
               style: {
                 backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
                 borderColor: Color.parse('#66CCFF'),
-              },
-            },
-            {
-              label: 'Line 2',
-              data: ChartUtil.dataUnits([14, -5, 4, 0]),
-              style: {
-                backgroundColor: Color.parse('#00FFFF').withAlpha(0.2),
-                borderColor: Color.parse('#00FFFF'),
-                showLine: false,
               },
             },
           ],
@@ -287,7 +289,12 @@ const sceneChart5 = new nc.Scene(
       {
         Chart: BarChart,
         data: {
-          labels: ['AB', 'BB', 'CB', 'DB'],
+          labels: ChartUtil.dateSequence(
+            DateTime.fromISO('2021-02-01').setLocale('en-US'),
+            Duration.fromObject({ months: 4 }),
+            'month',
+            1,
+          ),
           datasets: [
             {
               label: 'Bar 1',
@@ -334,6 +341,31 @@ const sceneChart5 = new nc.Scene(
         },
         options: {
           indexAxis: 'y',
+        },
+      },
+      {
+        Chart: BubbleChart,
+        data: {
+          datasets: [
+            {
+              label: 'Bubble 1',
+              data: ChartUtil.dataUnits([
+                { index: DateTime.fromISO('2021-02-08'), cross: 2, weight: 25 },
+                { index: DateTime.fromISO('2021-02-14'), cross: 5, weight: 10 },
+                { index: DateTime.fromISO('2021-03-08'), cross: -15, weight: 15 },
+                { index: DateTime.fromISO('2021-04-29'), cross: 14, weight: 20 },
+                { index: DateTime.fromISO('2021-02-28'), cross: 12, weight: 8 },
+                { index: DateTime.fromISO('2021-03-29'), cross: 10, weight: 5 },
+                { index: DateTime.fromISO('2021-03-17'), cross: 0, weight: 15 },
+              ]),
+              style: {
+                backgroundColor: Color.parse('#FF00FF').withAlpha(0.2),
+                borderColor: Color.parse('#FF00FF'),
+              },
+            },
+          ],
+        },
+        options: {
         },
       },
     ],

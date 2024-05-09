@@ -6,6 +6,7 @@
  * @description
  * This module provides utility functions for the chart widgets.
  */
+import type { DateTime, DateTimeUnit, Duration } from 'luxon'
 import type { ChartData, ChartDataOptions } from '../widgets'
 import { ChartDataUnit } from '../widgets'
 
@@ -24,4 +25,18 @@ import { ChartDataUnit } from '../widgets'
  */
 export function dataUnits<ChartStyle>(data: (number | ChartData)[], options?: ChartDataOptions<ChartStyle>): ChartDataUnit<ChartStyle>[] {
   return data.map(value => new ChartDataUnit(value, options))
+}
+
+/**
+ * Generate a sequence of dates.
+ * @param start
+ * @param duration
+ * @param intervalUnit
+ * @param interval
+ */
+export function dateSequence(start: DateTime, duration: Duration, intervalUnit: DateTimeUnit, interval: number = 1): DateTime[] {
+  const sequence = []
+  for (let i = 0; start.startOf(intervalUnit).plus({ [intervalUnit]: i }) < start.startOf(intervalUnit).plus(duration); i += interval)
+    sequence.push(start.startOf(intervalUnit).plus({ [intervalUnit]: i }))
+  return sequence
 }

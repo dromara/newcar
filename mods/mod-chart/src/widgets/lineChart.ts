@@ -174,14 +174,6 @@ export class LineChart extends BaseSimpleChart {
       ...options,
     })
 
-    if (data.labels) {
-      data.datasets.forEach((set) => {
-        set.data.forEach((unit, index) => {
-          unit.index = this.layout.index.pos[index]
-        })
-      })
-    }
-
     this.dotSets = this.data.datasets.map((set) => {
       set.style ??= {}
       set.style.backgroundColor ??= this.data.style?.backgroundColor ?? Color.WHITE.withAlpha(0.2)
