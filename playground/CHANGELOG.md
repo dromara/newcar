@@ -1,5 +1,11 @@
 # @newcar/playground
 
+## 0.3.1
+
+### Patch Changes
+
+- fix: Failed to load widgets after build with vite
+
 ## 0.3.0
 
 ### Minor Changes
