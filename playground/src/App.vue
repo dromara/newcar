@@ -3,7 +3,7 @@
 <script setup lang="ts">
 import * as monaco from 'monaco-editor'
 import type { Ref } from 'vue'
-import { Suspense, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import * as nc from 'newcar'
 
 const width = ref(window.innerWidth / 2)
@@ -23,9 +23,8 @@ const defaultCodes
 `
 
 const canvas: Ref<HTMLCanvasElement | null> = ref(null)
-const engine = new nc.CarEngine().init('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm')
 
-onMounted(() => {
+onMounted(async () => {
   const editor = monaco.editor.create(document.getElementById('editor')!, {
     value: defaultCodes,
     language: 'javascript',
@@ -33,22 +32,17 @@ onMounted(() => {
     theme: 'vs-dark',
     fontSize: 16,
   })
-  const app = engine.then((e) => {
-    return e.createApp(canvas.value!)
-  })
+  const engine = await new nc.CarEngine().init('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm')
+  const app = engine.createApp(canvas.value!)
   watch(isPause, (newvalue, _oldvalue) => {
     if (!newvalue) {
-      app.then((a) => {
-        (function (_nc, _app: nc.App) {
-          eval(`(${editor.getValue()})(_nc, _app)`)
-        })(nc, a)
-        a.play()
-      })
+      (function (_nc, _app: nc.App) {
+        eval(`(${editor.getValue()})(_nc, _app)`)
+      })(nc, app)
+      app.play()
     }
     else {
-      app.then((a) => {
-        a.pause()
-      })
+      app.pause()
     }
   })
   editor.onDidChangeModelContent((_event) => {
@@ -74,16 +68,15 @@ onMounted(() => {
   </div>
   <div class="float-left">
     <div id="editor" class="fixed w-[50%] h-full" />
-    <Suspense>
-      <canvas ref="canvas" class="fixed left-[50%] top-[4rem] bg-black" :width="width" :height="height" />
-    </Suspense><div id="canvas" class="w-[50%] fixed bottom-[25%] text-center left-[50%]">
+    <canvas ref="canvas" class="fixed left-[50%] top-[4rem] bg-black" :width="width" :height="height" />
+    <div id="canvas" class="w-[50%] fixed bottom-[25%] text-center left-[50%]">
       <button class="scale-[2]">
         <i class="fa fa-backward text-white m-5 hover:text-sky-300" />
       </button>
       <button v-if="isPause" class="scale-[2]">
         <i class="fa fa-play text-white m-5 hover:text-sky-300" @click="isPause = false" />
       </button>
-      <button v-else>
+      <button v-else class="scale-[2]">
         <i class="fa fa-pause text-white m-5 hover:text-sky-300" @click="isPause = true" />
       </button>
       <button class="scale-[2]">
