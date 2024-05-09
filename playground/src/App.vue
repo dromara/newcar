@@ -11,19 +11,27 @@ const width = ref(window.innerWidth / 2)
 const height = ref(width.value / 16 * 9)
 
 const isPause = ref(true)
-const newPageIsDisplay = ref(false)
+
+const settingsIsDisplay = ref(false)
 
 const paramsStr = window.location.search
 const params = new URLSearchParams(paramsStr)
 const codes = params.get('codes')
+
+const canvaskit = defineModel()
+canvaskit.value = 'https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm'
+const canvaskitFileIsChanged = ref(false)
+
+const errorMessage = ref('')
+
 const code = ref(
 `function animate(nc, app) {
   const root = new nc.Circle(100).animate(nc.move, 0, 30, {
     to: [200, 300]
-  });
-  const scene = new nc.Scene(root);
-  app.checkout(scene);
-  return app;
+  })
+  const scene = new nc.Scene(root)
+  app.checkout(scene)
+  return app
 }
 `,
 )
@@ -41,8 +49,8 @@ onMounted(async () => {
     theme: 'vs-dark',
     fontSize: 16,
   })
-  const engine = await new nc.CarEngine().init('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm')
-  const app = engine.createApp(canvas.value!)
+  let engine = await new nc.CarEngine().init(canvaskit.value as string)
+  let app = engine.createApp(canvas.value!)
   watch(isPause, (newvalue, _oldvalue) => {
     if (!newvalue) {
       (function (_nc, _app: nc.App) {
@@ -52,6 +60,22 @@ onMounted(async () => {
     }
     else {
       app.pause()
+    }
+  })
+  watch(canvaskit, (newvalue, _oldvalue) => {
+    if (canvaskit.value !== newvalue)
+      canvaskitFileIsChanged.value = true
+  })
+  watch(canvaskitFileIsChanged, async (newvalue, _oldvalue) => {
+    if (newvalue) {
+      try {
+        engine = await new nc.CarEngine().init(canvaskit.value as string)
+      }
+      catch (error) {
+        errorMessage.value = error
+      }
+      app = engine.createApp(canvas.value!)
+      canvaskitFileIsChanged.value = false
     }
   })
   editor.onDidChangeModelContent((_event) => {
@@ -76,7 +100,7 @@ onMounted(async () => {
       <li ref="share" class="text-white m-4 text-center items-center text-2xl font-thin float-right hover:text-sky-300 select-none">
         Share <i class="fa fa-share" />
       </li>
-      <li class="text-white m-4 text-center items-center text-2xl font-thin float-right hover:text-sky-300 select-none">
+      <li class="text-white m-4 text-center items-center text-2xl font-thin float-right hover:text-sky-300 select-none" @click="settingsIsDisplay = true">
         Settings <i class="fa fa-cogs" />
       </li>
     </ul>
@@ -109,6 +133,33 @@ onMounted(async () => {
         <button class="bg-gray-300 w-[11rem] h-8 float-right rounded-2xl">
           Cancel
         </button>
+      </div>
+    </div>
+  </template>
+  <template v-if="settingsIsDisplay">
+    <div class="fixed top-[15%] w-[70%] h-[70%] left-[15%] bg-gray-600 border border-gray-300">
+      <div class="w-full bg-gray-800 h-8">
+        <div class="float-right py-[0.2] px-3 text-white text-2xl hover:text-sky-300 select-none" @click="settingsIsDisplay = false">
+          x
+        </div>
+      </div>
+      <div class="text-center m-28">
+        <div class="py-6 text-red-600 text-center">
+          {{ errorMessage }}
+        </div>
+        <ul class="text-white px-64">
+          <li class="py-6">
+            <div class="float-left">
+              File <span class="bg-gray-800 rounded-md"><span class="m-1">canvaskit.wasm</span></span> Path
+            </div>
+          </li>
+          <li class="pb-20">
+            <input v-model="canvaskit" class="float-left bg-gray-800 rounded-xl h-8 w-64">
+            <button class="float-right bg-sky-300 rounded-xl h-8 w-32" @click="canvaskitFileIsChanged = true">
+              Yes
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   </template>
