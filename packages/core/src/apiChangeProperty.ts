@@ -1,4 +1,4 @@
-import type { Widget } from './widget'
+import type { Widget, WidgetStyle } from './widget'
 import type { Animation } from './animation'
 import { defineAnimation } from './animation'
 import type { MaybeArray, PickNumberKeys } from './types'
@@ -73,8 +73,15 @@ export function changeProperty<T extends Widget>(
         start: number,
         end: number,
       ) => {
-        const valueChange = (end - start) * adjustedProcess
-        ;(widget[prop] as any) = start + valueChange
+        if (/style\..+/.test(prop as string)) {
+          const propAfterPoint = (prop as string).replace(/style\./, '')
+          const valueChange = (end - start) * adjustedProcess
+            ; (widget.style[propAfterPoint as keyof WidgetStyle] as any) = start + valueChange
+        }
+        else {
+          const valueChange = (end - start) * adjustedProcess
+            ; (widget[prop] as any) = start + valueChange
+        }
       }
 
       if (Array.isArray(propertyName)) {

@@ -74,14 +74,13 @@ export const scene4 = new nc.Scene(
 const sceneX = new nc.Scene(
   new Text(['Hello'], {
     style: {
-      textAlign: 'center',
       width: 400,
       border: true,
       borderWidth: 1,
       borderColor: Color.parse('red'),
       fill: false,
     },
-  }).animate(nc.stroke, 0, 100),
+  }).animate(nc.write, 0, 60),
 )
 
 const scene6 = new nc.Scene(
