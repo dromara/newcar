@@ -20,10 +20,10 @@ const code = ref(
 `function animate(nc, app) {
   const root = new nc.Circle(100).animate(nc.move, 0, 30, {
     to: [200, 300]
-  })
-  const scene = new nc.Scene(root)
-  app.checkout(scene)
-  return app
+  });
+  const scene = new nc.Scene(root);
+  app.checkout(scene);
+  return app;
 }
 `,
 )
@@ -58,7 +58,7 @@ onMounted(async () => {
     isPause.value = true
   })
   share.value!.onclick = () => {
-    writeText(`https://playground.newcarjs.org/?codes=${editor.getValue()}`).then(() => {
+    writeText(`https://playground.newcarjs.org/?codes=${encodeURI(editor.getValue())}`).then(() => {
       // eslint-disable-next-line no-alert
       window.alert('Shared link has been copied!')
     })
