@@ -147,7 +147,7 @@ onMounted(async () => {
         <div class="py-6 text-red-600 text-center">
           {{ errorMessage }}
         </div>
-        <ul class="text-white px-[100]">
+        <ul class="text-white px-[100px]">
           <li class="py-6">
             <div class="float-left">
               File <span class="bg-gray-800 rounded-md"><span class="m-1">canvaskit.wasm</span></span> Path
