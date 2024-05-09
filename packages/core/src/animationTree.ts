@@ -32,8 +32,8 @@ export function createAnimationTree(tree: AnimationTree) {
  * @param start The start frame.
  * @returns A list that composed by `AnimationInstance`s
  */
-export function analyseAnimationTree(tree: AnimationTree, start: number) {
-  const animations: AnimationInstance[] = []
+export function analyseAnimationTree<T extends Widget>(tree: AnimationTree, start: number) {
+  const animations: AnimationInstance<T>[] = []
   animations.push({
     startAt: start,
     during: tree.duration,

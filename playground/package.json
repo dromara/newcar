@@ -1,7 +1,7 @@
 {
   "name": "@newcar/playground",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",

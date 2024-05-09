@@ -45,8 +45,8 @@ export class Widget {
 
   display = true
   isImplemented = false // If the widget is implemented by App.impl
-  animationInstances: AnimationInstance[] = []
-  eventInstances: EventInstance[] = []
+  animationInstances: AnimationInstance<Widget>[] = []
+  eventInstances: EventInstance<Widget>[] = []
   updates: ((elapsed: number, widget: Widget) => void)[] = []
   setups: Array<{ generator: Generator<number, void, unknown>, nextFrame: number }> = []
   key = `widget-${0}-${performance.now()}-${Math.random()
@@ -160,7 +160,7 @@ export class Widget {
     return this
   }
 
-  on(event: Event, effect: (widget: Widget, ...args: any[]) => any): this {
+  on(event: Event<Widget>, effect: (widget: Widget, ...args: any[]) => any): this {
     this.eventInstances.push({
       event,
       effect,

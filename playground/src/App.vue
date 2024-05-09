@@ -1,8 +1,9 @@
+<!-- eslint-disable no-eval -->
 <!-- eslint-disable no-new -->
 <script setup lang="ts">
 import * as monaco from 'monaco-editor'
 import type { Ref } from 'vue'
-import { onMounted, ref, watch } from 'vue'
+import { Suspense, onMounted, ref, watch } from 'vue'
 import * as nc from 'newcar'
 
 const width = ref(window.innerWidth / 2)
@@ -11,23 +12,18 @@ const height = ref(width.value / 16 * 9)
 const isPause = ref(true)
 
 const defaultCodes
-= `function animate(nc, element) {
-  return new nc.CarEngine()
-    .init('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm')
-    .then(engine => {
-      const app = engine.createApp(element)
-      const root = new nc.Circle(100).animate(nc.move, 0, 30, {
-        to: [200, 300]
-      })
-      const scene = new nc.Scene(root)
-      app.checkout(scene)
-      app.play()
-      return app
-    })
+= `function animate(nc, app) {
+  const root = new nc.Circle(100).animate(nc.move, 0, 30, {
+    to: [200, 300]
+  })
+  const scene = new nc.Scene(root)
+  app.checkout(scene)
+  return app
 }
 `
 
 const canvas: Ref<HTMLCanvasElement | null> = ref(null)
+const engine = new nc.CarEngine().init('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm')
 
 onMounted(() => {
   const editor = monaco.editor.create(document.getElementById('editor')!, {
@@ -37,25 +33,26 @@ onMounted(() => {
     theme: 'vs-dark',
     fontSize: 16,
   })
+  const app = engine.then((e) => {
+    return e.createApp(canvas.value!)
+  })
   watch(isPause, (newvalue, _oldvalue) => {
     if (!newvalue) {
-      (function (_nc: any, _element: HTMLCanvasElement) {
-        // eslint-disable-next-line no-eval
-        const app = eval(`(${editor.getValue()})(_nc, _element)`)
-        app.then((a) => {
-          editor.onDidChangeModelContent((_e) => {
-            isPause.value = true
-            a.clear()
-            a.pause(0)
-          })
-          // watch(isPause, (newvalue, _oldvalue) => {
-          //   a.clear()
-          //   if (!newvalue)
-          //     a.play(0)
-          // })
-        })
-      })(nc, canvas.value!)
+      app.then((a) => {
+        (function (_nc, _app: nc.App) {
+          eval(`(${editor.getValue()})(_nc, _app)`)
+        })(nc, a)
+        a.play()
+      })
     }
+    else {
+      app.then((a) => {
+        a.pause()
+      })
+    }
+  })
+  editor.onDidChangeModelContent((_event) => {
+    isPause.value = true
   })
 })
 </script>
@@ -77,8 +74,9 @@ onMounted(() => {
   </div>
   <div class="float-left">
     <div id="editor" class="fixed w-[50%] h-full" />
-    <canvas ref="canvas" class="fixed left-[50%] top-[4rem] bg-black" :width="width" :height="height" />
-    <div id="canvas" class="w-[50%] fixed bottom-[25%] text-center left-[50%]">
+    <Suspense>
+      <canvas ref="canvas" class="fixed left-[50%] top-[4rem] bg-black" :width="width" :height="height" />
+    </Suspense><div id="canvas" class="w-[50%] fixed bottom-[25%] text-center left-[50%]">
       <button><i class="fa fa-backward scale-[2] text-white px-5 hover:text-sky-300" /></button>
       <button>
         <i v-if="isPause" class="fa fa-play scale-[2] text-white px-5 hover:text-sky-300" @click="isPause = false" />

@@ -1,5 +1,6 @@
 export * from './engine'
 export * from './animation'
+export * from './animationTree'
 export * from './app'
 export * from './plugin'
 export * from './scene'
