@@ -126,7 +126,9 @@ If everything is set up correctly, you will see a circle drawn on the canvas.
 
 ## 📖 Documentation
 
-The documentation is available at [newcar.js.org](https://newcar.js.org).
+- The tutorials is available at [newcarjs.org](https://newcarjs.org)
+- The API References is available at [apis.newcarjs.org](https://apis.newcarjs.org)
+- The Playground is deployed at [playground.newcarjs.org](https://playground.newcarjs.org)
 
 _Copyright (c) 2022-present, BugDuck Team & Dromara Community_
 
