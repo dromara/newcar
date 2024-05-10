@@ -285,79 +285,76 @@ export class LineChart extends BaseSimpleChart {
     }
   }
 
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    switch (propertyChanged) {
-      case 'progress': {
-        if (this.layout.indexAxis === 'x') {
-          for (let i = 0; i < this.dotSets.length; i++) {
-            for (let j = 0; j < this.dotSets[i].length; j++) {
-              this.dotSets[i][j].y = this.layout.size.height
-              - (this.data.datasets[i].data[j].cross * this.progress - this.layout.cross.min)
-              / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.height
-              this.dotSets[i][j].x
-                = (this.data.datasets[i].data[j].style?.animateIndex
-                ?? this.data.datasets[i].style?.animateIndex
-                ?? this.data.style?.animateIndex ?? false)
-                  ? (this.data.datasets[i].data[j].index * this.progress - this.layout.index.min) / (this.layout.index.max - this.layout.index.min)
-                  * this.layout.size.width
-                  : this.dotSets[i][j].x
-            }
-          }
-        }
-        else {
-          for (let i = 0; i < this.dotSets.length; i++) {
-            for (let j = 0; j < this.dotSets[i].length; j++) {
-              this.dotSets[i][j].x = (this.data.datasets[i].data[j].cross * this.progress - this.layout.cross.min)
-              / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.width
-              this.dotSets[i][j].y
-                = (this.data.datasets[i].data[j].style?.animateIndex
-                ?? this.data.datasets[i].style?.animateIndex
-                ?? this.data.style?.animateIndex ?? false)
-                  ? this.layout.size.height - (this.data.datasets[i].data[j].index * this.progress - this.layout.index.min)
-                  / (this.layout.index.max - this.layout.index.min) * this.layout.size.height
-                  : this.dotSets[i][j].y
-            }
-          }
-        }
-
-        for (let i = 0; i < this.dotSets.length; i++) {
-          for (let j = 0; j < this.dotSets[i].length; j++) {
-            this.dotSets[i][j].radius = this.data.datasets[i].data[j].weight
-              ? this.progress * this.data.datasets[i].data[j].weight
-              : this.dotSets[i][j].radius
-          }
-        }
-
-        this.paths = []
-
-        for (let i = 0; i < this.dotSets.length; i++) {
-          const tension = this.data.datasets[i].style.tension
-            ?? (this.data.datasets[i].data[0].style.tension ?? 0.1)
-          this.paths[i] = new ck.Path()
-          this.paths[i].moveTo(0, 0)
-          const controlPoints = bezierControlPoints(this.dotSets[i], tension, false)
-          for (let j = 0; j < this.dotSets[i].length; j++) {
-            if (j === 0) {
-              this.paths[i].moveTo(this.dotSets[i][j].x, this.dotSets[i][j].y)
-            }
-            else {
-              this.paths[i].cubicTo(
-                controlPoints[j - 1].next.x,
-                controlPoints[j - 1].next.y,
-                controlPoints[j].previous.x,
-                controlPoints[j].previous.y,
-                this.dotSets[i][j].x,
-                this.dotSets[i][j].y,
-              )
-              // this.paths[i].lineTo(this.dotSets[i][j].x, this.dotSets[i][j].y)
-            }
-          }
-        }
-      }
-    }
+  predraw(ck: CanvasKit, _propertyChanged: string): void {
+    this.paths = []
+    for (let i = 0; i < this.dotSets.length; i++)
+      this.paths[i] = new ck.Path()
   }
 
   draw(canvas: Canvas): void {
+    if (this.layout.indexAxis === 'x') {
+      for (let i = 0; i < this.dotSets.length; i++) {
+        for (let j = 0; j < this.dotSets[i].length; j++) {
+          this.dotSets[i][j].y = this.layout.size.height
+          - (this.data.datasets[i].data[j].cross * this.progress - this.layout.cross.min)
+          / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.height
+          this.dotSets[i][j].x
+            = (this.data.datasets[i].data[j].style?.animateIndex
+            ?? this.data.datasets[i].style?.animateIndex
+            ?? this.data.style?.animateIndex ?? false)
+              ? (this.data.datasets[i].data[j].index * this.progress - this.layout.index.min) / (this.layout.index.max - this.layout.index.min)
+              * this.layout.size.width
+              : this.dotSets[i][j].x
+        }
+      }
+    }
+    else {
+      for (let i = 0; i < this.dotSets.length; i++) {
+        for (let j = 0; j < this.dotSets[i].length; j++) {
+          this.dotSets[i][j].x = (this.data.datasets[i].data[j].cross * this.progress - this.layout.cross.min)
+          / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.width
+          this.dotSets[i][j].y
+            = (this.data.datasets[i].data[j].style?.animateIndex
+            ?? this.data.datasets[i].style?.animateIndex
+            ?? this.data.style?.animateIndex ?? false)
+              ? this.layout.size.height - (this.data.datasets[i].data[j].index * this.progress - this.layout.index.min)
+              / (this.layout.index.max - this.layout.index.min) * this.layout.size.height
+              : this.dotSets[i][j].y
+        }
+      }
+    }
+
+    for (let i = 0; i < this.dotSets.length; i++) {
+      for (let j = 0; j < this.dotSets[i].length; j++) {
+        this.dotSets[i][j].radius = this.data.datasets[i].data[j].weight
+          ? this.progress * this.data.datasets[i].data[j].weight
+          : this.dotSets[i][j].radius
+      }
+    }
+
+    for (let i = 0; i < this.dotSets.length; i++) {
+      const tension = this.data.datasets[i].style.tension
+        ?? (this.data.datasets[i].data[0].style.tension ?? 0.1)
+      this.paths[i].moveTo(0, 0)
+      const controlPoints = bezierControlPoints(this.dotSets[i], tension, false)
+      for (let j = 0; j < this.dotSets[i].length; j++) {
+        if (j === 0) {
+          this.paths[i].moveTo(this.dotSets[i][j].x, this.dotSets[i][j].y)
+        }
+        else {
+          this.paths[i].cubicTo(
+            controlPoints[j - 1].next.x,
+            controlPoints[j - 1].next.y,
+            controlPoints[j].previous.x,
+            controlPoints[j].previous.y,
+            this.dotSets[i][j].x,
+            this.dotSets[i][j].y,
+          )
+          // this.paths[i].lineTo(this.dotSets[i][j].x, this.dotSets[i][j].y)
+        }
+      }
+    }
+
     for (let i = 0; i < this.paths.length; i++) {
       const showLine = this.data.datasets[i].style?.showLine ?? this.data.style?.showLine ?? true
       if (showLine)

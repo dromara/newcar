@@ -1,6 +1,6 @@
 import { Rect } from '@newcar/basic'
 import { Color } from '@newcar/utils'
-import type { CanvasKit } from 'canvaskit-wasm'
+import type { Canvas } from 'canvaskit-wasm'
 import type {
   BaseSimpleChartData,
   BaseSimpleChartDataSet,
@@ -203,27 +203,24 @@ export class BarChart extends BaseSimpleChart {
     this.add(...this.barSets.flat())
   }
 
-  predraw(_ck: CanvasKit, propertyChanged: string): void {
-    switch (propertyChanged) {
-      case 'progress': {
-        if (this.layout.indexAxis === 'x') {
-          this.barSets.forEach((set, setIndex) => {
-            set.forEach((bar, index) => {
-              bar.from[1] = this.layout.size.height
-              - ((this.data.datasets[setIndex].data[index].cross * this.progress - this.layout.cross.min) * this.layout.size.height)
-              / (this.layout.cross.max - this.layout.cross.min)
-            })
-          })
-        }
-        else {
-          this.barSets.forEach((set, setIndex) => {
-            set.forEach((bar, index) => {
-              bar.to[0] = ((this.data.datasets[setIndex].data[index].cross * this.progress - this.layout.cross.min) * this.layout.size.width)
-              / (this.layout.cross.max - this.layout.cross.min)
-            })
-          })
-        }
-      }
+  draw(_canvas: Canvas) {
+    super.draw(_canvas)
+    if (this.layout.indexAxis === 'x') {
+      this.barSets.forEach((set, setIndex) => {
+        set.forEach((bar, index) => {
+          bar.from[1] = this.layout.size.height
+          - ((this.data.datasets[setIndex].data[index].cross * this.progress - this.layout.cross.min) * this.layout.size.height)
+          / (this.layout.cross.max - this.layout.cross.min)
+        })
+      })
+    }
+    else {
+      this.barSets.forEach((set, setIndex) => {
+        set.forEach((bar, index) => {
+          bar.to[0] = ((this.data.datasets[setIndex].data[index].cross * this.progress - this.layout.cross.min) * this.layout.size.width)
+          / (this.layout.cross.max - this.layout.cross.min)
+        })
+      })
     }
   }
 }
