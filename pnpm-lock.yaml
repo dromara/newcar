@@ -124,9 +124,15 @@ importers:
       '@newcar/mod-math':
         specifier: workspace:*
         version: link:../mods/mod-math
+      '@types/luxon':
+        specifier: ^3.4.2
+        version: 3.4.2
       canvaskit-wasm:
         specifier: 0.39.1
         version: 0.39.1
+      luxon:
+        specifier: ^3.4.4
+        version: 3.4.4
       newcar:
         specifier: workspace:1.0.0-beta.1
         version: link:../packages/newcar
@@ -145,6 +151,12 @@ importers:
       '@newcar/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@types/luxon':
+        specifier: ^3.4.2
+        version: 3.4.2
+      luxon:
+        specifier: ^3.4.4
+        version: 3.4.4
       string-width:
         specifier: ^7.1.0
         version: 7.1.0
@@ -2236,6 +2248,10 @@ packages:
   /@types/linkify-it@3.0.5:
     resolution: {integrity: sha512-yg6E+u0/+Zjva+buc3EIb+29XEg4wltq7cSmd4Uc2EE/1nUVmxyzpX6gUXD0V8jIrG0r7YeOGVIbYRkxeooCtw==}
     dev: true
+
+  /@types/luxon@3.4.2:
+    resolution: {integrity: sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==}
+    dev: false
 
   /@types/markdown-it@14.0.1:
     resolution: {integrity: sha512-6WfOG3jXR78DW8L5cTYCVVGAsIFZskRHCDo5tbqa+qtKVt4oDRVH7hyIWu1SpDQJlmIoEivNQZ5h+AGAOrgOtQ==}
@@ -6107,6 +6123,11 @@ packages:
   /lunr@2.3.9:
     resolution: {integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==}
     dev: true
+
+  /luxon@3.4.4:
+    resolution: {integrity: sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA==}
+    engines: {node: '>=12'}
+    dev: false
 
   /magic-string@0.30.10:
     resolution: {integrity: sha512-iIRwTIf0QKV3UAnYK4PU8uiEc4SRh5jX0mwpIwETPpHdhVM4f53RSwS/vXvN1JhGX+Cs7B8qIq3d6AH49O5fAQ==}
