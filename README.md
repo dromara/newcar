@@ -33,7 +33,8 @@
   </tr>
   <tr>
     <td><img src="./assets/poster5.gif"></td>
-    <td colspan="2"><img src="./assets/poster4.gif"/></td>
+    <td><img src="./assets/poster4.gif"/></td>
+    <td><img src="./assets/poster6.gif"></td>
   </tr>
 </table>
 
