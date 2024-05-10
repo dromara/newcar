@@ -1,6 +1,7 @@
 import type { Vector2 } from '@newcar/basic'
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
+import type { Shader } from '@newcar/utils'
 import { Color } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
 
@@ -10,6 +11,7 @@ export interface BraceOptions extends WidgetOptions {
 
 export interface BraceStyle extends WidgetStyle {
   color?: Color
+  shader?: Shader
 }
 
 export class Brace extends Widget {
@@ -34,6 +36,7 @@ export class Brace extends Widget {
     this.path = new ck.Path()
     this.paint.setStyle(ck.PaintStyle.Stroke)
     this.paint.setColor(this.style.color.toFloat4())
+    this.paint.setShader(this.style.shader?.toCanvasKitShader(ck) ?? null)
     this.paint.setAlphaf(this.style.transparency * this.style.color.alpha)
     this.paint.setStrokeWidth(3)
     const length = Math.sqrt((this.to[0] - this.from[0]) ** 2 + (this.to[1] - this.from[1]))

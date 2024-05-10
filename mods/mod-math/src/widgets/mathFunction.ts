@@ -1,5 +1,6 @@
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
+import type { Shader } from '@newcar/utils'
 import { Color } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
 import type { Domain } from '../utils/domain'
@@ -15,6 +16,7 @@ export interface MathFunctionOptions extends WidgetOptions {
 
 export interface MathFunctionStyle extends WidgetStyle {
   color?: Color
+  shader?: Shader
   width?: number
 }
 
@@ -43,11 +45,13 @@ export class MathFunction extends Widget {
     options.style ??= {}
     this.style.width = options.style.width ?? 2
     this.style.color = options.style.color ?? Color.WHITE
+    this.style.shader = options.style.shader
   }
 
   init(ck: CanvasKit) {
     this.paint = new ck.Paint()
     this.paint.setColor(this.style.color!.toFloat4())
+    this.paint.setShader(this.style.shader?.toCanvasKitShader(ck) ?? null)
     this.paint.setStyle(ck.PaintStyle.Stroke)
     this.paint.setStrokeWidth((this.style.width! / this.divisionX) * 2)
     this.path = new ck.Path()
@@ -89,6 +93,10 @@ export class MathFunction extends Widget {
       }
       case 'style.color': {
         this.paint.setColor(this.style.color!.toFloat4())
+        break
+      }
+      case 'style.shader': {
+        this.paint.setShader(this.style.shader?.toCanvasKitShader(ck) ?? null)
         break
       }
     }
