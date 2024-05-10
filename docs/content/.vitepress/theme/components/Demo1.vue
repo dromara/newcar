@@ -1,3 +1,46 @@
+<script setup lang="ts">
+import { CarEngine, Circle, Scene, Widget, create, easeBounce, easeInCirc, move } from 'newcar'
+import type { App } from 'newcar'
+import { onMounted, ref } from 'vue'
+
+let app: App
+
+const ncc1 = ref<HTMLCanvasElement>()
+
+onMounted(() => {
+  new CarEngine()
+    .init('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm')
+    .then((engine) => {
+      if (ncc1.value) {
+        app = engine.createApp(ncc1.value)
+        const root = new Widget().add(
+          new Circle(100, {
+            x: 800,
+            y: 450,
+          })
+            .animate(create, 0, 30, {
+              by: easeInCirc,
+            })
+            .animate(move, 70, 100, {
+              from: [800, 450],
+              to: [800, 850],
+              by: easeBounce,
+            }),
+        )
+        const scene = new Scene(root)
+        app.checkout(scene)
+      }
+    })
+})
+</script>
+
 <template>
-  <iframe src="https://playground.newcarjs.org/?codes=const%20root%20=%20new%20nc.Widget().add(%0A%20%20new%20nc.Circle(100,%20%7B%0A%20%20%20%20x:%20800,%0A%20%20%20%20y:%20450,%0A%20%20%7D)%0A%20%20.animate(nc.create,%200,%2030,%20%7B%0A%20%20%20%20by:%20nc.easeInCirc,%0A%20%20%7D)%0A%20%20.animate(nc.move,%2070,%20100,%20%7B%0A%20%20%20%20from:%20%5B800,%20450%5D,%0A%20%20%20%20to:%20%5B800,%20850%5D,%0A%20%20%20%20by:%20nc.easeBounce,%0A%20%20%20%7D),%0A%20%20)%0Aconst%20scene%20=%20new%20nc.Scene(root)%0Aapp.checkout(scene)" class="w-full h-120" />
+  <canvas
+    id="canvas1"
+    ref="ncc1"
+    width="1600"
+    height="900"
+    style="width: 100%"
+    @click="app.play"
+  />
 </template>

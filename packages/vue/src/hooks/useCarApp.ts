@@ -1,5 +1,5 @@
 import type { App, CarEngine, Scene } from '@newcar/core'
-import { type Ref, inject, onMounted, ref, watchEffect } from 'vue'
+import { type Ref, inject, ref, watchEffect } from 'vue'
 
 export function useCarApp(scene: Scene) {
   const canvas: Ref<HTMLCanvasElement> = ref(null)

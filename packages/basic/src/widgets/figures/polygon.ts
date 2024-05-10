@@ -1,5 +1,5 @@
 import type { Canvas, CanvasKit, Path } from 'canvaskit-wasm'
-import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/core'
+import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
 import type { Vector2 } from '../../utils/vector2'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'

@@ -1,9 +1,8 @@
-/* eslint-disable import/no-duplicates */
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import { Color } from '@newcar/utils'
 import type { Paint } from 'canvaskit-wasm'
-import type { StrokeCap, StrokeJoin } from '@newcar/core'
+import type { StrokeCap, StrokeJoin } from '@newcar/utils'
 
 export interface FigureStyle extends WidgetStyle {
   border?: boolean

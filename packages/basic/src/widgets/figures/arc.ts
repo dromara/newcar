@@ -1,5 +1,5 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
-import { str2BlendMode } from '@newcar/core'
+import { str2BlendMode } from '@newcar/utils'
 import type { FigureOptions } from './figure'
 import { Figure } from './figure'
 

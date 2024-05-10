@@ -5,9 +5,6 @@ import type { Figure } from '../widgets/figures/figure'
  * Stroke animation
  */
 export const stroke = defineAnimation({
-  /**
-   * @param {{ origin: number }} param `origin` is refering to The original border length.
-   */
   act: (widget: Figure, elapsed: number, process: number, params: {
     origin: number
   }) => {

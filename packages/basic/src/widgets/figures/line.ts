@@ -1,6 +1,6 @@
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
-import { Widget, str2BlendMode } from '@newcar/core'
-import { Color } from '@newcar/utils'
+import { Widget } from '@newcar/core'
+import { Color, str2BlendMode } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
 import type { Vector2 } from '../../utils/vector2'
 

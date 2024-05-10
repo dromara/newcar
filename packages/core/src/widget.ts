@@ -1,10 +1,10 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
+import type { BlendMode } from '@newcar/utils'
 import type { Animation, AnimationInstance } from './animation'
 import { deepClone } from './utils/deepClone'
 import type { AnimationTree } from './animationTree'
 import { analyseAnimationTree } from './animationTree'
 import type { Event, EventInstance } from './event'
-import type { BlendMode } from './utils/types'
 import type { WidgetPlugin } from './plugin'
 
 export type WidgetInstance<T extends Widget> = T

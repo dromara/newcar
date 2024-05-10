@@ -1,26 +1,30 @@
 import type {
   WidgetOptions,
   WidgetStyle,
-  // eslint-disable-next-line import/no-duplicates
 } from '@newcar/core'
 import {
   $source,
   Widget,
-  // eslint-disable-next-line import/no-duplicates
 } from '@newcar/core'
-import { Color, deepMerge, isString, isUndefined } from '@newcar/utils'
+import {
+  Color,
+  deepMerge,
+  isString,
+  isUndefined,
+  str2BlendMode,
+  str2TextAlign,
+  str2TextBaseline,
+  str2TextDirection,
+  str2TextHeightBehavior,
+} from '@newcar/utils'
 import type {
   Canvas,
   CanvasKit,
-  DecorationStyle,
   FontMgr,
   FontStyle,
   Paint,
   ParagraphBuilder,
   StrutStyle,
-  TextFontFeatures,
-  TextFontVariations,
-  TextShadow,
   Paragraph as ckParagraph,
 } from 'canvaskit-wasm'
 import type {
@@ -28,17 +32,8 @@ import type {
   TextBaseline,
   TextDirection,
   TextHeightBehavior,
-  // eslint-disable-next-line import/no-duplicates
-} from '@newcar/core'
-import {
-  str2TextAlign,
-  str2TextBaseline,
-  str2TextDirection,
-  str2TextHeightBehavior,
-  // eslint-disable-next-line import/no-duplicates
-} from '@newcar/core'
-// eslint-disable-next-line import/no-duplicates
-import { str2BlendMode } from '@newcar/core'
+
+} from '@newcar/utils'
 
 export interface InputItem {
   text: string
