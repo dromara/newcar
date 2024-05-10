@@ -295,12 +295,6 @@ export class LineChart extends BaseSimpleChart {
     }
   }
 
-  predraw(ck: CanvasKit, _propertyChanged: string): void {
-    this.paths = []
-    for (let i = 0; i < this.dotSets.length; i++)
-      this.paths[i] = new ck.Path()
-  }
-
   draw(canvas: Canvas): void {
     if (this.layout.indexAxis === 'x') {
       for (let i = 0; i < this.dotSets.length; i++) {
@@ -345,7 +339,7 @@ export class LineChart extends BaseSimpleChart {
     for (let i = 0; i < this.dotSets.length; i++) {
       const tension = this.data.datasets[i].style.tension
         ?? (this.data.datasets[i].data[0].style.tension ?? 0.1)
-      this.paths[i].moveTo(0, 0)
+      this.paths[i].rewind()
       const controlPoints = bezierControlPoints(this.dotSets[i], tension, false)
       for (let j = 0; j < this.dotSets[i].length; j++) {
         if (j === 0) {
