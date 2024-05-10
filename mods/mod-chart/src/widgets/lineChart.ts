@@ -176,7 +176,9 @@ export class LineChart extends BaseSimpleChart {
     this.dotSets = this.data.datasets.map((set) => {
       set.style ??= {}
       set.style.backgroundColor ??= this.data.style?.backgroundColor ?? Color.WHITE.withAlpha(0.2)
+      set.style.backgroundShader ??= this.data.style?.backgroundShader
       set.style.borderColor ??= this.data.style?.borderColor ?? Color.WHITE
+      set.style.borderShader ??= this.data.style?.borderShader
       set.style.borderWidth ??= this.data.style?.borderWidth ?? 1
       set.style.border ??= this.data.style?.border ?? true
       set.style.dotSize ??= this.data.style?.dotSize ?? 5
@@ -192,7 +194,9 @@ export class LineChart extends BaseSimpleChart {
               / (this.layout.cross.max - this.layout.cross.min),
               style: {
                 fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
+                fillShader: unit.style.backgroundShader ?? set.style.backgroundShader,
                 borderColor: unit.style.borderColor ?? set.style.borderColor,
+                borderShader: unit.style.borderShader ?? set.style.borderShader,
                 borderWidth: unit.style.borderWidth ?? set.style.borderWidth,
                 border: unit.style.border ?? set.style.border,
               },
@@ -211,7 +215,9 @@ export class LineChart extends BaseSimpleChart {
               / (this.layout.index.max - this.layout.index.min) * this.layout.size.height,
               style: {
                 fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
+                fillShader: unit.style.backgroundShader ?? set.style.backgroundShader,
                 borderColor: unit.style.borderColor ?? set.style.borderColor,
+                borderShader: unit.style.borderShader ?? set.style.borderShader,
                 borderWidth: unit.style.borderWidth ?? set.style.borderWidth,
                 border: unit.style.border ?? set.style.border,
               },
@@ -240,6 +246,8 @@ export class LineChart extends BaseSimpleChart {
         ?? this.data.style?.borderJoinStyle ?? 'miter'
       const borderCapStyle = this.data.datasets[i].style?.borderCapStyle
         ?? this.data.style?.borderCapStyle ?? 'butt'
+      const borderShader = this.data.datasets[i].style?.borderShader
+        ?? this.data.style?.borderShader
       this.paths[i] = new ck.Path()
       const controlPoints = bezierControlPoints(this.dotSets[i], tension, false)
       for (let j = 0; j < this.dotSets[i].length; j++) {
@@ -262,6 +270,8 @@ export class LineChart extends BaseSimpleChart {
       this.strokePaints[i] = new ck.Paint()
       this.strokePaints[i].setStyle(ck.PaintStyle.Stroke)
       this.strokePaints[i].setColor(borderColor.toFloat4())
+      if (borderShader)
+        this.strokePaints[i].setShader(borderShader.toCanvasKitShader(ck))
       this.strokePaints[i].setStrokeWidth(lineWidth)
       this.strokePaints[i].setStrokeJoin(str2StrokeJoin(ck, borderJoinStyle ?? 'miter'))
       this.strokePaints[i].setStrokeCap(str2StrokeCap(ck, borderCapStyle ?? 'butt'))

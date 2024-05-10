@@ -1,6 +1,6 @@
 import { Figure } from '@newcar/basic'
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
-import type { Color } from '@newcar/utils'
+import type { Color, Shader } from '@newcar/utils'
 import type { DateTime, DateTimeUnit } from 'luxon'
 import type { ChartLayout } from './chartLayout'
 import type { ChartDataUnit } from './chartDataUnit'
@@ -204,6 +204,19 @@ export interface BaseChartStyle extends WidgetStyle {
    */
   backgroundColor?: Color
   /**
+   * @property Shader backgroundShader
+   * @description
+   * backgroundShader is a shader that represents the background shader of the dataUnit, which may be displayed in various forms.
+   * It is optional.
+   */
+  backgroundShader?: Shader
+  /**
+   * @property boolean border
+   * @description
+   * border is a boolean that represents whether the dataUnit has a border.
+   */
+  border?: boolean
+  /**
    * @property Color borderColor
    * @description
    * borderColor is a color that represents the border color of the dataUnit, which may be displayed in various forms.
@@ -211,18 +224,19 @@ export interface BaseChartStyle extends WidgetStyle {
    */
   borderColor?: Color
   /**
+   * @property Shader borderShader
+   * @description
+   * borderShader is a shader that represents the border shader of the dataUnit, which may be displayed in various forms.
+   * It is optional.
+   */
+  borderShader?: Shader
+  /**
    * @property number borderWidth
    * @description
    * borderWidth is a number that represents the border width of the dataUnit, which may be displayed in various forms.
    * It is optional.
    */
   borderWidth?: number
-  /**
-   * @property boolean border
-   * @description
-   * border is a boolean that represents whether the dataUnit has a border.
-   */
-  border?: boolean
 }
 
 /**

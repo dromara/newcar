@@ -28,11 +28,12 @@ import type {
   Paragraph as ckParagraph,
 } from 'canvaskit-wasm'
 import type {
+  Shader,
   TextAlign,
   TextBaseline,
   TextDirection,
-  TextHeightBehavior,
 
+  TextHeightBehavior,
 } from '@newcar/utils'
 
 export interface InputItem {
@@ -67,8 +68,10 @@ export interface TextStyle extends WidgetStyle {
   fill?: boolean
   border?: boolean
   fillColor?: Color
+  fillShader?: Shader
   borderWidth?: number
   borderColor?: Color
+  borderShader?: Shader
   disableHinting?: boolean
   ellipsis?: string
   heightMultiplier?: number
@@ -118,8 +121,10 @@ export class Text extends Widget {
     this.applyRoundingHack = inputOptions.style.applyRoundingHack ?? false
     this.style.width = inputOptions.style.width ?? 200
     this.style.borderColor = inputOptions.style.borderColor ?? Color.WHITE
+    this.style.borderShader = inputOptions.style.borderShader
     this.style.borderWidth = inputOptions.style.borderWidth ?? 2
     this.style.fillColor = inputOptions.style.fillColor ?? Color.WHITE
+    this.style.fillShader = inputOptions.style.fillShader
     this.style.fill = inputOptions.style.fill ?? true
     this.style.border = inputOptions.style.border ?? false
     this.style.interval = inputOptions.style.interval ?? [1, 0]
@@ -144,6 +149,7 @@ export class Text extends Widget {
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
+    this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
     this.strokePaint.setAntiAlias(this.style.antiAlias)
@@ -156,6 +162,7 @@ export class Text extends Widget {
     // Fill
     this.fillPaint = new ck.Paint()
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
+    this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
     this.fillPaint.setAntiAlias(this.style.antiAlias)
@@ -228,12 +235,20 @@ export class Text extends Widget {
         this.strokePaint.setColor(this.style.borderColor.toFloat4())
         break
       }
+      case 'style.borderShader': {
+        this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
+        break
+      }
       case 'style.borderWidth': {
         this.strokePaint.setStrokeWidth(this.style.borderWidth)
         break
       }
       case 'style.fillColor': {
         this.fillPaint.setColor(this.style.fillColor.toFloat4())
+        break
+      }
+      case 'style.fillShader': {
+        this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
         break
       }
       case 'style.offset':

@@ -1,5 +1,6 @@
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
+import type { Shader } from '@newcar/utils'
 import { Color, str2BlendMode } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
 import type { Vector2 } from '../../utils/vector2'
@@ -10,6 +11,7 @@ export interface LineOptions extends WidgetOptions {
 
 export interface LineStyle extends WidgetStyle {
   color?: Color
+  shader?: Shader
   width?: number
 }
 
@@ -22,6 +24,7 @@ export class Line extends Widget {
     super(options)
     options.style ??= {}
     this.style.color = options.style.color ?? Color.WHITE
+    this.style.shader = options.style.shader
     this.style.width = options.style.width ?? 2
   }
 
@@ -29,6 +32,7 @@ export class Line extends Widget {
     this.paint = new ck.Paint()
     this.paint.setStyle(ck.PaintStyle.Stroke)
     this.paint.setColor(this.style.color.toFloat4())
+    this.paint.setShader(this.style.shader?.toCanvasKitShader(ck) ?? null)
     this.paint.setStrokeWidth(this.style.width)
     this.paint.setAlphaf(this.style.transparency * this.style.color.alpha)
     this.paint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
@@ -39,6 +43,10 @@ export class Line extends Widget {
     switch (propertyChanged) {
       case 'style.color': {
         this.paint.setColor(this.style.color.toFloat4())
+        break
+      }
+      case 'style.shader': {
+        this.paint.setShader(this.style.shader?.toCanvasKitShader(ck) ?? null)
         break
       }
       case 'style.width': {

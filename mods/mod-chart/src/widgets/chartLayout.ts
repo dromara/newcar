@@ -312,9 +312,10 @@ export class ChartLayout extends BaseChart {
     }
     this.index.posLine = [...this.index.pos]
     if (this.gridAlign) {
-      this.index.max += this.index.interval
-      this.index.pos = this.index.pos.map(pos => (pos + 0.5 * this.index.interval))
+      this.index.min -= 0.5 * this.index.interval
+      this.index.max += 0.5 * this.index.interval
       this.index.posLine.push(this.index.posLine[this.index.posLine.length - 1] + this.index.interval)
+      this.index.posLine = this.index.posLine.map(pos => (pos - 0.5 * this.index.interval))
     }
     if (this.edgeOffset) {
       this.index.min -= 0.5 * this.index.interval
@@ -613,11 +614,15 @@ export class ChartLayout extends BaseChart {
           {
             style: {
               fillColor: this.data.datasets[i].style.backgroundColor
-              ?? (this.data.datasets[i].data[0].style.backgroundColor ?? Color.WHITE),
+              ?? this.data.datasets[i].data[0].style.backgroundColor ?? Color.WHITE,
+              fillShader: this.data.datasets[i].style.backgroundShader
+              ?? this.data.datasets[i].data[0].style.backgroundShader,
               borderColor: this.data.datasets[i].style.borderColor
-              ?? (this.data.datasets[i].data[0].style.borderColor ?? Color.WHITE),
+              ?? this.data.datasets[i].data[0].style.borderColor ?? Color.WHITE,
+              borderShader: this.data.datasets[i].style.borderShader
+              ?? this.data.datasets[i].data[0].style.borderShader,
               borderWidth: this.data.datasets[i].style.borderWidth
-              ?? (this.data.datasets[i].data[0].style.borderWidth ?? 1),
+              ?? this.data.datasets[i].data[0].style.borderWidth ?? 1,
               border: true,
             },
           },

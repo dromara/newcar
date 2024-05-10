@@ -22,6 +22,7 @@ export class Path extends Figure {
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
+    this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
     this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
     this.strokePaint.setStrokeWidth(this.style.borderWidth)
     this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
@@ -38,6 +39,7 @@ export class Path extends Figure {
     this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
+    this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
     this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
     this.fillPaint.setAntiAlias(this.style.antiAlias)
   }
@@ -51,12 +53,20 @@ export class Path extends Figure {
         this.strokePaint.setColor(this.style.borderColor.toFloat4())
         break
       }
+      case 'style.borderShader': {
+        this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
+        break
+      }
       case 'style.borderWidth': {
         this.strokePaint.setStrokeWidth(this.style.borderWidth)
         break
       }
       case 'style.fillColor': {
         this.fillPaint.setColor(this.style.fillColor.toFloat4())
+        break
+      }
+      case 'style.fillShader': {
+        this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
         break
       }
       case 'style.join': {

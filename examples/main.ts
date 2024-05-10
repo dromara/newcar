@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { CarEngine, Color, Text } from 'newcar'
+import { CarEngine, Color, Shader, Text } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { BarChart, BubbleChart, ChartDataUnit, ChartUtil, LineChart, MixedChart, ScatterChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
@@ -20,7 +20,9 @@ export const scene1 = new nc.Scene(
   new nc.Circle(100, {
     style: {
       border: true,
-      fill: false,
+      // fill: false,
+      borderShader: Shader.createLinearGradientShader([0, 0], [0, 200], [Color.parse('red'), Color.parse('blue')], null, 'repeat'),
+      fillShader: Shader.createLinearGradientShader([0, 0], [0, 200], [Color.parse('red'), Color.parse('blue')], null, 'repeat'),
     },
   }).animate(nc.stroke, 0, 30).on(nc.click, (w, x, y) => {
     w.x = x
@@ -105,7 +107,9 @@ const sceneChart1 = new nc.Scene(
           data: ChartUtil.dataUnits([2, 5, -15, 14]),
           style: {
             backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
+            backgroundShader: Shader.createLinearGradientShader([0, 0], [0, 10], [Color.parse('#66CCFF'), Color.parse('#FFCC00')], null, 'mirror'),
             borderColor: Color.parse('#66CCFF'),
+            borderShader: Shader.createLinearGradientShader([0, 0], [0, 10], [Color.parse('#66CCFF'), Color.parse('#FFCC00')], null, 'mirror'),
             borderWidth: 1,
           },
         },
@@ -203,7 +207,9 @@ const sceneChart3 = new nc.Scene(
           ]),
           style: {
             backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
+            backgroundShader: Shader.createLinearGradientShader([0, 0], [0, 20], [Color.parse('#66CCFF'), Color.parse('#FFCC00')], null, 'clamp'),
             borderColor: Color.parse('#66CCFF'),
+            borderShader: Shader.createLinearGradientShader([0, 0], [0, 20], [Color.parse('#66CCFF'), Color.parse('#FFCC00')], null, 'clamp'),
           },
         },
       ],
@@ -242,7 +248,9 @@ const sceneChart4 = new nc.Scene(
           ]),
           style: {
             backgroundColor: Color.parse('#66CCFF').withAlpha(0.2),
+            backgroundShader: Shader.createLinearGradientShader([0, 0], [0, 20], [Color.parse('red'), Color.parse('blue')], null, 'clamp'),
             borderColor: Color.parse('#66CCFF'),
+            borderShader: Shader.createLinearGradientShader([0, 0], [0, 20], [Color.parse('red'), Color.parse('blue')], null, 'clamp'),
           },
         },
       ],
