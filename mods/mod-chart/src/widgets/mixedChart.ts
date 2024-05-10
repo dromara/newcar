@@ -1,4 +1,4 @@
-import type { CanvasKit } from 'canvaskit-wasm'
+import type { Canvas } from 'canvaskit-wasm'
 import { DateTime } from 'luxon'
 import { ChartLayout } from './chartLayout'
 import type { BaseChartOptions, BaseChartStyle } from './baseChart'
@@ -135,14 +135,9 @@ export class MixedChart<T extends typeof BaseSimpleChart> extends BaseChart {
     this.add(this.layout, ...this.charts)
   }
 
-  predraw(ck: CanvasKit, propertyChanged: string) {
-    super.predraw(ck, propertyChanged)
-
-    switch (propertyChanged) {
-      case 'progress':
-        this.layout.progress = this.progress
-        this.charts.forEach(chart => chart.progress = this.progress)
-        break
-    }
+  draw(_canvas: Canvas) {
+    super.draw(_canvas)
+    this.layout.progress = this.progress
+    this.charts.forEach(chart => chart.progress = this.progress)
   }
 }
