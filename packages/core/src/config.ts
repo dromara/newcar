@@ -2,12 +2,7 @@ export interface Config {
   /**
    * The Time Unit.
    */
-  unit: 'frame' | 'second'
-
-  /**
-   * The frame per second.
-   */
-  fps: number
+  unit: 'frame' | 's' | 'ms'
 }
 
 /**

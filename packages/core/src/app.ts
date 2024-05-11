@@ -44,8 +44,7 @@ export class App {
   ) {
     this.setBackgroundColor(Color.BLACK)
     this.config = defineConfig({
-      unit: 'frame',
-      fps: 60,
+      unit: 'frame'
     })
     if (element === void 0) {
       console.warn(
@@ -89,15 +88,6 @@ export class App {
    * @param canvas The `Canvas` object of CanvasKit-WASM
    */
   static update(app: App, canvas: Canvas): void {
-    app.currentFrameTime = performance.now()
-    const timeSinceLastFrame = app.currentFrameTime - app.lastFrameTime
-    if (timeSinceLastFrame < app.frameDuration) {
-      app.surface.requestAnimationFrame((canvas: Canvas) => {
-        App.update(app, canvas)
-      })
-      return
-    }
-
     for (const plugin of app.plugins)
       plugin.beforeUpdate(app, app.scene.elapsed)
 
@@ -128,15 +118,10 @@ export class App {
 
     if (app.playing) {
       app.scene.elapsed += 1
-      app.lastFrameTime = app.currentFrameTime
       app.surface.requestAnimationFrame((canvas: Canvas) => {
         App.update(app, canvas)
       })
     }
-  }
-
-  private get frameDuration() {
-    return 1000 / this.config.fps
   }
 
   /**
