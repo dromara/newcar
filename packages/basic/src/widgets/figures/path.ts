@@ -45,6 +45,7 @@ export class Path extends Figure {
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
+    super.predraw(ck, propertyChanged)
     switch (propertyChanged) {
       case 'path': {
         break

@@ -12,7 +12,7 @@
     "clipboard-copy": "^4.0.1",
     "font-awesome": "^4.7.0",
     "monaco-editor": "^0.48.0",
-    "newcar": "workspace:*",
+    "newcar": "latest",
     "vue": "^3.4.21"
   },
   "devDependencies": {
