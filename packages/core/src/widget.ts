@@ -14,6 +14,8 @@ export type AnimateFunction<T extends Widget> = (animation: Animation<T>, durati
   mode: 'async' | 'sync'
   duration: number
   params: Record<string, any>
+  setAsync: () => ReturnType<AnimateFunction<T>>
+  setSync: () => ReturnType<AnimateFunction<T>>
 }
 
 export interface WidgetOptions {
@@ -233,7 +235,7 @@ export class Widget {
   }
 
   setup<T extends Widget>(setupFunc: SetupFunction<T>): this {
-    function animate(animation: Animation<T>, duration: number, params?: Record<string, any>) {
+    const animate: AnimateFunction<T> = (animation: Animation<T>, duration: number, params?: Record<string, any>) => {
       return {
         animation,
         duration,

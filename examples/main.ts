@@ -35,7 +35,7 @@ export const scene1 = new nc.Scene(
     widget.y = 100
     yield animate(nc.move, 100, {
       to: [300, 300],
-    })
+    }).setAsync()
   }),
 )
 
