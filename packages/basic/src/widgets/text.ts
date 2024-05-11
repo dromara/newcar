@@ -43,7 +43,7 @@ export interface InputItem {
 /**
  * Represents the style properties that can be applied to a text item.
  */
-interface TextItemStyle {
+export interface TextItemStyle {
   /**
    * The background color of the text item.
    */
