@@ -1,5 +1,5 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
-import type { BlendMode } from '@newcar/utils'
+import { type BlendMode, isNull } from '@newcar/utils'
 import type { Animation, AnimationInstance } from './animation'
 import { deepClone } from './utils/deepClone'
 import type { AnimationTree } from './animationTree'
@@ -144,7 +144,7 @@ export class Widget {
 
   animate(
     animation: Animation<any>,
-    startAt: number,
+    startAt: number | null,
     during: number,
     params?: Record<string, any>,
   ): this {
@@ -180,22 +180,24 @@ export class Widget {
   runAnimation(elapsed: number) {
     for (const instance of this.animationInstances) {
       if (
-        instance.startAt <= elapsed
-        && instance.during + instance.startAt >= elapsed
+        isNull(instance.startAt)
+          ? elapsed
+          : instance.startAt <= elapsed
+          && instance.during + (isNull(instance.startAt) ? elapsed : instance.startAt) >= elapsed
       ) {
         if (instance.mode === 'positive') {
           instance.animation.act(
             this,
-            elapsed - instance.startAt,
-            (elapsed - instance.startAt) / instance.during,
+            elapsed - (isNull(instance.startAt) ? elapsed : instance.startAt),
+            (elapsed - (isNull(instance.startAt) ? elapsed : instance.startAt)) / instance.during,
             instance.params,
           )
         }
         else if (instance.mode === 'reverse') {
           instance.animation.act(
             this,
-            elapsed - instance.startAt,
-            1 - (elapsed - instance.startAt) / instance.during,
+            elapsed - (isNull(instance.startAt) ? elapsed : instance.startAt),
+            1 - (elapsed - (isNull(instance.startAt) ? elapsed : instance.startAt)) / instance.during,
             instance.params,
           )
         }

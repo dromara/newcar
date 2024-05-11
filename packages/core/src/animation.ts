@@ -33,7 +33,7 @@ export interface AnimationInstance<T extends Widget> {
   /**
    * The animation's started time.
    */
-  startAt: number
+  startAt: number | null
 
   /**
    * The duration of this animation.
