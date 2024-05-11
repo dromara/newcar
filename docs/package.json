@@ -7,9 +7,9 @@
     "docs:preview": "vitepress preview content"
   },
   "dependencies": {
-    "@newcar/mod-math": "latest",
-    "canvaskit-wasm": "latest",
-    "newcar": "latest",
+    "@newcar/mod-math": "workspace: *",
+    "canvaskit-wasm": "0.39.1",
+    "newcar": "workspace: *",
     "unplugin-vue-components": "^0.26.0"
   },
   "devDependencies": {
