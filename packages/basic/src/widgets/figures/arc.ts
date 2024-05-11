@@ -3,9 +3,19 @@ import { str2BlendMode } from '@newcar/utils'
 import type { FigureOptions } from './figure'
 import { Figure } from './figure'
 
+/**
+ * Represents an arc figure, a subclass of the Figure class.
+ */
 export class Arc extends Figure {
   private rect: RRect
 
+  /**
+   * Constructs a new Arc instance.
+   * @param radius The radius of the arc.
+   * @param from The starting angle of the arc in radians.
+   * @param to The ending angle of the arc in radians.
+   * @param options Optional configuration options for the arc.
+   */
   constructor(
     public radius: number,
     public from: number,
@@ -15,6 +25,10 @@ export class Arc extends Figure {
     super(options)
   }
 
+  /**
+   * Initializes the arc figure.
+   * @param ck The CanvasKit instance.
+   */
   init(ck: CanvasKit): void {
     // Stroke
     this.strokePaint = new ck.Paint()
@@ -53,6 +67,11 @@ export class Arc extends Figure {
     )
   }
 
+  /**
+   * Updates the arc figure based on property changes.
+   * @param ck The CanvasKit instance.
+   * @param propertyChanged The name of the property that changed.
+   */
   predraw(ck: CanvasKit, propertyChanged?: string): void {
     switch (propertyChanged) {
       case 'radius': {
@@ -97,6 +116,10 @@ export class Arc extends Figure {
     this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
   }
 
+  /**
+   * Draws the arc figure on the canvas.
+   * @param canvas The canvas to draw on.
+   */
   draw(canvas: Canvas): void {
     if (this.style.border) {
       canvas.drawArc(
@@ -118,12 +141,18 @@ export class Arc extends Figure {
     }
   }
 
+  /**
+   * Checks if a point is inside the arc.
+   * @param x The x-coordinate of the point.
+   * @param y The y-coordinate of the point.
+   * @returns True if the point is inside the arc, otherwise false.
+   */
   isIn(x: number, y: number): boolean {
-    const dx = x - this.x // x轴方向上的距离
-    const dy = y - this.y // y轴方向上的距离
-    const distance = Math.sqrt(dx * dx + dy * dy) // 与圆心的距离
+    const dx = x - this.x // Distance in the x-direction
+    const dy = y - this.y // Distance in the y-direction
+    const distance = Math.sqrt(dx * dx + dy * dy) // Distance from the center
 
-    // 判断是否在圆内
+    // Check if inside the circle
     return distance <= this.radius
   }
 }

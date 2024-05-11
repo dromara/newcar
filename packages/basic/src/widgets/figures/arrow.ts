@@ -36,17 +36,32 @@ function calculateArrowRotationAngle(
   return angleDegrees
 }
 
+/**
+ * Represents options that can be applied to an arrow figure.
+ */
 export interface ArrowOptions extends FigureOptions {
   style?: ArrowStyle
 }
 
+/**
+ * Represents the style properties that can be applied to an arrow figure.
+ */
 export interface ArrowStyle extends FigureStyle {}
 
+/**
+ * Represents an arrow figure, a subclass of the Figure class.
+ */
 export class Arrow extends Figure {
   private tip: Polygon
   private trim: Line
   radian: number
 
+  /**
+   * Constructs a new Arrow instance.
+   * @param from The starting point of the arrow.
+   * @param to The ending point of the arrow.
+   * @param options Optional configuration options for the arrow.
+   */
   constructor(
     public from: Vector2,
     public to: Vector2,
@@ -86,6 +101,11 @@ export class Arrow extends Figure {
     // WARN: Must push parts in constructor, if not, it will err
   }
 
+  /**
+   * Updates the arrow figure based on property changes.
+   * @param ck The CanvasKit instance.
+   * @param propertyChanged The name of the property that changed.
+   */
   predraw(ck: CanvasKit, propertyChanged: string): void {
     switch (propertyChanged) {
       case 'from':
@@ -115,6 +135,12 @@ export class Arrow extends Figure {
     }
   }
 
+  /**
+   * Checks if a point is inside the arrow.
+   * @param x The x-coordinate of the point.
+   * @param y The y-coordinate of the point.
+   * @returns True if the point is inside the arrow, otherwise false.
+   */
   isIn(x: number, y: number): boolean {
     const dx = x - this.tip.x
     const dy = y - this.tip.y

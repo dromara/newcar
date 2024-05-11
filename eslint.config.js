@@ -11,5 +11,6 @@ export default antfu({
     'cli/bin',
     '**/.vitepress/cache',
     '**/.vitepress/dist',
+    'docs/**',
   ],
 })

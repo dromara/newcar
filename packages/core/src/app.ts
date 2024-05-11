@@ -44,7 +44,7 @@ export class App {
   ) {
     this.setBackgroundColor(Color.BLACK)
     this.config = defineConfig({
-      unit: 'frame'
+      unit: 'frame',
     })
     if (element === void 0) {
       console.warn(

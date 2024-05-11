@@ -10,8 +10,19 @@ export interface LineOptions extends WidgetOptions {
 }
 
 export interface LineStyle extends WidgetStyle {
+  /**
+   * The color of this line.
+   */
   color?: Color
+
+  /**
+   * The shader of this line.
+   */
   shader?: Shader
+
+  /**
+   * The line width of this line.
+   */
   width?: number
 }
 

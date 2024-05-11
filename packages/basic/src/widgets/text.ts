@@ -40,49 +40,164 @@ export interface InputItem {
   text: string
   style: TextItemStyle
 }
+/**
+ * Represents the style properties that can be applied to a text item.
+ */
 interface TextItemStyle {
+  /**
+   * The background color of the text item.
+   */
   backgroundColor?: Color
+  /**
+   * The color of the text.
+   */
   color?: Color
+  /**
+   * The decoration style to be applied to the text.
+   */
   decoration?: number
+  /**
+   * The color of the decoration applied to the text.
+   */
   decorationColor?: Color
+  /**
+   * The thickness of the decoration applied to the text.
+   */
   decorationThickness?: number
+  /**
+   * An array of font families to be used for rendering the text.
+   */
   fontFamilies?: string[]
+  /**
+   * The size of the font used for the text.
+   */
   fontSize?: number
+  /**
+   * The style of the font used for the text (e.g., normal, italic).
+   */
   fontStyle?: FontStyle
+  /**
+   * The foreground color of the text.
+   */
   foregroundColor?: Color
+  /**
+   * Multiplier for height adjustment of the text.
+   */
   heightMultiplier?: number
+  /**
+   * Specifies whether to use half leading for the text.
+   */
   halfLeading?: boolean
+  /**
+   * The spacing between characters in the text.
+   */
   letterSpacing?: number
+  /**
+   * The locale to be used for the text.
+   */
   locale?: string
+  /**
+   * The baseline alignment of the text.
+   */
   textBaseline?: TextBaseline
+  /**
+   * The spacing between words in the text.
+   */
   wordSpacing?: number
 }
 
+/**
+ * Represents options that can be applied to a text widget.
+ */
 export interface TextOptions extends WidgetOptions {
+  /**
+   * The style properties to be applied to the text.
+   */
   style?: TextStyle
 }
 
+/**
+ * Represents the style properties that can be applied to text.
+ */
 export interface TextStyle extends WidgetStyle {
+  /**
+   * The offset of the text.
+   */
   offset?: number
+  /**
+   * The interval for the text.
+   */
   interval?: number[]
+  /**
+   * Specifies whether the text should be filled.
+   */
   fill?: boolean
+  /**
+   * Specifies whether to draw a border around the text.
+   */
   border?: boolean
+  /**
+   * The color used to fill the text.
+   */
   fillColor?: Color
+  /**
+   * The shader used to fill the text.
+   */
   fillShader?: Shader
+  /**
+   * The width of the border around the text.
+   */
   borderWidth?: number
+  /**
+   * The color of the border around the text.
+   */
   borderColor?: Color
+  /**
+   * The shader used to draw the border around the text.
+   */
   borderShader?: Shader
+  /**
+   * Specifies whether hinting should be disabled for the text.
+   */
   disableHinting?: boolean
+  /**
+   * The ellipsis string to be used for truncating the text.
+   */
   ellipsis?: string
+  /**
+   * Multiplier for height adjustment of the text.
+   */
   heightMultiplier?: number
+  /**
+   * The maximum number of lines for the text.
+   */
   maxLines?: number
+  /**
+   * Specifies whether to replace tab characters with spaces in the text.
+   */
   replaceTabCharacters?: boolean
+  /**
+   * The alignment of the text within its container.
+   */
   textAlign?: TextAlign
+  /**
+   * The direction of the text.
+   */
   textDirection?: TextDirection
+  /**
+   * The behavior of the text regarding its height.
+   */
   textHeightBehavior?: TextHeightBehavior
+  /**
+   * Specifies whether to apply a rounding hack for the text.
+   */
   applyRoundingHack?: boolean
+  /**
+   * The width of the text.
+   */
   width?: number
 }
+
 export class Text extends Widget {
   private text: InputItem[] = []
   private fontManager: FontMgr
@@ -105,6 +220,11 @@ export class Text extends Widget {
   strokePaint: Paint
   fillPaint: Paint
 
+  /**
+   * Create a `Text` widget
+   * @param text The text group/
+   * @param inputOptions the options
+   */
   constructor(
     text: (string | InputItem)[],
     private inputOptions?: TextOptions,

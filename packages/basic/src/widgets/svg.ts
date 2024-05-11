@@ -31,6 +31,9 @@ export interface SvgStyle extends WidgetStyle {
   height?: number
 }
 
+/**
+ * Draw a image made from svg string.
+ */
 export class Svg extends Widget {
   declare style: SvgStyle
   private paint: Paint
@@ -40,6 +43,10 @@ export class Svg extends Widget {
   private vcanvasContext: OffscreenCanvasRenderingContext2D
   private imageData: Image
 
+  /**
+   * @param svg The SVG string
+   * @param options The options
+   */
   constructor(public svg: string, options?: SvgOptions) {
     options ??= {}
     super(options)

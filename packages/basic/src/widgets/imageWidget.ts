@@ -4,10 +4,18 @@ import type { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
 
 export interface ImageWidgetOptions extends WidgetOptions {}
 
+/**
+ * Image Widget
+ * You can via proload a image and use this widget to draw image on canvas.
+ */
 export class ImageWidget extends Widget {
   private image: Image
   paint: Paint
 
+  /**
+   * @param imageArray The proloaded image source.
+   * @param options The options.
+   */
   constructor(public imageArray: ArrayBuffer, options?: ImageWidgetOptions) {
     options ??= {}
     super(options)
