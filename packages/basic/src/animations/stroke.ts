@@ -8,6 +8,6 @@ export const stroke = defineAnimation({
   act: (widget: Figure, elapsed: number, process: number, params: {
     origin: number
   }) => {
-    widget.style.interval = [params.origin ?? 1000 * process, params.origin ?? 1000 * (1 - process)]
+    widget.style.interval = [(params.origin ?? 1000) * process, (params.origin ?? 1000) * (1 - process)]
   },
 })

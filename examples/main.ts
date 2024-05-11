@@ -83,7 +83,9 @@ const sceneX = new nc.Scene(
       borderColor: Color.parse('red'),
       fill: false,
     },
-  }).animate(nc.write, 0, 60),
+  }).animate(nc.stroke, 0, 60, {
+    origin: 100,
+  }),
 )
 
 const scene6 = new nc.Scene(
