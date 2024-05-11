@@ -20,14 +20,14 @@ Next, we initialize the engine and create a `LocalApp`:
 
 ```javascript
 // Initialization and import are omitted
-const app = engine.createLocalApp(1600 /* width of the canvas */, 900 /* height of the canvas */);
+const app = engine.createLocalApp(1600 /* width of the canvas */, 900 /* height of the canvas */)
 // The rest is omitted, remember, there is no `play` method in local mode
 ```
 
 Finally, we set `app` as the default export:
 
 ```javascript
-export default app;
+export default app
 ```
 
 Then we run the `ncli` command:

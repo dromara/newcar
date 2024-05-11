@@ -49,9 +49,9 @@ $ pnpm add canvaskit-wasm
 Vite 在 `index.html` 里引入了 `main.ts`，我们需要将其中的代码替换成如下：
 
 ```typescript
-import * as nc from "newcar";
+import * as nc from 'newcar'
 
-const engine = await new nc.CarEngine().init("../node_modules/canvaskit-wasm/bin/canvaskit.wasm");
+const engine = await new nc.CarEngine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 ```
 
 在上述的代码中，我们引入了 `newcar` 并将它重新命名为 `nc`, 然后我们创建了一个 `CarEngine` 对象并传入了刚才安装的 CanvasKit-WASM 的二进制文件路径。
@@ -59,10 +59,10 @@ const engine = await new nc.CarEngine().init("../node_modules/canvaskit-wasm/bin
 ## 创建一个动画程序
 
 ```typescript
-import * as nc from "newcar";
+import * as nc from 'newcar'
 
-const engine = await new nc.CarEngine().init("../node_modules/canvaskit-wasm/bin/canvaskit.wasm");
-const app = engine.createApp(document.querySelector("#canvas"));
+const engine = await new nc.CarEngine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
+const app = engine.createApp(document.querySelector('#canvas'))
 ```
 
 这里我们使用 `CarEngine.createApp` 创建了一个动画实例，并传入了 `<canvas>` 的 DOM 对象。
@@ -70,14 +70,14 @@ const app = engine.createApp(document.querySelector("#canvas"));
 ## 创建场景并加入对象
 
 ```typescript
-import * as nc from "newcar";
+import * as nc from 'newcar'
 
-const engine = await new nc.CarEngine().init("../node_modules/canvaskit-wasm/bin/canvaskit.wasm");
-const app = engine.createApp(document.querySelector("#canvas"));
-const root = new nc.Circle(100);
-const scene = new nc.Scene(root);
-app.checkout(scene);
-app.play();
+const engine = await new nc.CarEngine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
+const app = engine.createApp(document.querySelector('#canvas'))
+const root = new nc.Circle(100)
+const scene = new nc.Scene(root)
+app.checkout(scene)
+app.play()
 ```
 
 首先我们创建了 `root`，这里的根是一个 `Circle` 类，继承自 `Widget`，`Circle` 类构造函数的第一个参数是圆的半径，在这里我们设为 `100`。
@@ -91,7 +91,7 @@ app.play();
 ## 添加动画
 
 ```typescript
-root.animate(nc.create, 0, 30);
+root.animate(nc.create, 0, 30)
 ```
 
 此方法会给这个根组件添加一个名为 `create` 的动画，并设置动画的开始时间为第 0 个时间单位。

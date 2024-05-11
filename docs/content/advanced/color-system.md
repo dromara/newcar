@@ -17,13 +17,13 @@ const rect = new Rect([0, 0], [100, 100], {
     border: true,
     borderColor: Color.BLACK
   }
-});
+})
 ```
 
 ## Using Color Name Strings
 
 ```javascript
-const RED = Color.parse("red");
+const RED = Color.parse('red')
 ```
 
 Color name string parsing supports all color names supported by CSS.
@@ -31,5 +31,5 @@ Color name string parsing supports all color names supported by CSS.
 ## RGBA
 
 ```javascript
-Color.rgba(255, 255, 255, 0.5);
+Color.rgba(255, 255, 255, 0.5)
 ```

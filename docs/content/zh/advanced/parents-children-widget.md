@@ -10,15 +10,15 @@ title: 父子组件
 const child = new Circle(200, {
   x: 200,
   y: 300
-});
+})
 
 const father = new Circle(300, {
   x: 100,
   y: 200
-});
+})
 
 // 添加子组件
-father.add(child);
+father.add(child)
 ```
 
 此时，`child` 的坐标 `(200, 300)` 不是相对于画布左上角的，而是相对于其父组件的位置。
@@ -39,5 +39,5 @@ father.add(child);
 但是将对象保存到变量中既麻烦又低效，因此在 0.7.0 版本之后，我们建议使用链式语法：
 
 ```javascript
-const root = new Widget().add(new Circle(200).setUpdate((elapsed, widget) => {}));
+const root = new Widget().add(new Circle(200).setUpdate((elapsed, widget) => {}))
 ```

@@ -20,14 +20,14 @@ $ npm i -g @newcar/cli
 
 ```javascript
 // 初始化以及导入省略
-const app = engine.createLocalApp(1600 /* 画布的宽 */, 900 /* 画布的高 */);
+const app = engine.createLocalApp(1600 /* 画布的宽 */, 900 /* 画布的高 */)
 // 以下省略，注意，local 模式下没有 `play` 方法
 ```
 
 最后，我们设置 `app` 为默认导出：
 
 ```javascript
-export default app;
+export default app
 ```
 
 然后我们运行 `ncli` 命令：

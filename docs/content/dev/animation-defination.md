@@ -5,7 +5,7 @@ In the previous section, we learned how to use an animation. The simplest way to
 First, we need to import a function for defining animations:
 
 ```typescript
-import { defineAnimation } from "@newcar/core";
+import { defineAnimation } from '@newcar/core'
 ```
 
 Then, we can define an animation operation that will be called on each frame:
@@ -13,7 +13,7 @@ Then, we can define an animation operation that will be called on each frame:
 ```typescript
 const myAnimation = defineAnimation({
   operation(widget, elapsed, process) {}
-});
+})
 ```
 
 In the above code, `process` represents the progress of the animation, ranging from 0 to 1.

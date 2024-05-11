@@ -23,23 +23,23 @@ How do you define an animation? We have previously learned about the built-in an
 However, it's not possible for these animations to cover all properties and styles of a `Widget`. In the ancient versions of newcar, we wrote a corresponding animation for each property, which resulted in an incredibly large bundle size after packaging. This was a loss that was not worth the gain. The new version of newcar uses the `changeProperty` API and `changeStyle` API to change the attributes or values of objects. `changeProperty` and `changeStyle` are used in the same way, the difference is that one changes properties and the other changes the object's style.
 
 ```javascript
-widget.animate(changeProperty("x", 0, 100));
+widget.animate(changeProperty('x', 0, 100))
 // Or
-widget.animate(changeProperty("x"), {
+widget.animate(changeProperty('x'), {
   from: 0,
   to: 120
-});
+})
 ```
 
 `changeProperty` and `changeStyle` can also change multiple values at the same time
 
 ```javascript
-widget.animate(changeProperty(["x", "y"], [0, 0], [100, 200]));
+widget.animate(changeProperty(['x', 'y'], [0, 0], [100, 200]))
 // Or
-widget.animate(changeProperty("x"), {
+widget.animate(changeProperty('x'), {
   from: [0, 0],
   to: [100, 200]
-});
+})
 ```
 
 The fourth parameter of `animate` can include a `by` field, which is used to set the easing curve of the animation.

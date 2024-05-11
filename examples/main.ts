@@ -27,6 +27,15 @@ export const scene1 = new nc.Scene(
   }).animate(nc.stroke, 0, 30).on(nc.click, (w, x, y) => {
     w.x = x
     w.y = y
+  }).setup(function *(widget, animate) {
+    console.time()
+    yield 90
+    console.timeEnd()
+    widget.x = 100
+    widget.y = 100
+    yield animate(nc.move, 100, {
+      to: [300, 300],
+    })
   }),
 )
 
@@ -225,14 +234,7 @@ const sceneChart3 = new nc.Scene(
       },
       indexAxis: 'x',
     },
-  ).animate(nc.create, 0, 60).setup(function* (_widget: nc.Widget) {
-    yield 60
-    console.log('1')
-    yield 60
-    console.log('2')
-    yield 60
-    console.log('3')
-  }),
+  ).animate(nc.create, 0, 60),
 )
 
 const sceneChart4 = new nc.Scene(
@@ -413,6 +415,7 @@ My name is **Acbox**
 
 const app1 = engine.createApp(document.querySelector('#a1'))
 app1.checkout(scene1)
+app1.config.fps = 90
 app1.play()
 
 const app2 = engine.createApp(document.querySelector('#a2'))

@@ -22,18 +22,18 @@ All our Widgets are based on the `Widget` class, which defines some methods for 
 To provide users with a more complete type experience, we recommend using TypeScript instead of JavaScript for development.
 
 ```typescript
-import { Widget } from "@newcar/core";
-import type { CanvasKit, Canvas } from "canvaskit-wasm";
+import { Widget } from '@newcar/core'
+import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 
 export interface MyWidgetOptions {
-  style?: MyWidgetStyle;
+  style?: MyWidgetStyle
 }
 
 export interface MyWidgetStyle {}
 
 export class MyWidget extends Widget {
   constructor(options?: MyWidgetOptions) {
-    options ??= {}; // Add a condition here to prevent users from passing empty options
+    options ??= {} // Add a condition here to prevent users from passing empty options
   }
 
   // Initialize the Widget
@@ -63,22 +63,22 @@ For the use of CanvasKit-WASM, please refer to the [Skia official website](https
 Now let's implement a triangle:
 
 ```typescript
-import { Widget } from "@newcar/core";
-import { Color } from "@newcar/utils";
-import type { CanvasKit, Canvas, Paint, Path } from "canvaskit-wasm";
+import { Widget } from '@newcar/core'
+import { Color } from '@newcar/utils'
+import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
 
 export interface MyWidgetOptions {
-  style?: MyWidgetStyle;
+  style?: MyWidgetStyle
 }
 
 export interface MyWidgetStyle {
-  color: Color;
+  color: Color
 }
 
 export class MyWidget extends Widget {
-  paint: Paint;
-  path: Path;
-  declare style: MyWidgetStyle;
+  paint: Paint
+  path: Path
+  declare style: MyWidgetStyle
 
   constructor(
     public point1: [number, number],
@@ -86,42 +86,42 @@ export class MyWidget extends Widget {
     public point3: [number, number],
     options?: MyWidgetOptions
   ) {
-    options ??= {}; // Add a condition here to prevent users from passing empty options
-    options.style ??= {};
-    this.style.color = options.style.color;
+    options ??= {} // Add a condition here to prevent users from passing empty options
+    options.style ??= {}
+    this.style.color = options.style.color
   }
 
   // Initialize the Widget
   init(ck: CanvasKit) {
-    this.paint = new ck.Paint();
-    this.path = new ck.Path();
+    this.paint = new ck.Paint()
+    this.path = new ck.Path()
     // Pay special attention here, it needs to be converted to Float4 format
-    this.paint.setColor(this.style.color.toFloat4());
-    this.paint.setStyle(ck.PaintStyle.Stroke);
+    this.paint.setColor(this.style.color.toFloat4())
+    this.paint.setStyle(ck.PaintStyle.Stroke)
   }
 
   // Pre-draw, including updating on demand
   predraw(ck: CanvasKit, prop: string) {
     switch (prop) {
-      case "style.color": {
+      case 'style.color': {
         // This is also the case
-        this.paint.setColor(this.style.color.toFloat4());
-        break;
+        this.paint.setColor(this.style.color.toFloat4())
+        break
       }
-      case "point1":
-      case "point2":
-      case "point3": {
-        this.path.moveTo(...this.point1);
-        this.path.lineTo(...this.point2);
-        this.path.lineTo(...this.point3);
-        this.path.close();
+      case 'point1':
+      case 'point2':
+      case 'point3': {
+        this.path.moveTo(...this.point1)
+        this.path.lineTo(...this.point2)
+        this.path.lineTo(...this.point3)
+        this.path.close()
       }
     }
   }
 
   // Draw
   draw(canvas: Canvas) {
-    canvas.drawPath(this.path, this.paint);
+    canvas.drawPath(this.path, this.paint)
   }
 }
 ```

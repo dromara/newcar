@@ -8,13 +8,13 @@ title: 录制器
 
 ```javascript
 // 先创建一个 Recorder, 并指明 Canvas Element 类型
-const recorder = new Recorder(document.querySelector("#canvas"), "mp4");
+const recorder = new Recorder(document.querySelector('#canvas'), 'mp4')
 
 // 开始录制
 recorder.start(2000, (url) => {
   // 2000ms 后输出视频的 url 地址
-  console.log(url);
-});
+  console.log(url)
+})
 ```
 
 现在，你可以访问这个地址，并下载这个视频。

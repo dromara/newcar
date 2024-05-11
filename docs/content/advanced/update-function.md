@@ -10,10 +10,9 @@ Usage:
 
 ```javascript
 widget.setUpdate((elapsed, widget) => {
-  if (elapsed === 100) {
-    widget.radius += 100;
-  }
-});
+  if (elapsed === 100)
+    widget.radius += 100
+})
 ```
 
 The above code will increase the radius of the circle by 100 at the 100th frame.

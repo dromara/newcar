@@ -8,7 +8,13 @@ import type { Event, EventInstance } from './event'
 import type { WidgetPlugin } from './plugin'
 
 export type WidgetInstance<T extends Widget> = T
-type SetupFunction = (widget: Widget) => Generator<number, void, unknown>
+export type SetupFunction<T extends Widget> = (widget: Widget, animate: AnimateFunction<T>) => Generator<number | ReturnType<AnimateFunction<T>>, void, unknown>
+export type AnimateFunction<T extends Widget> = (animation: Animation<T>, duration: number, params?: Record<string, any>) => {
+  animation: Animation<T>
+  mode: 'async' | 'sync'
+  duration: number
+  params: Record<string, any>
+}
 
 export interface WidgetOptions {
   style?: WidgetStyle
@@ -48,7 +54,7 @@ export class Widget {
   animationInstances: AnimationInstance<Widget>[] = []
   eventInstances: EventInstance<Widget>[] = []
   updates: ((elapsed: number, widget: Widget) => void)[] = []
-  setups: Array<{ generator: Generator<number, void, unknown>, nextFrame: number }> = []
+  setups: Array<{ generator: Generator<number | ReturnType<AnimateFunction<any>>, void, unknown>, nextFrame: number }> = []
   key = `widget-${0}-${performance.now()}-${Math.random()
     .toString(16)
     .slice(2)}`
@@ -226,8 +232,24 @@ export class Widget {
     return this
   }
 
-  setup(setupFunc: SetupFunction): this {
-    const generator = setupFunc(this)
+  setup<T extends Widget>(setupFunc: SetupFunction<T>): this {
+    function animate(animation: Animation<T>, duration: number, params?: Record<string, any>) {
+      return {
+        animation,
+        duration,
+        params: params ?? {},
+        mode: 'sync',
+        setAsync() {
+          this.mode = 'async'
+          return this
+        },
+        setSync() {
+          this.mode = 'sync'
+          return this
+        },
+      }
+    }
+    const generator = setupFunc(this, animate as AnimateFunction<T>)
     this.setups.push({ generator, nextFrame: 0 })
     return this
   }
@@ -236,10 +258,15 @@ export class Widget {
     this.setups.forEach((setup) => {
       if (elapsed >= setup.nextFrame) {
         const result = setup.generator.next()
-        if (!result.done && typeof result.value === 'number')
-          setup.nextFrame = elapsed + result.value // Set the next frame
-        else
-          setup.nextFrame = Number.POSITIVE_INFINITY // Marked done
+        if (!result.done && typeof result.value === 'number') { setup.nextFrame = elapsed + result.value } // Set the next frame
+        else if (!result.done && typeof result.value === 'object') {
+          if (result.value.mode === 'async') { this.animate(result.value.animation, elapsed, result.value.duration, result.value.params) }
+          else if (result.value.mode === 'sync') {
+            this.animate(result.value.animation, elapsed, result.value.duration, result.value.params)
+            setup.nextFrame = elapsed + result.value.duration // Set the next frame
+          }
+        }
+        else { setup.nextFrame = Number.POSITIVE_INFINITY } // Marked done
       }
     })
 

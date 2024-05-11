@@ -17,13 +17,13 @@ const rect = new Rect([0, 0], [100, 100], {
     border: true,
     borderColor: Color.BLACK
   }
-});
+})
 ```
 
 ## 使用颜色名称字符串解析
 
 ```javascript
-const RED = Color.parse("red");
+const RED = Color.parse('red')
 ```
 
 颜色名称字符串解析支持 CSS 所支持的所有颜色名称。
@@ -31,5 +31,5 @@ const RED = Color.parse("red");
 ## RGBA
 
 ```javascript
-Color.rgba(255, 255, 255, 0.5);
+Color.rgba(255, 255, 255, 0.5)
 ```

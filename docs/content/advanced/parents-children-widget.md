@@ -10,15 +10,15 @@ In `newcar`, objects can be nested using the `children` property. Here's how to 
 const child = new $.Circle(200, {
   x: 200,
   y: 300
-});
+})
 
 const father = new $.Circle(300, {
   x: 100,
   y: 200
-});
+})
 
 // Add child Widget
-father.add(child);
+father.add(child)
 ```
 
 In this case, the coordinates `(200, 300)` of `child` are not relative to the top-left corner of the canvas, but rather to the position of its parent component.
@@ -39,5 +39,5 @@ Besides coordinates, **rotation angle** and **scaling ratio** also follow the pa
 However, storing objects in variables is both cumbersome and inefficient, so after version 0.7.0, we recommend using chain syntax:
 
 ```javascript
-const root = new Widget().add(new Circle(200).setUpdate((elapsed, widget) => {}));
+const root = new Widget().add(new Circle(200).setUpdate((elapsed, widget) => {}))
 ```

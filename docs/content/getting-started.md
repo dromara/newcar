@@ -83,9 +83,9 @@ Add a `<canvas>` element to your HTML file for rendering.
 Then, import Newcar and initialize the `CarEngine` object.
 
 ```typescript
-import * as nc from "newcar";
+import * as nc from 'newcar'
 
-const engine = await new nc.CarEngine().init("../node_modules/canvaskit-wasm/bin/canvaskit.wasm");
+const engine = await new nc.CarEngine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 ```
 
 In the code above, we imported `newcar` and named it `nc`. Then we created a `CarEngine` object and passed in the CanvasKit-WASM file we just installed.
@@ -93,11 +93,11 @@ In the code above, we imported `newcar` and named it `nc`. Then we created a `Ca
 ## Creating an Animation App
 
 ```typescript
-import * as nc from "newcar";
+import * as nc from 'newcar'
 
-const engine = await new nc.CarEngine().init("../node_modules/canvaskit-wasm/bin/canvaskit.wasm");
+const engine = await new nc.CarEngine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 
-const app = engine.createApp(document.querySelector("#canvas"));
+const app = engine.createApp(document.querySelector('#canvas'))
 ```
 
 We used `CarEngine.createApp` to create an animation instance and passed in the DOM object of `<canvas>`.
@@ -105,14 +105,14 @@ We used `CarEngine.createApp` to create an animation instance and passed in the 
 ## Creating a Scene and Adding Objects
 
 ```typescript
-import * as nc from "newcar";
+import * as nc from 'newcar'
 
-const engine = await new nc.CarEngine().init("../node_modules/canvaskit-wasm/bin/canvaskit.wasm");
-const app = engine.createApp(document.querySelector("#canvas"));
-const root = new nc.Circle(100);
-const scene = nc.createScene(root);
-app.checkout(scene);
-app.play();
+const engine = await new nc.CarEngine().init('../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
+const app = engine.createApp(document.querySelector('#canvas'))
+const root = new nc.Circle(100)
+const scene = nc.createScene(root)
+app.checkout(scene)
+app.play()
 ```
 
 First, we created a circle widget, which is a [offical extension of basic widget](/dev/basic-widget). The constructor's first parameter of this subclass is the radius of the circle, which we set to `100`.
@@ -126,7 +126,7 @@ If you setup the project correctly, you will see a white circle on the screen.
 ## Adding Animation
 
 ```typescript
-root.animate(nc.create, 0, 30);
+root.animate(nc.create, 0, 30)
 ```
 
 This method will add an animation named `create` to this root widget and set the animation start at the first time unit.

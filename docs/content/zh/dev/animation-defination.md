@@ -5,7 +5,7 @@
 首先，我们需要先引入一个定义动画的函数：
 
 ```typescript
-import { defineAnimation } from "@newcar/core";
+import { defineAnimation } from '@newcar/core'
 ```
 
 然后我们来定义一个operation,用来在每帧调用
@@ -13,7 +13,7 @@ import { defineAnimation } from "@newcar/core";
 ```typescript
 const myAnimation = defineAnimation({
   operation(widget, elapsed, process) {}
-});
+})
 ```
 
 其中，process代表动画播放的完整度，取值为[0, 1],

@@ -1,10 +1,8 @@
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
-import { Widget } from '@newcar/core'
 import type { Shader } from '@newcar/utils'
 import { Color, str2BlendMode } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
 import type { Vector2 } from '../../utils/vector2'
-import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 
 export interface LineOptions extends WidgetOptions {

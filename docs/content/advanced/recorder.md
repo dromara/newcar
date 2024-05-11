@@ -8,13 +8,13 @@ By now, after the previous lessons, I believe you have mastered the basic usage 
 
 ```javascript
 // First, create a Recorder, specifying the Canvas Element type
-const recorder = new Recorder(document.querySelector("#canvas"), "mp4");
+const recorder = new Recorder(document.querySelector('#canvas'), 'mp4')
 
 // Start recording
 recorder.start(2000, (url) => {
   // After 2000ms, output the video's URL address
-  console.log(url);
-});
+  console.log(url)
+})
 ```
 
 Now, you can access this URL and download the video.
