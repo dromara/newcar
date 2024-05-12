@@ -57,6 +57,10 @@ export function shallowEqual(objA: any, objB: any): string[] {
   return changedProperties
 }
 
+// The patch function corresponds to the updating of canvas with respect to both old widget tree and updated widget tree.
+// The algorithm lies here just like `diff` algorithm in other frontend frameworks, to optimise the updating performance.
+// To be exact, it is designed to find the differences between two trees, and update according to these differences, to
+// avoid unnecessary changes to the canvas.
 export async function patch(
   old: Widget | AsyncWidget,
   now: Widget | AsyncWidget,
@@ -66,24 +70,23 @@ export async function patch(
   canvas.save()
   const differences = shallowEqual(old, now)
   for (const param of differences) {
-    !now._isAsyncWidget()
-      ? (() => {
-          try {
-            now.preupdate(ck, param)
-          }
-          catch {}
-        })()
-      : await (async () => {
-        try {
-          const res = await now.preupdate(ck, param)
-          if ((res as AsyncWidgetResponse).status === 'error') {
-            console.warn(
-              '[Newcar Warn] Failed to laod async widget, please check if your network.',
-            )
-          }
+    if (!now._isAsyncWidget()) {
+      try {
+        now.preupdate(ck, param)
+      }
+      catch {}
+    }
+    else {
+      try {
+        const res = await now.preupdate(ck, param)
+        if ((res as AsyncWidgetResponse).status === 'error') {
+          console.warn(
+            '[Newcar Warn] Failed to laod async widget, please check if your network.',
+          )
         }
-        catch {}
-      })()
+      }
+      catch {}
+    }
     if (param === 'style') {
       const contrasts = shallowEqual(old.style, now.style)
       for (const contrast of contrasts) {

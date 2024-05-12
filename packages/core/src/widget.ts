@@ -185,12 +185,16 @@ export class Widget {
     this.animationInstances.push(...analyseAnimationTree(tree, startAt))
   }
 
+  // Run an animation with respect to `elapsed`, which is maintained by `App` class
   runAnimation(elapsed: number) {
+    // Traverse over instances sequence, run each animation
     for (const instance of this.animationInstances) {
       if (
-        isNull(instance.startAt)
+        // this condition make sure the animation contained the current frame
+        (isNull(instance.startAt)
           ? elapsed
-          : instance.startAt <= elapsed
+          : instance.startAt) <= elapsed
+        // this condition make sure the animation have not finished yet
           && instance.during + (isNull(instance.startAt) ? elapsed : instance.startAt) >= elapsed
       ) {
         if (instance.mode === 'positive') {
@@ -256,19 +260,42 @@ export class Widget {
     return this
   }
 
+  // process logic:
+  // 1. `setup.nextFrame >= setup.nextFrame` turned out that the current animation of this setup have not finished yet
+  // 2. If `typeof result.value === 'number'`, processor shall simply take this animation as a delay as long as `result.value`.
+  // 3. If `typeof result.value === 'object'`, processor shall play this animation with respect to its playing mode
+  //  - 'async': will not be considered into the playing process, until the condition in step 1 hold
+  //  - 'sync': playing immediately
+  // 4. clean up
+  //
+  // Notice the processing of async mode here, it will simply put the animation onto playing sequence, without nextFrame advanced,
+  // compared with the processing of `sync` animation.
+  // When entered next update process, `runAnimation` will run multiple async animations that overlapped on the timeline
+  // For example, if we have a `move` animation from 1 to 60, and a `scale` animation from 30 to 90, then they will be played at the same time from 30 to 90
   processSetups(elapsed: number) {
     this.setups.forEach((setup) => {
       if (elapsed >= setup.nextFrame) {
+        // advance the setup
         const result = setup.generator.next()
-        if (!result.done && typeof result.value === 'number') { setup.nextFrame = elapsed + result.value } // Set the next frame
-        else if (!result.done && typeof result.value === 'object') {
-          if (result.value.mode === 'async') { this.animate(result.value.animation, elapsed, result.value.duration, result.value.params) }
-          else if (result.value.mode === 'sync') {
-            this.animate(result.value.animation, elapsed, result.value.duration, result.value.params)
-            setup.nextFrame = elapsed + result.value.duration // Set the next frame
+        if (!result.done) {
+          if (typeof result.value === 'number') {
+            // simply put a delay as long as the value here
+            setup.nextFrame = elapsed + result.value
+          }
+          else if (typeof result.value === 'object') {
+            if (result.value.mode === 'async') {
+              this.animate(result.value.animation, elapsed, result.value.duration, result.value.params)
+            }
+            else if (result.value.mode === 'sync') {
+              this.animate(result.value.animation, elapsed, result.value.duration, result.value.params)
+              setup.nextFrame = elapsed + result.value.duration // Set the next frame
+            }
           }
         }
-        else { setup.nextFrame = Number.POSITIVE_INFINITY } // Marked done
+        else {
+          // Marked done
+          setup.nextFrame = Number.POSITIVE_INFINITY
+        }
       }
     })
 
