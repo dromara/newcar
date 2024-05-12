@@ -9,7 +9,9 @@ import * as wc from './index'
 export type NcNamespace = typeof wc & typeof c & typeof b & typeof u
 
 declare global {
+  // @ts-ignore
   var newcar: NcNamespace
+
   interface WindowEventMap {
     'newcarloaded': Event
   }
@@ -28,5 +30,8 @@ if (window?.document != null) {
 
 }
 
+export type * from '@newcar/core'
+export type * from '@newcar/basic'
+export type * from '@newcar/utils'
 
 export { }

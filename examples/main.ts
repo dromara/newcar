@@ -415,7 +415,6 @@ My name is **Acbox**
 
 const app1 = engine.createApp(document.querySelector('#a1'))
 app1.checkout(scene1)
-app1.config.fps = 90
 app1.play()
 
 const app2 = engine.createApp(document.querySelector('#a2'))

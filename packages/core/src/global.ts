@@ -13,5 +13,4 @@ export const $source: {
 
 export const config = defineConfig({
   unit: 'frame',
-  fps: 60,
 })
