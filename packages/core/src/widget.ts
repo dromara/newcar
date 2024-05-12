@@ -18,6 +18,7 @@ export type AnimateFunction<T extends Widget> = (animation: Animation<T>, durati
   setAsync: () => ReturnType<AnimateFunction<T>>
   setSync: () => ReturnType<AnimateFunction<T>>
 }
+export type Layout = 'row' | 'column' | 'absolute'
 
 export interface WidgetOptions {
   style?: WidgetStyle
@@ -36,6 +37,8 @@ export interface WidgetStyle {
   transparency?: number
   blendMode?: BlendMode
   antiAlias?: boolean
+  layout?: Layout
+  margin?: [number, number, number, number] | [number, number] | number
 }
 
 export class Widget {
@@ -80,6 +83,13 @@ export class Widget {
     this.style.transparency = options.style.transparency ?? 1
     this.style.blendMode = options.style.blendMode ?? 'srcOver'
     this.style.antiAlias = options.style.antiAlias ?? true
+    this.style.layout = options.style.layout ?? 'absolute'
+    this.style.margin = typeof options.style.margin === 'number'
+      ? [options.style.margin, options.style.margin, options.style.margin, options.style.margin]
+      : options.style.margin.length === 2
+        ? [options.style.margin[0], options.style.margin[0], options.style.margin[1], options.style.margin[1]]
+        : options.style.margin
+        ?? [0, 0, 0, 0]
   }
 
   /**
@@ -135,6 +145,15 @@ export class Widget {
       this.draw(canvas)
       for (const plugin of this.plugins)
         plugin.onDraw(this, canvas)
+    }
+    for (const child of this.children) {
+      switch (child.style.layout) {
+        case 'row':
+          // TODO: WIP
+          break
+        case 'column':
+          // TODO: WIP
+      }
     }
   }
 
