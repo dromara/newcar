@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newcar Browser Bundle Example</title>
+  <script src="./node_modules/@newcar/mod-web-components/dist/browser/newcar.global.js"></script>
+
+  <nc-global-init wasm-src="./node_modules/canvaskit-wasm/bin/canvaskit.wasm"></nc-global-init>
+</head>
+<body>
+  <nc-canvas name="foo" width="800" height="600"></nc-canvas>
+</body>
+<script type="module" src="./global.ts"></script>
+</html>

@@ -25,7 +25,7 @@
   "scripts": {
     "publish": "npm publish",
     "build": "pkgroll --sourcemap --minify && pnpm build:single",
-    "build:single": "esbuild --bundle --outfile=dist/browser/newcar.global.min.js --sourcemap --minify --platform=node --target=chrome63 --format=iife src/global.ts",
+    "build:single": "esbuild --bundle --outfile=dist/browser/newcar.global.js --sourcemap --platform=node --target=chrome63 --format=iife src/global.ts && esbuild --bundle --outfile=dist/browser/newcar.global.min.js --sourcemap --minify --platform=node --target=chrome63 --format=iife src/global.ts",
     "dev": "pkgroll -w"
   },
   "peerDependencies": {

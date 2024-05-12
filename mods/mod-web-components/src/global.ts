@@ -10,6 +10,9 @@ export type NcNamespace = typeof wc & typeof c & typeof b & typeof u
 
 declare global {
   var newcar: NcNamespace
+  interface WindowEventMap {
+    'newcarloaded': Event
+  }
 }
 
 const registerGlobals = once(() => {
@@ -18,5 +21,12 @@ const registerGlobals = once(() => {
 })
 
 registerGlobals()
+
+if (window?.document != null) {
+  wc.registerCustomElements()
+  window.dispatchEvent(new Event('newcarloaded'))
+
+}
+
 
 export { }

@@ -164,7 +164,7 @@ export function getCanvasByName(name: string): CanvasElement | null {
   return canvasMap.get(name)
 }
 
-export function getGlobalEngine() {
+export function whenReady() {
   return globalInitReady.promise
 }
 
