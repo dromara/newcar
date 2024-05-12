@@ -24,8 +24,8 @@
   ],
   "scripts": {
     "publish": "npm publish",
-    "build": "pkgroll --sourcemap --minify",
-    "build:single": "",
+    "build": "pkgroll --sourcemap --minify && pnpm build:single",
+    "build:single": "esbuild --bundle --outfile=dist/browser/newcar.global.min.js --sourcemap --minify --platform=node --target=chrome63 --format=iife src/global.ts",
     "dev": "pkgroll -w"
   },
   "peerDependencies": {
@@ -34,11 +34,11 @@
   "dependencies": {
     "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
-    "@newcar/utils": "workspace:*",
-    "unbuild": "^2.0.0"
+    "@newcar/utils": "workspace:*"
   },
   "devDependencies": {
-    "canvaskit-wasm": "0.39.1"
+    "canvaskit-wasm": "0.39.1",
+    "esbuild": "^0.20.2"
   },
   "publishConfig": {
     "access": "public"
