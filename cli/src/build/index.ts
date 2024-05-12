@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import fs from 'node:fs'
 import { Buffer } from 'node:buffer'
 import { resolve } from 'node:path'
@@ -36,18 +37,26 @@ async function resolveApp(path: string): Promise<App> {
 }
 
 async function exportFile(path: string, files: string[], fps: number) {
-  ffmpeg()
-    .on('error', (err: Error) => {
-      console.error(`An error occurred: ${err.message}`)
+  for (let i = 0; i < files.length; i++) {
+    await new Promise((resolve, reject) => {
+      ffmpeg()
+        .on('error', (err: Error) => {
+          console.error(`An error occurred: ${err.message}`)
+          reject(err)
+        })
+        .input(files[i])
+        .inputFPS(fps)
+        .output(path)
+        .outputFPS(30)
+        .addInput(resolve(`./temp_image_${i}.png`))
+        .addOption('-vf', `fps=${fps}`)
+        .on('end', () => {
+          console.log(`Frame ${i + 1} processed.`)
+          fs.unlinkSync(files[i])
+          resolve(null)
+        })
+        .run()
     })
-    .on('end', () => {
-      // eslint-disable-next-line no-console
-      console.log('Processing finished!')
-      files.forEach(file => fs.unlinkSync(file))
-    })
-    .input(resolve('./temp_image_%d.png'))
-    .inputFPS(fps)
-    .output(path)
-    .outputFPS(30)
-    .run()
+  }
+  console.log('Processing finished!')
 }

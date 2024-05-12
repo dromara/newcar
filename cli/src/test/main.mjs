@@ -1,10 +1,10 @@
 import path from 'node:path'
 import { CarEngine, ImageWidget, Scene, Text, Widget, move, useFont, useImage } from 'newcar'
 
-const logoLoaded = await useImage(path.resolve('./assets/newcar.webp'))
+const logoLoaded = await useImage('./assets/newcar.webp')
 await useFont('./fonts/bahnschrift.ttf')
 
-const engine = await new CarEngine().init('./node_modules/canvaskit-wasm/bin/canvaskit.wasm')
+const engine = await new CarEngine().init('../../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 const app = engine.createLocalApp(700, 700)
 const logo = new ImageWidget(logoLoaded, {
   style: {
