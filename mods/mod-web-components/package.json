@@ -10,6 +10,12 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
+    },
+    "./global": {
+      "dev": "./src/global.ts",
+      "types": "./dist/global.d.ts",
+      "import": "./dist/global.mjs",
+      "require": "./dist/global.cjs"
     }
   },
   "types": "./dist/index.d.ts",
@@ -19,6 +25,7 @@
   "scripts": {
     "publish": "npm publish",
     "build": "pkgroll --sourcemap --minify",
+    "build:single": "",
     "dev": "pkgroll -w"
   },
   "peerDependencies": {
@@ -27,7 +34,8 @@
   "dependencies": {
     "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
-    "@newcar/utils": "workspace:*"
+    "@newcar/utils": "workspace:*",
+    "unbuild": "^2.0.0"
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"
