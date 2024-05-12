@@ -1,5 +1,7 @@
 import type {
   WidgetOptions,
+  WidgetRange,
+
   WidgetStyle,
 } from '@newcar/core'
 import {
@@ -464,6 +466,15 @@ export class Text extends Widget {
     }
 
     return false
+  }
+
+  get range(): WidgetRange {
+    return [
+      this.x,
+      this.y,
+      this.x + this.style.width,
+      this.y + this.paragraph.getHeight(),
+    ]
   }
 
   // TODO: Stroke and Fill Mode

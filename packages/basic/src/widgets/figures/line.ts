@@ -1,4 +1,4 @@
-import type { WidgetOptions, WidgetStyle } from '@newcar/core'
+import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
 import type { Shader } from '@newcar/utils'
 import { Color, str2BlendMode } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
@@ -88,5 +88,12 @@ export class Line extends Figure {
     const yIntercept = this.from[1] - slope * this.from[0]
     const expectedY = slope * x + yIntercept
     return Math.abs(y - expectedY) < Number.EPSILON
+  }
+
+  get range(): WidgetRange {
+    return [
+      ...this.from,
+      ...this.to,
+    ]
   }
 }

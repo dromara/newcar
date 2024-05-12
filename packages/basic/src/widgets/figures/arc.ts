@@ -1,5 +1,6 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
 import { str2BlendMode } from '@newcar/utils'
+import type { WidgetRange } from '@newcar/core'
 import type { FigureOptions } from './figure'
 import { Figure } from './figure'
 
@@ -154,5 +155,14 @@ export class Arc extends Figure {
 
     // Check if inside the circle
     return distance <= this.radius
+  }
+
+  get range(): WidgetRange {
+    return [
+      this.x - this.radius,
+      this.y - this.radius,
+      this.x + this.radius,
+      this.y + this.radius,
+    ]
   }
 }

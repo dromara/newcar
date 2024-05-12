@@ -1,5 +1,6 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
 import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
+import type { WidgetRange } from '@newcar/core'
 import type { Vector2 } from '../../utils/vector2'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
@@ -133,5 +134,12 @@ export class Rect extends Figure {
       && y >= rectY
       && y <= rectY + rectHeight
     )
+  }
+
+  get range(): WidgetRange {
+    return [
+      ...this.from,
+      ...this.to,
+    ]
   }
 }

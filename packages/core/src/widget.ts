@@ -7,6 +7,7 @@ import { analyseAnimationTree } from './animationTree'
 import type { Event, EventInstance } from './event'
 import type { WidgetPlugin } from './plugin'
 
+export type WidgetRange = [number, number, number, number]
 export type WidgetInstance<T extends Widget> = T
 export type SetupFunction<T extends Widget> = (widget: Widget, animate: AnimateFunction<T>) => Generator<number | ReturnType<AnimateFunction<T>>, void, unknown>
 export type AnimateFunction<T extends Widget> = (animation: Animation<T>, duration: number, params?: Record<string, any>) => {
@@ -329,6 +330,10 @@ export class Widget {
   // eslint-disable-next-line unused-imports/no-unused-vars
   isIn(x: number, y: number): boolean {
     return false
+  }
+
+  get range(): WidgetRange {
+    return [this.x, this.y, this.x, this.y]
   }
 
   static getAbsoluteCoordinates(widget: Widget): { x: number, y: number } {

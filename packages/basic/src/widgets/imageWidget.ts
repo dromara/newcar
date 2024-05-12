@@ -1,4 +1,4 @@
-import type { WidgetOptions } from '@newcar/core'
+import type { WidgetOptions, WidgetRange } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import type { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
 
@@ -54,5 +54,14 @@ export class ImageWidget extends Widget {
       && y >= 0
       && y <= 0 + this.image.height()
     )
+  }
+
+  get range(): WidgetRange {
+    return [
+      this.x,
+      this.y,
+      this.x + this.image.width(),
+      this.y + this.image.height(),
+    ]
   }
 }

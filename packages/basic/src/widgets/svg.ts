@@ -1,5 +1,6 @@
+/* eslint-disable import/no-duplicates */
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
-import { Widget } from '@newcar/core'
+import { Widget, type WidgetRange } from '@newcar/core'
 import type { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
 
 function svg2Blob(xml: string): Blob {
@@ -81,5 +82,14 @@ export class Svg extends Widget {
   draw(canvas: Canvas): void {
     if (this.ready)
       canvas.drawImage(this.imageData, this.x, this.y)
+  }
+
+  get range(): WidgetRange {
+    return [
+      this.x,
+      this.y,
+      this.x + this.image.width,
+      this.y + this.image.height,
+    ]
   }
 }

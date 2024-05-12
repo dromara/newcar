@@ -1,5 +1,6 @@
 import type { Canvas, CanvasKit, Path } from 'canvaskit-wasm'
 import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
+import type { WidgetRange } from '@newcar/core'
 import type { Vector2 } from '../../utils/vector2'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
@@ -172,5 +173,14 @@ export class Polygon extends Figure {
 
     // 射线穿过多边形边界的次数为奇数时点在多边形内
     return !!flag
+  }
+
+  get range(): WidgetRange {
+    return [
+      this.x,
+      this.y,
+      Math.max(...this.points.map(point => point[0])),
+      Math.max(...this.points.map(point => point[1])),
+    ]
   }
 }
