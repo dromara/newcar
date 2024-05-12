@@ -235,13 +235,13 @@ importers:
       '@newcar/utils':
         specifier: workspace:*
         version: link:../../packages/utils
-      esbuild:
-        specifier: ^0.20.2
-        version: 0.20.2
     devDependencies:
       canvaskit-wasm:
         specifier: 0.39.1
         version: 0.39.1
+      esbuild:
+        specifier: ^0.20.2
+        version: 0.20.2
 
   packages/basic:
     dependencies:
