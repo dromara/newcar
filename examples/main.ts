@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import { CarEngine, Color, Shader, Text } from 'newcar'
+import { CarEngine, Color, Rect, Shader, Text } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { BarChart, BubbleChart, ChartDataUnit, ChartUtil, LineChart, MixedChart, ScatterChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
@@ -17,26 +16,19 @@ const engine = await new CarEngine().init(
 )
 
 export const scene1 = new nc.Scene(
-  new nc.Circle(100, {
+  new nc.Widget({
     style: {
-      border: true,
-      // fill: false,
-      borderShader: Shader.createLinearGradientShader([0, 0], [0, 200], [Color.parse('red'), Color.parse('blue')], null, 'repeat'),
-      fillShader: Shader.createLinearGradientShader([0, 0], [0, 200], [Color.parse('red'), Color.parse('blue')], null, 'repeat'),
+      margin: 100,
+      layout: 'row',
     },
-  }).animate(nc.stroke, 0, 30).on(nc.click, (w, x, y) => {
-    w.x = x
-    w.y = y
-  }).setup(function *(widget, animate) {
-    console.time()
-    yield 90
-    console.timeEnd()
-    widget.x = 100
-    widget.y = 100
-    yield animate(nc.move, 100, {
-      to: [300, 300],
-    }).setAsync()
-  }),
+  })
+    .add(
+      new nc.Circle(100, {
+        style: {
+          margin: 100,
+        },
+      }),
+    ),
 )
 
 export const scene2 = new nc.Scene(

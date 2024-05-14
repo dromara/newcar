@@ -1,5 +1,5 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
-import { type BlendMode, isNull } from '@newcar/utils'
+import { type BlendMode, isNull, isUndefined } from '@newcar/utils'
 import type { Animation, AnimationInstance } from './animation'
 import { deepClone } from './utils/deepClone'
 import type { AnimationTree } from './animationTree'
@@ -84,12 +84,13 @@ export class Widget {
     this.style.blendMode = options.style.blendMode ?? 'srcOver'
     this.style.antiAlias = options.style.antiAlias ?? true
     this.style.layout = options.style.layout ?? 'absolute'
-    this.style.margin = typeof options.style.margin === 'number'
-      ? [options.style.margin, options.style.margin, options.style.margin, options.style.margin]
-      : options.style.margin.length === 2
-        ? [options.style.margin[0], options.style.margin[0], options.style.margin[1], options.style.margin[1]]
-        : options.style.margin
-        ?? [0, 0, 0, 0]
+    this.style.margin = isUndefined(options.style.margin)
+      ? [0, 0, 0, 0]
+      : typeof options.style.margin === 'number'
+        ? [options.style.margin, options.style.margin, options.style.margin, options.style.margin]
+        : options.style.margin.length === 2
+          ? [options.style.margin[0], options.style.margin[0], options.style.margin[1], options.style.margin[1]]
+          : options.style.margin
   }
 
   /**
@@ -146,15 +147,6 @@ export class Widget {
       for (const plugin of this.plugins)
         plugin.onDraw(this, canvas)
     }
-    for (const child of this.children) {
-      switch (child.style.layout) {
-        case 'row':
-          // TODO: WIP
-          break
-        case 'column':
-          // TODO: WIP
-      }
-    }
   }
 
   /**
@@ -162,11 +154,28 @@ export class Widget {
    * @param children The added children.
    */
   add(...children: Widget[]): this {
+    let index = 0
     for (const child of children) {
       child.parent = child
       this.children.push(child)
+      switch (this.style.layout) {
+        case 'row': {
+          if (index === 0)
+            child.x = child.x + (child.style.margin as [number, number, number, number])[2]
+          else
+            child.x = child.x + (this.children[index - 1].style.margin as [number, number, number, number])[3] + (child.style.margin as [number, number, number, number])[2]
+          break
+        }
+        case 'column': {
+          if (index === 0)
+            child.y = child.y + (child.style.margin as [number, number, number, number])[0]
+          else
+            child.y = child.y + (this.children[index - 1].style.margin as [number, number, number, number])[1] + (child.style.margin as [number, number, number, number])[0]
+          break
+        }
+      }
+      index += 1
     }
-
     return this
   }
 
