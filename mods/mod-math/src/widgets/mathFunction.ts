@@ -11,7 +11,7 @@ export interface MathFunctionOptions extends WidgetOptions {
   divisionX?: number
   lineWidth?: number
   style?: MathFunctionStyle
-  range?: Range
+  numberRange?: Range
 }
 
 export interface MathFunctionStyle extends WidgetStyle {
@@ -24,7 +24,7 @@ export class MathFunction extends Widget {
   declare style: MathFunctionStyle
   private path: Path
   private paint: Paint
-  range: Range
+  numberRange: Range
   lineWidth: number
   divisionX: number
   divisionY: number
@@ -36,7 +36,7 @@ export class MathFunction extends Widget {
   ) {
     options ??= {}
     super(options)
-    this.range = options.range ?? [
+    this.numberRange = options.numberRange ?? [
       Number.NEGATIVE_INFINITY,
       Number.POSITIVE_INFINITY,
     ]
