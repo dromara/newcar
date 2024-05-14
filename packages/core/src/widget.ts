@@ -18,7 +18,7 @@ export type AnimateFunction<T extends Widget> = (animation: Animation<T>, durati
   setAsync: () => ReturnType<AnimateFunction<T>>
   setSync: () => ReturnType<AnimateFunction<T>>
 }
-export type Layout = 'row' | 'column' | 'absolute'
+export type Layout = 'row' | 'column' | 'absolute' | 'mix'
 
 export interface WidgetOptions {
   style?: WidgetStyle
@@ -171,6 +171,17 @@ export class Widget {
             child.y = child.y + (child.style.margin as [number, number, number, number])[0]
           else
             child.y = child.y + (this.children[index - 1].style.margin as [number, number, number, number])[1] + (child.style.margin as [number, number, number, number])[0]
+          break
+        }
+        case 'mix': {
+          if (index === 0) {
+            child.x = child.x + (child.style.margin as [number, number, number, number])[2]
+            child.y = child.y + (child.style.margin as [number, number, number, number])[0]
+          }
+          else {
+            child.x = child.x + (this.children[index - 1].style.margin as [number, number, number, number])[3] + (child.style.margin as [number, number, number, number])[2]
+            child.y = child.y + (this.children[index - 1].style.margin as [number, number, number, number])[1] + (child.style.margin as [number, number, number, number])[0]
+          }
           break
         }
       }
