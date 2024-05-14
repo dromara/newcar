@@ -44,7 +44,7 @@ export class App {
   ) {
     this.setBackgroundColor(Color.BLACK)
     this.config = defineConfig({
-      unit: 'frame',
+      unit: 's',
     })
     if (element === void 0) {
       console.warn(
@@ -73,8 +73,8 @@ export class App {
    */
   checkout(scene: Scene): this {
     for (const plugin of this.plugins) plugin.beforeCheckout(this, scene)
-
     this.scene = scene
+    this.scene.startTime = performance.now()
     this.last = this.scene.root
     for (const plugin of this.plugins) plugin.onCheckout(this, this.scene)
     // if (!scene.root.hasSet)
@@ -117,7 +117,12 @@ export class App {
     for (const plugin of app.plugins) plugin.onUpdate(app, app.scene.elapsed)
 
     if (app.playing) {
-      app.scene.elapsed += 1
+      if (app.config.unit === 'frame')
+        app.scene.elapsed += 1
+      else if (app.config.unit === 'ms')
+        app.scene.elapsed = performance.now() - app.scene.startTime
+      else if (app.config.unit === 's')
+        app.scene.elapsed = (performance.now() - app.scene.startTime) / 1000
       app.surface.requestAnimationFrame((canvas: Canvas) => {
         App.update(app, canvas)
       })
