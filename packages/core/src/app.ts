@@ -125,6 +125,7 @@ export class App {
         app.scene.elapsed = (performance.now() - app.scene.startTime) / 1000
       app.surface.requestAnimationFrame((canvas: Canvas) => {
         App.update(app, canvas)
+        // console.log(app.scene.elapsed)
       })
     }
   }

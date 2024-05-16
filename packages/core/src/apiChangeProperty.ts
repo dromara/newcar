@@ -70,17 +70,20 @@ export function changeProperty<T extends Widget>(
       // Apply the animation to each property.
       const applyChange = (
         prop: PickNumberKeys<T>,
-        start: number,
+        start: number | undefined,
         end: number,
       ) => {
+        if (start === undefined)
+          (start as unknown) = widget[prop] // Use the widget's original value as the start value
+
         if (/style\..+/.test(prop as string)) {
           const propAfterPoint = (prop as string).replace(/style\./, '')
           const valueChange = (end - start) * adjustedProcess
-            ; (widget.style[propAfterPoint as keyof WidgetStyle] as any) = start + valueChange
+          ; (widget.style[propAfterPoint as keyof WidgetStyle] as any) = start + valueChange
         }
         else {
           const valueChange = (end - start) * adjustedProcess
-            ; (widget[prop] as any) = start + valueChange
+          ; (widget[prop] as any) = start + valueChange
         }
       }
 

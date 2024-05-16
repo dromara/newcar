@@ -1,5 +1,5 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
-import { type BlendMode, isNull, isUndefined } from '@newcar/utils'
+import { type BlendMode, isUndefined } from '@newcar/utils'
 import type { Animation, AnimationInstance } from './animation'
 import { deepClone } from './utils/deepClone'
 import type { AnimationTree } from './animationTree'
@@ -153,9 +153,11 @@ export class Widget {
    * Add children widgets for the widget.
    * @param children The added children.
    */
-  add(...children: Widget[]): this {
+  add(...children: Widget[] | ((parent: Widget) => Widget)[]): this {
     let index = 0
-    for (const child of children) {
+    for (let child of children) {
+      if (typeof child === 'function')
+        child = child(this)
       child.parent = child
       this.children.push(child)
       switch (this.style.layout) {
@@ -232,25 +234,24 @@ export class Widget {
     for (const instance of this.animationInstances) {
       if (
         // this condition make sure the animation contained the current frame
-        (isNull(instance.startAt)
-          ? elapsed
-          : instance.startAt) <= elapsed
+        instance.startAt <= elapsed
         // this condition make sure the animation have not finished yet
-          && instance.during + (isNull(instance.startAt) ? elapsed : instance.startAt) >= elapsed
+        && (instance.during + instance.startAt) >= elapsed
       ) {
         if (instance.mode === 'positive') {
           instance.animation.act(
             this,
-            elapsed - (isNull(instance.startAt) ? elapsed : instance.startAt),
-            (elapsed - (isNull(instance.startAt) ? elapsed : instance.startAt)) / instance.during,
+            elapsed - instance.startAt,
+            (elapsed - instance.startAt) / instance.during,
             instance.params,
           )
+          // console.log((elapsed - instance.startAt) / instance.during, instance.startAt, instance.during)
         }
         else if (instance.mode === 'reverse') {
           instance.animation.act(
             this,
-            elapsed - (isNull(instance.startAt) ? elapsed : instance.startAt),
-            1 - (elapsed - (isNull(instance.startAt) ? elapsed : instance.startAt)) / instance.during,
+            elapsed - instance.startAt,
+            1 - (elapsed - instance.startAt) / instance.during,
             instance.params,
           )
         }

@@ -1,4 +1,3 @@
-import path from 'node:path'
 import { CarEngine, ImageWidget, Scene, Text, Widget, move, useFont, useImage } from 'newcar'
 
 const logoLoaded = await useImage('./assets/newcar.webp')
