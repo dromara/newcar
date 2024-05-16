@@ -128,14 +128,14 @@ export class BarChart extends BaseSimpleChart {
       set.style.border ??= this.data.style?.border ?? true
 
       if (this.layout.indexAxis === 'x') {
-        const gridSize = this.layout.index.interval
-          / (this.layout.index.max - this.layout.index.min) * this.layout.size.width
-        const categorySize = gridSize * this.categoryPercentage
-        const barSize = (categorySize / this.data.datasets.length) * this.barPercentage
         return set.data.map((unit) => {
+          const gridSize = (unit.indexDuration() ?? this.layout.index.interval)
+            / (this.layout.index.max - this.layout.index.min) * this.layout.size.width
+          const categorySize = gridSize * this.categoryPercentage
+          const barSize = (categorySize / this.data.datasets.length) * this.barPercentage
           return new Rect(
             [
-              (unit.index - this.layout.index.interval / 2 - this.layout.index.min)
+              (unit.index - (unit.indexDuration() ?? this.layout.index.interval) / 2 - this.layout.index.min)
               / (this.layout.index.max - this.layout.index.min) * this.layout.size.width
               + (gridSize - categorySize) / 2 + (setIndex * categorySize) / this.data.datasets.length
               + (categorySize / this.data.datasets.length - barSize) / 2,
@@ -143,7 +143,7 @@ export class BarChart extends BaseSimpleChart {
               / (this.layout.cross.max - this.layout.cross.min),
             ],
             [
-              (unit.index - this.layout.index.interval / 2 - this.layout.index.min)
+              (unit.index - (unit.indexDuration() ?? this.layout.index.interval) / 2 - this.layout.index.min)
               / (this.layout.index.max - this.layout.index.min) * this.layout.size.width
               + (gridSize - categorySize) / 2 + (setIndex * categorySize) / this.data.datasets.length
               + (categorySize / this.data.datasets.length - barSize) / 2
@@ -165,15 +165,15 @@ export class BarChart extends BaseSimpleChart {
         })
       }
       else {
-        const gridSize = this.layout.index.interval
-          / (this.layout.index.max - this.layout.index.min) * this.layout.size.height
-        const categorySize = gridSize * this.categoryPercentage
-        const barSize = (categorySize / this.data.datasets.length) * this.barPercentage
         return set.data.map((unit) => {
+          const gridSize = (unit.indexDuration() ?? this.layout.index.interval)
+            / (this.layout.index.max - this.layout.index.min) * this.layout.size.height
+          const categorySize = gridSize * this.categoryPercentage
+          const barSize = (categorySize / this.data.datasets.length) * this.barPercentage
           return new Rect(
             [
               (0 - this.layout.cross.min) / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.width,
-              (unit.index - this.layout.index.interval / 2 - this.layout.index.min)
+              (unit.index - (unit.indexDuration() ?? this.layout.index.interval) / 2 - this.layout.index.min)
               / (this.layout.index.max - this.layout.index.min) * this.layout.size.height
               + (gridSize - categorySize) / 2
               + (setIndex * categorySize) / this.data.datasets.length
@@ -182,7 +182,7 @@ export class BarChart extends BaseSimpleChart {
             [
               ((unit.cross * this.progress - this.layout.cross.min) * this.layout.size.width)
               / (this.layout.cross.max - this.layout.cross.min),
-              (unit.index - this.layout.index.interval / 2 - this.layout.index.min)
+              (unit.index - (unit.indexDuration() ?? this.layout.index.interval) / 2 - this.layout.index.min)
               / (this.layout.index.max - this.layout.index.min) * this.layout.size.height
               + (gridSize - categorySize) / 2
               + (setIndex * categorySize) / this.data.datasets.length

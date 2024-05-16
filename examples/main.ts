@@ -1,4 +1,4 @@
-import { CarEngine, Color, Rect, Shader, Text } from 'newcar'
+import { CarEngine, Color, Shader, Text } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { BarChart, BubbleChart, ChartDataUnit, ChartUtil, LineChart, MixedChart, ScatterChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
@@ -295,14 +295,14 @@ const sceneChart5 = new nc.Scene(
         data: {
           labels: ChartUtil.dateSequence(
             DateTime.fromISO('2021-02-01').setLocale('en-US'),
-            Duration.fromObject({ months: 4 }),
+            Duration.fromObject({ months: 3.5 }),
             'month',
-            1,
+            0.5,
           ),
           datasets: [
             {
               label: 'Bar 1',
-              data: ChartUtil.dataUnits([-14, 5, -4, 18]),
+              data: ChartUtil.dataUnits([-14, 5, -4, 18, 6, 6, 6]),
               style: {
                 backgroundColor: Color.parse('#FFFF00').withAlpha(0.2),
                 borderColor: Color.parse('#FFFF00'),
@@ -327,6 +327,24 @@ const sceneChart5 = new nc.Scene(
                   style: {
                     backgroundColor: Color.rgba(255, 205, 86, 0.2),
                     borderColor: Color.rgba(255, 205, 86),
+                  },
+                }),
+                new ChartDataUnit(5, {
+                  style: {
+                    backgroundColor: Color.rgba(75, 192, 192, 0.2),
+                    borderColor: Color.rgba(75, 192, 192),
+                  },
+                }),
+                new ChartDataUnit(5, {
+                  style: {
+                    backgroundColor: Color.rgba(75, 192, 192, 0.2),
+                    borderColor: Color.rgba(75, 192, 192),
+                  },
+                }),
+                new ChartDataUnit(5, {
+                  style: {
+                    backgroundColor: Color.rgba(75, 192, 192, 0.2),
+                    borderColor: Color.rgba(75, 192, 192),
                   },
                 }),
                 new ChartDataUnit(5, {
