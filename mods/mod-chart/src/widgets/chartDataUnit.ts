@@ -1,5 +1,5 @@
 import { Widget, type WidgetOptions } from '@newcar/core'
-import type { DateTimeUnit } from 'luxon'
+import type { DateTimeUnit, Duration } from 'luxon'
 import { DateTime } from 'luxon'
 
 /**
@@ -16,6 +16,18 @@ export interface ChartDataOptions<ChartStyle> extends WidgetOptions {
 }
 
 /**
+ * DateTimeWithPeriod
+ * @public
+ * @category General
+ * @interface
+ * @extends {DateTime}
+ * @property {Duration} [period] - Period
+ */
+export interface DateTimeWithPeriod extends DateTime {
+  duration?: Duration
+}
+
+/**
  * ChartData
  * @public
  * @category General
@@ -25,7 +37,7 @@ export interface ChartDataOptions<ChartStyle> extends WidgetOptions {
  * @property {number} [weight] - Weight value (display forms may differ depending on the chart type)
  */
 export interface ChartData {
-  index?: number | DateTime
+  index?: number | DateTimeWithPeriod
   cross?: number
   weight?: number
 }
@@ -92,6 +104,15 @@ export class ChartDataUnit<ChartStyle> extends Widget {
    */
   indexDate() {
     return <DateTime> (<ChartData> this.value).index
+  }
+
+  /**
+   * returns the index duration value as a number
+   */
+  indexDuration(): number {
+    if (!this.intervalUnit)
+      throw new Error('Interval unit is not set')
+    return (<DateTimeWithPeriod> (<ChartData> this.value).index).duration.as(this.intervalUnit)
   }
 
   /**
