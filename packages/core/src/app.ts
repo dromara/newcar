@@ -6,7 +6,7 @@ import { deepClone } from './utils/deepClone'
 import { patch } from './patch'
 import type { Widget } from './widget'
 import type { GlobalPlugin } from './plugin'
-import { type Config, defineConfig } from './config'
+import { type Config, DEFAULT_APP_CONFIG } from './config'
 
 /**
  * A object that control a single animatiopn canvas.
@@ -43,9 +43,7 @@ export class App {
     private plugins: GlobalPlugin[],
   ) {
     this.setBackgroundColor(Color.BLACK)
-    this.config = defineConfig({
-      unit: 's',
-    })
+    this.config = DEFAULT_APP_CONFIG
     if (element === void 0) {
       console.warn(
         `[Newcar Warn] You are trying to use a undefined canvas element.`,
@@ -88,6 +86,9 @@ export class App {
    * @param canvas The `Canvas` object of CanvasKit-WASM
    */
   static update(app: App, canvas: Canvas): void {
+    if (!app.playing)
+      return
+
     for (const plugin of app.plugins)
       plugin.beforeUpdate(app, app.scene.elapsed)
 
@@ -116,18 +117,14 @@ export class App {
     }
     for (const plugin of app.plugins) plugin.onUpdate(app, app.scene.elapsed)
 
-    if (app.playing) {
-      if (app.config.unit === 'frame')
-        app.scene.elapsed += 1
-      else if (app.config.unit === 'ms')
-        app.scene.elapsed = performance.now() - app.scene.startTime
-      else if (app.config.unit === 's')
-        app.scene.elapsed = (performance.now() - app.scene.startTime) / 1000
+    app.scene.tick()
+
+    // TODO: handle the case that one `update` consumes time exceeded 1000 / `fps`
+    app.scene.nextFrame(() => {
       app.surface.requestAnimationFrame((canvas: Canvas) => {
         App.update(app, canvas)
-        // console.log(app.scene.elapsed)
       })
-    }
+    })
   }
 
   /**
@@ -193,5 +190,9 @@ export class App {
 
   clear() {
     this.cleared = true
+  }
+
+  second(seconds: number): number {
+    return seconds * this.config.fps
   }
 }

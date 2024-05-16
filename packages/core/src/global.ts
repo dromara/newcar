@@ -1,4 +1,4 @@
-import { defineConfig } from './config'
+import { DEFAULT_APP_CONFIG } from './config'
 
 /**
  * The global preloaded sources.
@@ -11,6 +11,4 @@ export const $source: {
   images: [],
 }
 
-export const config = defineConfig({
-  unit: 'frame',
-})
+export const config = DEFAULT_APP_CONFIG
