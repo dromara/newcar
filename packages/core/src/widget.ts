@@ -110,8 +110,8 @@ export class Widget {
    * Preload the necessary items during drawing.
    * Called when the properties of the widget is changed.
    * In common, we use it to initializing Paint, Rect, Path, etc.
-   * @param CanvasKit The namespace of CanvasKit-WASM.
-   * @param propertyChanged The changed property of this widget
+   * @param _ck The namespace of CanvasKit-WASM.
+   * @param _propertyChanged The changed property of this widget
    */
 
   predraw(_ck: CanvasKit, _propertyChanged: string) { }
@@ -126,6 +126,7 @@ export class Widget {
   /**
    * Called when the parameters is changed.
    * @param ck The namespace of CanvasKit-WASM.
+   * @param propertyChanged
    */
   preupdate(ck: CanvasKit, propertyChanged?: string) {
     this.predraw(ck, propertyChanged)
