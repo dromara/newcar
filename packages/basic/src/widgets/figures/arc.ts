@@ -1,6 +1,7 @@
-import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, RRect, Path as ckPath } from 'canvaskit-wasm'
 import { str2BlendMode } from '@newcar/utils'
 import type { WidgetRange } from '@newcar/core'
+import { $ck } from '@newcar/core'
 import type { FigureOptions } from './figure'
 import { Figure } from './figure'
 
@@ -9,6 +10,7 @@ import { Figure } from './figure'
  */
 export class Arc extends Figure {
   private rect: RRect
+  path: ckPath = new $ck.Path()
 
   /**
    * Constructs a new Arc instance.
@@ -66,6 +68,8 @@ export class Arc extends Figure {
       this.radius,
       this.radius,
     )
+
+    this.path.addArc(this.rect, this.from, this.to)
   }
 
   /**
@@ -122,24 +126,13 @@ export class Arc extends Figure {
    * @param canvas The canvas to draw on.
    */
   draw(canvas: Canvas): void {
-    if (this.style.border) {
-      canvas.drawArc(
-        this.rect,
-        this.from,
-        this.to * this.progress,
-        false,
-        this.strokePaint,
-      )
-    }
-    if (this.style.fill) {
-      canvas.drawArc(
-        this.rect,
-        this.from,
-        this.to * this.progress,
-        false,
-        this.fillPaint,
-      )
-    }
+    this.path.rewind()
+    this.path.addArc(this.rect, this.from, this.to * this.progress)
+    if (this.style.border)
+      canvas.drawPath(this.path, this.strokePaint)
+
+    if (this.style.fill)
+      canvas.drawPath(this.path, this.fillPaint)
   }
 
   /**
@@ -149,12 +142,8 @@ export class Arc extends Figure {
    * @returns True if the point is inside the arc, otherwise false.
    */
   isIn(x: number, y: number): boolean {
-    const dx = x - this.x // Distance in the x-direction
-    const dy = y - this.y // Distance in the y-direction
-    const distance = Math.sqrt(dx * dx + dy * dy) // Distance from the center
-
-    // Check if inside the circle
-    return distance <= this.radius
+    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    return super.isIn(x, y) || this.path.contains(dx, dy)
   }
 
   get range(): WidgetRange {

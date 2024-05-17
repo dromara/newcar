@@ -1,7 +1,8 @@
 import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
+import { $ck } from '@newcar/core'
 import type { Shader } from '@newcar/utils'
 import { Color, str2BlendMode } from '@newcar/utils'
-import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, Paint, Path as ckPath } from 'canvaskit-wasm'
 import type { Vector2 } from '../../utils/vector2'
 import { Figure } from './figure'
 
@@ -29,6 +30,7 @@ export interface LineStyle extends WidgetStyle {
 export class Line extends Figure {
   paint: Paint
   declare style: LineStyle
+  path: ckPath = new $ck.Path()
 
   constructor(public from: Vector2, public to: Vector2, options?: LineOptions) {
     options ??= {}
@@ -48,6 +50,9 @@ export class Line extends Figure {
     this.paint.setAlphaf(this.style.transparency * this.style.color.alpha)
     this.paint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
     this.paint.setAntiAlias(this.style.antiAlias)
+
+    this.path.moveTo(this.from[0], this.from[1])
+    this.path.lineTo(this.to[0], this.to[1])
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
@@ -74,20 +79,18 @@ export class Line extends Figure {
   }
 
   draw(canvas: Canvas): void {
-    canvas.drawLine(
-      this.from[0],
-      this.from[1],
+    this.path.rewind()
+    this.path.moveTo(this.from[0], this.from[1])
+    this.path.lineTo(
       this.from[0] + (this.to[0] - this.from[0]) * this.progress,
       this.from[1] + (this.to[1] - this.from[1]) * this.progress,
-      this.paint,
     )
+    canvas.drawPath(this.path, this.paint)
   }
 
   isIn(x: number, y: number): boolean {
-    const slope = (this.to[1] - this.from[1]) / (this.to[0] - this.from[0])
-    const yIntercept = this.from[1] - slope * this.from[0]
-    const expectedY = slope * x + yIntercept
-    return Math.abs(y - expectedY) < Number.EPSILON
+    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    return super.isIn(x, y) || this.path.contains(dx, dy)
   }
 
   get range(): WidgetRange {
