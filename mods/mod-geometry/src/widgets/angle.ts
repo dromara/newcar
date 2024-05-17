@@ -18,8 +18,8 @@ export interface AngleStyle extends WidgetStyle {
   cap?: StrokeCap
   width?: number
   gauge?: boolean
-  guageColor?: Color
-  guageShader?: Shader
+  gaugeColor?: Color
+  gaugeShader?: Shader
 }
 
 export class Angle extends Widget {
@@ -29,7 +29,7 @@ export class Angle extends Widget {
   endSide: Line
   private endX: number
   private endY: number
-  guage: Arc
+  gauge: Arc
   constructor(
     public basis: Line,
     public value: number,
@@ -46,15 +46,15 @@ export class Angle extends Widget {
     this.style.graduatedArc = options.style.graduatedArc ?? true
     this.style.join = options.style.join ?? 'miter'
     this.style.cap = options.style.cap ?? 'square'
-    this.style.guageColor = options.style.guageColor ?? Color.WHITE
-    this.style.guageShader = options.style.guageShader
+    this.style.gaugeColor = options.style.gaugeColor ?? Color.WHITE
+    this.style.gaugeShader = options.style.gaugeShader
     this.endX = this.basis.to[0] + length * Math.cos(this.value)
     this.endY = this.basis.to[1] + length * Math.sin(this.value)
     this.endSide = new Line(this.basis.from, [this.endX, this.endY])
-    this.guage = new Arc(50, this.basis.style.rotation, this.value, {
+    this.gauge = new Arc(50, this.basis.style.rotation, this.value, {
       style: {
-        borderColor: this.style.guageColor,
-        borderShader: this.style.guageShader,
+        borderColor: this.style.gaugeColor,
+        borderShader: this.style.gaugeShader,
         borderWidth: this.style.width,
       },
     })

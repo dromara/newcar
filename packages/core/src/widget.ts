@@ -24,8 +24,8 @@ export interface WidgetOptions {
   style?: WidgetStyle
   x?: number
   y?: number
-  centerX?: number
-  centerY?: number
+  centerX?: number // The rotation center x of the widget.
+  centerY?: number // The rotation center y of the widget.
   progress?: number
   children?: Widget[]
 }
@@ -110,8 +110,8 @@ export class Widget {
    * Preload the necessary items during drawing.
    * Called when the properties of the widget is changed.
    * In common, we use it to initializing Paint, Rect, Path, etc.
-   * @param CanvasKit The namespace of CanvasKit-WASM.
-   * @param propertyChanged The changed property of this widget
+   * @param _ck The namespace of CanvasKit-WASM.
+   * @param _propertyChanged The changed property of this widget
    */
 
   predraw(_ck: CanvasKit, _propertyChanged: string) { }
@@ -126,6 +126,7 @@ export class Widget {
   /**
    * Called when the parameters is changed.
    * @param ck The namespace of CanvasKit-WASM.
+   * @param propertyChanged
    */
   preupdate(ck: CanvasKit, propertyChanged?: string) {
     this.predraw(ck, propertyChanged)
@@ -368,13 +369,29 @@ export class Widget {
     return deepClone(this)
   }
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
   isIn(x: number, y: number): boolean {
-    return false
+    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    return this.children.some(child => child.isIn(dx, dy))
   }
 
   get range(): WidgetRange {
     return [this.x, this.y, this.x, this.y]
+  }
+
+  // transform the coordinate of the widget from parent to child considering the reRotation (mind the rotation center), reScale, and translation (mind widget.x and widget.y)
+  transformedPoint(x: number, y: number): { x: number, y: number } {
+    const centerX = this.centerX + this.x
+    const centerY = this.centerY + this.y
+    const relativeX = x - centerX
+    const relativeY = y - centerY
+    const distance = Math.sqrt(relativeX ** 2 + relativeY ** 2)
+    const angle = Math.atan2(relativeY, relativeX)
+    const newAngle = angle - this.style.rotation
+    const newRelativeX = distance * Math.cos(newAngle)
+    const newRelativeY = distance * Math.sin(newAngle)
+    const newX = newRelativeX / this.style.scaleX + this.centerX
+    const newY = newRelativeY / this.style.scaleY + this.centerY
+    return { x: newX, y: newY }
   }
 
   static getAbsoluteCoordinates(widget: Widget): { x: number, y: number } {

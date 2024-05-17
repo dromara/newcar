@@ -136,26 +136,6 @@ export class Arrow extends Figure {
     }
   }
 
-  /**
-   * Checks if a point is inside the arrow.
-   * @param x The x-coordinate of the point.
-   * @param y The y-coordinate of the point.
-   * @returns True if the point is inside the arrow, otherwise false.
-   */
-  isIn(x: number, y: number): boolean {
-    const dx = x - this.tip.x
-    const dy = y - this.tip.y
-
-    const rotatedX
-      = dx * Math.cos(this.tip.style.rotation)
-      - dy * Math.sin(this.tip.style.rotation)
-    const rotatedY
-      = dx * Math.sin(this.tip.style.rotation)
-      + dy * Math.cos(this.tip.style.rotation)
-
-    return this.tip.isIn(rotatedX, rotatedY) || this.trim.isIn(x, y)
-  }
-
   get range(): WidgetRange {
     return [
       ...this.from,

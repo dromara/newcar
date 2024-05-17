@@ -1,6 +1,7 @@
-import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, RRect, Path as ckPath } from 'canvaskit-wasm'
 import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
 import type { WidgetRange } from '@newcar/core'
+import { $ck } from '@newcar/core'
 import type { Vector2 } from '../../utils/vector2'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
@@ -14,6 +15,7 @@ export interface RectStyle extends FigureStyle {}
 export class Rect extends Figure {
   declare style: RectStyle
   rect: RRect
+  path: ckPath = new $ck.Path()
 
   constructor(public from: Vector2, public to: Vector2, options?: RectOptions) {
     options ??= {}
@@ -56,6 +58,8 @@ export class Rect extends Figure {
     this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
     this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
     this.fillPaint.setAntiAlias(this.style.antiAlias)
+
+    this.path.addRRect(this.rect)
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
@@ -116,24 +120,15 @@ export class Rect extends Figure {
 
   draw(canvas: Canvas): void {
     if (this.style.border)
-      canvas.drawRect(this.rect, this.strokePaint)
+      canvas.drawPath(this.path, this.strokePaint)
 
     if (this.style.fill)
-      canvas.drawRect(this.rect, this.fillPaint)
+      canvas.drawPath(this.path, this.fillPaint)
   }
 
   isIn(x: number, y: number): boolean {
-    const rectX = Math.abs(this.from[0])
-    const rectY = Math.abs(this.from[1])
-    const rectWidth = Math.abs(this.from[0] - this.to[0])
-    const rectHeight = Math.abs(this.from[1] - this.to[1])
-
-    return (
-      x >= rectX
-      && x <= rectX + rectWidth
-      && y >= rectY
-      && y <= rectY + rectHeight
-    )
+    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    return super.isIn(x, y) || this.path.contains(dx, dy)
   }
 
   get range(): WidgetRange {
