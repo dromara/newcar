@@ -155,41 +155,41 @@ export class Widget {
    * @param children The added children.
    */
   add(...children: Widget[] | ((parent: Widget) => Widget)[]): this {
-    let index = 0
+    // let index = 0
     for (let child of children) {
       if (typeof child === 'function')
         child = child(this)
       child.parent = child
       this.children.push(child)
-      switch (this.style.layout) {
-        case 'row': {
-          if (index === 0)
-            child.x = child.x + (child.style.margin as [number, number, number, number])[2]
-          else
-            child.x = child.x + (this.children[index - 1].style.margin as [number, number, number, number])[3] + (child.style.margin as [number, number, number, number])[2]
-          break
-        }
-        case 'column': {
-          if (index === 0)
-            child.y = child.y + (child.style.margin as [number, number, number, number])[0]
-          else
-            child.y = child.y + (this.children[index - 1].style.margin as [number, number, number, number])[1] + (child.style.margin as [number, number, number, number])[0]
-          break
-        }
-        case 'mix': {
-          if (index === 0) {
-            child.x = child.x + (child.style.margin as [number, number, number, number])[2]
-            child.y = child.y + (child.style.margin as [number, number, number, number])[0]
-          }
-          else {
-            child.x = child.x + (this.children[index - 1].style.margin as [number, number, number, number])[3] + (child.style.margin as [number, number, number, number])[2]
-            child.y = child.y + (this.children[index - 1].style.margin as [number, number, number, number])[1] + (child.style.margin as [number, number, number, number])[0]
-          }
-          break
-        }
-        // TODO: Align and Baseline
-      }
-      index += 1
+      // switch (this.style.layout) {
+      //   case 'row': {
+      //     if (index === 0)
+      //       child.x = child.x + (child.style.margin as [number, number, number, number])[2]
+      //     else
+      //       child.x = child.x + (this.children[index - 1].style.margin as [number, number, number, number])[3] + (child.style.margin as [number, number, number, number])[2]
+      //     break
+      //   }
+      //   case 'column': {
+      //     if (index === 0)
+      //       child.y = child.y + (child.style.margin as [number, number, number, number])[0]
+      //     else
+      //       child.y = child.y + (this.children[index - 1].style.margin as [number, number, number, number])[1] + (child.style.margin as [number, number, number, number])[0]
+      //     break
+      //   }
+      //   case 'mix': {
+      //     if (index === 0) {
+      //       child.x = child.x + (child.style.margin as [number, number, number, number])[2]
+      //       child.y = child.y + (child.style.margin as [number, number, number, number])[0]
+      //     }
+      //     else {
+      //       child.x = child.x + (this.children[index - 1].style.margin as [number, number, number, number])[3] + (child.style.margin as [number, number, number, number])[2]
+      //       child.y = child.y + (this.children[index - 1].style.margin as [number, number, number, number])[1] + (child.style.margin as [number, number, number, number])[0]
+      //     }
+      //     break
+      //   }
+      //   // TODO: Align and Baseline
+      // }
+      // index += 1
     }
     return this
   }
