@@ -115,4 +115,9 @@ export class Path extends Figure {
     if (this.style.fill)
       canvas.drawPath(this.path, this.fillPaint)
   }
+
+  isIn(x: number, y: number): boolean {
+    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    return super.isIn(x, y) || this.path.contains(dx, dy)
+  }
 }

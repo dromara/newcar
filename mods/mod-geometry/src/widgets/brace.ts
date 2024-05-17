@@ -59,4 +59,9 @@ export class Brace extends Widget {
   draw(canvas: Canvas): void {
     canvas.drawPath(this.path, this.paint)
   }
+
+  isIn(x: number, y: number): boolean {
+    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    return super.isIn(x, y) || this.path.contains(dx, dy)
+  }
 }

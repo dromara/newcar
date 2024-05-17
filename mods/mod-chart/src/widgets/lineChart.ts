@@ -365,4 +365,9 @@ export class LineChart extends BaseSimpleChart {
         canvas.drawPath(this.paths[i], this.strokePaints[i])
     }
   }
+
+  isIn(x: number, y: number): boolean {
+    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    return super.isIn(x, y) || this.paths.some(path => path.contains(dx, dy))
+  }
 }
