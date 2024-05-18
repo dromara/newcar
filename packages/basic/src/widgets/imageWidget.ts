@@ -56,12 +56,12 @@ export class ImageWidget extends Widget {
     )
   }
 
-  get range(): WidgetRange {
+  calculateRange(): WidgetRange {
     return [
-      this.x,
-      this.y,
-      this.x + this.image.width(),
-      this.y + this.image.height(),
+      0,
+      0,
+      this.image.width(),
+      this.image.height(),
     ]
   }
 }

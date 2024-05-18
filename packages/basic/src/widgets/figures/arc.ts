@@ -146,12 +146,8 @@ export class Arc extends Figure {
     return super.isIn(x, y) || this.path.contains(dx, dy)
   }
 
-  get range(): WidgetRange {
-    return [
-      this.x - this.radius,
-      this.y - this.radius,
-      this.x + this.radius,
-      this.y + this.radius,
-    ]
+  calculateRange(): WidgetRange {
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
   }
 }

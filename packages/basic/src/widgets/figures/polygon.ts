@@ -131,12 +131,8 @@ export class Polygon extends Figure {
     return super.isIn(x, y) || this.path.contains(dx, dy)
   }
 
-  get range(): WidgetRange {
-    return [
-      this.x,
-      this.y,
-      Math.max(...this.points.map(point => point[0])),
-      Math.max(...this.points.map(point => point[1])),
-    ]
+  calculateRange(): WidgetRange {
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
   }
 }

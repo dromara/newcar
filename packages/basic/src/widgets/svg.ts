@@ -84,12 +84,12 @@ export class Svg extends Widget {
       canvas.drawImage(this.imageData, this.x, this.y)
   }
 
-  get range(): WidgetRange {
+  calculateRange(): WidgetRange {
     return [
-      this.x,
-      this.y,
-      this.x + this.image.width,
-      this.y + this.image.height,
+      0,
+      0,
+      this.image.width,
+      this.image.height,
     ]
   }
 }

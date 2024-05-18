@@ -93,10 +93,8 @@ export class Line extends Figure {
     return super.isIn(x, y) || this.path.contains(dx, dy)
   }
 
-  get range(): WidgetRange {
-    return [
-      ...this.from,
-      ...this.to,
-    ]
+  calculateRange(): WidgetRange {
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
   }
 }

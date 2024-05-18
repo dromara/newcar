@@ -1,4 +1,4 @@
-import type { WidgetOptions, WidgetStyle } from '@newcar/core'
+import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import type { Shader } from '@newcar/utils'
 import { Color } from '@newcar/utils'
@@ -110,5 +110,10 @@ export class MathFunction extends Widget {
   isIn(x: number, y: number): boolean {
     const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
     return super.isIn(x, y) || this.path.contains(dx, dy)
+  }
+
+  calculateRange(): WidgetRange {
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
   }
 }

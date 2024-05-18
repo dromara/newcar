@@ -1,4 +1,5 @@
 import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
+import type { WidgetRange } from '@newcar/core'
 import { $ck } from '@newcar/core'
 import { str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
 import type { FigureOptions, FigureStyle } from './figure'
@@ -119,5 +120,10 @@ export class Path extends Figure {
   isIn(x: number, y: number): boolean {
     const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
     return super.isIn(x, y) || this.path.contains(dx, dy)
+  }
+
+  calculateRange(): WidgetRange {
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
   }
 }

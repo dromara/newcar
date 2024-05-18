@@ -2,6 +2,7 @@ import { Circle } from '@newcar/basic'
 import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
 import type { StrokeCap, StrokeJoin } from '@newcar/utils'
 import { Color, str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
+import type { WidgetRange } from '@newcar/core'
 import { bezierControlPoints } from '../utils/bezierControlPoints'
 import type {
   BaseSimpleChartData,
@@ -369,5 +370,15 @@ export class LineChart extends BaseSimpleChart {
   isIn(x: number, y: number): boolean {
     const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
     return super.isIn(x, y) || this.paths.some(path => path.contains(dx, dy))
+  }
+
+  calculateRange(): WidgetRange {
+    const boundsArray = this.paths.map(path => path.computeTightBounds())
+    return [
+      Math.min(...boundsArray.map(bounds => bounds[0])),
+      Math.min(...boundsArray.map(bounds => bounds[1])),
+      Math.max(...boundsArray.map(bounds => bounds[2])),
+      Math.max(...boundsArray.map(bounds => bounds[3])),
+    ]
   }
 }
