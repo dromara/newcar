@@ -9,6 +9,7 @@
     "preversion": "pnpm clean && pnpm build",
     "build": "pnpm run --filter=* build",
     "dev": "pnpm run --parallel --filter=* dev",
+    "test": "pnpm run --filter=* test",
     "serve": "vite ./examples/",
     "clean": "rimraf -g ./packages/*/dist",
     "change": "changeset add",
@@ -39,7 +40,8 @@
     "taze": "^0.13.8",
     "typedoc": "^0.25.13",
     "typescript": "^5.4.5",
-    "vite": "^5.2.11"
+    "vite": "^5.2.11",
+    "vitest": "^1.6.0"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
