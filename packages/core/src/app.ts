@@ -88,6 +88,9 @@ export class App {
    * @param canvas The `Canvas` object of CanvasKit-WASM
    */
   static update(app: App, canvas: Canvas): void {
+    if (!app.playing)
+      return
+
     for (const plugin of app.plugins)
       plugin.beforeUpdate(app, app.scene.elapsed)
 
@@ -116,18 +119,15 @@ export class App {
     }
     for (const plugin of app.plugins) plugin.onUpdate(app, app.scene.elapsed)
 
-    if (app.playing) {
-      if (app.config.unit === 'frame')
-        app.scene.elapsed += 1
-      else if (app.config.unit === 'ms')
-        app.scene.elapsed = performance.now() - app.scene.startTime
-      else if (app.config.unit === 's')
-        app.scene.elapsed = (performance.now() - app.scene.startTime) / 1000
-      app.surface.requestAnimationFrame((canvas: Canvas) => {
-        App.update(app, canvas)
-        // console.log(app.scene.elapsed)
-      })
-    }
+    if (app.config.unit === 'frame')
+      app.scene.elapsed += 1
+    else if (app.config.unit === 'ms')
+      app.scene.elapsed = performance.now() - app.scene.startTime // 1 frame per milisecond?
+    else if (app.config.unit === 's')
+      app.scene.elapsed = (performance.now() - app.scene.startTime) / 1000
+    app.surface.requestAnimationFrame((canvas: Canvas) => {
+      App.update(app, canvas)
+    })
   }
 
   /**
