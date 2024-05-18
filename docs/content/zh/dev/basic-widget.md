@@ -1,28 +1,29 @@
 ---
-title: 组件基础
+title: 基本组件
 ---
 
-# 组件基础
+# 基本组件
 
-欢迎来到newcar拓展的开发教程！我们会逐步讲解Newcar拓展的开发方式，以便于大家更好的开发Newcar拓展！
+欢迎来到 Newcar 拓展的开发教程！我们会逐步讲解 Newcar 拓展的开发方式，以便于大家更好的开发 Newcar 拓展！
 
 我们需要用到的包有
 
-- `@newcar/core` Newcar的核心包
-- `@newcar/basic` Newcar的基础图形包
-- `@newcar/utils` Newcar的工具包
-- `canvaskit-wasm` 老朋友了，CanvasKit-WASM的包
+- `@newcar/core` Newcar 的核心包
+- `@newcar/basic` Newcar 的基础图形包
+- `@newcar/utils` Newcar 的工具包
+- `canvaskit-wasm` 老朋友了，CanvasKit-WASM 的包
 
-在你的项目目录里安装这两个包，然后你便可以开发Widgets了！
+在你的项目目录里安装这两个包，然后你便可以开发 Widgets 了！
 
-我们的所有Widget都是基于 `Widget` 类，里面定义了一些方法，用于内核对他们进行操作
+我们的所有 Widget 都是继承（或者间接继承）自 `Widget`，我们需要实现 `Widget` 中定义的一些方法供内核操作
 
-## 最基础的结构
+## 基础结构
 
-为了使用户有更完整的类型体验感，我们推荐使用TypeScript来代替JavaScript开发
+为了使用户有更完整的类型体验感，我们推荐使用 TypeScript 来代替 JavaScript 开发
 
 ```typescript
 import { Widget } from '@newcar/core'
+import type { WidgetRange } from '@newcar/core'
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 
 export interface MyWidgetOptions {
@@ -34,6 +35,7 @@ export interface MyWidgetStyle {}
 export class MyWidget extends Widget {
   constructor(options?: MyWidgetOptions) {
     options ??= {} // 为了防止用户传入空的options,我们这里加一个判断
+    super(options)
   }
 
   // 初始化Widget的方法
@@ -60,7 +62,7 @@ export class MyWidget extends Widget {
 
 关于CanvasKit-WASM的使用，请参见[Skia官网](https://skia.org)
 
-我们这里来实现一个三角形：
+现在让我们来实现一个三角形吧：
 
 ```typescript
 import { Widget } from '@newcar/core'
@@ -88,6 +90,7 @@ export class MyWidget extends Widget {
   ) {
     options ??= {} // 为了防止用户传入空的options,我们这里加一个判断
     options.style ??= {}
+    super(options)
     this.style.color = options.style.color
   }
 
@@ -123,7 +126,34 @@ export class MyWidget extends Widget {
   draw(canvas: Canvas) {
     canvas.drawPath(this.path, this.paint)
   }
+
+  calculateIn(x: number, y: number) {
+    // 计算点是否在三角形内（基于自身相对坐标系）
+    // 这是一个简单的例子，对于基本形状，你可以使用CanvasKit的内置方法
+    return this.path.contains(x, y)
+  }
+
+  calculateRange(): WidgetRange {
+    // 计算形状边界（基于自身相对坐标系）
+    // 这是一个简单的例子，对于基本形状，你可以使用CanvasKit的内置方法
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
+  }
 }
 ```
 
-CanvasKit与原生Canvas2d有很多相同之处，大家可以参考Skia的API进行开发，当然我们更建议使用“拼积木”的方法来构建我们的Widget，具体请见下一篇
+## 实现计算方法
+
+在上面的例子中，我们添加了两个计算方法：`calculateIn` 和 `calculateRange`。这两个方法用于计算点是否在三角形内以及三角形的范围，这两个方法用于计算 Widget 的交互区域。
+
+对于使用 CanvasKit.Path 绘制的基本形状，你可以使用 CanvasKit 的内置方法来计算交互区域。对于更复杂的形状，可能需要自定义计算方法。
+
+### 自身相对坐标系
+
+在计算方法中，我们使用的是基于组件自身的相对坐标系。这意味着我们不需要考虑组件的位置和变换，只需要考虑组件本身的形状。
+
+实际上，组件的 `isIn` 和 `range` 方法对我们的实现进行了包装，使我们可以更方便地计算组件的交互区域（而无需关心与之无关的其他内容）。
+
+## 总结
+
+在本文中，我们介绍了 Widget 的基本结构以及如何实现一个简单的三角形。在下一篇文章中，我们将介绍“拼积木”的方法来构建 Widget。敬请期待！
