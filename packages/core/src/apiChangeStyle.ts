@@ -1,7 +1,7 @@
 import type { Widget, WidgetStyle } from './widget'
 import type { Animation } from './animation'
-import { defineAnimation } from './animation'
 import type { MaybeArray, PickNumberKeys } from './types'
+import { changeProperty } from './apiChangeProperty'
 
 /**
  * Easing function type, which takes a progress ratio and returns an adjusted ratio.
@@ -24,64 +24,13 @@ export function changeStyle<T extends Widget>(
   defaultTo?: MaybeArray<number>,
   by?: EasingFunction,
 ): Animation<T> {
-  return defineAnimation({
-    act: (
-      widget: T,
-      elapsed: number,
-      process: number,
-      params: Record<string, any>,
-    ) => {
-      const easingFunction = params.by ? params.by : by
-      const adjustedProcess = easingFunction ? easingFunction(process) : process
+  if (!Array.isArray(propertyName))
+    propertyName = [propertyName]
 
-      let from
-        = params.from !== undefined
-          ? params.from
-          : defaultFrom !== undefined
-            ? defaultFrom
-            : Array.isArray(propertyName)
-              ? propertyName.map(prop => widget.style[prop])
-              : widget.style[propertyName]
-      let to
-        = params.to !== undefined
-          ? params.to
-          : defaultTo !== undefined
-            ? defaultTo
-            : Array.isArray(propertyName)
-              ? propertyName.map(prop => widget.style[prop])
-              : widget.style[propertyName]
-
-      if (!Array.isArray(from))
-        from = [from]
-
-      if (!Array.isArray(to))
-        to = [to]
-
-      const applyChange = (
-        prop: PickNumberKeys<WidgetStyle>,
-        start: number,
-        end: number,
-      ) => {
-        const valueChange = (end - start) * adjustedProcess
-        ;(widget.style[prop as keyof WidgetStyle] as any) = start + valueChange
-      }
-
-      if (Array.isArray(propertyName)) {
-        propertyName.forEach((prop, index) => {
-          const startValue
-            = from[index] !== undefined ? from[index] : widget.style[prop]
-          const endValue
-            = to[index] !== undefined ? to[index] : widget.style[prop]
-          applyChange(prop, startValue, endValue)
-        })
-      }
-      else {
-        const startValue
-          = from[0] !== undefined ? from[0] : widget.style[propertyName]
-        const endValue
-          = to[0] !== undefined ? to[0] : widget.style[propertyName]
-        applyChange(propertyName, startValue, endValue)
-      }
-    },
-  })
+  return changeProperty(
+    propertyName.map(prop => `style.${prop}` as PickNumberKeys<T>),
+    defaultFrom,
+    defaultTo,
+    by,
+  )
 }
