@@ -1,4 +1,4 @@
-import type { WidgetOptions, WidgetStyle } from '@newcar/core'
+import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import type { Shader } from '@newcar/utils'
 import { Color } from '@newcar/utils'
@@ -107,8 +107,12 @@ export class MathFunction extends Widget {
     canvas.drawPath(this.path, this.paint)
   }
 
-  isIn(x: number, y: number): boolean {
-    const { x: dx, y: dy } = this.transformedPoint(x, y)
-    return super.isIn(x, y) || this.path.contains(dx, dy)
+  calculateIn(x: number, y: number): boolean {
+    return this.path.contains(x, y)
+  }
+
+  calculateRange(): WidgetRange {
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
   }
 }

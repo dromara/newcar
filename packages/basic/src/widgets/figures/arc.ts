@@ -135,23 +135,12 @@ export class Arc extends Figure {
       canvas.drawPath(this.path, this.fillPaint)
   }
 
-  /**
-   * Checks if a point is inside the arc.
-   * @param x The x-coordinate of the point.
-   * @param y The y-coordinate of the point.
-   * @returns True if the point is inside the arc, otherwise false.
-   */
-  isIn(x: number, y: number): boolean {
-    const { x: dx, y: dy } = this.transformedPoint(x, y)
-    return super.isIn(x, y) || this.path.contains(dx, dy)
+  calculateIn(x: number, y: number): boolean {
+    return this.path.contains(x, y)
   }
 
-  get range(): WidgetRange {
-    return [
-      this.x - this.radius,
-      this.y - this.radius,
-      this.x + this.radius,
-      this.y + this.radius,
-    ]
+  calculateRange(): WidgetRange {
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
   }
 }

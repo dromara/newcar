@@ -451,29 +451,19 @@ export class Text extends Widget {
     canvas.drawParagraph(this.paragraph, 0, 0)
   }
 
-  isIn(x: number, y: number): boolean {
-    let top = 0
-    let bottom = 0
-
-    for (const item of this.text) {
-      bottom += item.style.fontSize // Add the height of each line
-
-      // Check if the coordinates (x, y) are within the bounding box of the current line
-      if (x >= 0 && x <= this.style.width && y >= top && y <= bottom)
-        return true
-
-      top = bottom // Set the top of the next line to the bottom of the current line
-    }
-
-    return false
+  calculateIn(x: number, y: number): boolean {
+    return x >= 0
+      && x <= this.style.width
+      && y >= 0
+      && y <= this.paragraph.getHeight()
   }
 
-  get range(): WidgetRange {
+  calculateRange(): WidgetRange {
     return [
-      this.x,
-      this.y,
-      this.x + this.style.width,
-      this.y + this.paragraph.getHeight(),
+      0,
+      0,
+      this.style.width,
+      this.paragraph.getHeight(),
     ]
   }
 

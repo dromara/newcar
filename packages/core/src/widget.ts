@@ -369,17 +369,59 @@ export class Widget {
     return deepClone(this)
   }
 
-  isIn(x: number, y: number): boolean {
-    const { x: dx, y: dy } = this.transformedPoint(x, y)
-    return this.children.some(child => child.isIn(dx, dy))
+  /**
+   * Calculate the range of the widget, based on the self coordinate.
+   * To be noted that this method should be overridden.
+   * @param _x
+   * @param _y
+   */
+  calculateIn(_x: number, _y: number): boolean {
+    return false
   }
 
-  get range(): WidgetRange {
+  /**
+   * Determine whether the point is in the widget, based on the parent coordinate.
+   * To be noted that this method should not be overridden.
+   * @param x
+   * @param y
+   */
+  isIn(x: number, y: number): boolean {
+    const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
+    return this.children.some(child => child.isIn(dx, dy)) || this.calculateIn(dx, dy)
+  }
+
+  /**
+   * Calculate the range of the widget, based on the self coordinate.
+   * To be noted that this method should be overridden.
+   * @returns The range of the widget.
+   */
+  calculateRange(): WidgetRange {
     return [this.x, this.y, this.x, this.y]
   }
 
+  /**
+   * The range of the widget, taking into account the children, based on the parent coordinate.
+   * To be noted that this method should not be overridden.
+   * @returns The range of the widget.
+   */
+  get range(): WidgetRange {
+    const calculatedRange = this.calculateRange()
+
+    const range = [
+      Math.min(...this.children.map(child => child.range[0]).concat(calculatedRange[0])),
+      Math.min(...this.children.map(child => child.range[1]).concat(calculatedRange[1])),
+      Math.max(...this.children.map(child => child.range[2]).concat(calculatedRange[2])),
+      Math.max(...this.children.map(child => child.range[3]).concat(calculatedRange[3])),
+    ]
+
+    const { x: x1, y: y1 } = this.coordinateChildToParent(range[0], range[1])
+    const { x: x2, y: y2 } = this.coordinateChildToParent(range[2], range[3])
+
+    return [x1, y1, x2, y2]
+  }
+
   // transform the coordinate of the widget from parent to child considering the reRotation (mind the rotation center), reScale, and translation (mind widget.x and widget.y)
-  transformedPoint(x: number, y: number): { x: number, y: number } {
+  coordinateParentToChild(x: number, y: number): { x: number, y: number } {
     const centerX = this.centerX + this.x
     const centerY = this.centerY + this.y
     const relativeX = x - centerX
@@ -391,6 +433,20 @@ export class Widget {
     const newRelativeY = distance * Math.sin(newAngle)
     const newX = newRelativeX / this.style.scaleX + this.centerX
     const newY = newRelativeY / this.style.scaleY + this.centerY
+    return { x: newX, y: newY }
+  }
+
+  // transform the coordinate of the widget from child to parent considering the rotation, scale, and translation
+  coordinateChildToParent(x: number, y: number): { x: number, y: number } {
+    const relativeX = x - this.centerX
+    const relativeY = y - this.centerY
+    const newRelativeX = relativeX * this.style.scaleX
+    const newRelativeY = relativeY * this.style.scaleY
+    const distance = Math.sqrt(newRelativeX ** 2 + newRelativeY ** 2)
+    const angle = Math.atan2(newRelativeY, newRelativeX)
+    const newAngle = angle + this.style.rotation
+    const newX = distance * Math.cos(newAngle) + this.centerX + this.x
+    const newY = distance * Math.sin(newAngle) + this.centerY + this.y
     return { x: newX, y: newY }
   }
 

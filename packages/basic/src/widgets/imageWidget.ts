@@ -47,21 +47,19 @@ export class ImageWidget extends Widget {
     canvas.drawImage(this.image, 0, 0, this.paint)
   }
 
-  isIn(x: number, y: number): boolean {
-    return (
-      x >= 0
-      && x <= 0 + this.image.width()
+  calculateIn(x: number, y: number): boolean {
+    return x >= 0
+      && x <= this.image.width()
       && y >= 0
-      && y <= 0 + this.image.height()
-    )
+      && y <= this.image.height()
   }
 
-  get range(): WidgetRange {
+  calculateRange(): WidgetRange {
     return [
-      this.x,
-      this.y,
-      this.x + this.image.width(),
-      this.y + this.image.height(),
+      0,
+      0,
+      this.image.width(),
+      this.image.height(),
     ]
   }
 }

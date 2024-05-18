@@ -126,15 +126,12 @@ export class Rect extends Figure {
       canvas.drawPath(this.path, this.fillPaint)
   }
 
-  isIn(x: number, y: number): boolean {
-    const { x: dx, y: dy } = this.transformedPoint(x, y)
-    return super.isIn(x, y) || this.path.contains(dx, dy)
+  calculateIn(x: number, y: number): boolean {
+    return this.path.contains(x, y)
   }
 
-  get range(): WidgetRange {
-    return [
-      ...this.from,
-      ...this.to,
-    ]
+  calculateRange(): WidgetRange {
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
   }
 }
