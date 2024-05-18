@@ -1,7 +1,7 @@
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import { Color } from '@newcar/utils'
-import type { CanvasKit, Paint } from 'canvaskit-wasm'
+import type { CanvasKit, Paint, Path } from 'canvaskit-wasm'
 import type { Shader, StrokeCap, StrokeJoin } from '@newcar/utils'
 
 export interface FigureStyle extends WidgetStyle {
@@ -28,6 +28,7 @@ export class Figure extends Widget {
   declare style: FigureStyle
   strokePaint: Paint
   fillPaint: Paint
+  path: Path
 
   constructor(options?: FigureOptions) {
     options ??= {}
@@ -60,5 +61,9 @@ export class Figure extends Widget {
         this.style.fillShader ??= this.style.shader
         break
     }
+  }
+
+  init(ck: CanvasKit): void {
+    this.path = new ck.Path()
   }
 }

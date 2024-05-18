@@ -1,5 +1,4 @@
 import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
-import { $ck } from '@newcar/core'
 import type { Shader } from '@newcar/utils'
 import { Color, str2BlendMode } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint, Path as ckPath } from 'canvaskit-wasm'
@@ -30,7 +29,6 @@ export interface LineStyle extends WidgetStyle {
 export class Line extends Figure {
   paint: Paint
   declare style: LineStyle
-  path: ckPath = new $ck.Path()
 
   constructor(public from: Vector2, public to: Vector2, options?: LineOptions) {
     options ??= {}
@@ -42,6 +40,7 @@ export class Line extends Figure {
   }
 
   init(ck: CanvasKit): void {
+    super.init(ck)
     this.paint = new ck.Paint()
     this.paint.setStyle(ck.PaintStyle.Stroke)
     this.paint.setColor(this.style.color.toFloat4())

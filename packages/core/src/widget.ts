@@ -230,7 +230,7 @@ export class Widget {
   }
 
   // Run an animation with respect to `elapsed`, which is maintained by `App` class
-  runAnimation(elapsed: number) {
+  runAnimation(elapsed: number, ck: CanvasKit) {
     // Traverse over instances sequence, run each animation
     for (const instance of this.animationInstances) {
       if (
@@ -244,6 +244,7 @@ export class Widget {
             this,
             elapsed - instance.startAt,
             (elapsed - instance.startAt) / instance.during,
+            ck,
             instance.params,
           )
           // console.log((elapsed - instance.startAt) / instance.during, instance.startAt, instance.during)
@@ -253,6 +254,7 @@ export class Widget {
             this,
             elapsed - instance.startAt,
             1 - (elapsed - instance.startAt) / instance.during,
+            ck,
             instance.params,
           )
         }
@@ -260,7 +262,7 @@ export class Widget {
     }
     for (const update of this.updates) update(elapsed, this)
 
-    for (const child of this.children) child.runAnimation(elapsed)
+    for (const child of this.children) child.runAnimation(elapsed, ck)
   }
 
   setEventListener(element: HTMLCanvasElement) {

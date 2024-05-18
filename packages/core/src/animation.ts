@@ -1,3 +1,4 @@
+import type { CanvasKit } from 'canvaskit-wasm'
 import type { Widget } from './widget'
 
 /**
@@ -12,7 +13,7 @@ export interface Animation<T> {
    * @param params The other parameters of this animation
    * @returns
    */
-  act: (widget: T, elapsed: number, process: number, params?: any) => void
+  act: (widget: T, elapsed: number, process: number, ck: CanvasKit, params?: any) => void
 }
 
 /**

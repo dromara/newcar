@@ -1,7 +1,7 @@
 import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
 import type { WidgetRange } from '@newcar/core'
-import { $ck } from '@newcar/core'
 import { str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
+import { $ck } from '@newcar/core'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 

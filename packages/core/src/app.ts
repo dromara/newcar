@@ -108,7 +108,7 @@ export class App {
 
     for (const plugin of app.plugins)
       plugin.beforeAnimate(app, app.scene.elapsed, app.scene.root)
-    app.scene.root.runAnimation(app.scene.elapsed)
+    app.scene.root.runAnimation(app.scene.elapsed, app.ck)
     app.scene.root.processSetups(app.scene.elapsed)
     for (const plugin of app.plugins)
       plugin.onAnimate(app, app.scene.elapsed, app.scene.root)

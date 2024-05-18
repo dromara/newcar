@@ -1,7 +1,6 @@
 import type { Canvas, CanvasKit, RRect, Path as ckPath } from 'canvaskit-wasm'
 import { str2BlendMode } from '@newcar/utils'
 import type { WidgetRange } from '@newcar/core'
-import { $ck } from '@newcar/core'
 import type { FigureOptions } from './figure'
 import { Figure } from './figure'
 
@@ -10,7 +9,6 @@ import { Figure } from './figure'
  */
 export class Arc extends Figure {
   private rect: RRect
-  path: ckPath = new $ck.Path()
 
   /**
    * Constructs a new Arc instance.
@@ -33,6 +31,7 @@ export class Arc extends Figure {
    * @param ck The CanvasKit instance.
    */
   init(ck: CanvasKit): void {
+    super.init(ck)
     // Stroke
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)

@@ -1,3 +1,4 @@
+import type { CanvasKit } from 'canvaskit-wasm'
 import type { Widget, WidgetStyle } from './widget'
 import type { Animation } from './animation'
 import { defineAnimation } from './animation'
@@ -29,6 +30,7 @@ export function changeStyle<T extends Widget>(
       widget: T,
       elapsed: number,
       process: number,
+      ck: CanvasKit,
       params: Record<string, any>,
     ) => {
       const easingFunction = params.by ? params.by : by

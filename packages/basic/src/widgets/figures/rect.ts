@@ -15,7 +15,6 @@ export interface RectStyle extends FigureStyle {}
 export class Rect extends Figure {
   declare style: RectStyle
   rect: RRect
-  path: ckPath = new $ck.Path()
 
   constructor(public from: Vector2, public to: Vector2, options?: RectOptions) {
     options ??= {}
@@ -24,6 +23,7 @@ export class Rect extends Figure {
   }
 
   init(ck: CanvasKit): void {
+    super.init(ck)
     this.rect = ck.LTRBRect(
       this.from[0],
       this.from[1],

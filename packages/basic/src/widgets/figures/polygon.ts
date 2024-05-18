@@ -13,14 +13,13 @@ export interface PolygonOptions extends FigureOptions {
 export interface PolygonStyle extends FigureStyle {}
 
 export class Polygon extends Figure {
-  path: ckPath = new $ck.Path()
-
   constructor(public points: Vector2[], options?: PolygonOptions) {
     options ??= {}
     super(options)
   }
 
   init(ck: CanvasKit): void {
+    super.init(ck)
     this.path.addPoly(this.points.flat(), true)
     // Stroke
     this.strokePaint = new ck.Paint()
