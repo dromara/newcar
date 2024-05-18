@@ -10,4 +10,5 @@
 
 - [ ] The layout system.
 - [ ] The more perfect's style of basic graphs.
+- [ ] custom Theme
 - [ ] Learning Manim's Some Animations.
