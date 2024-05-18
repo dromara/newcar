@@ -142,7 +142,7 @@ export class Arc extends Figure {
    * @returns True if the point is inside the arc, otherwise false.
    */
   isIn(x: number, y: number): boolean {
-    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
     return super.isIn(x, y) || this.path.contains(dx, dy)
   }
 

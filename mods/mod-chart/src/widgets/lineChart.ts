@@ -367,7 +367,7 @@ export class LineChart extends BaseSimpleChart {
   }
 
   isIn(x: number, y: number): boolean {
-    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
     return super.isIn(x, y) || this.paths.some(path => path.contains(dx, dy))
   }
 }

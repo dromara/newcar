@@ -117,7 +117,7 @@ export class Path extends Figure {
   }
 
   isIn(x: number, y: number): boolean {
-    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
     return super.isIn(x, y) || this.path.contains(dx, dy)
   }
 }

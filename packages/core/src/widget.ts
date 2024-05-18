@@ -370,7 +370,7 @@ export class Widget {
   }
 
   isIn(x: number, y: number): boolean {
-    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
     return this.children.some(child => child.isIn(dx, dy))
   }
 
@@ -379,7 +379,7 @@ export class Widget {
   }
 
   // transform the coordinate of the widget from parent to child considering the reRotation (mind the rotation center), reScale, and translation (mind widget.x and widget.y)
-  transformedPoint(x: number, y: number): { x: number, y: number } {
+  coordinateParentToChild(x: number, y: number): { x: number, y: number } {
     const centerX = this.centerX + this.x
     const centerY = this.centerY + this.y
     const relativeX = x - centerX
