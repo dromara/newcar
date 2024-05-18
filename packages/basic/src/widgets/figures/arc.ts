@@ -135,15 +135,8 @@ export class Arc extends Figure {
       canvas.drawPath(this.path, this.fillPaint)
   }
 
-  /**
-   * Checks if a point is inside the arc.
-   * @param x The x-coordinate of the point.
-   * @param y The y-coordinate of the point.
-   * @returns True if the point is inside the arc, otherwise false.
-   */
-  isIn(x: number, y: number): boolean {
-    const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
-    return super.isIn(x, y) || this.path.contains(dx, dy)
+  calculateIn(x: number, y: number): boolean {
+    return this.path.contains(x, y)
   }
 
   calculateRange(): WidgetRange {

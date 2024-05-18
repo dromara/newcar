@@ -122,13 +122,8 @@ export class Polygon extends Figure {
       canvas.drawPath(this.path, this.fillPaint)
   }
 
-  /**
-   * p :[x,y] ,带判定的P点
-   * this.points: [[x0,y0],[x1,y1]......] 多边形的路径
-   */
-  isIn(x: number, y: number) {
-    const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
-    return super.isIn(x, y) || this.path.contains(dx, dy)
+  calculateIn(x: number, y: number): boolean {
+    return this.path.contains(x, y)
   }
 
   calculateRange(): WidgetRange {
