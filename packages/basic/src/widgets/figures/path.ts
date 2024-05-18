@@ -1,6 +1,5 @@
 import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
 import type { WidgetRange } from '@newcar/core'
-import { $ck } from '@newcar/core'
 import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
@@ -13,12 +12,15 @@ export interface PathStyle extends FigureStyle {}
 
 export class Path extends Figure {
   path: ckPath
+  pathData: Array<
+    [0, string] // SVG
+    | [1, ckPath, ckPath, any] // PathOp
+    | [2, ckPath, ckPath, number] // PathInterpolation
+  > = []
 
   constructor(options?: PathOptions) {
     options ??= {}
     super(options)
-
-    this.path = new $ck.Path()
   }
 
   init(ck: CanvasKit): void {
@@ -49,6 +51,25 @@ export class Path extends Figure {
     // Blend Mode
     this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
     this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+
+    this.path = new ck.Path()
+
+    this.pathData.forEach(([type, ...args]) => {
+      switch (type) {
+        case 0: {
+          this.path.addPath(ck.Path.MakeFromSVGString(<string> args[0]))
+          break
+        }
+        case 1: {
+          this.path.addPath(ck.Path.MakeFromOp(<ckPath> args[0], args[1], args[2]))
+          break
+        }
+        case 2: {
+          this.path.addPath(ck.Path.MakeFromPathInterpolation(<ckPath> args[0], args[1], args[2]))
+          break
+        }
+      }
+    })
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
@@ -104,19 +125,19 @@ export class Path extends Figure {
   }
 
   addPathFromSVGString(svg: string) {
-    this.path.addPath($ck.Path.MakeFromSVGString(svg))
+    this.pathData.push([0, svg])
 
     return this
   }
 
   addPathFromOptions(one: ckPath, two: ckPath, options: any) {
-    this.path.addPath($ck.Path.MakeFromOp(one, two, options))
+    this.pathData.push([1, one, two, options])
 
     return this
   }
 
   addFromPathInterpolation(start: ckPath, end: ckPath, weight: number) {
-    this.path.addPath($ck.Path.MakeFromPathInterpolation(start, end, weight))
+    this.pathData.push([2, start, end, weight])
 
     return this
   }
