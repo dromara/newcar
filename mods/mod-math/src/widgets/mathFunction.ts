@@ -107,9 +107,8 @@ export class MathFunction extends Widget {
     canvas.drawPath(this.path, this.paint)
   }
 
-  isIn(x: number, y: number): boolean {
-    const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
-    return super.isIn(x, y) || this.path.contains(dx, dy)
+  calculateIn(x: number, y: number): boolean {
+    return this.path.contains(x, y)
   }
 
   calculateRange(): WidgetRange {
