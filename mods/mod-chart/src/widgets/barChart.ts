@@ -125,6 +125,7 @@ export class BarChart extends BaseSimpleChart {
       set.style.borderColor ??= this.data.style?.borderColor ?? Color.WHITE
       set.style.borderShader ??= this.data.style?.borderShader
       set.style.borderWidth ??= this.data.style?.borderWidth ?? 1
+      set.style.borderRadius ??= this.data.style?.borderRadius ?? 0
       set.style.border ??= this.data.style?.border ?? true
 
       if (this.layout.indexAxis === 'x') {
@@ -158,6 +159,7 @@ export class BarChart extends BaseSimpleChart {
                 borderColor: unit.style.borderColor ?? set.style.borderColor,
                 borderShader: unit.style.borderShader ?? set.style.borderShader,
                 borderWidth: unit.style.borderWidth ?? set.style.borderWidth,
+                radius: unit.style.borderRadius ?? set.style.borderRadius,
                 border: unit.style.border ?? set.style.border,
               },
             },
@@ -196,6 +198,7 @@ export class BarChart extends BaseSimpleChart {
                 borderColor: unit.style.borderColor ?? set.style.borderColor,
                 borderShader: unit.style.borderShader ?? set.style.borderShader,
                 borderWidth: unit.style.borderWidth ?? set.style.borderWidth,
+                radius: unit.style.borderRadius ?? set.style.borderRadius,
                 border: unit.style.border ?? set.style.border,
               },
             },
