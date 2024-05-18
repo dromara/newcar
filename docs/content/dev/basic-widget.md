@@ -1,8 +1,8 @@
 ---
-title: Component Basics
+title: Basic Component
 ---
 
-# Component Basics
+# Basic Component
 
 Welcome to the development tutorial for Newcar extensions! We will gradually explain the development approach for Newcar extensions so that everyone can develop Newcar extensions more effectively!
 
@@ -15,7 +15,7 @@ The packages we need to use are:
 
 Install these two packages in your project directory, and then you can start developing Widgets!
 
-All our Widgets are based on the `Widget` class, which defines some methods for the kernel to operate on them.
+All our Widgets should extend `Widget`, which defines some methods for the kernel to operate on them and for you to implement.
 
 ## The most basic structure
 
@@ -34,6 +34,7 @@ export interface MyWidgetStyle {}
 export class MyWidget extends Widget {
   constructor(options?: MyWidgetOptions) {
     options ??= {} // Add a condition here to prevent users from passing empty options
+    super(options)
   }
 
   // Initialize the Widget
@@ -88,6 +89,7 @@ export class MyWidget extends Widget {
   ) {
     options ??= {} // Add a condition here to prevent users from passing empty options
     options.style ??= {}
+    super(options)
     this.style.color = options.style.color
   }
 
@@ -123,7 +125,34 @@ export class MyWidget extends Widget {
   draw(canvas: Canvas) {
     canvas.drawPath(this.path, this.paint)
   }
+  
+  calculateIn(x: number, y: number) {
+    // Calculate whether the point is in the triangle (based on the self relative coordinate system)
+    // This is a simple example, for basic shapes, you can use the built-in method of CanvasKit
+    return this.path.contains(x, y)
+  }
+  
+  calculateRange() {
+    // Calculate the range of the triangle (based on the self relative coordinate system)
+    // This is a simple example, for basic shapes, you can use the built-in method of CanvasKit
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
+  }
 }
 ```
 
-CanvasKit has many similarities to native Canvas2d. You can refer to the Skia API for development. Of course, we recommend using the "building blocks" approach to construct our Widgets. Please see the next article for details.
+## Add calculation methods
+
+In the above example, we added two calculation methods: `calculateIn` and `calculateRange`. These two methods are used to calculate whether a point is in the triangle and the range of the triangle, respectively. These two methods are used to calculate the interaction area of the Widget.
+
+For basic shapes drawn with CanvasKit.Path, you can use the built-in methods of CanvasKit to calculate the interaction area. More complex shapes may require custom calculation methods.
+
+### Self-relative coordinate system
+
+In the calculation methods, we use the self-relative coordinate system of the component. This means that we do not need to consider the position and transformation of the component, only the shape of the component itself.
+
+In fact, the `isIn` and `range` methods of the component wrap our implementation, making it easier for us to calculate the interaction area of the component (without having to worry about other unrelated content).
+
+## Conclusion
+
+This article introduces the basic structure of a Widget and how to implement a simple triangle. In the next article, we will introduce the "building blocks" approach to construct Widgets. Stay tuned!
