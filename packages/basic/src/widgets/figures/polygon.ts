@@ -1,18 +1,15 @@
-import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
-import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
-import type { WidgetRange } from '@newcar/core'
-import { $ck } from '@newcar/core'
+import type { CanvasKit } from 'canvaskit-wasm'
 import type { Vector2 } from '../../utils/vector2'
-import type { FigureOptions, FigureStyle } from './figure'
-import { Figure } from './figure'
+import type { PathOptions, PathStyle } from './path.ts'
+import { Path } from './path.ts'
 
-export interface PolygonOptions extends FigureOptions {
-  style?: FigureStyle
+export interface PolygonOptions extends PathOptions {
+  style?: PolygonStyle
 }
 
-export interface PolygonStyle extends FigureStyle {}
+export interface PolygonStyle extends PathStyle {}
 
-export class Polygon extends Figure {
+export class Polygon extends Path {
   constructor(public points: Vector2[], options?: PolygonOptions) {
     options ??= {}
     super(options)
@@ -20,43 +17,13 @@ export class Polygon extends Figure {
 
   init(ck: CanvasKit): void {
     super.init(ck)
+
     this.path.addPoly(this.points.flat(), true)
-    // Stroke
-    this.strokePaint = new ck.Paint()
-    this.strokePaint.setStyle(ck.PaintStyle.Stroke)
-    this.strokePaint.setColor(this.style.borderColor.toFloat4())
-    this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
-    this.strokePaint.setStrokeWidth(this.style.borderWidth)
-    this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
-    this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
-    this.strokePaint.setAntiAlias(this.style.antiAlias)
-    try {
-      const dash = ck.PathEffect.MakeDash(
-        this.style.interval,
-        this.style.offset,
-      )
-      this.strokePaint.setPathEffect(dash)
-    }
-    catch {}
-
-    // Fill
-    this.fillPaint = new ck.Paint()
-    this.fillPaint.setStyle(ck.PaintStyle.Fill)
-    this.fillPaint.setColor(this.style.fillColor.toFloat4())
-    this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
-
-    // Alpha
-    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
-    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
-
-    // Blend Mode
-    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-
-    this.fillPaint.setAntiAlias(this.style.antiAlias)
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
+    super.predraw(ck, propertyChanged)
+
     switch (propertyChanged) {
       case 'points': {
         this.path.moveTo(0, 0)
@@ -68,65 +35,6 @@ export class Polygon extends Figure {
         this.path.close()
         break
       }
-      case 'style.borderColor': {
-        this.strokePaint.setColor(this.style.borderColor.toFloat4())
-        break
-      }
-      case 'style.borderShader': {
-        this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
-        break
-      }
-      case 'style.borderWidth': {
-        this.strokePaint.setStrokeWidth(this.style.borderWidth)
-        break
-      }
-      case 'style.fillColor': {
-        this.fillPaint.setColor(this.style.fillColor.toFloat4())
-        break
-      }
-      case 'style.fillShader': {
-        this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
-        break
-      }
-      case 'style.join': {
-        this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
-        break
-      }
-      case 'style.cap': {
-        this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
-        break
-      }
-      case 'style.offset':
-      case 'style.interval': {
-        this.strokePaint.setPathEffect(
-          ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
-        )
-        break
-      }
-      case 'style.blendMode': {
-        // Blend Mode
-        this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-        this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-      }
     }
-    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
-    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
-  }
-
-  draw(canvas: Canvas): void {
-    if (this.style.border)
-      canvas.drawPath(this.path, this.strokePaint)
-
-    if (this.style.fill)
-      canvas.drawPath(this.path, this.fillPaint)
-  }
-
-  calculateIn(x: number, y: number): boolean {
-    return this.path.contains(x, y)
-  }
-
-  calculateRange(): WidgetRange {
-    const bounds = this.path.computeTightBounds()
-    return [...bounds] as WidgetRange
   }
 }

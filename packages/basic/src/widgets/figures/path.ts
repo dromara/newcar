@@ -1,7 +1,7 @@
 import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
 import type { WidgetRange } from '@newcar/core'
-import { str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
 import { $ck } from '@newcar/core'
+import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 
@@ -12,7 +12,7 @@ export interface PathOptions extends FigureOptions {
 export interface PathStyle extends FigureStyle {}
 
 export class Path extends Figure {
-  path: ckPath = new $ck.Path()
+  path: ckPath
 
   constructor(options?: PathOptions) {
     options ??= {}
@@ -20,6 +20,8 @@ export class Path extends Figure {
   }
 
   init(ck: CanvasKit): void {
+    this.path = new ck.Path()
+
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
@@ -43,10 +45,15 @@ export class Path extends Figure {
     this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
     this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
     this.fillPaint.setAntiAlias(this.style.antiAlias)
+
+    // Blend Mode
+    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
   }
 
   predraw(ck: CanvasKit, propertyChanged: string): void {
     super.predraw(ck, propertyChanged)
+
     switch (propertyChanged) {
       case 'path': {
         break
@@ -84,6 +91,12 @@ export class Path extends Figure {
         this.strokePaint.setPathEffect(
           ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
         )
+        break
+      }
+      case 'style.blendMode': {
+        // Blend Mode
+        this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+        this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
       }
     }
     this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
@@ -109,7 +122,6 @@ export class Path extends Figure {
   }
 
   draw(canvas: Canvas): void {
-    // console.log(this.path);
     if (this.style.border)
       canvas.drawPath(this.path, this.strokePaint)
 
