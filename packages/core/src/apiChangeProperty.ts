@@ -1,4 +1,5 @@
-import type { Widget, WidgetStyle } from './widget'
+import * as ac from 'acorn'
+import type { Widget } from './widget'
 import type { Animation } from './animation'
 import { defineAnimation } from './animation'
 import type { MaybeArray, PickNumberKeys } from './types'
@@ -7,6 +8,69 @@ import type { MaybeArray, PickNumberKeys } from './types'
  * Easing function type, which takes a progress ratio and returns an adjusted ratio.
  */
 type EasingFunction = (progress: number) => number
+
+// TODO: error handling
+function parseProperty(propName: ac.Expression): string[] {
+  let chain: string[] = []
+  const e = propName
+
+  switch (e.type) {
+    case 'Identifier':
+      chain.push(e.name)
+
+      break
+    case 'MemberExpression':
+      if (e.object.type === 'MemberExpression') {
+        chain = parseProperty(e.object).concat(chain)
+      }
+      else if (e.object.type === 'Identifier') {
+        chain.push(e.object.name)
+
+        switch (e.property.type) {
+          case 'Literal':
+            if (typeof e.property.value === 'number')
+              chain.push(e.property.value.toString())
+            else
+              return []
+
+            break
+          case 'Identifier':
+            chain.push(e.property.name)
+            break
+          default:
+            return []
+        }
+      }
+      else {
+        return []
+      }
+
+      break
+    default:
+      return []
+  }
+
+  return chain
+}
+
+function setByChain(chain: string[], object: any, value: any): void {
+  const prop = chain.shift()
+  if (chain.length === 0) {
+    object[prop] = value
+  }
+  else {
+    if (object[prop] === undefined)
+      object[prop] = {}
+    setByChain(chain, object[prop], value)
+  }
+}
+
+function getByChain(chain: string[], object: any): any {
+  const prop = chain.shift()
+  if (object[prop] === undefined)
+    return undefined
+  else return getByChain(chain, object[prop])
+}
 
 /**
  * Creates an animation that changes one or more properties of a widget over time.
@@ -72,29 +136,29 @@ export function changeProperty<T extends Widget>(
 
       // Apply the animation to each property.
       const applyChange = (
-        prop: PickNumberKeys<T>,
-        start: number | undefined,
+        prop: string[],
+        start: number,
         end: number,
       ) => {
-        if (start === undefined)
-          (start as unknown) = widget[prop] // Use the widget's original value as the start value
-
-        if (/style\..+/.test(prop as string)) {
-          const propAfterPoint = (prop as string).replace(/style\./, '')
-          const valueChange = (end - start) * adjustedProcess
-          ; (widget.style[propAfterPoint as keyof WidgetStyle] as any) = start + valueChange
-        }
-        else {
-          const valueChange = (end - start) * adjustedProcess
-          ; (widget[prop] as any) = start + valueChange
-        }
+        const valueChange = (end - start) * adjustedProcess
+        setByChain(prop, widget, start + valueChange)
       }
 
-      propertyName.forEach((prop, index) => {
-        const startValue
-          = from[index] !== undefined ? from[index] : widget[prop] // Use widget's value as a fallback
-        const endValue = to[index] !== undefined ? to[index] : widget[prop] // Use widget's value as a fallback
-        applyChange(prop, startValue, endValue)
+      const propChains = propertyName.map((p) => {
+        const s = ac.parse(p as string, { ecmaVersion: 'latest' })
+        if (s.body[0].type === 'ExpressionStatement') {
+          return parseProperty(s.body[0].expression)
+        }
+        else {
+          // TODO: error handling
+          return []
+        }
+      })
+
+      propChains.forEach((prop, index) => {
+        const start = from[index] !== undefined ? from[index] : getByChain(prop, widget) // Use widget's value as a fallback
+        const end = to[index] !== undefined ? to[index] : getByChain(prop, widget) // Use widget's value as a fallback
+        applyChange(prop, start, end)
       })
     },
   })
