@@ -1,5 +1,4 @@
 import type { CanvasKit } from 'canvaskit-wasm'
-import type { WidgetRange } from '@newcar/core'
 import type { Vector2 } from '../../utils/vector2'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
@@ -134,12 +133,5 @@ export class Arrow extends Figure {
         this.tip.style.interval = this.style.interval
       }
     }
-  }
-
-  get range(): WidgetRange {
-    return [
-      ...this.from,
-      ...this.to,
-    ]
   }
 }

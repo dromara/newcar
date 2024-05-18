@@ -127,16 +127,12 @@ export class Polygon extends Figure {
    * this.points: [[x0,y0],[x1,y1]......] 多边形的路径
    */
   isIn(x: number, y: number) {
-    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
     return super.isIn(x, y) || this.path.contains(dx, dy)
   }
 
-  get range(): WidgetRange {
-    return [
-      this.x,
-      this.y,
-      Math.max(...this.points.map(point => point[0])),
-      Math.max(...this.points.map(point => point[1])),
-    ]
+  calculateRange(): WidgetRange {
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
   }
 }

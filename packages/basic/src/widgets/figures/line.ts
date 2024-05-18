@@ -89,14 +89,12 @@ export class Line extends Figure {
   }
 
   isIn(x: number, y: number): boolean {
-    const { x: dx, y: dy } = this.transformedPoint(x, y)
+    const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
     return super.isIn(x, y) || this.path.contains(dx, dy)
   }
 
-  get range(): WidgetRange {
-    return [
-      ...this.from,
-      ...this.to,
-    ]
+  calculateRange(): WidgetRange {
+    const bounds = this.path.computeTightBounds()
+    return [...bounds] as WidgetRange
   }
 }

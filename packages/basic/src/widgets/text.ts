@@ -468,12 +468,12 @@ export class Text extends Widget {
     return false
   }
 
-  get range(): WidgetRange {
+  calculateRange(): WidgetRange {
     return [
-      this.x,
-      this.y,
-      this.x + this.style.width,
-      this.y + this.paragraph.getHeight(),
+      0,
+      0,
+      this.style.width,
+      this.paragraph.getHeight(),
     ]
   }
 
