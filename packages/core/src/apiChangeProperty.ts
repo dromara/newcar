@@ -56,20 +56,31 @@ function parseProperty(propName: ac.Expression): string[] {
 function setByChain(chain: string[], object: any, value: any): void {
   const prop = chain.shift()
   if (chain.length === 0) {
-    object[prop] = value
+    Object.defineProperty(object, prop, {
+      value,
+      writable: true,
+    })
   }
   else {
-    if (object[prop] === undefined)
-      object[prop] = {}
+    if (object[prop] === undefined) {
+      Object.defineProperty(object, prop, {
+        value: {},
+        writable: true,
+      })
+    }
     setByChain(chain, object[prop], value)
   }
 }
 
 function getByChain(chain: string[], object: any): any {
   const prop = chain.shift()
-  if (object[prop] === undefined)
+  const des = Object.getOwnPropertyDescriptor(object, prop)
+  if (des === undefined)
     return undefined
-  else return getByChain(chain, object[prop])
+  if (chain.length === 0)
+    return des.value
+  else
+    return getByChain(chain, des.value)
 }
 
 /**
