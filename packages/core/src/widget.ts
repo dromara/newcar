@@ -369,9 +369,25 @@ export class Widget {
     return deepClone(this)
   }
 
+  /**
+   * Calculate the range of the widget, based on the self coordinate.
+   * To be noted that this method should be overridden.
+   * @param _x
+   * @param _y
+   */
+  calculateIn(_x: number, _y: number): boolean {
+    return false
+  }
+
+  /**
+   * Determine whether the point is in the widget, based on the parent coordinate.
+   * To be noted that this method should not be overridden.
+   * @param x
+   * @param y
+   */
   isIn(x: number, y: number): boolean {
     const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
-    return this.children.some(child => child.isIn(dx, dy))
+    return this.children.some(child => child.isIn(dx, dy)) || this.calculateIn(dx, dy)
   }
 
   /**
@@ -384,7 +400,7 @@ export class Widget {
   }
 
   /**
-   * The range of the widget, taking into account the children.
+   * The range of the widget, taking into account the children, based on the parent coordinate.
    * To be noted that this method should not be overridden.
    * @returns The range of the widget.
    */
