@@ -17,11 +17,11 @@ export class Path extends Figure {
   constructor(options?: PathOptions) {
     options ??= {}
     super(options)
+
+    this.path = new $ck.Path()
   }
 
   init(ck: CanvasKit): void {
-    this.path = new ck.Path()
-
     this.strokePaint = new ck.Paint()
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())

@@ -21,12 +21,12 @@ export class Line extends Path {
   constructor(public from: Vector2, public to: Vector2, options?: LineOptions) {
     options ??= {}
     super({
+      ...options,
       style: {
         border: true,
-        borderWidth: options.style.width ?? 2,
         ...options.style,
+        borderWidth: options.style?.width ?? 2,
       },
-      ...options,
     })
     options.style ??= {}
   }
