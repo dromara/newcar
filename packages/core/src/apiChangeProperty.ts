@@ -49,12 +49,12 @@ export function changeProperty<T extends Widget>(
         to = from
       }
       // If only one of `from` or `to` value is provided, use the widget's current value for the missing one.
-      else if (from === undefined) {
+      if (from === undefined) {
         from = Array.isArray(propertyName)
           ? propertyName.map(prop => widget[prop])
           : widget[propertyName]
       }
-      else if (to === undefined) {
+      if (to === undefined) {
         to = Array.isArray(propertyName)
           ? propertyName.map(prop => widget[prop])
           : widget[propertyName]
@@ -66,6 +66,9 @@ export function changeProperty<T extends Widget>(
 
       if (!Array.isArray(to))
         to = [to]
+
+      if (!Array.isArray(propertyName))
+        propertyName = [propertyName]
 
       // Apply the animation to each property.
       const applyChange = (
@@ -87,22 +90,12 @@ export function changeProperty<T extends Widget>(
         }
       }
 
-      if (Array.isArray(propertyName)) {
-        // Handle multiple properties.
-        propertyName.forEach((prop, index) => {
-          const startValue
-            = from[index] !== undefined ? from[index] : widget[prop] // Use widget's value as a fallback
-          const endValue = to[index] !== undefined ? to[index] : widget[prop] // Use widget's value as a fallback
-          applyChange(prop, startValue, endValue)
-        })
-      }
-      else {
-        // Handle a single property.
+      propertyName.forEach((prop, index) => {
         const startValue
-          = from[0] !== undefined ? from[0] : widget[propertyName] // Use widget's value as a fallback
-        const endValue = to[0] !== undefined ? to[0] : widget[propertyName] // Use widget's value as a fallback
-        applyChange(propertyName, startValue, endValue)
-      }
+          = from[index] !== undefined ? from[index] : widget[prop] // Use widget's value as a fallback
+        const endValue = to[index] !== undefined ? to[index] : widget[prop] // Use widget's value as a fallback
+        applyChange(prop, startValue, endValue)
+      })
     },
   })
 }

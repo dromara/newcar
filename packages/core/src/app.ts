@@ -122,7 +122,7 @@ export class App {
     if (app.config.unit === 'frame')
       app.scene.elapsed += 1
     else if (app.config.unit === 'ms')
-      app.scene.elapsed = performance.now() - app.scene.startTime
+      app.scene.elapsed = performance.now() - app.scene.startTime // 1 frame per milisecond?
     else if (app.config.unit === 's')
       app.scene.elapsed = (performance.now() - app.scene.startTime) / 1000
     app.surface.requestAnimationFrame((canvas: Canvas) => {
