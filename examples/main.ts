@@ -150,6 +150,9 @@ const sceneChart1 = new nc.Scene(
           },
         },
       ],
+      style: {
+        borderRadius: 5,
+      },
     },
     {
       x: 50,
@@ -160,7 +163,7 @@ const sceneChart1 = new nc.Scene(
       },
       indexAxis: 'x',
     },
-  ).animate(nc.create, 0, 100),
+  ).animate(nc.create, 0, 5),
 )
 
 const sceneChart2 = new nc.Scene(
