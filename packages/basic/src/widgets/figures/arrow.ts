@@ -1,4 +1,5 @@
 import type { CanvasKit } from 'canvaskit-wasm'
+import { deepMerge } from '@newcar/utils'
 import type { Vector2 } from '../../utils/vector2'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
@@ -90,11 +91,10 @@ export class Arrow extends Figure {
     )
     this.trim = new Line(this.from, this.to, {
       style:
-        {
+        deepMerge(this.style, {
           color: this.style.borderColor,
           width: this.style.borderWidth,
-          ...this.style,
-        },
+        }),
       progress: this.progress,
     })
     this.add(this.trim, this.tip)
