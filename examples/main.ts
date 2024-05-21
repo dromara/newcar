@@ -195,7 +195,7 @@ const sceneChart2 = new nc.Scene(
       },
       indexAxis: 'x',
     },
-  ).animate(nc.create, 0, 100),
+  ).animate(nc.create, 0, 10),
 )
 
 const sceneChart3 = new nc.Scene(
@@ -229,7 +229,7 @@ const sceneChart3 = new nc.Scene(
       },
       indexAxis: 'x',
     },
-  ).animate(nc.create, 0, 60),
+  ).animate(nc.create, 0, 6),
 )
 
 const sceneChart4 = new nc.Scene(
@@ -263,7 +263,7 @@ const sceneChart4 = new nc.Scene(
       },
       indexAxis: 'y',
     },
-  ).animate(nc.create, 0, 100),
+  ).animate(nc.create, 0, 10),
 )
 
 const sceneChart5 = new nc.Scene(
@@ -401,7 +401,7 @@ const sceneChart5 = new nc.Scene(
       gridAlign: false,
     },
   )
-    .animate(nc.create, 0, 100),
+    .animate(nc.create, 0, 5),
 )
 
 const scene11 = new nc.Scene(new Markdown(`

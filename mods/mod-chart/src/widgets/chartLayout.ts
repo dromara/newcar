@@ -1,6 +1,6 @@
 import { Line, Rect, Text } from '@newcar/basic'
 import type { WidgetStyle } from '@newcar/core'
-import type { Paint } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
 import { Color } from '@newcar/utils'
 import stringWidth from 'string-width'
 import type { DateTimeUnit } from 'luxon'
@@ -407,8 +407,8 @@ export class ChartLayout extends BaseChart {
         )
         this.index.grids.push(
           new Line(
-            [(pos - this.index.min) / (this.index.max - this.index.min) * this.size.width, 0],
             [(pos - this.index.min) / (this.index.max - this.index.min) * this.size.width, this.size.height],
+            [(pos - this.index.min) / (this.index.max - this.index.min) * this.size.width, 0],
             {
               style: {
                 color: this.index.gridColor,
@@ -568,8 +568,8 @@ export class ChartLayout extends BaseChart {
         )
         this.cross.grids.push(
           new Line(
-            [(i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.width, 0],
             [(i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.width, this.size.height],
+            [(i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.width, 0],
             {
               style: {
                 color: this.cross.gridColor,
@@ -598,7 +598,7 @@ export class ChartLayout extends BaseChart {
     const legendWidthPrefix = [0]
     for (let i = 1; i <= this.data.datasets.length; i++) {
       legendWidthPrefix[i] = legendWidthPrefix[i - 1]
-      legendWidthPrefix[i] += stringWidth(this.data.datasets[i - 1].label) * 12 + 24
+      legendWidthPrefix[i] += stringWidth(this.data.datasets[i - 1].label) * 12 + 36
     }
     for (let i = 0; i < this.data.datasets.length; i++) {
       this.legends.push(
@@ -644,7 +644,7 @@ export class ChartLayout extends BaseChart {
             y: -27,
             style: {
               width: stringWidth(this.data.datasets[i].label) * 12,
-              textAlign: 'center',
+              textAlign: 'left',
             },
           },
         ),
@@ -655,6 +655,24 @@ export class ChartLayout extends BaseChart {
       ...this.legends,
       ...this.legendLabels,
     )
+  }
+
+  init(_ck: CanvasKit) {
+    super.init(_ck)
+  }
+
+  draw(_canvas: Canvas) {
+    super.draw(_canvas)
+    this.index.axis.progress = this.progress
+    this.index.grids.forEach(grid => (grid.progress = this.progress))
+    this.index.ticks.forEach(tick => (tick.progress = this.progress))
+    this.cross.axis.progress = this.progress
+    this.cross.grids.forEach(grid => (grid.progress = this.progress))
+    this.cross.ticks.forEach(tick => (tick.progress = this.progress))
+
+    this.legendLabels.forEach(label => label.progress = Math.round(this.progress * 10) / 10)
+
+    this.relayLegends()
   }
 
   /**
@@ -695,7 +713,7 @@ export class ChartLayout extends BaseChart {
       }
     }
     while (dateTypes.shift() !== this.indexIntervalUnit) {
-      //
+      // Do nothing.
     }
     dateTypes.unshift(this.indexIntervalUnit)
 
@@ -719,6 +737,20 @@ export class ChartLayout extends BaseChart {
       axis.pos.push(i)
       axis.labelTexts.push(date[this.dateFormatOptions[this.indexIntervalUnit]].toString())
       date = date.plus({ [this.indexIntervalUnit]: axis.interval })
+    }
+  }
+
+  private relayLegends() {
+    const legendWidthPrefix = [0]
+    for (let i = 1; i <= this.legendLabels.length; i++) {
+      legendWidthPrefix[i] = legendWidthPrefix[i - 1]
+      legendWidthPrefix[i] += this.legendLabels[i - 1].getLineMetrics()[0].width + 36
+    }
+    legendWidthPrefix[legendWidthPrefix.length - 1] -= 6
+    for (let i = 0; i < this.data.datasets.length; i++) {
+      this.legends[i].from[0] = this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i]
+      this.legends[i].to[0] = this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i] + 20
+      this.legendLabels[i].x = this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i] + 28
     }
   }
 }
