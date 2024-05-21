@@ -2,7 +2,7 @@ import { CarEngine, Color, Shader, Text } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { BarChart, BubbleChart, ChartDataUnit, ChartUtil, LineChart, MixedChart, ScatterChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
-import { NumberAxis } from '@newcar/mod-math'
+import { NumberAxis, NumberPlane } from '@newcar/mod-math'
 
 import * as nc from 'newcar'
 import { DateTime, Duration } from 'luxon'
@@ -426,10 +426,23 @@ My name is **Acbox**
   },
 }))
 
-const scene12 = new nc.Scene(new NumberAxis([-100, 100], [0, 3], {
+const scene12 = new nc.Scene(new NumberAxis([-100, 100], {
   x: 200,
   y: 200,
-}))
+  style: {
+    color: Color.parse('skyblue'),
+    rotation: -45,
+  },
+}).animate(nc.create, 0, 1))
+
+const scene13 = new nc.Scene(new NumberPlane([-120, 100], [-100, 100], {
+  x: 200,
+  y: 200,
+  style: {
+    textSizeX: 30,
+  },
+}).animate(nc.create, 0, 2))
+
 const app1 = engine.createApp(document.querySelector('#a1'))
 app1.checkout(scene1)
 app1.play()
@@ -485,6 +498,10 @@ app11.play()
 const app12 = engine.createApp(document.querySelector('#e1'))
 app12.checkout(scene12)
 app12.play()
+
+const app13 = engine.createApp(document.querySelector('#e2'))
+app13.checkout(scene13)
+app13.play()
 
 const appX = engine.createApp(document.querySelector('#a6'))
 appX.checkout(sceneX)

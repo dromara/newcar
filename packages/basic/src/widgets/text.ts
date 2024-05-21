@@ -201,7 +201,7 @@ export interface TextStyle extends WidgetStyle {
 }
 
 export class Text extends Widget {
-  private text: InputItem[] = []
+  text: InputItem[] = []
   private fontManager: FontMgr
   declare style: TextStyle
   private builder: ParagraphBuilder
