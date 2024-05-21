@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon'
+import type { Canvas } from 'canvaskit-wasm'
 import type { BaseChartData, BaseChartDataSet, BaseChartOptions, BaseChartStyle } from './baseChart'
 import { BaseChart } from './baseChart'
 import type { ChartDataUnit } from './chartDataUnit'
@@ -100,5 +101,10 @@ export class BaseSimpleChart extends BaseChart {
 
     if (!options.layout)
       this.add(this.layout)
+  }
+
+  draw(_canvas: Canvas) {
+    super.draw(_canvas)
+    this.layout.progress = this.progress
   }
 }

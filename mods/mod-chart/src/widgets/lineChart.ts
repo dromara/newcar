@@ -297,6 +297,7 @@ export class LineChart extends BaseSimpleChart {
   }
 
   draw(canvas: Canvas): void {
+    super.draw(canvas)
     if (this.layout.indexAxis === 'x') {
       for (let i = 0; i < this.dotSets.length; i++) {
         for (let j = 0; j < this.dotSets[i].length; j++) {
