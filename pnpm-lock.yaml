@@ -214,9 +214,12 @@ importers:
       gl-matrix:
         specifier: ^3.4.3
         version: 3.4.3
-      mathjax-full:
-        specifier: ^3.2.2
-        version: 3.2.2
+      svg-path:
+        specifier: ^0.2.1
+        version: 0.2.1
+      tex-to-svg:
+        specifier: ^0.2.0
+        version: 0.2.0
     devDependencies:
       canvaskit-wasm:
         specifier: 0.39.1
@@ -7656,6 +7659,16 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
+  /svg-numbers@0.1.1:
+    resolution: {integrity: sha512-fmKrzrZbFRuPiEtj4HyJiYF3picV7FWQ3QXtcmClKDs/Wc718wOaGXHCN650m4Kjm6NmAYLUbwTvHDdWrmeklg==}
+    dev: false
+
+  /svg-path@0.2.1:
+    resolution: {integrity: sha512-WrF7i9l3BdqCEBAw7/60iijn4NAGR5FdjHwv9rd/lFlV3delNOF3uQbG1TTRSM2/YE7yIi3UrzAMdqKwL4Yghw==}
+    dependencies:
+      svg-numbers: 0.1.1
+    dev: false
+
   /synckit@0.6.2:
     resolution: {integrity: sha512-Vhf+bUa//YSTYKseDiiEuQmhGCoIF3CVBhunm3r/DQnYiGT4JssmnKQc44BIyOZRK2pKjXXAgbhfmbeoC9CJpA==}
     engines: {node: '>=12.20'}
@@ -7732,6 +7745,12 @@ packages:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
     engines: {node: '>=8'}
     dev: true
+
+  /tex-to-svg@0.2.0:
+    resolution: {integrity: sha512-YkP5V4O3u+i2odO5ETEISjVTemfzrx+YeG/XHXRoq3sfL0p8q4zDdlP/h+mna/4tEu6EylJOKzJws3iOnzU/rA==}
+    dependencies:
+      mathjax-full: 3.2.2
+    dev: false
 
   /text-table@0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}

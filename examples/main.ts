@@ -2,7 +2,7 @@ import { CarEngine, Color, Shader, Text } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { BarChart, BubbleChart, ChartDataUnit, ChartUtil, LineChart, MixedChart, ScatterChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
-import { MathFunction, NumberAxis, NumberPlane } from '@newcar/mod-math'
+import { MathFunction, NumberAxis, NumberPlane, Tex } from '@newcar/mod-math'
 
 import * as nc from 'newcar'
 import { DateTime, Duration } from 'luxon'
@@ -445,6 +445,10 @@ const scene13 = new nc.Scene(new NumberPlane([-800, 800], [-450, 450], {
   new MathFunction(Math.cos, [-15, 15]),
 ))
 
+const scene14 = new nc.Scene(new Tex('\\frac{1}{2}', {
+
+}))
+
 const app1 = engine.createApp(document.querySelector('#a1'))
 app1.checkout(scene1)
 app1.play()
@@ -504,6 +508,10 @@ app12.play()
 const app13 = engine.createApp(document.querySelector('#e2'))
 app13.checkout(scene13)
 app13.play()
+
+const app14 = engine.createApp(document.querySelector('#e3'))
+app14.checkout(scene14)
+app14.play()
 
 const appX = engine.createApp(document.querySelector('#a6'))
 appX.checkout(sceneX)

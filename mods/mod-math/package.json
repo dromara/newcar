@@ -29,7 +29,8 @@
     "@newcar/core": "workspace:*",
     "@newcar/utils": "workspace:*",
     "gl-matrix": "^3.4.3",
-    "mathjax-full": "^3.2.2"
+    "svg-path": "^0.2.1",
+    "tex-to-svg": "^0.2.0"
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"
