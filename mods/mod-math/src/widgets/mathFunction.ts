@@ -103,7 +103,7 @@ export class MathFunction extends Widget {
   }
 
   draw(canvas: Canvas): void {
-    canvas.scale(this.divisionX, this.divisionY)
+    canvas.scale(this.divisionX, -this.divisionY)
     canvas.drawPath(this.path, this.paint)
   }
 

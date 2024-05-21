@@ -108,7 +108,7 @@ export class NumberPlane extends Widget {
           y: 10,
           style: {
             textAlign: 'center',
-            width: this.style.textSizeX,
+            width: this.style.textSizeX * this.trendX(x).toString().length * (2 / 3),
             fillColor: this.style.textColorX,
             // Note: the rotation is reversed because the canvas is flipped
             rotation: -this.style.rotation,
@@ -145,7 +145,7 @@ export class NumberPlane extends Widget {
           y: (this.style.textSizeY / 2) - y,
           style: {
             textAlign: 'center',
-            width: this.style.textSizeY,
+            width: this.style.textSizeY * this.trendY(y).toString().length * (2 / 3),
             fillColor: this.style.textColorY,
             // Note: the rotation is reversed because the canvas is flipped
             rotation: -this.style.rotation,
@@ -173,7 +173,7 @@ export class NumberPlane extends Widget {
       y: this.style.textSizeX / 4,
       style: {
         textAlign: 'center',
-        width: this.style.textSizeX,
+        width: this.style.textSizeX * this.trendX(0).toString().length,
         fillColor: this.style.textColorX,
         // Note: the rotation is reversed because the canvas is flipped
         rotation: -this.style.rotation,

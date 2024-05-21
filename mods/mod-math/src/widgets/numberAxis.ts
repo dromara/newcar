@@ -100,7 +100,7 @@ export class NumberAxis extends Widget {
           y: 10,
           style: {
             textAlign: 'center',
-            width: this.style.textSize,
+            width: this.style.textSize * this.trend(x).toString().length,
             fillColor: this.style.textColor,
             // Note: the rotation is reversed because the canvas is flipped
             rotation: -this.style.rotation,
