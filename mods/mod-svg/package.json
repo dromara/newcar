@@ -27,10 +27,7 @@
   "dependencies": {
     "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
-    "@newcar/utils": "workspace:*",
-    "gl-matrix": "^3.4.3",
-    "svg-path": "^0.2.1",
-    "tex-to-svg": "^0.2.0"
+    "@newcar/utils": "workspace:*"
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"
