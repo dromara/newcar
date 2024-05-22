@@ -1,0 +1,41 @@
+{
+  "name": "@newcar/mod-svg",
+  "version": "0.0.0",
+  "description": "",
+  "author": "BugDuck Team",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "publish": "npm publish",
+    "build": "pkgroll --sourcemap --minify",
+    "dev": "pkgroll -w"
+  },
+  "peerDependencies": {
+    "canvaskit-wasm": ">=0.39.1"
+  },
+  "dependencies": {
+    "@newcar/basic": "workspace:*",
+    "@newcar/core": "workspace:*",
+    "@newcar/utils": "workspace:*",
+    "gl-matrix": "^3.4.3",
+    "svg-path": "^0.2.1",
+    "tex-to-svg": "^0.2.0"
+  },
+  "devDependencies": {
+    "canvaskit-wasm": "0.39.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
