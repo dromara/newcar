@@ -1,5 +1,11 @@
 # @newcar/mod-geometry
 
+## 0.1.7
+
+### Patch Changes
+
+- update dependencies
+
 ## 0.1.6
 
 ### Patch Changes

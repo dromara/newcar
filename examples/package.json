@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@newcar/mod-chart": "workspace:*",
-    "@newcar/mod-geometry": "workspace:0.1.6",
-    "@newcar/mod-markdown": "workspace:0.3.1",
+    "@newcar/mod-geometry": "workspace:0.1.7",
+    "@newcar/mod-markdown": "workspace:0.3.2",
     "@newcar/mod-math": "workspace:*",
     "@types/luxon": "^3.4.2",
     "canvaskit-wasm": "0.39.1",
