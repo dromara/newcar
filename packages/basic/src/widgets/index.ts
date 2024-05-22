@@ -11,6 +11,5 @@ export * from './figures/path'
 // Others
 export * from './text'
 export * from './imageWidget'
-export * from './svg'
 export * from './text'
 // export * from './webview'

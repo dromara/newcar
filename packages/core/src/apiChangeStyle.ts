@@ -1,4 +1,3 @@
-import type { CanvasKit } from 'canvaskit-wasm'
 import type { Widget, WidgetStyle } from './widget'
 import type { Animation } from './animation'
 import type { MaybeArray, PickNumberKeys } from './types'
