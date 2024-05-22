@@ -65,6 +65,14 @@ export const zhConfig = defineConfig({
               link: '/zh/advanced/color-system',
             },
             {
+              text: 'Setup语法',
+              link: '/zh/advanced/setup',
+            },
+            {
+              text: '单位制',
+              link: '/zh/advanced/unit',
+            },
+            {
               text: '逐帧调用',
               link: '/zh/advanced/update-function',
             },

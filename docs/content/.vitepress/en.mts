@@ -65,6 +65,14 @@ export const enConfig = defineConfig({
               link: '/advanced/color-system',
             },
             {
+              text: 'Setup Syntax',
+              link: '/advanced/setup',
+            },
+            {
+              text: 'Unit',
+              link: '/advanced/unit',
+            },
+            {
               text: 'Frame-by-Frame called',
               link: '/advanced/update-function',
             },

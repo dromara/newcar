@@ -27,6 +27,9 @@ export const scene1 = new nc.Scene(
         style: {
           margin: 100,
         },
+      }).animate(nc.move, 0, 10, {
+        from: [0, 0],
+        to: [200, 200],
       }),
     ),
 )
