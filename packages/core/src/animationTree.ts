@@ -1,6 +1,16 @@
 import type { Animation, AnimationInstance } from './animation'
 import type { Widget } from './widget'
 
+export class AnimationTreeBuilder {
+  animationTree: AnimationTree
+
+  constructor(
+  ) {
+  }
+
+  and() {}
+}
+
 /**
  * Animation Tree is used when you want to run a group of animations.
  */
