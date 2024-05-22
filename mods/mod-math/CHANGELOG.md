@@ -1,5 +1,11 @@
 # @newcar/mod-math
 
+## 0.4.0
+
+### Minor Changes
+
+- Refactored Version
+
 ## 0.3.10
 
 ### Patch Changes

@@ -1,137 +1,97 @@
-import type { Canvas, CanvasKit, RRect, Path as ckPath } from 'canvaskit-wasm'
-import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
-import type { WidgetRange } from '@newcar/core'
-import { $ck } from '@newcar/core'
+import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
 import type { Vector2 } from '../../utils/vector2'
-import type { FigureOptions, FigureStyle } from './figure'
-import { Figure } from './figure'
+import type { PathOptions, PathStyle } from './path.ts'
+import { Path } from './path.ts'
 
-export interface RectOptions extends FigureOptions {
+export interface RectOptions extends PathOptions {
   style?: RectStyle
 }
 
-export interface RectStyle extends FigureStyle {}
+export interface RectStyle extends PathStyle {
+  /**
+   * The corner radius of the rectangle.
+   * @default 0
+   * @description
+   * The corner radius can be a single number, in which case all corners will have the same radius.
+   * It can also be an array of 2 numbers, in which case the first number will be the radius of the top-left and top-right corners, and the second number will be the radius of the bottom-left and bottom-right corners.
+   * It can also be an array of 4 numbers, in which case the first number will be the radius of the top-left corner, the second number will be the radius of the top-right corner, the third number will be the radius of the bottom-right corner, and the fourth number will be the radius of the bottom-left corner.
+   * It can also be an array of 8 numbers, in which case in order, the numbers will be radiusX, radiusY for upper-left, upper-right, lower-right, lower-left.
+   */
+  radius?: number
+  | [number, number]
+  | [number, number, number, number]
+  | [number, number, number, number, number, number, number, number]
+}
 
-export class Rect extends Figure {
+export class Rect extends Path {
   declare style: RectStyle
   rect: RRect
-  path: ckPath = new $ck.Path()
+  radius: [number, number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0, 0]
 
   constructor(public from: Vector2, public to: Vector2, options?: RectOptions) {
     options ??= {}
     super(options)
     this.style ??= {}
+    this.style.radius = options.style?.radius ?? 0
+    this.mapRadius()
   }
 
   init(ck: CanvasKit): void {
-    this.rect = ck.LTRBRect(
+    super.init(ck)
+
+    this.rect = new Float32Array([
       this.from[0],
       this.from[1],
       this.to[0] * this.progress,
       this.to[1] * this.progress,
-    )
-    this.strokePaint = new ck.Paint()
-    this.strokePaint.setStyle(ck.PaintStyle.Stroke)
-    this.strokePaint.setColor(this.style.borderColor.toFloat4())
-    this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
-    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
-    this.strokePaint.setStrokeWidth(this.style.borderWidth)
-    this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
-    this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
-    this.strokePaint.setAntiAlias(this.style.antiAlias)
-    try {
-      const dash = ck.PathEffect.MakeDash(
-        this.style.interval,
-        this.style.offset,
-      )
-      this.strokePaint.setPathEffect(dash)
-    }
-    catch {}
-    this.fillPaint = new ck.Paint()
-    this.fillPaint.setStyle(ck.PaintStyle.Fill)
-    this.fillPaint.setColor(this.style.fillColor.toFloat4())
-    this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
-    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
-    this.fillPaint.setAntiAlias(this.style.antiAlias)
-
-    // Blend Mode
-    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-    this.fillPaint.setAntiAlias(this.style.antiAlias)
+      ...this.radius,
+    ])
 
     this.path.addRRect(this.rect)
   }
 
+  draw(canvas: Canvas): void {
+    this.path.rewind()
+
+    this.rect = new Float32Array([
+      this.from[0],
+      this.from[1],
+      this.to[0] * this.progress,
+      this.to[1] * this.progress,
+      ...this.radius,
+    ])
+
+    this.path.addRRect(this.rect)
+
+    super.draw(canvas)
+  }
+
   predraw(ck: CanvasKit, propertyChanged: string): void {
+    super.predraw(ck, propertyChanged)
     switch (propertyChanged) {
-      case 'from' || 'to': {
-        this.rect.set([
-          this.from[0],
-          this.from[1],
-          this.to[0] * this.progress,
-          this.to[1] * this.progress,
-        ])
+      case 'style.radius': {
+        this.mapRadius()
         break
-      }
-      case 'style.borderColor': {
-        this.strokePaint.setColor(this.style.borderColor.toFloat4())
-        break
-      }
-      case 'style.borderShader': {
-        this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
-        break
-      }
-      case 'style.borderWidth': {
-        this.strokePaint.setStrokeWidth(this.style.borderWidth)
-        break
-      }
-      case 'style.fillColor': {
-        this.fillPaint.setColor(this.style.fillColor.toFloat4())
-        break
-      }
-      case 'style.fillShader': {
-        this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
-        break
-      }
-      case 'style.join': {
-        this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
-        break
-      }
-      case 'style.cap': {
-        this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
-        break
-      }
-      case 'style.offset':
-      case 'style.interval': {
-        this.strokePaint.setPathEffect(
-          ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
-        )
-        break
-      }
-      case 'style.blendMode': {
-        // Blend Mode
-        this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-        this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
       }
     }
-    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
-    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
   }
 
-  draw(canvas: Canvas): void {
-    if (this.style.border)
-      canvas.drawPath(this.path, this.strokePaint)
-
-    if (this.style.fill)
-      canvas.drawPath(this.path, this.fillPaint)
-  }
-
-  calculateIn(x: number, y: number): boolean {
-    return this.path.contains(x, y)
-  }
-
-  calculateRange(): WidgetRange {
-    const bounds = this.path.computeTightBounds()
-    return [...bounds] as WidgetRange
+  mapRadius() {
+    if (typeof this.style.radius === 'number') {
+      this.radius.fill(this.style.radius, 0, 8)
+    }
+    else if (this.style.radius.length === 2) {
+      this.radius.fill(this.style.radius[0], 0, 4)
+        .fill(this.style.radius[1], 4, 8)
+    }
+    else if (this.style.radius.length === 4) {
+      this.radius.fill(this.style.radius[0], 0, 2)
+        .fill(this.style.radius[1], 2, 4)
+        .fill(this.style.radius[2], 4, 6)
+        .fill(this.style.radius[3], 6, 8)
+    }
+    else {
+      this.radius = this.style.radius
+    }
   }
 }

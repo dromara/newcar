@@ -1,6 +1,6 @@
 {
   "name": "@newcar/mod-math",
-  "version": "0.3.10",
+  "version": "0.4.0",
   "description": "",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
@@ -29,7 +29,8 @@
     "@newcar/core": "workspace:*",
     "@newcar/utils": "workspace:*",
     "gl-matrix": "^3.4.3",
-    "mathjax-full": "^3.2.2"
+    "svg-path": "^0.2.1",
+    "tex-to-svg": "^0.2.0"
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"

@@ -6,18 +6,11 @@ import type { AnimationTree } from './animationTree'
 import { analyseAnimationTree } from './animationTree'
 import type { Event, EventInstance } from './event'
 import type { WidgetPlugin } from './plugin'
+import type { AnimateFunction } from './apiAnimate'
 
 export type WidgetRange = [number, number, number, number]
 export type WidgetInstance<T extends Widget> = T
-export type SetupFunction<T extends Widget> = (widget: Widget, animate: AnimateFunction<T>) => Generator<number | ReturnType<AnimateFunction<T>>, void, unknown>
-export type AnimateFunction<T extends Widget> = (animation: Animation<T>, duration: number, params?: Record<string, any>) => {
-  animation: Animation<T>
-  mode: 'async' | 'sync'
-  duration: number
-  params: Record<string, any>
-  setAsync: () => ReturnType<AnimateFunction<T>>
-  setSync: () => ReturnType<AnimateFunction<T>>
-}
+export type SetupFunction<T extends Widget> = (widget: Widget) => Generator<number | ReturnType<AnimateFunction<T>>, void, unknown>
 export type Layout = 'row' | 'column' | 'absolute' | 'mix'
 
 export interface WidgetOptions {
@@ -230,7 +223,7 @@ export class Widget {
   }
 
   // Run an animation with respect to `elapsed`, which is maintained by `App` class
-  runAnimation(elapsed: number) {
+  runAnimation(elapsed: number, ck: CanvasKit) {
     // Traverse over instances sequence, run each animation
     for (const instance of this.animationInstances) {
       if (
@@ -244,6 +237,7 @@ export class Widget {
             this,
             elapsed - instance.startAt,
             (elapsed - instance.startAt) / instance.during,
+            ck,
             instance.params,
           )
           // console.log((elapsed - instance.startAt) / instance.during, instance.startAt, instance.during)
@@ -253,6 +247,7 @@ export class Widget {
             this,
             elapsed - instance.startAt,
             1 - (elapsed - instance.startAt) / instance.during,
+            ck,
             instance.params,
           )
         }
@@ -260,7 +255,7 @@ export class Widget {
     }
     for (const update of this.updates) update(elapsed, this)
 
-    for (const child of this.children) child.runAnimation(elapsed)
+    for (const child of this.children) child.runAnimation(elapsed, ck)
   }
 
   setEventListener(element: HTMLCanvasElement) {
@@ -282,23 +277,7 @@ export class Widget {
   }
 
   setup<T extends Widget>(setupFunc: SetupFunction<T>): this {
-    const animate: AnimateFunction<T> = (animation: Animation<T>, duration: number, params?: Record<string, any>) => {
-      return {
-        animation,
-        duration,
-        params: params ?? {},
-        mode: 'sync',
-        setAsync() {
-          this.mode = 'async'
-          return this
-        },
-        setSync() {
-          this.mode = 'sync'
-          return this
-        },
-      }
-    }
-    const generator = setupFunc(this, animate as AnimateFunction<T>)
+    const generator = setupFunc(this)
     this.setups.push({ generator, nextFrame: 0 })
     return this
   }

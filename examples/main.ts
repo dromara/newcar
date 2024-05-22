@@ -2,7 +2,7 @@ import { CarEngine, Color, Shader, Text } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { BarChart, BubbleChart, ChartDataUnit, ChartUtil, LineChart, MixedChart, ScatterChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
-// import { Tex } from '@newcar/mod-math'
+import { MathFunction, NumberAxis, NumberPlane, Tex } from '@newcar/mod-math'
 
 import * as nc from 'newcar'
 import { DateTime, Duration } from 'luxon'
@@ -150,6 +150,9 @@ const sceneChart1 = new nc.Scene(
           },
         },
       ],
+      style: {
+        borderRadius: 5,
+      },
     },
     {
       x: 50,
@@ -160,7 +163,7 @@ const sceneChart1 = new nc.Scene(
       },
       indexAxis: 'x',
     },
-  ).animate(nc.create, 0, 100),
+  ).animate(nc.create, 0, 5),
 )
 
 const sceneChart2 = new nc.Scene(
@@ -192,7 +195,7 @@ const sceneChart2 = new nc.Scene(
       },
       indexAxis: 'x',
     },
-  ).animate(nc.create, 0, 100),
+  ).animate(nc.create, 0, 10),
 )
 
 const sceneChart3 = new nc.Scene(
@@ -226,7 +229,7 @@ const sceneChart3 = new nc.Scene(
       },
       indexAxis: 'x',
     },
-  ).animate(nc.create, 0, 60),
+  ).animate(nc.create, 0, 6),
 )
 
 const sceneChart4 = new nc.Scene(
@@ -260,7 +263,7 @@ const sceneChart4 = new nc.Scene(
       },
       indexAxis: 'y',
     },
-  ).animate(nc.create, 0, 100),
+  ).animate(nc.create, 0, 10),
 )
 
 const sceneChart5 = new nc.Scene(
@@ -398,7 +401,7 @@ const sceneChart5 = new nc.Scene(
       gridAlign: false,
     },
   )
-    .animate(nc.create, 0, 100),
+    .animate(nc.create, 0, 5),
 )
 
 const scene11 = new nc.Scene(new Markdown(`
@@ -421,6 +424,29 @@ My name is **Acbox**
     scaleX: 1.2,
     scaleY: 1.2,
   },
+}))
+
+const scene12 = new nc.Scene(new NumberAxis([-100, 100], {
+  x: 200,
+  y: 200,
+  style: {
+    color: Color.parse('skyblue'),
+    rotation: -45,
+  },
+}).animate(nc.create, 0, 1))
+
+const scene13 = new nc.Scene(new NumberPlane([-800, 800], [-450, 450], {
+  x: 800,
+  y: 450,
+}).animate(nc.create, 0, 2).animate(nc.rotate, 0, 100, {
+  from: 0,
+  to: 10000,
+}).add(
+  new MathFunction(Math.cos, [-15, 15]),
+))
+
+const scene14 = new nc.Scene(new Tex('\\frac{1}{2}', {
+
 }))
 
 const app1 = engine.createApp(document.querySelector('#a1'))
@@ -474,6 +500,18 @@ appChart5.play()
 const app11 = engine.createApp(document.querySelector('#d1'))
 app11.checkout(scene11)
 app11.play()
+
+const app12 = engine.createApp(document.querySelector('#e1'))
+app12.checkout(scene12)
+app12.play()
+
+const app13 = engine.createApp(document.querySelector('#e2'))
+app13.checkout(scene13)
+app13.play()
+
+const app14 = engine.createApp(document.querySelector('#e3'))
+app14.checkout(scene14)
+app14.play()
 
 const appX = engine.createApp(document.querySelector('#a6'))
 appX.checkout(sceneX)

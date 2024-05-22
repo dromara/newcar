@@ -1,4 +1,5 @@
 import * as ac from 'acorn'
+import type { CanvasKit } from 'canvaskit-wasm'
 import type { Widget } from './widget'
 import type { Animation } from './animation'
 import { defineAnimation } from './animation'
@@ -104,6 +105,7 @@ export function changeProperty<T extends Widget>(
       widget: T,
       elapsed: number,
       process: number,
+      ck: CanvasKit,
       params: Record<string, any>,
     ) => {
       // Determine the easing function, prefer the one from params if available.

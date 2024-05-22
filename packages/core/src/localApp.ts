@@ -67,7 +67,7 @@ export class LocalApp {
     })(app.scene.root)
 
     // Animating.
-    app.scene.root.runAnimation(app.scene.elapsed)
+    app.scene.root.runAnimation(app.scene.elapsed, app.ck)
 
     for (const plugin of app.plugins) plugin.onUpdate(app, app.scene.elapsed)
 

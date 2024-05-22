@@ -83,7 +83,7 @@ export class Arrow extends Figure {
           scaleX: this.from[0] > this.to[0] ? -1 : 1,
           scaleY: this.from[1] > this.to[1] ? -1 : 1,
           rotation: this.radian,
-          ...this.style,
+          ...options.style,
         },
         progress: this.progress,
       },
@@ -93,7 +93,7 @@ export class Arrow extends Figure {
         {
           color: this.style.borderColor,
           width: this.style.borderWidth,
-          ...this.style,
+          ...options.style,
         },
       progress: this.progress,
     })

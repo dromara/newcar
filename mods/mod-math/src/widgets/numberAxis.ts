@@ -1,95 +1,145 @@
+import { Arrow, Line, Text } from '@newcar/basic'
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import { Color } from '@newcar/utils'
-import type { ArrowOptions, TextOptions } from '@newcar/basic'
-import { Arrow, Line, Text } from '@newcar/basic'
 import type { CanvasKit } from 'canvaskit-wasm'
 
-export type Trend = (counter: number) => number | string
+export type Trend = (x: number) => number | string
 
 export interface NumberAxisOptions extends WidgetOptions {
   style?: NumberAxisStyle
-  unit?: boolean
-  interval?: number
+
+  /**
+   * The ratio of pixels to 1 tick, i.e. the division value
+   */
+  division?: number
+
+  /**
+   * The trend of the axis, i.e. the function that maps the division to the axis value
+   * For example, if the division is 50, the trend is (x => x / 50), this is default value, too
+   */
   trend?: Trend
-  arrowOptions?: ArrowOptions
-  textOptions?: TextOptions
-  enableUnit?: boolean
-  unitFont?: string
 }
 
 export interface NumberAxisStyle extends WidgetStyle {
-  tickWidth?: number
-  tickRotation?: number
+  /**
+   * If display ticks.
+   */
+  ticks?: boolean
   tickColor?: Color
+
+  /**
+   * If display arrow (the triangle at the end of the axis)
+   */
+  arrow?: boolean
+
+  /**
+   * if display the number or text under the ticks of the axis
+   */
+  texts?: boolean
+  textColor?: Color
+  textSize?: number
+
+  /**
+   * The color of the axis
+   */
   color?: Color
-  tickHeight?: [number, number]
 }
 
 export class NumberAxis extends Widget {
-  declare style: NumberAxisStyle
-  interval: number
+  division: number
   trend: Trend
-  arrowOptions: ArrowOptions
-  textOptions: TextOptions
-  unitFont: string | null
-  private unit: boolean
-  private arrow: Arrow
-  private ticks: Line[] = []
-  private enableUnit: boolean
-  private units: Text[] = []
+  declare style: NumberAxisStyle
+  ticks: Line[]
+  texts: Text[]
+  main: Arrow
 
   constructor(
-    public from: number,
-    public to: number,
+    public length: [number, number],
     options?: NumberAxisOptions,
   ) {
     options ??= {}
     super(options)
-    this.trend = options.trend ?? (counter => counter)
-    this.interval = options.interval ?? 50
-    this.arrowOptions = options.arrowOptions ?? {}
-    this.textOptions = options.textOptions ?? {}
-    this.enableUnit = options.enableUnit ?? false
-    this.unitFont = options.unitFont ?? null
-    this.unit = options.unit ?? false
-    options.style ??= {}
+    this.division = options.division ?? 50
+    this.trend = options.trend ?? (x => x / 50)
+    this.style ??= {}
+    this.style.ticks = options.style.ticks ?? true
     this.style.tickColor = options.style.tickColor ?? Color.WHITE
-    this.style.tickHeight = options.style.tickHeight ?? [-5, 5]
-    this.style.tickRotation = options.style.tickRotation ?? 0
-    this.style.tickWidth = options.style.tickWidth ?? 2
+    this.style.texts = options.style.texts ?? true
+    this.style.textSize = options.style.textSize ?? 20
+    this.style.textColor = options.style.textColor ?? Color.WHITE
     this.style.color = options.style.color ?? Color.WHITE
-    this.arrow = new Arrow([this.from, 0], [this.to, 0], this.arrowOptions)
-    let counter = (this.from - (this.from % this.interval)) / this.interval
-    for (let x = this.from; x <= this.to; x += this.interval) {
-      this.ticks.push(
-        new Line(
-          [x, this.style!.tickHeight![0]],
-          [x, this.style!.tickHeight![1]],
-          {
+    this.style.arrow = options.style.arrow ?? true
+    this.main = new Arrow([this.length[0], 0], [this.length[1], 0], {
+      style: {
+        color: this.style.color,
+      },
+      progress: this.progress,
+    })
+    this.ticks = []
+    this.texts = []
+    for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division; x <= this.length[1]; x += this.division) {
+      if (this.style.ticks) {
+        this.ticks.push(
+          new Line([x, -5], [x, 5], {
             style: {
-              rotation: this.style.tickRotation,
-              width: this.style.tickWidth,
-              color: this.style.color,
+              color: this.style.tickColor,
             },
+            progress: this.progress,
+          }),
+        )
+      }
+      if (this.style.texts) {
+        this.texts.push(new Text([{
+          text: this.trend(x).toString(),
+          style: {
+            fontSize: this.style.textSize,
           },
-        ),
-      )
-      if (this.unit) {
-        const text = new Text([this.trend(counter).toString()], {
-          x: x / 2,
+        }], {
+          x: x - (this.style.textSize / 2),
           y: 10,
           style: {
-            rotation: -this.style.rotation!,
+            textAlign: 'center',
+            width: this.style.textSize * this.trend(x).toString().length,
+            fillColor: this.style.textColor,
+            // Note: the rotation is reversed because the canvas is flipped
+            rotation: -this.style.rotation,
           },
-          ...this.textOptions,
-        })
-        this.units.push(text)
+        }))
       }
-      counter += 1
     }
-    this.children.push(this.arrow, ...this.ticks, ...this.units)
+    this.add(this.main, ...this.ticks, ...this.texts)
   }
 
-  init(_ck: CanvasKit): void {}
+  init(_ck: CanvasKit): void {
+    super.init(_ck)
+  }
+
+  predraw(ck: CanvasKit, propertyChanged: string): void {
+    switch (propertyChanged) {
+      case 'style.color':
+        this.main.style.color = this.style.color
+        break
+      case 'style.tickColor':
+        for (const tick of this.ticks)
+          tick.style.color = this.style.tickColor
+        break
+      case 'style.textColor':
+        for (const text of this.texts)
+          text.style.fillColor = this.style.textColor
+        break
+      case 'style.textSize':
+        for (const text of this.texts)
+          text.text[0].style.fontSize = this.style.textSize
+        break
+      case 'progress':
+        this.main.progress = this.progress
+        for (const tick of this.ticks)
+          tick.progress = this.progress
+        break
+      case 'style.rotation':
+        for (const text of this.texts)
+          text.style.rotation = -this.style.rotation
+    }
+  }
 }

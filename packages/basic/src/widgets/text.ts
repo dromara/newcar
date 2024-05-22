@@ -24,6 +24,7 @@ import type {
   CanvasKit,
   FontMgr,
   FontStyle,
+  LineMetrics,
   Paint,
   ParagraphBuilder,
   StrutStyle,
@@ -201,7 +202,7 @@ export interface TextStyle extends WidgetStyle {
 }
 
 export class Text extends Widget {
-  private text: InputItem[] = []
+  text: InputItem[] = []
   private fontManager: FontMgr
   declare style: TextStyle
   private builder: ParagraphBuilder
@@ -465,6 +466,10 @@ export class Text extends Widget {
       this.style.width,
       this.paragraph.getHeight(),
     ]
+  }
+
+  getLineMetrics(): LineMetrics[] {
+    return this.paragraph?.getLineMetrics()
   }
 
   // TODO: Stroke and Fill Mode

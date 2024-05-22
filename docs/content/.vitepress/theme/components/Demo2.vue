@@ -30,6 +30,7 @@ onMounted(() => {
   `)
         const scene = new Scene(root)
         app.checkout(scene)
+        app.config.unit = 'frame'
       }
     })
 })
