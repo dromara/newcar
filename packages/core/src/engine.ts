@@ -21,14 +21,20 @@ export class CarEngine {
    * @returns the engine object.
    */
   async init(canvasKitWasmFile: string) {
-    for (const plugin of this.plugins) plugin.beforeCanvasKitLoaded(this)
+    for (const plugin of this.plugins) {
+      if (plugin.beforeCanvasKitLoaded)
+        plugin.beforeCanvasKitLoaded(this)
+    }
 
     this.ck = await CanvasKitInit({
       locateFile(_file) {
         return canvasKitWasmFile
       },
     })
-    for (const plugin of this.plugins) plugin.onCanvasKitLoaded(this)
+    for (const plugin of this.plugins) {
+      if (plugin.onCanvasKitLoaded)
+        plugin.onCanvasKitLoaded(this)
+    }
 
     $ck = this.ck
     return this

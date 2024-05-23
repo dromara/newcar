@@ -135,11 +135,15 @@ export class Widget {
     canvas.rotate(this.style.rotation, this.centerX, this.centerY)
     canvas.scale(this.style.scaleX, this.style.scaleY)
     if (this.display) {
-      for (const plugin of this.plugins)
-        plugin.beforeDraw(this, canvas)
+      for (const plugin of this.plugins) {
+        if (plugin.beforeDraw)
+          plugin.beforeDraw(this, canvas)
+      }
       this.draw(canvas)
-      for (const plugin of this.plugins)
-        plugin.onDraw(this, canvas)
+      for (const plugin of this.plugins) {
+        if (plugin.onDraw)
+          plugin.onDraw(this, canvas)
+      }
     }
   }
 

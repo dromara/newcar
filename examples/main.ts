@@ -3,6 +3,7 @@ import { Angle, Brace } from '@newcar/mod-geometry'
 import { BarChart, BubbleChart, ChartDataUnit, ChartUtil, LineChart, MixedChart, ScatterChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
 import { MathFunction, NumberAxis, NumberPlane, Tex } from '@newcar/mod-math'
+import debug from '@newcar/plugin-debug'
 
 import * as nc from 'newcar'
 import { DateTime, Duration } from 'luxon'
@@ -11,9 +12,9 @@ await nc.useFont(
   'https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf',
 )
 
-const engine = await new CarEngine().init(
+const engine = (await new CarEngine().init(
   './node_modules/canvaskit-wasm/bin/canvaskit.wasm',
-)
+))
 
 export const scene1 = new nc.Scene(
   new nc.Widget({
@@ -454,6 +455,7 @@ const scene14 = new nc.Scene(new Tex('\\frac{1}{2}', {
 
 const app1 = engine.createApp(document.querySelector('#a1'))
 app1.checkout(scene1)
+app1.use(debug(document.getElementById('con')))
 app1.play()
 
 const app2 = engine.createApp(document.querySelector('#a2'))

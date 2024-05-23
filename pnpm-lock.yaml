@@ -127,6 +127,9 @@ importers:
       '@newcar/mod-math':
         specifier: workspace:*
         version: link:../mods/mod-math
+      '@newcar/plugin-debug':
+        specifier: workspace:*
+        version: link:../plugins/plugin-debug
       '@types/luxon':
         specifier: ^3.4.2
         version: 3.4.2
@@ -363,6 +366,38 @@ importers:
       vue-tsc:
         specifier: ^2.0.6
         version: 2.0.17(typescript@5.4.5)
+
+  plugins/debug:
+    dependencies:
+      '@newcar/basic':
+        specifier: workspace:*
+        version: link:../../packages/basic
+      '@newcar/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@newcar/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+    devDependencies:
+      canvaskit-wasm:
+        specifier: 0.39.1
+        version: 0.39.1
+
+  plugins/plugin-debug:
+    dependencies:
+      '@newcar/basic':
+        specifier: workspace:*
+        version: link:../../packages/basic
+      '@newcar/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@newcar/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+    devDependencies:
+      canvaskit-wasm:
+        specifier: 0.39.1
+        version: 0.39.1
 
 packages:
 

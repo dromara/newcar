@@ -51,7 +51,10 @@ export class App {
         `[Newcar Warn] You are trying to use a undefined canvas element.`,
       )
     }
-    for (const plugin of this.plugins) plugin.beforeSurfaceLoaded(this)
+    for (const plugin of this.plugins) {
+      if (plugin.beforeSurfaceLoaded)
+        plugin.beforeSurfaceLoaded(this)
+    }
 
     if (typeof window !== 'undefined') {
       this.surface = this.ck.MakeWebGLCanvasSurface(this.element)
@@ -62,8 +65,10 @@ export class App {
       )
     }
 
-    for (const plugin of this.plugins)
-      plugin.onSurfaceLoaded(this, this.surface)
+    for (const plugin of this.plugins) {
+      if (plugin.onSurfaceLoaded)
+        plugin.onSurfaceLoaded(this, this.surface)
+    }
   }
 
   /**
@@ -72,11 +77,17 @@ export class App {
    * @returns this
    */
   checkout(scene: Scene): this {
-    for (const plugin of this.plugins) plugin.beforeCheckout(this, scene)
+    for (const plugin of this.plugins) {
+      if (plugin.beforeCheckout)
+        plugin.beforeCheckout(this, scene)
+    }
     this.scene = scene
     this.scene.startTime = performance.now()
     this.last = this.scene.root
-    for (const plugin of this.plugins) plugin.onCheckout(this, this.scene)
+    for (const plugin of this.plugins) {
+      if (plugin.onCheckout)
+        plugin.onCheckout(this, this.scene)
+    }
     // if (!scene.root.hasSet)
     scene.root.setEventListener(this.element)
     return this
@@ -91,33 +102,48 @@ export class App {
     if (!app.playing)
       return
 
-    for (const plugin of app.plugins)
-      plugin.beforeUpdate(app, app.scene.elapsed)
+    for (const plugin of app.plugins) {
+      if (plugin.beforeUpdate)
+        plugin.beforeUpdate(app, app.scene.elapsed)
+    }
 
     if (app.scene.elapsed === 0)
       initial(app.scene.root, app.ck, canvas)
 
-    for (const plugin of app.plugins)
-      plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
+    for (const plugin of app.plugins) {
+      if (plugin.beforePatch)
+        plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
+    }
 
     patch(app.last, app.scene.root, app.ck, canvas)
-    for (const plugin of app.plugins)
-      plugin.onPatch(app, app.scene.elapsed, app.last, app.scene.root)
+    for (const plugin of app.plugins) {
+      if (plugin.onPatch)
+        plugin.onPatch(app, app.scene.elapsed, app.last, app.scene.root)
+    }
 
     app.last = deepClone(app.scene.root)
 
-    for (const plugin of app.plugins)
-      plugin.beforeAnimate(app, app.scene.elapsed, app.scene.root)
+    for (const plugin of app.plugins) {
+      if (plugin.beforeAnimate)
+        plugin.beforeAnimate(app, app.scene.elapsed, app.scene.root)
+    }
+
     app.scene.root.runAnimation(app.scene.elapsed, app.ck)
     app.scene.root.processSetups(app.scene.elapsed)
-    for (const plugin of app.plugins)
-      plugin.onAnimate(app, app.scene.elapsed, app.scene.root)
+
+    for (const plugin of app.plugins) {
+      if (plugin.onAnimate)
+        plugin.onAnimate(app, app.scene.elapsed, app.scene.root)
+    }
 
     if (app.cleared) {
       canvas.clear(Color.parse(app.element.style.backgroundColor).toFloat4())
       app.cleared = false
     }
-    for (const plugin of app.plugins) plugin.onUpdate(app, app.scene.elapsed)
+    for (const plugin of app.plugins) {
+      if (plugin.onUpdate)
+        plugin.onUpdate(app, app.scene.elapsed)
+    }
 
     if (app.config.unit === 'frame')
       app.scene.elapsed += 1

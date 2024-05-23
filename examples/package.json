@@ -7,6 +7,7 @@
     "@newcar/mod-geometry": "workspace:0.1.7",
     "@newcar/mod-markdown": "workspace:0.3.2",
     "@newcar/mod-math": "workspace:*",
+    "@newcar/plugin-debug": "workspace:*",
     "@types/luxon": "^3.4.2",
     "canvaskit-wasm": "0.39.1",
     "luxon": "^3.4.4",

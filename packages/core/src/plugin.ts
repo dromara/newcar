@@ -136,7 +136,7 @@ export interface GlobalPlugin {
  * @param {GlobalPlugin} plugin - The plugin object to be defined.
  * @returns {GlobalPlugin} The defined plugin object.
  */
-export const defineGlobalPlugin = (plugin: GlobalPlugin): GlobalPlugin => plugin
+export const defineGlobalPlugin = <T extends GlobalPlugin>(plugin: T): GlobalPlugin => plugin
 
 /**
  * The WidgetPlugin interface represents a plugin that can be used with a widget.
@@ -190,4 +190,4 @@ export interface WidgetPlugin {
  * @param {WidgetPlugin} plugin - The plugin object to be defined.
  * @returns {WidgetPlugin} The defined plugin object.
  */
-export const defineWidgetPlugin = (plugin: WidgetPlugin): WidgetPlugin => plugin
+export const defineWidgetPlugin = <T extends WidgetPlugin>(plugin: T): WidgetPlugin => plugin
