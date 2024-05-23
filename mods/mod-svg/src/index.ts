@@ -1,6 +1,6 @@
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
-import { Circle, Rect } from '@newcar/basic'
+import { Circle, Line, Rect } from '@newcar/basic'
 import { Color, isUndefined } from '@newcar/utils'
 import type { SVGItem } from './interfaces'
 import { transform } from './transform'
@@ -11,7 +11,7 @@ export interface SVGOptions extends WidgetOptions {
 
 export interface SVGStyle extends WidgetStyle { }
 
-export class SVG extends Widget {
+export default class SVG extends Widget {
   private tree: any
 
   constructor(public svg: string, options?: SVGOptions) {
@@ -31,7 +31,6 @@ export class SVG extends Widget {
             border: !isUndefined(item.props.stroke),
             fillColor: Color.parse(item.props.fill),
             borderColor: Color.parse(item.props.stroke),
-            borderWidth: item.props.strokeWidth,
           },
         }))
         break
@@ -45,6 +44,12 @@ export class SVG extends Widget {
           },
         }))
         break
+      case 'line':
+        this.add(new Line([item.props.x1, item.props.y1], [item.props.x2, item.props.y2], {
+          style: {
+            color: Color.parse(item.props.stroke),
+          },
+        }))
     }
     for (const child of item.children)
       this.processSVGItem(child)

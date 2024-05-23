@@ -1,4 +1,4 @@
-export interface SVGCircleItem {
+export interface SVGCircleItem extends _SVGItem {
   tag: 'circle'
   props: {
     cx?: number
@@ -6,7 +6,6 @@ export interface SVGCircleItem {
     r?: number
     fill?: string
     stroke?: string
-    strokeWidth?: number
   }
   children: SVGItem[]
 }
@@ -20,12 +19,23 @@ export interface SVGRectItem extends _SVGItem {
     height?: number
     fill?: string
     stroke?: string
-    strokeWidth?: number
   }
   children: SVGItem[]
 }
 
-export type SVGItem = SVGCircleItem | SVGRectItem
+export interface SVGLineItem extends _SVGItem {
+  tag: 'line'
+  props: {
+    x1?: number
+    y1?: number
+    x2?: number
+    y2?: number
+    stroke?: string
+  }
+  children: SVGItem[]
+}
+
+export type SVGItem = SVGCircleItem | SVGRectItem | SVGLineItem
 
 export type AnimatableValue = number | number[]
 
@@ -33,7 +43,7 @@ export interface SVGProp {}
 
 export interface _SVGItem {
   tag: string
-  type: string
+  type?: string
   props: SVGProp
 }
 
