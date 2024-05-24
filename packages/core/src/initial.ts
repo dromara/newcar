@@ -15,6 +15,10 @@ export async function initial(
     ? (() => {
         widget.plugins.forEach(plugin => plugin.beforeInitializing(widget, ck))
         widget.init(ck)
+        for (const instance of widget.animationInstances) {
+          if (instance.animation.init)
+            instance.animation.init(widget, instance.startAt, instance.duration, ck, instance.params)
+        }
         widget.plugins.forEach(plugin => plugin.onInitializing(widget, ck))
       })()
     : await (async () => {

@@ -100,7 +100,7 @@ export class Widget {
   init(_ck: CanvasKit) { }
 
   /**
-   * Preload the necessary items during drawing.
+   * Preload the necessary items duration drawing.
    * Called when the properties of the widget is changed.
    * In common, we use it to initializing Paint, Rect, Path, etc.
    * @param _ck The namespace of CanvasKit-WASM.
@@ -194,13 +194,13 @@ export class Widget {
   animate(
     animation: Animation<any>,
     startAt: number | null,
-    during: number,
-    params?: Record<string, any>,
+    duration: number,
+    params?: Record<string, any>, // TODO: Perfect types in there
   ): this {
     params ??= {}
     this.animationInstances.push({
       startAt,
-      during,
+      duration,
       animation,
       params,
       mode: params.mode ?? 'positive',
@@ -234,23 +234,25 @@ export class Widget {
         // this condition make sure the animation contained the current frame
         instance.startAt <= elapsed
         // this condition make sure the animation have not finished yet
-        && (instance.during + instance.startAt) >= elapsed
+        && (instance.duration + instance.startAt) >= elapsed
       ) {
         if (instance.mode === 'positive') {
           instance.animation.act(
             this,
-            elapsed - instance.startAt,
-            (elapsed - instance.startAt) / instance.during,
+            elapsed,
+            (elapsed - instance.startAt) / instance.duration,
+            instance.duration,
             ck,
             instance.params,
           )
-          // console.log((elapsed - instance.startAt) / instance.during, instance.startAt, instance.during)
+          // console.log((elapsed - instance.startAt) / instance.duration, instance.startAt, instance.duration)
         }
         else if (instance.mode === 'reverse') {
           instance.animation.act(
             this,
-            elapsed - instance.startAt,
-            1 - (elapsed - instance.startAt) / instance.during,
+            elapsed,
+            1 - (elapsed - instance.startAt) / instance.duration,
+            instance.duration,
             ck,
             instance.params,
           )

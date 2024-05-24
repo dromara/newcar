@@ -28,10 +28,7 @@ export const scene1 = new nc.Scene(
         style: {
           margin: 100,
         },
-      }).animate(nc.move, 0, 10, {
-        from: [0, 0],
-        to: [200, 200],
-      }),
+      }).animate(nc.focusOn, 0, 0.5),
     ),
 )
 
@@ -458,66 +455,66 @@ app1.checkout(scene1)
 app1.use(debug(document.getElementById('con')))
 app1.play()
 
-const app2 = engine.createApp(document.querySelector('#a2'))
-app2.checkout(scene2)
-app2.play()
+// const app2 = engine.createApp(document.querySelector('#a2'))
+// app2.checkout(scene2)
+// app2.play()
 
-const app3 = engine.createApp(document.querySelector('#a3'))
-app3.checkout(scene3)
-app3.play()
+// const app3 = engine.createApp(document.querySelector('#a3'))
+// app3.checkout(scene3)
+// app3.play()
 
-const app4 = engine.createApp(document.querySelector('#a4'))
-app4.checkout(scene4)
-app4.play()
+// const app4 = engine.createApp(document.querySelector('#a4'))
+// app4.checkout(scene4)
+// app4.play()
 
-// const app5 = engine.createApp(document.querySelector('#a5'))
-// app5.checkout(scene5)
-// app5.play()
+// // const app5 = engine.createApp(document.querySelector('#a5'))
+// // app5.checkout(scene5)
+// // app5.play()
 
-const app6 = engine.createApp(document.querySelector('#b1'))
-app6.checkout(scene6)
-app6.play()
+// const app6 = engine.createApp(document.querySelector('#b1'))
+// app6.checkout(scene6)
+// app6.play()
 
-const app7 = engine.createApp(document.querySelector('#b2'))
-app7.checkout(scene7)
-app7.play()
+// const app7 = engine.createApp(document.querySelector('#b2'))
+// app7.checkout(scene7)
+// app7.play()
 
-const appChart1 = engine.createApp(document.querySelector('#c1'))
-appChart1.checkout(sceneChart1)
-appChart1.play()
+// const appChart1 = engine.createApp(document.querySelector('#c1'))
+// appChart1.checkout(sceneChart1)
+// appChart1.play()
 
-const appChart2 = engine.createApp(document.querySelector('#c2'))
-appChart2.checkout(sceneChart2)
-appChart2.play()
+// const appChart2 = engine.createApp(document.querySelector('#c2'))
+// appChart2.checkout(sceneChart2)
+// appChart2.play()
 
-const appChart3 = engine.createApp(document.querySelector('#c3'))
-appChart3.checkout(sceneChart3)
-appChart3.play()
+// const appChart3 = engine.createApp(document.querySelector('#c3'))
+// appChart3.checkout(sceneChart3)
+// appChart3.play()
 
-const appChart4 = engine.createApp(document.querySelector('#c4'))
-appChart4.checkout(sceneChart4)
-appChart4.play()
+// const appChart4 = engine.createApp(document.querySelector('#c4'))
+// appChart4.checkout(sceneChart4)
+// appChart4.play()
 
-const appChart5 = engine.createApp(document.querySelector('#c5'))
-appChart5.checkout(sceneChart5)
-appChart5.play()
+// const appChart5 = engine.createApp(document.querySelector('#c5'))
+// appChart5.checkout(sceneChart5)
+// appChart5.play()
 
-const app11 = engine.createApp(document.querySelector('#d1'))
-app11.checkout(scene11)
-app11.play()
+// const app11 = engine.createApp(document.querySelector('#d1'))
+// app11.checkout(scene11)
+// app11.play()
 
-const app12 = engine.createApp(document.querySelector('#e1'))
-app12.checkout(scene12)
-app12.play()
+// const app12 = engine.createApp(document.querySelector('#e1'))
+// app12.checkout(scene12)
+// app12.play()
 
-const app13 = engine.createApp(document.querySelector('#e2'))
-app13.checkout(scene13)
-app13.play()
+// const app13 = engine.createApp(document.querySelector('#e2'))
+// app13.checkout(scene13)
+// app13.play()
 
-const app14 = engine.createApp(document.querySelector('#e3'))
-app14.checkout(scene14)
-app14.play()
+// const app14 = engine.createApp(document.querySelector('#e3'))
+// app14.checkout(scene14)
+// app14.play()
 
-const appX = engine.createApp(document.querySelector('#a6'))
-appX.checkout(sceneX)
-appX.play()
+// const appX = engine.createApp(document.querySelector('#a6'))
+// appX.checkout(sceneX)
+// appX.play()

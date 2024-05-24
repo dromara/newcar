@@ -9,11 +9,16 @@ export interface Animation<T> {
    * The action of this animation when it's in his lifecycle.
    * @param widget The widget's self.
    * @param elapsed The elapsed frame.
-   * @param process The process of this animation, value is during [0, 1]
+   * @param process The process of this animation, value is duration [0, 1]
    * @param params The other parameters of this animation
    * @returns
    */
-  act: (widget: T, elapsed: number, process: number, ck: CanvasKit, params?: any) => void
+  act: (widget: T, elapsed: number, process: number, duration: number, ck: CanvasKit, params?: any) => void
+
+  /**
+   * @see act
+   */
+  init?: (widget: T, startAt: number, duration: number, ck: CanvasKit, params?: any) => void
 }
 
 /**
@@ -39,7 +44,7 @@ export interface AnimationInstance<T extends Widget> {
   /**
    * The duration of this animation.
    */
-  during: number
+  duration: number
 
   /**
    * The object Animation.

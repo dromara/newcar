@@ -46,7 +46,7 @@ export function analyseAnimationTree<T extends Widget>(tree: AnimationTree, star
   const animations: AnimationInstance<T>[] = []
   animations.push({
     startAt: start,
-    during: tree.duration,
+    duration: tree.duration,
     animation: tree.animation,
     mode: tree.mode,
   })

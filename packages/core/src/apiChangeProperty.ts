@@ -105,6 +105,7 @@ export function changeProperty<T extends Widget>(
       widget: T,
       elapsed: number,
       process: number,
+      duration: number,
       ck: CanvasKit,
       params: Record<string, any>,
     ) => {
