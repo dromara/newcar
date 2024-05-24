@@ -28,7 +28,7 @@ export class Rect extends Path {
   rect: RRect
   radius: [number, number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0, 0]
 
-  constructor(public from: Vector2, public to: Vector2, options?: RectOptions) {
+  constructor(public width: number, public height: number, options?: RectOptions) {
     options ??= {}
     super(options)
     this.style ??= {}
@@ -40,10 +40,10 @@ export class Rect extends Path {
     super.init(ck)
 
     this.rect = new Float32Array([
-      this.from[0],
-      this.from[1],
-      this.to[0] * this.progress,
-      this.to[1] * this.progress,
+      0,
+      0,
+      this.width * this.progress,
+      this.height * this.progress,
       ...this.radius,
     ])
 
@@ -54,10 +54,10 @@ export class Rect extends Path {
     this.path.rewind()
 
     this.rect = new Float32Array([
-      this.from[0],
-      this.from[1],
-      this.to[0] * this.progress,
-      this.to[1] * this.progress,
+      0,
+      0,
+      this.width * this.progress,
+      this.height * this.progress,
       ...this.radius,
     ])
 

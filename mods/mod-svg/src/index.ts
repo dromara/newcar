@@ -38,7 +38,7 @@ export default class SVG extends Widget {
         this.add(circle)
         break
       case 'Rect':
-        const rect = new Rect([0, 0], [(<number> item.props.width) ?? 0, (<number> item.props.height) ?? 0], {
+        const rect = new Rect((<number> item.props.width) ?? 0, (<number> item.props.height) ?? 0, {
           x: item.props.x,
           y: item.props.y,
           style: {
