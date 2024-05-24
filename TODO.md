@@ -15,6 +15,8 @@ Please write it according to following rules:
 
 | Task | Description | Status | Assigned | Create Date | Done Date | Related Issue | Related Pull Request | Species |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| Widget Lifecycle | ... | Ready | None | 2024-05-24 |
+| Animation Group | ... | Ready | @sheepbox8646 | 2024-05-24|
 | Color Animation | The Animation that for color. | Intend | @sheepbox8646 | 2024-05-23 |
 | Animation Tree | ... | Ready | @wgxh-cli | 2024-05-23 |
 | Perfect Type Check | ... | Ready | None | 2024-05-23 |
