@@ -21,7 +21,6 @@ export class App {
   private playing = false
   private last: Widget
   private lastFrameTime = performance.now()
-  private currentFrameTime = performance
   /**
    * The App config.
    */

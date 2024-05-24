@@ -27,7 +27,7 @@ export interface Animation<T> {
  * @returns The custom Animation object
  */
 export function defineAnimation<T extends Widget>(
-  animation: Animation<T>,
+  animation: Animation<T> & Record<string, any>,
 ): Animation<T> {
   return animation
 }

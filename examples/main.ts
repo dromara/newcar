@@ -26,9 +26,12 @@ export const scene1 = new nc.Scene(
     .add(
       new nc.Circle(100, {
         style: {
-          margin: 100,
+          border: true,
+          fill: false,
         },
-      }).animate(nc.focusOn, 0, 0.5),
+        x: 200,
+        y: 200,
+      }).animate(nc.showPassingFlashAround, 0, 0.5),
     ),
 )
 
