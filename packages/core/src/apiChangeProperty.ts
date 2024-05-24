@@ -4,6 +4,7 @@ import type { Widget } from './widget'
 import type { Animation } from './animation'
 import { defineAnimation } from './animation'
 import type { MaybeArray, PickNumberKeys } from './types'
+import { deepClone } from './utils/deepClone'
 
 /**
  * Easing function type, which takes a progress ratio and returns an adjusted ratio.
@@ -84,6 +85,10 @@ function getByChain(chain: string[], object: any): any {
     return getByChain(chain, des.value)
 }
 
+function normalizeMaybeArray<T>(ma: MaybeArray<T>): T[] {
+  return Array.isArray(ma) ? ma : [ma]
+}
+
 /**
  * Creates an animation that changes one or more properties of a widget over time.
  * The `from` and `to` values are either provided directly or through `params` when calling `Widget.animate`.
@@ -100,6 +105,21 @@ export function changeProperty<T extends Widget>(
   defaultTo?: MaybeArray<number>,
   by?: EasingFunction,
 ): Animation<T> {
+  let called = false
+  let from: number[]
+  let to: number[]
+  const propertyNames = normalizeMaybeArray(propertyName)
+  const propChains = propertyNames.map((p) => {
+    const s = ac.parse(p as string, { ecmaVersion: 'latest' })
+    if (s.body[0].type === 'ExpressionStatement') {
+      return parseProperty(s.body[0].expression)
+    }
+    else {
+      // TODO: error handling
+      return []
+    }
+  })
+
   return defineAnimation({
     act: (
       widget: T,
@@ -115,38 +135,26 @@ export function changeProperty<T extends Widget>(
       // Apply the easing function to the process if provided
       const adjustedProcess = easingFunction ? easingFunction(process) : process
 
-      // Determine `from` and `to` values, using defaults if provided, else require them from `params`.
-      let from = defaultFrom !== undefined ? defaultFrom : params?.from
-      let to = defaultTo !== undefined ? defaultTo : params?.to
+      if (!called) {
+        from = defaultFrom !== undefined ? defaultFrom : params?.from
+        to = defaultTo !== undefined ? defaultTo : params?.to
+        if (from === undefined) {
+          from = normalizeMaybeArray(
+            (Array.isArray(propertyName)
+              ? propertyName.map(prop => widget[prop])
+              : widget[propertyName]) as MaybeArray<number>,
+          )
+        }
+        if (to === undefined) {
+          to = normalizeMaybeArray(
+            (Array.isArray(propertyName)
+              ? propertyName.map(prop => widget[prop])
+              : widget[propertyName]) as MaybeArray<number>,
+          )
+        }
 
-      // If `from` and `to` values are not provided either as defaults or through `params`, use the widget's current values.
-      if (from === undefined && to === undefined) {
-        from = Array.isArray(propertyName)
-          ? propertyName.map(prop => widget[prop])
-          : widget[propertyName]
-        to = from
+        called = true
       }
-      // If only one of `from` or `to` value is provided, use the widget's current value for the missing one.
-      if (from === undefined) {
-        from = Array.isArray(propertyName)
-          ? propertyName.map(prop => widget[prop])
-          : widget[propertyName]
-      }
-      if (to === undefined) {
-        to = Array.isArray(propertyName)
-          ? propertyName.map(prop => widget[prop])
-          : widget[propertyName]
-      }
-
-      // Normalize `from` and `to` values to arrays if they are not already.
-      if (!Array.isArray(from))
-        from = [from]
-
-      if (!Array.isArray(to))
-        to = [to]
-
-      if (!Array.isArray(propertyName))
-        propertyName = [propertyName]
 
       // Apply the animation to each property.
       const applyChange = (
@@ -155,19 +163,8 @@ export function changeProperty<T extends Widget>(
         end: number,
       ) => {
         const valueChange = (end - start) * adjustedProcess
-        setByChain(prop, widget, start + valueChange)
+        setByChain(deepClone(prop), widget, start + valueChange)
       }
-
-      const propChains = propertyName.map((p) => {
-        const s = ac.parse(p as string, { ecmaVersion: 'latest' })
-        if (s.body[0].type === 'ExpressionStatement') {
-          return parseProperty(s.body[0].expression)
-        }
-        else {
-          // TODO: error handling
-          return []
-        }
-      })
 
       propChains.forEach((prop, index) => {
         const start = from[index] !== undefined ? from[index] : getByChain(prop, widget) // Use widget's value as a fallback
