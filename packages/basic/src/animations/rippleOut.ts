@@ -16,6 +16,7 @@ export const rippleOut = defineAnimation({
       }).animate(scale, startAt, duration, {
         from: [0, 0],
         to: [1, 1],
+        by: params.by ?? ((x: number) => x),
       }),
     )
   },

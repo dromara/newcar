@@ -11,6 +11,7 @@ export const stroke = defineAnimation({
     origin: number
     by: TimingFunction
   }) => {
+    process = params.by ? params.by(process) : process
     widget.style.interval = [(params.origin ?? 1000) * process, (params.origin ?? 1000) * (1 - process)]
   },
 })

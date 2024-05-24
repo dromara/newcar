@@ -16,6 +16,7 @@ export const focusOn = defineAnimation({
       }).animate(scale, startAt, duration, {
         from: [1, 1],
         to: [0, 0],
+        by: params.by ?? ((x: number) => x),
       }),
     )
   },

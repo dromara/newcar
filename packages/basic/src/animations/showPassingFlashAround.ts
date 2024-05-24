@@ -3,7 +3,8 @@ import { Color } from '@newcar/utils'
 import { Rect } from '../widgets'
 
 export const showPassingFlashAround = defineAnimation({
-  act(widget, elapsed, process, _duration, _ck, _params) {
+  act(widget, elapsed, process, _duration, _ck, params) {
+    process = params.by ? params.by(process) : process
     this.rect.style.offset = this.c * process
     if (process < 0.5)
       this.rect.style.interval = [100 * process * 2, this.c - 100 * process * 2]
