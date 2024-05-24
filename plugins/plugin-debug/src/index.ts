@@ -15,6 +15,8 @@ export default function debug(dash: HTMLElement) {
           <span>unit: ${(app as App).config.unit}</span>
           <br/>
           <span>elapsed: ${elapsed}</span>
+          <br/>
+          <span>FPS: ${Math.round((app as App).reactiveFramePerSecond)}</span>
         </div>
         `
     },

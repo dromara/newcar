@@ -17,10 +17,11 @@ export class App {
    */
   scene: Scene
   surface: Surface
+  reactiveFramePerSecond: number
   private playing = false
   private last: Widget
   private lastFrameTime = performance.now()
-  private currentFrameTime = performance.now()
+  private currentFrameTime = performance
   /**
    * The App config.
    */
@@ -151,6 +152,12 @@ export class App {
       app.scene.elapsed = performance.now() - app.scene.startTime // 1 frame per milisecond?
     else if (app.config.unit === 's')
       app.scene.elapsed = (performance.now() - app.scene.startTime) / 1000
+
+    const currentFrameTime = performance.now()
+    const elapsed = currentFrameTime - app.lastFrameTime
+    app.lastFrameTime = currentFrameTime
+    app.reactiveFramePerSecond = 1000 / elapsed
+
     app.surface.requestAnimationFrame((canvas: Canvas) => {
       App.update(app, canvas)
     })
