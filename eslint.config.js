@@ -12,5 +12,6 @@ export default antfu({
     '**/.vitepress/cache',
     '**/.vitepress/dist',
     'docs/**',
+    'examples',
   ],
 })

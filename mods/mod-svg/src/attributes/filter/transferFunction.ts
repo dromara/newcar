@@ -1,6 +1,4 @@
 import type { SVGBaseAttributes } from '..'
-import type { SVGLengthValue, SVGPercentageValue } from '../../interfaces'
-import type { SVGPresentationAttributes } from '../presentation'
 
 export interface SVGTransferFunctionAttributes extends SVGBaseAttributes {
   type?: 'matrix' | 'saturate' | 'hueRotate' | 'luminanceToAlpha'

@@ -1,5 +1,4 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
-import type { Vector2 } from '../../utils/vector2'
 import type { PathOptions, PathStyle } from './path.ts'
 import { Path } from './path.ts'
 

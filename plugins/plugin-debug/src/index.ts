@@ -1,6 +1,4 @@
 import { defineGlobalPlugin } from '@newcar/core'
-import { Rect, Text } from '@newcar/basic'
-import { Color } from '@newcar/utils'
 import type { App } from '@newcar/core'
 
 export default function debug(dash: HTMLElement) {

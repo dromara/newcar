@@ -1,6 +1,5 @@
 import type { SVGBaseAttributes } from '..'
 import type { SVGLengthValue, SVGPercentageValue } from '../../interfaces'
-import type { SVGPresentationAttributes } from '../presentation'
 
 export interface SVGFilterPrimitiveAttributes extends SVGBaseAttributes {
   height?: 'auto' | SVGLengthValue | SVGPercentageValue

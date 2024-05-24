@@ -1,4 +1,3 @@
-import type { Color } from '@newcar/utils'
 import type { SVGBaseAttributes } from '..'
 import type { SVGColorValue, SVGLengthValue, SVGPaintValue, SVGPercentageValue, SVGTransformListValue } from '../../interfaces'
 
