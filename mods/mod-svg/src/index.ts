@@ -1,8 +1,10 @@
+/* eslint-disable no-case-declarations */
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
-import { Circle, Line, Rect } from '@newcar/basic'
-import { Color, isUndefined } from '@newcar/utils'
-import type { SVGItem } from './interfaces'
+import { Circle, Line, Path, Rect } from '@newcar/basic'
+import type { Color } from '@newcar/utils'
+import { isUndefined } from '@newcar/utils'
+import type { SVGItem } from './elements'
 import { transform } from './transform'
 
 export interface SVGOptions extends WidgetOptions {
@@ -22,34 +24,43 @@ export default class SVG extends Widget {
 
   private processSVGItem(item: SVGItem) {
     switch (item.tag) {
-      case 'circle':
-        this.add(new Circle(item.props.r, {
+      case 'Circle':
+        const circle = new Circle(item.props.r, {
           x: item.props.cx,
           y: item.props.cy,
           style: {
             fill: !isUndefined(item.props.fill),
             border: !isUndefined(item.props.stroke),
-            fillColor: Color.parse(item.props.fill),
-            borderColor: Color.parse(item.props.stroke),
+            fillColor: <Color> item.props.fill,
+            borderColor: <Color> item.props.stroke,
           },
-        }))
+        })
+        this.add(circle)
         break
-      case 'rect':
-        this.add(new Rect([0, 0], [item.props.width, item.props.height], {
+      case 'Rect':
+        const rect = new Rect([0, 0], [(<number> item.props.width) ?? 0, (<number> item.props.height) ?? 0], {
           x: item.props.x,
           y: item.props.y,
           style: {
             fill: !isUndefined(item.props.fill),
             border: !isUndefined(item.props.stroke),
           },
-        }))
+        })
+        this.add(rect)
         break
-      case 'line':
-        this.add(new Line([item.props.x1, item.props.y1], [item.props.x2, item.props.y2], {
+      case 'Line':
+        const line = new Line([item.props.x1, item.props.y1], [item.props.x2, item.props.y2], {
           style: {
-            color: Color.parse(item.props.stroke),
+            color: <Color> item.props.stroke,
           },
-        }))
+        })
+        this.add(line)
+        break
+      case 'Path':
+        const path = new Path()
+        path.addPathFromSVGString(item.props.d)
+        this.add(path)
+        break
     }
     for (const child of item.children)
       this.processSVGItem(child)

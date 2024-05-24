@@ -1,8 +1,9 @@
-import type { SVGItem } from './interfaces'
+import type { SVGItem } from './elements'
 
 export function transform(_svg: string): SVGItem {
   return {
-    tag: 'circle',
+    tag: 'Circle',
+    type: 'Graphics',
     props: {},
     children: [],
   }

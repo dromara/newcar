@@ -1,86 +1,41 @@
-export interface SVGCircleItem extends _SVGItem {
-  tag: 'circle'
-  props: {
-    cx?: number
-    cy?: number
-    r?: number
-    fill?: string
-    stroke?: string
-  }
-  children: SVGItem[]
-}
-
-export interface SVGRectItem extends _SVGItem {
-  tag: 'rect'
-  props: {
-    x?: number
-    y?: number
-    width?: number
-    height?: number
-    fill?: string
-    stroke?: string
-  }
-  children: SVGItem[]
-}
-
-export interface SVGLineItem extends _SVGItem {
-  tag: 'line'
-  props: {
-    x1?: number
-    y1?: number
-    x2?: number
-    y2?: number
-    stroke?: string
-  }
-  children: SVGItem[]
-}
-
-export type SVGItem = SVGCircleItem | SVGRectItem | SVGLineItem
+import type { Color } from '@newcar/utils'
 
 export type AnimatableValue = number | number[]
 
-export interface SVGProp {}
+export type SVGAngleValue = number // degrees
 
-export interface _SVGItem {
-  tag: string
-  type?: string
-  props: SVGProp
-}
+export type SVGAnythingValue = string
 
-export interface SVGBaseAnimationProp extends SVGProp {}
+export type SVGClockValue = string // To be implemented
 
-export interface SVGBaseAnimationItem extends _SVGItem {
-  type: 'Animation'
-  props: SVGBaseAnimationProp
-}
+export type SVGColorValue = Color
 
-export interface SVGAnimationValueProp extends SVGBaseAnimationProp {
-  calcMode?: 'discrete' | 'linear' | 'paced' | 'spline'
-  values?: string
-  keyTimes?: number | number[]
-  keySplines?: [number, number, number, number] | [number, number, number, number][]
-  from?: AnimatableValue
-  to?: AnimatableValue
-  by?: AnimatableValue
-}
+export type SVGCoordinateValue = number // Maybe [number, number]
 
-export interface SVGAnimateProp extends SVGAnimationValueProp {
-  attributeName?: string
-  attributeType?: string
-  dur?: string // duration, maybe need transform
-  repeatCount?: number
-}
+export type SVGFrequencyValue = number // Hz
 
-export interface SVGAnimateItem extends SVGBaseAnimationItem {
-  type: 'Animation'
-  props: SVGAnimateProp
-}
+export type SVGFuncIRIValue = string // To be implemented
 
-export interface SVGAnimateMotionProp extends SVGAnimationValueProp {
-  keyPoints: number | number[]
-}
+export type SVGIntegerValue = number
 
-export interface SVGAnimateMotionItem extends SVGBaseAnimationItem {
-  type: 'Animation'
-  props: SVGAnimateMotionProp
-}
+export type SVGIRIValue = string // To be implemented
+
+export type SVGLengthValue = number // Maybe [number, string]
+
+export type SVGNameValue = string
+
+export type SVGNumberOptionalValue = [number] | [number, number]
+
+export type SVGOpacityValue = number
+
+export type SVGPaintValue = Color | SVGIRIValue
+
+export type SVGPercentageValue = number // Will be mapped to normal number
+
+export type SVGTimeValue = number // s
+
+export type SVGTransformListValue = string // To be implemented
+
+export type SVGURLValue = string // To be implemented
+
+export interface SVGElement {} // temp fix, will be replaced later.
