@@ -163,7 +163,6 @@ export function changeProperty<T extends Widget>(
       propChains.forEach((prop, index) => {
         const start = from[index] !== undefined ? from[index] : getByChain(deepClone(prop), widget) // Use widget's value as a fallback
         const end = to[index] !== undefined ? to[index] : getByChain(deepClone(prop), widget) // Use widget's value as a fallback
-
         applyChange(deepClone(prop), start, end)
       })
     },

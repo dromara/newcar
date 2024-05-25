@@ -2,8 +2,6 @@ import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import { type BlendMode, isUndefined } from '@newcar/utils'
 import type { Animation, AnimationInstance } from './animation'
 import { deepClone } from './utils/deepClone'
-import type { AnimationTree } from './animationTree'
-import { analyseAnimationTree } from './animationTree'
 import type { Event, EventInstance } from './event'
 import type { WidgetPlugin } from './plugin'
 import type { AnimateFunction } from './apiAnimate'
@@ -220,10 +218,6 @@ export class Widget {
       )
     }
     return this
-  }
-
-  animateTree(tree: AnimationTree, startAt: number) {
-    this.animationInstances.push(...analyseAnimationTree(tree, startAt))
   }
 
   // Run an animation with respect to `elapsed`, which is maintained by `App` class

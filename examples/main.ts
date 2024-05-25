@@ -31,11 +31,11 @@ export const scene1 = new nc.Scene(
         },
         x: 200,
         y: 200,
-      }).animate(nc.move, 0, 10, {
-          from: [0, 0],
-        to: [200, 200]
-      }),
-    ),
+      }).animate(nc.showPassingFlashAround, 0, 0.5)
+      .animate(nc.move, 0, 30, {
+        to: [400, 400]
+      })
+    )
 )
 
 export const scene2 = new nc.Scene(
