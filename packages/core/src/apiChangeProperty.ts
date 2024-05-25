@@ -129,18 +129,8 @@ export function changeProperty<T extends Widget>(
       const adjustedProcess = easingFunction?.call(process) ?? process
 
       if (!called) {
-        from = params?.from ?? defaultFrom ?? propertyNames.map((prop) => {
-          if (typeof prop === 'string')
-            return getByChain(prop.split('.'), widget) as number
-          else
-            return widget[prop] as number
-        })
-        to = params?.to ?? defaultTo ?? propertyNames.map((prop) => {
-          if (typeof prop === 'string')
-            return getByChain(prop.split('.'), widget) as number
-          else
-            return widget[prop] as number
-        })
+        from = params?.from ?? defaultFrom ?? propChains.map(prop => getByChain(prop, widget) as number)
+        to = params?.to ?? defaultTo ?? propChains.map(prop => getByChain(prop, widget) as number)
         called = true
       }
 
