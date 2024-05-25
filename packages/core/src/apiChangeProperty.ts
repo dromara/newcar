@@ -30,10 +30,7 @@ function parseProperty(propName: ac.Expression): string[] {
 
         switch (e.property.type) {
           case 'Literal':
-            if (typeof e.property.value === 'number')
-              chain.push(e.property.value.toString())
-            else
-              return []
+            chain.push(e.property.value.toString())
 
             break
           case 'Identifier':
@@ -163,12 +160,12 @@ export function changeProperty<T extends Widget>(
         end: number,
       ) => {
         const valueChange = (end - start) * adjustedProcess
-        setByChain(deepClone(prop), widget, start + valueChange)
+        setByChain(prop, widget, start + valueChange)
       }
 
       propChains.forEach((prop, index) => {
-        const start = from[index] !== undefined ? from[index] : getByChain(prop, widget) // Use widget's value as a fallback
-        const end = to[index] !== undefined ? to[index] : getByChain(prop, widget) // Use widget's value as a fallback
+        const start = from[index] !== undefined ? from[index] : getByChain(deepClone(prop), widget) // Use widget's value as a fallback
+        const end = to[index] !== undefined ? to[index] : getByChain(deepClone(prop), widget) // Use widget's value as a fallback
         applyChange(prop, start, end)
       })
     },
