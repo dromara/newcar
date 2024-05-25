@@ -10,7 +10,7 @@ export type AnimateFunction<T extends Widget> = (animation: Animation<T>, durati
   setSync: () => ReturnType<AnimateFunction<T>>
 }
 
-export function animate<T extends Widget>(animation: Animation<T>, duration: number, params?: Record<string, any>) {
+export function animate<T extends Widget>(animation: Animation<T>, duration: number, params?: Record<string, any>): ReturnType<AnimateFunction<T>> {
   return {
     animation,
     duration,
