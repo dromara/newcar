@@ -54,6 +54,7 @@ export class Arc extends Path {
    * @param propertyChanged The name of the property that changed.
    */
   predraw(ck: CanvasKit, propertyChanged?: string): void {
+    super.predraw(ck, propertyChanged)
     switch (propertyChanged) {
       case 'radius': {
         this.rect.set([-this.radius, -this.radius, this.radius, this.radius])

@@ -24,7 +24,7 @@ export class Path extends Figure {
   }
 
   init(ck: CanvasKit): void {
-    this.strokePaint = new ck.Paint()
+    super.init(ck)
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
@@ -41,7 +41,6 @@ export class Path extends Figure {
       this.strokePaint.setPathEffect(dash)
     }
     catch {}
-    this.fillPaint = new ck.Paint()
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
     this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
@@ -79,20 +78,12 @@ export class Path extends Figure {
       case 'path': {
         break
       }
-      case 'style.borderColor': {
-        this.strokePaint.setColor(this.style.borderColor.toFloat4())
-        break
-      }
       case 'style.borderShader': {
         this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
         break
       }
       case 'style.borderWidth': {
         this.strokePaint.setStrokeWidth(this.style.borderWidth)
-        break
-      }
-      case 'style.fillColor': {
-        this.fillPaint.setColor(this.style.fillColor.toFloat4())
         break
       }
       case 'style.fillShader': {

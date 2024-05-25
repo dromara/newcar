@@ -48,16 +48,31 @@ export class Figure extends Widget {
     this.style.interval = options.style.interval ?? [1, 0]
   }
 
+  init(ck: CanvasKit): void {
+    this.strokePaint = new ck.Paint()
+    this.fillPaint = new ck.Paint()
+  }
+
   predraw(ck: CanvasKit, propertyChanged: string) {
     super.predraw(ck, propertyChanged)
     switch (propertyChanged) {
       case 'style.color':
         this.style.borderColor ??= this.style.color
         this.style.fillColor ??= this.style.color
+        this.strokePaint.setColor(this.style.borderColor.toFloat4())
+        this.fillPaint.setColor(this.style.fillColor.toFloat4())
         break
       case 'style.shader':
         this.style.borderShader ??= this.style.shader
         this.style.fillShader ??= this.style.shader
+        this.strokePaint.setShader(this.style.borderShader.toCanvasKitShader(ck))
+        this.fillPaint.setShader(this.style.fillShader.toCanvasKitShader(ck))
+        break
+      case 'style.borderColor':
+        this.strokePaint.setColor(this.style.borderColor.toFloat4())
+        break
+      case 'style.fillColor':
+        this.fillPaint.setColor(this.style.fillColor.toFloat4())
         break
     }
   }
