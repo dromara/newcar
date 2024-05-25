@@ -67,6 +67,8 @@ export async function patch(
   ck: CanvasKit,
   canvas: Canvas,
 ) {
+  if (now.status !== 'live')
+    return
   canvas.save()
   const differences = shallowEqual(old, now)
   for (const param of differences) {

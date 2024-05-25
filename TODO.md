@@ -15,7 +15,6 @@ Please write it according to following rules:
 
 | Task                                                       | Description                   | Status           | Assigned                   | Create Date | Done Date  | Related Issue | Related Pull Request | Species |
 | ---------------------------------------------------------- | ----------------------------- | ---------------- | -------------------------- | ----------- | ---------- | ------------- | -------------------- | ------- |
-| Widget Lifecycle                                           | ...                           | Ready            | None                       | 2024-05-24  |
 | Color Animation (core)                                     | The Animation that for color. | Intend           | @sheepbox8646              | 2024-05-23  |
 | Perfect Type Check (core)                                  | ...                           | Ready            | None                       | 2024-05-23  |
 | The Automated Test Scripts (core)                          | ...                           | Ready            | None                       | 2024-05-23  |
@@ -32,6 +31,7 @@ Please write it according to following rules:
 | Mod Geometry (mods)                                        | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
 | Mod Markdown (mods)                                        | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
 | Plugin Debug (plugins)                                     | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
+| Widget Lifecycle                                           | ...                           | Done           | None                       | 2024-05-24  |
 | Refactor `changeProperty` and `changeStyle`                | ...                           | Done             | @wgxh-cli                  | 2024-05-23  | 2024-05-25 |
 | Perfect Setup Grammar Sugar                                | ...                           | Done             | @sheepbox8646              | 2024-05-23  | 2024-05-25 |
 | Animation Tree                                             | ...                           | No Longer Needed | @wgxh-cli                  | 2024-05-23  |

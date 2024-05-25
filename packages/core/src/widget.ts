@@ -10,6 +10,7 @@ export type WidgetRange = [number, number, number, number]
 export type WidgetInstance<T extends Widget> = T
 export type SetupFunction<T extends Widget> = (widget: Widget) => Generator<number | ReturnType<AnimateFunction<T>>, void, unknown>
 export type Layout = 'row' | 'column' | 'absolute' | 'mix'
+export type Status = 'live' | 'dead' | 'unborn'
 
 export interface WidgetOptions {
   style?: WidgetStyle
@@ -58,6 +59,7 @@ export class Widget {
 
   parent: Widget | null
   hasSet = false
+  status: Status = 'unborn'
 
   constructor(options?: WidgetOptions) {
     options ??= {}
@@ -155,6 +157,7 @@ export class Widget {
       if (typeof child === 'function')
         child = child(this)
       child.parent = child
+      child.status = 'live'
       this.children.push(child)
       // switch (this.style.layout) {
       //   case 'row': {
@@ -461,5 +464,17 @@ export class Widget {
     const relativeY = y - absoluteY
 
     return { x: relativeX, y: relativeY }
+  }
+
+  kill(): this {
+    this.status = 'dead'
+
+    return this
+  }
+
+  resurrect(): this {
+    this.status = 'live'
+
+    return this
   }
 }
