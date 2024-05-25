@@ -23,7 +23,7 @@ Please write it according to following rules:
 | Unit support for local mode (core)                         | ...                           | Ready            | None                       | 2024-05-25  |
 | Theme (core)                                               | ...                           | Ready            | None                       | 2024-05-23  |
 | Documentation for Developer (docs)                         | ...                           | Ready            | None                       | 2024-05-23  |
-| Async Function of Playground (playground)                  | ...                           | Intend           | None                       | 2024-5-25   |
+| Playground Sources Preload                                 | ...                           | Intend           | None                       | 2024-05-25  |
 | SVG Analyzer (mods)                                        | ...                           | WIP              | @sheepbox8646 @jiwangyihao | 2024-05-23  |
 | Mod Web Component (mods)                                   | ...                           | WIP              | @justyukie                 | 2024-05-23  |            |               | #40                  |
 | Mod Chart (mods)                                           | ...                           | WIP              | @jiwangyihao               | 2024-05-23  |
@@ -31,7 +31,8 @@ Please write it according to following rules:
 | Mod Geometry (mods)                                        | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
 | Mod Markdown (mods)                                        | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
 | Plugin Debug (plugins)                                     | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
-| Widget Lifecycle                                           | ...                           | Done           | None                       | 2024-05-24  |
+| Widget Lifecycle                                           | ...                           | Done             | None                       | 2024-05-24  |
 | Refactor `changeProperty` and `changeStyle`                | ...                           | Done             | @wgxh-cli                  | 2024-05-23  | 2024-05-25 |
 | Perfect Setup Grammar Sugar                                | ...                           | Done             | @sheepbox8646              | 2024-05-23  | 2024-05-25 |
 | Animation Tree                                             | ...                           | No Longer Needed | @wgxh-cli                  | 2024-05-23  |
+| Async Function of Playground (playground)                  | ...                           | No Longer Needed | None                       | 2024-5-25   |
