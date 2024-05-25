@@ -8,6 +8,7 @@ export * from './widget'
 export * from './asyncWidget'
 export * from './global'
 
+export * from './apiAnimate'
 export * from './apiChangeProperty'
 export * from './apiChangeStyle'
 export * from './apiUseFont'

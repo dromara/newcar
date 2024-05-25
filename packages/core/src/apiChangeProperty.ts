@@ -53,20 +53,17 @@ function parseProperty(propName: ac.Expression): string[] {
 }
 
 function setByChain(chain: string[], object: any, value: any): void {
+  if (chain.length === 0)
+    return
+
   const prop = chain.shift()
   if (chain.length === 0) {
-    Object.defineProperty(object, prop, {
-      value,
-      writable: true,
-    })
+    object[prop] = value
   }
   else {
-    if (object[prop] === undefined) {
-      Object.defineProperty(object, prop, {
-        value: {},
-        writable: true,
-      })
-    }
+    if (object[prop] === undefined)
+      object[prop] = {}
+
     setByChain(chain, object[prop], value)
   }
 }
@@ -166,7 +163,7 @@ export function changeProperty<T extends Widget>(
       propChains.forEach((prop, index) => {
         const start = from[index] !== undefined ? from[index] : getByChain(deepClone(prop), widget) // Use widget's value as a fallback
         const end = to[index] !== undefined ? to[index] : getByChain(deepClone(prop), widget) // Use widget's value as a fallback
-        applyChange(prop, start, end)
+        applyChange(deepClone(prop), start, end)
       })
     },
   })
