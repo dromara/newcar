@@ -16,19 +16,20 @@ Please write it according to following rules:
 | Task                                        | Description                   | Status           | Assigned                   | Create Date | Done Date  | Related Issue | Related Pull Request | Species |
 | ------------------------------------------- | ----------------------------- | ---------------- | -------------------------- | ----------- | ---------- | ------------- | -------------------- | ------- |
 | Widget Lifecycle                            | ...                           | Ready            | None                       | 2024-05-24  |
-| Color Animation                             | The Animation that for color. | Intend           | @sheepbox8646              | 2024-05-23  |
-| Perfect Type Check                          | ...                           | Ready            | None                       | 2024-05-23  |
-| The Automated Test Scripts                  | ...                           | Ready            | None                       | 2024-05-23  |
-| Layout System                               | ...                           | Ready            | None                       | 2024-05-23  |
-| Theme                                       | ...                           | Ready            | None                       | 2024-05-23  |
-| Documentation for Developer                 | ...                           | Ready            | None                       | 2024-05-23  |
-| SVG Analyzer                                | ...                           | WIP              | @sheepbox8646 @jiwangyihao | 2024-05-23  |
-| Mod Web Component                           | ...                           | WIP              | @justyukie                 | 2024-05-23  |
-| Mod Chart                                   | ...                           | WIP              | @jiwangyihao               | 2024-05-23  |
-| Mod Math                                    | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
-| Mod Geometry                                | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
-| Mod Markdown                                | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
-| Plugin Debug                                | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
+| Color Animation (core)                      | The Animation that for color. | Intend           | @sheepbox8646              | 2024-05-23  |
+| Perfect Type Check (core)                   | ...                           | Ready            | None                       | 2024-05-23  |
+| The Automated Test Scripts (core)           | ...                           | Ready            | None                       | 2024-05-23  |
+| Layout System (core)                        | ...                           | Ready            | None                       | 2024-05-23  |
+| Theme (core)                                | ...                           | Ready            | None                       | 2024-05-23  |
+| Documentation for Developer (docs)          | ...                           | Ready            | None                       | 2024-05-23  |
+| Async Function of Playground (playground)   | ...                           | Intend           | None                       | 2024-5-25   |
+| SVG Analyzer (mods)                         | ...                           | WIP              | @sheepbox8646 @jiwangyihao | 2024-05-23  |
+| Mod Web Component (mods)                    | ...                           | WIP              | @justyukie                 | 2024-05-23  |            |               | #40                  |
+| Mod Chart (mods)                            | ...                           | WIP              | @jiwangyihao               | 2024-05-23  |
+| Mod Math (mods)                             | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
+| Mod Geometry (mods)                         | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
+| Mod Markdown (mods)                         | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
+| Plugin Debug (plugins)                      | ...                           | WIP              | @sheepbox8646              | 2024-05-23  |
 | Refactor `changeProperty` and `changeStyle` | ...                           | Done             | @wgxh-cli                  | 2024-05-23  | 2024-05-25 |
 | Perfect Setup Grammar Sugar                 | ...                           | Done             | @sheepbox8646              | 2024-05-23  | 2024-05-25 |
 | Animation Tree                              | ...                           | No Longer Needed | @wgxh-cli                  | 2024-05-23  |
