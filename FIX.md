@@ -14,5 +14,5 @@ Before you write, please refer to following materials:
  -->
 
 | Bug | Description | Status | Assigned | Create Date | Done Date | Related Issue | Related Pull Request |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| | | | | | | | | | | |
+| --- | ----------- | ------ | -------- | ----------- | --------- | ------------- | -------------------- |
+|     |             |        |          |             |           |               |                      |
