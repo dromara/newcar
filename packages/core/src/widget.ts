@@ -8,7 +8,7 @@ import type { AnimateFunction } from './apiAnimate'
 
 export type WidgetRange = [number, number, number, number]
 export type WidgetInstance<T extends Widget> = T
-export type SetupFunction<T extends Widget> = (widget: Widget) => Generator<number | ReturnType<AnimateFunction<T>>, void, unknown>
+export type SetupFunction<T extends Widget> = (widget: T) => Generator<number | ReturnType<AnimateFunction<T>>, void, unknown>
 export type Layout = 'row' | 'column' | 'absolute' | 'mix'
 export type Status = 'live' | 'dead' | 'unborn'
 
@@ -51,7 +51,7 @@ export class Widget {
   isImplemented = false // If the widget is implemented by App.impl
   animationInstances: AnimationInstance<Widget>[] = []
   eventInstances: EventInstance<Widget>[] = []
-  updates: ((elapsed: number, widget: Widget) => void)[] = []
+  updates: (<T extends this>(elapsed: number, widget: T) => void)[] = []
   setups: Array<{ generator: Generator<number | ReturnType<AnimateFunction<any>>, void, unknown>, nextFrame: number }> = []
   key = `widget-${0}-${performance.now()}-${Math.random()
     .toString(16)
@@ -273,14 +273,14 @@ export class Widget {
    * Set up a update function to call it when the widget is changed.
    * @param updateFunc The frame from having gone to current frame.
    */
-  setUpdate(updateFunc: (elapsed: number, widget: Widget) => void): this {
+  setUpdate(updateFunc: <T extends this>(elapsed: number, widget: T) => void): this {
     this.updates.push(updateFunc)
 
     return this
   }
 
-  setup<T extends Widget>(setupFunc: SetupFunction<T>): this {
-    const generator = setupFunc(this)
+  setup<T extends this>(setupFunc: SetupFunction<T>): this {
+    const generator = setupFunc(this as T)
     this.setups.push({ generator, nextFrame: 0 })
     return this
   }
