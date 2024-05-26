@@ -3,6 +3,7 @@ import type { Scene } from './scene'
 import { initial } from './initial'
 import type { Widget } from './widget'
 import type { GlobalPlugin } from './plugin'
+import { type Config, defineConfig } from './config'
 
 /**
  * @see Widget
@@ -14,6 +15,7 @@ export class LocalApp {
   private last: Widget
   updates: ((elapsed: number) => void)[] = []
   canvas: Canvas
+  config: Config
 
   constructor(
     public width: number,
@@ -34,6 +36,9 @@ export class LocalApp {
     }
     for (const plugin of this.plugins)
       plugin.onSurfaceLoaded(this, this.surface)
+    this.config = defineConfig({
+      unit: 's',
+    })
   }
 
   checkout(scene: Scene): this {
@@ -91,12 +96,28 @@ export class LocalApp {
    * @param duration The duration
    * @returns The image data list.
    */
-  getFrames(duration: number) {
+  getFrames(duration: number, fps?: number) {
     const data = []
-    for (let elapsed = 0; elapsed <= duration; elapsed++) {
-      this.canvas.clear(this.ck.BLACK)
-      LocalApp.update(this)
-      data.push(this.surface.makeImageSnapshot().encodeToBytes())
+    if (this.config.unit === 'frame') {
+      for (let elapsed = 0; elapsed <= duration; elapsed++) {
+        this.canvas.clear(this.ck.BLACK)
+        LocalApp.update(this)
+        data.push(this.surface.makeImageSnapshot().encodeToBytes())
+      }
+    }
+    else if (this.config.unit === 's') {
+      for (let elapsed = 0; elapsed <= (duration * fps); elapsed += (1 / fps)) {
+        this.canvas.clear(this.ck.BLACK)
+        LocalApp.update(this)
+        data.push(this.surface.makeImageSnapshot().encodeToBytes())
+      }
+    }
+    else if (this.config.unit === 'ms') {
+      for (let elapsed = 0; elapsed <= (duration * (fps / 1000)); elapsed += (1000 / fps)) {
+        this.canvas.clear(this.ck.BLACK)
+        LocalApp.update(this)
+        data.push(this.surface.makeImageSnapshot().encodeToBytes())
+      }
     }
     return data
   }
