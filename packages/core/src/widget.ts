@@ -387,7 +387,16 @@ export class Widget {
    * @returns The range of the widget.
    */
   get range(): WidgetRange {
-    const calculatedRange = this.calculateRange()
+    let calculatedRange = [
+      this.x,
+      this.y,
+      this.x,
+      this.y,
+    ]
+    try {
+      calculatedRange = this.calculateRange()
+    }
+    catch {}
 
     const range = [
       Math.min(...this.children.map(child => child.range[0]).concat(calculatedRange[0])),
@@ -398,6 +407,29 @@ export class Widget {
 
     const { x: x1, y: y1 } = this.coordinateChildToParent(range[0], range[1])
     const { x: x2, y: y2 } = this.coordinateChildToParent(range[2], range[3])
+
+    return [x1, y1, x2, y2]
+  }
+
+  /**
+   * The range of the widget, taking into account the children, based on the parent coordinate.
+   * To be noted that this method should not be overridden.
+   * @returns The range of the widget.
+   */
+  get singleRange(): WidgetRange {
+    let calculatedRange = [
+      this.x,
+      this.y,
+      this.x,
+      this.y,
+    ]
+    try {
+      calculatedRange = this.calculateRange()
+    }
+    catch {}
+
+    const { x: x1, y: y1 } = this.coordinateChildToParent(calculatedRange[0], calculatedRange[1])
+    const { x: x2, y: y2 } = this.coordinateChildToParent(calculatedRange[2], calculatedRange[3])
 
     return [x1, y1, x2, y2]
   }

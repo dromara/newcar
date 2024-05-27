@@ -27,17 +27,9 @@ export const scene1 = new nc.Scene(
       new nc.Circle(100, {
         x: 200,
         y: 200,
-      }).animate(nc.showPassingFlashAround, 0, 0.5)
-      .animate(nc.move, 0, 30, {
-        to: [400, 400]
-      })
-      .animate(nc.discolorate, 0, 2, {
-        from: Color.WHITE,
-        to: Color.parse('skyblue')
-      })
-      .setup(function *(widget) {
-        yield 2
-        widget.style.fillColor = Color.BLACK
+      }).animate(nc.showPassingFlashAround, 0, 1)
+      .animate(nc.circleIndicate, 1, 0.6, {
+        scale: 1.5
       })
     )
 )

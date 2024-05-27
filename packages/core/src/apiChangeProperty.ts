@@ -66,6 +66,7 @@ function setByChain(chain: string[], object: any, value: any): void {
 
     setByChain(chain, object[prop], value)
   }
+  // console.log(object[prop])
 }
 
 function getByChain(chain: string[], object: any): any {
@@ -150,6 +151,8 @@ export function changeProperty<T extends Widget>(
         called = true
       }
 
+      // console.log(adjustedProcess, process)
+
       // Apply the animation to each property.
       const applyChange = (
         prop: string[],
@@ -161,8 +164,8 @@ export function changeProperty<T extends Widget>(
       }
 
       propChains.forEach((prop, index) => {
-        const start = from[index] !== undefined ? from[index] : getByChain(deepClone(prop), widget) // Use widget's value as a fallback
-        const end = to[index] !== undefined ? to[index] : getByChain(deepClone(prop), widget) // Use widget's value as a fallback
+        const start = from[index] ?? from ?? getByChain(deepClone(prop), widget) // Use widget's value as a fallback
+        const end = to[index] ?? to ?? getByChain(deepClone(prop), widget) // Use widget's value as a fallback
         applyChange(deepClone(prop), start, end)
       })
     },
