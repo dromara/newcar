@@ -61,8 +61,7 @@ function setByChain(chain: string[], object: any, value: any): void {
     object[prop] = value
   }
   else {
-    if (object[prop] === undefined)
-      object[prop] = {}
+    object[prop] ??= {}
 
     setByChain(chain, object[prop], value)
   }
@@ -125,29 +124,14 @@ export function changeProperty<T extends Widget>(
       params: Record<string, any>,
     ) => {
       // Determine the easing function, prefer the one from params if available.
-      const easingFunction = params.by ? params.by : by
+      const easingFunction = params?.by ?? by
 
       // Apply the easing function to the process if provided
-      const adjustedProcess = easingFunction ? easingFunction(process) : process
+      const adjustedProcess = easingFunction?.call(process) ?? process
 
       if (!called) {
-        from = defaultFrom !== undefined ? defaultFrom : params?.from
-        to = defaultTo !== undefined ? defaultTo : params?.to
-        if (from === undefined) {
-          from = normalizeMaybeArray(
-            (Array.isArray(propertyName)
-              ? propertyName.map(prop => widget[prop])
-              : widget[propertyName]) as MaybeArray<number>,
-          )
-        }
-        if (to === undefined) {
-          to = normalizeMaybeArray(
-            (Array.isArray(propertyName)
-              ? propertyName.map(prop => widget[prop])
-              : widget[propertyName]) as MaybeArray<number>,
-          )
-        }
-
+        from = defaultFrom ?? params?.from ?? propertyNames.map(prop => widget[prop] as number)
+        to = defaultTo ?? params?.to ?? propertyNames.map(prop => widget[prop] as number)
         called = true
       }
 

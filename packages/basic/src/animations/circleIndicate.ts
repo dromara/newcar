@@ -1,6 +1,5 @@
-import { changeProperty, changeStyle, defineAnimation } from '@newcar/core'
+import { defineAnimation } from '@newcar/core'
 import { Circle } from '../widgets'
-import { easeInExpo, easeOutExpo } from '../easingFunctions'
 import { scale } from './scale'
 import { fadeIn } from './fadeIn'
 import { fadeOut } from './fadeOut'
@@ -41,7 +40,6 @@ export const circleIndicate = defineAnimation({
         {
           from: [params.scale, params.scale],
           to: [1, 1],
-          by: easeOutExpo,
         },
       )
       this.circle.animate(
@@ -51,11 +49,10 @@ export const circleIndicate = defineAnimation({
         {
           to: [params.scale, params.scale],
           mode: 'reverse',
-          by: easeOutExpo,
         },
       )
-      this.circle.hide()
     }
+    this.circle.hide()
     widget.add(this.circle)
   },
 })
