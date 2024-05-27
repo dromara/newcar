@@ -255,6 +255,9 @@ export class Widget {
           )
         }
       }
+      if (elapsed >= instance.startAt + instance.duration) {
+        instance.animation.after?.(this, elapsed, ck, instance.params)
+      }
     }
     for (const update of this.updates) update(elapsed, this)
 
@@ -396,7 +399,7 @@ export class Widget {
     try {
       calculatedRange = this.calculateRange()
     }
-    catch {}
+    catch { }
 
     const range = [
       Math.min(...this.children.map(child => child.range[0]).concat(calculatedRange[0])),
@@ -426,7 +429,7 @@ export class Widget {
     try {
       calculatedRange = this.calculateRange()
     }
-    catch {}
+    catch { }
 
     const { x: x1, y: y1 } = this.coordinateChildToParent(calculatedRange[0], calculatedRange[1])
     const { x: x2, y: y2 } = this.coordinateChildToParent(calculatedRange[2], calculatedRange[3])

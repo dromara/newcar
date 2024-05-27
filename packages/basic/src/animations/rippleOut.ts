@@ -17,7 +17,7 @@ export const rippleOut = defineAnimation({
         from: [0, 0],
         to: [1, 1],
         by: params.by ?? ((x: number) => x),
-      }),
+      }).hide(),
     )
   },
 })

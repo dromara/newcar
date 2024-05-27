@@ -1,15 +1,16 @@
 import { defineAnimation } from '@newcar/core'
 import { Color } from '@newcar/utils'
+import type { Figure } from '../widgets/figures/figure'
 import { Rect } from '../widgets'
 
-export const showPassingFlashAround = defineAnimation({
-  act(_widget, _elapsed, process, _duration, _ck, params) {
-    process = params.by ? params.by(process) : process
-    this.rect.style.offset = this.c * process
-    if (process < 0.5)
-      this.rect.style.interval = [100 * process * 2, this.c - 100 * process * 2]
-    else if (process > 0.5)
-      this.rect.style.interval = [100 * (1 - process) * 2, this.c - 100 * (1 - process) * 2]
+export const ShowCreationThenDestructionAround = defineAnimation<Figure>({
+  act(_widget, _elapsed, process, _duration, _ck, _params) {
+    if (process < 0.5) {
+      this.rect.style.interval = [this.c * process * 2, this.c - this.c * process * 2]
+    }
+    else if (process > 0.5) {
+      this.rect.style.interval = [this.c * (1 - process) * 2, this.c - this.c * (1 - process) * 2]
+    }
   },
 
   init(widget, _startAt, _duration, _ck, params: {
@@ -28,6 +29,7 @@ export const showPassingFlashAround = defineAnimation({
     })
     this.c = Math.abs(widget.singleRange[2] - widget.singleRange[0] + 10) * 2
     + Math.abs(widget.singleRange[3] - widget.singleRange[1] + 10) * 2
+    this.rect.hide()
     widget.add(this.rect)
   },
 

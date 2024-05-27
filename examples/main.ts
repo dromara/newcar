@@ -27,9 +27,13 @@ export const scene1 = new nc.Scene(
       new nc.Circle(100, {
         x: 200,
         y: 200,
-      }).animate(nc.showPassingFlashAround, 0, 1)
-      .animate(nc.circleIndicate, 1, 0.6)
-      .animate(nc.create, 0, 1)
+      })
+      .animate(nc.showPassingFlashAround, 0, 1)
+      .animate(nc.circleIndicate, 1, 0.6, {
+        scale: 1.2
+      })
+      // .animate(nc.ShowCreationThenDestructionAround, 0, 1)
+      // .animate(nc.create, 0, 1)
     )
 )
 

@@ -1,4 +1,4 @@
-import type { CanvasKit } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import type { Widget } from './widget'
 
 /**
@@ -19,6 +19,11 @@ export interface Animation<T> {
    * @see act
    */
   init?: (widget: T, startAt: number, duration: number, ck: CanvasKit, params?: any) => void
+
+  /**
+   *
+   */
+  after?: (widget: T, elapsed: number, ck: CanvasKit, params?: any) => void
 }
 
 /**
