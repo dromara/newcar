@@ -7,7 +7,7 @@ import { Rect } from '../widgets'
  * Create a rectangle that grows and shrinks around the center of the widget
  * and then destroys itself.
  */
-export const ShowCreationThenDestructionAround = defineAnimation<Figure>({
+export const showCreationThenDestructionAround = defineAnimation<Figure>({
   act(_widget, _elapsed, process, _duration, _ck, _params) {
     if (process < 0.5) {
       this.rect.style.interval = [this.c * process * 2, this.c - this.c * process * 2]
