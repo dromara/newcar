@@ -603,15 +603,11 @@ export class ChartLayout extends BaseChart {
     for (let i = 0; i < this.data.datasets.length; i++) {
       this.legends.push(
         new Rect(
-          [
-            this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i],
-            -26,
-          ],
-          [
-            this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i] + 20,
-            -10,
-          ],
+          20,
+          16,
           {
+            x: this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i],
+            y: -26,
             style: {
               fillColor: this.data.datasets[i].style.backgroundColor
               ?? this.data.datasets[i].data[0].style.backgroundColor ?? Color.WHITE,
@@ -748,8 +744,7 @@ export class ChartLayout extends BaseChart {
     }
     legendWidthPrefix[legendWidthPrefix.length - 1] -= 6
     for (let i = 0; i < this.data.datasets.length; i++) {
-      this.legends[i].from[0] = this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i]
-      this.legends[i].to[0] = this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i] + 20
+      this.legends[i].x = this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i]
       this.legendLabels[i].x = this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i] + 28
     }
   }

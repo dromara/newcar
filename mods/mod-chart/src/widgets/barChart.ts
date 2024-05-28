@@ -135,24 +135,16 @@ export class BarChart extends BaseSimpleChart {
           const categorySize = gridSize * this.categoryPercentage
           const barSize = (categorySize / this.data.datasets.length) * this.barPercentage
           return new Rect(
-            [
-              (unit.index - (unit.indexDuration() ?? this.layout.index.interval) / 2 - this.layout.index.min)
+            barSize,
+            -unit.cross * this.progress * this.layout.size.height
+            / (this.layout.cross.max - this.layout.cross.min),
+            {
+              x: (unit.index - (unit.indexDuration() ?? this.layout.index.interval) / 2 - this.layout.index.min)
               / (this.layout.index.max - this.layout.index.min) * this.layout.size.width
               + (gridSize - categorySize) / 2 + (setIndex * categorySize) / this.data.datasets.length
               + (categorySize / this.data.datasets.length - barSize) / 2,
-              this.layout.size.height - ((unit.cross * this.progress - this.layout.cross.min) * this.layout.size.height)
-              / (this.layout.cross.max - this.layout.cross.min),
-            ],
-            [
-              (unit.index - (unit.indexDuration() ?? this.layout.index.interval) / 2 - this.layout.index.min)
-              / (this.layout.index.max - this.layout.index.min) * this.layout.size.width
-              + (gridSize - categorySize) / 2 + (setIndex * categorySize) / this.data.datasets.length
-              + (categorySize / this.data.datasets.length - barSize) / 2
-              + barSize,
-              this.layout.size.height - (0 - this.layout.cross.min)
+              y: this.layout.size.height - (0 - this.layout.cross.min)
               / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.height,
-            ],
-            {
               style: {
                 fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
                 fillShader: unit.style.backgroundShader ?? set.style.backgroundShader,
@@ -173,25 +165,16 @@ export class BarChart extends BaseSimpleChart {
           const categorySize = gridSize * this.categoryPercentage
           const barSize = (categorySize / this.data.datasets.length) * this.barPercentage
           return new Rect(
-            [
-              (0 - this.layout.cross.min) / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.width,
-              (unit.index - (unit.indexDuration() ?? this.layout.index.interval) / 2 - this.layout.index.min)
+            unit.cross * this.progress * this.layout.size.width
+            / (this.layout.cross.max - this.layout.cross.min),
+            barSize,
+            {
+              x: (0 - this.layout.cross.min) / (this.layout.cross.max - this.layout.cross.min) * this.layout.size.width,
+              y: (unit.index - (unit.indexDuration() ?? this.layout.index.interval) / 2 - this.layout.index.min)
               / (this.layout.index.max - this.layout.index.min) * this.layout.size.height
               + (gridSize - categorySize) / 2
               + (setIndex * categorySize) / this.data.datasets.length
               + (categorySize / this.data.datasets.length - barSize) / 2,
-            ],
-            [
-              ((unit.cross * this.progress - this.layout.cross.min) * this.layout.size.width)
-              / (this.layout.cross.max - this.layout.cross.min),
-              (unit.index - (unit.indexDuration() ?? this.layout.index.interval) / 2 - this.layout.index.min)
-              / (this.layout.index.max - this.layout.index.min) * this.layout.size.height
-              + (gridSize - categorySize) / 2
-              + (setIndex * categorySize) / this.data.datasets.length
-              + (categorySize / this.data.datasets.length - barSize) / 2
-              + barSize,
-            ],
-            {
               style: {
                 fillColor: unit.style.backgroundColor ?? set.style.backgroundColor,
                 fillShader: unit.style.backgroundShader ?? set.style.backgroundShader,
@@ -215,8 +198,7 @@ export class BarChart extends BaseSimpleChart {
     if (this.layout.indexAxis === 'x') {
       this.barSets.forEach((set, setIndex) => {
         set.forEach((bar, index) => {
-          bar.from[1] = this.layout.size.height
-          - ((this.data.datasets[setIndex].data[index].cross * this.progress - this.layout.cross.min) * this.layout.size.height)
+          bar.height = -(this.data.datasets[setIndex].data[index].cross * this.progress * this.layout.size.height)
           / (this.layout.cross.max - this.layout.cross.min)
         })
       })
@@ -224,7 +206,7 @@ export class BarChart extends BaseSimpleChart {
     else {
       this.barSets.forEach((set, setIndex) => {
         set.forEach((bar, index) => {
-          bar.to[0] = ((this.data.datasets[setIndex].data[index].cross * this.progress - this.layout.cross.min) * this.layout.size.width)
+          bar.width = this.data.datasets[setIndex].data[index].cross * this.progress * this.layout.size.width
           / (this.layout.cross.max - this.layout.cross.min)
         })
       })
