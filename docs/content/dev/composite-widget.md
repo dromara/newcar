@@ -1,26 +1,38 @@
 ---
-title: 复合组件
+title: Composite Widget
 ---
 
-# 复合组件
+// Workign in progress. Please refer to the Chinese version for the latest content. (zh/dev/composite-widget.md复合组件)
 
-这里是 Widget 的进阶文档！在这里，我们将要介绍拼积木的方式来构建我们的 Widget——通过将一些基础的 Widget 组合在一起，我们可以创建出更复杂的 Widget：
+# Composite Widget
+
+Have you understood the basic Widgets? However, drawing graphics using CanvasKit is not only challenging but also cumbersome. I mean, it's mainly because it's cumbersome.
+After all, it's too troublesome to calculate the position, size, and color of each graphic by yourself. A slightly more complex graphic will completely turn into a math problem, which doesn't look elegant at all.
+Next, we will introduce Newcar's design philosophy - "building blocks"!
+
+\- By combining some basic Widgets together, a complex graphic can be implemented step by step!
+
+## Widget Composition - `add` Method
 
 ```typescript
-constructor(/** 省略 */) {
-  this.add(new Widget(/** 省略 */))
+export class CompositeWidget extends Widget {
+  constructor(/** omitted */) {
+    super(/** omitted */);
+    this.add(new Widget(/** omitted */))
+  }
 }
 ```
 
-很简单，对吧？
+First, let's declare a new component `CompositeWidget` that inherits from `Widget`, and then call the `add` method in the constructor - a new Widget is added!
 
-通过这种方式，即便看起来很复杂的图形也可以一步一步被我们实现！
+It's simple, right? This is all we need to know. Next, we will demonstrate how to use the `add` method with a simple example.
 
-接下来我们来动手实现一个箭头：
+## A Simple Example
+
+Next, let's get our hands dirty and implement an arrow:
 
 ```typescript
 import type { CanvasKit } from 'canvaskit-wasm'
-import { deepMerge } from '@newcar/utils'
 import type { Vector2 } from '../../utils/vector2'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
@@ -95,10 +107,11 @@ export class Arrow extends Figure {
     )
 
     this.trim = new Line(this.from, this.to, {
-      style: deepMerge({
+      style: {
         color: this.style.borderColor,
         width: this.style.borderWidth,
-      }, this.style),
+        ...this.style,
+      },
       progress: this.progress,
     })
 
@@ -135,14 +148,13 @@ export class Arrow extends Figure {
 }
 ```
 
-在上面的代码中，我们添加了 `trim`（箭头的杆）和 `tip`（箭头的尖），给它们设置合适的大小、位置和样式，组合在一起就完成了箭头的实现。
-
-### 计算方法
-
-你可能会疑惑，上一节中我们提到的 `calculateIn` 方法和 `calculateRange` 方法在这里为什么都没有出现，这是因为 `Widget` 中默认的包装会自动处理子组件的计算，只有当前组件存在独立绘制的内容时才需要单独实现这两个方法（并且同样只需要考虑独立绘制的部分！）。
+In the code above, we added `trim` (the shaft of the arrow) and `tip` (the tip of the arrow) to the arrow component, and then set their sizes, positions, and styles appropriately
+\- this way, we have implemented an arrow component!
 
 :::tip
-
-请在 `construnctor` 里创建并加入子组件，因为 init 只有动画 play 后才会进行调用，所以可能会有一定的几率报错
-
+Please create and add child components in the `constructor`, because `init` will only be called after the animation is played, so there may be a certain chance of an error.
 :::
+
+### Calculation Methods
+
+You may wonder why the `calculateIn` and `calculateRange` methods mentioned in the previous section are not present here. This is because the default wrapping of `Widget` will automatically handle the calculation of child components. Only when the current component has independently drawn content do you need to implement these two methods separately (and only consider the independently drawn parts!).

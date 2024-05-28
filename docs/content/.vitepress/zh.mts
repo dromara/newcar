@@ -46,51 +46,51 @@ export const zhConfig = defineConfig({
           link: '/zh/examples',
         },
         {
-          text: '入门指南',
-          link: '/zh/getting-started',
-        },
-        {
-          text: '进阶',
+          text: '基础',
           items: [
             {
+              text: '快速开始',
+              link: '/zh/getting-started',
+            },
+            {
               text: '动画',
-              link: '/zh/advanced/animation',
+              link: '/zh/basic/animation',
             },
             {
               text: '父子组件',
-              link: '/zh/advanced/parents-children-widget',
+              link: '/zh/basic/parents-children-widget',
             },
             {
               text: '色彩系统',
-              link: '/zh/advanced/color-system',
+              link: '/zh/basic/color-system',
             },
             {
               text: 'Setup语法',
-              link: '/zh/advanced/setup',
+              link: '/zh/basic/setup',
             },
             {
               text: '单位制',
-              link: '/zh/advanced/unit',
+              link: '/zh/basic/unit',
             },
             {
               text: '逐帧调用',
-              link: '/zh/advanced/update-function',
+              link: '/zh/basic/update-function',
             },
             {
               text: '资源预加载',
-              link: '/zh/advanced/preload',
+              link: '/zh/basic/preload',
             },
             {
               text: '交互系统',
-              link: '/zh/advanced/event-system',
+              link: '/zh/basic/event-system',
             },
             {
               text: '录制器',
-              link: '/zh/advanced/recorder',
+              link: '/zh/basic/recorder',
             },
             {
               text: '本地模式',
-              link: '/zh/advanced/local-mode',
+              link: '/zh/basic/local-mode',
             },
           ],
         },
@@ -98,12 +98,12 @@ export const zhConfig = defineConfig({
           text: '自定义',
           items: [
             {
-              text: '组件基础',
+              text: '基本组件',
               link: '/zh/dev/basic-widget',
             },
             {
-              text: '组件进阶',
-              link: '/zh/dev/advanced-widget',
+              text: '复合组件',
+              link: '/zh/dev/composite-widget',
             },
             {
               text: '动画定义',

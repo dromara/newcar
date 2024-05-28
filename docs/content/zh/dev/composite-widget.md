@@ -1,26 +1,36 @@
 ---
-title: Composite Components
+title: 复合组件
 ---
 
-# Composite Components
+# 复合组件
 
-Here is the advanced documentation for Widget! Here, we will introduce the way of building our Widget using a block-building method. By combining some basic Widgets together, we can create more complex Widgets:
+基本组件了解了吗？但完全使用 CanvasKit 绘制图形的方式不仅具有挑战性，而且很繁琐，我是说主要是因为繁琐啦。
+毕竟自己计算每个图形的位置、大小、颜色实在是太麻烦了，稍微复杂一点的图形就会完全变成做数学题的情况，看起来一点也不优雅。
+下面我们要介绍 Newcar 的设计哲学之——「拼积木」！
+
+——将一些基础的 Widget 组合在一起，一个看起来很复杂的图形也可以一步一步被我们实现！
+
+## Widget 组合——`add` 方法
 
 ```typescript
-constructor(/** omitted */) {
-  this.add(new Widget(/** omitted */))
+export class CompositeWidget extends Widget {
+  constructor(/** 省略 */) {
+    super(/** 省略 */);
+    this.add(new Widget(/** 省略 */))
+  }
 }
 ```
 
-It's simple, right?
+首先让我们声明一个新的组件 `CompositeWidget` 继承自 `Widget`，然后在构造函数中调用 `add` 方法——一个新的 Widget 就被添加进来了！
 
-By this way, even complex graphics can be implemented step by step!
+很简单，对吧？这就是我们需要了解的所有内容，接下来我们将通过一个简单的例子来展示如何使用 `add` 方法。
 
-Next, let's get our hands dirty and implement an arrow:
+## 一个简单的例子
+
+接下来我们来动手实现一个箭头：
 
 ```typescript
 import type { CanvasKit } from 'canvaskit-wasm'
-import { deepMerge } from '@newcar/utils'
 import type { Vector2 } from '../../utils/vector2'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
@@ -95,10 +105,11 @@ export class Arrow extends Figure {
     )
 
     this.trim = new Line(this.from, this.to, {
-      style: deepMerge({
+      style: {
         color: this.style.borderColor,
         width: this.style.borderWidth,
-      }, this.style),
+        ...this.style,
+      },
       progress: this.progress,
     })
 
@@ -135,10 +146,13 @@ export class Arrow extends Figure {
 }
 ```
 
-In the above code, we added `trim` (the shaft of the arrow) and `tip` (the tip of the arrow), and then combined them with rotation to create an arrow.
+在上面的代码中，我们为箭头组件添加了 `trim`（箭头的杆）和 `tip`（箭头的尖），然后给它们设置了合适的大小、位置和样式
+——这样我们就实现了一个箭头组件！
 
-:::warn
-Please create and add child components in the `constructor` because `init` is only called after the animation is played, so there may be a chance of error.
-
-What's
+:::tip
+请在 `construnctor` 里创建并加入子组件，因为 init 只有动画 play 后才会进行调用，所以可能会有一定的几率报错
 :::
+
+### 计算方法
+
+你可能会疑惑，上一节中我们提到的 `calculateIn` 方法和 `calculateRange` 方法在这里为什么都没有出现，这是因为 `Widget` 中默认的包装会自动处理子组件的计算，只有当前组件存在独立绘制的内容时才需要单独实现这两个方法（并且同样只需要考虑独立绘制的部分！）。

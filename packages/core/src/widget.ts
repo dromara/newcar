@@ -296,7 +296,7 @@ export class Widget {
   //  - 'sync': playing immediately
   // 4. clean up
   //
-  // Notice the processing of async mode here, it will simply put the animation onto playing sequence, without nextFrame advanced,
+  // Notice the processing of async mode here, it will simply put the animation onto playing sequence, without nextFrame basic,
   // compared with the processing of `sync` animation.
   // When entered next update process, `runAnimation` will run multiple async animations that overlapped on the timeline
   // For example, if we have a `move` animation from 1 to 60, and a `scale` animation from 30 to 90, then they will be played at the same time from 30 to 90

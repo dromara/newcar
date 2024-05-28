@@ -46,51 +46,51 @@ export const enConfig = defineConfig({
           link: '/examples',
         },
         {
-          text: 'Getting Started',
-          link: '/getting-started',
-        },
-        {
-          text: 'Advanced',
+          text: 'Basic',
           items: [
             {
+              text: 'Getting Started',
+              link: '/getting-started',
+            },
+            {
               text: 'Animation',
-              link: '/advanced/animation',
+              link: '/basic/animation',
             },
             {
               text: 'Parents-Children Widget',
-              link: '/advanced/parents-children-widget',
+              link: '/basic/parents-children-widget',
             },
             {
               text: 'Color System',
-              link: '/advanced/color-system',
+              link: '/basic/color-system',
             },
             {
               text: 'Setup Syntax',
-              link: '/advanced/setup',
+              link: '/basic/setup',
             },
             {
               text: 'Unit',
-              link: '/advanced/unit',
+              link: '/basic/unit',
             },
             {
               text: 'Frame-by-Frame called',
-              link: '/advanced/update-function',
+              link: '/basic/update-function',
             },
             {
               text: 'Resource Preloading',
-              link: '/advanced/preload',
+              link: '/basic/preload',
             },
             {
               text: 'Event System',
-              link: '/advanced/event-system',
+              link: '/basic/event-system',
             },
             {
               text: 'Recorder',
-              link: '/advanced/recorder',
+              link: '/basic/recorder',
             },
             {
               text: 'Local Mode',
-              link: '/advanced/local-mode',
+              link: '/basic/local-mode',
             },
           ],
         },
@@ -102,8 +102,8 @@ export const enConfig = defineConfig({
               link: '/dev/basic-widget',
             },
             {
-              text: 'Advanced Widget',
-              link: '/dev/advanced-widget',
+              text: 'Composite Widget',
+              link: '/dev/composite-widget',
             },
             {
               text: 'Animation Defination',
