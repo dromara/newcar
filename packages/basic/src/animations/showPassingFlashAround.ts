@@ -2,6 +2,9 @@ import { defineAnimation } from '@newcar/core'
 import { Color } from '@newcar/utils'
 import { Rect } from '../widgets'
 
+/**
+ * Show a line which pass around the widget.
+ */
 export const showPassingFlashAround = defineAnimation({
   act(_widget, _elapsed, process, _duration, _ck, params) {
     process = params.by ? params.by(process) : process

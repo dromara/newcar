@@ -4,6 +4,10 @@ import { scale } from './scale'
 import { fadeIn } from './fadeIn'
 import { fadeOut } from './fadeOut'
 
+/**
+ * Show a circle and then it hides
+ * Input a `scale` value, it will scale from around and ripple outward.
+ */
 export const circleIndicate = defineAnimation({
   act(_widget, _elapsed, _process, _duration, _ck, _params) {
     this.circle.show()

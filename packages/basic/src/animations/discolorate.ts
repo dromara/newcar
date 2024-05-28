@@ -2,6 +2,9 @@ import { changeProperty, defineAnimation } from '@newcar/core'
 import type { Color } from '@newcar/utils'
 import type { Figure } from '../widgets'
 
+/**
+ * Change the color.
+ */
 export const discolorate = defineAnimation<Figure>({
   init(widget, startAt, duration, _ck, params: {
     from?: Color
