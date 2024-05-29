@@ -24,28 +24,38 @@ export const scene1 = new nc.Scene(
     },
   })
     .add(
-      new nc.Rect(100, 100, {
-        x: 150,
-        y: 150,
+      new nc.TextGroup([
+        new nc.Text('BanG Dream', {
+          x: 100,
+          y: 100
+        }),
+        new nc.Text('\n It\'s My GO!', {
+          style: {
+            color: nc.Color.parse('blue')
+          }
+        })
+      ], {
+        x: 100,
+        y: 100
       })
       // .animate(nc.stroke, 0, 3)
-      // .animate(nc.move, 4, 1, {
-      //   to: [0, 100]
-      // })
+      .animate(nc.move, 2, 1, {
+        to: [0, 100]
+      })
       // .animate(nc.scale, 0, 1, {
       //   to: [0.2, 0.2]
       // })
       // .animate(nc.circleIndicate, 0, 2, {
       //   scale: 1.5
       // })
-      .animate(nc.showPassingFlashAround, 2, 2)
-      .setup(function * (widget) {
-        yield 2
-        console.log(111)
-        // yield nc.animate(nc.move, 1, {
-        //   to: [100, 100]
-        // })
-      })
+      .animate(nc.showPassingFlashAround, 2, 1)
+      // .setup(function * (widget) {
+      //   yield 2
+      //   console.log(111)
+      //   // yield nc.animate(nc.move, 1, {
+      //   //   to: [100, 100]
+      //   // })
+      // })
     )
 )
 

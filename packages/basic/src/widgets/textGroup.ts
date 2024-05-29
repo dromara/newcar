@@ -1,7 +1,7 @@
 import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
 import { $source, Widget } from '@newcar/core'
 import type { Shader, TextAlign, TextBaseline, TextDirection, TextHeightBehavior } from '@newcar/utils'
-import { Color, isUndefined, str2BlendMode, str2TextAlign, str2TextBaseline, str2TextDirection, str2TextHeightBehavior } from '@newcar/utils'
+import { Color, deepMerge, isUndefined, str2BlendMode, str2TextAlign, str2TextBaseline, str2TextDirection, str2TextHeightBehavior } from '@newcar/utils'
 import type { Canvas, CanvasKit, FontMgr, FontStyle, InputColor, LineMetrics, Paragraph, ParagraphBuilder, StrutStyle } from 'canvaskit-wasm'
 import { Figure, type FigureOptions, type FigureStyle } from './figures/figure'
 import type { Text } from './text'
@@ -112,6 +112,9 @@ export class TextGroup extends Figure {
     options.style ??= {}
     this.style.color = options.style.color
     this.style.heightMultiplier = options.style.heightMultiplier
+    this.textAlign = options.style.textAlign ?? 'left'
+    this.textDirection = options.style.textDirection ?? 'ltr'
+    this.textHeightBehavior = options.style.textHeightBehavior ?? 'all'
     this.disableHinting = options.style.disableHinting ?? false
     this.ellipsis = options.style.ellipsis ?? null
     this.heightMultiplier = options.style.heightMultiplier ?? 1.0
@@ -176,8 +179,7 @@ export class TextGroup extends Figure {
 
     for (const text of this.texts) {
       const style = new ck.TextStyle(
-        {
-          ...text.style,
+        deepMerge({
           backgroundColor: text.style.backgroundColor?.toFloat4()
           ?? ck.Color4f(1, 1, 1, 0),
           color: text.style.color?.toFloat4()
@@ -189,7 +191,7 @@ export class TextGroup extends Figure {
           textBaseline: isUndefined(text.style.textBaseline)
             ? ck.TextBaseline.Alphabetic
             : str2TextBaseline(ck, text.style.textBaseline),
-        },
+        }, text.style),
       )
       const bg = new ck.Paint()
       bg.setColor(style.backgroundColor)
@@ -200,7 +202,7 @@ export class TextGroup extends Figure {
     }
 
     this.paragraph = this.builder.build()
-    this.paragraph.layout(this.width)
+    this.paragraph.layout(this.width ?? 100)
   }
 
   draw(canvas: Canvas): void {

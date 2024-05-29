@@ -10,6 +10,7 @@ export * from './figures/path'
 
 // Others
 export * from './text'
+export * from './textGroup'
 export * from './imageWidget'
 // export * from './__text'
 // export * from './webview'

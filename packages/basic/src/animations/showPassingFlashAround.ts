@@ -7,6 +7,7 @@ import { Rect } from '../widgets'
  */
 export const showPassingFlashAround = defineAnimation({
   act(_widget, _elapsed, process, _duration, _ck, params) {
+    this.rect.show()
     process = params.by ? params.by(process) : process
     this.rect.style.offset = this.c * process
     if (process < 0.5)
@@ -32,6 +33,7 @@ export const showPassingFlashAround = defineAnimation({
     this.c = Math.abs(widget.singleRange[2] - widget.singleRange[0] + 10) * 2
     + Math.abs(widget.singleRange[3] - widget.singleRange[1] + 10) * 2
     widget.add(this.rect)
+    this.rect.hide()
   },
 
   after(_widget, _elapsed, _ck, _params) {
