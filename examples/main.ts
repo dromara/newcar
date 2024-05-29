@@ -49,12 +49,18 @@ export const scene1 = new nc.Scene(
       //   scale: 1.5
       // })
       .animate(nc.showPassingFlashAround, 2, 1)
+      .on(nc.click, function () {
+        console.log('clicked')
+      })
       // .setup(function * (widget) {
       //   yield 2
       //   console.log(111)
       //   // yield nc.animate(nc.move, 1, {
       //   //   to: [100, 100]
       //   // })
+      // })
+      // .on(nc.click, function () {
+      //   console.log('clicked')
       // })
     )
 )
