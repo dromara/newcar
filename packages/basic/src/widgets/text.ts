@@ -1,8 +1,8 @@
-import type { WidgetOptions, WidgetStyle } from '@newcar/core'
+import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
 import { $source, Widget } from '@newcar/core'
 import type { Color, TextBaseline } from '@newcar/utils'
 import { deepMerge, isUndefined, str2BlendMode, str2TextBaseline } from '@newcar/utils'
-import type { Canvas, CanvasKit, FontMgr, FontStyle, Paragraph, ParagraphBuilder } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, FontMgr, FontStyle, InputColor, LineMetrics, Paragraph, ParagraphBuilder } from 'canvaskit-wasm'
 import { Figure, type FigureOptions, type FigureStyle } from './figures/figure'
 
 export interface TextOptions extends FigureOptions {
@@ -128,26 +128,20 @@ export class Text extends Figure {
     this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
     this.manager = ck.FontMgr.FromData(...$source.fonts)
     const style = new ck.TextStyle(
-      deepMerge(
-        {
-          backgroundColor: isUndefined(this.style.backgroundColor)
-            ? ck.Color4f(1, 1, 1, 0)
-            : this.style.backgroundColor.toFloat4(),
-          color: isUndefined(this.style.color)
-            ? ck.Color4f(0, 0, 0, 1)
-            : this.style.color.toFloat4(),
-          decorationColor: isUndefined(this.style.decorationColor)
-            ? ck.Color4f(1, 1, 1, 0)
-            : this.style.decorationColor.toFloat4(),
-          foregroundColor: isUndefined(this.style.foregroundColor)
-            ? ck.Color4f(1, 1, 1, 1)
-            : this.style.foregroundColor.toFloat4(),
-          textBaseline: isUndefined(this.style.textBaseline)
-            ? ck.TextBaseline.Alphabetic
-            : str2TextBaseline(ck, this.style.textBaseline),
-        },
-        this.style,
-      ),
+      {
+        ...this.style,
+        backgroundColor: this.style.backgroundColor?.toFloat4()
+        ?? ck.Color4f(1, 1, 1, 0),
+        color: this.style.color?.toFloat4()
+        ?? ck.Color4f(0, 0, 0, 1),
+        decorationColor: this.style.decorationColor?.toFloat4()
+        ?? ck.Color4f(1, 1, 1, 0),
+        foregroundColor: this.style.foregroundColor?.toFloat4()
+        ?? ck.Color4f(1, 1, 1, 1),
+        textBaseline: isUndefined(this.style.textBaseline)
+          ? ck.TextBaseline.Alphabetic
+          : str2TextBaseline(ck, this.style.textBaseline),
+      },
     )
 
     this.builder = ck.ParagraphBuilder.Make(
@@ -167,5 +161,25 @@ export class Text extends Figure {
 
   draw(canvas: Canvas): void {
     canvas.drawParagraph(this.paragraph, 0, 0)
+  }
+
+  calculateIn(x: number, y: number): boolean {
+    return x >= 0
+      && x <= this.width
+      && y >= 0
+      && y <= this.paragraph.getHeight()
+  }
+
+  calculateRange(): WidgetRange {
+    return [
+      0,
+      0,
+      this.width,
+      this.paragraph.getHeight(),
+    ]
+  }
+
+  getLineMetrics(): LineMetrics[] {
+    return this.paragraph?.getLineMetrics()
   }
 }

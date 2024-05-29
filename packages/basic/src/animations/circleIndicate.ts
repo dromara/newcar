@@ -24,23 +24,25 @@ export const circleIndicate = defineAnimation({
           fill: false,
           border: true,
         },
+        x: (widget.singleRange[2] - widget.singleRange[0]) / 2,
+        y: (widget.singleRange[3] - widget.singleRange[1]) / 2,
       },
     )
     this.circle.animate(
       fadeIn,
       startAt,
-      duration / 2,
+      duration / 2 - duration / 6,
     )
     this.circle.animate(
       fadeOut,
       startAt + duration / 2 + duration / 3,
-      duration / 2,
+      duration / 2 - duration / 6,
     )
     if (params.scale) {
       this.circle.animate(
         scale,
         startAt,
-        duration / 2,
+        duration / 2 - duration / 6,
         {
           from: [params.scale, params.scale],
           to: [1, 1],
@@ -49,7 +51,7 @@ export const circleIndicate = defineAnimation({
       this.circle.animate(
         scale,
         startAt + duration / 2 + duration / 3,
-        duration / 2,
+        duration / 2 - duration / 6,
         {
           to: [params.scale, params.scale],
           mode: 'reverse',

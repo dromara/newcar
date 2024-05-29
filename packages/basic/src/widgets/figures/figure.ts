@@ -17,7 +17,7 @@ export interface FigureStyle extends WidgetStyle {
   join?: StrokeJoin
   cap?: StrokeCap
   offset?: number
-  interval?: [number, number]
+  interval?: number[]
 }
 
 export interface FigureOptions extends WidgetOptions {
