@@ -156,7 +156,7 @@ export class Widget {
     for (let child of children) {
       if (typeof child === 'function')
         child = child(this)
-      child.parent = child
+      child.parent = this
       child.status = 'live'
       this.children.push(child)
       // switch (this.style.layout) {
@@ -494,9 +494,14 @@ export class Widget {
     x: number,
     y: number,
   ): { x: number, y: number } {
-    const { x: absoluteX, y: absoluteY } = Widget.getAbsoluteCoordinates(widget)
-    const relativeX = x - absoluteX
-    const relativeY = y - absoluteY
+    function getCoordinates(widget: Widget, x: number, y: number): { x: number, y: number } {
+      if (!widget.parent)
+        return widget.coordinateParentToChild(x, y)
+      const { x: nX, y: nY } = getCoordinates(widget.parent, x, y)
+      return widget.coordinateParentToChild(nX, nY)
+    }
+
+    const { x: relativeX, y: relativeY } = getCoordinates(widget, x, y)
 
     return { x: relativeX, y: relativeY }
   }

@@ -7,7 +7,8 @@ export const drag = defineEvent({
       const absoluteX = event.clientX - rect.left
       const absoluteY = event.clientY - rect.top
       const { x, y } = Widget.absoluteToRelative(widget, absoluteX, absoluteY)
-      const isIn = widget.isIn(x, y)
+      const { x: pX, y: pY } = widget.coordinateChildToParent(x, y)
+      const isIn = widget.isIn(pX, pY)
       if (isIn)
         effect(widget, x, y)
     })
