@@ -1,8 +1,8 @@
-import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
-import { $source, Widget } from '@newcar/core'
-import type { Shader, TextAlign, TextBaseline, TextDirection, TextHeightBehavior } from '@newcar/utils'
-import { Color, deepMerge, isUndefined, str2BlendMode, str2TextAlign, str2TextBaseline, str2TextDirection, str2TextHeightBehavior } from '@newcar/utils'
-import type { Canvas, CanvasKit, FontMgr, FontStyle, InputColor, LineMetrics, Paragraph, ParagraphBuilder, StrutStyle } from 'canvaskit-wasm'
+import type { WidgetRange } from '@newcar/core'
+import { $source } from '@newcar/core'
+import type { Shader, TextAlign, TextDirection, TextHeightBehavior } from '@newcar/utils'
+import { Color, str2BlendMode, str2TextAlign, str2TextBaseline, str2TextDirection, str2TextHeightBehavior } from '@newcar/utils'
+import type { Canvas, CanvasKit, FontMgr, LineMetrics, Paragraph, ParagraphBuilder, StrutStyle } from 'canvaskit-wasm'
 import { Figure, type FigureOptions, type FigureStyle } from './figures/figure'
 import type { Text } from './text'
 
@@ -170,7 +170,7 @@ export class TextGroup extends Figure {
             this.textHeightBehavior,
           ),
           textStyle: {
-            color: ck.WHITE,
+            color: Color.WHITE.toFloat4(),
           },
         },
       ),
@@ -180,23 +180,22 @@ export class TextGroup extends Figure {
     for (const text of this.texts) {
       const style = new ck.TextStyle(
         {
-          ...this.style,
-          backgroundColor: text.style.backgroundColor?.toFloat4()
-          ?? ck.Color4f(1, 1, 1, 0),
-          color: this.style.color?.toFloat4()
-          ?? ck.Color4f(0, 0, 0, 1),
-          decorationColor: text.style.decorationColor?.toFloat4()
-          ?? ck.Color4f(1, 1, 1, 0),
-          foregroundColor: text.style.foregroundColor?.toFloat4()
-          ?? ck.Color4f(1, 1, 1, 1),
-          textBaseline: isUndefined(text.style.textBaseline)
-            ? ck.TextBaseline.Alphabetic
-            : str2TextBaseline(ck, text.style.textBaseline),
+          ...text.style,
+          backgroundColor: (text.style.backgroundColor ?? Color.TRANSPARENT).toFloat4(),
+          color: (text.style.color ?? Color.WHITE).toFloat4(),
+          decorationColor: (text.style.decorationColor ?? Color.TRANSPARENT).toFloat4(),
+          foregroundColor: (text.style.foregroundColor ?? Color.WHITE).toFloat4(),
+          textBaseline: str2TextBaseline(ck, text.style.textBaseline ?? 'alphabetic'),
         },
       )
       const bg = new ck.Paint()
-      this.builder.pushPaintStyle(style, this.style.border ? this.strokePaint : this.fillPaint, bg)
-      this.builder.addText(text.text.toString())
+      bg.setColor(style.backgroundColor)
+
+      // this.builder.pushStyle(style)
+      const paint = (this.style.border ? this.strokePaint : this.fillPaint).copy()
+      paint.setColor(style.color)
+      this.builder.pushPaintStyle(style, paint, bg)
+      this.builder.addText(text.text)
       // TODO: Stroke and Fill
     }
 

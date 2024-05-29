@@ -136,4 +136,5 @@ export class Color {
 
   static readonly WHITE = Color.rgba(255, 255, 255)
   static readonly BLACK = Color.rgba(0, 0, 0)
+  static readonly TRANSPARENT = Color.rgba(0, 0, 0, 0)
 }
