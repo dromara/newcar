@@ -11,5 +11,5 @@ export * from './figures/path'
 // Others
 export * from './text'
 export * from './imageWidget'
-export * from './text'
+// export * from './__text'
 // export * from './webview'
