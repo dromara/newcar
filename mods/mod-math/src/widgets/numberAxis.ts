@@ -90,17 +90,11 @@ export class NumberAxis extends Widget {
         )
       }
       if (this.style.texts) {
-        this.texts.push(new Text([{
-          text: this.trend(x).toString(),
-          style: {
-            fontSize: this.style.textSize,
-          },
-        }], {
+        this.texts.push(new Text(this.trend(x).toString(), {
           x: x - (this.style.textSize / 2),
           y: 10,
           style: {
-            textAlign: 'center',
-            width: this.style.textSize * this.trend(x).toString().length,
+            fontSize: this.style.textSize,
             fillColor: this.style.textColor,
             // Note: the rotation is reversed because the canvas is flipped
             rotation: -this.style.rotation,
@@ -130,7 +124,7 @@ export class NumberAxis extends Widget {
         break
       case 'style.textSize':
         for (const text of this.texts)
-          text.text[0].style.fontSize = this.style.textSize
+          text.style.fontSize = this.style.textSize
         break
       case 'progress':
         this.main.progress = this.progress

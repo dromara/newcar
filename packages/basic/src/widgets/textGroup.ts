@@ -179,10 +179,11 @@ export class TextGroup extends Figure {
 
     for (const text of this.texts) {
       const style = new ck.TextStyle(
-        deepMerge({
+        {
+          ...this.style,
           backgroundColor: text.style.backgroundColor?.toFloat4()
           ?? ck.Color4f(1, 1, 1, 0),
-          color: text.style.color?.toFloat4()
+          color: this.style.color?.toFloat4()
           ?? ck.Color4f(0, 0, 0, 1),
           decorationColor: text.style.decorationColor?.toFloat4()
           ?? ck.Color4f(1, 1, 1, 0),
@@ -191,13 +192,11 @@ export class TextGroup extends Figure {
           textBaseline: isUndefined(text.style.textBaseline)
             ? ck.TextBaseline.Alphabetic
             : str2TextBaseline(ck, text.style.textBaseline),
-        }, text.style),
+        },
       )
       const bg = new ck.Paint()
-      bg.setColor(style.backgroundColor)
       this.builder.pushPaintStyle(style, this.style.border ? this.strokePaint : this.fillPaint, bg)
-
-      this.builder.addText(text.text)
+      this.builder.addText(text.text.toString())
       // TODO: Stroke and Fill
     }
 

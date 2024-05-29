@@ -98,17 +98,11 @@ export class NumberPlane extends Widget {
         }))
       }
       if (x !== 0 && this.style.textsX) {
-        this.textsX.push(new Text([{
-          text: this.trendX(x).toString(),
-          style: {
-            fontSize: this.style.textSizeX,
-          },
-        }], {
+        this.textsX.push(new Text(this.trendX(x).toString(), {
           x: x - (this.style.textSizeX / 2),
           y: 10,
           style: {
-            textAlign: 'center',
-            width: this.style.textSizeX * this.trendX(x).toString().length * (2 / 3),
+            fontSize: this.style.textSizeX,
             fillColor: this.style.textColorX,
             // Note: the rotation is reversed because the canvas is flipped
             rotation: -this.style.rotation,
@@ -135,17 +129,11 @@ export class NumberPlane extends Widget {
         }))
       }
       if (y !== 0 && this.style.textsY) {
-        this.textsY.push(new Text([{
-          text: this.trendY(y).toString(),
-          style: {
-            fontSize: this.style.textSizeY,
-          },
-        }], {
+        this.textsY.push(new Text(this.trendY(y).toString(), {
           x: 10,
           y: (this.style.textSizeY / 2) - y,
           style: {
-            textAlign: 'center',
-            width: this.style.textSizeY * this.trendY(y).toString().length * (2 / 3),
+            fontSize: this.style.textSizeY,
             fillColor: this.style.textColorY,
             // Note: the rotation is reversed because the canvas is flipped
             rotation: -this.style.rotation,
@@ -163,17 +151,11 @@ export class NumberPlane extends Widget {
       }
     }
 
-    this.originText = new Text([{
-      text: this.trendX(0).toString(),
-      style: {
-        fontSize: this.style.textSizeX,
-      },
-    }], {
+    this.originText = new Text(this.trendX(0).toString(), {
       x: this.style.textSizeX / 4,
       y: this.style.textSizeX / 4,
       style: {
-        textAlign: 'center',
-        width: this.style.textSizeX * this.trendX(0).toString().length,
+        fontSize: this.style.textSizeX,
         fillColor: this.style.textColorX,
         // Note: the rotation is reversed because the canvas is flipped
         rotation: -this.style.rotation,
@@ -203,11 +185,11 @@ export class NumberPlane extends Widget {
         break
       case 'style.textSizeX':
         for (const text of this.textsX)
-          text.text[0].style.fontSize = this.style.textSizeX
+          text.style.fontSize = this.style.textSizeX
         break
       case 'style.textSizeY':
         for (const text of this.textsY)
-          text.text[0].style.fontSize = this.style.textSizeY
+          text.style.fontSize = this.style.textSizeY
         break
       case 'style.ticksX':
         for (const tick of this.ticksX)
