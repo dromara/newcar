@@ -9,6 +9,7 @@ import { Rect } from '../widgets'
  */
 export const showCreationThenDestructionAround = defineAnimation<Figure>({
   act(_widget, _elapsed, process, _duration, _ck, _params) {
+    this.rect.show()
     if (process < 0.5) {
       this.rect.style.interval = [this.c * process * 2, this.c - this.c * process * 2]
     }
@@ -21,9 +22,9 @@ export const showCreationThenDestructionAround = defineAnimation<Figure>({
     color: Color
     width: number
   }) {
-    this.rect = new Rect(widget.singleRange[2] - widget.singleRange[0] + 20, widget.singleRange[3] - widget.singleRange[1] + 20, {
-      x: -10 - widget.singleRange[0],
-      y: -10 - widget.singleRange[1],
+    this.rect = new Rect(Math.abs(widget.singleRange[2] - widget.singleRange[0]) + 20, Math.abs(widget.singleRange[3] - widget.singleRange[1]) + 20, {
+      x: -10,
+      y: -10,
       style: {
         fill: false,
         border: true,

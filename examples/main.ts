@@ -48,7 +48,8 @@ export const scene1 = new nc.Scene(
       // .animate(nc.circleIndicate, 0, 2, {
       //   scale: 1.5
       // })
-      .animate(nc.showPassingFlashAround, 2, 1)
+      // .animate(nc.circleIndicate, 2, 1)
+      .animate(nc.showCreationThenDestructionAround, 0, 2)
       .on(nc.click, function () {
         console.log('clicked')
       })

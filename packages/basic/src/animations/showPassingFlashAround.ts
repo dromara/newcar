@@ -21,8 +21,8 @@ export const showPassingFlashAround = defineAnimation({
     width: number
   }) {
     this.rect = new Rect(widget.singleRange[2] - widget.singleRange[0] + 20, widget.singleRange[3] - widget.singleRange[1] + 20, {
-      x: -10 - widget.singleRange[0],
-      y: -10 - widget.singleRange[1],
+      x: -10,
+      y: -10,
       style: {
         fill: false,
         border: true,
