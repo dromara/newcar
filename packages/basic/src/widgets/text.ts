@@ -1,13 +1,17 @@
-import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
-import { $source, Widget } from '@newcar/core'
-import type { Color, TextBaseline } from '@newcar/utils'
-import { deepMerge, isUndefined, str2BlendMode, str2TextBaseline } from '@newcar/utils'
-import type { Canvas, CanvasKit, FontMgr, FontStyle, InputColor, LineMetrics, Paragraph, ParagraphBuilder } from 'canvaskit-wasm'
+import type { WidgetRange } from '@newcar/core'
+import { $source } from '@newcar/core'
+import type { TextAlign, TextBaseline } from '@newcar/utils'
+import { Color, str2BlendMode, str2TextAlign, str2TextBaseline } from '@newcar/utils'
+import type { Canvas, CanvasKit, FontMgr, FontStyle, LineMetrics, Paragraph, ParagraphBuilder } from 'canvaskit-wasm'
 import { Figure, type FigureOptions, type FigureStyle } from './figures/figure'
 
 export interface TextOptions extends FigureOptions {
   style?: TextStyle
   width?: number
+  /**
+   * The alignment of the text within its container.
+   */
+  textAlign?: TextAlign
 }
 
 export interface TextStyle extends FigureStyle {
@@ -79,26 +83,35 @@ export class Text extends Figure {
   private manager: FontMgr
   private paragraph: Paragraph
   width: number
+  textAlign: TextAlign
 
   constructor(public text: string, options?: TextOptions) {
     options ??= {}
-    super(options)
+    super({
+      ...options,
+      style: {
+        ...options?.style,
+        borderColor: options?.style?.foregroundColor ?? Color.WHITE,
+        fillColor: options?.style?.foregroundColor ?? Color.WHITE,
+      },
+    })
     this.width = options.width ?? 100
     options.style ??= {}
-    this.style.backgroundColor = options.style.backgroundColor
-    this.style.color = options.style.color
+    this.textAlign = options.textAlign ?? 'left'
+    this.style.backgroundColor = options.style.backgroundColor ?? Color.TRANSPARENT
+    this.style.color = options.style.color ?? Color.WHITE
     this.style.decoration = options.style.decoration
-    this.style.decorationColor = options.style.decorationColor
+    this.style.decorationColor = options.style.decorationColor ?? Color.TRANSPARENT
     this.style.decorationThickness = options.style.decorationThickness
     this.style.fontFamilies = options.style.fontFamilies
     this.style.fontSize = options.style.fontSize
     this.style.fontStyle = options.style.fontStyle
-    this.style.foregroundColor = options.style.foregroundColor
+    this.style.foregroundColor = options.style.foregroundColor ?? Color.WHITE
     this.style.heightMultiplier = options.style.heightMultiplier
     this.style.halfLeading = options.style.halfLeading
     this.style.letterSpacing = options.style.letterSpacing
     this.style.locale = options.style.locale
-    this.style.textBaseline = options.style.textBaseline
+    this.style.textBaseline = options.style.textBaseline ?? 'alphabetic'
     this.style.wordSpacing = options.style.wordSpacing
   }
 
@@ -130,29 +143,25 @@ export class Text extends Figure {
     const style = new ck.TextStyle(
       {
         ...this.style,
-        backgroundColor: this.style.backgroundColor?.toFloat4()
-        ?? ck.Color4f(1, 1, 1, 0),
-        color: this.style.color?.toFloat4()
-        ?? ck.Color4f(0, 0, 0, 1),
-        decorationColor: this.style.decorationColor?.toFloat4()
-        ?? ck.Color4f(1, 1, 1, 0),
-        foregroundColor: this.style.foregroundColor?.toFloat4()
-        ?? ck.Color4f(1, 1, 1, 1),
-        textBaseline: isUndefined(this.style.textBaseline)
-          ? ck.TextBaseline.Alphabetic
-          : str2TextBaseline(ck, this.style.textBaseline),
+        backgroundColor: this.style.backgroundColor.toFloat4(),
+        color: this.style.color.toFloat4(),
+        decorationColor: this.style.decorationColor.toFloat4(),
+        foregroundColor: this.style.foregroundColor.toFloat4(),
+        textBaseline: str2TextBaseline(ck, this.style.textBaseline),
       },
     )
 
     this.builder = ck.ParagraphBuilder.Make(
       new ck.ParagraphStyle({
+        textAlign: str2TextAlign(ck, this.textAlign),
         textStyle: {
-          color: ck.WHITE,
+          color: this.style.foregroundColor.toFloat4(),
         },
       }),
       this.manager,
     )
     const bg = new ck.Paint()
+    bg.setColor(this.style.backgroundColor.toFloat4())
     this.builder.pushPaintStyle(style, this.style.border ? this.strokePaint : this.fillPaint, bg)
     this.builder.addText(this.text.toString())
     this.paragraph = this.builder.build()
@@ -165,7 +174,7 @@ export class Text extends Figure {
 
   calculateIn(x: number, y: number): boolean {
     return x >= 0
-      && x <= this.width
+      && x <= (this.paragraph?.getMaxIntrinsicWidth() ?? this.width)
       && y >= 0
       && y <= this.paragraph.getHeight()
   }
@@ -174,7 +183,7 @@ export class Text extends Figure {
     return [
       0,
       0,
-      this.width,
+      this.paragraph?.getMaxIntrinsicWidth() ?? this.width,
       this.paragraph.getHeight(),
     ]
   }
