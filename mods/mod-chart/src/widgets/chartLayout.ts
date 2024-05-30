@@ -370,21 +370,15 @@ export class ChartLayout extends BaseChart {
       this.index.pos.forEach((pos, index) => {
         this.index.labels.push(
           new Text(
-            [
-              {
-                text: this.index.labelTexts[index] ?? pos.toString(),
-                style: {
-                  color: this.index.gridColor,
-                  fontSize: 16,
-                },
-              },
-            ],
+            this.index.labelTexts[index] ?? pos.toString(),
             {
               x: (pos - this.index.interval / 2 - this.index.min) / (this.index.max - this.index.min) * this.size.width,
               y: this.size.height + 4,
+              width: this.index.interval / (this.index.max - this.index.min) * this.size.width,
+              textAlign: 'center',
               style: {
-                width: this.index.interval / (this.index.max - this.index.min) * this.size.width,
-                textAlign: 'center',
+                color: this.index.gridColor,
+                fontSize: 16,
               },
             },
           ),
@@ -439,21 +433,15 @@ export class ChartLayout extends BaseChart {
         )
         this.cross.labels.push(
           new Text(
-            [
-              {
-                text: i.toString(),
-                style: {
-                  color: this.cross.gridColor,
-                  fontSize: 16,
-                },
-              },
-            ],
+            i.toString(),
             {
               x: -8 - stringWidth(i.toString()) * 12,
               y: this.size.height - 8 - (i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.height,
+              width: stringWidth(i.toString()) * 12,
+              textAlign: 'right',
               style: {
-                width: stringWidth(i.toString()) * 12,
-                textAlign: 'right',
+                color: this.cross.gridColor,
+                fontSize: 16,
               },
             },
           ),
@@ -479,21 +467,15 @@ export class ChartLayout extends BaseChart {
 
       this.index.pos.forEach((pos, index) => {
         this.index.labels[index] = new Text(
-          [
-            {
-              text: this.index.labelTexts[index] ?? pos.toString(),
-              style: {
-                color: this.index.gridColor,
-                fontSize: 16,
-              },
-            },
-          ],
+          this.index.labelTexts[index] ?? pos.toString(),
           {
             x: -8 - stringWidth(this.index.labelTexts[index] ?? pos.toString()) * 12,
             y: this.size.height - 8 - (pos - this.index.min) / (this.index.max - this.index.min) * this.size.height,
+            width: stringWidth(this.index.labelTexts[index] ?? pos.toString()) * 12,
+            textAlign: 'right',
             style: {
-              width: stringWidth(this.index.labelTexts[index] ?? pos.toString()) * 12,
-              textAlign: 'right',
+              color: this.index.gridColor,
+              fontSize: 16,
             },
           },
         )
@@ -547,21 +529,15 @@ export class ChartLayout extends BaseChart {
         )
         this.cross.labels.push(
           new Text(
-            [
-              {
-                text: i.toString(),
-                style: {
-                  color: this.cross.gridColor,
-                  fontSize: 16,
-                },
-              },
-            ],
+            i.toString(),
             {
               x: (i - this.cross.min) / (this.cross.max - this.cross.min) * this.size.width - stringWidth(i.toString()) * 6,
               y: this.size.height + 4,
+              width: stringWidth(i.toString()) * 12,
+              textAlign: 'center',
               style: {
-                width: stringWidth(i.toString()) * 12,
-                textAlign: 'center',
+                color: this.cross.gridColor,
+                fontSize: 16,
               },
             },
           ),
@@ -626,21 +602,15 @@ export class ChartLayout extends BaseChart {
       )
       this.legendLabels.push(
         new Text(
-          [
-            {
-              text: this.data.datasets[i].label,
-              style: {
-                color: this.index.gridColor,
-                fontSize: 16,
-              },
-            },
-          ],
+          this.data.datasets[i].label,
           {
             x: this.size.width / 2 - legendWidthPrefix[this.data.datasets.length] / 2 + legendWidthPrefix[i] + 24,
             y: -27,
+            width: stringWidth(this.data.datasets[i].label) * 12,
+            textAlign: 'left',
             style: {
-              width: stringWidth(this.data.datasets[i].label) * 12,
-              textAlign: 'left',
+              color: this.index.gridColor,
+              fontSize: 16,
             },
           },
         ),
