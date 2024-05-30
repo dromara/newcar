@@ -4,7 +4,6 @@ import type { Widget } from './widget'
 import type { Animation } from './animation'
 import { defineAnimation } from './animation'
 import type { MaybeArray, PickNumberKeys } from './types'
-import { deepClone } from './utils/deepClone'
 
 /**
  * Easing function type, which takes a progress ratio and returns an adjusted ratio.
@@ -130,12 +129,22 @@ export function changeProperty<T extends Widget>(
       const adjustedProcess = easingFunction?.call(process) ?? process
 
       if (!called) {
-        from = defaultFrom ?? params?.from ?? propertyNames.map(prop => widget[prop] as number)
-        to = defaultTo ?? params?.to ?? propertyNames.map(prop => widget[prop] as number)
+        from = params?.from ?? defaultFrom ?? propertyNames.map((prop) => {
+          if (typeof prop === 'string')
+            return getByChain(prop.split('.'), widget) as number
+          else
+            return widget[prop] as number
+        })
+        to = params?.to ?? defaultTo ?? propertyNames.map((prop) => {
+          if (typeof prop === 'string')
+            return getByChain(prop.split('.'), widget) as number
+          else
+            return widget[prop] as number
+        })
         called = true
       }
 
-      // console.log(adjustedProcess, process)
+      // console.log(from, to, widget)
 
       // Apply the animation to each property.
       const applyChange = (
@@ -148,9 +157,9 @@ export function changeProperty<T extends Widget>(
       }
 
       propChains.forEach((prop, index) => {
-        const start = from[index] ?? from ?? getByChain(deepClone(prop), widget) // Use widget's value as a fallback
-        const end = to[index] ?? to ?? getByChain(deepClone(prop), widget) // Use widget's value as a fallback
-        applyChange(deepClone(prop), start, end)
+        const start = from[index] ?? from ?? getByChain([...prop], widget) // Use widget's value as a fallback
+        const end = to[index] ?? to ?? getByChain([...prop], widget) // Use widget's value as a fallback
+        applyChange([...prop], start, end)
       })
     },
   })
