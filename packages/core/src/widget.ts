@@ -372,7 +372,7 @@ export class Widget {
    */
   isIn(x: number, y: number): boolean {
     const { x: dx, y: dy } = this.coordinateParentToChild(x, y)
-    return this.children.some(child => child.isIn(dx, dy)) || this.calculateIn(dx, dy)
+    return this.children.filter(child => child.status === 'live').some(child => child.isIn(dx, dy)) || this.calculateIn(dx, dy)
   }
 
   /**
@@ -391,10 +391,10 @@ export class Widget {
    */
   get range(): WidgetRange {
     let calculatedRange = [
-      this.x,
-      this.y,
-      this.x,
-      this.y,
+      0,
+      0,
+      0,
+      0,
     ]
     try {
       calculatedRange = this.calculateRange()
@@ -402,10 +402,10 @@ export class Widget {
     catch { }
 
     const range = [
-      Math.min(...this.children.map(child => child.range[0]).concat(calculatedRange[0])),
-      Math.min(...this.children.map(child => child.range[1]).concat(calculatedRange[1])),
-      Math.max(...this.children.map(child => child.range[2]).concat(calculatedRange[2])),
-      Math.max(...this.children.map(child => child.range[3]).concat(calculatedRange[3])),
+      Math.min(...this.children.filter(child => child.status === 'live').map(child => child.range[0]).concat(calculatedRange[0])),
+      Math.min(...this.children.filter(child => child.status === 'live').map(child => child.range[1]).concat(calculatedRange[1])),
+      Math.max(...this.children.filter(child => child.status === 'live').map(child => child.range[2]).concat(calculatedRange[2])),
+      Math.max(...this.children.filter(child => child.status === 'live').map(child => child.range[3]).concat(calculatedRange[3])),
     ]
 
     const { x: x1, y: y1 } = this.coordinateChildToParent(range[0], range[1])
@@ -421,10 +421,10 @@ export class Widget {
    */
   get singleRange(): WidgetRange {
     let calculatedRange = [
-      this.x,
-      this.y,
-      this.x,
-      this.y,
+      0,
+      0,
+      0,
+      0,
     ]
     try {
       calculatedRange = this.calculateRange()
