@@ -135,28 +135,6 @@ export class TextGroup extends Figure {
 
   init(ck: CanvasKit): void {
     super.init(ck)
-    this.strokePaint.setStyle(ck.PaintStyle.Stroke)
-    this.strokePaint.setColor(this.style.borderColor.toFloat4())
-    this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
-    this.strokePaint.setStrokeWidth(this.style.borderWidth)
-    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
-    this.strokePaint.setAntiAlias(this.style.antiAlias)
-    const dash = ck.PathEffect.MakeDash(
-      this.style.interval,
-      this.style.offset,
-    )
-    this.strokePaint.setPathEffect(dash)
-
-    // Fill
-    this.fillPaint.setColor(this.style.fillColor.toFloat4())
-    this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
-    this.fillPaint.setStyle(ck.PaintStyle.Fill)
-    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
-    this.fillPaint.setAntiAlias(this.style.antiAlias)
-
-    // Blend Mode
-    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
     this.manager = ck.FontMgr.FromData(...$source.fonts)
 
     this.builder = ck.ParagraphBuilder.Make(
@@ -181,18 +159,33 @@ export class TextGroup extends Figure {
       const style = new ck.TextStyle(
         {
           ...text.style,
-          backgroundColor: (text.style.backgroundColor ?? Color.TRANSPARENT).toFloat4(),
-          color: (text.style.color ?? Color.WHITE).toFloat4(),
-          decorationColor: (text.style.decorationColor ?? Color.TRANSPARENT).toFloat4(),
-          foregroundColor: (text.style.foregroundColor ?? Color.WHITE).toFloat4(),
-          textBaseline: str2TextBaseline(ck, text.style.textBaseline ?? 'alphabetic'),
+          backgroundColor: text.style.backgroundColor.toFloat4(),
+          color: text.style.color.toFloat4(),
+          decorationColor: text.style.decorationColor.toFloat4(),
+          foregroundColor: text.style.foregroundColor.toFloat4(),
+          textBaseline: str2TextBaseline(ck, text.style.textBaseline),
         },
       )
       const bg = new ck.Paint()
       bg.setColor(style.backgroundColor)
 
       // this.builder.pushStyle(style)
-      const paint = (this.style.border ? this.strokePaint : this.fillPaint).copy()
+      const paint = new ck.Paint()
+      paint.setStyle(text.style.border ? ck.PaintStyle.Stroke : ck.PaintStyle.Fill)
+      paint.setColor(text.style.borderColor.toFloat4())
+      paint.setShader(text.style.borderShader?.toCanvasKitShader(ck) ?? null)
+      paint.setStrokeWidth(text.style.borderWidth)
+      paint.setAlphaf(text.style.transparency * this.style.borderColor.alpha)
+      paint.setAntiAlias(text.style.antiAlias)
+      paint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+      if (text.style.border) {
+        const dash = ck.PathEffect.MakeDash(
+          text.style.interval,
+          text.style.offset,
+        )
+        paint.setPathEffect(dash)
+      }
+
       paint.setColor(style.color)
       this.builder.pushPaintStyle(style, paint, bg)
       this.builder.addText(text.text)
@@ -200,7 +193,7 @@ export class TextGroup extends Figure {
     }
 
     this.paragraph = this.builder.build()
-    this.paragraph.layout(this.width ?? 100)
+    this.paragraph.layout(this.width)
   }
 
   draw(canvas: Canvas): void {
@@ -209,7 +202,7 @@ export class TextGroup extends Figure {
 
   calculateIn(x: number, y: number): boolean {
     return x >= 0
-      && x <= this.width
+      && x <= (this.paragraph?.getMaxIntrinsicWidth() ?? this.width)
       && y >= 0
       && y <= this.paragraph.getHeight()
   }
@@ -218,7 +211,7 @@ export class TextGroup extends Figure {
     return [
       0,
       0,
-      this.width,
+      this.paragraph?.getMaxIntrinsicWidth() ?? this.width,
       this.paragraph.getHeight(),
     ]
   }
