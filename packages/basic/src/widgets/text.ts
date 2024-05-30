@@ -173,17 +173,21 @@ export class Text extends Figure {
   }
 
   calculateIn(x: number, y: number): boolean {
-    return x >= 0
-      && x <= (this.paragraph?.getMaxIntrinsicWidth() ?? this.width)
-      && y >= 0
-      && y <= this.paragraph.getHeight()
+    const range = this.calculateRange()
+    return x >= range[0]
+      && y >= range[1]
+      && x <= range[2]
+      && y <= range[3]
   }
 
   calculateRange(): WidgetRange {
+    const lineMetrics = this.paragraph?.getLineMetrics()
+    if (lineMetrics === undefined)
+      return [0, 0, this.width, 0]
     return [
+      Math.min(...lineMetrics.map(line => line.left)),
       0,
-      0,
-      this.paragraph?.getMaxIntrinsicWidth() ?? this.width,
+      Math.max(...lineMetrics.map(line => line.width + line.left)),
       this.paragraph.getHeight(),
     ]
   }
