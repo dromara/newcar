@@ -1,6 +1,6 @@
 import { defineAnimation } from '@newcar/core'
 import { Color } from '@newcar/utils'
-import type { Figure } from '../widgets/figures/figure'
+import type { Figure } from '../widgets'
 import { Rect } from '../widgets'
 
 /**
@@ -22,9 +22,9 @@ export const showCreationThenDestructionAround = defineAnimation<Figure>({
     color: Color
     width: number
   }) {
-    this.rect = new Rect(Math.abs(widget.singleRange[2] - widget.singleRange[0]) + 20, Math.abs(widget.singleRange[3] - widget.singleRange[1]) + 20, {
-      x: -10,
-      y: -10,
+    this.rect = new Rect(Math.abs(widget.range[2] - widget.range[0]) + 20, Math.abs(widget.range[3] - widget.range[1]) + 20, {
+      x: widget.coordinateParentToChild(widget.range[0], widget.range[1]).x - 10,
+      y: widget.coordinateParentToChild(widget.range[0], widget.range[1]).y - 10,
       style: {
         fill: false,
         border: true,
@@ -32,8 +32,8 @@ export const showCreationThenDestructionAround = defineAnimation<Figure>({
         borderWidth: params.width ?? 2,
       },
     })
-    this.c = Math.abs(widget.singleRange[2] - widget.singleRange[0] + 10) * 2
-    + Math.abs(widget.singleRange[3] - widget.singleRange[1] + 10) * 2
+    this.c = Math.abs(widget.range[2] - widget.range[0] + 10) * 2
+    + Math.abs(widget.range[3] - widget.range[1] + 10) * 2
     this.rect.hide()
     widget.add(this.rect)
   },
