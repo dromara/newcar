@@ -157,7 +157,7 @@ export class Widget {
       if (typeof child === 'function')
         child = child(this)
       child.parent = this
-      child.status = 'live'
+      // child.status = 'live'
       this.children.push(child)
       // switch (this.style.layout) {
       //   case 'row': {
@@ -377,13 +377,14 @@ export class Widget {
     return this.children.filter(child => child.status === 'live').some(child => child.isIn(dx, dy)) || this.calculateIn(dx, dy)
   }
 
+  // eslint-disable-next-line jsdoc/require-returns-check
   /**
    * Calculate the range of the widget, based on the self coordinate.
    * To be noted that this method should be overridden.
    * @returns The range of the widget.
    */
   calculateRange(): WidgetRange {
-    return [this.x, this.y, this.x, this.y]
+    throw new Error('Method not implemented.')
   }
 
   /**
@@ -393,10 +394,10 @@ export class Widget {
    */
   get range(): WidgetRange {
     let calculatedRange = [
-      0,
-      0,
-      0,
-      0,
+      Number.POSITIVE_INFINITY,
+      Number.POSITIVE_INFINITY,
+      Number.NEGATIVE_INFINITY,
+      Number.NEGATIVE_INFINITY,
     ]
     try {
       calculatedRange = this.calculateRange()
@@ -413,7 +414,7 @@ export class Widget {
     const { x: x1, y: y1 } = this.coordinateChildToParent(range[0], range[1])
     const { x: x2, y: y2 } = this.coordinateChildToParent(range[2], range[3])
 
-    return [x1, y1, x2, y2]
+    return [Math.min(x1, x2), Math.min(y1, y2), Math.max(x1, x2), Math.max(y1, y2)]
   }
 
   /**
@@ -436,7 +437,7 @@ export class Widget {
     const { x: x1, y: y1 } = this.coordinateChildToParent(calculatedRange[0], calculatedRange[1])
     const { x: x2, y: y2 } = this.coordinateChildToParent(calculatedRange[2], calculatedRange[3])
 
-    return [x1, y1, x2, y2]
+    return [Math.min(x1, x2), Math.min(y1, y2), Math.max(x1, x2), Math.max(y1, y2)]
   }
 
   // transform the coordinate of the widget from parent to child considering the reRotation (mind the rotation center), reScale, and translation (mind widget.x and widget.y)
@@ -447,7 +448,7 @@ export class Widget {
     const relativeY = y - centerY
     const distance = Math.sqrt(relativeX ** 2 + relativeY ** 2)
     const angle = Math.atan2(relativeY, relativeX)
-    const newAngle = angle - this.style.rotation
+    const newAngle = angle - this.style.rotation / 180 * Math.PI
     const newRelativeX = distance * Math.cos(newAngle)
     const newRelativeY = distance * Math.sin(newAngle)
     const newX = newRelativeX / this.style.scaleX + this.centerX
@@ -463,7 +464,7 @@ export class Widget {
     const newRelativeY = relativeY * this.style.scaleY
     const distance = Math.sqrt(newRelativeX ** 2 + newRelativeY ** 2)
     const angle = Math.atan2(newRelativeY, newRelativeX)
-    const newAngle = angle + this.style.rotation
+    const newAngle = angle + this.style.rotation / 180 * Math.PI
     const newX = distance * Math.cos(newAngle) + this.centerX + this.x
     const newY = distance * Math.sin(newAngle) + this.centerY + this.y
     return { x: newX, y: newY }
