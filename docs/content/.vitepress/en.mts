@@ -23,6 +23,31 @@ export const enConfig = defineConfig({
         link: '/getting-started',
       },
       {
+        text: 'Guide',
+        items: [
+          {
+            text: 'Basic Library',
+            link: '/zh/guide/basic'
+          },
+          {
+            text: 'Mathematics Module',
+            link: '/'
+          },
+          {
+            text: 'Geometry Module',
+            link: '/'
+          },
+          {
+            text: 'Chart Module',
+            link: '/'
+          },
+          {
+            text: 'Other Module',
+            link: '/'
+          }
+        ]
+      },
+      {
         text: 'Members',
         link: '/members',
       },

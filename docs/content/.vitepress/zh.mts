@@ -28,6 +28,22 @@ export const zhConfig = defineConfig({
           {
             text: '基础图形库',
             link: '/zh/guide/basic'
+          },
+          {
+            text: '数学模块',
+            link: '/'
+          },
+          {
+            text: '几何模块',
+            link: '/'
+          },
+          {
+            text: '统计表模块',
+            link: '/'
+          },
+          {
+            text: '其他模块',
+            link: '/'
           }
         ]
       },
