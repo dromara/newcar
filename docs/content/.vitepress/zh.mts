@@ -62,8 +62,8 @@ export const zhConfig = defineConfig({
               link: '/zh/getting-started',
             },
             {
-              text: '动画',
-              link: '/zh/basic/animation',
+              text: '属性动画',
+              link: '/zh/basic/property-animation',
             },
             {
               text: '父子组件',
@@ -115,8 +115,8 @@ export const zhConfig = defineConfig({
               link: '/zh/dev/composite-widget',
             },
             {
-              text: '动画定义',
-              link: '/zh/dev/animation-defination',
+              text: '进阶动画',
+              link: '/zh/dev/advanced-animation',
             },
           ],
         },

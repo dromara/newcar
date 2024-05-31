@@ -53,8 +53,8 @@ export const enConfig = defineConfig({
               link: '/getting-started',
             },
             {
-              text: 'Animation',
-              link: '/basic/animation',
+              text: 'Property Animation',
+              link: '/basic/property-animation',
             },
             {
               text: 'Parents-Children Widget',
@@ -106,8 +106,8 @@ export const enConfig = defineConfig({
               link: '/dev/composite-widget',
             },
             {
-              text: 'Animation Defination',
-              link: '/dev/animation-defination',
+              text: 'Advanced Animation',
+              link: '/dev/advanced-animation',
             },
           ],
         },

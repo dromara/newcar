@@ -1,8 +1,8 @@
 ---
-title: Animations
+title: Property Animation
 ---
 
-# Animation
+# Property Animation
 
 The underlying principle of newcar animations is to continuously change an attribute of an object in each frame. In the quick start, you've already mastered the basic use of newcar animations. Now let's delve into more detail.
 
