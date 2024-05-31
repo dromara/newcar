@@ -2,6 +2,7 @@ import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import { isEqual } from '@newcar/utils'
 import type { AsyncWidget, AsyncWidgetResponse } from './asyncWidget'
 import type { Widget } from './widget'
+import { initial } from './initial.ts'
 
 export function shallowEqual(objA: any, objB: any): string[] {
   const changedProperties: string[] = []
@@ -126,7 +127,9 @@ export async function patch(
     }
     else {
       // Add new child since it doesn't exist in the old children
-      now.add(newChild) // Implement this function based on how you add children to canvas
+      // now.add(newChild) // Implement this function based on how you add children to canvas
+      if (newChild.status === 'unborn')
+        await initial(newChild, ck, canvas)
     }
   }
 
