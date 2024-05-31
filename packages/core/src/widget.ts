@@ -234,7 +234,8 @@ export class Widget {
         && (instance.duration + instance.startAt) >= elapsed
       ) {
         if (instance.mode === 'positive') {
-          instance.animation.act(
+          instance.animation.act.call(
+            instance,
             this,
             elapsed,
             (elapsed - instance.startAt) / instance.duration,
@@ -245,7 +246,8 @@ export class Widget {
           // console.log((elapsed - instance.startAt) / instance.duration, instance.startAt, instance.duration)
         }
         else if (instance.mode === 'reverse') {
-          instance.animation.act(
+          instance.animation.act.call(
+            instance,
             this,
             elapsed,
             1 - (elapsed - instance.startAt) / instance.duration,
@@ -256,7 +258,7 @@ export class Widget {
         }
       }
       if (elapsed >= instance.startAt + instance.duration) {
-        instance.animation.after?.(this, elapsed, ck, instance.params)
+        instance.animation.after?.call(instance, this, elapsed, ck, instance.params)
       }
     }
     for (const update of this.updates) update(elapsed, this)

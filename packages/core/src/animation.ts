@@ -1,8 +1,8 @@
-import type { Canvas, CanvasKit } from 'canvaskit-wasm'
+import type { CanvasKit } from 'canvaskit-wasm'
 import type { Widget } from './widget'
 
 /**
- * The Animation that have not get instanted
+ * The Animation interface having not gotten instanced
  */
 export interface Animation<T> {
   /**
@@ -38,7 +38,7 @@ export function defineAnimation<T extends Widget>(
 }
 
 /**
- * The Animation that have get instanted.
+ * The Animation having gotten instanced.
  */
 export interface AnimationInstance<T extends Widget> {
   /**

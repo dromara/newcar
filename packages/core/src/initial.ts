@@ -17,7 +17,7 @@ export async function initial(
         widget.init(ck)
         for (const instance of widget.animationInstances) {
           if (instance.animation.init)
-            instance.animation.init(widget, instance.startAt, instance.duration, ck, instance.params)
+            instance.animation.init.call(instance, widget, instance.startAt, instance.duration, ck, instance.params)
         }
         widget.plugins.forEach(plugin => plugin.onInitializing(widget, ck))
       })()
