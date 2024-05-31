@@ -27,7 +27,7 @@ export interface Animation<T> {
 }
 
 /**
- * Define a animation.
+ * Define an animation.
  * @param animation The Animation object implemented by Interface Animation
  * @returns The custom Animation object
  */
