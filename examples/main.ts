@@ -2,7 +2,7 @@ import { CarEngine, Color, Shader, Text } from 'newcar'
 import { Angle, Brace } from '@newcar/mod-geometry'
 import { BarChart, BubbleChart, ChartDataUnit, ChartUtil, LineChart, MixedChart, ScatterChart } from '@newcar/mod-chart'
 import { Markdown } from '@newcar/mod-markdown'
-import { MathFunction, NumberAxis, NumberPlane, Tex } from '@newcar/mod-math'
+import { MathFunction, NumberAxis, NumberPlane } from '@newcar/mod-math'
 import debug from '@newcar/plugin-debug'
 
 import * as nc from 'newcar'
@@ -144,14 +144,15 @@ export const scene4 = new nc.Scene(
 
 const sceneX = new nc.Scene(
   new Text('Hello', {
+    x:50,
+    y:50,
     width: 400,
     style: {
-      border: true,
       borderWidth: 1,
       borderColor: Color.parse('red'),
-      fill: false,
+      fontSize: 36,
     },
-  }).animate(nc.stroke, 0, 60, {
+  }).animate(nc.stroke, 0, 5, {
     origin: 100,
   }),
 )
@@ -512,9 +513,9 @@ const scene13 = new nc.Scene(new NumberPlane([-800, 800], [-450, 450], {
   new MathFunction(Math.cos, [-15, 15]),
 ))
 
-const scene14 = new nc.Scene(new Tex('\\frac{1}{2}', {
-
-}))
+// const scene14 = new nc.Scene(new Tex('\\frac{1}{2}', {
+//
+// }))
 
 const app1 = engine.createApp(document.querySelector('#a1'))
 app1.checkout(scene1)
@@ -577,9 +578,9 @@ const app13 = engine.createApp(document.querySelector('#e2'))
 app13.checkout(scene13)
 app13.play()
 
-const app14 = engine.createApp(document.querySelector('#e3'))
-app14.checkout(scene14)
-app14.play()
+// const app14 = engine.createApp(document.querySelector('#e3'))
+// app14.checkout(scene14)
+// app14.play()
 
 const appX = engine.createApp(document.querySelector('#a6'))
 appX.checkout(sceneX)

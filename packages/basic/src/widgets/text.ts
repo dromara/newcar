@@ -2,7 +2,17 @@ import type { WidgetRange } from '@newcar/core'
 import { $source } from '@newcar/core'
 import type { TextAlign, TextBaseline } from '@newcar/utils'
 import { Color, str2BlendMode, str2TextAlign, str2TextBaseline } from '@newcar/utils'
-import type { Canvas, CanvasKit, FontMgr, FontStyle, LineMetrics, Paragraph, ParagraphBuilder } from 'canvaskit-wasm'
+import type {
+  Canvas,
+  CanvasKit,
+  FontMgr,
+  FontStyle,
+  LineMetrics,
+  Paint,
+  Paragraph,
+  ParagraphBuilder,
+  TextStyle as ckTextStyle,
+} from 'canvaskit-wasm'
 import { Figure, type FigureOptions, type FigureStyle } from './figures/figure'
 
 export interface TextOptions extends FigureOptions {
@@ -85,6 +95,9 @@ export class Text extends Figure {
   width: number
   textAlign: TextAlign
 
+  backgroundPaint: Paint
+  textStyle: ckTextStyle
+
   constructor(public text: string, options?: TextOptions) {
     options ??= {}
     super({
@@ -139,8 +152,12 @@ export class Text extends Figure {
     // Blend Mode
     this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
     this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+
+    this.backgroundPaint = new ck.Paint()
+    this.backgroundPaint.setColor(this.style.backgroundColor.toFloat4())
+
     this.manager = ck.FontMgr.FromData(...$source.fonts)
-    const style = new ck.TextStyle(
+    this.textStyle = new ck.TextStyle(
       {
         ...this.style,
         backgroundColor: this.style.backgroundColor.toFloat4(),
@@ -160,9 +177,7 @@ export class Text extends Figure {
       }),
       this.manager,
     )
-    const bg = new ck.Paint()
-    bg.setColor(this.style.backgroundColor.toFloat4())
-    this.builder.pushPaintStyle(style, this.style.border ? this.strokePaint : this.fillPaint, bg)
+    this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
     this.builder.addText(this.text.toString())
     this.paragraph = this.builder.build()
     this.paragraph.layout(this.width)
@@ -170,6 +185,27 @@ export class Text extends Figure {
 
   draw(canvas: Canvas): void {
     canvas.drawParagraph(this.paragraph, 0, 0)
+  }
+
+  predraw(ck: CanvasKit, propertyChanged: string) {
+    super.predraw(ck, propertyChanged)
+    switch (propertyChanged) {
+      case 'style.interval':
+      case 'style.offset':
+      {
+        const dash = ck.PathEffect.MakeDash(
+          this.style.interval,
+          this.style.offset,
+        )
+        this.strokePaint.setPathEffect(dash)
+      }
+    }
+
+    this.builder.reset()
+    this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
+    this.builder.addText(this.text.toString())
+    this.paragraph = this.builder.build()
+    this.paragraph.layout(this.width)
   }
 
   calculateIn(x: number, y: number): boolean {
