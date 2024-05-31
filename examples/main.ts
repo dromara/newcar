@@ -16,6 +16,38 @@ const engine = (await new CarEngine().init(
   './node_modules/canvaskit-wasm/bin/canvaskit.wasm',
 ))
 
+export const sceneOthers = nc.createScene(
+  new nc.Widget()
+  .add(
+    new nc.TextGroup([
+      new nc.Text('Hello', {
+        x: 100,
+        y: 100,
+        style: {
+          color: nc.Color.parse('skyblue'),
+          fontSize: 50
+        }
+      }),
+      new nc.Text(' world!', {
+        x: 100,
+        y: 150,
+        style: {
+          color: nc.Color.parse('red'),
+          fontSize: 30
+        }
+      }),
+      // ...
+    ], {
+      width: 600,
+      x: 200,
+      y: 200
+    }), 
+  )
+)
+export const others = engine.createApp(document.querySelector('#others'))
+others.checkout(sceneOthers)
+others.play()
+
 export const scene1 = new nc.Scene(
   new nc.Widget({
     style: {

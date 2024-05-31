@@ -23,6 +23,15 @@ export const zhConfig = defineConfig({
         link: '/zh/getting-started',
       },
       {
+        text: '指南',
+        items: [
+          {
+            text: '基础图形库',
+            link: '/zh/guide/basic'
+          }
+        ]
+      },
+      {
         text: '项目成员',
         link: '/zh/members',
       },
@@ -112,6 +121,12 @@ export const zhConfig = defineConfig({
           ],
         },
       ],
+      'zh/guide/basic': [
+        {
+          text: 'Text与TextGroup',
+          link: '/zh/guide/basic/text-and-textgroup',
+        }
+      ]
     },
   },
 })
