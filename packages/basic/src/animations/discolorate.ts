@@ -1,5 +1,5 @@
 import { changeProperty, defineAnimation } from '@newcar/core'
-import type { Color } from '@newcar/utils'
+import { type Color, getByChain } from '@newcar/utils'
 import type { Figure } from '../widgets'
 
 /**
@@ -9,19 +9,21 @@ export const discolorate = defineAnimation<Figure>({
   init(widget, startAt, duration, _ck, params: {
     from?: Color
     to?: Color
+    colorAttr?: string
   }) {
+    const colorAttr: string = params.colorAttr ?? 'fillColor'
     const changedProps = [
-      'style.fillColor.red',
-      'style.fillColor.green',
-      'style.fillColor.blue',
-      'style.fillColor.alpha',
+      [`style`, colorAttr, `red`],
+      [`style`, colorAttr, `green`],
+      [`style`, colorAttr, `blue`],
+      [`style`, colorAttr, `alpha`],
     ]
-    widget.animate(changeProperty(changedProps), startAt, duration, {
+    widget.animate(changeProperty(changedProps.map(c => c.join('.'))), startAt, duration, {
       from: [
-        params.from?.red ?? widget.style.fillColor.red,
-        params.from?.green ?? widget.style.fillColor.green,
-        params.from?.blue ?? widget.style.fillColor.blue,
-        params.from?.alpha ?? widget.style.fillColor.alpha,
+        params.from?.red ?? getByChain(changedProps[0], widget),
+        params.from?.green ?? getByChain(changedProps[1], widget),
+        params.from?.blue ?? getByChain(changedProps[2], widget),
+        params.from?.alpha ?? getByChain(changedProps[3], widget),
       ],
       to: [
         params.to.red,
