@@ -15,7 +15,7 @@ export const enConfig = defineConfig({
     },
     editLink: {
       text: 'Suggest to this page',
-      pattern: 'https://github.com/Bug-Duck/newcar-docs/tree/main/docs/:path',
+      pattern: 'https://github.com/dromara/newcar/tree/main/docs/content/:path',
     },
     nav: [
       {
@@ -120,7 +120,7 @@ export const enConfig = defineConfig({
           ],
         },
         {
-          text: 'Custom',
+          text: 'Customization',
           items: [
             {
               text: 'Basic Widget',
@@ -133,6 +133,14 @@ export const enConfig = defineConfig({
             {
               text: 'Advanced Animation',
               link: '/dev/advanced-animation',
+            },
+            {
+              text: 'Common Event',
+              link: '/dev/common-event',
+            },
+            {
+              text: 'Widget Event',
+              link: '/dev/widget-event',
             },
           ],
         },

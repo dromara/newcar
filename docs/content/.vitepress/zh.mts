@@ -15,7 +15,7 @@ export const zhConfig = defineConfig({
     },
     editLink: {
       text: '编辑此页面',
-      pattern: 'https://github.com/Bug-Duck/newcar-docs/tree/main/docs/:path',
+      pattern: 'https://github.com/dromara/newcar/tree/main/docs/content/:path',
     },
     nav: [
       {
@@ -52,7 +52,7 @@ export const zhConfig = defineConfig({
         link: '/zh/members',
       },
       {
-        text: 'API参考',
+        text: 'API 参考',
         link: 'https://apis.newcarjs.org',
       },
       {
@@ -90,7 +90,7 @@ export const zhConfig = defineConfig({
               link: '/zh/basic/color-system',
             },
             {
-              text: 'Setup语法',
+              text: 'Setup 语法',
               link: '/zh/basic/setup',
             },
             {
@@ -133,6 +133,14 @@ export const zhConfig = defineConfig({
             {
               text: '进阶动画',
               link: '/zh/dev/advanced-animation',
+            },
+            {
+              text: '通用事件',
+              link: '/zh/dev/common-event',
+            },
+            {
+              text: '组件事件',
+              link: '/zh/dev/widget-event',
             },
           ],
         },
