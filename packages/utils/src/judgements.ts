@@ -45,14 +45,6 @@ export function deepEqual(objA: any, objB: any): boolean {
   const keysB = new Set(Object.keys(objB))
 
   for (const key of keysA) {
-    // Skip circular reference
-    try {
-      JSON.stringify(objA[key])
-    }
-    catch {
-      continue
-    }
-
     if (!keysB.has(key))
       return false
     if (typeof objA[key] === 'object')

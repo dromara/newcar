@@ -1,8 +1,17 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
-import { compareObj } from '@newcar/utils'
+import { shallowEqual } from '@newcar/utils'
 import type { AsyncWidget, AsyncWidgetResponse } from './asyncWidget'
 import type { Widget } from './widget'
 import { initial } from './initial.ts'
+
+function diff(objA: any, objB: any): string[][] {
+  return shallowEqual(objA, objB, [
+    'children',
+    'updates',
+    'setups',
+    'plugins',
+  ])
+}
 
 // The patch function corresponds to the updating of canvas with respect to both old widget tree and updated widget tree.
 // The algorithm lies here just like `diff` algorithm in other frontend frameworks, to optimise the updating performance.
@@ -17,7 +26,7 @@ export async function patch(
   if (now.status !== 'live')
     return
   canvas.save()
-  const differences = compareObj(now, old).map((chain) => {
+  const differences = diff(now, old).map((chain) => {
     if (chain[0] === 'style') {
       return [chain[0], chain[1]]
     }
