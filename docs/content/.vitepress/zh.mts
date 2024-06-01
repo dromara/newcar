@@ -145,10 +145,10 @@ export const zhConfig = defineConfig({
           ],
         },
       ],
-      'zh/guide/basic': [
+      '/zh/guide/basic': [
         {
-          text: 'Text与TextGroup',
-          link: '/zh/guide/basic/text-and-textgroup',
+          text: 'Text 与 TextGroup',
+          link: '/zh/guide/basic/text',
         }
       ]
     },

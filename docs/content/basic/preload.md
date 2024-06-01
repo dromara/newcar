@@ -2,6 +2,8 @@
 title: Resource Preloading
 ---
 
+# Resource Preloading
+
 Resource preloading is a very crucial concept, mainly used for loading static resources that the animation will need in advance. The preloaded resources can all be found in the global variable `$source`.
 
 ## Font Preloading

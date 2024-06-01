@@ -26,8 +26,8 @@ export const enConfig = defineConfig({
         text: 'Guide',
         items: [
           {
-            text: 'Basic Library',
-            link: '/zh/guide/basic'
+            text: 'Basic Graphics Package',
+            link: '/guide/basic'
           },
           {
             text: 'Mathematics Module',
@@ -145,6 +145,12 @@ export const enConfig = defineConfig({
           ],
         },
       ],
+      '/guide/basic': [
+        {
+          text: 'Text and TextGroup',
+          link: '/guide/basic/text',
+        }
+      ]
     },
   },
 })
