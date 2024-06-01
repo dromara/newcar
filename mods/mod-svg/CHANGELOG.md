@@ -1,4 +1,4 @@
-# @newcar/mod-ui
+# @newcar/mod-svg
 
 ## 1.0.0
 
@@ -9,9 +9,7 @@
 ### Patch Changes
 
 - 77ea54d: Update to the latest newcar core.
-
-## 0.1.1
-
-### Patch Changes
-
-- Update dependencies version
+- Updated dependencies
+  - @newcar/basic@1.0.0
+  - @newcar/core@1.0.0
+  - @newcar/utils@1.0.0

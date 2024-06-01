@@ -1,5 +1,16 @@
 # @newcar/core
 
+## 1.0.0
+
+### Major Changes
+
+- The 1.0.0 version
+
+### Patch Changes
+
+- Updated dependencies
+  - @newcar/utils@1.0.0
+
 ## 0.15.1
 
 ### Patch Changes

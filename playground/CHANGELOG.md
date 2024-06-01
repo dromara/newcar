@@ -1,5 +1,16 @@
 # @newcar/playground
 
+## 1.0.0
+
+### Major Changes
+
+- The 1.0.0 version
+
+### Patch Changes
+
+- Updated dependencies
+  - newcar@1.0.0
+
 ## 0.4.1
 
 ### Patch Changes

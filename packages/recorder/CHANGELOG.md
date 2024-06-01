@@ -1,5 +1,11 @@
 # @newcar/recorder
 
+## 1.0.0
+
+### Major Changes
+
+- The 1.0.0 version
+
 ## 0.15.1
 
 ### Patch Changes
