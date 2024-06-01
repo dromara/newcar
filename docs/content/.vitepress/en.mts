@@ -158,7 +158,7 @@ export const enConfig = defineConfig({
         },
         {
           text: 'General Concepts',
-          link: '/zh/guide/chart/general-concepts',
+          link: '/guide/chart/general-concepts',
           items: [
             {
               text: 'Data Structure',
