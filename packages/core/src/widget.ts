@@ -290,7 +290,33 @@ export class Widget {
         }
       }
       if (elapsed >= instance.startAt + instance.duration) {
+        if (instance.mode === 'positive') {
+          instance.animation.act.call(
+            instance,
+            this,
+            elapsed,
+            1,
+            instance.duration,
+            ck,
+            instance.params,
+          )
+          // console.log((elapsed - instance.startAt) / instance.duration, instance.startAt, instance.duration)
+        }
+        else if (instance.mode === 'reverse') {
+          instance.animation.act.call(
+            instance,
+            this,
+            elapsed,
+            0,
+            instance.duration,
+            ck,
+            instance.params,
+          )
+        }
         instance.animation.after?.call(instance, this, elapsed, ck, instance.params)
+        this.animationInstances = this.animationInstances.filter(
+          animationInstance => animationInstance !== instance,
+        )
       }
     }
     for (const update of this.updates) update(elapsed, this)
@@ -322,17 +348,20 @@ export class Widget {
     return this
   }
 
-  // process logic:
-  // 1. `setup.nextFrame >= setup.nextFrame` turned out that the current animation of this setup have not finished yet
-  // 2. If `typeof result.value === 'number'`, processor shall simply take this animation as a delay as long as `result.value`.
+  // Process logic:
+  // 1. `setup.nextFrame >= setup.nextFrame`
+  // turned out that the current animation of this setup has not finished yet
+  // 2. If `typeof result.value === 'number'`,
+  // processor shall simply take this animation as a delay as long as `result.value`.
   // 3. If `typeof result.value === 'object'`, processor shall play this animation with respect to its playing mode
   //  - 'async': will not be considered into the playing process, until the condition in step 1 hold
   //  - 'sync': playing immediately
-  // 4. clean up
+  // 4. Clean up
   //
-  // Notice the processing of async mode here, it will simply put the animation onto playing sequence, without nextFrame basic,
+  // Notice the processing of async mode here,
+  // it will simply put the animation onto a playing sequence, without nextFrame basic,
   // compared with the processing of `sync` animation.
-  // When entered next update process, `runAnimation` will run multiple async animations that overlapped on the timeline
+  // When entered next update process, `runAnimation` will run multiple async animations that overlapped on the timeline,
   // For example, if we have a `move` animation from 1 to 60, and a `scale` animation from 30 to 90, then they will be played at the same time from 30 to 90
   processSetups(elapsed: number) {
     this.setups.forEach((setup) => {
@@ -389,7 +418,7 @@ export class Widget {
   }
 
   /**
-   * Calculate the range of the widget, based on the self coordinate.
+   * Calculate the range of the widget, based on the self-coordinate.
    * To be noted that this method should be overridden.
    * @param _x
    * @param _y
@@ -411,7 +440,7 @@ export class Widget {
 
   // eslint-disable-next-line jsdoc/require-returns-check
   /**
-   * Calculate the range of the widget, based on the self coordinate.
+   * Calculate the range of the widget, based on the self-coordinate.
    * To be noted that this method should be overridden.
    * @returns The range of the widget.
    */
