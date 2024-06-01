@@ -18,3 +18,6 @@ export * from './localApp'
 export * from './event'
 
 export * from './utils/deepClone'
+
+// temp
+export * from './patch'

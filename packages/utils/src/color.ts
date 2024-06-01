@@ -3,11 +3,11 @@ import { colorParsley, colorToHex, colorToRGB } from 'colorparsley'
 export type ColorRgba = [r: number, g: number, b: number, alpha: number]
 
 export class Color {
-  private constructor(
-    readonly red: number,
-    readonly green: number,
-    readonly blue: number,
-    readonly alpha: number = 1,
+  constructor(
+    public red: number,
+    public green: number,
+    public blue: number,
+    public alpha: number = 1,
   ) {}
 
   withAlpha(newAlpha: number): Color {
