@@ -26,21 +26,20 @@ function parseProperty(propName: ac.Expression): string[] {
       }
       else if (e.object.type === 'Identifier') {
         chain.push(e.object.name)
-
-        switch (e.property.type) {
-          case 'Literal':
-            chain.push(e.property.value.toString())
-
-            break
-          case 'Identifier':
-            chain.push(e.property.name)
-            break
-          default:
-            return []
-        }
       }
       else {
         return []
+      }
+      switch (e.property.type) {
+        case 'Literal':
+          chain.push(e.property.value.toString())
+
+          break
+        case 'Identifier':
+          chain.push(e.property.name)
+          break
+        default:
+          return []
       }
 
       break
@@ -129,8 +128,8 @@ export function changeProperty<T extends Widget>(
       const adjustedProcess = easingFunction?.call(process) ?? process
 
       if (!called) {
-        from = params?.from ?? defaultFrom ?? propChains.map(prop => getByChain(prop, widget) as number)
-        to = params?.to ?? defaultTo ?? propChains.map(prop => getByChain(prop, widget) as number)
+        from = params?.from ?? defaultFrom ?? propChains.map(prop => getByChain([...prop], widget) as number)
+        to = params?.to ?? defaultTo ?? propChains.map(prop => getByChain([...prop], widget) as number)
         called = true
       }
 

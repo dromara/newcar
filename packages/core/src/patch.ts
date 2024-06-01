@@ -1,62 +1,8 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
-import { isEqual } from '@newcar/utils'
+import { compareObj } from '@newcar/utils'
 import type { AsyncWidget, AsyncWidgetResponse } from './asyncWidget'
 import type { Widget } from './widget'
 import { initial } from './initial.ts'
-
-export function shallowEqual(objA: any, objB: any): string[] {
-  const changedProperties: string[] = []
-
-  if (isEqual(objA, objB))
-    return changedProperties
-
-  if (objA === objB)
-    return changedProperties
-
-  if (
-    typeof objA !== 'object'
-    || objA === null
-    || typeof objB !== 'object'
-    || objB === null
-  )
-    return changedProperties
-
-  const keysA = Object.keys(objA)
-  const keysB = Object.keys(objB)
-  const lengthA = keysA.length
-
-  const keysBSet = new Set(keysB)
-
-  // Function to check if the value is of a primitive type or an array
-  const isPrimitiveOrArray = (value: any) => {
-    return value !== Object(value) || Array.isArray(value)
-  }
-
-  for (let i = 0; i < lengthA; i++) {
-    const key = keysA[i]
-    if (key === 'style') {
-      // Recursively compare the 'style' object
-      const styleDifferences = shallowEqual(objA.style, objB.style)
-      if (styleDifferences.length > 0)
-        changedProperties.push(key)
-    }
-    else if (
-      !keysBSet.has(key)
-      || (isPrimitiveOrArray(objA[key]) && objA[key] !== objB[key])
-    ) {
-      changedProperties.push(key)
-    }
-  }
-
-  // Optionally, you might want to check for keys present in objB but not in objA
-  // This is optional and depends on your use case
-  keysB.forEach((key) => {
-    if (!keysA.includes(key) && isPrimitiveOrArray(objB[key]))
-      changedProperties.push(key)
-  })
-
-  return changedProperties
-}
 
 // The patch function corresponds to the updating of canvas with respect to both old widget tree and updated widget tree.
 // The algorithm lies here just like `diff` algorithm in other frontend frameworks, to optimise the updating performance.
@@ -71,7 +17,14 @@ export async function patch(
   if (now.status !== 'live')
     return
   canvas.save()
-  const differences = shallowEqual(old, now)
+  const differences = compareObj(now, old).map((chain) => {
+    if (chain[0] === 'style') {
+      return [chain[0], chain[1]]
+    }
+    else {
+      return chain
+    }
+  }).map(c => c.join('.'))
   for (const param of differences) {
     if (!now._isAsyncWidget()) {
       try {
@@ -89,15 +42,6 @@ export async function patch(
         }
       }
       catch {}
-    }
-    if (param === 'style') {
-      const contrasts = shallowEqual(old.style, now.style)
-      for (const contrast of contrasts) {
-        try {
-          await now.preupdate(ck, `style.${contrast}`)
-        }
-        catch {}
-      }
     }
   }
 
@@ -118,9 +62,8 @@ export async function patch(
   })
 
   // Update and add new widgets
-  let oldIndex
   for (const newChild of now.children) {
-    oldIndex = oldKeyToIdx.get(newChild.key)
+    const oldIndex = oldKeyToIdx.get(newChild.key)
     if (oldIndex !== undefined) {
       const oldChild = old.children[oldIndex]
       await patch(oldChild, newChild, ck, canvas)
