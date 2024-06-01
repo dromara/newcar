@@ -7,7 +7,7 @@ const engine = (await new nc.CarEngine().init(
 export const scene1 = new nc.Scene(
   new nc.Circle(100)
     .animate(nc.discolorate, 0, 1, {
-      from: nc.Color.BLACK,
+      from: nc.Color.parse("yellow"),
       to: nc.Color.parse("blue")
     })
 )

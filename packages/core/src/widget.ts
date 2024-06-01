@@ -1,7 +1,6 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
-import { type BlendMode, isUndefined } from '@newcar/utils'
+import { type BlendMode, deepClone, isUndefined } from '@newcar/utils'
 import type { Animation, AnimationInstance } from './animation'
-import { deepClone } from './utils/deepClone'
 import type { Event, EventInstance } from './event'
 import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
