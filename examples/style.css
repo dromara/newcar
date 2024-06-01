@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body, #canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.switching-btn {
+  width: 4rem;
+  height: 100%;
+  background-color: black;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: opacity 0.3s ease-in-out;
+}
+
+.switching-btn:hover {
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+.left {
+  position: absolute;
+  left: 0;
+}
+
+.right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.left::after {
+  position: absolute;
+  color: white;
+  font-size: 2rem;
+  content: "<"
+}
+
+.right::after {
+  position: absolute;
+  color: white;
+  font-size: 2rem;
+  content: ">"
+}
