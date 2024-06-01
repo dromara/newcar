@@ -39,7 +39,7 @@ export const enConfig = defineConfig({
           },
           {
             text: 'Chart Module',
-            link: '/'
+            link: '/guide/chart'
           },
           {
             text: 'Other Module',
@@ -150,7 +150,56 @@ export const enConfig = defineConfig({
           text: 'Text and TextGroup',
           link: '/guide/basic/text',
         }
-      ]
+      ],
+      '/guide/chart': [
+        {
+          text: 'Getting Started',
+          link: '/guide/chart/getting-started',
+        },
+        {
+          text: 'General Concepts',
+          link: '/zh/guide/chart/general-concepts',
+          items: [
+            {
+              text: 'Data Structure',
+              link: '/guide/chart/data-structure',
+            },
+            {
+              text: 'Time Axis',
+              link: '/guide/chart/time-axis',
+            },
+            {
+              text: 'Layout',
+              link: '/guide/chart/layout',
+            },
+          ],
+        },
+        {
+          text: 'Chart Types',
+          items: [
+            {
+              text: 'Bar Chart',
+              link: '/guide/chart/bar-chart',
+            },
+            {
+              text: 'Line Chart',
+              link: '/guide/chart/line-chart',
+            },
+            {
+              text: 'Scatter Chart',
+              link: '/guide/chart/scatter-chart',
+            },
+            {
+              text: 'Bubble Chart',
+              link: '/guide/chart/bubble-chart',
+            },
+            {
+              text: 'Mixed Chart',
+              link: '/guide/chart/mixed-chart',
+            },
+          ],
+        },
+      ],
     },
   },
 })

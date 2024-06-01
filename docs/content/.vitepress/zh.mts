@@ -38,8 +38,8 @@ export const zhConfig = defineConfig({
             link: '/'
           },
           {
-            text: '统计表模块',
-            link: '/'
+            text: '图表模块',
+            link: '/zh/guide/chart'
           },
           {
             text: '其他模块',
@@ -150,6 +150,55 @@ export const zhConfig = defineConfig({
           text: 'Text 与 TextGroup',
           link: '/zh/guide/basic/text',
         }
+      ],
+      '/zh/guide/chart': [
+        {
+          text: '快速开始',
+          link: '/zh/guide/chart/getting-started',
+        },
+        {
+          text: '通用概念',
+          link: '/zh/guide/chart/general-concepts',
+          items: [
+            {
+              text: '数据结构',
+              link: '/zh/guide/chart/data-structure',
+            },
+            {
+              text: '时间轴',
+              link: '/zh/guide/chart/time-axis',
+            },
+            {
+              text: '布局',
+              link: '/zh/guide/chart/layout',
+            },
+          ],
+        },
+        {
+          text: '图表类型',
+          items: [
+            {
+              text: '柱状图',
+              link: '/zh/guide/chart/bar-chart',
+            },
+            {
+              text: '折线图',
+              link: '/zh/guide/chart/line-chart',
+            },
+            {
+              text: '散点图',
+              link: '/zh/guide/chart/scatter-chart',
+            },
+            {
+              text: '气泡图',
+              link: '/zh/guide/chart/bubble-chart',
+            },
+            {
+              text: '混合图表',
+              link: '/zh/guide/chart/mixed-chart',
+            },
+          ],
+        },
       ]
     },
   },
