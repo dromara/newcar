@@ -16,6 +16,14 @@ export interface Event<T> {
     effect: (widget: Widget, ...arg: any[]) => any,
     element: HTMLCanvasElement,
   ) => void
+
+  /**
+   * The effect function of this event. Only used in the widget-based event.
+   * @param widget The widget's self.
+   * @param args The external arguments.
+   * @returns
+   */
+  effects?: ((widget: Widget, ...arg: any[]) => any)[]
 }
 
 export function defineEvent<T extends Widget>(event: Event<T>): Event<T> {

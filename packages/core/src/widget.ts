@@ -3,11 +3,12 @@ import { type BlendMode, isUndefined } from '@newcar/utils'
 import type { Animation, AnimationInstance } from './animation'
 import { deepClone } from './utils/deepClone'
 import type { Event, EventInstance } from './event'
+import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
 import type { AnimateFunction } from './apiAnimate'
 
 export type WidgetRange = [number, number, number, number]
-export type WidgetInstance<T extends Widget> = T
+// export type WidgetInstance<T extends Widget> = T
 export type SetupFunction<T extends Widget> = (widget: T) => Generator<number | ReturnType<AnimateFunction<T>>, void, unknown>
 export type Layout = 'row' | 'column' | 'absolute' | 'mix'
 export type Status = 'live' | 'dead' | 'unborn'
@@ -61,6 +62,8 @@ export class Widget {
   hasSet = false
   status: Status = 'unborn'
 
+  registeredEvents: Map<string, Event<Widget>> = new Map()
+
   constructor(options?: WidgetOptions) {
     options ??= {}
     this.x = options.x ?? 0
@@ -101,7 +104,7 @@ export class Widget {
 
   /**
    * Preload the necessary items duration drawing.
-   * Called when the properties of the widget is changed.
+   * Called when the properties changed.
    * In common, we use it to initializing Paint, Rect, Path, etc.
    * @param _ck The namespace of CanvasKit-WASM.
    * @param _propertyChanged The changed property of this widget
@@ -111,13 +114,13 @@ export class Widget {
 
   /**
    * Draw the object according to the parameters of the widget.
-   * Called when the parameters is changed.
+   * Called when the parameters are changed.
    * @param _canvas The canvas object of CanvasKit-WASM.
    */
   draw(_canvas: Canvas) { }
 
   /**
-   * Called when the parameters is changed.
+   * Called when the parameters are changed.
    * @param ck The namespace of CanvasKit-WASM.
    * @param propertyChanged
    */
@@ -210,7 +213,36 @@ export class Widget {
     return this
   }
 
-  on(event: Event<Widget>, effect: (widget: Widget, ...args: any[]) => any): this {
+  registerEvent(name: string): this {
+    this.registeredEvents.set(name, defineEvent({
+      operation(_widget, effect, _element) {
+        this.effects.push(effect)
+      },
+      effects: [],
+    }))
+    return this
+  }
+
+  emitEvent(name: string, ...args: any[]): this {
+    const event = this.registeredEvents.get(name)
+    if (!event) {
+      console.warn(`[Newcar Warn] The event "${name}" is not registered.`)
+      return this
+    }
+    for (const effect of event.effects) {
+      effect(this, ...args)
+    }
+    return this
+  }
+
+  on(event: Event<Widget> | string, effect: (widget: Widget, ...args: any[]) => any): this {
+    if (typeof event === 'string') {
+      if (!this.registeredEvents.has(event)) {
+        console.warn(`[Newcar Warn] The event "${event}" is not registered.`)
+        return this
+      }
+      event = this.registeredEvents.get(event)
+    }
     this.eventInstances.push({
       event,
       effect,
@@ -225,12 +257,12 @@ export class Widget {
 
   // Run an animation with respect to `elapsed`, which is maintained by `App` class
   runAnimation(elapsed: number, ck: CanvasKit) {
-    // Traverse over instances sequence, run each animation
+    // Traverse over an instance sequence, run each animation
     for (const instance of this.animationInstances) {
       if (
         // this condition make sure the animation contained the current frame
         instance.startAt <= elapsed
-        // this condition make sure the animation have not finished yet
+        // this condition make sure the animation has not finished yet
         && (instance.duration + instance.startAt) >= elapsed
       ) {
         if (instance.mode === 'positive') {
@@ -275,7 +307,7 @@ export class Widget {
   }
 
   /**
-   * Set up a update function to call it when the widget is changed.
+   * Set up an update function to call it when the widget is changed.
    * @param updateFunc The frame from having gone to current frame.
    */
   setUpdate(updateFunc: <T extends this>(elapsed: number, widget: T) => void): this {
@@ -329,7 +361,7 @@ export class Widget {
       }
     })
 
-    // Clean up Generationer that has finished.
+    // Clean up Generator that has finished.
     this.setups = this.setups.filter(setup => setup.nextFrame !== Number.POSITIVE_INFINITY)
     this.children.forEach(child => child.processSetups(elapsed))
   }
