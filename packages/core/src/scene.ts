@@ -1,9 +1,10 @@
 import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import type { Widget, WidgetBuilder } from './widget'
+import type { Base } from './base'
 
 export interface SceneOptions {}
 
-export function createScene(builder: WidgetBuilder<Widget>, options?: SceneOptions) {
+export function createScene(builder: WidgetBuilder<Base>, options?: SceneOptions) {
   return (ck: CanvasKit) => {
     const player = {
       paused: false,
@@ -20,11 +21,11 @@ export function createScene(builder: WidgetBuilder<Widget>, options?: SceneOptio
     }
 
     return {
-      root,
       player,
       tick,
       ...options,
       ck,
+      root,
     }
   }
 }
