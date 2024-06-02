@@ -156,7 +156,7 @@ importers:
         version: link:../../packages/core
       '@newcar/utils':
         specifier: workspace:*
-        version: link:../../packages/utils
+        version: link:../../next-packages/utils
       '@types/luxon':
         specifier: ^3.4.2
         version: 3.4.2
@@ -181,7 +181,7 @@ importers:
         version: link:../../packages/core
       '@newcar/utils':
         specifier: workspace:*
-        version: link:../../packages/utils
+        version: link:../../next-packages/utils
     devDependencies:
       canvaskit-wasm:
         specifier: 0.39.1
@@ -197,7 +197,7 @@ importers:
         version: link:../../packages/core
       '@newcar/utils':
         specifier: workspace:*
-        version: link:../../packages/utils
+        version: link:../../next-packages/utils
     devDependencies:
       canvaskit-wasm:
         specifier: 0.39.1
@@ -213,7 +213,7 @@ importers:
         version: link:../../packages/core
       '@newcar/utils':
         specifier: workspace:*
-        version: link:../../packages/utils
+        version: link:../../next-packages/utils
       gl-matrix:
         specifier: ^3.4.3
         version: 3.4.3
@@ -238,7 +238,7 @@ importers:
         version: link:../../packages/core
       '@newcar/utils':
         specifier: workspace:*
-        version: link:../../packages/utils
+        version: link:../../next-packages/utils
     devDependencies:
       canvaskit-wasm:
         specifier: 0.39.1
@@ -250,7 +250,7 @@ importers:
     devDependencies:
       '@newcar/utils':
         specifier: workspace:*
-        version: link:../../packages/utils
+        version: link:../utils
       canvaskit-wasm:
         specifier: 0.39.1
         version: 0.39.1
@@ -272,7 +272,7 @@ importers:
         version: link:../core
       '@newcar/utils':
         specifier: workspace:*
-        version: link:../utils
+        version: link:../../next-packages/utils
     devDependencies:
       canvaskit-wasm:
         specifier: 0.39.1
@@ -282,7 +282,7 @@ importers:
     dependencies:
       '@newcar/utils':
         specifier: workspace:*
-        version: link:../utils
+        version: link:../../next-packages/utils
       mitt:
         specifier: ^3.0.1
         version: 3.0.1
@@ -307,22 +307,12 @@ importers:
         version: link:../recorder
       '@newcar/utils':
         specifier: workspace:*
-        version: link:../utils
+        version: link:../../next-packages/utils
       canvaskit-wasm:
         specifier: '>=0.39.1'
         version: 0.39.1
 
   packages/recorder: {}
-
-  packages/utils:
-    dependencies:
-      colorparsley:
-        specifier: ^0.1.8
-        version: 0.1.8
-    devDependencies:
-      canvaskit-wasm:
-        specifier: 0.39.1
-        version: 0.39.1
 
   playground:
     dependencies:
@@ -377,7 +367,7 @@ importers:
         version: link:../../packages/core
       '@newcar/utils':
         specifier: workspace:*
-        version: link:../../packages/utils
+        version: link:../../next-packages/utils
     devDependencies:
       canvaskit-wasm:
         specifier: 0.39.1

@@ -1,28 +1,34 @@
 import type { CanvasKit } from 'canvaskit-wasm'
+import { error, isNull } from '@newcar/utils'
 import type { Scene } from './scene'
 
-export interface AppOptions {
-  canvasElement: HTMLCanvasElement
-  ck: CanvasKit
-}
+export function defineCreateAppApi(ck: CanvasKit) {
+  return function createApp(element: HTMLCanvasElement) {
+    const surface = ck.MakeWebGLCanvasSurface(element)
+    let scene: Scene | null = null
 
-export function createApp(sceneBuilder: any, options: AppOptions) {
-  const surface = options.ck.MakeWebGLCanvasSurface(options.canvasElement)
-  const scene = sceneBuilder(options.ck) as Scene
-  if (!surface) {
-    throw new Error('NDIWDLIJ')
-  }
+    if (!surface) {
+      throw new Error('NDIWDLIJ')
+    }
 
-  function update() {
-    if (scene.player.paused)
-      return
-    surface?.requestAnimationFrame((canvas) => {
-      scene.tick(canvas)
-    })
-  }
+    function checkout(value: Scene) {
+      scene = value
+    }
 
-  return {
-    update,
-    scene,
+    function update() {
+      if (isNull(scene))
+        return error('The scene is not existm, please use `App.checkout()` to mount a scene')
+      if (scene!.player.paused)
+        return
+      surface?.requestAnimationFrame((canvas) => {
+        scene!.tick(canvas)
+      })
+    }
+
+    return {
+      update,
+      scene,
+      checkout,
+    }
   }
 }
