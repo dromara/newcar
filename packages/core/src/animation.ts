@@ -1,68 +1,145 @@
 import type { CanvasKit } from 'canvaskit-wasm'
+import type { Base } from './base'
 import type { Widget } from './widget'
 
-/**
- * The Animation interface having not gotten instanced
- */
-export interface Animation<T> {
-  /**
-   * The action of this animation when it's in his lifecycle.
-   * @param widget The widget's self.
-   * @param elapsed The elapsed frame.
-   * @param process The process of this animation, value is duration [0, 1]
-   * @param params The other parameters of this animation
-   * @returns
-   */
-  act: (widget: T, elapsed: number, process: number, duration: number, ck: CanvasKit, params?: any) => void
-
-  /**
-   * @see act
-   */
-  init?: (widget: T, startAt: number, duration: number, ck: CanvasKit, params?: any) => void
-
-  /**
-   *
-   */
-  after?: (widget: T, elapsed: number, ck: CanvasKit, params?: any) => void
+export interface AnimationContext<T extends Widget> {
+  widget: T
+  ck: CanvasKit
+  elapsed: number
 }
 
-/**
- * Define an animation.
- * @param animation The Animation object implemented by Interface Animation
- * @returns The custom Animation object
- */
-export function defineAnimation<T extends Widget>(
-  animation: Animation<T> & Record<string, any>,
-): Animation<T> {
-  return animation
+export function defineAnimationContext<T extends Widget>(context: AnimationContext<T>) {
+  return context
 }
 
-/**
- * The Animation having gotten instanced.
- */
-export interface AnimationInstance<T extends Widget> {
-  /**
-   * The animation's started time.
-   */
-  startAt: number | null
+export interface Animate<T extends Widget> {
+  animate: (context: AnimationContext<T>) => boolean
+  init?: (context: AnimationContext<T>) => void
+  after?: (context: AnimationContext<T>) => void
+}
 
-  /**
-   * The duration of this animation.
-   */
-  duration: number
+export type AnimateExt<T extends Widget> = ReturnType<typeof defineAnimate<T>> & Animate<T>
 
-  /**
-   * The object Animation.
-   */
-  animation: Animation<T>
+export interface Animation<T extends Widget> {
+  animate: Animate<T>
+  finished: boolean
+}
 
-  /**
-   * The other parameters.
-   */
-  params?: Record<string, any>
+export function defineAnimate<T extends Widget>(animate: Animate<T>) {
+  return {
+    ...animate,
+  }
+}
 
-  /**
-   * The playing mode of this animation
-   */
-  mode: 'positive' | 'reverse'
+export function sequence<T extends Base>(...animates: Animate<T>[]) {
+  let seqDo: Animate<T>['after'] = (_ctx) => { }
+  for (const animate of animates.reverse()) {
+    seqDo = (ctx) => {
+      ctx.widget.animate(animate)
+      if (seqDo)
+        seqDo(ctx)
+    }
+  }
+
+  return defineAnimate<T>({
+    init(ctx) {
+      seqDo(ctx)
+    },
+    animate(_ctx) {
+      return true
+    },
+  })
+}
+
+export function parallel<T extends Base>(...animates: Animate<T>[]) {
+  return defineAnimate<T>({
+    init(ctx) {
+      for (const animate of animates) {
+        if (animate.init)
+          animate.init(ctx)
+      }
+    },
+    after(ctx) {
+      for (const animate of animates) {
+        if (animate.after)
+          animate.after(ctx)
+      }
+    },
+    animate(ctx) {
+      return animates
+        .map(a => a.animate(ctx))
+        .reduce((xs, x) => xs && x)
+    },
+  })
+}
+
+export function delay<T extends Base>(duration: number, animate: Animate<T>) {
+  let startTime = 0
+  let started = false
+
+  return defineAnimate<T>({
+    init(ctx) {
+      startTime = ctx.elapsed
+    },
+    animate(ctx) {
+      if (ctx.elapsed <= startTime + duration)
+        return false
+      if (!started && animate.init) {
+        animate.init(ctx)
+        started = true
+      }
+      return animate.animate(ctx)
+    },
+    after(ctx) {
+      if (animate.after)
+        animate.after(ctx)
+    },
+  })
+}
+
+export function changeProp<T extends Widget>(actor: Animate<T>['animate']) {
+  return defineAnimate({
+    animate: actor,
+  })
+}
+
+export type TimingFunction = (process: number) => number
+export const linear: TimingFunction = process => process
+export function reverse(func: TimingFunction): TimingFunction {
+  return process => func(1 - process)
+}
+
+export function withProcess<T extends Widget>(
+  actor: ((ctx: AnimationContext<T>, process: number) => void) | {
+    init?: Animate<T>['init']
+    animate: (ctx: AnimationContext<T>, process: number) => void
+    after?: Animate<T>['after']
+  },
+) {
+  const act = typeof actor === 'function' ? actor : actor.animate
+  return (duration: number, by?: TimingFunction) => {
+    let startAt = 0
+    by ??= linear
+    return defineAnimate<T>({
+      init: (context) => {
+        startAt = context.elapsed
+        if (typeof actor !== 'function' && actor.init) {
+          actor.init(context)
+        }
+      },
+      animate: (context) => {
+        if (context.elapsed > startAt + duration)
+          return true
+
+        const process = by((context.elapsed - startAt) / duration)
+        act(context, process)
+        return false
+      },
+      after: (ctx) => {
+        if (typeof actor !== 'function' && actor.after) {
+          actor.after(ctx)
+        }
+      },
+    })
+  }
 }

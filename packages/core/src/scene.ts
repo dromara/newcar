@@ -1,14 +1,29 @@
-import type { Widget } from './widget'
+import type { Canvas, CanvasKit } from 'canvaskit-wasm'
+import type { Widget, WidgetBuilder } from './widget'
 
-export class Scene {
-  elapsed = 0
-  startTime: number
+export interface SceneOptions {}
 
-  constructor(public root: Widget) {
-    this.root.status = 'live'
+export function createScene(builder: WidgetBuilder<Widget>, options: SceneOptions) {
+  return (ck) => {
+    const player = {
+      paused: true,
+      elapsed: 0,
+    }
+    const root = builder(ck)
+
+    function tick(canvas: Canvas) {
+      root.render(canvas, player.elapsed)
+      player.elapsed++
+    }
+
+    return {
+      root,
+      player,
+      tick,
+      ...options,
+
+      ck,
+    }
   }
 }
-
-export function createScene(root: Widget) {
-  return new Scene(root)
-}
+export type Scene = ReturnType<ReturnType<typeof createScene>>

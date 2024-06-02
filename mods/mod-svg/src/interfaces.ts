@@ -1,4 +1,4 @@
-import type { Color } from '@newcar/utils'
+import type { Color } from '../../../packages/utils/src'
 
 export type AnimatableValue = number | number[]
 

@@ -1,228 +1,34 @@
-import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
-import { Color, deepClone } from '@newcar/utils'
+import type { CanvasKit } from 'canvaskit-wasm'
+import { error, isNull } from '@newcar/utils'
 import type { Scene } from './scene'
-import { initial } from './initial'
-import { patch } from './patch'
-import type { Widget } from './widget'
-import type { GlobalPlugin } from './plugin'
-import { type Config, defineConfig } from './config'
 
-/**
- * A object that control a single animatiopn canvas.
- */
-export class App {
-  /**
-   * The current scene of this app
-   */
-  scene: Scene
-  surface: Surface
-  reactiveFramePerSecond: number
-  private playing = false
-  private last: Widget
-  private lastFrameTime = performance.now()
-  /**
-   * The App config.
-   */
-  config: Config
-  /**
-   * Updating group, which call them every update calling.
-   */
-  updates: ((elapsed: number) => void)[] = []
-  cleared: boolean
+export function defineCreateAppApi(ck: CanvasKit) {
+  return function createApp(element: HTMLCanvasElement) {
+    const surface = ck.MakeWebGLCanvasSurface(element)
+    let scene: Scene | null = null
 
-  /**
-   * The Constructor of `App`
-   * @param element The `<canvas>` element.
-   * @param ck The CanvasKit Namespace.
-   * @param plugins The plugins provided by `CarEngine`.
-   */
-  constructor(
-    public element: HTMLCanvasElement,
-    private ck: CanvasKit,
-    private plugins: GlobalPlugin[],
-  ) {
-    this.setBackgroundColor(Color.BLACK)
-    this.config = defineConfig({
-      unit: 's',
-    })
-    if (element === void 0) {
-      console.warn(
-        `[Newcar Warn] You are trying to use a undefined canvas element.`,
-      )
-    }
-    for (const plugin of this.plugins) {
-      if (plugin.beforeSurfaceLoaded)
-        plugin.beforeSurfaceLoaded(this)
+    if (!surface) {
+      throw new Error('NDIWDLIJ')
     }
 
-    if (typeof window !== 'undefined') {
-      this.surface = this.ck.MakeWebGLCanvasSurface(this.element)
-    }
-    else {
-      console.warn(
-        '[Newcar Warn] You are using nodejs to run Newcar, please use LocalApp.',
-      )
+    function checkout(value: Scene) {
+      scene = value
     }
 
-    for (const plugin of this.plugins) {
-      if (plugin.onSurfaceLoaded)
-        plugin.onSurfaceLoaded(this, this.surface)
-    }
-  }
-
-  /**
-   * Checkout a scene.
-   * @param scene The scene that is going to be changed.
-   * @returns this
-   */
-  checkout(scene: Scene): this {
-    for (const plugin of this.plugins) {
-      if (plugin.beforeCheckout)
-        plugin.beforeCheckout(this, scene)
-    }
-    this.scene = scene
-    this.scene.startTime = performance.now()
-    this.last = this.scene.root
-    for (const plugin of this.plugins) {
-      if (plugin.onCheckout)
-        plugin.onCheckout(this, this.scene)
-    }
-    // if (!scene.root.hasSet)
-    scene.root.setEventListener(this.element)
-    return this
-  }
-
-  /**
-   * The rendering and uodate function, which called every frame.
-   * @param app The `App` object.
-   * @param canvas The `Canvas` object of CanvasKit-WASM
-   */
-  static update(app: App, canvas: Canvas): void {
-    if (!app.playing)
-      return
-
-    for (const plugin of app.plugins) {
-      if (plugin.beforeUpdate)
-        plugin.beforeUpdate(app, app.scene.elapsed)
+    function update() {
+      if (isNull(scene))
+        return error('The scene is not existm, please use `App.checkout()` to mount a scene')
+      if (scene!.player.paused)
+        return
+      surface?.requestAnimationFrame((canvas) => {
+        scene!.tick(canvas)
+      })
     }
 
-    if (app.scene.elapsed === 0)
-      initial(app.scene.root, app.ck, canvas)
-
-    for (const plugin of app.plugins) {
-      if (plugin.beforePatch)
-        plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
+    return {
+      update,
+      scene,
+      checkout,
     }
-
-    patch(app.last, app.scene.root, app.ck, canvas)
-    for (const plugin of app.plugins) {
-      if (plugin.onPatch)
-        plugin.onPatch(app, app.scene.elapsed, app.last, app.scene.root)
-    }
-
-    app.last = deepClone(app.scene.root)
-
-    for (const plugin of app.plugins) {
-      if (plugin.beforeAnimate)
-        plugin.beforeAnimate(app, app.scene.elapsed, app.scene.root)
-    }
-
-    app.scene.root.runAnimation(app.scene.elapsed, app.ck)
-    app.scene.root.processSetups(app.scene.elapsed)
-
-    for (const plugin of app.plugins) {
-      if (plugin.onAnimate)
-        plugin.onAnimate(app, app.scene.elapsed, app.scene.root)
-    }
-
-    if (app.cleared) {
-      canvas.clear(Color.parse(app.element.style.backgroundColor).toFloat4())
-      app.cleared = false
-    }
-    for (const plugin of app.plugins) {
-      if (plugin.onUpdate)
-        plugin.onUpdate(app, app.scene.elapsed)
-    }
-
-    if (app.config.unit === 'frame')
-      app.scene.elapsed += 1
-    else if (app.config.unit === 'ms')
-      app.scene.elapsed = performance.now() - app.scene.startTime // 1 frame per milisecond?
-    else if (app.config.unit === 's')
-      app.scene.elapsed = (performance.now() - app.scene.startTime) / 1000
-
-    const currentFrameTime = performance.now()
-    const elapsed = currentFrameTime - app.lastFrameTime
-    app.lastFrameTime = currentFrameTime
-    app.reactiveFramePerSecond = 1000 / elapsed
-
-    app.surface.requestAnimationFrame((canvas: Canvas) => {
-      App.update(app, canvas)
-    })
-  }
-
-  /**
-   * Start to play this animation app
-   * @param frame Play at `frame`
-   * @returns this
-   */
-  play(frame?: number): this {
-    if (this.scene === void 0) {
-      console.warn(
-        `[Newcar Warn] Current scene is undefined, please checkout a usable scene.`,
-      )
-    }
-    this.scene.elapsed ??= frame
-    this.playing = true
-    this.surface.requestAnimationFrame((canvas: Canvas) => {
-      App.update(this, canvas)
-    })
-
-    return this
-  }
-
-  /**
-   * Pause the animation of this app.
-   * @param frame pause at `frame`
-   * @returns this
-   */
-  pause(frame?: number): this {
-    this.scene.elapsed ??= frame
-    this.playing = false
-
-    return this
-  }
-
-  /**
-   * Set up a update function to call it when the widget is changed.
-   * @param updateFunc The frame from having gone to current frame.
-   */
-  setUpdate(updateFunc: (elapsed: number) => void) {
-    this.updates.push(updateFunc)
-  }
-
-  /**
-   * Add a plugin for this app.
-   * @param plugin The `CarPlugin`
-   */
-  use(plugin: GlobalPlugin) {
-    this.plugins.push(plugin)
-  }
-
-  /**
-   * Set the background color
-   * @param color The `Color` object
-   * @returns this
-   */
-  setBackgroundColor(color: Color | 'transparent'): this {
-    color !== 'transparent'
-      ? (this.element.style.backgroundColor = color.toString())
-      : (this.element.style.backgroundColor = '')
-
-    return this
-  }
-
-  clear() {
-    this.cleared = true
   }
 }

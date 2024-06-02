@@ -1,10 +1,10 @@
 import { Line, Rect, Text } from '@newcar/basic'
 import type { WidgetStyle } from '@newcar/core'
 import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
-import { Color } from '@newcar/utils'
 import stringWidth from 'string-width'
 import type { DateTimeUnit } from 'luxon'
 import { DateTime } from 'luxon'
+import { Color } from '../../../../packages/utils/src'
 import type { BaseChartData, BaseChartOptions, DateTimeFormatOptions } from './baseChart'
 import { BaseChart } from './baseChart'
 

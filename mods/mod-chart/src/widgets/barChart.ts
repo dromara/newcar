@@ -1,6 +1,6 @@
 import { Rect } from '@newcar/basic'
-import { Color } from '@newcar/utils'
 import type { Canvas } from 'canvaskit-wasm'
+import { Color } from '../../../../packages/utils/src'
 import type {
   BaseSimpleChartData,
   BaseSimpleChartDataSet,

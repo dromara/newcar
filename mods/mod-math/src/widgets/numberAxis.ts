@@ -1,8 +1,8 @@
 import { Arrow, Line, Text } from '@newcar/basic'
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
-import { Color } from '@newcar/utils'
 import type { CanvasKit } from 'canvaskit-wasm'
+import { Color } from '../../../../packages/utils/src'
 
 export type Trend = (x: number) => number | string
 

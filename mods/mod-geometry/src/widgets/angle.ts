@@ -1,9 +1,9 @@
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
-import type { Shader, StrokeCap, StrokeJoin } from '@newcar/utils'
-import { Color, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
 import { Arc, Line } from '@newcar/basic'
 import type { CanvasKit, Paint } from 'canvaskit-wasm'
+import type { Shader, StrokeCap, StrokeJoin } from '../../../../packages/utils/src'
+import { Color, str2StrokeCap, str2StrokeJoin } from '../../../../packages/utils/src'
 
 export interface AngleOptions extends WidgetOptions {
   style?: AngleStyle

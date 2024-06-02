@@ -1,8 +1,8 @@
 import { Circle } from '@newcar/basic'
 import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
-import type { StrokeCap, StrokeJoin } from '@newcar/utils'
-import { Color, str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
 import type { WidgetRange } from '@newcar/core'
+import type { StrokeCap, StrokeJoin } from '../../../../packages/utils/src'
+import { Color, str2BlendMode, str2StrokeCap, str2StrokeJoin } from '../../../../packages/utils/src'
 import { bezierControlPoints } from '../utils/bezierControlPoints'
 import type {
   BaseSimpleChartData,

@@ -7,7 +7,7 @@ import type {
 } from 'canvaskit-wasm'
 import type { WidgetOptions } from '@newcar/core'
 import { $source, Widget } from '@newcar/core'
-import { Color } from '@newcar/utils'
+import { Color } from '../../../packages/utils/src'
 
 export interface MarkdownOptions extends WidgetOptions {
   textStyle?: TextStyle
@@ -132,7 +132,7 @@ export class Markdown extends Widget {
       else if (line.match(/( +)?- .+/) || line.match(/( +)? \+.+/) || line.match(/( +)? \* .+/)) {
         const listStyle = { fontSize: 16, color: this.textStyle.color }
         builder.pushStyle(new ck.TextStyle(listStyle))
-        parseInline(line.replace(/(.+)?(-|\*|\+)/, '·'), listStyle, ck, builder)
+        parseInline(line.replace(/(.+)?([\-*+])/, '·'), listStyle, ck, builder)
         builder.pop()
       }
       else {

@@ -2,8 +2,8 @@
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import { Circle, Line, Path, Rect } from '@newcar/basic'
-import type { Color } from '@newcar/utils'
-import { isUndefined } from '@newcar/utils'
+import type { Color } from '../../../packages/utils/src'
+import { isUndefined } from '../../../packages/utils/src'
 import type { SVGItem } from './elements'
 import { transform } from './transform'
 

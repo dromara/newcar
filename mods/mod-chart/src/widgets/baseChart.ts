@@ -1,7 +1,7 @@
 import { Figure } from '@newcar/basic'
 import type { WidgetOptions, WidgetStyle } from '@newcar/core'
-import type { Color, Shader } from '@newcar/utils'
 import type { DateTime, DateTimeUnit } from 'luxon'
+import type { Color, Shader } from '../../../../packages/utils/src'
 import type { ChartLayout } from './chartLayout'
 import type { ChartDataUnit } from './chartDataUnit'
 

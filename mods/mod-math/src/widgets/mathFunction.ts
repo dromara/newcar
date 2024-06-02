@@ -1,8 +1,8 @@
 import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
 import { Widget } from '@newcar/core'
-import type { Shader } from '@newcar/utils'
-import { Color } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
+import type { Shader } from '../../../../packages/utils/src'
+import { Color } from '../../../../packages/utils/src'
 import type { Domain } from '../utils/domain'
 import type { Range } from '../utils/range'
 
