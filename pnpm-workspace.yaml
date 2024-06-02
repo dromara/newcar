@@ -1,10 +1,9 @@
 packages:
   - 'packages/*'
-  - 'next-packages/*'
-  - 'mods/*'
-  - 'plugins/*'
-  - 'test/*'
-  - cli
-  - examples
-  - docs
-  - playground
+  # - 'mods/*'
+  # - 'plugins/*'
+  # - 'test/*'
+  # - cli
+  # - examples
+  # - docs
+  # - playground
