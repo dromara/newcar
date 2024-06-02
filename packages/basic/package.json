@@ -1,13 +1,9 @@
 {
-  "name": "newcar",
-  "type": "module",
+  "name": "@newcar/basic",
   "version": "1.0.0",
-  "description": "A Highly configurable universal advanced engine, Born for creating animation rapidly.",
+  "description": "The basic objects, animations and interpolators of newcar.",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
-  "keywords": [
-    "animation"
-  ],
   "exports": {
     ".": {
       "dev": "./src/index.ts",
@@ -16,23 +12,24 @@
       "require": "./dist/index.cjs"
     }
   },
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "publish": "npm publish",
-    "build": "pkgroll --sourcemap --minify",
+    "build": "pkgroll --sourcemap",
     "dev": "pkgroll -w"
   },
   "peerDependencies": {
     "canvaskit-wasm": ">=0.39.1"
   },
   "dependencies": {
-    "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
     "@newcar/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "canvaskit-wasm": "0.39.1"
   },
   "publishConfig": {
     "access": "public"

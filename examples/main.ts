@@ -1,94 +1,85 @@
+// import * as nc from 'newcar'
+
+// const milestoneElem = document.querySelector('#milestone') as HTMLCanvasElement
+// window.addEventListener('resize', () => {
+//   milestoneElem.width = window.innerWidth
+//   milestoneElem.height = window.innerHeight
+// })
+// window.dispatchEvent(new Event('resize'))
+
+// export class Milestone {
+//   scenes: nc.Scene[]
+//   current: number
+
+//   milestoneElem: HTMLCanvasElement
+//   app: nc.App
+
+//   static engine = engine
+//   static instance: Milestone
+
+//   constructor(el: HTMLCanvasElement, ...scenes: nc.Scene[]) {
+//     this.scenes = scenes
+//     this.current = 0
+
+//     this.milestoneElem = el
+//     this.app = engine.createApp(this.milestoneElem)
+
+//     this.switch_to(0)
+//   }
+
+//   switch_to(n: number) {
+//     if (this.scenes[n] === undefined) return
+//     this.current = n
+//     this.app.checkout(this.scenes[n])
+//   }
+
+//   add_scene(setup: ((app: nc.App) => nc.Scene) | nc.Scene) {
+//     if (setup instanceof nc.Scene) {
+//       this.scenes.push(setup)
+//     } else {
+//       this.scenes.push(setup(this.app))
+//     }
+//   }
+// }
+
+// const left = document.querySelector('.left') as HTMLDivElement
+// left.addEventListener('click', () => {
+//   milestone.switch_to(milestone.current + 1)
+// })
+
+// const right = document.querySelector('.right') as HTMLDivElement
+// right.addEventListener('click', () => {
+//   milestone.switch_to(milestone.current - 1)
+// })
+
+// window.addEventListener('keydown', e => {
+//   switch (e.key) {
+//     case 'ArrowLeft':
+//       left.dispatchEvent(new Event('click'))
+//       break;
+//     case 'ArrowRight':
+//       right.dispatchEvent(new Event('click'))
+//       break;
+//   }
+// })
+
+// Milestone.instance = new Milestone(milestoneElem)
+
+// export const milestone = Milestone.instance
+// milestone.add_scene(defaultScene)
+// milestone.switch_to(0)
+
+// milestone.app.play()
+
 import * as nc from 'newcar'
 
-const engine = (await new nc.CarEngine().init(
-  './node_modules/canvaskit-wasm/bin/canvaskit.wasm',
-))
+const ck = await nc.loadSkia('./node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 
-const milestoneElem = document.querySelector('#milestone') as HTMLCanvasElement
-window.addEventListener('resize', () => {
-  milestoneElem.width = window.innerWidth
-  milestoneElem.height = window.innerHeight
-})
-window.dispatchEvent(new Event('resize'))
+const app = nc.createApp(document.querySelector('#milestone'))
 
-export class Milestone {
-  scenes: nc.Scene[]
-  current: number
-
-  milestoneElem: HTMLCanvasElement
-  app: nc.App
-
-  static engine = engine
-  static instance: Milestone
-
-  constructor(el: HTMLCanvasElement, ...scenes: nc.Scene[]) {
-    this.scenes = scenes
-    this.current = 0
-
-    this.milestoneElem = el
-    this.app = engine.createApp(this.milestoneElem)
-
-    this.switch_to(0)
-  }
-
-  switch_to(n: number) {
-    if (this.scenes[n] === undefined) return
-    this.current = n
-    this.app.checkout(this.scenes[n])
-  }
-
-  add_scene(setup: ((app: nc.App) => nc.Scene) | nc.Scene) {
-    if (setup instanceof nc.Scene) {
-      this.scenes.push(setup)
-    } else {
-      this.scenes.push(setup(this.app))
-    }
-  }
-}
-
-
-export const defaultScene = new nc.Scene(
-  new nc.Text("Hello", {
-    x: 200,
-    y: 200,
-    width: 400,
-    style: {
-      border: true,
-      borderWidth: 1,
-      borderColor: nc.Color.WHITE,
-      fontSize: 36,
-      fill: false,
-    }
-  }).animate(nc.stroke, 0, 5, {
-    origin: 100,
-  })
+const scene = nc.createScene(
+  nc.createArc(100, 0, 360, {})
 )
 
-const left = document.querySelector('.left') as HTMLDivElement
-left.addEventListener('click', () => {
-  milestone.switch_to(milestone.current + 1)
-})
-
-const right = document.querySelector('.right') as HTMLDivElement
-right.addEventListener('click', () => {
-  milestone.switch_to(milestone.current - 1)
-})
-
-window.addEventListener('keydown', e => {
-  switch (e.key) {
-    case 'ArrowLeft':
-      left.dispatchEvent(new Event('click'))
-      break;
-    case 'ArrowRight':
-      right.dispatchEvent(new Event('click'))
-      break;
-  }
-})
-
-Milestone.instance = new Milestone(milestoneElem)
-
-export const milestone = Milestone.instance
-milestone.add_scene(defaultScene)
-milestone.switch_to(0)
-
-milestone.app.play()
+app.checkout(scene)
+app.play()

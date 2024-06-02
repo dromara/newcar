@@ -4,6 +4,6 @@ packages:
   # - 'plugins/*'
   # - 'test/*'
   # - cli
-  # - examples
+  - examples
   # - docs
   # - playground

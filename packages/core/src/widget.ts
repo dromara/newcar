@@ -43,13 +43,13 @@ export function useProp<T>(value: T) {
 
   return new Proxy(data, {
     get(target, prop) {
-      return target[prop]
+      return (target as Record<string, any>)[prop as string]
     },
     set(target, prop, newValue) {
       for (const preListener of preListeners) {
         preListener(Object.seal(target))
       }
-      target[prop] = newValue
+      (target as Record<string, any>)[prop as string] = newValue
       for (const postListener of postListeners) {
         postListener(Object.seal(target))
       }
