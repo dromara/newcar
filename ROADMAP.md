@@ -91,3 +91,31 @@ new Widget({
 这样的设计的核心思路，就是在数据修改时，就让引擎知晓，是哪个对象的哪个属性做出了什么样的修改，并知道如何处理这些修改。
 
 放在 Newcar 里来说，也就是动画每一次修改数据时，都把修改的对象，修改后的数据，如何处理这个数据，告知引擎，让引擎在下一个循环时处理这些变更。
+
+我们故可以有如下这样的代码
+
+```ts
+export function createWidget() {
+  const x = defineProperty<number>(0)
+  const y = defineProperty<number>(0)
+
+  // `withStyle` should be a wrap of `defineProperty`
+  const style = withStyle<WidgetStyle>({
+    // Default values
+  })
+
+  const init = () => {}
+
+  return {
+    style,
+    x,
+    y,
+
+    init,
+  }
+}
+
+export const move = defineAnimation({
+
+})
+```
