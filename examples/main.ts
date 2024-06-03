@@ -81,12 +81,13 @@ const {
 
 const app = createApp(document.querySelector('#milestone'))
 
+const circle = use(nc.createCircle(100, {
+  x: 50,
+  y: 50,
+})).animate(nc.move(100, 100)(120))
+
 const scene = nc.createScene(
-  use(nc.createCircle(100, {
-    x: 50,
-    y: 50,
-  }))
-  .animate(nc.move(100, 100)(100))
+  circle
 )
 
 app.checkout(scene)

@@ -1,9 +1,10 @@
 import type { BlendMode } from '@newcar/utils'
 import type { Canvas } from 'canvaskit-wasm'
-import type { Prop, Widget } from './widget'
-import { def, defineWidgetBuilder } from './widget'
+import type { Widget } from './widget'
+import { defineWidgetBuilder } from './widget'
 import type { Animate } from './animation'
 import { defineAnimationContext } from './animation'
+import { changed, def } from './prop'
 
 export interface WidgetOptions {
   style?: WidgetStyle
@@ -61,12 +62,12 @@ export function createBase(options: WidgetOptions) {
 
     function add(...children: Widget[]) {
       children.push(...children)
-      return base
+      return this
     }
 
     function animate<T extends Widget>(animate: Animate<T>) {
       animates.push(animate)
-      return base
+      return this
     }
 
     function render(_canvas: Canvas) {
@@ -74,6 +75,7 @@ export function createBase(options: WidgetOptions) {
     }
 
     function update(canvas: Canvas, elapsed: number, renderFunction: (canvas: Canvas) => any) {
+      canvas.save()
       const ctx = defineAnimationContext({
         widget: base as any,
         elapsed,
@@ -93,14 +95,13 @@ export function createBase(options: WidgetOptions) {
           current = undefined
         }
       }
-      canvas.save()
+      for (const child of children) {
+        child.update(canvas, elapsed, child.render)
+      }
       canvas.translate(x.value, y.value)
       canvas.rotate(style.rotation.value, centerX.value, centerY.value)
       canvas.scale(style.scaleX.value, style.scaleY.value)
       renderFunction(canvas)
-      for (const child of children) {
-        child.update(canvas, elapsed, child.render)
-      }
       canvas.restore()
     }
 
