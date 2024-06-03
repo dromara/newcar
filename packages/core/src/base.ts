@@ -44,13 +44,6 @@ export function createBase(options: WidgetOptions) {
 
     let current: Animate<any> | undefined
 
-    function add(...children: Widget[]) {
-      children.push(...children)
-    }
-
-    function animate<T extends Widget>(animate: Animate<T>) {
-      animates.push(animate)
-    }
     const base = {
       ...options,
       x,
@@ -63,9 +56,24 @@ export function createBase(options: WidgetOptions) {
       add,
       animate,
       render,
+      update,
     }
 
-    function render(canvas: Canvas, elapsed: number) {
+    function add(...children: Widget[]) {
+      children.push(...children)
+      return base
+    }
+
+    function animate<T extends Widget>(animate: Animate<T>) {
+      animates.push(animate)
+      return base
+    }
+
+    function render(_canvas: Canvas) {
+      // ...
+    }
+
+    function update(canvas: Canvas, elapsed: number, renderFunction: (canvas: Canvas) => any) {
       const ctx = defineAnimationContext({
         widget: base as any,
         elapsed,
@@ -89,8 +97,9 @@ export function createBase(options: WidgetOptions) {
       canvas.translate(x.value, y.value)
       canvas.rotate(style.rotation.value, centerX.value, centerY.value)
       canvas.scale(style.scaleX.value, style.scaleY.value)
+      renderFunction(canvas)
       for (const child of children) {
-        child.render(canvas, elapsed)
+        child.update(canvas, elapsed, child.render)
       }
       canvas.restore()
     }

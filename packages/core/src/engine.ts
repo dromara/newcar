@@ -1,18 +1,21 @@
-/* eslint-disable import/no-mutable-exports */
 import CanvasKitInit from 'canvaskit-wasm'
-import { error } from '@newcar/utils'
 import { defineCreateAppApi } from './app'
+import type { Widget, WidgetBuilder } from './widget'
 
-export let createApp: ReturnType<typeof defineCreateAppApi> = (() => {
-  error('Please preload Skia before you use this API!')
-}) as any
-
-export async function loadSkia(wasm: string) {
+export async function initEngine(wasm: string) {
   const ck = await CanvasKitInit({
     locateFile: (_file: string) => wasm,
   })
 
-  createApp = defineCreateAppApi(ck) as ReturnType<typeof defineCreateAppApi>
+  const createApp = defineCreateAppApi(ck) as ReturnType<typeof defineCreateAppApi>
 
-  return ck
+  function use<T extends Widget>(builder: WidgetBuilder<T>) {
+    return builder(ck)
+  }
+
+  return {
+    createApp,
+    ck,
+    use,
+  }
 }

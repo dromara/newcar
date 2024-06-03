@@ -73,12 +73,20 @@
 
 import * as nc from 'newcar'
 
-const ck = await nc.loadSkia('./node_modules/canvaskit-wasm/bin/canvaskit.wasm')
+const {
+  createApp,
+  ck,
+  use,
+} = await nc.initEngine('./node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 
-const app = nc.createApp(document.querySelector('#milestone'))
+const app = createApp(document.querySelector('#milestone'))
 
 const scene = nc.createScene(
-  nc.createArc(100, 0, 360, {})
+  use(nc.createCircle(100, {
+    x: 50,
+    y: 50,
+  }))
+  .animate(nc.move(100, 100)(100))
 )
 
 app.checkout(scene)

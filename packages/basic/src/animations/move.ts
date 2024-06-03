@@ -1,6 +1,9 @@
 import type { Base } from '@newcar/core'
 import { withProcess } from '@newcar/core'
 
-withProcess<Base>((ctx, process) => {
-  ctx.widget.x.value = ctx.widget.x.value * process
-})
+export function move(x: number, y: number) {
+  return withProcess<Base>((ctx, process) => {
+    ctx.widget.x.value = process * x
+    ctx.widget.y.value = process * y
+  })
+}

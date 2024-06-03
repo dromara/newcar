@@ -38,9 +38,9 @@ export function createArc(radius: number, from: number, to: number, options: Arc
     })
 
     return deepMerge(path, {
-      from,
-      to,
-      radius,
+      from: fromProp,
+      to: toProp,
+      radius: radiusProp,
     })
   })
 }

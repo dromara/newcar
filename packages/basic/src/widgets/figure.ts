@@ -1,8 +1,7 @@
 import type { Shader, StrokeCap, StrokeJoin } from '@newcar/utils'
 import { Color, deepMerge, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
-import type { WidgetOptions, WidgetStyle } from '../../../core/src/base'
-import { createBase } from '../../../core/src/base'
-import { changed, def, defineWidgetBuilder } from '../../../core/src/widget'
+import type { WidgetOptions, WidgetStyle } from '@newcar/core'
+import { changed, createBase, def, defineWidgetBuilder } from '@newcar/core'
 
 export interface FigureStyle extends WidgetStyle {
   border?: boolean

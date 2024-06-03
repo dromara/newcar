@@ -35,6 +35,7 @@ export function createPath(options?: PathOptions) {
     }
 
     function render(canvas: Canvas) {
+      figure.render(canvas)
       if (figure.style.fill.value)
         canvas.drawPath(path, figure.fillPaint)
       if (figure.style.border.value)
