@@ -110,7 +110,7 @@ export function reverse(func: TimingFunction): TimingFunction {
 }
 
 export function withProcess<T extends Widget>(
-  actor: ((ctx: AnimationContext<T>, process: number) => void) | {
+  actor: ((ctx: AnimationContext<T>, process: number, origin: T) => void) | {
     init?: Animate<T>['init']
     animate: (ctx: AnimationContext<T>, process: number) => void
     after?: Animate<T>['after']
@@ -119,10 +119,12 @@ export function withProcess<T extends Widget>(
   const act = typeof actor === 'function' ? actor : actor.animate
   return (duration: number, by?: TimingFunction) => {
     let startAt = 0
+    let origin: T
     by ??= linear
     return defineAnimate<T>({
       init: (context) => {
         startAt = context.elapsed
+        origin = context.widget
         if (typeof actor !== 'function' && actor.init) {
           actor.init(context)
         }
@@ -132,7 +134,7 @@ export function withProcess<T extends Widget>(
           return true
 
         const process = by((context.elapsed - startAt) / duration)
-        act(context, process)
+        act(context, process, origin)
         return false
       },
       after: (ctx) => {

@@ -65,10 +65,15 @@ export function createFigure(options?: FigureOptions) {
       style.interval.value,
       style.offset.value,
     ))
+    strokePaint.setAntiAlias(style.antiAlias.value)
+    strokePaint.setAlphaf(style.transparency.value * style.borderColor.value.alpha)
+
     fillPaint.setColor(style.fillColor.value.toFloat4())
     if (style.shader.value || style.fillShader.value)
       fillPaint.setShader(style.fillShader.value.toCanvasKitShader(ck))
     fillPaint.setStyle(ck.PaintStyle.Fill)
+    fillPaint.setAntiAlias(style.antiAlias.value)
+    fillPaint.setAlphaf(style.transparency.value * style.fillColor.value.alpha)
 
     changed(style.antiAlias, (v) => {
       strokePaint.setAntiAlias(v.value)
@@ -110,6 +115,14 @@ export function createFigure(options?: FigureOptions) {
         style.interval.value,
         v.value,
       ))
+    })
+    changed(style.transparency, (v) => {
+      strokePaint.setAlphaf(v.value * style.borderColor.value.alpha)
+      fillPaint.setAlphaf(v.value * style.fillColor.value.alpha)
+    })
+    changed(style.antiAlias, (v) => {
+      strokePaint.setAntiAlias(v.value)
+      fillPaint.setAntiAlias(v.value)
     })
 
     return deepMerge(base, { style, strokePaint, fillPaint })

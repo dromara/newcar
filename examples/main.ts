@@ -81,18 +81,14 @@ const {
 
 const app = createApp(document.querySelector('#milestone'))
 
-const circle = use(nc.createPolygon([
-  [0, 0],
-  [100, 100],
-  [200, 300]
-], {
+const circle = use(nc.createCircle(300, {
   x: 0,
   y: 0,
 }))
 circle.animate(nc.move(100, 100)(120))
 
 const scene = nc.createScene(
-  use(nc.createArrow([0, 0], [100, 100]))
+  circle
 )
 
 app.checkout(scene)
