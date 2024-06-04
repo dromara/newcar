@@ -1,9 +1,9 @@
 import type { Shader, StrokeCap, StrokeJoin } from '@newcar/utils'
 import { Color, deepMerge, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
-import type { WidgetOptions, WidgetStyle } from '@newcar/core'
+import type { BaseOptions, BaseStyle } from '@newcar/core'
 import { changed, createBase, def, defineWidgetBuilder } from '@newcar/core'
 
-export interface FigureStyle extends WidgetStyle {
+export interface FigureStyle extends BaseStyle {
   border?: boolean
   borderColor?: Color
   borderShader?: Shader
@@ -19,7 +19,7 @@ export interface FigureStyle extends WidgetStyle {
   interval?: number[]
 }
 
-export interface FigureOptions extends WidgetOptions {
+export interface FigureOptions extends BaseOptions {
   style?: FigureStyle
 }
 

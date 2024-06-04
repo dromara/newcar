@@ -69,4 +69,8 @@ export function changed<T>(
   }
 }
 
+export type ConvertToProp<T> = {
+  [K in keyof T]: Prop<T[K]>
+}
+
 export { useProp as def }

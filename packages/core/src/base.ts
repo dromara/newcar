@@ -4,10 +4,11 @@ import type { Widget } from './widget'
 import { defineWidgetBuilder } from './widget'
 import type { Animate } from './animation'
 import { defineAnimationContext } from './animation'
+import type { ConvertToProp, Prop } from './prop'
 import { changed, def } from './prop'
 
-export interface WidgetOptions {
-  style?: WidgetStyle
+export interface BaseOptions {
+  style?: BaseStyle
   x?: number
   y?: number
   centerX?: number // The rotation center x of the widget.
@@ -16,7 +17,7 @@ export interface WidgetOptions {
   children?: Widget[]
 }
 
-export interface WidgetStyle {
+export interface BaseStyle {
   scaleX?: number
   scaleY?: number
   rotation?: number
@@ -25,8 +26,20 @@ export interface WidgetStyle {
   antiAlias?: boolean
 }
 
-export function createBase(options: WidgetOptions) {
-  return defineWidgetBuilder((ck) => {
+export interface Base extends Widget {
+  x: Prop<number>
+  y: Prop<number>
+  centerX: Prop<number>
+  centerY: Prop<number>
+  progress: Prop<number>
+  style: ConvertToProp<BaseStyle>
+  children: Widget[]
+  add: (...children: Widget[]) => Base
+  animate: <T extends Widget>(animate: Animate<T>) => Base
+}
+
+export function createBase(options: BaseOptions) {
+  return defineWidgetBuilder<Base>((ck) => {
     const animates: Animate<any>[] = []
     const children: Widget[] = []
     const x = def(options.x ?? 0)
@@ -45,7 +58,11 @@ export function createBase(options: WidgetOptions) {
 
     let current: Animate<any> | undefined
 
-    const base = {
+    function render(_canvas: Canvas) {
+      // ...
+    }
+
+    return {
       ...options,
       x,
       y,
@@ -54,59 +71,45 @@ export function createBase(options: WidgetOptions) {
       progress,
       style,
       children,
-      add,
-      animate,
       render,
-      update,
-    }
-
-    function add(...children: Widget[]) {
-      children.push(...children)
-      return this
-    }
-
-    function animate<T extends Widget>(animate: Animate<T>) {
-      animates.push(animate)
-      return this
-    }
-
-    function render(_canvas: Canvas) {
-      // ...
-    }
-
-    function update(canvas: Canvas, elapsed: number, renderFunction: (canvas: Canvas) => any) {
-      canvas.save()
-      const ctx = defineAnimationContext({
-        widget: base as any,
-        elapsed,
-        ck,
-      })
-      if (!current) {
-        current = animates.shift() as any
-        if (current && current.init) {
-          current.init(ctx)
+      add(...children: Widget[]) {
+        children.push(...children)
+        return this
+      },
+      animate<T extends Widget>(animate: Animate<T>) {
+        animates.push(animate)
+        return this
+      },
+      update(canvas: Canvas, elapsed: number, renderFunction: (canvas: Canvas) => any) {
+        canvas.save()
+        const ctx = defineAnimationContext({
+          widget: this,
+          elapsed,
+          ck,
+        })
+        if (!current) {
+          current = animates.shift() as any
+          if (current && current.init) {
+            current.init(ctx)
+          }
         }
-      }
-      else {
-        const finished = current.animate(ctx)
-        if (finished) {
-          if (current.after)
-            current.after(ctx)
-          current = undefined
+        else {
+          const finished = current.animate(ctx)
+          if (finished) {
+            if (current.after)
+              current.after(ctx)
+            current = undefined
+          }
         }
-      }
-      for (const child of children) {
-        child.update(canvas, elapsed, child.render)
-      }
-      canvas.translate(x.value, y.value)
-      canvas.rotate(style.rotation.value, centerX.value, centerY.value)
-      canvas.scale(style.scaleX.value, style.scaleY.value)
-      renderFunction(canvas)
-      canvas.restore()
+        for (const child of children) {
+          child.update(canvas, elapsed, child.render)
+        }
+        canvas.translate(x.value, y.value)
+        canvas.rotate(style.rotation.value, centerX.value, centerY.value)
+        canvas.scale(style.scaleX.value, style.scaleY.value)
+        renderFunction(canvas)
+        canvas.restore()
+      },
     }
-
-    return base
   })
 }
-
-export type Base = ReturnType<ReturnType<typeof createBase>>
