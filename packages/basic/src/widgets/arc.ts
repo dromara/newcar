@@ -19,6 +19,8 @@ export interface Arc extends Path {
 
 export function createArc(radius: number, from: number, to: number, options?: ArcOptions) {
   return defineWidgetBuilder<Arc>((ck) => {
+    options ??= {}
+    options.style ??= {}
     const path = createPath(options ?? {})(ck)
     const rect = ck.LTRBRect(
       -radius,

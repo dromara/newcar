@@ -30,6 +30,8 @@ export interface Rect extends Path {
 
 export function createRect(width: number, length: number, options: RectOptions) {
   return defineWidgetBuilder<Rect>((ck) => {
+    options ??= {}
+    options.style ??= {}
     const widthProp = def(width)
     const lengthProp = def(length)
 

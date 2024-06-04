@@ -21,6 +21,8 @@ export interface Path extends Figure {
 
 export function createPath(options?: PathOptions) {
   return defineWidgetBuilder<Path>((ck) => {
+    options ??= {}
+    options.style ??= {}
     const figure = createFigure(options ?? {})(ck)
 
     const path = new ck.Path()

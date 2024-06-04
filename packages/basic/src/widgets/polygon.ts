@@ -1,7 +1,9 @@
+import type { ConvertToProp, Prop } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
 import { deepMerge } from '@newcar/utils'
 import type { Vector2 } from '../utils/vector2'
-import { type PathOptions, type PathStyle, createPath } from './path'
+import type { Path, PathOptions, PathStyle } from './path'
+import { createPath } from './path'
 
 export interface PolygonOptions extends PathOptions {
   style?: PolygonStyle
@@ -9,8 +11,15 @@ export interface PolygonOptions extends PathOptions {
 
 export interface PolygonStyle extends PathStyle {}
 
+export interface Polygon extends Path {
+  style: ConvertToProp<PolygonStyle>
+  points: Prop<Vector2>[]
+}
+
 export function createPolygon(points: Vector2[], options?: PolygonOptions) {
-  return defineWidgetBuilder((ck) => {
+  return defineWidgetBuilder<Polygon>((ck) => {
+    options ??= {}
+    options.style ??= {}
     const path = createPath(options)(ck)
     const pointsProp = points.map(point => def(point))
     let index = 0

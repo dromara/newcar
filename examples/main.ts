@@ -92,7 +92,7 @@ const circle = use(nc.createPolygon([
 circle.animate(nc.move(100, 100)(120))
 
 const scene = nc.createScene(
-  circle
+  use(nc.createArrow([0, 0], [100, 100]))
 )
 
 app.checkout(scene)

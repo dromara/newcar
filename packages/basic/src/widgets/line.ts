@@ -25,7 +25,15 @@ export interface Line extends Path {
 
 export function createLine(from: Vector2, to: Vector2, options?: LineOptions) {
   return defineWidgetBuilder<Line>((ck) => {
-    const path = createPath(options)(ck)
+    options ??= {}
+    options.style ??= {}
+    const path = createPath(deepMerge(options, {
+      style: {
+        border: true,
+        borderWidth: options.style.width,
+        fill: false,
+      },
+    }))(ck)
 
     const fromProp = def(from)
     const toProp = def(to)
@@ -34,17 +42,20 @@ export function createLine(from: Vector2, to: Vector2, options?: LineOptions) {
       width: def(options.style.width ?? 2),
     }
 
-    path.path.moveTo(from[0], from[1])
-    path.path.lineTo(to[0], to[1])
+    path.path.moveTo(...from)
+    path.path.lineTo(...to)
 
-    function reset(v: Prop<Vector2>) {
+    function reset(_v: Prop<Vector2>) {
       path.path.reset()
-      path.path.moveTo(v.value[0], v.value[1])
-      path.path.lineTo(v.value[0], v.value[1])
+      path.path.moveTo(...fromProp.value)
+      path.path.lineTo(...fromProp.value)
     }
 
     changed(fromProp, reset)
     changed(toProp, reset)
+    changed(style.width, (v) => {
+      path.style.borderWidth.value = v.value
+    })
 
     return deepMerge(path, {
       style,

@@ -66,13 +66,14 @@ export function createBase(options: BaseOptions) {
       progress,
       style,
       children,
+      animates,
       render,
       add(...children: Widget[]) {
-        children.push(...children)
+        this.children.push(...children)
         return this
       },
       animate<T extends Widget>(animate: Animate<T>) {
-        animates.push(animate)
+        this.animates.push(animate)
         return this
       },
       update,
@@ -103,12 +104,12 @@ export function createBase(options: BaseOptions) {
           current = undefined
         }
       }
-      for (const child of children) {
-        child.update(canvas, elapsed, child.render)
-      }
       canvas.translate(x.value, y.value)
       canvas.rotate(style.rotation.value, centerX.value, centerY.value)
       canvas.scale(style.scaleX.value, style.scaleY.value)
+      for (const child of children) {
+        child.update(canvas, elapsed, child.render)
+      }
       renderFunction(canvas)
       canvas.restore()
     }

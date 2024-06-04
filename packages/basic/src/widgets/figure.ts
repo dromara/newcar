@@ -32,6 +32,7 @@ export interface Figure extends Base {
 
 export function createFigure(options?: FigureOptions) {
   return defineWidgetBuilder<Figure>((ck) => {
+    options ??= {}
     const base = createBase(options ?? {})(ck)
     options.style ??= {}
     const style = {
