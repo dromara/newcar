@@ -58,12 +58,7 @@ export function createBase(options: BaseOptions) {
 
     let current: Animate<any> | undefined
 
-    function render(_canvas: Canvas) {
-      // ...
-    }
-
-    return {
-      ...options,
+    const base = {
       x,
       y,
       centerX,
@@ -80,36 +75,44 @@ export function createBase(options: BaseOptions) {
         animates.push(animate)
         return this
       },
-      update(canvas: Canvas, elapsed: number, renderFunction: (canvas: Canvas) => any) {
-        canvas.save()
-        const ctx = defineAnimationContext({
-          widget: this,
-          elapsed,
-          ck,
-        })
-        if (!current) {
-          current = animates.shift() as any
-          if (current && current.init) {
-            current.init(ctx)
-          }
-        }
-        else {
-          const finished = current.animate(ctx)
-          if (finished) {
-            if (current.after)
-              current.after(ctx)
-            current = undefined
-          }
-        }
-        for (const child of children) {
-          child.update(canvas, elapsed, child.render)
-        }
-        canvas.translate(x.value, y.value)
-        canvas.rotate(style.rotation.value, centerX.value, centerY.value)
-        canvas.scale(style.scaleX.value, style.scaleY.value)
-        renderFunction(canvas)
-        canvas.restore()
-      },
+      update,
     }
+
+    function render(_canvas: Canvas) {
+      // ...
+    }
+
+    function update(canvas: Canvas, elapsed: number, renderFunction: (canvas: Canvas) => any) {
+      canvas.save()
+      const ctx = {
+        widget: base,
+        elapsed,
+        ck,
+      }
+      if (!current) {
+        current = animates.shift() as any
+        if (current && current.init) {
+          current.init(ctx)
+        }
+      }
+      else {
+        const finished = current.animate(ctx)
+        if (finished) {
+          if (current.after)
+            current.after(ctx)
+          current = undefined
+        }
+      }
+      for (const child of children) {
+        child.update(canvas, elapsed, child.render)
+      }
+      canvas.translate(x.value, y.value)
+      canvas.rotate(style.rotation.value, centerX.value, centerY.value)
+      canvas.scale(style.scaleX.value, style.scaleY.value)
+      renderFunction(canvas)
+      canvas.restore()
+    }
+
+    return base
   })
 }

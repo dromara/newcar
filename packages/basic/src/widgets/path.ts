@@ -1,7 +1,8 @@
 import { deepMerge } from '@newcar/utils'
-import type { Canvas, EmbindEnumEntity, InputCommands, Path } from 'canvaskit-wasm'
+import type { Canvas, EmbindEnumEntity, InputCommands, Path as skPath } from 'canvaskit-wasm'
+import type { ConvertToProp } from '@newcar/core'
 import { defineWidgetBuilder } from '../../../core/src/widget'
-import type { FigureOptions, FigureStyle } from './figure'
+import type { Figure, FigureOptions, FigureStyle } from './figure'
 import { createFigure } from './figure'
 
 export interface PathOptions extends FigureOptions {
@@ -10,8 +11,16 @@ export interface PathOptions extends FigureOptions {
 
 export interface PathStyle extends FigureStyle {}
 
+export interface Path extends Figure {
+  style: ConvertToProp<PathStyle>
+  path: skPath
+  addPathFromPathString: (pathString: string) => void
+  addPathFromCmds: (cmds: InputCommands) => void
+  addPathFromOp: (one: skPath, two: skPath, op: EmbindEnumEntity) => void
+}
+
 export function createPath(options?: PathOptions) {
-  return defineWidgetBuilder((ck) => {
+  return defineWidgetBuilder<Path>((ck) => {
     const figure = createFigure(options ?? {})(ck)
 
     const path = new ck.Path()
@@ -28,7 +37,7 @@ export function createPath(options?: PathOptions) {
       )
     }
 
-    function addPathFromOp(one: Path, two: Path, op: EmbindEnumEntity) {
+    function addPathFromOp(one: skPath, two: skPath, op: EmbindEnumEntity) {
       path.addPath(
         ck.Path.MakeFromOp(one, two, op),
       )

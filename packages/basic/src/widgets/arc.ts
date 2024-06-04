@@ -1,7 +1,7 @@
-import type { Prop } from '@newcar/core'
+import type { ConvertToProp, Prop } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
 import { deepMerge } from '@newcar/utils'
-import type { PathOptions, PathStyle } from './path'
+import type { Path, PathOptions, PathStyle } from './path'
 import { createPath } from './path'
 
 export interface ArcOptions extends PathOptions {
@@ -10,8 +10,15 @@ export interface ArcOptions extends PathOptions {
 
 export interface ArcStyle extends PathStyle { }
 
+export interface Arc extends Path {
+  style: ConvertToProp<ArcStyle>
+  radius: Prop<number>
+  from: Prop<number>
+  to: Prop<number>
+}
+
 export function createArc(radius: number, from: number, to: number, options: ArcOptions) {
-  return defineWidgetBuilder((ck) => {
+  return defineWidgetBuilder<Arc>((ck) => {
     const path = createPath(options ?? {})(ck)
     const rect = ck.LTRBRect(
       -radius,

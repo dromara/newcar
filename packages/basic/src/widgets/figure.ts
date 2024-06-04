@@ -1,7 +1,8 @@
 import type { Shader, StrokeCap, StrokeJoin } from '@newcar/utils'
 import { Color, deepMerge, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
-import type { BaseOptions, BaseStyle } from '@newcar/core'
+import type { Base, BaseOptions, BaseStyle, ConvertToProp } from '@newcar/core'
 import { changed, createBase, def, defineWidgetBuilder } from '@newcar/core'
+import type { Paint } from 'canvaskit-wasm'
 
 export interface FigureStyle extends BaseStyle {
   border?: boolean
@@ -23,8 +24,14 @@ export interface FigureOptions extends BaseOptions {
   style?: FigureStyle
 }
 
+export interface Figure extends Base {
+  style: ConvertToProp<FigureStyle>
+  fillPaint: Paint
+  strokePaint: Paint
+}
+
 export function createFigure(options?: FigureOptions) {
-  return defineWidgetBuilder((ck) => {
+  return defineWidgetBuilder<Figure>((ck) => {
     const base = createBase(options ?? {})(ck)
     options.style ??= {}
     const style = {
@@ -46,7 +53,6 @@ export function createFigure(options?: FigureOptions) {
 
     const strokePaint = new ck.Paint()
     const fillPaint = new ck.Paint()
-    // console.log(style.borderColor.value)
     strokePaint.setColor(style.borderColor.value.toFloat4())
     strokePaint.setStrokeWidth(style.borderWidth.value)
     if (style.shader.value || style.borderShader.value)
