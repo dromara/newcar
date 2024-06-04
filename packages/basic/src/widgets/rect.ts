@@ -36,12 +36,12 @@ export function createRect(width: number, length: number, options: RectOptions) 
     const lengthProp = def(length)
 
     const path = createPath(options ?? {})(ck)
-    const rect = ck.LTRBRect(0, 0, widthProp.value, lengthProp.value)
+    const rect = ck.LTRBRect(0, 0, widthProp.value * options.progress, lengthProp.value * options.progress)
     path.path.addRect(rect)
 
     function reset() {
       path.path.reset()
-      rect.set([0, 0, widthProp.value, lengthProp.value])
+      rect.set([0, 0, widthProp.value * path.progress.value, lengthProp.value * path.progress.value])
       path.path.addRect(rect)
     }
 

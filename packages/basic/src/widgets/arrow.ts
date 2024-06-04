@@ -76,6 +76,7 @@ export function createArrow(from: Vector2, to: Vector2, options?: ArrowOptions) 
         width: options.style.borderWidth,
         ...options.style,
       },
+      progress: options.progress,
     })(ck)
 
     function reset() {
@@ -85,6 +86,10 @@ export function createArrow(from: Vector2, to: Vector2, options?: ArrowOptions) 
 
     changed(fromProp, reset)
     changed(toProp, reset)
+    changed(figure.progress, (v) => {
+      stem.progress.value = v.value
+      tip.progress.value = v.value
+    })
 
     figure.add(stem, tip)
 

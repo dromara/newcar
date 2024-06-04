@@ -43,12 +43,12 @@ export function createLine(from: Vector2, to: Vector2, options?: LineOptions) {
     }
 
     path.path.moveTo(...from)
-    path.path.lineTo(...to)
+    path.path.lineTo(...to.map(i => i * path.progress.value) as Vector2)
 
     function reset(_v: Prop<Vector2>) {
       path.path.reset()
       path.path.moveTo(...fromProp.value)
-      path.path.lineTo(...fromProp.value)
+      path.path.lineTo(...toProp.value.map(i => i * path.progress.value) as Vector2)
     }
 
     changed(fromProp, reset)
