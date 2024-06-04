@@ -23,7 +23,7 @@ export interface Line extends Path {
   to: Prop<Vector2>
 }
 
-export function createLine(from: Vector2, to: Vector2, options: LineOptions) {
+export function createLine(from: Vector2, to: Vector2, options?: LineOptions) {
   return defineWidgetBuilder<Line>((ck) => {
     const path = createPath(options)(ck)
 

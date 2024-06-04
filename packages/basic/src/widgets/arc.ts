@@ -17,7 +17,7 @@ export interface Arc extends Path {
   to: Prop<number>
 }
 
-export function createArc(radius: number, from: number, to: number, options: ArcOptions) {
+export function createArc(radius: number, from: number, to: number, options?: ArcOptions) {
   return defineWidgetBuilder<Arc>((ck) => {
     const path = createPath(options ?? {})(ck)
     const rect = ck.LTRBRect(
