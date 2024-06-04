@@ -3,9 +3,8 @@ import type { Canvas } from 'canvaskit-wasm'
 import type { Widget } from './widget'
 import { defineWidgetBuilder } from './widget'
 import type { Animate } from './animation'
-import { defineAnimationContext } from './animation'
 import type { ConvertToProp, Prop } from './prop'
-import { changed, def } from './prop'
+import { def } from './prop'
 
 export interface BaseOptions {
   style?: BaseStyle
