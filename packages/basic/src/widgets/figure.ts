@@ -1,5 +1,5 @@
 import type { Shader, StrokeCap, StrokeJoin } from '@newcar/utils'
-import { Color, deepMerge, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
+import { Color, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
 import type { Base, BaseOptions, BaseStyle, ConvertToProp } from '@newcar/core'
 import { changed, createBase, def, defineWidgetBuilder } from '@newcar/core'
 import type { Paint } from 'canvaskit-wasm'
@@ -33,11 +33,12 @@ export interface Figure extends Base {
 export function createFigure(options?: FigureOptions) {
   return defineWidgetBuilder<Figure>((ck) => {
     options ??= {}
-    const base = createBase(options ?? {})(ck)
     options.style ??= {}
+    const base = createBase(options)(ck)
     const style = {
+      ...base.style,
       color: def(options.style.color ?? Color.WHITE),
-      shader: def(options.style.shader ?? options.style.shader),
+      shader: def(options.style.shader ?? null),
       border: def(options.style.border ?? false),
       borderColor: def(options.style.borderColor ?? options.style.color ?? Color.WHITE),
       borderShader: def(options.style.borderShader ?? options.style.shader),
@@ -49,16 +50,14 @@ export function createFigure(options?: FigureOptions) {
       cap: def(options.style.cap ?? 'butt'),
       offset: def(options.style.offset ?? 0),
       interval: def(options.style.interval ?? [1, 0]),
-      ...base.style,
     }
 
     const strokePaint = new ck.Paint()
     const fillPaint = new ck.Paint()
-    strokePaint.setColor(style.borderColor.value.toFloat4())
-    strokePaint.setStrokeWidth(style.borderWidth.value)
-    if (style.shader.value || style.borderShader.value)
-      strokePaint.setShader(style.borderShader.value.toCanvasKitShader(ck))
     strokePaint.setStyle(ck.PaintStyle.Stroke)
+    strokePaint.setColor(style.borderColor.value.toFloat4())
+    strokePaint.setShader(style.borderShader.value?.toCanvasKitShader(ck) ?? null)
+    strokePaint.setStrokeWidth(style.borderWidth.value)
     strokePaint.setStrokeCap(str2StrokeCap(ck, style.cap.value))
     strokePaint.setStrokeJoin(str2StrokeJoin(ck, style.join.value))
     strokePaint.setPathEffect(ck.PathEffect.MakeDash(
@@ -68,10 +67,9 @@ export function createFigure(options?: FigureOptions) {
     strokePaint.setAntiAlias(style.antiAlias.value)
     strokePaint.setAlphaf(style.transparency.value * style.borderColor.value.alpha)
 
-    fillPaint.setColor(style.fillColor.value.toFloat4())
-    if (style.shader.value || style.fillShader.value)
-      fillPaint.setShader(style.fillShader.value.toCanvasKitShader(ck))
     fillPaint.setStyle(ck.PaintStyle.Fill)
+    fillPaint.setColor(style.fillColor.value.toFloat4())
+    fillPaint.setShader(style.fillShader.value?.toCanvasKitShader(ck) ?? null)
     fillPaint.setAntiAlias(style.antiAlias.value)
     fillPaint.setAlphaf(style.transparency.value * style.fillColor.value.alpha)
 
@@ -82,33 +80,37 @@ export function createFigure(options?: FigureOptions) {
     changed(style.borderWidth, (v) => {
       strokePaint.setStrokeWidth(v.value)
     })
-    changed(style.borderColor, (v) => {
-      strokePaint.setColor(v.value.toFloat4())
-    })
-    changed(style.borderShader, (v) => {
-      strokePaint.setShader(v.value!.toCanvasKitShader(ck))
+    changed(style.cap, (v) => {
+      strokePaint.setStrokeCap(str2StrokeCap(ck, v.value))
     })
     changed(style.join, (v) => {
       strokePaint.setStrokeJoin(str2StrokeJoin(ck, v.value))
     })
-    changed(style.cap, (v) => {
-      strokePaint.setStrokeCap(str2StrokeCap(ck, v.value))
+    changed(style.borderColor, (v) => {
+      strokePaint.setColor(v.value.toFloat4())
+    })
+    changed(style.fillColor, (v) => {
+      fillPaint.setColor(v.value.toFloat4())
     })
     changed(style.color, (v) => {
-      strokePaint.setColor(v.value.toFloat4())
-      fillPaint.setColor(v.value.toFloat4())
+      strokePaint.setColor(style.borderColor.value?.toFloat4() ?? v.value.toFloat4())
+      fillPaint.setColor(style.fillColor.value?.toFloat4() ?? v.value.toFloat4())
+    })
+    changed(style.borderShader, (v) => {
+      strokePaint.setShader(v.value?.toCanvasKitShader(ck) ?? null)
+    })
+    changed(style.fillShader, (v) => {
+      fillPaint.setShader(v.value?.toCanvasKitShader(ck) ?? null)
+    })
+    changed(style.shader, (v) => {
+      strokePaint.setShader(style.borderShader.value?.toCanvasKitShader(ck) ?? v.value?.toCanvasKitShader(ck) ?? null)
+      fillPaint.setShader(style.fillShader.value?.toCanvasKitShader(ck) ?? v.value?.toCanvasKitShader(ck) ?? null)
     })
     changed(style.interval, (v) => {
       strokePaint.setPathEffect(ck.PathEffect.MakeDash(
         v.value,
         style.offset.value,
       ))
-    })
-    changed(style.fillColor, (v) => {
-      fillPaint.setColor(v.value.toFloat4())
-    })
-    changed(style.fillShader, (v) => {
-      fillPaint.setShader(v.value!.toCanvasKitShader(ck))
     })
     changed(style.offset, (v) => {
       strokePaint.setPathEffect(ck.PathEffect.MakeDash(
@@ -125,6 +127,11 @@ export function createFigure(options?: FigureOptions) {
       fillPaint.setAntiAlias(v.value)
     })
 
-    return deepMerge(base, { style, strokePaint, fillPaint })
+    return {
+      ...base,
+      style,
+      strokePaint,
+      fillPaint,
+    }
   })
 }

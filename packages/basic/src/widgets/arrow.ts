@@ -1,5 +1,4 @@
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
-import { deepMerge } from '@newcar/utils'
 import type { Vector2 } from '../utils/vector2'
 import { type FigureOptions, type FigureStyle, createFigure } from './figure'
 import { createPolygon } from './polygon'
@@ -52,10 +51,10 @@ export function createArrow(from: Vector2, to: Vector2, options?: ArrowOptions) 
   return defineWidgetBuilder((ck) => {
     options ??= {}
     options.style ??= {}
-    const figure = createFigure(options)(ck)
     const fromProp = def(from)
     const toProp = def(to)
 
+    const figure = createFigure(options)(ck)
     const tip = createPolygon([
       [0, 10],
       [22, 0],
@@ -80,8 +79,7 @@ export function createArrow(from: Vector2, to: Vector2, options?: ArrowOptions) 
     })(ck)
 
     function reset() {
-      const radian = calculateArrowRotationAngle(fromProp.value, toProp.value)
-      tip.style.rotation.value = radian
+      tip.style.rotation.value = calculateArrowRotationAngle(fromProp.value, toProp.value)
     }
 
     changed(fromProp, reset)
@@ -93,9 +91,10 @@ export function createArrow(from: Vector2, to: Vector2, options?: ArrowOptions) 
 
     figure.add(stem, tip)
 
-    return deepMerge(figure, {
+    return {
+      ...figure,
       from: fromProp,
       to: toProp,
-    })
+    }
   })
 }

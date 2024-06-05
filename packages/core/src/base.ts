@@ -39,6 +39,9 @@ export interface Base extends Widget {
 
 export function createBase(options: BaseOptions) {
   return defineWidgetBuilder<Base>((ck) => {
+    options ??= {}
+    options.style ??= {}
+
     const animates: Animate<any>[] = []
     const children: Widget[] = []
     const x = def(options.x ?? 0)

@@ -1,7 +1,6 @@
-import { deepMerge } from '@newcar/utils'
 import type { Canvas, EmbindEnumEntity, InputCommands, Path as skPath } from 'canvaskit-wasm'
 import type { ConvertToProp } from '@newcar/core'
-import { defineWidgetBuilder } from '../../../core/src/widget'
+import { defineWidgetBuilder } from '@newcar/core'
 import type { Figure, FigureOptions, FigureStyle } from './figure'
 import { createFigure } from './figure'
 
@@ -23,7 +22,7 @@ export function createPath(options?: PathOptions) {
   return defineWidgetBuilder<Path>((ck) => {
     options ??= {}
     options.style ??= {}
-    const figure = createFigure(options ?? {})(ck)
+    const figure = createFigure(options)(ck)
 
     const path = new ck.Path()
 
@@ -53,12 +52,13 @@ export function createPath(options?: PathOptions) {
         canvas.drawPath(path, figure.strokePaint)
     }
 
-    return deepMerge(figure, {
+    return {
+      ...figure,
       path,
       addPathFromPathString,
       addPathFromCmds,
       addPathFromOp,
       render,
-    })
+    }
   })
 }

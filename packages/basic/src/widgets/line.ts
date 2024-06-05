@@ -1,6 +1,5 @@
 import type { ConvertToProp, Prop } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
-import { deepMerge } from '@newcar/utils'
 import type { Vector2 } from '../utils/vector2'
 import type { Path, PathOptions, PathStyle } from './path'
 import { createPath } from './path'
@@ -27,18 +26,22 @@ export function createLine(from: Vector2, to: Vector2, options?: LineOptions) {
   return defineWidgetBuilder<Line>((ck) => {
     options ??= {}
     options.style ??= {}
-    const path = createPath(deepMerge(options, {
+    const fromProp = def(from)
+    const toProp = def(to)
+
+    const path = createPath({
+      ...options,
       style: {
         border: true,
         borderWidth: options.style.width,
         fill: false,
+        ...options.style,
       },
-    }))(ck)
+    })(ck)
 
-    const fromProp = def(from)
-    const toProp = def(to)
     options.style ??= {}
     const style = {
+      ...path.style,
       width: def(options.style.width ?? 2),
     }
 
@@ -46,7 +49,7 @@ export function createLine(from: Vector2, to: Vector2, options?: LineOptions) {
     path.path.lineTo(...to.map(i => i * path.progress.value) as Vector2)
 
     function reset(_v: Prop<Vector2>) {
-      path.path.reset()
+      path.path.rewind()
       path.path.moveTo(...fromProp.value)
       path.path.lineTo(...toProp.value.map(i => i * path.progress.value) as Vector2)
     }
@@ -57,10 +60,11 @@ export function createLine(from: Vector2, to: Vector2, options?: LineOptions) {
       path.style.borderWidth.value = v.value
     })
 
-    return deepMerge(path, {
+    return {
+      ...path,
       style,
       from: fromProp,
       to: toProp,
-    })
+    }
   })
 }
