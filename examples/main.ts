@@ -88,7 +88,7 @@ const circle = use(nc.createRect(100, 100, {
 // circle.animate(nc.move(100, 100)(120))
 
 const scene = nc.createScene(
-  circle
+  circle.animate(nc.fadeOut()(1))
 )
 
 app.checkout(scene)

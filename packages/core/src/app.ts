@@ -1,6 +1,6 @@
 import type { CanvasKit } from 'canvaskit-wasm'
 import { Color, error, isNull } from '@newcar/utils'
-import type { Scene } from './scene'
+import type { Scene, SceneOptions } from './scene'
 
 export function defineCreateAppApi(ck: CanvasKit) {
   return function createApp(element: HTMLCanvasElement) {
@@ -12,7 +12,7 @@ export function defineCreateAppApi(ck: CanvasKit) {
       throw new Error('NDIWDLIJ')
     }
 
-    function checkout(callback: (ck: CanvasKit) => Scene) {
+    function checkout(callback: (ck: CanvasKit, options?: SceneOptions) => Scene) {
       scene = callback(ck)
     }
 
