@@ -3,6 +3,27 @@ import { changed, def, defineWidgetBuilder } from '@newcar/core'
 import type { Path, PathOptions, PathStyle } from './path'
 import { createPath } from './path'
 
+function mapRadius(source: RectStyle['radius']): [number, number, number, number, number, number, number, number] {
+  const target: [number, number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0, 0]
+  if (typeof source === 'number') {
+    target.fill(source, 0, 8)
+  }
+  else if (source.length === 2) {
+    target.fill(source[0], 0, 4)
+      .fill(source[1], 4, 8)
+  }
+  else if (source.length === 4) {
+    target.fill(source[0], 0, 2)
+      .fill(source[1], 2, 4)
+      .fill(source[2], 4, 6)
+      .fill(source[3], 6, 8)
+  }
+  else {
+    return source
+  }
+  return target
+}
+
 export interface RectOptions extends PathOptions {
   style?: RectStyle
 }
@@ -36,22 +57,33 @@ export function createRect(width: number, length: number, options: RectOptions) 
 
     const path = createPath(options)(ck)
 
-    const rect = ck.LTRBRect(0, 0, widthProp.value * path.progress.value, lengthProp.value * path.progress.value)
-    path.path.addRect(rect)
-
-    function reset() {
-      path.path.rewind()
-      rect.set([0, 0, widthProp.value * path.progress.value, lengthProp.value * path.progress.value])
-      path.path.addRect(rect)
-    }
-
-    changed(widthProp, reset)
-    changed(lengthProp, reset)
-
     const style = {
       ...path.style,
       radius: def(options.style.radius ?? 0),
     }
+
+    path.path.addRRect(new Float32Array([
+      0,
+      0,
+      widthProp.value * path.progress.value,
+      lengthProp.value * path.progress.value,
+      ...mapRadius(style.radius.value),
+    ]))
+
+    function reset() {
+      path.path.rewind()
+      path.path.addRRect(new Float32Array([
+        0,
+        0,
+        widthProp.value * path.progress.value,
+        lengthProp.value * path.progress.value,
+        ...mapRadius(style.radius.value),
+      ]))
+    }
+
+    changed(widthProp, reset)
+    changed(lengthProp, reset)
+    changed(style.radius, reset)
 
     return {
       ...path,

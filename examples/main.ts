@@ -87,9 +87,12 @@ const app = createApp(document.querySelector('#milestone'))
 // circle.animate(nc.move(100, 100)(120))
 
 const scene = nc.createScene(
-  use(nc.createText('Hello world', {
+  use(nc.createRect(100, 100, {
     x: 100,
-    y: 100
+    y: 100,
+    style: {
+      radius: 10
+    }
   })).animate(nc.fadeIn()(1))
 )
 
