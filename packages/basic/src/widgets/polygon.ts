@@ -1,6 +1,5 @@
 import type { ConvertToProp, Prop } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
-import { deepMerge } from '@newcar/utils'
 import type { Vector2 } from '../utils/vector2'
 import type { Path, PathOptions, PathStyle } from './path'
 import { createPath } from './path'
@@ -20,12 +19,13 @@ export function createPolygon(points: Vector2[], options?: PolygonOptions) {
   return defineWidgetBuilder<Polygon>((ck) => {
     options ??= {}
     options.style ??= {}
-    const path = createPath(options)(ck)
     const pointsProp = points.map(point => def(point))
+
+    const path = createPath(options)(ck)
     let index = 0
 
     function reset(points: Vector2[]) {
-      path.path.reset()
+      path.path.rewind()
       for (const point of points) {
         if (index === 0)
           path.path.moveTo(...point)
@@ -41,8 +41,9 @@ export function createPolygon(points: Vector2[], options?: PolygonOptions) {
 
     reset(pointsProp.map(p => p.value))
 
-    return deepMerge(path, {
+    return {
+      ...path,
       points: pointsProp,
-    })
+    }
   })
 }

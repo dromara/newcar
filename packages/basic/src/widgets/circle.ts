@@ -1,5 +1,4 @@
-import { def, defineWidgetBuilder } from '@newcar/core'
-import { deepMerge } from '@newcar/utils'
+import { changed, def, defineWidgetBuilder } from '@newcar/core'
 import type { Arc, ArcOptions } from './arc'
 import { createArc } from './arc'
 
@@ -12,9 +11,13 @@ export function createCircle(radius: number, options?: ArcOptions) {
     const arc = createArc(radius, 0, 360, options)(ck)
     const radiusProp = def(radius)
 
-    return deepMerge(arc, {
-      ...options,
-      radius: radiusProp,
+    changed(radiusProp, (v) => {
+      arc.radius.value = v.value
     })
+
+    return {
+      ...arc,
+      radius: radiusProp,
+    }
   })
 }

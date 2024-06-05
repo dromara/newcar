@@ -1,6 +1,5 @@
 import type { ConvertToProp } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
-import { deepMerge } from '@newcar/utils'
 import type { Path, PathOptions, PathStyle } from './path'
 import { createPath } from './path'
 
@@ -35,12 +34,13 @@ export function createRect(width: number, length: number, options: RectOptions) 
     const widthProp = def(width)
     const lengthProp = def(length)
 
-    const path = createPath(options ?? {})(ck)
+    const path = createPath(options)(ck)
+
     const rect = ck.LTRBRect(0, 0, widthProp.value * path.progress.value, lengthProp.value * path.progress.value)
     path.path.addRect(rect)
 
     function reset() {
-      path.path.reset()
+      path.path.rewind()
       rect.set([0, 0, widthProp.value * path.progress.value, lengthProp.value * path.progress.value])
       path.path.addRect(rect)
     }
@@ -49,9 +49,13 @@ export function createRect(width: number, length: number, options: RectOptions) 
     changed(lengthProp, reset)
 
     const style = {
+      ...path.style,
       radius: def(options.style.radius ?? 0),
     }
 
-    return deepMerge(path, { style })
+    return {
+      ...path,
+      style,
+    }
   })
 }

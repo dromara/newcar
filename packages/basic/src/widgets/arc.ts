@@ -1,6 +1,5 @@
 import type { ConvertToProp, Prop } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
-import { deepMerge } from '@newcar/utils'
 import type { Path, PathOptions, PathStyle } from './path'
 import { createPath } from './path'
 
@@ -46,10 +45,11 @@ export function createArc(radius: number, from: number, to: number, options?: Ar
       path.path.addArc(rect, fromProp.value, v.value * path.progress.value)
     })
 
-    return deepMerge(path, {
+    return {
+      ...path,
       from: fromProp,
       to: toProp,
       radius: radiusProp,
-    })
+    }
   })
 }
