@@ -46,16 +46,17 @@ export function createLine(from: Vector2, to: Vector2, options?: LineOptions) {
     }
 
     path.path.moveTo(...from)
-    path.path.lineTo(...to.map(i => i * path.progress.value) as Vector2)
+    path.path.lineTo(...toProp.value.map((i, index) => fromProp.value[index] + (i - fromProp.value[index]) * path.progress.value) as Vector2)
 
     function reset(_v: Prop<Vector2>) {
       path.path.rewind()
       path.path.moveTo(...fromProp.value)
-      path.path.lineTo(...toProp.value.map(i => i * path.progress.value) as Vector2)
+      path.path.lineTo(...toProp.value.map((i, index) => fromProp.value[index] + (i - fromProp.value[index]) * path.progress.value) as Vector2)
     }
 
     changed(fromProp, reset)
     changed(toProp, reset)
+    changed(path.progress as any, reset)
     changed(style.width, (v) => {
       path.style.borderWidth.value = v.value
     })

@@ -88,18 +88,11 @@ const app = createApp(document.querySelector('#milestone'))
 // circle.animate(nc.move(100, 100)(120))
 
 const scene = nc.createScene(
-  use(nc.createTextGroup([use(nc.createText('100', {
-    style: {
-      foregroundColor: Color.parse("blue"),
-      border: true
-    }
-  }))],{
+  use(nc.createLine([200, 300], [400, 500], {
     x: 100,
-    y: 100,
-  })).animate(withProcess<nc.TextGroup>((ctx, process, _origin) => {
-    ctx.widget.texts[0].style.fontSize.value = process * 100
-  })(5)) 
+    y: 100
+  }))
+  .animate(nc.create()(0.5))
 )
-
 app.checkout(scene)
 app.play()

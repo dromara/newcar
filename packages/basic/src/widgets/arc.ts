@@ -44,6 +44,10 @@ export function createArc(radius: number, from: number, to: number, options?: Ar
       path.path.rewind()
       path.path.addArc(rect, fromProp.value, v.value * path.progress.value)
     })
+    changed(path.progress, (v) => {
+      path.path.rewind()
+      path.path.addArc(rect, fromProp.value, v.value * toProp.value)
+    })
 
     return {
       ...path,

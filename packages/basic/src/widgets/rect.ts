@@ -84,6 +84,7 @@ export function createRect(width: number, length: number, options: RectOptions) 
     changed(widthProp, reset)
     changed(lengthProp, reset)
     changed(style.radius, reset)
+    changed(path.progress, reset)
 
     return {
       ...path,
