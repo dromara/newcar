@@ -40,12 +40,12 @@ export function createFigure(options?: FigureOptions) {
       color: def(options.style.color ?? Color.WHITE),
       shader: def(options.style.shader ?? null),
       border: def(options.style.border ?? false),
-      borderColor: def(options.style.borderColor ?? options.style.color ?? Color.WHITE),
-      borderShader: def(options.style.borderShader ?? options.style.shader),
+      borderColor: def(options.style.borderColor),
+      borderShader: def(options.style.borderShader),
       borderWidth: def(options.style.borderWidth ?? 2),
       fill: def(options.style.fill ?? true),
-      fillColor: def(options.style.fillColor ?? options.style.color ?? Color.WHITE),
-      fillShader: def(options.style.fillShader ?? options.style?.shader),
+      fillColor: def(options.style.fillColor),
+      fillShader: def(options.style.fillShader),
       join: def(options.style.join ?? 'miter'),
       cap: def(options.style.cap ?? 'butt'),
       offset: def(options.style.offset ?? 0),
@@ -55,8 +55,12 @@ export function createFigure(options?: FigureOptions) {
     const strokePaint = new ck.Paint()
     const fillPaint = new ck.Paint()
     strokePaint.setStyle(ck.PaintStyle.Stroke)
-    strokePaint.setColor(style.borderColor.value.toFloat4())
-    strokePaint.setShader(style.borderShader.value?.toCanvasKitShader(ck) ?? null)
+    strokePaint.setColor(style.borderColor.value?.toFloat4() ?? style.color.value.toFloat4())
+    strokePaint.setShader(
+      style.borderShader.value?.toCanvasKitShader(ck)
+      ?? style.shader.value?.toCanvasKitShader(ck)
+      ?? null,
+    )
     strokePaint.setStrokeWidth(style.borderWidth.value)
     strokePaint.setStrokeCap(str2StrokeCap(ck, style.cap.value))
     strokePaint.setStrokeJoin(str2StrokeJoin(ck, style.join.value))
@@ -68,8 +72,12 @@ export function createFigure(options?: FigureOptions) {
     strokePaint.setAlphaf(style.transparency.value * style.borderColor.value.alpha)
 
     fillPaint.setStyle(ck.PaintStyle.Fill)
-    fillPaint.setColor(style.fillColor.value.toFloat4())
-    fillPaint.setShader(style.fillShader.value?.toCanvasKitShader(ck) ?? null)
+    fillPaint.setColor(style.fillColor.value?.toFloat4() ?? style.color.value.toFloat4())
+    fillPaint.setShader(
+      style.fillShader.value?.toCanvasKitShader(ck)
+      ?? style.shader.value?.toCanvasKitShader(ck)
+      ?? null,
+    )
     fillPaint.setAntiAlias(style.antiAlias.value)
     fillPaint.setAlphaf(style.transparency.value * style.fillColor.value.alpha)
 
@@ -87,20 +95,20 @@ export function createFigure(options?: FigureOptions) {
       strokePaint.setStrokeJoin(str2StrokeJoin(ck, v.value))
     })
     changed(style.borderColor, (v) => {
-      strokePaint.setColor(v.value.toFloat4())
+      strokePaint.setColor(v.value?.toFloat4() ?? style.color.value.toFloat4())
     })
     changed(style.fillColor, (v) => {
-      fillPaint.setColor(v.value.toFloat4())
+      fillPaint.setColor(v.value?.toFloat4() ?? style.color.value.toFloat4())
     })
     changed(style.color, (v) => {
       strokePaint.setColor(style.borderColor.value?.toFloat4() ?? v.value.toFloat4())
       fillPaint.setColor(style.fillColor.value?.toFloat4() ?? v.value.toFloat4())
     })
     changed(style.borderShader, (v) => {
-      strokePaint.setShader(v.value?.toCanvasKitShader(ck) ?? null)
+      strokePaint.setShader(v.value?.toCanvasKitShader(ck) ?? style.shader.value?.toCanvasKitShader(ck) ?? null)
     })
     changed(style.fillShader, (v) => {
-      fillPaint.setShader(v.value?.toCanvasKitShader(ck) ?? null)
+      fillPaint.setShader(v.value?.toCanvasKitShader(ck) ?? style.shader.value?.toCanvasKitShader(ck) ?? null)
     })
     changed(style.shader, (v) => {
       strokePaint.setShader(style.borderShader.value?.toCanvasKitShader(ck) ?? v.value?.toCanvasKitShader(ck) ?? null)
