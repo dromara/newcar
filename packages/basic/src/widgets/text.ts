@@ -1,16 +1,32 @@
-import { $resources, type ConvertToProp, changed, def, defineWidgetBuilder } from '@newcar/core'
-import type { TextAlign, TextBaseline } from '@newcar/utils'
-import { Color, str2TextAlign, str2TextBaseline } from '@newcar/utils'
-import type { Canvas, FontStyle } from 'canvaskit-wasm'
-import type { Figure, FigureOptions, FigureStyle } from './figure'
-import { createFigure } from './figure'
+import type {
+  Base,
+  BaseOptions,
+  BaseStyle,
+  ConvertToProp,
+} from '@newcar/core'
+import {
+  $resources,
+  changed,
+  createBase,
+  def,
+  defineWidgetBuilder,
+} from '@newcar/core'
+import type { BlendMode, Shader, TextAlign, TextBaseline } from '@newcar/utils'
+import { Color, str2BlendMode, str2TextAlign, str2TextBaseline } from '@newcar/utils'
+import type { Canvas, FontStyle, Paint, TextStyle as ckTextStyle } from 'canvaskit-wasm'
 
-export interface TextOptions extends FigureOptions {
+export interface TextOptions extends BaseOptions {
   style?: TextStyle
   width?: number
 }
 
-export interface TextStyle extends FigureStyle {
+export interface TextStyle extends BaseStyle {
+  border?: boolean
+  shader?: Shader
+  borderWidth?: number
+  transparency?: number
+  antiAlias?: boolean
+  blendMode?: BlendMode
   /**
    * The background color of the text
    */
@@ -77,27 +93,28 @@ export interface TextStyle extends FigureStyle {
   wordSpacing?: number
 }
 
-export interface Text extends Figure {
+export interface Text extends Base {
   style: ConvertToProp<TextStyle>
+  text: ReturnType<typeof def<string>>
+  paint: Paint
+  backgroundPaint: Paint
+  textStyle: ckTextStyle
 }
 
 export function createText(text: string, options?: TextOptions) {
   return defineWidgetBuilder<Text>((ck) => {
     options ??= {}
     options.style ??= {}
-    const figure = createFigure({
-      ...options,
-      style: {
-        fillColor: options.style.foregroundColor,
-        borderColor: options.style.foregroundColor,
-        ...options.style,
-      },
-    })(ck)
+    const base = createBase(options)(ck)
     const textProp = def(text)
 
     const width = def(options.width ?? Number.POSITIVE_INFINITY)
 
     const style = {
+      ...base.style,
+      border: def(options.style.border ?? false),
+      shader: def(options.style.shader),
+      borderWidth: def(options.style.borderWidth ?? 2),
       backgroundColor: def(options.style.backgroundColor ?? Color.TRANSPARENT),
       color: def(options.style.color ?? Color.WHITE),
       decoration: def(options.style.decoration ?? 0),
@@ -135,6 +152,15 @@ export function createText(text: string, options?: TextOptions) {
       },
     )
 
+    const paint = new ck.Paint()
+    paint.setStyle(style.border ? ck.PaintStyle.Stroke : ck.PaintStyle.Fill)
+    paint.setColor(style.foregroundColor.value.toFloat4())
+    paint.setShader(style.shader.value?.toCanvasKitShader(ck) ?? null)
+    paint.setStrokeWidth(style.borderWidth.value)
+    paint.setAlphaf(style.transparency.value * style.foregroundColor.value.alpha)
+    paint.setAntiAlias(style.antiAlias.value)
+    paint.setBlendMode(str2BlendMode(ck, style.blendMode.value))
+
     const builder = ck.ParagraphBuilder.Make(
       new ck.ParagraphStyle({
         textAlign: str2TextAlign(ck, style.textAlign.value),
@@ -144,7 +170,7 @@ export function createText(text: string, options?: TextOptions) {
       }),
       manager,
     )
-    builder.pushPaintStyle(textStyle, figure.style.border.value ? figure.strokePaint : figure.fillPaint, backgroundPaint)
+    builder.pushPaintStyle(textStyle, paint, backgroundPaint)
     builder.addText(textProp.value)
     const paragraph = builder.build()
     paragraph.layout(width.value)
@@ -176,8 +202,7 @@ export function createText(text: string, options?: TextOptions) {
     })
     changed(style.foregroundColor, (v) => {
       textStyle.foregroundColor = v.value.toFloat4()
-      figure.style.borderColor.value = v.value
-      figure.style.fillColor.value = v.value
+      paint.setColor(v.value.toFloat4())
     })
     changed(style.halfLeading, (v) => {
       textStyle.halfLeading = v.value
@@ -203,7 +228,7 @@ export function createText(text: string, options?: TextOptions) {
 
     function render(canvas: Canvas) {
       builder.reset()
-      builder.pushPaintStyle(textStyle, figure.style.border.value ? figure.strokePaint : figure.fillPaint, backgroundPaint)
+      builder.pushPaintStyle(textStyle, paint, backgroundPaint)
       builder.addText(textProp.value)
       const paragraph = builder.build()
       paragraph.layout(width.value)
@@ -211,9 +236,12 @@ export function createText(text: string, options?: TextOptions) {
     }
 
     return {
-      ...figure,
+      ...base,
       text: textProp,
       style,
+      paint,
+      backgroundPaint,
+      textStyle,
       width,
       render,
     }

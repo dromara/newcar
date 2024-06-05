@@ -69,7 +69,7 @@ export function createFigure(options?: FigureOptions) {
       style.offset.value,
     ))
     strokePaint.setAntiAlias(style.antiAlias.value)
-    strokePaint.setAlphaf(style.transparency.value * style.borderColor.value.alpha)
+    strokePaint.setAlphaf(style.transparency.value * (style.borderColor.value ?? style.color.value).alpha)
 
     fillPaint.setStyle(ck.PaintStyle.Fill)
     fillPaint.setColor(style.fillColor.value?.toFloat4() ?? style.color.value.toFloat4())
@@ -79,7 +79,7 @@ export function createFigure(options?: FigureOptions) {
       ?? null,
     )
     fillPaint.setAntiAlias(style.antiAlias.value)
-    fillPaint.setAlphaf(style.transparency.value * style.fillColor.value.alpha)
+    fillPaint.setAlphaf(style.transparency.value * (style.fillColor.value ?? style.color.value).alpha)
 
     changed(style.antiAlias, (v) => {
       strokePaint.setAntiAlias(v.value)
