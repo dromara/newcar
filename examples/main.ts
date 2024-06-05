@@ -72,7 +72,7 @@
 // milestone.app.play()
 
 import * as nc from 'newcar'
-import {Color} from "newcar";
+import {Color, withProcess} from "newcar";
 
 const {
   createApp,
@@ -88,14 +88,17 @@ const app = createApp(document.querySelector('#milestone'))
 // circle.animate(nc.move(100, 100)(120))
 
 const scene = nc.createScene(
-  use(nc.createText('100', {
-    x: 100,
-    y: 100,
+  use(nc.createTextGroup([use(nc.createText('100', {
     style: {
       foregroundColor: Color.parse("blue"),
       border: true
     }
-  })).animate(nc.focusOn()(1)).hide()
+  }))],{
+    x: 100,
+    y: 100,
+  })).animate(withProcess<nc.TextGroup>((ctx, process, _origin) => {
+    ctx.widget.texts[0].style.fontSize.value = process * 100
+  })(5)) 
 )
 
 app.checkout(scene)

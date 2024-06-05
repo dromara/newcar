@@ -33,6 +33,9 @@ export interface Base extends Widget {
   centerX: Prop<number>
   centerY: Prop<number>
   progress: Prop<number>
+  animates: Animate<any>[]
+  live: Prop<boolean>
+  display: Prop<boolean>
   style: ConvertToProp<BaseStyle>
   children: Widget[]
   add: (...children: Widget[]) => Base
@@ -68,7 +71,11 @@ export function createBase(options: BaseOptions) {
 
     let current: Animate<any> | undefined
 
-    const base = {
+    function render(_canvas: Canvas) {
+      // ...
+    }
+
+    return {
       x,
       y,
       centerX,
@@ -80,6 +87,7 @@ export function createBase(options: BaseOptions) {
       render,
       live,
       display,
+
       add(...children: Widget[]) {
         this.children.push(...children)
         return this
@@ -108,48 +116,40 @@ export function createBase(options: BaseOptions) {
 
         return this
       },
-      update,
-    }
-
-    function render(_canvas: Canvas) {
-      // ...
-    }
-
-    function update(canvas: Canvas, elapsed: number, renderFunction: (canvas: Canvas) => any) {
-      if (!live.value)
-        return
-      canvas.save()
-      const ctx = {
-        widget: base,
-        elapsed,
-        ck,
-      }
-      if (!current) {
-        current = animates.shift() as any
-        if (current && current.init) {
-          current.init(ctx)
+      update(canvas: Canvas, elapsed: number, renderFunction: (canvas: Canvas) => any) {
+        if (!live.value)
+          return
+        canvas.save()
+        const ctx = {
+          widget: this,
+          elapsed,
+          ck,
         }
-      }
-      else {
-        const finished = current.animate(ctx)
-        if (finished) {
-          if (current.after)
-            current.after(ctx)
-          current = undefined
+        if (!current) {
+          current = animates.shift() as Animate<any>
+          if (current && current.init) {
+            current.init(ctx)
+          }
         }
-      }
-      canvas.translate(x.value, y.value)
-      canvas.rotate(style.rotation.value, centerX.value, centerY.value)
-      canvas.scale(style.scaleX.value, style.scaleY.value)
-      for (const child of children) {
-        child.update(canvas, elapsed, child.render)
-      }
-      if (display.value)
-        renderFunction(canvas)
-      // console.log(renderFunction.toString())
-      canvas.restore()
+        else {
+          const finished = current.animate(ctx)
+          if (finished) {
+            if (current.after)
+              current.after(ctx)
+            current = undefined
+          }
+        }
+        canvas.translate(x.value, y.value)
+        canvas.rotate(style.rotation.value, centerX.value, centerY.value)
+        canvas.scale(style.scaleX.value, style.scaleY.value)
+        for (const child of children) {
+          child.update(canvas, elapsed, child.render)
+        }
+        if (display.value)
+          renderFunction(canvas)
+        // console.log(renderFunction.toString())
+        canvas.restore()
+      },
     }
-
-    return base
   })
 }
