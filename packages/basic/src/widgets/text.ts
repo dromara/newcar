@@ -1,6 +1,6 @@
 import { $resources, changed, def, defineWidgetBuilder } from '@newcar/core'
 import type { TextAlign, TextBaseline } from '@newcar/utils'
-import { Color, deepMerge, str2TextAlign, str2TextBaseline } from '@newcar/utils'
+import { Color, str2TextAlign, str2TextBaseline } from '@newcar/utils'
 import type { Canvas, FontStyle } from 'canvaskit-wasm'
 import type { FigureOptions, FigureStyle } from './figure'
 import { createFigure } from './figure'
@@ -81,7 +81,14 @@ export function createText(text: string, options?: TextOptions) {
   return defineWidgetBuilder((ck) => {
     options ??= {}
     options.style ??= {}
-    const figure = createFigure(options)(ck)
+    const figure = createFigure({
+      ...options,
+      style: {
+        fillColor: options.style.foregroundColor,
+        borderColor: options.style.foregroundColor,
+        ...options.style,
+      },
+    })(ck)
     const textProp = def(text)
 
     const width = def(options.width ?? Number.POSITIVE_INFINITY)
@@ -96,13 +103,13 @@ export function createText(text: string, options?: TextOptions) {
       fontSize: def(options.style.fontSize ?? 50),
       fontStyle: def(options.style.fontStyle ?? {}),
       foregroundColor: def(options.style.foregroundColor ?? Color.TRANSPARENT),
-      heightMultiplier: def(options.style.heightMultiplier ?? 1),
       halfLeading: def(options.style.halfLeading ?? false),
+      heightMultiplier: def(options.style.heightMultiplier ?? 1),
       letterSpacing: def(options.style.letterSpacing ?? 0),
       locale: def(options.style.locale ?? ''),
+      textAlign: def(options.style.textAlign ?? 'left'),
       textBaseline: def(options.style.textBaseline ?? 'alphabetic'),
       wordSpacing: def(options.style.wordSpacing ?? 0),
-      textAlign: def(options.style.textAlign ?? 'left'),
     }
 
     const backgroundPaint = new ck.Paint()
@@ -134,27 +141,77 @@ export function createText(text: string, options?: TextOptions) {
       manager,
     )
     builder.pushPaintStyle(textStyle, figure.style.border.value ? figure.strokePaint : figure.fillPaint, backgroundPaint)
-    builder.addText(text.toString())
+    builder.addText(textProp.value)
     const paragraph = builder.build()
     paragraph.layout(width.value)
 
-    changed(textProp, (v) => {
-      builder.reset()
-      builder.pushPaintStyle(textStyle, figure.style.border.value ? figure.strokePaint : figure.fillPaint, backgroundPaint)
-      builder.addText(v.value)
-      const paragraph = builder.build()
-      paragraph.layout(width.value)
+    changed(style.backgroundColor, (v) => {
+      backgroundPaint.setColor(v.value.toFloat4())
+      textStyle.backgroundColor = v.value.toFloat4()
+    })
+    changed(style.color, (v) => {
+      textStyle.color = v.value.toFloat4()
+    })
+    changed(style.decoration, (v) => {
+      textStyle.decoration = v.value
+    })
+    changed(style.decorationColor, (v) => {
+      textStyle.decorationColor = v.value.toFloat4()
+    })
+    changed(style.decorationThickness, (v) => {
+      textStyle.decorationThickness = v.value
+    })
+    changed(style.fontFamilies, (v) => {
+      textStyle.fontFamilies = v.value
+    })
+    changed(style.fontSize, (v) => {
+      textStyle.fontSize = v.value
+    })
+    changed(style.fontStyle, (v) => {
+      textStyle.fontStyle = v.value
+    })
+    changed(style.foregroundColor, (v) => {
+      textStyle.foregroundColor = v.value.toFloat4()
+      figure.style.borderColor.value = v.value
+      figure.style.fillColor.value = v.value
+    })
+    changed(style.halfLeading, (v) => {
+      textStyle.halfLeading = v.value
+    })
+    changed(style.heightMultiplier, (v) => {
+      textStyle.heightMultiplier = v.value
+    })
+    changed(style.letterSpacing, (v) => {
+      textStyle.letterSpacing = v.value
+    })
+    changed(style.locale, (v) => {
+      textStyle.locale = v.value
+    })
+    changed(style.textAlign, (_v) => {
+      // Don't support textAlign for changing
+    })
+    changed(style.textBaseline, (v) => {
+      textStyle.textBaseline = str2TextBaseline(ck, v.value)
+    })
+    changed(style.wordSpacing, (v) => {
+      textStyle.wordSpacing = v.value
     })
 
     function render(canvas: Canvas) {
+      builder.reset()
+      builder.pushPaintStyle(textStyle, figure.style.border.value ? figure.strokePaint : figure.fillPaint, backgroundPaint)
+      builder.addText(textProp.value)
+      const paragraph = builder.build()
+      paragraph.layout(width.value)
       canvas.drawParagraph(paragraph, 0, 0)
     }
 
-    return deepMerge(figure, {
+    return {
+      ...figure,
       text: textProp,
       style,
       width,
       render,
-    })
+    }
   })
 }

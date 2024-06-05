@@ -72,6 +72,7 @@
 // milestone.app.play()
 
 import * as nc from 'newcar'
+import {Color} from "newcar";
 
 const {
   createApp,
@@ -87,11 +88,12 @@ const app = createApp(document.querySelector('#milestone'))
 // circle.animate(nc.move(100, 100)(120))
 
 const scene = nc.createScene(
-  use(nc.createRect(100, 100, {
+  use(nc.createText('100', {
     x: 100,
     y: 100,
     style: {
-      radius: 10
+      foregroundColor: Color.parse("blue"),
+      border: true
     }
   })).animate(nc.focusOn()(1)).hide()
 )
