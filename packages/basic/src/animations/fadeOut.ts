@@ -1,8 +1,8 @@
 import type { Base } from '@newcar/core'
 import { withProcess } from '@newcar/core'
 
-export function destroy() {
+export function fadeOut() {
   return withProcess<Base>((ctx, process, _origin) => {
-    ctx.widget.progress.value = (1 - process)
+    ctx.widget.style.transparency.value = 1 - process
   })
 }

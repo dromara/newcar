@@ -21,14 +21,14 @@ export function createArc(radius: number, from: number, to: number, options?: Ar
   return defineWidgetBuilder<Arc>((ck) => {
     options ??= {}
     options.style ??= {}
-    const path = createPath(options ?? {})(ck)
+    const path = createPath(options)(ck)
     const rect = ck.LTRBRect(
       -radius,
       -radius,
       radius,
       radius,
     )
-    path.path.addArc(rect, from, to * options.progress)
+    path.path.addArc(rect, from, to * path.progress.value)
 
     const radiusProp = def(radius)
     const fromProp = def(from)

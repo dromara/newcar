@@ -110,6 +110,7 @@ export function createBase(options: BaseOptions) {
         child.update(canvas, elapsed, child.render)
       }
       renderFunction(canvas)
+      // console.log(renderFunction.toString())
       canvas.restore()
     }
 
