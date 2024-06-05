@@ -79,15 +79,17 @@ const {
   use,
 } = await nc.initEngine('./node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 
+await nc.useFont('https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf')
+
 const app = createApp(document.querySelector('#milestone'))
 
 // const circle = 
 // circle.animate(nc.move(100, 100)(120))
 
 const scene = nc.createScene(
-  use(nc.createCircle(100, {
-    x: 0,
-    y: 0,
+  use(nc.createText('Hello world', {
+    x: 100,
+    y: 100
   })).animate(nc.fadeIn()(1))
 )
 
