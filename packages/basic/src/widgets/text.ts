@@ -1,8 +1,8 @@
-import { $resources, changed, def, defineWidgetBuilder } from '@newcar/core'
+import { $resources, type ConvertToProp, changed, def, defineWidgetBuilder } from '@newcar/core'
 import type { TextAlign, TextBaseline } from '@newcar/utils'
 import { Color, str2TextAlign, str2TextBaseline } from '@newcar/utils'
 import type { Canvas, FontStyle } from 'canvaskit-wasm'
-import type { FigureOptions, FigureStyle } from './figure'
+import type { Figure, FigureOptions, FigureStyle } from './figure'
 import { createFigure } from './figure'
 
 export interface TextOptions extends FigureOptions {
@@ -52,7 +52,7 @@ export interface TextStyle extends FigureStyle {
    */
   heightMultiplier?: number
   /**
-   * Specifies whether to use half leading for the text.
+   * Specifies whether to use half-leading for the text.
    */
   halfLeading?: boolean
   /**
@@ -77,8 +77,12 @@ export interface TextStyle extends FigureStyle {
   wordSpacing?: number
 }
 
+export interface Text extends Figure {
+  style: ConvertToProp<TextStyle>
+}
+
 export function createText(text: string, options?: TextOptions) {
-  return defineWidgetBuilder((ck) => {
+  return defineWidgetBuilder<Text>((ck) => {
     options ??= {}
     options.style ??= {}
     const figure = createFigure({
