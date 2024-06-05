@@ -93,7 +93,7 @@ const scene = nc.createScene(
     style: {
       radius: 10
     }
-  })).animate(nc.fadeIn()(1))
+  })).animate(nc.focusOn()(1)).hide()
 )
 
 app.checkout(scene)

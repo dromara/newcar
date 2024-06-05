@@ -14,6 +14,8 @@ export interface BaseOptions {
   centerY?: number // The rotation center y of the widget.
   progress?: number
   children?: Widget[]
+  live?: boolean
+  display?: boolean
 }
 
 export interface BaseStyle {
@@ -35,6 +37,10 @@ export interface Base extends Widget {
   children: Widget[]
   add: (...children: Widget[]) => Base
   animate: <T extends Widget>(animate: Animate<T>) => Base
+  born: () => Base
+  kill: () => Base
+  show: () => Base
+  hide: () => Base
 }
 
 export function createBase(options: BaseOptions) {
@@ -57,6 +63,8 @@ export function createBase(options: BaseOptions) {
       blendMode: def(options.style?.blendMode ?? 'srcOver'),
       antiAlias: def(options.style?.antiAlias ?? true),
     }
+    const live = def(options.live ?? true)
+    const display = def(options.display ?? true)
 
     let current: Animate<any> | undefined
 
@@ -70,12 +78,34 @@ export function createBase(options: BaseOptions) {
       children,
       animates,
       render,
+      live,
+      display,
       add(...children: Widget[]) {
         this.children.push(...children)
         return this
       },
       animate<T extends Widget>(animate: Animate<T>) {
         this.animates.push(animate)
+        return this
+      },
+      born() {
+        this.live.value = true
+
+        return this
+      },
+      kill() {
+        this.live.value = false
+
+        return this
+      },
+      show() {
+        this.display.value = true
+
+        return this
+      },
+      hide() {
+        this.display.value = false
+
         return this
       },
       update,
@@ -86,6 +116,8 @@ export function createBase(options: BaseOptions) {
     }
 
     function update(canvas: Canvas, elapsed: number, renderFunction: (canvas: Canvas) => any) {
+      if (!live.value)
+        return
       canvas.save()
       const ctx = {
         widget: base,
@@ -112,7 +144,8 @@ export function createBase(options: BaseOptions) {
       for (const child of children) {
         child.update(canvas, elapsed, child.render)
       }
-      renderFunction(canvas)
+      if (display.value)
+        renderFunction(canvas)
       // console.log(renderFunction.toString())
       canvas.restore()
     }
