@@ -55,8 +55,8 @@ export function createNumberPlane(
       colorY: def(options.style.colorY ?? Color.WHITE),
       textColorX: def(options.style.textColorX ?? Color.WHITE),
       textColorY: def(options.style.textColorY ?? Color.WHITE),
-      textSizeX: def(options.style.textSizeX ?? 10),
-      textSizeY: def(options.style.textSizeY ?? 10),
+      textSizeX: def(options.style.textSizeX ?? 15),
+      textSizeY: def(options.style.textSizeY ?? 15),
       tickColorX: def(options.style.tickColorX ?? Color.WHITE),
       tickColorY: def(options.style.tickColorY ?? Color.WHITE),
       gridColor: def(options.style.gridColor ?? Color.WHITE),
@@ -95,7 +95,7 @@ export function createNumberPlane(
       }
       if (x !== 0 && style.textsX.value) {
         textsX.push(createText(trendX.value(x).toString(), {
-          x: x - (style.textSizeX.value / 2),
+          x: x - (style.textSizeX.value / 3),
           y: 10,
           style: {
             fontSize: style.textSizeX.value,
@@ -116,7 +116,7 @@ export function createNumberPlane(
       }
     }
 
-    for (let y = lengthY[0] + (lengthY[1] - lengthY[0]) % divisionY.value; y <= lengthY[1]; y += divisionY.value) {
+    for (let y = lengthYProp.value[0] + (lengthYProp.value[1] - lengthYProp.value[0]) % divisionY.value; y <= lengthYProp.value[1]; y += divisionY.value) {
       if (style.ticksY.value) {
         ticksY.push(createLine([-5, y], [5, y], {
           style: {
@@ -127,14 +127,15 @@ export function createNumberPlane(
       if (y !== 0 && style.textsY.value) {
         textsY.push(createText(trendY.value(y).toString(), {
           x: 10,
-          y: (style.textSizeY.value / 2) - y,
+          y: y - (style.textSizeY.value / 3),
           style: {
             fontSize: style.textSizeY.value,
             color: style.textColorY.value,
             // Note: the rotation is reversed because the canvas is flipped
-            rotation: -style.rotation,
+            rotation: -style.rotation.value,
           },
         })(ck))
+        // console.log(y)
       }
       if (style.grid) {
         grid.push(createLine([lengthX[0], y], [lengthX[1], y], {
@@ -148,8 +149,8 @@ export function createNumberPlane(
     }
 
     const originText = createText(trendX.value(0).toString(), {
-      x: style.textSizeX.value / 4,
-      y: style.textSizeX.value / 4,
+      x: 10,
+      y: 10,
       style: {
         fontSize: style.textSizeX.value,
         color: style.textColorX.value,
@@ -211,7 +212,7 @@ export function createNumberPlane(
         if (y !== 0 && style.textsY.value) {
           textsY.push(createText(trendY.value(y).toString(), {
             x: 10,
-            y: (style.textSizeY.value / 2) - y,
+            y: y - (style.textSizeY.value / 3),
             style: {
               fontSize: style.textSizeY.value,
               color: style.textColorY.value,
