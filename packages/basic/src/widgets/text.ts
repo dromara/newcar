@@ -12,7 +12,7 @@ import {
   defineWidgetBuilder,
 } from '@newcar/core'
 import type { BlendMode, Shader, TextAlign, TextBaseline } from '@newcar/utils'
-import { Color, deepMerge, str2BlendMode, str2TextAlign, str2TextBaseline } from '@newcar/utils'
+import { Color, str2BlendMode, str2TextAlign, str2TextBaseline } from '@newcar/utils'
 import type { Canvas, FontStyle, Paint, TextStyle as ckTextStyle } from 'canvaskit-wasm'
 
 export interface TextOptions extends BaseOptions {
@@ -60,7 +60,7 @@ export interface TextStyle extends BaseStyle {
    */
   fontStyle?: FontStyle
   /**
-   * The foreground color of the text.
+   * The foreground color of the text (for the text fill and stroke).
    */
   foregroundColor?: Color
   /**
@@ -123,7 +123,7 @@ export function createText(text: string, options?: TextOptions) {
       fontFamilies: def(options.style.fontFamilies ?? []),
       fontSize: def(options.style.fontSize ?? 50),
       fontStyle: def(options.style.fontStyle ?? {}),
-      foregroundColor: def(options.style.foregroundColor ?? Color.TRANSPARENT),
+      foregroundColor: def(options.style.foregroundColor ?? Color.WHITE),
       halfLeading: def(options.style.halfLeading ?? false),
       heightMultiplier: def(options.style.heightMultiplier ?? 1),
       letterSpacing: def(options.style.letterSpacing ?? 0),
@@ -153,7 +153,7 @@ export function createText(text: string, options?: TextOptions) {
     )
 
     const paint = new ck.Paint()
-    paint.setStyle(style.border ? ck.PaintStyle.Stroke : ck.PaintStyle.Fill)
+    paint.setStyle(style.border.value ? ck.PaintStyle.Stroke : ck.PaintStyle.Fill)
     paint.setColor(style.foregroundColor.value.toFloat4())
     paint.setShader(style.shader.value?.toCanvasKitShader(ck) ?? null)
     paint.setStrokeWidth(style.borderWidth.value)
@@ -235,7 +235,8 @@ export function createText(text: string, options?: TextOptions) {
       canvas.drawParagraph(paragraph, 0, 0)
     }
 
-    return deepMerge(base, {
+    return {
+      ...base,
       text: textProp,
       style,
       paint,
@@ -243,6 +244,6 @@ export function createText(text: string, options?: TextOptions) {
       textStyle,
       width,
       render,
-    })
+    }
   })
 }
