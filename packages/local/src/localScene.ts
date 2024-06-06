@@ -2,13 +2,13 @@ import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import type { SceneConfig, Widget } from '@newcar/core'
 import { defineSceneConfig } from '@newcar/core'
 
-export interface SceneOptions {
+export interface LocalSceneOptions {
   config?: SceneConfig
   canvas?: Canvas
   surface?: Surface
 }
 
-export function createScene(root: Widget, options?: SceneOptions) {
+export function createLocalScene(root: Widget, options?: LocalSceneOptions) {
   return (ck: CanvasKit) => {
     const player = {
       paused: false,
@@ -57,4 +57,4 @@ export function createScene(root: Widget, options?: SceneOptions) {
     }
   }
 }
-export type Scene = ReturnType<ReturnType<typeof createScene>>
+export type LocalScene = ReturnType<ReturnType<typeof createLocalScene>>
