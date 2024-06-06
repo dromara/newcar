@@ -73,7 +73,7 @@
 
 import * as nc from 'newcar'
 import {Color, withProcess} from "newcar";
-import { createNumebrAxis, createNumberPlane } from '@newcar/mod-math'
+import { createNumberAxis, createNumberPlane } from '@newcar/mod-math'
 
 const {
   createApp,
@@ -89,10 +89,10 @@ const app = createApp(document.querySelector('#milestone'))
 // circle.animate(nc.move(100, 100)(120))
 
 const scene = nc.createScene(
-  use(createNumberPlane([-100, 100], [-100, 100], {
+  use(createNumberAxis([-100, 100], {
     x: 100,
     y: 100
-  }))
+  })).animate(nc.create()(2))
 )
 app.checkout(scene)
 app.play()

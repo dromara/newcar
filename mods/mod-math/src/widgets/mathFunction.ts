@@ -1,4 +1,4 @@
-import type { BaseOptions, BaseStyle, ConvertToProp, Prop, Widget } from '@newcar/core'
+import type { Base, BaseOptions, BaseStyle, ConvertToProp, Prop, Widget } from '@newcar/core'
 import { changed, def, defineWidgetBuilder } from '@newcar/core'
 import type { Shader } from '@newcar/utils'
 import { Color, deepMerge } from '@newcar/utils'
@@ -19,7 +19,7 @@ export interface MathFunctionStyle extends BaseStyle {
   width?: number
 }
 
-export interface MathFunction extends Widget {
+export interface MathFunction extends Base {
   divisionX: Prop<number>
   divisionY: Prop<number>
   numberRange: Prop<Range>

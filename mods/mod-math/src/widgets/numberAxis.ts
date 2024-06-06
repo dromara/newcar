@@ -1,4 +1,4 @@
-import type { BaseOptions, BaseStyle, ConvertToProp, Prop, Widget } from '@newcar/core'
+import type { Base, BaseOptions, BaseStyle, ConvertToProp, Prop, Widget } from '@newcar/core'
 import { changed, createBase, def, defineWidgetBuilder } from '@newcar/core'
 import { Color, deepMerge } from '@newcar/utils'
 import type { Line, Text } from '@newcar/basic'
@@ -41,7 +41,7 @@ export interface NumberAxisStyle extends BaseStyle {
   color?: Color
 }
 
-export interface NumberAxis extends Widget {
+export interface NumberAxis extends Base {
   length: Prop<[number, number]>
   division: Prop<number>
   trend: Prop<Trend>
@@ -49,7 +49,7 @@ export interface NumberAxis extends Widget {
   progress: Prop<number>
 }
 
-export function createNumebrAxis(length: [number, number], options?: NumberAxisOptions) {
+export function createNumberAxis(length: [number, number], options?: NumberAxisOptions) {
   return defineWidgetBuilder<NumberAxis>((ck) => {
     options ??= {}
     options.style ??= {}
