@@ -73,6 +73,7 @@
 
 import * as nc from 'newcar'
 import {Color, withProcess} from "newcar";
+import { createNumebrAxis, createNumberPlane } from '@newcar/mod-math'
 
 const {
   createApp,
@@ -80,7 +81,7 @@ const {
   use,
 } = await nc.initEngine('./node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 
-await nc.useFont('https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf')
+await nc.useFont('Roboto-Regular.ttf')
 
 const app = createApp(document.querySelector('#milestone'))
 
@@ -88,11 +89,10 @@ const app = createApp(document.querySelector('#milestone'))
 // circle.animate(nc.move(100, 100)(120))
 
 const scene = nc.createScene(
-  use(nc.createLine([200, 300], [400, 500], {
+  use(createNumberPlane([-100, 100], [-100, 100], {
     x: 100,
     y: 100
   }))
-  .animate(nc.create()(0.5))
 )
 app.checkout(scene)
 app.play()

@@ -6,7 +6,8 @@
     "@types/luxon": "^3.4.2",
     "canvaskit-wasm": "0.39.1",
     "luxon": "^3.4.4",
-    "newcar": "workspace:1.0.0",
+    "newcar": "workspace:*",
+    "@newcar/mod-math": "workspace:*",
     "vite-plugin-node-polyfills": "^0.21.0"
   }
 }

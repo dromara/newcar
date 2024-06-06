@@ -1,19 +1,19 @@
-import { Arrow, Line, Text } from '@newcar/basic'
-import type { WidgetOptions, WidgetStyle } from '@newcar/core'
-import { Widget } from '@newcar/core'
-import type { CanvasKit } from 'canvaskit-wasm'
-import { Color } from '../../../../packages/utils/src'
+import type { BaseOptions, BaseStyle } from '@newcar/core'
+import { createBase, def, defineWidgetBuilder } from '@newcar/core'
+import { Color, deepMerge } from '@newcar/utils'
+import { createArrow, createLine, createText } from '@newcar/basic'
+import type { Line, Text } from '@newcar/basic'
 import type { Trend } from './numberAxis'
 
-export interface NumberPlaneOptions extends WidgetOptions {
+export interface NumberPlaneOptions extends BaseOptions {
   style?: NumberPlaneStyle
   divisionX?: number
   divisionY?: number
-  trendsX?: Trend
-  trendsY?: Trend
+  trendX?: Trend
+  trendY?: Trend
 }
 
-export interface NumberPlaneStyle extends WidgetStyle {
+export interface NumberPlaneStyle extends BaseStyle {
   colorX?: Color
   colorY?: Color
   textColorX?: Color
@@ -31,196 +31,145 @@ export interface NumberPlaneStyle extends WidgetStyle {
   gridWidth?: number
 }
 
-export class NumberPlane extends Widget {
-  declare style: NumberPlaneStyle
-  axisX: Arrow
-  axisY: Arrow
-  ticksX: Line[]
-  ticksY: Line[]
-  textsX: Text[]
-  textsY: Text[]
-  grid: Line[]
-  divisionX: number
-  divisionY: number
-  trendX: Trend
-  trendY: Trend
-  originText: Text
-  constructor(
-    public lengthX: [number, number],
-    public lengthY: [number, number],
-    options?: NumberPlaneOptions,
-  ) {
+export function createNumberPlane(
+  lengthX: number[],
+  lengthY: number[],
+  options?: NumberPlaneOptions,
+) {
+  return defineWidgetBuilder((ck) => {
     options ??= {}
-    super(options)
-    this.divisionX = options.divisionX ?? 50
-    this.divisionY = options.divisionY ?? 50
-    this.trendX = options.trendsX ?? (x => x / 50)
-    this.trendY = options.trendsY ?? (x => x / 50)
-    this.ticksX = []
-    this.ticksY = []
-    this.textsX = []
-    this.textsY = []
-    this.grid = []
     options.style ??= {}
-    this.style.colorX = options.style.colorX ?? Color.WHITE
-    this.style.colorY = options.style.colorY ?? Color.WHITE
-    this.style.textColorX = options.style.textColorX ?? Color.WHITE
-    this.style.textColorY = options.style.textColorY ?? Color.WHITE
-    this.style.textSizeX = options.style.textSizeX ?? 20
-    this.style.textSizeY = options.style.textSizeY ?? 20
-    this.style.textsX = options.style.textsX ?? true
-    this.style.textsY = options.style.textsY ?? true
-    this.style.ticksX = options.style.ticksX ?? true
-    this.style.ticksY = options.style.ticksY ?? true
-    this.style.tickColorX = options.style.tickColorX ?? Color.WHITE
-    this.style.tickColorY = options.style.tickColorY ?? Color.WHITE
-    this.style.grid = options.style.grid ?? true
-    this.style.gridColor = options.style.gridColor ?? Color.WHITE
-    this.style.gridWidth = options.style.gridWidth ?? 1
+    const base = createBase(options)(ck)
 
-    this.axisX = new Arrow([this.lengthX[0], 0], [this.lengthX[1], 0], {
-      style: {
-        color: this.style.colorX,
-      },
-    })
-    this.axisY = new Arrow([0, this.lengthY[1]], [0, this.lengthY[0]], {
-      style: {
-        color: this.style.colorY,
-      },
-    })
+    const lengthXProp = def(lengthX)
+    const lengthYProp = def(lengthY)
 
-    for (let x = this.lengthX[0] + (this.lengthX[1] - this.lengthX[0]) % this.divisionX; x <= this.lengthX[1]; x += this.divisionX) {
-      if (this.style.ticksX) {
-        this.ticksX.push(new Line([x, -5], [x, 5], {
+    const divisionX = def(options.divisionX ?? 50)
+    const divisionY = def(options.divisionY ?? 50)
+    const trendX = def(options.trendX ?? ((x: number) => x / 50))
+    const trendY = def(options.trendY ?? ((y: number) => y / 50))
+
+    const style = {
+      ...base.style,
+      colorX: def(options.style.colorX ?? Color.WHITE),
+      colorY: def(options.style.colorY ?? Color.WHITE),
+      textColorX: def(options.style.textColorX ?? Color.WHITE),
+      textColorY: def(options.style.textColorY ?? Color.WHITE),
+      textSizeX: def(options.style.textSizeX ?? 10),
+      textSizeY: def(options.style.textSizeY ?? 10),
+      tickColorX: def(options.style.tickColorX ?? Color.WHITE),
+      tickColorY: def(options.style.tickColorY ?? Color.WHITE),
+      gridColor: def(options.style.gridColor ?? Color.WHITE),
+      gridWidth: def(options.style.gridWidth ?? 1),
+      textsX: def(options.style.textsX ?? true),
+      textsY: def(options.style.textsY ?? true),
+      ticksX: def(options.style.ticksX ?? true),
+      ticksY: def(options.style.ticksY ?? true),
+      grid: def(options.style.grid ?? true),
+    }
+
+    const axisX = createArrow([lengthXProp.value[0], 0], [lengthXProp.value[1], 0], {
+      style: {
+        color: style.colorX.value,
+      },
+    })(ck)
+    const axisY = createArrow([0, lengthYProp.value[1]], [0, lengthYProp.value[0]], {
+      style: {
+        color: style.colorY.value,
+      },
+    })(ck)
+
+    const ticksX: Line[] = []
+    const ticksY: Line[] = []
+    const textsX: Text[] = []
+    const textsY: Text[] = []
+    const grid: Line[] = []
+
+    for (let x = lengthX[0] + (lengthX[1] - lengthX[0]) % divisionX.value; x <= lengthX[1]; x += divisionX.value) {
+      if (style.ticksX) {
+        ticksX.push(createLine([x, -5], [x, 5], {
           style: {
-            color: this.style.tickColorX,
+            color: style.tickColorX.value,
           },
-        }))
+        })(ck))
       }
-      if (x !== 0 && this.style.textsX) {
-        this.textsX.push(new Text(this.trendX(x).toString(), {
-          x: x - (this.style.textSizeX / 2),
+      if (x !== 0 && style.textsX) {
+        textsX.push(createText(trendX.value(x).toString(), {
+          x: x - (style.textSizeX.value / 2),
           y: 10,
           style: {
-            fontSize: this.style.textSizeX,
-            fillColor: this.style.textColorX,
+            fontSize: style.textSizeX.value,
+            color: style.textColorX.value,
             // Note: the rotation is reversed because the canvas is flipped
-            rotation: -this.style.rotation,
+            rotation: -style.rotation.value,
           },
-        }))
+        })(ck))
       }
-      if (this.style.grid) {
-        this.grid.push(new Line([x, this.lengthY[0]], [x, this.lengthY[1]], {
+      if (style.grid) {
+        grid.push(createLine([x, lengthY[0]], [x, lengthY[1]], {
           style: {
-            color: this.style.gridColor,
-            width: this.style.gridWidth,
+            color: style.gridColor.value,
+            width: style.gridWidth.value,
           },
-          progress: this.progress,
-        }))
+          progress: base.progress.value,
+        })(ck))
       }
     }
 
-    for (let y = this.lengthY[0] + (this.lengthY[1] - this.lengthY[0]) % this.divisionY; y <= this.lengthY[1]; y += this.divisionY) {
-      if (this.style.ticksY) {
-        this.ticksY.push(new Line([-5, y], [5, y], {
+    for (let y = lengthY[0] + (lengthY[1] - lengthY[0]) % divisionY.value; y <= lengthY[1]; y += divisionY.value) {
+      if (style.ticksY) {
+        ticksY.push(createLine([-5, y], [5, y], {
           style: {
-            color: this.style.tickColorY,
+            color: style.tickColorY.value,
           },
-        }))
+        })(ck))
       }
-      if (y !== 0 && this.style.textsY) {
-        this.textsY.push(new Text(this.trendY(y).toString(), {
+      if (y !== 0 && style.textsY) {
+        textsY.push(createText(trendY.value(y).toString(), {
           x: 10,
-          y: (this.style.textSizeY / 2) - y,
+          y: (style.textSizeY.value / 2) - y,
           style: {
-            fontSize: this.style.textSizeY,
-            fillColor: this.style.textColorY,
+            fontSize: style.textSizeY.value,
+            color: style.textColorY.value,
             // Note: the rotation is reversed because the canvas is flipped
-            rotation: -this.style.rotation,
+            rotation: -style.rotation,
           },
-        }))
+        })(ck))
       }
-      if (this.style.grid) {
-        this.grid.push(new Line([this.lengthX[0], y], [this.lengthX[1], y], {
+      if (style.grid) {
+        grid.push(createLine([lengthX[0], y], [lengthX[1], y], {
           style: {
-            color: this.style.gridColor,
-            width: this.style.gridWidth,
+            color: style.gridColor.value,
+            width: style.gridWidth.value,
           },
-          progress: this.progress,
-        }))
+          progress: base.progress.value,
+        })(ck))
       }
     }
 
-    this.originText = new Text(this.trendX(0).toString(), {
-      x: this.style.textSizeX / 4,
-      y: this.style.textSizeX / 4,
+    const originText = createText(trendX.value(0).toString(), {
+      x: style.textSizeX.value / 4,
+      y: style.textSizeX.value / 4,
       style: {
-        fontSize: this.style.textSizeX,
-        fillColor: this.style.textColorX,
+        fontSize: style.textSizeX.value,
+        color: style.textColorX.value,
         // Note: the rotation is reversed because the canvas is flipped
-        rotation: -this.style.rotation,
+        rotation: -style.rotation.value,
       },
+    })(ck)
+
+    base.add(axisX, axisY, ...ticksX, ...ticksY, ...textsX, ...textsY, ...grid)
+    if (style.textsX)
+      base.add(originText)
+
+    return deepMerge(base, {
+      divisionX,
+      divisionY,
+      lengthX: lengthXProp,
+      lengthY: lengthYProp,
+      style,
+      trendX,
+      trendY,
     })
-
-    this.add(this.axisX, this.axisY, ...this.ticksX, ...this.ticksY, ...this.textsX, ...this.textsY, ...this.grid)
-    if (this.style.textsX)
-      this.add(this.originText)
-  }
-
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    switch (propertyChanged) {
-      case 'style.colorX':
-        this.axisX.style.color = this.style.colorX
-        break
-      case 'style.colorY':
-        this.axisY.style.color = this.style.colorY
-        break
-      case 'style.textColorX':
-        for (const text of this.textsX)
-          text.style.fillColor = this.style.textColorX
-        break
-      case 'style.textColorY':
-        for (const text of this.textsY)
-          text.style.fillColor = this.style.textColorY
-        break
-      case 'style.textSizeX':
-        for (const text of this.textsX)
-          text.style.fontSize = this.style.textSizeX
-        break
-      case 'style.textSizeY':
-        for (const text of this.textsY)
-          text.style.fontSize = this.style.textSizeY
-        break
-      case 'style.ticksX':
-        for (const tick of this.ticksX)
-          tick.style.color = this.style.tickColorX
-        break
-      case 'style.ticksY':
-        for (const tick of this.ticksY)
-          tick.style.color = this.style.tickColorY
-        break
-      case 'style.grid':
-        for (const gridItem of this.grid)
-          gridItem.style.color = this.style.gridColor
-        break
-      case 'style.gridWidth':
-        for (const gridItem of this.grid)
-          gridItem.style.width = this.style.gridWidth
-        break
-      case 'progress':
-        this.axisX.progress = this.progress
-        this.axisY.progress = this.progress
-        for (const tick of this.ticksX)
-          tick.progress = this.progress
-        for (const gridItem of this.grid)
-          gridItem.progress = this.progress
-        break
-      case 'style.rotation':
-        for (const text of this.textsX)
-          text.style.rotation = -this.style.rotation
-        for (const text of this.textsY)
-          text.style.rotation = -this.style.rotation
-        this.originText.style.rotation = -this.style.rotation
-    }
-  }
+  })
 }

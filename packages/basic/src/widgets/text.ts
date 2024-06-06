@@ -12,7 +12,7 @@ import {
   defineWidgetBuilder,
 } from '@newcar/core'
 import type { BlendMode, Shader, TextAlign, TextBaseline } from '@newcar/utils'
-import { Color, str2BlendMode, str2TextAlign, str2TextBaseline } from '@newcar/utils'
+import { Color, deepMerge, str2BlendMode, str2TextAlign, str2TextBaseline } from '@newcar/utils'
 import type { Canvas, FontStyle, Paint, TextStyle as ckTextStyle } from 'canvaskit-wasm'
 
 export interface TextOptions extends BaseOptions {
@@ -235,8 +235,7 @@ export function createText(text: string, options?: TextOptions) {
       canvas.drawParagraph(paragraph, 0, 0)
     }
 
-    return {
-      ...base,
+    return deepMerge(base, {
       text: textProp,
       style,
       paint,
@@ -244,6 +243,6 @@ export function createText(text: string, options?: TextOptions) {
       textStyle,
       width,
       render,
-    }
+    })
   })
 }
