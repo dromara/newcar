@@ -217,6 +217,9 @@ importers:
       '@newcar/core':
         specifier: workspace:*
         version: link:../core
+      '@newcar/local':
+        specifier: '*'
+        version: link:../local
       '@newcar/utils':
         specifier: workspace:*
         version: link:../utils

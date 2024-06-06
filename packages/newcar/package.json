@@ -32,6 +32,7 @@
   "dependencies": {
     "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
+    "@newcar/local": "*",
     "@newcar/utils": "workspace:*"
   },
   "publishConfig": {
