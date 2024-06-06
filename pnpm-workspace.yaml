@@ -1,6 +1,6 @@
 packages:
   - 'packages/*'
-  # - 'mods/*'
+  - 'mods/*'
   # - 'plugins/*'
   # - 'test/*'
   # - cli

@@ -1,12 +1,12 @@
-import { Arrow, Line, Text } from '@newcar/basic'
-import type { WidgetOptions, WidgetStyle } from '@newcar/core'
-import { Widget } from '@newcar/core'
-import type { CanvasKit } from 'canvaskit-wasm'
-import { Color } from '../../../../packages/utils/src'
+import type { BaseOptions, BaseStyle, ConvertToProp, Prop, Widget } from '@newcar/core'
+import { changed, createBase, def, defineWidgetBuilder } from '@newcar/core'
+import { Color, deepMerge } from '@newcar/utils'
+import type { Line, Text } from '@newcar/basic'
+import { createArrow, createLine, createText } from '@newcar/basic'
 
 export type Trend = (x: number) => number | string
 
-export interface NumberAxisOptions extends WidgetOptions {
+export interface NumberAxisOptions extends BaseOptions {
   style?: NumberAxisStyle
 
   /**
@@ -21,17 +21,12 @@ export interface NumberAxisOptions extends WidgetOptions {
   trend?: Trend
 }
 
-export interface NumberAxisStyle extends WidgetStyle {
+export interface NumberAxisStyle extends BaseStyle {
   /**
    * If display ticks.
    */
   ticks?: boolean
   tickColor?: Color
-
-  /**
-   * If display arrow (the triangle at the end of the axis)
-   */
-  arrow?: boolean
 
   /**
    * if display the number or text under the ticks of the axis
@@ -46,94 +41,137 @@ export interface NumberAxisStyle extends WidgetStyle {
   color?: Color
 }
 
-export class NumberAxis extends Widget {
-  division: number
-  trend: Trend
-  declare style: NumberAxisStyle
-  ticks: Line[]
-  texts: Text[]
-  main: Arrow
+export interface NumberAxis extends Widget {
+  length: Prop<[number, number]>
+  division: Prop<number>
+  trend: Prop<Trend>
+  style: ConvertToProp<NumberAxisStyle>
+  progress: Prop<number>
+}
 
-  constructor(
-    public length: [number, number],
-    options?: NumberAxisOptions,
-  ) {
+export function createNumebrAxis(length: [number, number], options?: NumberAxisOptions) {
+  return defineWidgetBuilder<NumberAxis>((ck) => {
     options ??= {}
-    super(options)
-    this.division = options.division ?? 50
-    this.trend = options.trend ?? (x => x / 50)
-    this.style ??= {}
-    this.style.ticks = options.style.ticks ?? true
-    this.style.tickColor = options.style.tickColor ?? Color.WHITE
-    this.style.texts = options.style.texts ?? true
-    this.style.textSize = options.style.textSize ?? 20
-    this.style.textColor = options.style.textColor ?? Color.WHITE
-    this.style.color = options.style.color ?? Color.WHITE
-    this.style.arrow = options.style.arrow ?? true
-    this.main = new Arrow([this.length[0], 0], [this.length[1], 0], {
+    options.style ??= {}
+    const base = createBase(options)(ck)
+
+    const lengthProp = def(length)
+
+    const division = def(options.division ?? 50)
+    const trend = def(options.trend ?? ((x: number) => x / 50))
+    const style = {
+      ...base.style,
+      ticks: def(options.style.ticks ?? true),
+      tickColor: def(options.style.tickColor ?? Color.WHITE),
+      texts: def(options.style.texts ?? true),
+      textSize: def(options.style.textSize ?? 20),
+      textColor: def(options.style.textColor ?? Color.WHITE),
+      color: def(options.style.color ?? Color.WHITE),
+    }
+
+    const stem = createArrow([lengthProp.value[0], 0], [lengthProp.value[1], 0], {
       style: {
-        color: this.style.color,
+        color: style.color.value,
       },
-      progress: this.progress,
-    })
-    this.ticks = []
-    this.texts = []
-    for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division; x <= this.length[1]; x += this.division) {
-      if (this.style.ticks) {
-        this.ticks.push(
-          new Line([x, -5], [x, 5], {
+    })(ck)
+    let ticks: Line[] = []
+    let texts: Text[] = []
+    for (let x = lengthProp.value[0] + (lengthProp.value[1] - lengthProp.value[0]) % division.value; x <= lengthProp.value[1]; x += division.value) {
+      if (style.ticks.value) {
+        ticks.push(
+          createLine([x, -5], [x, 5], {
             style: {
-              color: this.style.tickColor,
+              color: style.tickColor.value,
             },
-            progress: this.progress,
-          }),
+            progress: base.progress.value,
+          })(ck),
         )
       }
-      if (this.style.texts) {
-        this.texts.push(new Text(this.trend(x).toString(), {
-          x: x - (this.style.textSize / 2),
-          y: 10,
-          style: {
-            fontSize: this.style.textSize,
-            fillColor: this.style.textColor,
-            // Note: the rotation is reversed because the canvas is flipped
-            rotation: -this.style.rotation,
-          },
-        }))
+      if (style.texts.value) {
+        texts.push(
+          createText(trend.value(x).toString(), {
+            x: x - (style.textSize.value / 2),
+            y: 10,
+            style: {
+              fontSize: style.textSize.value,
+              color: style.textColor.value,
+              // Note: the rotation is reversed because the canvas is flipped
+              rotation: -style.rotation.value,
+            },
+            progress: base.progress.value,
+          })(ck),
+        )
       }
     }
-    this.add(this.main, ...this.ticks, ...this.texts)
-  }
 
-  init(_ck: CanvasKit): void {
-    super.init(_ck)
-  }
+    base.add(stem, ...texts, ...ticks)
 
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    switch (propertyChanged) {
-      case 'style.color':
-        this.main.style.color = this.style.color
-        break
-      case 'style.tickColor':
-        for (const tick of this.ticks)
-          tick.style.color = this.style.tickColor
-        break
-      case 'style.textColor':
-        for (const text of this.texts)
-          text.style.fillColor = this.style.textColor
-        break
-      case 'style.textSize':
-        for (const text of this.texts)
-          text.style.fontSize = this.style.textSize
-        break
-      case 'progress':
-        this.main.progress = this.progress
-        for (const tick of this.ticks)
-          tick.progress = this.progress
-        break
-      case 'style.rotation':
-        for (const text of this.texts)
-          text.style.rotation = -this.style.rotation
-    }
-  }
+    changed(lengthProp, (v: any) => {
+      stem.from.value = [v[0], 0]
+      stem.to.value = [v[1], 0]
+    })
+    changed(division, (v) => {
+      ticks = []
+      for (let x = lengthProp.value[0] + (lengthProp.value[1] - lengthProp.value[0]) % v.value; x <= lengthProp.value[1]; x += v.value) {
+        if (style.ticks.value) {
+          ticks.push(
+            createLine([x, -5], [x, 5], {
+              style: {
+                color: style.tickColor.value,
+              },
+              progress: base.progress.value,
+            })(ck),
+          )
+        }
+      }
+    })
+    changed(trend, (v) => {
+      texts = []
+      for (let x = lengthProp.value[0] + (lengthProp.value[1] - lengthProp.value[0]) % division.value; x <= lengthProp.value[1]; x += division.value) {
+        if (style.texts.value) {
+          texts.push(
+            createText(v.value(x).toString(), {
+              x: x - (style.textSize.value / 2),
+              y: 10,
+              style: {
+                fontSize: style.textSize.value,
+                color: style.textColor.value,
+                // Note: the rotation is reversed because the canvas is flipped
+                rotation: -style.rotation.value,
+              },
+              progress: base.progress.value,
+            })(ck),
+          )
+        }
+      }
+    })
+    changed(style.tickColor, (v) => {
+      for (const tick of ticks) {
+        tick.style.color.value = v.value
+      }
+    })
+    changed(style.textColor, (v) => {
+      for (const text of texts) {
+        text.style.color.value = v.value
+      }
+    })
+    changed(style.textSize, (v) => {
+      for (const text of texts) {
+        text.style.fontSize.value = v.value
+      }
+    })
+    changed(style.rotation, (v) => {
+      for (const text of texts) {
+        // Note: reverse texts to keep his horizontal position
+        text.style.rotation.value = -v.value
+      }
+    })
+
+    return deepMerge(base, {
+      length: lengthProp,
+      style,
+      division,
+      trend,
+    })
+  })
 }

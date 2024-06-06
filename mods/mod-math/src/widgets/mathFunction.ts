@@ -1,118 +1,80 @@
-import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
-import { Widget } from '@newcar/core'
-import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
-import type { Shader } from '../../../../packages/utils/src'
-import { Color } from '../../../../packages/utils/src'
+import type { BaseOptions, BaseStyle, ConvertToProp, Prop, Widget } from '@newcar/core'
+import { changed, def, defineWidgetBuilder } from '@newcar/core'
+import type { Shader } from '@newcar/utils'
+import { Color, deepMerge } from '@newcar/utils'
+import { createPath } from '@newcar/basic'
 import type { Domain } from '../utils/domain'
 import type { Range } from '../utils/range'
 
-export interface MathFunctionOptions extends WidgetOptions {
+export interface MathFunctionOptions extends BaseOptions {
   divisionY?: number
   divisionX?: number
-  lineWidth?: number
   style?: MathFunctionStyle
   numberRange?: Range
 }
 
-export interface MathFunctionStyle extends WidgetStyle {
+export interface MathFunctionStyle extends BaseStyle {
   color?: Color
   shader?: Shader
   width?: number
 }
 
-export class MathFunction extends Widget {
-  declare style: MathFunctionStyle
-  private path: Path
-  private paint: Paint
-  numberRange: Range
-  lineWidth: number
-  divisionX: number
-  divisionY: number
+export interface MathFunction extends Widget {
+  divisionX: Prop<number>
+  divisionY: Prop<number>
+  numberRange: Prop<Range>
+  domain: Prop<Domain>
+  style: ConvertToProp<MathFunctionStyle>
+}
 
-  constructor(
-    public fn: (x: number) => number,
-    public domain: Domain,
-    options?: MathFunctionOptions,
-  ) {
+export function createMathFunction(fn: (x: number) => number, domain: Domain, options: MathFunctionOptions) {
+  return defineWidgetBuilder<MathFunction>((ck) => {
     options ??= {}
-    super(options)
-    this.numberRange = options.numberRange ?? [
+    options.style ??= {}
+
+    const path = createPath(options)(ck)
+
+    const fnProp = def(fn)
+    const domainProp = def(domain)
+
+    const divisionX = def(options.divisionX ?? 50)
+    const divisionY = def(options.divisionY ?? 50)
+    const numberRange: Prop<Range> = def(options.numberRange ?? [
       Number.NEGATIVE_INFINITY,
       Number.POSITIVE_INFINITY,
-    ]
-    this.divisionX = options.divisionX ?? 50
-    this.divisionY = options.divisionY ?? 50
-    options.style ??= {}
-    this.style.width = options.style.width ?? 2
-    this.style.color = options.style.color ?? Color.WHITE
-    this.style.shader = options.style.shader
-  }
-
-  init(ck: CanvasKit) {
-    this.paint = new ck.Paint()
-    this.paint.setColor(this.style.color!.toFloat4())
-    this.paint.setShader(this.style.shader?.toCanvasKitShader(ck) ?? null)
-    this.paint.setStyle(ck.PaintStyle.Stroke)
-    this.paint.setStrokeWidth((this.style.width! / this.divisionX) * 2)
-    this.path = new ck.Path()
-    this.path.moveTo(this.domain[0], this.fn(this.domain[0]))
-    for (
-      let x = this.domain[0];
-      x <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
-      x += 1 / this.divisionX
-    ) {
-      const value = this.fn(x)
-      this.path.lineTo(x, value)
+    ])
+    const style = {
+      color: def(options.style.color ?? Color.WHITE),
+      shader: def(options.style.shader),
+      width: def(options.style.width ?? 2),
     }
-  }
 
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    switch (propertyChanged) {
-      case 'fn':
-      case 'divisionX':
-      case 'divisionY':
-      case 'lineWidth':
-      case 'range':
-      case 'domain': {
-        this.path.reset()
-        this.path.moveTo(this.domain[0], this.fn(this.domain[0]))
-        for (
-          let x = this.domain[0];
-          x
-          <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
-          x += 1 / this.divisionX
-        ) {
-          const value = this.fn(x)
-          this.path.lineTo(x, value)
-        }
-        break
-      }
-      case 'style.width': {
-        this.paint.setStrokeWidth((this.style.width! / this.divisionX) * 2)
-        break
-      }
-      case 'style.color': {
-        this.paint.setColor(this.style.color!.toFloat4())
-        break
-      }
-      case 'style.shader': {
-        this.paint.setShader(this.style.shader?.toCanvasKitShader(ck) ?? null)
-        break
+    function reset() {
+      path.path.moveTo(domain[0], fnProp.value(domainProp.value[0]))
+      for (
+        let x = domainProp.value[0];
+        x <= domainProp.value[0] + (domainProp.value[1] - domainProp.value[0]) * path.progress.value;
+        x += 1 / divisionX.value
+      ) {
+        const value = fnProp.value(x)
+        path.path.lineTo(x, value)
       }
     }
-  }
 
-  draw(canvas: Canvas): void {
-    canvas.scale(this.divisionX, -this.divisionY)
-    canvas.drawPath(this.path, this.paint)
-  }
+    reset()
 
-  calculateIn(x: number, y: number): boolean {
-    return this.path.contains(x, y)
-  }
+    changed(divisionX, reset)
+    changed(divisionY, reset)
+    changed(domainProp, reset)
+    changed(fnProp, reset)
+    changed(path.progress, reset)
 
-  calculateRange(): WidgetRange {
-    const bounds = this.path.computeTightBounds()
-    return [...bounds] as WidgetRange
-  }
+    return deepMerge(path, {
+      divisionX,
+      divisionY,
+      numberRange,
+      domain: domainProp,
+      style,
+    })
+  })
 }
