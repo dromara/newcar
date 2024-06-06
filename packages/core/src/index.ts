@@ -5,6 +5,7 @@ export * from './engine'
 export * from './scene'
 export * from './widget'
 export * from './prop'
+export * from './config'
 export * from './resources'
 
 // APIs

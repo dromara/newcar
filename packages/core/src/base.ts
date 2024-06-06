@@ -1,10 +1,10 @@
 import type { BlendMode } from '@newcar/utils'
-import type { Canvas } from 'canvaskit-wasm'
 import type { Widget } from './widget'
 import { defineWidgetBuilder } from './widget'
 import type { Animate } from './animation'
 import type { ConvertToProp, Prop } from './prop'
 import { def } from './prop'
+import type { Canvas } from 'canvaskit-wasm'
 
 export interface BaseOptions {
   style?: BaseStyle

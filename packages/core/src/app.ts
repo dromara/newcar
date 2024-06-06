@@ -1,6 +1,6 @@
-import type { CanvasKit } from 'canvaskit-wasm'
 import { Color, error, isNull } from '@newcar/utils'
 import type { Scene, SceneOptions } from './scene'
+import type { CanvasKit } from 'canvaskit-wasm'
 
 export function defineCreateAppApi(ck: CanvasKit) {
   return function createApp(element: HTMLCanvasElement) {

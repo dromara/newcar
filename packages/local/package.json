@@ -1,7 +1,7 @@
 {
-  "name": "@newcar/core",
+  "name": "@newcar/local",
   "version": "1.0.0",
-  "description": "The core of newcar.",
+  "description": "The local-mode core of newcar.",
   "author": "BugDuck Team",
   "license": "Apache-2.0",
   "keywords": [
@@ -31,6 +31,7 @@
   "dependencies": {
   },
   "devDependencies": {
+    "@newcar/core": "workspace:*",
     "@newcar/utils": "workspace:*",
     "canvaskit-wasm": "0.39.1"
   },

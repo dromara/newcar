@@ -1,6 +1,6 @@
-import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import type { Widget } from './widget'
 import { type SceneConfig, defineSceneConfig } from './config'
+import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 
 export interface SceneOptions {
   config?: SceneConfig
