@@ -1,5 +1,6 @@
 import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
-import type { SceneConfig, Widget, defineSceneConfig } from '@newcar/core'
+import type { SceneConfig, Widget } from '@newcar/core'
+import { defineSceneConfig } from '@newcar/core'
 
 export interface SceneOptions {
   config?: SceneConfig
@@ -26,21 +27,21 @@ export function createScene(root: Widget, options?: SceneOptions) {
       if (options.config.unit === 'frame') {
         for (let elapsed = 0; elapsed <= duration; elapsed++) {
           options.canvas.clear(ck.BLACK)
-          root.update(options.canvas)
+          root.update(options.canvas, elapsed, root.render)
           data.push(options.surface.makeImageSnapshot().encodeToBytes())
         }
       }
       else if (options.config.unit === 's') {
         for (let elapsed = 0; elapsed <= (duration * fps); elapsed += (1 / fps)) {
           options.canvas.clear(ck.BLACK)
-          root.update(options.canvas)
+          root.update(options.canvas, elapsed, root.render)
           data.push(options.surface.makeImageSnapshot().encodeToBytes())
         }
       }
       else if (options.config.unit === 'ms') {
         for (let elapsed = 0; elapsed <= (duration * (fps / 1000)); elapsed += (1000 / fps)) {
           options.canvas.clear(ck.BLACK)
-          root.update(options.canvas)
+          root.update(options.canvas, elapsed, root.render)
           data.push(options.surface.makeImageSnapshot().encodeToBytes())
         }
       }

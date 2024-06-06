@@ -79,7 +79,7 @@ importers:
         version: link:../../packages/basic
       '@newcar/core':
         specifier: workspace:*
-        version: link:../../packages/local
+        version: link:../../packages/core
       '@newcar/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -104,7 +104,7 @@ importers:
         version: link:../../packages/basic
       '@newcar/core':
         specifier: workspace:*
-        version: link:../../packages/local
+        version: link:../../packages/core
       '@newcar/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -120,7 +120,7 @@ importers:
         version: link:../../packages/basic
       '@newcar/core':
         specifier: workspace:*
-        version: link:../../packages/local
+        version: link:../../packages/core
       '@newcar/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -136,7 +136,7 @@ importers:
         version: link:../../packages/basic
       '@newcar/core':
         specifier: workspace:*
-        version: link:../../packages/local
+        version: link:../../packages/core
       '@newcar/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -161,7 +161,7 @@ importers:
         version: link:../../packages/basic
       '@newcar/core':
         specifier: workspace:*
-        version: link:../../packages/local
+        version: link:../../packages/core
       '@newcar/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -176,7 +176,7 @@ importers:
     dependencies:
       '@newcar/core':
         specifier: workspace:*
-        version: link:../local
+        version: link:../core
       '@newcar/utils':
         specifier: workspace:*
         version: link:../utils
@@ -185,11 +185,23 @@ importers:
         specifier: 0.39.1
         version: 0.39.1
 
-  packages/local:
+  packages/core:
     devDependencies:
       '@newcar/core':
         specifier: workspace:*
         version: 'link:'
+      '@newcar/utils':
+        specifier: workspace:*
+        version: link:../utils
+      canvaskit-wasm:
+        specifier: 0.39.1
+        version: 0.39.1
+
+  packages/local:
+    devDependencies:
+      '@newcar/core':
+        specifier: workspace:*
+        version: link:../core
       '@newcar/utils':
         specifier: workspace:*
         version: link:../utils
@@ -204,7 +216,7 @@ importers:
         version: link:../basic
       '@newcar/core':
         specifier: workspace:*
-        version: link:../local
+        version: link:../core
       '@newcar/utils':
         specifier: workspace:*
         version: link:../utils
