@@ -76,7 +76,7 @@ export function createNumberAxis(length: [number, number], options?: NumberAxisO
     })(ck)
     let ticks: Line[] = []
     let texts: Text[] = []
-    for (let x = lengthProp.value[0] + (lengthProp.value[1] - lengthProp.value[0]) % division.value; x <= lengthProp.value[1]; x += division.value) {
+    for (let x = lengthProp.value[0] + (lengthProp.value[1] - lengthProp.value[1] % division.value - lengthProp.value[0]) % division.value; x <= lengthProp.value[1]; x += division.value) {
       if (style.ticks.value) {
         ticks.push(
           createLine([x, -5], [x, 5], {
@@ -112,7 +112,9 @@ export function createNumberAxis(length: [number, number], options?: NumberAxisO
     })
     changed(division, (v) => {
       ticks = []
-      for (let x = lengthProp.value[0] + (lengthProp.value[1] - lengthProp.value[0]) % v.value; x <= lengthProp.value[1]; x += v.value) {
+      for (let x = lengthProp.value[0] + (lengthProp.value[1] - lengthProp.value[1] % v.value - lengthProp.value[0]) % v.value;
+        x <= lengthProp.value[1];
+        x += v.value) {
         if (style.ticks.value) {
           ticks.push(
             createLine([x, -5], [x, 5], {

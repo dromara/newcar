@@ -85,7 +85,7 @@ export function createNumberPlane(
     let textsY: Text[] = []
     let grid: Line[] = []
 
-    for (let x = lengthX[0] + (lengthX[1] - lengthX[0]) % divisionX.value; x <= lengthX[1]; x += divisionX.value) {
+    for (let x = lengthX[0] + (lengthX[1] - lengthXProp.value[1] % divisionX.value - lengthX[0]) % divisionX.value; x <= lengthX[1]; x += divisionX.value) {
       if (style.ticksX.value) {
         ticksX.push(createLine([x, -5], [x, 5], {
           style: {
@@ -116,7 +116,7 @@ export function createNumberPlane(
       }
     }
 
-    for (let y = lengthYProp.value[0] + (lengthYProp.value[1] - lengthYProp.value[0]) % divisionY.value; y <= lengthYProp.value[1]; y += divisionY.value) {
+    for (let y = lengthYProp.value[0] + (lengthYProp.value[1] - lengthYProp.value[1] % divisionY.value - lengthYProp.value[0]) % divisionY.value; y <= lengthYProp.value[1]; y += divisionY.value) {
       if (style.ticksY.value) {
         ticksY.push(createLine([-5, y], [5, y], {
           style: {
@@ -175,7 +175,7 @@ export function createNumberPlane(
       textsX = []
       ticksX = []
       grid = []
-      for (let x = lengthXProp.value[0] + (lengthXProp.value[1] - lengthXProp.value[0]) % v.value; x <= lengthXProp.value[1]; x += v.value) {
+      for (let x = lengthXProp.value[0] + (lengthXProp.value[1] - lengthXProp.value[1] % v.value - lengthXProp.value[0]) % v.value; x <= lengthXProp.value[1]; x += v.value) {
         if (style.ticksX.value) {
           ticksX.push(createLine([x, -5], [x, 5], {
             style: {
@@ -201,7 +201,7 @@ export function createNumberPlane(
       textsY = []
       ticksY = []
       grid = []
-      for (let y = lengthYProp.value[0] + (lengthYProp.value[1] - lengthYProp.value[0]) % v.value; y <= lengthYProp.value[1]; y += v.value) {
+      for (let y = lengthYProp.value[0] + (lengthYProp.value[1] - lengthYProp.value[1] % v.value - lengthYProp.value[0]) % v.value; y <= lengthYProp.value[1]; y += v.value) {
         if (style.ticksY.value) {
           ticksY.push(createLine([-5, y], [5, y], {
             style: {
