@@ -64,7 +64,7 @@ export function createNumberAxis(length: [number, number], options?: NumberAxisO
       ticks: def(options.style.ticks ?? true),
       tickColor: def(options.style.tickColor ?? Color.WHITE),
       texts: def(options.style.texts ?? true),
-      textSize: def(options.style.textSize ?? 20),
+      textSize: def(options.style.textSize ?? 15),
       textColor: def(options.style.textColor ?? Color.WHITE),
       color: def(options.style.color ?? Color.WHITE),
     }
@@ -90,7 +90,7 @@ export function createNumberAxis(length: [number, number], options?: NumberAxisO
       if (style.texts.value) {
         texts.push(
           createText(trend.value(x).toString(), {
-            x: x - (style.textSize.value / 2),
+            x: x - style.textSize.value / 3,
             y: 10,
             style: {
               fontSize: style.textSize.value,
@@ -165,6 +165,23 @@ export function createNumberAxis(length: [number, number], options?: NumberAxisO
         // Note: reverse texts to keep his horizontal position
         text.style.rotation.value = -v.value
       }
+    })
+    changed(base.progress, (v) => {
+      for (const text of texts) {
+        text.progress.value = v.value
+      }
+      for (const tick of ticks) {
+        tick.progress.value = v.value
+      }
+      stem.progress.value = v.value
+    })
+    changed(style.ticks, (v) => {
+      for (const tick of ticks)
+        tick.display.value = v.value
+    })
+    changed(style.texts, (v) => {
+      for (const text of texts)
+        text.display.value = v.value
     })
 
     return deepMerge(base, {

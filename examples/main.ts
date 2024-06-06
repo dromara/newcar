@@ -89,10 +89,12 @@ const app = createApp(document.querySelector('#milestone'))
 // circle.animate(nc.move(100, 100)(120))
 
 const scene = nc.createScene(
-  use(createNumberAxis([-100, 100], {
+  use(createNumberPlane([-100, 100], [-100, 100], {
     x: 100,
     y: 100
-  })).animate(nc.create()(2))
+  }))
+  .animate(nc.create()(2))
+  .animate(nc.move(200, 200)(2))
 )
 app.checkout(scene)
 app.play()
