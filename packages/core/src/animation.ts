@@ -1,4 +1,5 @@
 import type { CanvasKit } from 'canvaskit-wasm'
+import { deepClone } from '@newcar/utils'
 import type { Base } from './base'
 import type { Widget } from './widget'
 
@@ -124,7 +125,7 @@ export function withProcess<T extends Widget>(
     return defineAnimate<T>({
       init: (context) => {
         startAt = context.elapsed
-        origin = context.widget
+        origin = deepClone(context.widget)
         if (typeof actor !== 'function' && actor.init) {
           actor.init(context)
         }
