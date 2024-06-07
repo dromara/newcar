@@ -1,8 +1,7 @@
 import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
-import { Color, deepClone } from '@newcar/utils'
+import { Color } from '@newcar/utils'
 import type { Scene } from './scene'
 import { initial } from './initial'
-import { patch } from './patch'
 import type { Widget } from './widget'
 import type { GlobalPlugin } from './plugin'
 import { type Config, defineConfig } from './config'
@@ -88,7 +87,6 @@ export class App {
         plugin.onCheckout(this, this.scene)
     }
     // if (!scene.root.hasSet)
-    scene.root.setEventListener(this.element)
     return this
   }
 
@@ -109,31 +107,7 @@ export class App {
     if (app.scene.elapsed === 0)
       initial(app.scene.root, app.ck, canvas)
 
-    for (const plugin of app.plugins) {
-      if (plugin.beforePatch)
-        plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
-    }
-
-    patch(app.last, app.scene.root, app.ck, canvas)
-    for (const plugin of app.plugins) {
-      if (plugin.onPatch)
-        plugin.onPatch(app, app.scene.elapsed, app.last, app.scene.root)
-    }
-
-    app.last = deepClone(app.scene.root)
-
-    for (const plugin of app.plugins) {
-      if (plugin.beforeAnimate)
-        plugin.beforeAnimate(app, app.scene.elapsed, app.scene.root)
-    }
-
-    app.scene.root.runAnimation(app.scene.elapsed, app.ck)
-    app.scene.root.processSetups(app.scene.elapsed)
-
-    for (const plugin of app.plugins) {
-      if (plugin.onAnimate)
-        plugin.onAnimate(app, app.scene.elapsed, app.scene.root)
-    }
+    // TODO: Replace
 
     if (app.cleared) {
       canvas.clear(Color.parse(app.element.style.backgroundColor).toFloat4())
