@@ -1,5 +1,7 @@
 import type { CanvasKit } from 'canvaskit-wasm'
 import type { Vector2 } from '../../utils/vector2'
+import type { Reactive, Ref } from '../../../../core/src/prop'
+import { changed, reactive, ref } from '../../../../core/src/prop'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 import { Polygon } from './polygon'
@@ -54,7 +56,9 @@ export interface ArrowStyle extends FigureStyle {}
 export class Arrow extends Figure {
   private tip: Polygon
   private trim: Line
-  radian: number
+  radian: Ref<number>
+  from: Reactive<Vector2>
+  to: Reactive<Vector2>
 
   /**
    * Constructs a new Arrow instance.
@@ -63,13 +67,15 @@ export class Arrow extends Figure {
    * @param options Optional configuration options for the arrow.
    */
   constructor(
-    public from: Vector2,
-    public to: Vector2,
+    from: Vector2,
+    to: Vector2,
     options?: ArrowOptions,
   ) {
     options ??= {}
     super(options)
-    this.radian = calculateArrowRotationAngle(this.from, this.to)
+    this.from = reactive(from)
+    this.to = reactive(to)
+    this.radian = ref(calculateArrowRotationAngle(this.from, this.to))
     this.tip = new Polygon(
       [
         [0, 10],
@@ -82,56 +88,56 @@ export class Arrow extends Figure {
         style: {
           scaleX: this.from[0] > this.to[0] ? -1 : 1,
           scaleY: this.from[1] > this.to[1] ? -1 : 1,
-          rotation: this.radian,
+          rotation: this.radian.value,
           ...options.style,
         },
-        progress: this.progress,
+        progress: this.progress.value,
       },
     )
     this.trim = new Line(this.from, this.to, {
       style:
         {
-          color: this.style.borderColor,
-          width: this.style.borderWidth,
+          color: this.style.borderColor.value,
+          width: this.style.borderWidth.value,
           ...options.style,
         },
-      progress: this.progress,
+      progress: this.progress.value,
     })
     this.add(this.trim, this.tip)
     // WARN: Must push parts in constructor, if not, it will err
   }
 
-  /**
-   * Updates the arrow figure based on property changes.
-   * @param ck The CanvasKit instance.
-   * @param propertyChanged The name of the property that changed.
-   */
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    switch (propertyChanged) {
-      case 'from':
-      case 'to': {
-        this.radian = calculateArrowRotationAngle(this.from, this.to)
+  init(_ck: CanvasKit) {
+    changed(this.from, (from) => {
+      this.radian.value = calculateArrowRotationAngle(from, this.to)
 
-        this.tip.style.rotation = this.radian
-        this.trim.from = this.from
-        this.trim.to = this.to
-        break
-      }
-      case 'progress': {
-        this.tip.progress = this.progress
-        this.trim.progress = this.progress
-        break
-      }
-      case 'style.transparency': {
-        this.tip.style.transparency = this.style.transparency
-        this.trim.style.transparency = this.style.transparency
-        break
-      }
-      case 'style.offset':
-      case 'style.interval': {
-        this.tip.style.offset = this.style.offset
-        this.tip.style.interval = this.style.interval
-      }
-    }
+      this.tip.style.rotation = this.radian
+      this.trim.from = from
+    })
+
+    changed(this.to, (to) => {
+      this.radian.value = calculateArrowRotationAngle(this.from, to)
+
+      this.tip.style.rotation = this.radian
+      this.trim.to = to
+    })
+
+    changed(this.progress, (progress) => {
+      this.tip.progress = progress
+      this.trim.progress = progress
+    })
+
+    changed(this.style.transparency, (transparency) => {
+      this.tip.style.transparency = transparency
+      this.trim.style.transparency = transparency
+    })
+
+    changed(this.style.offset, (offset) => {
+      this.tip.style.offset.value = offset.value
+    })
+
+    changed(this.style.interval, (interval) => {
+      this.tip.style.interval.value = interval.value
+    })
   }
 }

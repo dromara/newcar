@@ -1,14 +1,11 @@
-export interface Prop<T> {
-  value: T
-}
-
-export interface PropertyWithChange<T> extends Prop<T> {
+export interface PropertyWithChange<T> {
   $onPostChanged: (listener: Listener<T>) => void
   $onPreChanged: (listener: Listener<T>) => void
 }
 
-export type Listener<T> = (newValue: Prop<T>) => void
+export type Listener<T> = (newValue: Reactive<T>) => void
 
+export type Reactive<T> = T
 export function reactive<T>(value: T, listener?: Listener<T>) {
   if (typeof value !== 'object')
     return
@@ -48,13 +45,13 @@ export function reactive<T>(value: T, listener?: Listener<T>) {
   })
 }
 
-export interface Ref<T> { value: T }
+export type Ref<T> = Reactive<{ value: T }>
 export function ref<T>(value: T, listener?: Listener<{ value: T }>) {
   return reactive({ value }, listener)
 }
 
 export function changed<T>(
-  target: Prop<T>,
+  target: Reactive<T>,
   listener: Listener<T> | {
     preChanged?: Listener<T>
     postChanged?: Listener<T>
@@ -75,6 +72,23 @@ export function changed<T>(
   }
 }
 
+export function changedMany<T extends [Reactive<any>]>(
+  targets: T,
+  listener: Listener<T>,
+) {
+  for (const [i, target] of targets.entries()) {
+    changed(target, (v) => {
+      const newValue = Array.of(...targets.entries()).map(([ix, nv]) => {
+        if (ix === i)
+          return v
+        else return nv
+      })
+
+      listener(newValue as any)
+    })
+  }
+}
+
 export type ConvertToProp<T> = {
-  [K in keyof T]: Prop<T[K]>
+  [K in keyof T]: Ref<T[K]>
 }
