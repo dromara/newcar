@@ -1,6 +1,6 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
-import type { ConvertToProp } from '../../../../core/src/prop.ts'
-import { changed, ref } from '../../../../core/src/prop.ts'
+import type { ConvertToProp } from '@newcar/core'
+import { changed, ref } from '@newcar/core'
 import type { PathOptions, PathStyle } from './path.ts'
 import { Path } from './path.ts'
 

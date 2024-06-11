@@ -8,8 +8,6 @@ export * from './asyncWidget'
 export * from './global'
 
 export * from './apiAnimate'
-export * from './apiChangeProperty'
-export * from './apiChangeStyle'
 export * from './apiUseFont'
 export * from './apiUseImage'
 
@@ -17,5 +15,4 @@ export * from './localApp'
 
 export * from './event'
 
-// temp
-export * from './patch'
+export * from './prop'

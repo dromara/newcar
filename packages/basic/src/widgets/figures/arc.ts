@@ -1,6 +1,6 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
-import type { Ref } from '../../../../core/src/prop.ts'
-import { changed, ref } from '../../../../core/src/prop.ts'
+import type { Ref } from '@newcar/core'
+import { changed, ref } from '@newcar/core'
 import type { FigureOptions } from './figure'
 import type { PathOptions, PathStyle } from './path.ts'
 import { Path } from './path.ts'

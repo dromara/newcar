@@ -1,7 +1,7 @@
 import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
 import type { WidgetRange } from '@newcar/core'
 import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
-import { changed } from '../../../../core/src/prop'
+import { changed } from '@newcar/core'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 
@@ -28,7 +28,7 @@ export class Path extends Figure {
     super.init(ck)
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.value.toFloat4())
-    this.strokePaint.setShader(this.style.borderShader?.value.toCanvasKitShader(ck) ?? null)
+    this.strokePaint.setShader(this.style.borderShader.value?.toCanvasKitShader(ck) ?? null)
     this.strokePaint.setAlphaf(this.style.transparency.value * this.style.borderColor.value.alpha)
     this.strokePaint.setStrokeWidth(this.style.borderWidth.value)
     this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join.value))

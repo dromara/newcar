@@ -5,8 +5,8 @@ export interface PropertyWithChange<T> {
 
 export type Listener<T> = (newValue: Reactive<T>) => void
 
-export type Reactive<T> = T
-export function reactive<T>(value: T, listener?: Listener<T>) {
+export const REACTIVE_TAG = Symbol('reactive')
+function _reactive<T>(value: T, listener?: Listener<T>, reactType: number = 1) {
   if (typeof value !== 'object')
     return
   const postListeners: Listener<T>[] = listener ? [listener] : []
@@ -23,6 +23,11 @@ export function reactive<T>(value: T, listener?: Listener<T>) {
     value: (listener: Listener<T>) => {
       preListeners.push(listener)
     },
+    writable: false,
+    configurable: false,
+  })
+  Object.defineProperty(value, REACTIVE_TAG, {
+    value: reactType,
     writable: false,
     configurable: false,
   })
@@ -45,9 +50,14 @@ export function reactive<T>(value: T, listener?: Listener<T>) {
   })
 }
 
+export type Reactive<T> = T
+export function reactive<T>(value: T, listener?: Listener<T>) {
+  return _reactive(value, listener, 1)
+}
+
 export type Ref<T> = Reactive<{ value: T }>
 export function ref<T>(value: T, listener?: Listener<{ value: T }>) {
-  return reactive({ value }, listener)
+  return _reactive({ value }, listener, 2)
 }
 
 export function changed<T>(
@@ -86,6 +96,25 @@ export function changedMany<T extends [Reactive<any>]>(
 
       listener(newValue as any)
     })
+  }
+}
+
+export const getReactiveTag = <T>(r: Reactive<T>): undefined | number => (r as any)[REACTIVE_TAG]
+
+export function normalize(obj: any) {
+  if (typeof obj !== 'object')
+    return obj
+
+  const normalized: any = {}
+  const keys = Object.keys(obj)
+
+  for (const key of keys) {
+    if (getReactiveTag(obj[key]) === 2) {
+      normalized[key] = obj[key].value
+    }
+    else {
+      normalized[key] = obj[key]
+    }
   }
 }
 

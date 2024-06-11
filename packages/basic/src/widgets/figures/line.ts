@@ -1,7 +1,7 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
+import type { ConvertToProp } from '@newcar/core'
+import { changed } from '@newcar/core'
 import type { Vector2 } from '../../utils/vector2'
-import type { ConvertToProp } from '../../../../core/src/prop.ts'
-import { changed } from '../../../../core/src/prop.ts'
 import type { PathOptions, PathStyle } from './path.ts'
 import { Path } from './path.ts'
 

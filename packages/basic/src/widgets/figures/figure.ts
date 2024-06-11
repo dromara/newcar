@@ -1,10 +1,8 @@
-import type { WidgetOptions, WidgetStyle } from '@newcar/core'
-import { Widget } from '@newcar/core'
+import type { ConvertToProp, WidgetOptions, WidgetStyle } from '@newcar/core'
+import { Widget, changed, ref } from '@newcar/core'
 import { Color } from '@newcar/utils'
 import type { CanvasKit, Paint } from 'canvaskit-wasm'
 import type { Shader, StrokeCap, StrokeJoin } from '@newcar/utils'
-import type { ConvertToProp } from '../../../../core/src/prop'
-import { changed, ref } from '../../../../core/src/prop'
 
 export interface FigureStyle extends WidgetStyle {
   border?: boolean

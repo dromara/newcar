@@ -15,8 +15,6 @@
     "change": "changeset add",
     "release": "pnpm preversion && changeset version",
     "pub": "changeset publish",
-    "add-widget": "node ./scripts/addWidget.cjs",
-    "add-element": "node ./scripts/addElement.cjs",
     "docs:dev": "pnpm --filter=@newcar/docs docs:dev",
     "docs:build": "pnpm --filter=@newcar/docs docs:build",
     "docs:preview": "pnpm --filter=@newcar/docs docs:preview",

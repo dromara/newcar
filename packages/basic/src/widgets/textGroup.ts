@@ -1,5 +1,5 @@
-import type { WidgetRange } from '@newcar/core'
-import { $source } from '@newcar/core'
+import type { ConvertToProp, Ref, WidgetRange } from '@newcar/core'
+import { $source, normalize, ref } from '@newcar/core'
 import type { Shader, TextAlign, TextDirection, TextHeightBehavior } from '@newcar/utils'
 import { Color, str2BlendMode, str2TextAlign, str2TextBaseline, str2TextDirection, str2TextHeightBehavior } from '@newcar/utils'
 import type { Canvas, CanvasKit, FontMgr, LineMetrics, Paragraph, ParagraphBuilder, StrutStyle } from 'canvaskit-wasm'
@@ -87,50 +87,50 @@ export interface TextGroupStyle extends FigureStyle {
 }
 
 export class TextGroup extends Figure {
-  declare style: TextGroupStyle
+  declare style: ConvertToProp<TextGroupStyle>
   private builder: ParagraphBuilder
   private manager: FontMgr
   private paragraph: Paragraph
-  width: number
-  disableHinting?: boolean
-  ellipsis?: string
-  heightMultiplier?: number
-  maxLines?: number
-  replaceTabCharacters?: boolean
+  width: Ref<number>
+  disableHinting?: Ref<boolean>
+  ellipsis?: Ref<string>
+  heightMultiplier?: Ref<number>
+  maxLines?: Ref<number>
+  replaceTabCharacters?: Ref<boolean>
   strutStyle?: StrutStyle
-  textAlign?: TextAlign
-  textDirection?: TextDirection
-  textHeightBehavior?: TextHeightBehavior
-  applyRoundingHack?: boolean
-  offset?: number
-  interval?: number[]
+  textAlign?: Ref<TextAlign>
+  textDirection?: Ref<TextDirection>
+  textHeightBehavior?: Ref<TextHeightBehavior>
+  applyRoundingHack?: Ref<boolean>
+  offset?: Ref<number>
+  interval?: Ref<number[]>
 
   constructor(public texts: Text[], options?: TextGroupOptions) {
     options ??= {}
     super(options)
-    this.width = options.width ?? 100
+    this.width = ref(options.width ?? 100)
     options.style ??= {}
-    this.style.color = options.style.color
-    this.style.heightMultiplier = options.style.heightMultiplier
-    this.textAlign = options.style.textAlign ?? 'left'
-    this.textDirection = options.style.textDirection ?? 'ltr'
-    this.textHeightBehavior = options.style.textHeightBehavior ?? 'all'
-    this.disableHinting = options.style.disableHinting ?? false
-    this.ellipsis = options.style.ellipsis ?? null
-    this.heightMultiplier = options.style.heightMultiplier ?? 1.0
-    this.maxLines = options.style.maxLines ?? null
-    this.replaceTabCharacters = options.style.replaceTabCharacters ?? true
-    // this.strutStyle = inputOptions.style.strutStyle ?? null
-    this.applyRoundingHack = options.style.applyRoundingHack ?? false
-    this.style.borderColor = options.style.borderColor ?? Color.WHITE
-    this.style.borderShader = options.style.borderShader
-    this.style.borderWidth = options.style.borderWidth ?? 2
-    this.style.fillColor = options.style.fillColor ?? Color.WHITE
-    this.style.fillShader = options.style.fillShader
-    this.style.fill = options.style.fill ?? true
-    this.style.border = options.style.border ?? false
-    this.style.interval = options.style.interval ?? [1, 0]
-    this.style.offset = options.style.offset ?? 0
+    this.style.color = ref(options.style.color)
+    this.style.heightMultiplier = ref(options.style.heightMultiplier)
+    this.textAlign = ref(options.style.textAlign ?? 'left')
+    this.textDirection = ref(options.style.textDirection ?? 'ltr')
+    this.textHeightBehavior = ref(options.style.textHeightBehavior ?? 'all')
+    this.disableHinting = ref(options.style.disableHinting ?? false)
+    this.ellipsis = ref(options.style.ellipsis ?? null)
+    this.heightMultiplier = ref(options.style.heightMultiplier ?? 1.0)
+    this.maxLines = ref(options.style.maxLines ?? null)
+    this.replaceTabCharacters = ref(options.style.replaceTabCharacters ?? true)
+    // this.strutStyle = ref(inputOptions.style.strutStyle ?? null)
+    this.applyRoundingHack = ref(options.style.applyRoundingHack ?? false)
+    this.style.borderColor = ref(options.style.borderColor ?? Color.WHITE)
+    this.style.borderShader = ref(options.style.borderShader)
+    this.style.borderWidth = ref(options.style.borderWidth ?? 2)
+    this.style.fillColor = ref(options.style.fillColor ?? Color.WHITE)
+    this.style.fillShader = ref(options.style.fillShader)
+    this.style.fill = ref(options.style.fill ?? true)
+    this.style.border = ref(options.style.border ?? false)
+    this.style.interval = ref(options.style.interval ?? [1, 0])
+    this.style.offset = ref(options.style.offset ?? 0)
   }
 
   init(ck: CanvasKit): void {
@@ -140,12 +140,12 @@ export class TextGroup extends Figure {
     this.builder = ck.ParagraphBuilder.Make(
       new ck.ParagraphStyle(
         {
-          ...this.style,
-          textAlign: str2TextAlign(ck, this.textAlign),
-          textDirection: str2TextDirection(ck, this.textDirection),
+          ...normalize(this.style),
+          textAlign: str2TextAlign(ck, this.textAlign.value),
+          textDirection: str2TextDirection(ck, this.textDirection.value),
           textHeightBehavior: str2TextHeightBehavior(
             ck,
-            this.textHeightBehavior,
+            this.textHeightBehavior.value,
           ),
           textStyle: {
             color: Color.WHITE.toFloat4(),
@@ -158,12 +158,12 @@ export class TextGroup extends Figure {
     for (const text of this.texts) {
       const style = new ck.TextStyle(
         {
-          ...text.style,
-          backgroundColor: text.style.backgroundColor.toFloat4(),
-          color: text.style.color.toFloat4(),
-          decorationColor: text.style.decorationColor.toFloat4(),
-          foregroundColor: text.style.foregroundColor.toFloat4(),
-          textBaseline: str2TextBaseline(ck, text.style.textBaseline),
+          ...normalize(text.style),
+          backgroundColor: text.style.backgroundColor.value.toFloat4(),
+          color: text.style.color.value.toFloat4(),
+          decorationColor: text.style.decorationColor.value.toFloat4(),
+          foregroundColor: text.style.foregroundColor.value.toFloat4(),
+          textBaseline: str2TextBaseline(ck, text.style.textBaseline.value),
         },
       )
       const bg = new ck.Paint()
@@ -172,16 +172,16 @@ export class TextGroup extends Figure {
       // this.builder.pushStyle(style)
       const paint = new ck.Paint()
       paint.setStyle(text.style.border ? ck.PaintStyle.Stroke : ck.PaintStyle.Fill)
-      paint.setColor(text.style.borderColor.toFloat4())
-      paint.setShader(text.style.borderShader?.toCanvasKitShader(ck) ?? null)
-      paint.setStrokeWidth(text.style.borderWidth)
-      paint.setAlphaf(text.style.transparency * this.style.borderColor.alpha)
-      paint.setAntiAlias(text.style.antiAlias)
-      paint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+      paint.setColor(text.style.borderColor.value.toFloat4())
+      paint.setShader(text.style.borderShader.value.toCanvasKitShader(ck) ?? null)
+      paint.setStrokeWidth(text.style.borderWidth.value)
+      paint.setAlphaf(text.style.transparency.value * this.style.borderColor.value.alpha)
+      paint.setAntiAlias(text.style.antiAlias.value)
+      paint.setBlendMode(str2BlendMode(ck, this.style.blendMode.value))
       if (text.style.border) {
         const dash = ck.PathEffect.MakeDash(
-          text.style.interval,
-          text.style.offset,
+          text.style.interval.value,
+          text.style.offset.value,
         )
         paint.setPathEffect(dash)
       }
@@ -193,7 +193,7 @@ export class TextGroup extends Figure {
     }
 
     this.paragraph = this.builder.build()
-    this.paragraph.layout(this.width)
+    this.paragraph.layout(this.width.value)
   }
 
   draw(canvas: Canvas): void {
@@ -211,7 +211,7 @@ export class TextGroup extends Figure {
   calculateRange(): WidgetRange {
     const lineMetrics = this.paragraph?.getLineMetrics()
     if (lineMetrics === undefined)
-      return [0, 0, this.width, 0]
+      return [0, 0, this.width.value, 0]
     return [
       Math.min(...lineMetrics.map(line => line.left)),
       0,

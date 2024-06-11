@@ -2,7 +2,6 @@ import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import { Color } from '@newcar/utils'
 import type { Scene } from './scene'
 import { initial } from './initial'
-import type { Widget } from './widget'
 import type { GlobalPlugin } from './plugin'
 import { type Config, defineConfig } from './config'
 
@@ -17,7 +16,6 @@ export class App {
   surface: Surface
   reactiveFramePerSecond: number
   private playing = false
-  private last: Widget
   private lastFrameTime = performance.now()
   /**
    * The App config.
@@ -81,7 +79,6 @@ export class App {
     }
     this.scene = scene
     this.scene.startTime = performance.now()
-    this.last = this.scene.root
     for (const plugin of this.plugins) {
       if (plugin.onCheckout)
         plugin.onCheckout(this, this.scene)
@@ -118,12 +115,14 @@ export class App {
         plugin.onUpdate(app, app.scene.elapsed)
     }
 
+    app.scene.root.update(app.scene.elapsed, app.ck, canvas)
+
     if (app.config.unit === 'frame')
       app.scene.elapsed += 1
     else if (app.config.unit === 'ms')
-      app.scene.elapsed = performance.now() - app.scene.startTime // 1 frame per milisecond?
+      app.scene.elapsed += performance.now() - app.lastFrameTime // 1 frame per milisecond?
     else if (app.config.unit === 's')
-      app.scene.elapsed = (performance.now() - app.scene.startTime) / 1000
+      app.scene.elapsed += (performance.now() - app.lastFrameTime) / 1000
 
     const currentFrameTime = performance.now()
     const elapsed = currentFrameTime - app.lastFrameTime

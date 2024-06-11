@@ -1,6 +1,6 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import { type BlendMode, deepClone, isUndefined } from '@newcar/utils'
-import type { Animation, AnimationInstance } from './animation'
+import type { Animation } from './animation'
 import type { Event, EventInstance } from './event'
 import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
@@ -117,6 +117,8 @@ export class Widget {
   update(elapsed: number, ck: CanvasKit, canvas: Canvas) {
     this.runAnimation(elapsed, ck)
 
+    canvas.save()
+
     canvas.translate(this.x.value, this.y.value)
     canvas.rotate(this.style.rotation.value, this.centerX.value, this.centerY.value)
     canvas.scale(this.style.scaleX.value, this.style.scaleY.value)
@@ -134,6 +136,8 @@ export class Widget {
     for (const child of this.children) {
       child.update(elapsed, ck, canvas)
     }
+
+    canvas.restore()
   }
 
   /**

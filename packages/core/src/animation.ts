@@ -1,68 +1,86 @@
 import type { CanvasKit } from 'canvaskit-wasm'
 import type { Widget } from './widget'
 
-/**
- * The Animation interface having not gotten instanced
- */
+// TODO: Rebuild needed!
+
+export interface AnimationContext<T> {
+  ck: CanvasKit
+  elapsed: number
+  widget: T
+}
+
 export interface Animation<T> {
-  /**
-   * The action of this animation when it's in his lifecycle.
-   * @param widget The widget's self.
-   * @param elapsed The elapsed frame.
-   * @param process The process of this animation, value is duration [0, 1]
-   * @param params The other parameters of this animation
-   * @returns
-   */
-  act: (widget: T, elapsed: number, process: number, duration: number, ck: CanvasKit, params?: any) => void
-
-  /**
-   * @see act
-   */
-  init?: (widget: T, startAt: number, duration: number, ck: CanvasKit, params?: any) => void
-
-  /**
-   *
-   */
-  after?: (widget: T, elapsed: number, ck: CanvasKit, params?: any) => void
+  (ctx: AnimationContext<T>): boolean
 }
 
-/**
- * Define an animation.
- * @param animation The Animation object implemented by Interface Animation
- * @returns The custom Animation object
- */
-export function defineAnimation<T extends Widget>(
-  animation: Animation<T> & Record<string, any>,
-): Animation<T> {
-  return animation
-}
-
-/**
- * The Animation having gotten instanced.
- */
-export interface AnimationInstance<T extends Widget> {
-  /**
-   * The animation's started time.
-   */
-  startAt: number | null
-
-  /**
-   * The duration of this animation.
-   */
+export type TimingFunction = (process: number) => number
+export const linear: TimingFunction = p => p
+export interface BasicAnimAttrs {
+  process: number
   duration: number
+  by?: TimingFunction
+}
+export interface Animate<T, A> {
+  (ctx: AnimationContext<T> & BasicAnimAttrs & A): any
+}
+export type AnimateAttr<T, A> = Parameters<Animate<T, A>>[0]
 
-  /**
-   * The object Animation.
-   */
-  animation: Animation<T>
+export interface WithDep<T, A> {
+  build: (attrs: A) => T
+  with: <X>(pattrs: ((attrs: Pick<A, Exclude<keyof A, keyof X>>) => X)) => WithDep<T, Pick<A, Exclude<keyof A, keyof X>>>
+}
+export function depend<T, A>(dependency: (attrs: A) => T): WithDep<T, A> {
+  return {
+    build: (attrs: A) => {
+      return dependency(attrs)
+    },
+    with: <X>(pattrs: (attrs: Pick<A, Exclude<keyof A, keyof X>>) => X) => {
+      return depend<T, Pick<A, Exclude<keyof A, keyof X>>>((qattrs) => {
+        return dependency(Object.assign(pattrs(qattrs), qattrs) as any)
+      })
+    },
+  }
+}
 
-  /**
-   * The other parameters.
-   */
-  params?: Record<string, any>
+export function initial<A, X>(
+  injector: (ctx: Pick<A, Exclude<keyof A, keyof X>>) => X,
+) {
+  let initial: X
+  let called = false
+  return (ctx: Pick<A, Exclude<keyof A, keyof X>>) => {
+    if (!called) {
+      initial = injector(ctx)
+      called = true
+    }
+    return initial
+  }
+}
 
-  /**
-   * The playing mode of this animation
-   */
-  mode: 'positive' | 'reverse'
+export function useAnimate<T extends Widget, A>(anim: Animate<T, A>) {
+  let startTime = 0
+  let called = false
+
+  return depend<Animation<T>, AnimateAttr<T, A>>((attrs) => {
+    return (ctx) => {
+      anim(Object.assign(attrs, ctx))
+
+      return attrs.process >= 1
+    }
+  })
+    .with<{ process: number }>(({ duration, elapsed, by }) => {
+      const fn = by || linear
+      if (!called) {
+        startTime = elapsed
+        called = true
+
+        return {
+          process: 0,
+        }
+      }
+      else {
+        return {
+          process: fn((elapsed - startTime) / duration),
+        }
+      }
+    })
 }
