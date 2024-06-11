@@ -1,5 +1,5 @@
 import type { ConvertToProp, WidgetOptions, WidgetStyle } from '@newcar/core'
-import { Widget, changed, ref } from '@newcar/core'
+import { Widget, changed, reactive, ref } from '@newcar/core'
 import { Color } from '@newcar/utils'
 import type { CanvasKit, Paint } from 'canvaskit-wasm'
 import type { Shader, StrokeCap, StrokeJoin } from '@newcar/utils'
@@ -33,19 +33,19 @@ export class Figure extends Widget {
     options ??= {}
     super(options)
     options.style ??= {}
-    this.style.borderColor = ref(options.style.borderColor ?? options.style.color ?? Color.WHITE)
-    this.style.borderShader = ref(options.style.borderShader ?? options.style.shader)
+    this.style.borderColor = reactive(options.style.borderColor ?? options.style.color ?? Color.WHITE)
+    this.style.borderShader = reactive(options.style.borderShader ?? options.style.shader)
     this.style.borderWidth = ref(options.style.borderWidth ?? 2)
-    this.style.fillColor = ref(options.style.fillColor ?? options.style.color ?? Color.WHITE)
-    this.style.fillShader = ref(options.style.fillShader ?? options.style.shader)
-    this.style.color = ref(options.style.color ?? Color.WHITE)
-    this.style.shader = ref(options.style.shader)
+    this.style.fillColor = reactive(options.style.fillColor ?? options.style.color ?? Color.WHITE)
+    this.style.fillShader = reactive(options.style.fillShader ?? options.style.shader)
+    this.style.color = reactive(options.style.color ?? Color.WHITE)
+    this.style.shader = reactive(options.style.shader)
     this.style.fill = ref(options.style.fill ?? true)
     this.style.border = ref(options.style.border ?? false)
     this.style.join = ref(options.style.join ?? 'miter')
     this.style.cap = ref(options.style.cap ?? 'square')
     this.style.offset = ref(options.style.offset ?? 0)
-    this.style.interval = ref(options.style.interval ?? [1, 0])
+    this.style.interval = reactive(options.style.interval ?? [1, 0])
   }
 
   init(ck: CanvasKit): void {
@@ -55,23 +55,23 @@ export class Figure extends Widget {
     changed(this.style.color, (color) => {
       this.style.borderColor ??= color
       this.style.fillColor ??= color
-      this.strokePaint.setColor(this.style.borderColor.value.toFloat4())
-      this.fillPaint.setColor(this.style.fillColor.value.toFloat4())
+      this.strokePaint.setColor(this.style.borderColor.toFloat4())
+      this.fillPaint.setColor(this.style.fillColor.toFloat4())
     })
 
     changed(this.style.shader, (shader) => {
       this.style.borderShader ??= shader
       this.style.fillShader ??= shader
-      this.strokePaint.setShader(this.style.borderShader.value.toCanvasKitShader(ck))
-      this.fillPaint.setShader(this.style.fillShader.value.toCanvasKitShader(ck))
+      this.strokePaint.setShader(this.style.borderShader.toCanvasKitShader(ck))
+      this.fillPaint.setShader(this.style.fillShader.toCanvasKitShader(ck))
     })
 
     changed(this.style.borderColor, (borderColor) => {
-      this.strokePaint.setColor(borderColor.value.toFloat4())
+      this.strokePaint.setColor(borderColor.toFloat4())
     })
 
     changed(this.style.fillColor, (fillColor) => {
-      this.fillPaint.setColor(fillColor.value.toFloat4())
+      this.fillPaint.setColor(fillColor.toFloat4())
     })
   }
 }

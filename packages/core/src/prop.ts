@@ -118,6 +118,15 @@ export function normalize(obj: any) {
   }
 }
 
+export function bind<T, K extends keyof T>(r: Reactive<T>, k: K): Ref<T[K]> {
+  const res = ref(r[k])
+  changed(res, (n) => {
+    r[k] = n.value
+  })
+
+  return res
+}
+
 export type ConvertToProp<T> = {
-  [K in keyof T]: Ref<T[K]>
+  [K in keyof T]: T[K] extends object ? Reactive<T[K]> : Ref<T[K]>
 }

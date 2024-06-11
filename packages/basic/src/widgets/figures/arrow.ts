@@ -97,7 +97,7 @@ export class Arrow extends Figure {
     this.trim = new Line(this.from, this.to, {
       style:
         {
-          color: this.style.borderColor.value,
+          color: this.style.borderColor,
           width: this.style.borderWidth.value,
           ...options.style,
         },
@@ -137,7 +137,7 @@ export class Arrow extends Figure {
     })
 
     changed(this.style.interval, (interval) => {
-      this.tip.style.interval.value = interval.value
+      this.tip.style.interval = interval
     })
   }
 }

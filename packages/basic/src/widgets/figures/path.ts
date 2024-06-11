@@ -27,25 +27,25 @@ export class Path extends Figure {
   init(ck: CanvasKit): void {
     super.init(ck)
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
-    this.strokePaint.setColor(this.style.borderColor.value.toFloat4())
-    this.strokePaint.setShader(this.style.borderShader.value?.toCanvasKitShader(ck) ?? null)
-    this.strokePaint.setAlphaf(this.style.transparency.value * this.style.borderColor.value.alpha)
+    this.strokePaint.setColor(this.style.borderColor.toFloat4())
+    this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
+    this.strokePaint.setAlphaf(this.style.transparency.value * this.style.borderColor.alpha)
     this.strokePaint.setStrokeWidth(this.style.borderWidth.value)
     this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join.value))
     this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap.value))
     this.strokePaint.setAntiAlias(this.style.antiAlias.value)
     try {
       const dash = ck.PathEffect.MakeDash(
-        this.style.interval.value,
+        this.style.interval,
         this.style.offset.value,
       )
       this.strokePaint.setPathEffect(dash)
     }
     catch {}
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
-    this.fillPaint.setColor(this.style.fillColor.value.toFloat4())
-    this.fillPaint.setShader(this.style.fillShader?.value.toCanvasKitShader(ck) ?? null)
-    this.fillPaint.setAlphaf(this.style.transparency.value * this.style.fillColor.value.alpha)
+    this.fillPaint.setColor(this.style.fillColor.toFloat4())
+    this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
+    this.fillPaint.setAlphaf(this.style.transparency.value * this.style.fillColor.alpha)
     this.fillPaint.setAntiAlias(this.style.antiAlias.value)
 
     // Blend Mode
@@ -72,7 +72,7 @@ export class Path extends Figure {
     })
 
     changed(this.style.borderShader, (borderShader) => {
-      this.strokePaint.setShader(borderShader.value.toCanvasKitShader(ck) ?? null)
+      this.strokePaint.setShader(borderShader.toCanvasKitShader(ck) ?? null)
     })
 
     changed(this.style.borderWidth, (borderWidth) => {
@@ -80,7 +80,7 @@ export class Path extends Figure {
     })
 
     changed(this.style.fillShader, (fillShader) => {
-      this.fillPaint.setShader(fillShader.value.toCanvasKitShader(ck) ?? null)
+      this.fillPaint.setShader(fillShader.toCanvasKitShader(ck) ?? null)
     })
 
     changed(this.style.join, (join) => {
@@ -96,8 +96,8 @@ export class Path extends Figure {
         ck.PathEffect.MakeDash(i, o),
       )
     }
-    changed(this.style.offset, offset => makeDashUpdate(this.style.interval.value, offset.value))
-    changed(this.style.interval, interval => makeDashUpdate(interval.value, this.style.offset.value))
+    changed(this.style.offset, offset => makeDashUpdate(this.style.interval, offset.value))
+    changed(this.style.interval, interval => makeDashUpdate(interval, this.style.offset.value))
 
     changed(this.style.blendMode, (blendMode) => {
       this.strokePaint.setBlendMode(str2BlendMode(ck, blendMode.value))
@@ -105,8 +105,8 @@ export class Path extends Figure {
     })
 
     changed(this.style.transparency, (transparency) => {
-      this.strokePaint.setAlphaf(transparency.value * this.style.borderColor.value.alpha)
-      this.fillPaint.setAlphaf(transparency.value * this.style.fillColor.value.alpha)
+      this.strokePaint.setAlphaf(transparency.value * this.style.borderColor.alpha)
+      this.fillPaint.setAlphaf(transparency.value * this.style.fillColor.alpha)
     })
   }
 

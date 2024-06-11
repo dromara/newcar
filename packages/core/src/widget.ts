@@ -1,6 +1,6 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import { type BlendMode, deepClone, isUndefined } from '@newcar/utils'
-import type { Animation } from './animation'
+import type { Anim } from './animation'
 import type { Event, EventInstance } from './event'
 import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
@@ -51,7 +51,7 @@ export class Widget {
 
   display = ref(true)
   isImplemented = ref(false) // If the widget is implemented by App.impl
-  animationInstances: AnimationInstance<Widget>[] = []
+  animationInstances: Anim<Widget>[] = []
   eventInstances: EventInstance<Widget>[] = []
   updates: (<T extends this>(elapsed: number, widget: T) => void)[] = []
   setups: Array<{ generator: Generator<number | ReturnType<AnimateFunction<any>>, void, unknown>, nextFrame: number }> = []
@@ -186,19 +186,9 @@ export class Widget {
   }
 
   animate(
-    animation: Animation<any>,
-    startAt: number | null,
-    duration: number,
-    params?: Record<string, any>, // TODO: Perfect types in there
+    animation: Anim<any>,
   ): this {
-    params ??= {}
-    this.animationInstances.push({
-      startAt,
-      duration,
-      animation,
-      params,
-      mode: params.mode ?? 'positive',
-    })
+    this.animationInstances.push(animation)
 
     return this
   }
@@ -247,68 +237,12 @@ export class Widget {
 
   // Run an animation with respect to `elapsed`, which is maintained by `App` class
   runAnimation(elapsed: number, ck: CanvasKit) {
-    // Traverse over an instance sequence, run each animation
-    for (const instance of this.animationInstances) {
-      if (
-        // this condition make sure the animation contained the current frame
-        instance.startAt <= elapsed
-        // this condition make sure the animation has not finished yet
-        && (instance.duration + instance.startAt) >= elapsed
-      ) {
-        if (instance.mode === 'positive') {
-          instance.animation.act.call(
-            instance,
-            this,
-            elapsed,
-            (elapsed - instance.startAt) / instance.duration,
-            instance.duration,
-            ck,
-            instance.params,
-          )
-          // console.log((elapsed - instance.startAt) / instance.duration, instance.startAt, instance.duration)
-        }
-        else if (instance.mode === 'reverse') {
-          instance.animation.act.call(
-            instance,
-            this,
-            elapsed,
-            1 - (elapsed - instance.startAt) / instance.duration,
-            instance.duration,
-            ck,
-            instance.params,
-          )
-        }
-      }
-      if (elapsed >= instance.startAt + instance.duration) {
-        if (instance.mode === 'positive') {
-          instance.animation.act.call(
-            instance,
-            this,
-            elapsed,
-            1,
-            instance.duration,
-            ck,
-            instance.params,
-          )
-          // console.log((elapsed - instance.startAt) / instance.duration, instance.startAt, instance.duration)
-        }
-        else if (instance.mode === 'reverse') {
-          instance.animation.act.call(
-            instance,
-            this,
-            elapsed,
-            0,
-            instance.duration,
-            ck,
-            instance.params,
-          )
-        }
-        instance.animation.after?.call(instance, this, elapsed, ck, instance.params)
-        this.animationInstances = this.animationInstances.filter(
-          animationInstance => animationInstance !== instance,
-        )
-      }
+    if (this.animationInstances[0].build(
+      { ck, elapsed, widget: this },
+    )()) {
+      this.animationInstances.shift()
     }
+
     for (const update of this.updates) update(elapsed, this)
 
     for (const child of this.children) child.runAnimation(elapsed, ck)
@@ -346,31 +280,7 @@ export class Widget {
   // When entered next update process, `runAnimation` will run multiple async animations that overlapped on the timeline,
   // For example, if we have a `move` animation from 1 to 60, and a `scale` animation from 30 to 90, then they will be played at the same time from 30 to 90
   processSetups(elapsed: number) {
-    this.setups.forEach((setup) => {
-      if (elapsed >= setup.nextFrame) {
-        // advance the setup
-        const result = setup.generator.next()
-        if (!result.done) {
-          if (typeof result.value === 'number') {
-            // simply put a delay as long as the value here
-            setup.nextFrame = elapsed + result.value
-          }
-          else if (typeof result.value === 'object') {
-            if (result.value.mode === 'async') {
-              this.animate(result.value.animation, elapsed, result.value.duration, result.value.params)
-            }
-            else if (result.value.mode === 'sync') {
-              this.animate(result.value.animation, elapsed, result.value.duration, result.value.params)
-              setup.nextFrame = elapsed + result.value.duration // Set the next frame
-            }
-          }
-        }
-        else {
-          // Marked done
-          setup.nextFrame = Number.POSITIVE_INFINITY
-        }
-      }
-    })
+    // TODO: Rebuild
 
     // Clean up Generator that has finished.
     this.setups = this.setups.filter(setup => setup.nextFrame !== Number.POSITIVE_INFINITY)
