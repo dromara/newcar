@@ -1,5 +1,5 @@
-import type { WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
-import { Widget } from '@newcar/core'
+import type { ConvertToProp, Ref, WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
+import { Widget, changed, reactive, ref } from '@newcar/core'
 import type { Shader } from '@newcar/utils'
 import { Color } from '@newcar/utils'
 import type { Canvas, CanvasKit, Paint, Path } from 'canvaskit-wasm'
@@ -21,13 +21,12 @@ export interface MathFunctionStyle extends WidgetStyle {
 }
 
 export class MathFunction extends Widget {
-  declare style: MathFunctionStyle
+  declare style: ConvertToProp<MathFunctionStyle>
   private path: Path
   private paint: Paint
-  numberRange: Range
-  lineWidth: number
-  divisionX: number
-  divisionY: number
+  numberRange: Ref<Range>
+  divisionX: Ref<number>
+  divisionY: Ref<number>
 
   constructor(
     public fn: (x: number) => number,
@@ -36,16 +35,16 @@ export class MathFunction extends Widget {
   ) {
     options ??= {}
     super(options)
-    this.numberRange = options.numberRange ?? [
+    this.numberRange = ref(options.numberRange ?? [
       Number.NEGATIVE_INFINITY,
       Number.POSITIVE_INFINITY,
-    ]
-    this.divisionX = options.divisionX ?? 50
-    this.divisionY = options.divisionY ?? 50
+    ])
+    this.divisionX = ref(options.divisionX ?? 50)
+    this.divisionY = ref(options.divisionY ?? 50)
     options.style ??= {}
-    this.style.width = options.style.width ?? 2
-    this.style.color = options.style.color ?? Color.WHITE
-    this.style.shader = options.style.shader
+    this.style.width = ref(options.style.width ?? 2)
+    this.style.color = reactive(options.style.color ?? Color.WHITE)
+    this.style.shader = reactive(options.style.shader)
   }
 
   init(ck: CanvasKit) {
@@ -53,57 +52,50 @@ export class MathFunction extends Widget {
     this.paint.setColor(this.style.color!.toFloat4())
     this.paint.setShader(this.style.shader?.toCanvasKitShader(ck) ?? null)
     this.paint.setStyle(ck.PaintStyle.Stroke)
-    this.paint.setStrokeWidth((this.style.width! / this.divisionX) * 2)
+    this.paint.setStrokeWidth((this.style.width.value! / this.divisionX.value) * 2)
     this.path = new ck.Path()
     this.path.moveTo(this.domain[0], this.fn(this.domain[0]))
     for (
       let x = this.domain[0];
-      x <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
-      x += 1 / this.divisionX
+      x <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress.value;
+      x += 1 / this.divisionX.value
     ) {
       const value = this.fn(x)
       this.path.lineTo(x, value)
     }
-  }
 
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    switch (propertyChanged) {
-      case 'fn':
-      case 'divisionX':
-      case 'divisionY':
-      case 'lineWidth':
-      case 'range':
-      case 'domain': {
-        this.path.reset()
-        this.path.moveTo(this.domain[0], this.fn(this.domain[0]))
-        for (
-          let x = this.domain[0];
-          x
-          <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress;
-          x += 1 / this.divisionX
-        ) {
-          const value = this.fn(x)
-          this.path.lineTo(x, value)
-        }
-        break
-      }
-      case 'style.width': {
-        this.paint.setStrokeWidth((this.style.width! / this.divisionX) * 2)
-        break
-      }
-      case 'style.color': {
-        this.paint.setColor(this.style.color!.toFloat4())
-        break
-      }
-      case 'style.shader': {
-        this.paint.setShader(this.style.shader?.toCanvasKitShader(ck) ?? null)
-        break
+    function reset(this: MathFunction) {
+      this.path.reset()
+      this.path.moveTo(this.domain[0], this.fn(this.domain[0]))
+      for (
+        let x = this.domain[0];
+        x
+        <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress.value;
+        x += 1 / this.divisionX.value
+      ) {
+        const value = this.fn(x)
+        this.path.lineTo(x, value)
       }
     }
+
+    changed(this.fn, reset.bind(this))
+    changed(this.domain, reset.bind(this))
+    changed(this.numberRange, reset.bind(this))
+    changed(this.divisionX, reset.bind(this))
+    changed(this.divisionY, reset.bind(this))
+    changed(this.style.color, () => {
+      this.paint.setColor(this.style.color!.toFloat4())
+    })
+    changed(this.style.shader, () => {
+      this.paint.setShader(this.style.shader?.toCanvasKitShader(ck) ?? null)
+    })
+    changed(this.style.width, () => {
+      this.paint.setStrokeWidth((this.style.width.value! / this.divisionX.value) * 2)
+    })
   }
 
   draw(canvas: Canvas): void {
-    canvas.scale(this.divisionX, -this.divisionY)
+    canvas.scale(this.divisionX.value, -this.divisionY.value)
     canvas.drawPath(this.path, this.paint)
   }
 
