@@ -1,9 +1,7 @@
 import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
-import { Color, deepClone } from '@newcar/utils'
+import { Color } from '@newcar/utils'
 import type { Scene } from './scene'
 import { initial } from './initial'
-import { patch } from './patch'
-import type { Widget } from './widget'
 import type { GlobalPlugin } from './plugin'
 import { type Config, defineConfig } from './config'
 
@@ -18,7 +16,6 @@ export class App {
   surface: Surface
   reactiveFramePerSecond: number
   private playing = false
-  private last: Widget
   private lastFrameTime = performance.now()
   /**
    * The App config.
@@ -82,13 +79,11 @@ export class App {
     }
     this.scene = scene
     this.scene.startTime = performance.now()
-    this.last = this.scene.root
     for (const plugin of this.plugins) {
       if (plugin.onCheckout)
         plugin.onCheckout(this, this.scene)
     }
     // if (!scene.root.hasSet)
-    scene.root.setEventListener(this.element)
     return this
   }
 
@@ -109,31 +104,7 @@ export class App {
     if (app.scene.elapsed === 0)
       initial(app.scene.root, app.ck, canvas)
 
-    for (const plugin of app.plugins) {
-      if (plugin.beforePatch)
-        plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
-    }
-
-    patch(app.last, app.scene.root, app.ck, canvas)
-    for (const plugin of app.plugins) {
-      if (plugin.onPatch)
-        plugin.onPatch(app, app.scene.elapsed, app.last, app.scene.root)
-    }
-
-    app.last = deepClone(app.scene.root)
-
-    for (const plugin of app.plugins) {
-      if (plugin.beforeAnimate)
-        plugin.beforeAnimate(app, app.scene.elapsed, app.scene.root)
-    }
-
-    app.scene.root.runAnimation(app.scene.elapsed, app.ck)
-    app.scene.root.processSetups(app.scene.elapsed)
-
-    for (const plugin of app.plugins) {
-      if (plugin.onAnimate)
-        plugin.onAnimate(app, app.scene.elapsed, app.scene.root)
-    }
+    // TODO: Replace
 
     if (app.cleared) {
       canvas.clear(Color.parse(app.element.style.backgroundColor).toFloat4())
@@ -144,12 +115,14 @@ export class App {
         plugin.onUpdate(app, app.scene.elapsed)
     }
 
+    app.scene.root.update(app.scene.elapsed, app.ck, canvas)
+
     if (app.config.unit === 'frame')
       app.scene.elapsed += 1
     else if (app.config.unit === 'ms')
-      app.scene.elapsed = performance.now() - app.scene.startTime // 1 frame per milisecond?
+      app.scene.elapsed += performance.now() - app.lastFrameTime // 1 frame per milisecond?
     else if (app.config.unit === 's')
-      app.scene.elapsed = (performance.now() - app.scene.startTime) / 1000
+      app.scene.elapsed += (performance.now() - app.lastFrameTime) / 1000
 
     const currentFrameTime = performance.now()
     const elapsed = currentFrameTime - app.lastFrameTime

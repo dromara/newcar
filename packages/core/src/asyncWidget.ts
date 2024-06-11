@@ -22,28 +22,6 @@ export class AsyncWidget extends Widget {
     }
   }
 
-  override async predraw(
-    _ck: CanvasKit,
-    _propertyChanged: string,
-  ): Promise<AsyncWidgetResponse> {
-    return {
-      status: 'ok',
-    }
-  }
-
-  override async preupdate(
-    ck: CanvasKit,
-    propertyChanged?: string,
-  ): Promise<AsyncWidgetResponse> {
-    const res = await this.predraw(ck, propertyChanged)
-    if (res.status === 'error') {
-      console.warn(
-        '[Newcar Warn] Failed to laod async widget, please check if your network.',
-      )
-    }
-    return res
-  }
-
   _isAsyncWidget() {
     return true
   }

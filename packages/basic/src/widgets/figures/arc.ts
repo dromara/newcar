@@ -1,4 +1,6 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
+import type { Ref } from '@newcar/core'
+import { changed, ref } from '@newcar/core'
 import type { FigureOptions } from './figure'
 import type { PathOptions, PathStyle } from './path.ts'
 import { Path } from './path.ts'
@@ -14,6 +16,7 @@ export interface ArcStyle extends PathStyle {}
  */
 export class Arc extends Path {
   private rect: RRect
+  radius: Ref<number>
 
   /**
    * Constructs a new Arc instance.
@@ -23,12 +26,13 @@ export class Arc extends Path {
    * @param options Optional configuration options for the arc.
    */
   constructor(
-    public radius: number,
+    radius: number,
     public from: number,
     public to: number,
     options?: FigureOptions,
   ) {
     super(options)
+    this.radius = ref(radius)
   }
 
   /**
@@ -39,28 +43,22 @@ export class Arc extends Path {
     super.init(ck)
 
     this.rect = ck.LTRBRect(
-      -this.radius,
-      -this.radius,
-      this.radius,
-      this.radius,
+      -this.radius.value,
+      -this.radius.value,
+      this.radius.value,
+      this.radius.value,
     )
 
     this.path.addArc(this.rect, this.from, this.to)
-  }
 
-  /**
-   * Updates the arc figure based on property changes.
-   * @param ck The CanvasKit instance.
-   * @param propertyChanged The name of the property that changed.
-   */
-  predraw(ck: CanvasKit, propertyChanged?: string): void {
-    super.predraw(ck, propertyChanged)
-    switch (propertyChanged) {
-      case 'radius': {
-        this.rect.set([-this.radius, -this.radius, this.radius, this.radius])
-        break
-      }
-    }
+    changed(this.radius, (radius) => {
+      this.rect.set([
+        -radius.value,
+        -radius.value,
+        radius.value,
+        radius.value,
+      ])
+    })
   }
 
   /**
@@ -69,7 +67,7 @@ export class Arc extends Path {
    */
   draw(canvas: Canvas): void {
     this.path.rewind()
-    this.path.addArc(this.rect, this.from, this.to * this.progress)
+    this.path.addArc(this.rect, this.from, this.to * this.progress.value)
 
     super.draw(canvas)
   }

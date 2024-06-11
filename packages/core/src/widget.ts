@@ -1,10 +1,12 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import { type BlendMode, deepClone, isUndefined } from '@newcar/utils'
-import type { Animation, AnimationInstance } from './animation'
+import type { Anim } from './animation'
 import type { Event, EventInstance } from './event'
 import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
 import type { AnimateFunction } from './apiAnimate'
+import type { ConvertToProp, Ref } from './prop'
+import { ref } from './prop'
 
 export type WidgetRange = [number, number, number, number]
 // export type WidgetInstance<T extends Widget> = T
@@ -35,21 +37,21 @@ export interface WidgetStyle {
 
 export class Widget {
   plugins: WidgetPlugin[] = []
-  x: number // The vector x of the widget.
-  y: number // The vector y of the widget.
-  centerX: number // The center vector x of the widget.
-  centerY: number // The center vector y of the widget.
-  progress: number // The progress/process of a widget.
-  style: WidgetStyle = {
-    scaleX: 1,
-    scaleY: 1,
-    rotation: 0,
-    transparency: 1,
+  x: Ref<number> // The vector x of the widget.
+  y: Ref<number> // The vector y of the widget.
+  centerX: Ref<number> // The center vector x of the widget.
+  centerY: Ref<number> // The center vector y of the widget.
+  progress: Ref<number> // The progress/process of a widget.
+  style: ConvertToProp<WidgetStyle> = {
+    scaleX: ref(1),
+    scaleY: ref(1),
+    rotation: ref(0),
+    transparency: ref(1),
   } // The style of the widget.
 
-  display = true
-  isImplemented = false // If the widget is implemented by App.impl
-  animationInstances: AnimationInstance<Widget>[] = []
+  display = ref(true)
+  isImplemented = ref(false) // If the widget is implemented by App.impl
+  animationInstances: Anim<Widget>[] = []
   eventInstances: EventInstance<Widget>[] = []
   updates: (<T extends this>(elapsed: number, widget: T) => void)[] = []
   setups: Array<{ generator: Generator<number | ReturnType<AnimateFunction<any>>, void, unknown>, nextFrame: number }> = []
@@ -58,34 +60,33 @@ export class Widget {
     .slice(2)}`
 
   parent: Widget | null
-  hasSet = false
   status: Status = 'unborn'
 
   registeredEvents: Map<string, Event<Widget>> = new Map()
 
   constructor(options?: WidgetOptions) {
     options ??= {}
-    this.x = options.x ?? 0
-    this.y = options.y ?? 0
-    this.centerX = options.centerX ?? 0
-    this.centerY = options.centerY ?? 0
-    this.progress = options.progress ?? 1
+    this.x = ref(options.x ?? 0)
+    this.y = ref(options.y ?? 0)
+    this.centerX = ref(options.centerX ?? 0)
+    this.centerY = ref(options.centerY ?? 0)
+    this.progress = ref(options.progress ?? 1)
     this.children = options.children ?? []
     options.style ??= {}
-    this.style.scaleX = options.style.scaleX ?? 1
-    this.style.scaleY = options.style.scaleY ?? 1
-    this.style.rotation = options.style.rotation ?? 0
-    this.style.transparency = options.style.transparency ?? 1
-    this.style.blendMode = options.style.blendMode ?? 'srcOver'
-    this.style.antiAlias = options.style.antiAlias ?? true
-    this.style.layout = options.style.layout ?? 'absolute'
-    this.style.margin = isUndefined(options.style.margin)
+    this.style.scaleX = ref(options.style.scaleX ?? 1)
+    this.style.scaleY = ref(options.style.scaleY ?? 1)
+    this.style.rotation = ref(options.style.rotation ?? 0)
+    this.style.transparency = ref(options.style.transparency ?? 1)
+    this.style.blendMode = ref(options.style.blendMode ?? 'srcOver')
+    this.style.antiAlias = ref(options.style.antiAlias ?? true)
+    this.style.layout = ref(options.style.layout ?? 'absolute')
+    this.style.margin = ref(isUndefined(options.style.margin)
       ? [0, 0, 0, 0]
       : typeof options.style.margin === 'number'
         ? [options.style.margin, options.style.margin, options.style.margin, options.style.margin]
         : options.style.margin.length === 2
           ? [options.style.margin[0], options.style.margin[0], options.style.margin[1], options.style.margin[1]]
-          : options.style.margin
+          : options.style.margin)
   }
 
   /**
@@ -99,17 +100,7 @@ export class Widget {
    * Called when the widget is registered.
    * @param _ck The CanvasKit namespace
    */
-  init(_ck: CanvasKit) { }
-
-  /**
-   * Preload the necessary items duration drawing.
-   * Called when the properties changed.
-   * In common, we use it to initializing Paint, Rect, Path, etc.
-   * @param _ck The namespace of CanvasKit-WASM.
-   * @param _propertyChanged The changed property of this widget
-   */
-
-  predraw(_ck: CanvasKit, _propertyChanged: string) { }
+  init(_ck: CanvasKit) {}
 
   /**
    * Draw the object according to the parameters of the widget.
@@ -119,23 +110,18 @@ export class Widget {
   draw(_canvas: Canvas) { }
 
   /**
-   * Called when the parameters are changed.
-   * @param ck The namespace of CanvasKit-WASM.
-   * @param propertyChanged
-   */
-  preupdate(ck: CanvasKit, propertyChanged?: string) {
-    this.predraw(ck, propertyChanged)
-  }
-
-  /**
    * Update the object according to the style of the widget.
    * Called when the style is changed.
    * @param canvas The canvas object of CanvasKit-WASM.
    */
-  update(canvas: Canvas) {
-    canvas.translate(this.x, this.y)
-    canvas.rotate(this.style.rotation, this.centerX, this.centerY)
-    canvas.scale(this.style.scaleX, this.style.scaleY)
+  update(elapsed: number, ck: CanvasKit, canvas: Canvas) {
+    this.runAnimation(elapsed, ck)
+
+    canvas.save()
+
+    canvas.translate(this.x.value, this.y.value)
+    canvas.rotate(this.style.rotation.value, this.centerX.value, this.centerY.value)
+    canvas.scale(this.style.scaleX.value, this.style.scaleY.value)
     if (this.display) {
       for (const plugin of this.plugins) {
         if (plugin.beforeDraw)
@@ -147,6 +133,11 @@ export class Widget {
           plugin.onDraw(this, canvas)
       }
     }
+    for (const child of this.children) {
+      child.update(elapsed, ck, canvas)
+    }
+
+    canvas.restore()
   }
 
   /**
@@ -195,19 +186,9 @@ export class Widget {
   }
 
   animate(
-    animation: Animation<any>,
-    startAt: number | null,
-    duration: number,
-    params?: Record<string, any>, // TODO: Perfect types in there
+    animation: Anim<any>,
   ): this {
-    params ??= {}
-    this.animationInstances.push({
-      startAt,
-      duration,
-      animation,
-      params,
-      mode: params.mode ?? 'positive',
-    })
+    this.animationInstances.push(animation)
 
     return this
   }
@@ -256,79 +237,15 @@ export class Widget {
 
   // Run an animation with respect to `elapsed`, which is maintained by `App` class
   runAnimation(elapsed: number, ck: CanvasKit) {
-    // Traverse over an instance sequence, run each animation
-    for (const instance of this.animationInstances) {
-      if (
-        // this condition make sure the animation contained the current frame
-        instance.startAt <= elapsed
-        // this condition make sure the animation has not finished yet
-        && (instance.duration + instance.startAt) >= elapsed
-      ) {
-        if (instance.mode === 'positive') {
-          instance.animation.act.call(
-            instance,
-            this,
-            elapsed,
-            (elapsed - instance.startAt) / instance.duration,
-            instance.duration,
-            ck,
-            instance.params,
-          )
-          // console.log((elapsed - instance.startAt) / instance.duration, instance.startAt, instance.duration)
-        }
-        else if (instance.mode === 'reverse') {
-          instance.animation.act.call(
-            instance,
-            this,
-            elapsed,
-            1 - (elapsed - instance.startAt) / instance.duration,
-            instance.duration,
-            ck,
-            instance.params,
-          )
-        }
-      }
-      if (elapsed >= instance.startAt + instance.duration) {
-        if (instance.mode === 'positive') {
-          instance.animation.act.call(
-            instance,
-            this,
-            elapsed,
-            1,
-            instance.duration,
-            ck,
-            instance.params,
-          )
-          // console.log((elapsed - instance.startAt) / instance.duration, instance.startAt, instance.duration)
-        }
-        else if (instance.mode === 'reverse') {
-          instance.animation.act.call(
-            instance,
-            this,
-            elapsed,
-            0,
-            instance.duration,
-            ck,
-            instance.params,
-          )
-        }
-        instance.animation.after?.call(instance, this, elapsed, ck, instance.params)
-        this.animationInstances = this.animationInstances.filter(
-          animationInstance => animationInstance !== instance,
-        )
-      }
+    if (this.animationInstances[0].build(
+      { ck, elapsed, widget: this },
+    )()) {
+      this.animationInstances.shift()
     }
+
     for (const update of this.updates) update(elapsed, this)
 
     for (const child of this.children) child.runAnimation(elapsed, ck)
-  }
-
-  setEventListener(element: HTMLCanvasElement) {
-    for (const instance of this.eventInstances)
-      instance.event.operation(this, instance.effect, element)
-
-    this.hasSet = true
-    for (const child of this.children) child.setEventListener(element)
   }
 
   /**
@@ -363,31 +280,7 @@ export class Widget {
   // When entered next update process, `runAnimation` will run multiple async animations that overlapped on the timeline,
   // For example, if we have a `move` animation from 1 to 60, and a `scale` animation from 30 to 90, then they will be played at the same time from 30 to 90
   processSetups(elapsed: number) {
-    this.setups.forEach((setup) => {
-      if (elapsed >= setup.nextFrame) {
-        // advance the setup
-        const result = setup.generator.next()
-        if (!result.done) {
-          if (typeof result.value === 'number') {
-            // simply put a delay as long as the value here
-            setup.nextFrame = elapsed + result.value
-          }
-          else if (typeof result.value === 'object') {
-            if (result.value.mode === 'async') {
-              this.animate(result.value.animation, elapsed, result.value.duration, result.value.params)
-            }
-            else if (result.value.mode === 'sync') {
-              this.animate(result.value.animation, elapsed, result.value.duration, result.value.params)
-              setup.nextFrame = elapsed + result.value.duration // Set the next frame
-            }
-          }
-        }
-        else {
-          // Marked done
-          setup.nextFrame = Number.POSITIVE_INFINITY
-        }
-      }
-    })
+    // TODO: Rebuild
 
     // Clean up Generator that has finished.
     this.setups = this.setups.filter(setup => setup.nextFrame !== Number.POSITIVE_INFINITY)
@@ -403,12 +296,12 @@ export class Widget {
   }
 
   show(): this {
-    this.display = true
+    this.display.value = true
     return this
   }
 
   hide(): this {
-    this.display = false
+    this.display.value = false
     return this
   }
 
@@ -502,31 +395,31 @@ export class Widget {
 
   // transform the coordinate of the widget from parent to child considering the reRotation (mind the rotation center), reScale, and translation (mind widget.x and widget.y)
   coordinateParentToChild(x: number, y: number): { x: number, y: number } {
-    const centerX = this.centerX + this.x
-    const centerY = this.centerY + this.y
+    const centerX = this.centerX.value + this.x.value
+    const centerY = this.centerY.value + this.y.value
     const relativeX = x - centerX
     const relativeY = y - centerY
     const distance = Math.sqrt(relativeX ** 2 + relativeY ** 2)
     const angle = Math.atan2(relativeY, relativeX)
-    const newAngle = angle - this.style.rotation / 180 * Math.PI
+    const newAngle = angle - this.style.rotation.value / 180 * Math.PI
     const newRelativeX = distance * Math.cos(newAngle)
     const newRelativeY = distance * Math.sin(newAngle)
-    const newX = newRelativeX / this.style.scaleX + this.centerX
-    const newY = newRelativeY / this.style.scaleY + this.centerY
+    const newX = newRelativeX / this.style.scaleX.value + this.centerX.value
+    const newY = newRelativeY / this.style.scaleY.value + this.centerY.value
     return { x: newX, y: newY }
   }
 
   // transform the coordinate of the widget from child to parent considering the rotation, scale, and translation
   coordinateChildToParent(x: number, y: number): { x: number, y: number } {
-    const relativeX = x - this.centerX
-    const relativeY = y - this.centerY
-    const newRelativeX = relativeX * this.style.scaleX
-    const newRelativeY = relativeY * this.style.scaleY
+    const relativeX = x - this.centerX.value
+    const relativeY = y - this.centerY.value
+    const newRelativeX = relativeX * this.style.scaleX.value
+    const newRelativeY = relativeY * this.style.scaleY.value
     const distance = Math.sqrt(newRelativeX ** 2 + newRelativeY ** 2)
     const angle = Math.atan2(newRelativeY, newRelativeX)
-    const newAngle = angle + this.style.rotation / 180 * Math.PI
-    const newX = distance * Math.cos(newAngle) + this.centerX + this.x
-    const newY = distance * Math.sin(newAngle) + this.centerY + this.y
+    const newAngle = angle + this.style.rotation.value / 180 * Math.PI
+    const newX = distance * Math.cos(newAngle) + this.centerX.value + this.x.value
+    const newY = distance * Math.sin(newAngle) + this.centerY.value + this.y.value
     return { x: newX, y: newY }
   }
 
@@ -541,15 +434,15 @@ export class Widget {
       let absoluteY = y
 
       while (parent) {
-        absoluteX += parent.x
-        absoluteY += parent.y
+        absoluteX += parent.x.value
+        absoluteY += parent.y.value
         parent = parent.parent
       }
 
       return { x: absoluteX, y: absoluteY }
     }
 
-    return getCoordinates(widget, widget.x, widget.y)
+    return getCoordinates(widget, widget.x.value, widget.y.value)
   }
 
   static absoluteToRelative(

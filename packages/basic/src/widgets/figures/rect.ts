@@ -1,4 +1,6 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
+import type { ConvertToProp } from '@newcar/core'
+import { changed, ref } from '@newcar/core'
 import type { PathOptions, PathStyle } from './path.ts'
 import { Path } from './path.ts'
 
@@ -23,7 +25,7 @@ export interface RectStyle extends PathStyle {
 }
 
 export class Rect extends Path {
-  declare style: RectStyle
+  declare style: ConvertToProp<RectStyle>
   rect: RRect
   radius: [number, number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -31,7 +33,7 @@ export class Rect extends Path {
     options ??= {}
     super(options)
     this.style ??= {}
-    this.style.radius = options.style?.radius ?? 0
+    this.style.radius = ref(options.style?.radius ?? 0)
     this.mapRadius()
   }
 
@@ -41,12 +43,16 @@ export class Rect extends Path {
     this.rect = new Float32Array([
       0,
       0,
-      this.width * this.progress,
-      this.height * this.progress,
+      this.width * this.progress.value,
+      this.height * this.progress.value,
       ...this.radius,
     ])
 
     this.path.addRRect(this.rect)
+
+    changed(this.style.radius, (_) => {
+      this.mapRadius()
+    })
   }
 
   draw(canvas: Canvas): void {
@@ -55,8 +61,8 @@ export class Rect extends Path {
     this.rect = new Float32Array([
       0,
       0,
-      this.width * this.progress,
-      this.height * this.progress,
+      this.width * this.progress.value,
+      this.height * this.progress.value,
       ...this.radius,
     ])
 
@@ -65,32 +71,22 @@ export class Rect extends Path {
     super.draw(canvas)
   }
 
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    super.predraw(ck, propertyChanged)
-    switch (propertyChanged) {
-      case 'style.radius': {
-        this.mapRadius()
-        break
-      }
-    }
-  }
-
   mapRadius() {
-    if (typeof this.style.radius === 'number') {
-      this.radius.fill(this.style.radius, 0, 8)
+    if (typeof this.style.radius.value === 'number') {
+      this.radius.fill(this.style.radius.value, 0, 8)
     }
-    else if (this.style.radius.length === 2) {
-      this.radius.fill(this.style.radius[0], 0, 4)
-        .fill(this.style.radius[1], 4, 8)
+    else if (this.style.radius.value.length === 2) {
+      this.radius.fill(this.style.radius.value[0], 0, 4)
+        .fill(this.style.radius.value[1], 4, 8)
     }
-    else if (this.style.radius.length === 4) {
-      this.radius.fill(this.style.radius[0], 0, 2)
-        .fill(this.style.radius[1], 2, 4)
-        .fill(this.style.radius[2], 4, 6)
-        .fill(this.style.radius[3], 6, 8)
+    else if (this.style.radius.value.length === 4) {
+      this.radius.fill(this.style.radius.value[0], 0, 2)
+        .fill(this.style.radius.value[1], 2, 4)
+        .fill(this.style.radius.value[2], 4, 6)
+        .fill(this.style.radius.value[3], 6, 8)
     }
     else {
-      this.radius = this.style.radius
+      this.radius = this.style.radius.value
     }
   }
 }

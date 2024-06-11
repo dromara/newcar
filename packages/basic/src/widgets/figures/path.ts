@@ -1,6 +1,7 @@
 import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
 import type { WidgetRange } from '@newcar/core'
 import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
+import { changed } from '@newcar/core'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 
@@ -28,15 +29,15 @@ export class Path extends Figure {
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
     this.strokePaint.setColor(this.style.borderColor.toFloat4())
     this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
-    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
-    this.strokePaint.setStrokeWidth(this.style.borderWidth)
-    this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
-    this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
-    this.strokePaint.setAntiAlias(this.style.antiAlias)
+    this.strokePaint.setAlphaf(this.style.transparency.value * this.style.borderColor.alpha)
+    this.strokePaint.setStrokeWidth(this.style.borderWidth.value)
+    this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join.value))
+    this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap.value))
+    this.strokePaint.setAntiAlias(this.style.antiAlias.value)
     try {
       const dash = ck.PathEffect.MakeDash(
         this.style.interval,
-        this.style.offset,
+        this.style.offset.value,
       )
       this.strokePaint.setPathEffect(dash)
     }
@@ -44,12 +45,12 @@ export class Path extends Figure {
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
     this.fillPaint.setColor(this.style.fillColor.toFloat4())
     this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
-    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
-    this.fillPaint.setAntiAlias(this.style.antiAlias)
+    this.fillPaint.setAlphaf(this.style.transparency.value * this.style.fillColor.alpha)
+    this.fillPaint.setAntiAlias(this.style.antiAlias.value)
 
     // Blend Mode
-    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode.value))
+    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode.value))
 
     this.path = new ck.Path()
 
@@ -69,50 +70,44 @@ export class Path extends Figure {
         }
       }
     })
-  }
 
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    super.predraw(ck, propertyChanged)
+    changed(this.style.borderShader, (borderShader) => {
+      this.strokePaint.setShader(borderShader.toCanvasKitShader(ck) ?? null)
+    })
 
-    switch (propertyChanged) {
-      case 'path': {
-        break
-      }
-      case 'style.borderShader': {
-        this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
-        break
-      }
-      case 'style.borderWidth': {
-        this.strokePaint.setStrokeWidth(this.style.borderWidth)
-        break
-      }
-      case 'style.fillShader': {
-        this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
-        break
-      }
-      case 'style.join': {
-        this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, this.style.join))
-        break
-      }
-      case 'style.cap': {
-        this.strokePaint.setStrokeCap(str2StrokeCap(ck, this.style.cap))
-        break
-      }
-      case 'style.offset':
-      case 'style.interval': {
-        this.strokePaint.setPathEffect(
-          ck.PathEffect.MakeDash(this.style.interval, this.style.offset),
-        )
-        break
-      }
-      case 'style.blendMode': {
-        // Blend Mode
-        this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-        this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-      }
+    changed(this.style.borderWidth, (borderWidth) => {
+      this.strokePaint.setStrokeWidth(borderWidth.value)
+    })
+
+    changed(this.style.fillShader, (fillShader) => {
+      this.fillPaint.setShader(fillShader.toCanvasKitShader(ck) ?? null)
+    })
+
+    changed(this.style.join, (join) => {
+      this.strokePaint.setStrokeJoin(str2StrokeJoin(ck, join.value))
+    })
+
+    changed(this.style.cap, (cap) => {
+      this.strokePaint.setStrokeCap(str2StrokeCap(ck, cap.value))
+    })
+
+    const makeDashUpdate = (i: number[], o: number) => {
+      this.strokePaint.setPathEffect(
+        ck.PathEffect.MakeDash(i, o),
+      )
     }
-    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
-    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
+    changed(this.style.offset, offset => makeDashUpdate(this.style.interval, offset.value))
+    changed(this.style.interval, interval => makeDashUpdate(interval, this.style.offset.value))
+
+    changed(this.style.blendMode, (blendMode) => {
+      this.strokePaint.setBlendMode(str2BlendMode(ck, blendMode.value))
+      this.fillPaint.setBlendMode(str2BlendMode(ck, blendMode.value))
+    })
+
+    changed(this.style.transparency, (transparency) => {
+      this.strokePaint.setAlphaf(transparency.value * this.style.borderColor.alpha)
+      this.fillPaint.setAlphaf(transparency.value * this.style.fillColor.alpha)
+    })
   }
 
   addPathFromSVGString(svg: string) {

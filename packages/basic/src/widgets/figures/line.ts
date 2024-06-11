@@ -1,4 +1,6 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
+import type { ConvertToProp } from '@newcar/core'
+import { changed } from '@newcar/core'
 import type { Vector2 } from '../../utils/vector2'
 import type { PathOptions, PathStyle } from './path.ts'
 import { Path } from './path.ts'
@@ -16,7 +18,7 @@ export interface LineStyle extends PathStyle {
 }
 
 export class Line extends Path {
-  declare style: LineStyle
+  declare style: ConvertToProp<LineStyle>
 
   constructor(public from: Vector2, public to: Vector2, options?: LineOptions) {
     options ??= {}
@@ -36,24 +38,18 @@ export class Line extends Path {
 
     this.path.moveTo(this.from[0], this.from[1])
     this.path.lineTo(this.to[0], this.to[1])
-  }
 
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    super.predraw(ck, propertyChanged)
-    switch (propertyChanged) {
-      case 'style.width': {
-        this.style.borderWidth = this.style.width
-        break
-      }
-    }
+    changed(this.style.width, (width) => {
+      this.style.borderWidth.value = width.value
+    })
   }
 
   draw(canvas: Canvas): void {
     this.path.rewind()
     this.path.moveTo(this.from[0], this.from[1])
     this.path.lineTo(
-      this.from[0] + (this.to[0] - this.from[0]) * this.progress,
-      this.from[1] + (this.to[1] - this.from[1]) * this.progress,
+      this.from[0] + (this.to[0] - this.from[0]) * this.progress.value,
+      this.from[1] + (this.to[1] - this.from[1]) * this.progress.value,
     )
 
     super.draw(canvas)

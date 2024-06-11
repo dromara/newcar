@@ -1,5 +1,5 @@
-import type { WidgetRange } from '@newcar/core'
-import { $source } from '@newcar/core'
+import type { ConvertToProp, Ref, WidgetRange } from '@newcar/core'
+import { $source, changed, ref } from '@newcar/core'
 import type { TextAlign, TextBaseline } from '@newcar/utils'
 import { Color, str2BlendMode, str2TextAlign, str2TextBaseline } from '@newcar/utils'
 import type {
@@ -88,11 +88,11 @@ export interface TextStyle extends FigureStyle {
 }
 
 export class Text extends Figure {
-  declare style: TextStyle
+  declare style: ConvertToProp<TextStyle>
   private builder: ParagraphBuilder
   private manager: FontMgr
   private paragraph: Paragraph
-  width: number
+  width: Ref<number>
   textAlign: TextAlign
 
   backgroundPaint: Paint
@@ -108,63 +108,63 @@ export class Text extends Figure {
         fillColor: options?.style?.foregroundColor ?? Color.WHITE,
       },
     })
-    this.width = options.width ?? 100
+    this.width = ref(options.width ?? 100)
     options.style ??= {}
     this.textAlign = options.textAlign ?? 'left'
-    this.style.backgroundColor = options.style.backgroundColor ?? Color.TRANSPARENT
-    this.style.color = options.style.color ?? Color.WHITE
-    this.style.decoration = options.style.decoration
-    this.style.decorationColor = options.style.decorationColor ?? Color.TRANSPARENT
-    this.style.decorationThickness = options.style.decorationThickness
-    this.style.fontFamilies = options.style.fontFamilies
-    this.style.fontSize = options.style.fontSize
-    this.style.fontStyle = options.style.fontStyle
-    this.style.foregroundColor = options.style.foregroundColor ?? Color.WHITE
-    this.style.heightMultiplier = options.style.heightMultiplier
-    this.style.halfLeading = options.style.halfLeading
-    this.style.letterSpacing = options.style.letterSpacing
-    this.style.locale = options.style.locale
-    this.style.textBaseline = options.style.textBaseline ?? 'alphabetic'
-    this.style.wordSpacing = options.style.wordSpacing
+    this.style.backgroundColor = ref(options.style.backgroundColor ?? Color.TRANSPARENT)
+    this.style.color = ref(options.style.color ?? Color.WHITE)
+    this.style.decoration = ref(options.style.decoration)
+    this.style.decorationColor = ref(options.style.decorationColor ?? Color.TRANSPARENT)
+    this.style.decorationThickness = ref(options.style.decorationThickness)
+    this.style.fontFamilies = ref(options.style.fontFamilies)
+    this.style.fontSize = ref(options.style.fontSize)
+    this.style.fontStyle = ref(options.style.fontStyle)
+    this.style.foregroundColor = ref(options.style.foregroundColor ?? Color.WHITE)
+    this.style.heightMultiplier = ref(options.style.heightMultiplier)
+    this.style.halfLeading = ref(options.style.halfLeading)
+    this.style.letterSpacing = ref(options.style.letterSpacing)
+    this.style.locale = ref(options.style.locale)
+    this.style.textBaseline = ref(options.style.textBaseline ?? 'alphabetic')
+    this.style.wordSpacing = ref(options.style.wordSpacing)
   }
 
   init(ck: CanvasKit): void {
     super.init(ck)
     this.strokePaint.setStyle(ck.PaintStyle.Stroke)
-    this.strokePaint.setColor(this.style.borderColor.toFloat4())
-    this.strokePaint.setShader(this.style.borderShader?.toCanvasKitShader(ck) ?? null)
-    this.strokePaint.setStrokeWidth(this.style.borderWidth)
-    this.strokePaint.setAlphaf(this.style.transparency * this.style.borderColor.alpha)
-    this.strokePaint.setAntiAlias(this.style.antiAlias)
+    this.strokePaint.setColor(this.style.borderColor.value.toFloat4())
+    this.strokePaint.setShader(this.style.borderShader.value?.toCanvasKitShader(ck) ?? null)
+    this.strokePaint.setStrokeWidth(this.style.borderWidth.value)
+    this.strokePaint.setAlphaf(this.style.transparency.value * this.style.borderColor.value.alpha)
+    this.strokePaint.setAntiAlias(this.style.antiAlias.value)
     const dash = ck.PathEffect.MakeDash(
-      this.style.interval,
-      this.style.offset,
+      this.style.interval.value,
+      this.style.offset.value,
     )
     this.strokePaint.setPathEffect(dash)
 
     // Fill
-    this.fillPaint.setColor(this.style.fillColor.toFloat4())
-    this.fillPaint.setShader(this.style.fillShader?.toCanvasKitShader(ck) ?? null)
+    this.fillPaint.setColor(this.style.fillColor.value.toFloat4())
+    this.fillPaint.setShader(this.style.fillShader.value?.toCanvasKitShader(ck) ?? null)
     this.fillPaint.setStyle(ck.PaintStyle.Fill)
-    this.fillPaint.setAlphaf(this.style.transparency * this.style.fillColor.alpha)
-    this.fillPaint.setAntiAlias(this.style.antiAlias)
+    this.fillPaint.setAlphaf(this.style.transparency.value * this.style.fillColor.value.alpha)
+    this.fillPaint.setAntiAlias(this.style.antiAlias.value)
 
     // Blend Mode
-    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
-    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode))
+    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode.value))
+    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode.value))
 
     this.backgroundPaint = new ck.Paint()
-    this.backgroundPaint.setColor(this.style.backgroundColor.toFloat4())
+    this.backgroundPaint.setColor(this.style.backgroundColor.value.toFloat4())
 
     this.manager = ck.FontMgr.FromData(...$source.fonts)
     this.textStyle = new ck.TextStyle(
       {
-        ...this.style,
-        backgroundColor: this.style.backgroundColor.toFloat4(),
-        color: this.style.color.toFloat4(),
-        decorationColor: this.style.decorationColor.toFloat4(),
-        foregroundColor: this.style.foregroundColor.toFloat4(),
-        textBaseline: str2TextBaseline(ck, this.style.textBaseline),
+        ...Object.values(this.style).map(v => v.value),
+        backgroundColor: this.style.backgroundColor.value.toFloat4(),
+        color: this.style.color.value.toFloat4(),
+        decorationColor: this.style.decorationColor.value.toFloat4(),
+        foregroundColor: this.style.foregroundColor.value.toFloat4(),
+        textBaseline: str2TextBaseline(ck, this.style.textBaseline.value),
       },
     )
 
@@ -172,7 +172,7 @@ export class Text extends Figure {
       new ck.ParagraphStyle({
         textAlign: str2TextAlign(ck, this.textAlign),
         textStyle: {
-          color: this.style.foregroundColor.toFloat4(),
+          color: this.style.foregroundColor.value.toFloat4(),
         },
       }),
       this.manager,
@@ -180,32 +180,37 @@ export class Text extends Figure {
     this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
     this.builder.addText(this.text.toString())
     this.paragraph = this.builder.build()
-    this.paragraph.layout(this.width)
+    this.paragraph.layout(this.width.value)
+
+    changed(this.style.offset, (offset) => {
+      const dash = ck.PathEffect.MakeDash(
+        this.style.interval.value,
+        offset.value,
+      )
+      this.strokePaint.setPathEffect(dash)
+    })
+    changed(this.style.interval, (interval) => {
+      const dash = ck.PathEffect.MakeDash(
+        interval.value,
+        this.style.offset.value,
+      )
+      this.strokePaint.setPathEffect(dash)
+    })
+
+    const rebuildText = () => {
+      this.builder.reset()
+      this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
+      this.builder.addText(this.text.toString())
+      this.paragraph = this.builder.build()
+      this.paragraph.layout(this.width.value)
+    }
+
+    changed(this.style.border, rebuildText)
+    changed(this.width, rebuildText)
   }
 
   draw(canvas: Canvas): void {
     canvas.drawParagraph(this.paragraph, 0, 0)
-  }
-
-  predraw(ck: CanvasKit, propertyChanged: string) {
-    super.predraw(ck, propertyChanged)
-    switch (propertyChanged) {
-      case 'style.interval':
-      case 'style.offset':
-      {
-        const dash = ck.PathEffect.MakeDash(
-          this.style.interval,
-          this.style.offset,
-        )
-        this.strokePaint.setPathEffect(dash)
-      }
-    }
-
-    this.builder.reset()
-    this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
-    this.builder.addText(this.text.toString())
-    this.paragraph = this.builder.build()
-    this.paragraph.layout(this.width)
   }
 
   calculateIn(x: number, y: number): boolean {
@@ -219,7 +224,7 @@ export class Text extends Figure {
   calculateRange(): WidgetRange {
     const lineMetrics = this.paragraph?.getLineMetrics()
     if (lineMetrics === undefined)
-      return [0, 0, this.width, 0]
+      return [0, 0, this.width.value, 0]
     return [
       Math.min(...lineMetrics.map(line => line.left)),
       0,

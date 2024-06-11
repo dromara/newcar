@@ -23,7 +23,9 @@ export class LocalApp {
     private ck: CanvasKit,
     private plugins: GlobalPlugin[],
   ) {
-    for (const plugin of this.plugins) plugin.beforeSurfaceLoaded(this)
+    for (const plugin of this.plugins) {
+      plugin.beforeSurfaceLoaded(this)
+    }
 
     if (typeof window === 'undefined') {
       this.surface = this.ck.MakeSurface(this.width, this.height)
@@ -60,12 +62,13 @@ export class LocalApp {
     for (const plugin of app.plugins)
       plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
 
-    for (const plugin of app.plugins)
+    for (const plugin of app.plugins) {
       plugin.onPatch(app, app.scene.elapsed, app.last, app.scene.root)
-    ;(function draw(widget: Widget) {
+    }
+    (function draw(widget: Widget) {
       widget.init(app.ck)
       app.canvas.save()
-      widget.update(app.canvas)
+      // widget.update(app.canvas)
       for (const child of widget.children) draw(child)
 
       app.canvas.restore()

@@ -23,8 +23,8 @@ export class ImageWidget extends Widget {
 
   init(ck: CanvasKit) {
     this.paint = new ck.Paint()
-    this.paint.setAlphaf(this.style.transparency)
-    this.paint.setAntiAlias(this.style.antiAlias)
+    this.paint.setAlphaf(this.style.transparency.value)
+    this.paint.setAntiAlias(this.style.antiAlias.value)
     try {
       this.image = ck.MakeImageFromEncoded(this.imageArray)
     }
@@ -38,7 +38,7 @@ export class ImageWidget extends Widget {
         break
       }
       case 'style.transparency': {
-        this.paint.setAlphaf(this.style.transparency)
+        this.paint.setAlphaf(this.style.transparency.value)
       }
     }
   }
