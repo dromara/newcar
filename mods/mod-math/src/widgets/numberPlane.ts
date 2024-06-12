@@ -2,7 +2,6 @@ import { Arrow, Line, Text } from '@newcar/basic'
 import type { ConvertToProp, Reactive, Ref, WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget, changed, reactive, ref } from '@newcar/core'
 import { Color } from '@newcar/utils'
-import type { CanvasKit } from 'canvaskit-wasm'
 import type { Trend } from './numberAxis'
 
 export interface NumberPlaneOptions extends WidgetOptions {

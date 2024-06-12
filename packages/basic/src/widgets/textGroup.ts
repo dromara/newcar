@@ -129,7 +129,7 @@ export class TextGroup extends Figure {
     this.style.fillShader = reactive(options.style.fillShader)
     this.style.fill = ref(options.style.fill ?? true)
     this.style.border = ref(options.style.border ?? false)
-    this.style.interval = reactive(options.style.interval ?? [1, 0])
+    this.style.interval = ref(options.style.interval ?? [1, 0])
     this.style.offset = ref(options.style.offset ?? 0)
   }
 
@@ -180,7 +180,7 @@ export class TextGroup extends Figure {
       paint.setBlendMode(str2BlendMode(ck, this.style.blendMode.value))
       if (text.style.border) {
         const dash = ck.PathEffect.MakeDash(
-          text.style.interval,
+          text.style.interval.value,
           text.style.offset.value,
         )
         paint.setPathEffect(dash)

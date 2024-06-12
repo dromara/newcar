@@ -60,7 +60,8 @@ export class Widget {
     .slice(2)}`
 
   parent: Widget | null
-  status: Status = 'unborn'
+  private status: Status = 'unborn'
+  initialized: boolean = false
 
   registeredEvents: Map<string, Event<Widget>> = new Map()
 
@@ -115,6 +116,11 @@ export class Widget {
    * @param canvas The canvas object of CanvasKit-WASM.
    */
   update(elapsed: number, ck: CanvasKit, canvas: Canvas) {
+    if (!this.initialized) {
+      this.init(ck)
+      this.initialized = true
+    }
+
     this.runAnimation(elapsed, ck)
 
     canvas.save()
@@ -122,12 +128,13 @@ export class Widget {
     canvas.translate(this.x.value, this.y.value)
     canvas.rotate(this.style.rotation.value, this.centerX.value, this.centerY.value)
     canvas.scale(this.style.scaleX.value, this.style.scaleY.value)
-    if (this.display) {
+    if (this.status === 'live') {
       for (const plugin of this.plugins) {
         if (plugin.beforeDraw)
           plugin.beforeDraw(this, canvas)
       }
-      this.draw(canvas)
+      if (this.display.value)
+        this.draw(canvas)
       for (const plugin of this.plugins) {
         if (plugin.onDraw)
           plugin.onDraw(this, canvas)
@@ -150,37 +157,8 @@ export class Widget {
       if (typeof child === 'function')
         child = child(this)
       child.parent = this
-      // child.status = 'live'
+      child.status = 'live'
       this.children.push(child)
-      // switch (this.style.layout) {
-      //   case 'row': {
-      //     if (index === 0)
-      //       child.x = child.x + (child.style.margin as [number, number, number, number])[2]
-      //     else
-      //       child.x = child.x + (this.children[index - 1].style.margin as [number, number, number, number])[3] + (child.style.margin as [number, number, number, number])[2]
-      //     break
-      //   }
-      //   case 'column': {
-      //     if (index === 0)
-      //       child.y = child.y + (child.style.margin as [number, number, number, number])[0]
-      //     else
-      //       child.y = child.y + (this.children[index - 1].style.margin as [number, number, number, number])[1] + (child.style.margin as [number, number, number, number])[0]
-      //     break
-      //   }
-      //   case 'mix': {
-      //     if (index === 0) {
-      //       child.x = child.x + (child.style.margin as [number, number, number, number])[2]
-      //       child.y = child.y + (child.style.margin as [number, number, number, number])[0]
-      //     }
-      //     else {
-      //       child.x = child.x + (this.children[index - 1].style.margin as [number, number, number, number])[3] + (child.style.margin as [number, number, number, number])[2]
-      //       child.y = child.y + (this.children[index - 1].style.margin as [number, number, number, number])[1] + (child.style.margin as [number, number, number, number])[0]
-      //     }
-      //     break
-      //   }
-      //   // TODO: Align and Baseline
-      // }
-      // index += 1
     }
     return this
   }
@@ -474,5 +452,12 @@ export class Widget {
     this.status = 'live'
 
     return this
+  }
+
+  remove() {
+    this.parent.children.splice(
+      this.parent.children.findIndex(c => c.key === this.key),
+      1,
+    )
   }
 }

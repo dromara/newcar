@@ -11,30 +11,30 @@ export const REACTIVE_TAG = Symbol('reactive')
 function _reactive<T>(value: T, listener?: Listener<T>, reactType: number = 1) {
   if (typeof value !== 'object')
     return
+  if (value === undefined)
+    return
   const postListeners: Listener<T>[] = listener ? [listener] : []
   const preListeners: Listener<T>[] = []
 
-  if (!isUndefined(value)) {
-    Object.defineProperty(value, '$onPostChanged', {
-      value: (listener: Listener<T>) => {
-        postListeners.push(listener)
-      },
-      writable: false,
-      configurable: false,
-    })
-    Object.defineProperty(value, '$onPreChanged', {
-      value: (listener: Listener<T>) => {
-        preListeners.push(listener)
-      },
-      writable: false,
-      configurable: false,
-    })
-    Object.defineProperty(value, REACTIVE_TAG, {
-      value: reactType,
-      writable: false,
-      configurable: false,
-    })
-  }
+  Object.defineProperty(value, '$onPostChanged', {
+    value: (listener: Listener<T>) => {
+      postListeners.push(listener)
+    },
+    writable: false,
+    configurable: false,
+  })
+  Object.defineProperty(value, '$onPreChanged', {
+    value: (listener: Listener<T>) => {
+      preListeners.push(listener)
+    },
+    writable: false,
+    configurable: false,
+  })
+  Object.defineProperty(value, REACTIVE_TAG, {
+    value: reactType,
+    writable: false,
+    configurable: false,
+  })
 
   return new Proxy(value, {
     get(target, prop) {
@@ -133,6 +133,7 @@ export function bind<T, K extends keyof T>(r: Reactive<T>, k: K): Ref<T[K]> {
   return res
 }
 
+export type ArrayOrPrimitive = Record<number, any> | string | number | null | undefined | boolean | symbol
 export type ConvertToProp<T> = {
-  [K in keyof T]: T[K] extends object ? Reactive<T[K]> : Ref<T[K]>
+  [K in keyof T]: T[K] extends ArrayOrPrimitive ? Ref<T[K]> : Reactive<T[K]>
 }

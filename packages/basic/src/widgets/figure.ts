@@ -45,7 +45,7 @@ export class Figure extends Widget {
     this.style.join = ref(options.style.join ?? 'miter')
     this.style.cap = ref(options.style.cap ?? 'square')
     this.style.offset = ref(options.style.offset ?? 0)
-    this.style.interval = reactive(options.style.interval ?? [1, 0])
+    this.style.interval = ref(options.style.interval ?? [1, 0])
   }
 
   init(ck: CanvasKit): void {
@@ -62,7 +62,7 @@ export class Figure extends Widget {
     this.strokePaint.setAntiAlias(this.style.antiAlias.value)
     try {
       const dash = ck.PathEffect.MakeDash(
-        this.style.interval,
+        this.style.interval.value,
         this.style.offset.value,
       )
       this.strokePaint.setPathEffect(dash)
@@ -125,8 +125,12 @@ export class Figure extends Widget {
         ck.PathEffect.MakeDash(i, o),
       )
     }
-    changed(this.style.offset, offset => makeDashUpdate(this.style.interval, offset.value))
-    changed(this.style.interval, interval => makeDashUpdate(interval, this.style.offset.value))
+    changed(this.style.offset, offset => makeDashUpdate(this.style.interval.value, offset.value))
+    changed(this.style.interval, (interval) => {
+      this.strokePaint.setPathEffect(
+        ck.PathEffect.MakeDash(interval.value, this.style.offset.value),
+      )
+    })
 
     changed(this.style.blendMode, (blendMode) => {
       this.strokePaint.setBlendMode(str2BlendMode(ck, blendMode.value))

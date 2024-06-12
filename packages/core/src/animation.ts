@@ -140,7 +140,7 @@ export function changeProperty<T extends Widget>(
     const from = ctx.from ? normalize(ctx.from) : ctx.original
     for (const index in ctx.changed) {
       const rto = normalize(ctx.to)
-      ctx.changed[index].value += ctx.process * (rto[index] - from[index])
+      ctx.changed[index].value = rto[index] + ctx.process * (rto[index] - from[index])
     }
   })
     .with<{ original: number[], changed: Ref<number>[] }>((ctx) => {

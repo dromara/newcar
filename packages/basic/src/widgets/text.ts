@@ -1,7 +1,7 @@
 import type { ConvertToProp, Ref, WidgetRange } from '@newcar/core'
 import { $source, changed, reactive, ref } from '@newcar/core'
 import type { TextAlign, TextBaseline } from '@newcar/utils'
-import { Color, str2BlendMode, str2TextAlign, str2TextBaseline } from '@newcar/utils'
+import { Color, str2TextAlign, str2TextBaseline } from '@newcar/utils'
 import type {
   Canvas,
   CanvasKit,
@@ -169,21 +169,6 @@ export class Text extends Figure {
     this.paragraph = this.builder.build()
     this.paragraph.layout(this.width.value)
 
-    changed(this.style.offset, (offset) => {
-      const dash = ck.PathEffect.MakeDash(
-        this.style.interval,
-        offset.value,
-      )
-      this.strokePaint.setPathEffect(dash)
-    })
-    changed(this.style.interval, (interval) => {
-      const dash = ck.PathEffect.MakeDash(
-        interval,
-        this.style.offset.value,
-      )
-      this.strokePaint.setPathEffect(dash)
-    })
-
     const rebuildText = () => {
       this.builder.reset()
       this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
@@ -191,9 +176,23 @@ export class Text extends Figure {
       this.paragraph = this.builder.build()
       this.paragraph.layout(this.width.value)
     }
+    changed(this.style.offset, (_) => {
+      this.rebuildText()
+    })
+    changed(this.style.interval, (_) => {
+      this.rebuildText()
+    })
 
     changed(this.style.border, rebuildText)
     changed(this.width, rebuildText)
+  }
+
+  rebuildText() {
+    this.builder.reset()
+    this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
+    this.builder.addText(this.text.toString())
+    this.paragraph = this.builder.build()
+    this.paragraph.layout(this.width.value)
   }
 
   draw(canvas: Canvas): void {

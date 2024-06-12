@@ -1,7 +1,6 @@
 import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import { Color } from '@newcar/utils'
 import type { Scene } from './scene'
-import { initial } from './initial'
 import type { GlobalPlugin } from './plugin'
 import { type Config, defineConfig } from './config'
 
@@ -100,9 +99,6 @@ export class App {
       if (plugin.beforeUpdate)
         plugin.beforeUpdate(app, app.scene.elapsed)
     }
-
-    if (app.scene.elapsed === 0)
-      initial(app.scene.root, app.ck, canvas)
 
     // TODO: Replace
 

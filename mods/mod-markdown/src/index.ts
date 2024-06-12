@@ -132,7 +132,7 @@ export class Markdown extends Widget {
       else if (line.match(/( +)?- .+/) || line.match(/( +)? \+.+/) || line.match(/( +)? \* .+/)) {
         const listStyle = { fontSize: 16, color: this.textStyle.color }
         builder.pushStyle(new ck.TextStyle(listStyle))
-        parseInline(line.replace(/(.+)?(-|\*|\+)/, '·'), listStyle, ck, builder)
+        parseInline(line.replace(/(.+)?([\-*+])/, '·'), listStyle, ck, builder)
         builder.pop()
       }
       else {

@@ -1,7 +1,5 @@
 import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
 import type { WidgetRange } from '@newcar/core'
-import { str2BlendMode, str2StrokeCap, str2StrokeJoin } from '@newcar/utils'
-import { changed } from '@newcar/core'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 
@@ -65,10 +63,10 @@ export class Path extends Figure {
   }
 
   draw(canvas: Canvas): void {
-    if (this.style.border)
+    if (this.style.border.value)
       canvas.drawPath(this.path, this.strokePaint)
 
-    if (this.style.fill)
+    if (this.style.fill.value)
       canvas.drawPath(this.path, this.fillPaint)
   }
 
