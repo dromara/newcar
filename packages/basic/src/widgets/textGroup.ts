@@ -1,9 +1,9 @@
 import type { ConvertToProp, Ref, WidgetRange } from '@newcar/core'
-import { $source, normalize, ref } from '@newcar/core'
+import { $source, normalize, reactive, ref } from '@newcar/core'
 import type { Shader, TextAlign, TextDirection, TextHeightBehavior } from '@newcar/utils'
 import { Color, str2BlendMode, str2TextAlign, str2TextBaseline, str2TextDirection, str2TextHeightBehavior } from '@newcar/utils'
 import type { Canvas, CanvasKit, FontMgr, LineMetrics, Paragraph, ParagraphBuilder, StrutStyle } from 'canvaskit-wasm'
-import { Figure, type FigureOptions, type FigureStyle } from './figures/figure'
+import { Figure, type FigureOptions, type FigureStyle } from './figure'
 import type { Text } from './text'
 
 export interface TextGroupOptions extends FigureOptions {
@@ -110,7 +110,7 @@ export class TextGroup extends Figure {
     super(options)
     this.width = ref(options.width ?? 100)
     options.style ??= {}
-    this.style.color = ref(options.style.color)
+    this.style.color = reactive(options.style.color)
     this.style.heightMultiplier = ref(options.style.heightMultiplier)
     this.textAlign = ref(options.style.textAlign ?? 'left')
     this.textDirection = ref(options.style.textDirection ?? 'ltr')
@@ -122,14 +122,14 @@ export class TextGroup extends Figure {
     this.replaceTabCharacters = ref(options.style.replaceTabCharacters ?? true)
     // this.strutStyle = ref(inputOptions.style.strutStyle ?? null)
     this.applyRoundingHack = ref(options.style.applyRoundingHack ?? false)
-    this.style.borderColor = ref(options.style.borderColor ?? Color.WHITE)
-    this.style.borderShader = ref(options.style.borderShader)
+    this.style.borderColor = reactive(options.style.borderColor ?? Color.WHITE)
+    this.style.borderShader = reactive(options.style.borderShader)
     this.style.borderWidth = ref(options.style.borderWidth ?? 2)
-    this.style.fillColor = ref(options.style.fillColor ?? Color.WHITE)
-    this.style.fillShader = ref(options.style.fillShader)
+    this.style.fillColor = reactive(options.style.fillColor ?? Color.WHITE)
+    this.style.fillShader = reactive(options.style.fillShader)
     this.style.fill = ref(options.style.fill ?? true)
     this.style.border = ref(options.style.border ?? false)
-    this.style.interval = ref(options.style.interval ?? [1, 0])
+    this.style.interval = reactive(options.style.interval ?? [1, 0])
     this.style.offset = ref(options.style.offset ?? 0)
   }
 
@@ -159,10 +159,10 @@ export class TextGroup extends Figure {
       const style = new ck.TextStyle(
         {
           ...normalize(text.style),
-          backgroundColor: text.style.backgroundColor.value.toFloat4(),
-          color: text.style.color.value.toFloat4(),
-          decorationColor: text.style.decorationColor.value.toFloat4(),
-          foregroundColor: text.style.foregroundColor.value.toFloat4(),
+          backgroundColor: text.style.backgroundColor.toFloat4(),
+          color: text.style.color.toFloat4(),
+          decorationColor: text.style.decorationColor.toFloat4(),
+          foregroundColor: text.style.foregroundColor.toFloat4(),
           textBaseline: str2TextBaseline(ck, text.style.textBaseline.value),
         },
       )
@@ -172,15 +172,15 @@ export class TextGroup extends Figure {
       // this.builder.pushStyle(style)
       const paint = new ck.Paint()
       paint.setStyle(text.style.border ? ck.PaintStyle.Stroke : ck.PaintStyle.Fill)
-      paint.setColor(text.style.borderColor.value.toFloat4())
-      paint.setShader(text.style.borderShader.value.toCanvasKitShader(ck) ?? null)
+      paint.setColor(text.style.borderColor.toFloat4())
+      paint.setShader(text.style.borderShader.toCanvasKitShader(ck) ?? null)
       paint.setStrokeWidth(text.style.borderWidth.value)
-      paint.setAlphaf(text.style.transparency.value * this.style.borderColor.value.alpha)
+      paint.setAlphaf(text.style.transparency.value * this.style.borderColor.alpha)
       paint.setAntiAlias(text.style.antiAlias.value)
       paint.setBlendMode(str2BlendMode(ck, this.style.blendMode.value))
       if (text.style.border) {
         const dash = ck.PathEffect.MakeDash(
-          text.style.interval.value,
+          text.style.interval,
           text.style.offset.value,
         )
         paint.setPathEffect(dash)

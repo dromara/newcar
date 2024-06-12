@@ -1,5 +1,5 @@
 import type { ConvertToProp, Ref, WidgetRange } from '@newcar/core'
-import { $source, changed, ref } from '@newcar/core'
+import { $source, changed, reactive, ref } from '@newcar/core'
 import type { TextAlign, TextBaseline } from '@newcar/utils'
 import { Color, str2BlendMode, str2TextAlign, str2TextBaseline } from '@newcar/utils'
 import type {
@@ -13,7 +13,7 @@ import type {
   ParagraphBuilder,
   TextStyle as ckTextStyle,
 } from 'canvaskit-wasm'
-import { Figure, type FigureOptions, type FigureStyle } from './figures/figure'
+import { Figure, type FigureOptions, type FigureStyle } from './figure'
 
 export interface TextOptions extends FigureOptions {
   style?: TextStyle
@@ -48,7 +48,7 @@ export interface TextStyle extends FigureStyle {
   /**
    * An array of font families to be used for rendering the text.
    */
-  fontFamilies?: string[]
+  fontFamily?: ArrayBuffer
   /**
    * The size of the font used for the text.
    */
@@ -108,18 +108,18 @@ export class Text extends Figure {
         fillColor: options?.style?.foregroundColor ?? Color.WHITE,
       },
     })
-    this.width = ref(options.width ?? 100)
+    this.width = ref(options.width ?? Number.POSITIVE_INFINITY)
     options.style ??= {}
     this.textAlign = options.textAlign ?? 'left'
-    this.style.backgroundColor = ref(options.style.backgroundColor ?? Color.TRANSPARENT)
-    this.style.color = ref(options.style.color ?? Color.WHITE)
-    this.style.decoration = ref(options.style.decoration)
-    this.style.decorationColor = ref(options.style.decorationColor ?? Color.TRANSPARENT)
-    this.style.decorationThickness = ref(options.style.decorationThickness)
-    this.style.fontFamilies = ref(options.style.fontFamilies)
-    this.style.fontSize = ref(options.style.fontSize)
-    this.style.fontStyle = ref(options.style.fontStyle)
-    this.style.foregroundColor = ref(options.style.foregroundColor ?? Color.WHITE)
+    this.style.backgroundColor = reactive(options.style.backgroundColor ?? Color.TRANSPARENT)
+    this.style.color = reactive(options.style.color ?? Color.WHITE)
+    this.style.decoration = ref(options.style.decoration ?? 0)
+    this.style.decorationColor = reactive(options.style.decorationColor ?? Color.TRANSPARENT)
+    this.style.decorationThickness = ref(options.style.decorationThickness ?? 0)
+    this.style.fontFamily = reactive(options.style.fontFamily)
+    this.style.fontSize = ref(options.style.fontSize ?? 50)
+    this.style.fontStyle = reactive(options.style.fontStyle)
+    this.style.foregroundColor = reactive(options.style.foregroundColor ?? Color.WHITE)
     this.style.heightMultiplier = ref(options.style.heightMultiplier)
     this.style.halfLeading = ref(options.style.halfLeading)
     this.style.letterSpacing = ref(options.style.letterSpacing)
@@ -130,41 +130,28 @@ export class Text extends Figure {
 
   init(ck: CanvasKit): void {
     super.init(ck)
-    this.strokePaint.setStyle(ck.PaintStyle.Stroke)
-    this.strokePaint.setColor(this.style.borderColor.value.toFloat4())
-    this.strokePaint.setShader(this.style.borderShader.value?.toCanvasKitShader(ck) ?? null)
-    this.strokePaint.setStrokeWidth(this.style.borderWidth.value)
-    this.strokePaint.setAlphaf(this.style.transparency.value * this.style.borderColor.value.alpha)
-    this.strokePaint.setAntiAlias(this.style.antiAlias.value)
-    const dash = ck.PathEffect.MakeDash(
-      this.style.interval.value,
-      this.style.offset.value,
-    )
-    this.strokePaint.setPathEffect(dash)
-
-    // Fill
-    this.fillPaint.setColor(this.style.fillColor.value.toFloat4())
-    this.fillPaint.setShader(this.style.fillShader.value?.toCanvasKitShader(ck) ?? null)
-    this.fillPaint.setStyle(ck.PaintStyle.Fill)
-    this.fillPaint.setAlphaf(this.style.transparency.value * this.style.fillColor.value.alpha)
-    this.fillPaint.setAntiAlias(this.style.antiAlias.value)
-
-    // Blend Mode
-    this.strokePaint.setBlendMode(str2BlendMode(ck, this.style.blendMode.value))
-    this.fillPaint.setBlendMode(str2BlendMode(ck, this.style.blendMode.value))
 
     this.backgroundPaint = new ck.Paint()
-    this.backgroundPaint.setColor(this.style.backgroundColor.value.toFloat4())
+    this.backgroundPaint.setColor(this.style.backgroundColor.toFloat4())
 
-    this.manager = ck.FontMgr.FromData(...$source.fonts)
+    this.manager = ck.FontMgr.FromData(...[this.style.fontFamily, ...$source.fonts])
     this.textStyle = new ck.TextStyle(
       {
-        ...Object.values(this.style).map(v => v.value),
-        backgroundColor: this.style.backgroundColor.value.toFloat4(),
-        color: this.style.color.value.toFloat4(),
-        decorationColor: this.style.decorationColor.value.toFloat4(),
-        foregroundColor: this.style.foregroundColor.value.toFloat4(),
+        backgroundColor: this.style.backgroundColor.toFloat4(),
+        color: this.style.color.toFloat4(),
+        decorationColor: this.style.decorationColor.toFloat4(),
+        foregroundColor: this.style.foregroundColor.toFloat4(),
         textBaseline: str2TextBaseline(ck, this.style.textBaseline.value),
+        fontSize: this.style.fontSize.value,
+        fontStyle: this.style.fontStyle,
+        heightMultiplier: this.style.heightMultiplier.value,
+        halfLeading: this.style.halfLeading.value,
+        letterSpacing: this.style.letterSpacing.value,
+        locale: this.style.locale.value,
+        wordSpacing: this.style.wordSpacing.value,
+        decoration: this.style.decoration.value,
+        decorationThickness: this.style.decorationThickness.value,
+
       },
     )
 
@@ -172,7 +159,7 @@ export class Text extends Figure {
       new ck.ParagraphStyle({
         textAlign: str2TextAlign(ck, this.textAlign),
         textStyle: {
-          color: this.style.foregroundColor.value.toFloat4(),
+          color: this.style.foregroundColor.toFloat4(),
         },
       }),
       this.manager,
@@ -184,14 +171,14 @@ export class Text extends Figure {
 
     changed(this.style.offset, (offset) => {
       const dash = ck.PathEffect.MakeDash(
-        this.style.interval.value,
+        this.style.interval,
         offset.value,
       )
       this.strokePaint.setPathEffect(dash)
     })
     changed(this.style.interval, (interval) => {
       const dash = ck.PathEffect.MakeDash(
-        interval.value,
+        interval,
         this.style.offset.value,
       )
       this.strokePaint.setPathEffect(dash)

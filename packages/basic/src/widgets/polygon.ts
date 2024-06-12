@@ -1,7 +1,7 @@
 import type { CanvasKit } from 'canvaskit-wasm'
 import type { Reactive } from '@newcar/core'
 import { changed, reactive } from '@newcar/core'
-import type { Vector2 } from '../../utils/vector2'
+import type { Vector2 } from '../utils/vector2.ts'
 import type { PathOptions, PathStyle } from './path.ts'
 import { Path } from './path.ts'
 

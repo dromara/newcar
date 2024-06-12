@@ -1,5 +1,5 @@
 import { Arrow, Line, Text } from '@newcar/basic'
-import type { ConvertToProp, Ref, WidgetOptions, WidgetStyle } from '@newcar/core'
+import type { ConvertToProp, Reactive, Ref, WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget, changed, reactive, ref } from '@newcar/core'
 import { Color } from '@newcar/utils'
 import type { CanvasKit } from 'canvaskit-wasm'
@@ -45,12 +45,16 @@ export class NumberPlane extends Widget {
   trendX: Ref<Trend>
   trendY: Ref<Trend>
   originText: Text
+  lengthX: Reactive<[number, number]>
+  lengthY: Reactive<[number, number]>
 
-  constructor(public lengthX: [number, number], public lengthY: [number, number], options?: NumberPlaneOptions) {
+  constructor(lengthX: [number, number], lengthY: [number, number], options?: NumberPlaneOptions) {
     options ??= {}
     options.style ??= {}
     super(options)
 
+    this.lengthX = reactive(lengthX)
+    this.lengthY = reactive(lengthY)
     this.divisionX = ref(options.divisionX ?? 50)
     this.divisionY = ref(options.divisionY ?? 50)
     this.trendX = ref(options.trendsX ?? (x => x / 50))
@@ -170,5 +174,7 @@ export class NumberPlane extends Widget {
     changed(this.divisionY, this.createTicksAndTexts.bind(this))
     changed(this.trendX, this.createTicksAndTexts.bind(this))
     changed(this.trendY, this.createTicksAndTexts.bind(this))
+    changed(this.lengthX, length => [this.axisX.from[0], this.axisX.to[1]] = length)
+    changed(this.lengthY, length => [this.axisY.from[0], this.axisY.to[1]] = length)
   }
 }

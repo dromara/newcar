@@ -4,6 +4,8 @@ const engine = (await new nc.CarEngine().init(
   './node_modules/canvaskit-wasm/bin/canvaskit.wasm',
 ))
 
+const font = await nc.useFont('https://storage.googleapis.com/skia-cdn/misc/Roboto-Regular.ttf')
+
 const milestoneElem = document.querySelector('#milestone') as HTMLCanvasElement
 window.addEventListener('resize', () => {
   milestoneElem.width = window.innerWidth
@@ -48,7 +50,10 @@ export class Milestone {
 
 
 export const defaultScene = new nc.Scene(
-  new nc.Circle(20)
+  new nc.Text('Hello world!', {
+    x: 100,
+    y: 100
+  })
 )
 
 const left = document.querySelector('.left') as HTMLDivElement

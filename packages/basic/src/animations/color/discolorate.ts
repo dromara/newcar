@@ -1,5 +1,5 @@
 import { bind, changeProperty } from '@newcar/core'
-import type { Figure } from '../../widgets/figures/figure'
+import type { Figure } from '../../widgets/figure'
 
 /**
  * Change the color.

@@ -1,7 +1,7 @@
 import type { CanvasKit } from 'canvaskit-wasm'
 import type { Reactive, Ref } from '@newcar/core'
 import { changed, reactive, ref } from '@newcar/core'
-import type { Vector2 } from '../../utils/vector2'
+import type { Vector2 } from '../utils/vector2'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 import { Polygon } from './polygon'
