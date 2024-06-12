@@ -18,8 +18,8 @@ export interface Animation<T> {
 
 export type Anim<T> = WithDep<() => boolean, AnimationContext<T>>
 
-export type TimingFunction = (process: number) => number
-export const linear: TimingFunction = p => p
+type TimingFunction = (process: number) => number
+const linear: TimingFunction = p => p
 export interface BasicAnimAttrs {
   process: number
   duration: number

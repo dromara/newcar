@@ -33,12 +33,12 @@ export class Figure extends Widget {
     options ??= {}
     super(options)
     options.style ??= {}
+    this.style.color = reactive(options.style.color ?? Color.WHITE)
     this.style.borderColor = reactive(options.style.borderColor ?? options.style.color ?? Color.WHITE)
     this.style.borderShader = reactive(options.style.borderShader ?? options.style.shader)
     this.style.borderWidth = ref(options.style.borderWidth ?? 2)
     this.style.fillColor = reactive(options.style.fillColor ?? options.style.color ?? Color.WHITE)
     this.style.fillShader = reactive(options.style.fillShader ?? options.style.shader)
-    this.style.color = reactive(options.style.color ?? Color.WHITE)
     this.style.shader = reactive(options.style.shader)
     this.style.fill = ref(options.style.fill ?? true)
     this.style.border = ref(options.style.border ?? false)

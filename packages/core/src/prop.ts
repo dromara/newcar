@@ -1,3 +1,5 @@
+import { isUndefined } from '@newcar/utils'
+
 export interface PropertyWithChange<T> {
   $onPostChanged: (listener: Listener<T>) => void
   $onPreChanged: (listener: Listener<T>) => void
@@ -12,25 +14,27 @@ function _reactive<T>(value: T, listener?: Listener<T>, reactType: number = 1) {
   const postListeners: Listener<T>[] = listener ? [listener] : []
   const preListeners: Listener<T>[] = []
 
-  Object.defineProperty(value, '$onPostChanged', {
-    value: (listener: Listener<T>) => {
-      postListeners.push(listener)
-    },
-    writable: false,
-    configurable: false,
-  })
-  Object.defineProperty(value, '$onPreChanged', {
-    value: (listener: Listener<T>) => {
-      preListeners.push(listener)
-    },
-    writable: false,
-    configurable: false,
-  })
-  Object.defineProperty(value, REACTIVE_TAG, {
-    value: reactType,
-    writable: false,
-    configurable: false,
-  })
+  if (!isUndefined(value)) {
+    Object.defineProperty(value, '$onPostChanged', {
+      value: (listener: Listener<T>) => {
+        postListeners.push(listener)
+      },
+      writable: false,
+      configurable: false,
+    })
+    Object.defineProperty(value, '$onPreChanged', {
+      value: (listener: Listener<T>) => {
+        preListeners.push(listener)
+      },
+      writable: false,
+      configurable: false,
+    })
+    Object.defineProperty(value, REACTIVE_TAG, {
+      value: reactType,
+      writable: false,
+      configurable: false,
+    })
+  }
 
   return new Proxy(value, {
     get(target, prop) {
@@ -69,15 +73,17 @@ export function changed<T>(
 ) {
   const withChanged = target as PropertyWithChange<T>
 
-  if (typeof listener === 'function') {
-    withChanged.$onPostChanged(listener)
-  }
-  else {
-    if (listener.postChanged) {
-      withChanged.$onPostChanged(listener.postChanged)
+  if (!isUndefined(target)) {
+    if (typeof listener === 'function') {
+      withChanged.$onPostChanged(listener)
     }
-    if (listener.preChanged) {
-      withChanged.$onPreChanged(listener.preChanged)
+    else {
+      if (listener.postChanged) {
+        withChanged.$onPostChanged(listener.postChanged)
+      }
+      if (listener.preChanged) {
+        withChanged.$onPreChanged(listener.preChanged)
+      }
     }
   }
 }

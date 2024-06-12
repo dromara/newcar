@@ -237,6 +237,8 @@ export class Widget {
 
   // Run an animation with respect to `elapsed`, which is maintained by `App` class
   runAnimation(elapsed: number, ck: CanvasKit) {
+    if (this.animationInstances.length === 0)
+      return
     if (this.animationInstances[0].build(
       { ck, elapsed, widget: this },
     )()) {
