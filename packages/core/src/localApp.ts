@@ -54,32 +54,24 @@ export class LocalApp {
   }
 
   static update(app: LocalApp): void {
-    for (const plugin of app.plugins)
-      plugin.beforeUpdate(app, app.scene.elapsed)
-
-    initial(app.scene.root, app.ck, app.canvas)
-    // Contrast the old widget and the new widget and update them.
-    for (const plugin of app.plugins)
-      plugin.beforePatch(app, app.scene.elapsed, app.last, app.scene.root)
+    if (!app.playing)
+      return
 
     for (const plugin of app.plugins) {
-      plugin.onPatch(app, app.scene.elapsed, app.last, app.scene.root)
+      if (plugin.beforeUpdate)
+        plugin.beforeUpdate(app, app.scene.elapsed)
     }
-    (function draw(widget: Widget) {
-      widget.init(app.ck)
-      app.canvas.save()
-      // widget.update(app.canvas)
-      for (const child of widget.children) draw(child)
+    for (const plugin of app.plugins) {
+      if (plugin.onUpdate)
+        plugin.onUpdate(app, app.scene.elapsed)
+    }
 
-      app.canvas.restore()
-    })(app.scene.root)
-
-    // Animating.
-    app.scene.root.runAnimation(app.scene.elapsed, app.ck)
-
-    for (const plugin of app.plugins) plugin.onUpdate(app, app.scene.elapsed)
-
-    app.scene.elapsed += 1
+    app.scene.root.canvasSize = [app.width, app.height]
+    app.scene.root.update(
+      app.scene.elapsed,
+      app.ck,
+      app.canvas,
+    )
   }
 
   /**

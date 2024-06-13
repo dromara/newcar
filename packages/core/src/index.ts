@@ -16,3 +16,4 @@ export * from './localApp'
 export * from './event'
 
 export * from './prop'
+export * from './physical'

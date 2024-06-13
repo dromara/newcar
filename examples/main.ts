@@ -48,12 +48,17 @@ export class Milestone {
   }
 }
 
+let circle = new nc.Circle(100, {
+  x: 200,
+  y: 200
+})
 export const defaultScene = new nc.Scene(
   new nc.Circle(100, {
     x: 200,
     y: 200
-  })
-  .animate(nc.focusOn().withAttr({ duration: 0.3 }))
+  }).animate(nc.useAnimate<nc.Circle, {}>(ctx => {
+    ctx.widget.pos.value = nc.pp(0.5, 0.5)
+  }).withAttr({ duration: 1 }))
 )
 
 const left = document.querySelector('.left') as HTMLDivElement
@@ -70,10 +75,10 @@ window.addEventListener('keydown', e => {
   switch (e.key) {
     case 'ArrowLeft':
       left.dispatchEvent(new Event('click'))
-      break;
+      break
     case 'ArrowRight':
       right.dispatchEvent(new Event('click'))
-      break;
+      break
   }
 })
 

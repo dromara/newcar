@@ -5,9 +5,12 @@ import type { Event, EventInstance } from './event'
 import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
 import type { AnimateFunction } from './apiAnimate'
-import type { ConvertToProp, Ref } from './prop'
+import type { ConvertToProp, Reactive, Ref } from './prop'
 import type { App } from './app'
-import { ref } from './prop'
+import { changed, reactive, ref } from './prop'
+import type { Position } from './physical'
+import { rp } from './physical'
+import { RootWidget } from './scene'
 
 export type WidgetRange = [number, number, number, number]
 // export type WidgetInstance<T extends Widget> = T
@@ -19,6 +22,7 @@ export interface WidgetOptions {
   style?: WidgetStyle
   x?: number
   y?: number
+  pos?: Position | [number, number]
   centerX?: number // The rotation center x of the widget.
   centerY?: number // The rotation center y of the widget.
   progress?: number
@@ -38,6 +42,7 @@ export interface WidgetStyle {
 
 export class Widget {
   plugins: WidgetPlugin[] = []
+  pos: Ref<Position>
   x: Ref<number> // The vector x of the widget.
   y: Ref<number> // The vector y of the widget.
   centerX: Ref<number> // The center vector x of the widget.
@@ -61,7 +66,7 @@ export class Widget {
     .slice(2)}`
 
   parent: Widget | null
-  private status: Status = 'unborn'
+  status: Status = 'unborn'
   initialized: boolean = false
 
   registeredEvents: Map<string, Event<Widget>> = new Map()
@@ -70,6 +75,7 @@ export class Widget {
     options ??= {}
     this.x = ref(options.x ?? 0)
     this.y = ref(options.y ?? 0)
+    this.pos = ref(rp(this.x.value, this.y.value))
     this.centerX = ref(options.centerX ?? 0)
     this.centerY = ref(options.centerY ?? 0)
     this.progress = ref(options.progress ?? 1)
@@ -102,7 +108,16 @@ export class Widget {
    * Called when the widget is registered.
    * @param _ck The CanvasKit namespace
    */
-  init(_ck: CanvasKit) {}
+  init(_ck: CanvasKit) {
+    changed(this.pos, (pos) => {
+      if (this.parent instanceof RootWidget) {
+        [this.x.value, this.y.value] = pos.value.resolve(...this.parent.canvasSize)
+      }
+      else {
+        [this.x.value, this.y.value] = pos.value.resolve(this.parent.x.value, this.y.value)
+      }
+    })
+  }
 
   /**
    * Draw the object according to the parameters of the widget.
@@ -116,7 +131,11 @@ export class Widget {
    * Called when the style is changed.
    * @param canvas The canvas object of CanvasKit-WASM.
    */
-  update(elapsed: number, ck: CanvasKit, canvas: Canvas, app: App) {
+  update(
+    elapsed: number,
+    ck: CanvasKit,
+    canvas: Canvas,
+  ) {
     if (!this.initialized) {
       this.init(ck)
       this.initialized = true
@@ -141,7 +160,7 @@ export class Widget {
       }
     }
     for (const child of this.children) {
-      child.update(elapsed, ck, canvas, app)
+      child.update(elapsed, ck, canvas)
     }
 
     canvas.restore()

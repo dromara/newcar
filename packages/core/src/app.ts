@@ -77,6 +77,7 @@ export class App {
         plugin.beforeCheckout(this, scene)
     }
     this.scene = scene
+    this.scene.root.canvasSize = [this.element.width, this.element.height]
     this.scene.startTime = performance.now()
     for (const plugin of this.plugins) {
       if (plugin.onCheckout)
@@ -111,11 +112,11 @@ export class App {
         plugin.onUpdate(app, app.scene.elapsed)
     }
 
+    app.scene.root.canvasSize = [app.element.width, app.element.height]
     app.scene.root.update(
       app.scene.elapsed,
       app.ck,
       canvas,
-      app,
     )
 
     if (app.config.unit === 'frame')

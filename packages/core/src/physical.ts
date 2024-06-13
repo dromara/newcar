@@ -15,31 +15,31 @@ export class Length {
   }
 }
 
-export function r(value: number) {
+export function rl(value: number) {
   return new Length('raw', value)
 }
 
-export function p(value: number) {
+export function pl(value: number) {
   return new Length('percent', value)
 }
 
 export class Position {
   constructor(public type: LengthUnitType, public x: number, public y: number) {}
 
-  resolve(originX: number, originY: number): [number, number] {
+  resolve(width: number, height: number): [number, number] {
     switch (this.type) {
       case 'raw':
         return [this.x, this.y]
       case 'percent':
-        return [this.x * originX, this.y * originY]
+        return [this.x * width, this.y * height]
     }
   }
 }
 
-export function rp(value: number) {
-  return new Length('raw', value)
+export function rp(x: number, y: number) {
+  return new Position('raw', x, y)
 }
 
-export function pp(value: number) {
-  return new Length('percent', value)
+export function pp(x: number, y: number) {
+  return new Position('percent', x, y)
 }
