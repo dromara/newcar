@@ -48,17 +48,23 @@ export class Milestone {
   }
 }
 
-let circle = new nc.Circle(100, {
-  x: 200,
-  y: 200
+const root = new nc.Widget({
+  pos: nc.pp(0.5, 0.5)
 })
+
+for (let x = 0; x <= 20000; x += 20) {
+  for (let y = 0; y <= 2000; y += 20) {
+    root.add(new nc.Circle(10, {
+      x,
+      y
+    })
+      .animate(nc.fadeIn().withAttr({ duration: 3 }))
+    )
+  }
+}
+
 export const defaultScene = new nc.Scene(
-  new nc.Circle(100, {
-    x: 200,
-    y: 200
-  }).animate(nc.useAnimate<nc.Circle, {}>(ctx => {
-    ctx.widget.pos.value = nc.pp(0.5, 0.5)
-  }).withAttr({ duration: 1 }))
+  root.animate(nc.rotate().withAttr({ to: 1000, duration: 3 }))
 )
 
 const left = document.querySelector('.left') as HTMLDivElement
@@ -89,3 +95,48 @@ milestone.add_scene(defaultScene)
 milestone.switch_to(0)
 
 milestone.app.play()
+
+// import CanvasKitInit, { Canvas } from 'canvaskit-wasm'
+
+// const ck = await CanvasKitInit({
+//   locateFile: (file) => './node_modules/canvaskit-wasm/bin/canvaskit.wasm'
+// })
+// const surface = ck.MakeWebGLCanvasSurface(document.getElementById('milestone') as HTMLCanvasElement)
+
+// const paint = new ck.Paint()
+// function update(canvas: Canvas) {
+//   for (let x = 0; x <= 2000; x += 20) {
+//     for (let y = 0; y <= 2000; y += 20) {
+//       const path = new ck.Path()
+//       path.arc(x, y, 10, 0, 360)
+//       canvas.drawPath(path, paint)
+//     }
+//   }
+//   canvas.rotate(10, 0, 0)
+//   surface.requestAnimationFrame(update)
+// }
+
+// surface.requestAnimationFrame(update)
+
+// const element = document.querySelector('#milestone') as HTMLCanvasElement
+// const ctx = element.getContext('2d')
+
+// let rotation = 0
+// function update() {
+//   ctx.save()
+//   for (let x = 0; x <= 20000; x += 20) {
+//     for (let y = 0; y <= 20000; y += 20) {
+//       ctx.beginPath()
+//       ctx.arc(x, y, 10, 0, 2 * Math.PI)
+//       ctx.stroke()
+//     }
+//   }
+//   rotation += 0.1
+//   ctx.rotate(rotation)
+//   // ctx.restore()
+//   requestAnimationFrame(update)
+//   ctx.clearRect(0, 0, element.width, element.height)
+//   ctx.restore()
+// }
+
+// requestAnimationFrame(update)
