@@ -1,4 +1,5 @@
 import type { CanvasKit } from 'canvaskit-wasm'
+import { isUndefined } from '@newcar/utils'
 import type { Widget } from './widget'
 import type { Ref } from './prop'
 import type { MaybeArray } from './utils'
@@ -77,7 +78,6 @@ export function useAnimate<T extends Widget, A>(anim: Animate<T, A>) {
   return depend<() => boolean, AnimateAttr<T, A>>((attrs) => {
     return () => {
       anim(attrs)
-
       return attrs.process >= 1
     }
   })
@@ -137,10 +137,10 @@ export function changeProperty<T extends Widget>(
     from?: MaybeArray<number>
     to: MaybeArray<number>
   }>((ctx) => {
-    const from = ctx.from ? normalize(ctx.from) : ctx.original
+    const from = !isUndefined(ctx.from) ? normalize(ctx.from) : ctx.original
+    const rto = normalize(ctx.to)
     for (const index in ctx.changed) {
-      const rto = normalize(ctx.to)
-      ctx.changed[index].value = rto[index] + ctx.process * (rto[index] - from[index])
+      ctx.changed[index].value = from[index] + ctx.process * (rto[index] - from[index])
     }
   })
     .with<{ original: number[], changed: Ref<number>[] }>((ctx) => {
@@ -159,7 +159,10 @@ export function parallel<T extends Widget>(...anims: Anim<T>[]) {
   return depend<() => boolean, AnimationContext<T>>((ctx) => {
     return () => {
       const res = anims.map(a => a.build(ctx)())
-      anims = res.filter(r => !r).map((_, i) => anims[i])
+      anims = res
+        .map((r, i) => [r, i])
+        .filter(([r, _]) => !r)
+        .map(([_, i]) => anims[i as any])
 
       return res.reduce((x, xs) => x || xs)
     }
@@ -169,11 +172,11 @@ export function parallel<T extends Widget>(...anims: Anim<T>[]) {
 export function sequence<T extends Widget>(...anims: Anim<T>[]) {
   return depend<() => boolean, AnimationContext<T>>((ctx) => {
     return () => {
-      if (anims.length === 0) {
-        return true
-      }
       if (anims[0].build(ctx)()) {
         anims.shift()
+        if (anims.length === 0) {
+          return true
+        }
       }
 
       return false
@@ -181,7 +184,7 @@ export function sequence<T extends Widget>(...anims: Anim<T>[]) {
   })
 }
 export function delay<T extends Widget>(duration: number) {
-  return useAnimate<T, unknown>((_) => {}).withAttr({ duration })
+  return useAnimate<T, unknown>((_) => { }).withAttr({ duration })
 }
 export function timeline<T extends Widget>(...lines: [
   number,

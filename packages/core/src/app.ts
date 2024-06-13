@@ -111,7 +111,12 @@ export class App {
         plugin.onUpdate(app, app.scene.elapsed)
     }
 
-    app.scene.root.update(app.scene.elapsed, app.ck, canvas)
+    app.scene.root.update(
+      app.scene.elapsed,
+      app.ck,
+      canvas,
+      app,
+    )
 
     if (app.config.unit === 'frame')
       app.scene.elapsed += 1

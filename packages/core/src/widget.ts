@@ -6,6 +6,7 @@ import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
 import type { AnimateFunction } from './apiAnimate'
 import type { ConvertToProp, Ref } from './prop'
+import type { App } from './app'
 import { ref } from './prop'
 
 export type WidgetRange = [number, number, number, number]
@@ -46,7 +47,7 @@ export class Widget {
     scaleX: ref(1),
     scaleY: ref(1),
     rotation: ref(0),
-    transparency: ref(1),
+    transparency: ref(0.5),
   } // The style of the widget.
 
   display = ref(true)
@@ -115,12 +116,11 @@ export class Widget {
    * Called when the style is changed.
    * @param canvas The canvas object of CanvasKit-WASM.
    */
-  update(elapsed: number, ck: CanvasKit, canvas: Canvas) {
+  update(elapsed: number, ck: CanvasKit, canvas: Canvas, app: App) {
     if (!this.initialized) {
       this.init(ck)
       this.initialized = true
     }
-
     this.runAnimation(elapsed, ck)
 
     canvas.save()
@@ -141,7 +141,7 @@ export class Widget {
       }
     }
     for (const child of this.children) {
-      child.update(elapsed, ck, canvas)
+      child.update(elapsed, ck, canvas, app)
     }
 
     canvas.restore()

@@ -1,4 +1,4 @@
-import { timeline, withHook } from '@newcar/core'
+import { delay, parallel, sequence, withHook } from '@newcar/core'
 import type { Figure } from '../../widgets'
 import { Circle } from '../../widgets'
 import { fadeIn, fadeOut, scale } from '../'
@@ -14,7 +14,7 @@ export function circleIndicate() {
       circle.show()
     },
 
-    before({ widget, duration, scale: scaleV }) {
+    before({ widget, duration, scale: scaleV, by }) {
       circle = new Circle(
         Math.sqrt(((widget.singleRange[2] - widget.singleRange[0]) / 2) ** 2
         + ((widget.singleRange[3] - widget.singleRange[1]) / 2) ** 2),
@@ -23,27 +23,37 @@ export function circleIndicate() {
             fill: false,
             border: true,
           },
-          x: (widget.singleRange[2] - widget.singleRange[0]) / 2,
-          y: (widget.singleRange[3] - widget.singleRange[1]) / 2,
+          x: 0,
+          y: 0,
         },
       )
-      circle.animate(fadeIn.withAttr({ duration: duration / 2 - duration / 6 }))
-      circle.animate(timeline(
-        [0, duration / 2 - duration / 6, fadeIn],
-        [duration / 2 + duration / 3, duration / 2 - duration / 6, fadeOut],
-      ))
-      if (scaleV) {
-        circle.animate(timeline(
-          [0, duration / 2 - duration / 6, scale.withAttr({
-            from: [scaleV, scaleV],
+      circle.animate(sequence(
+        parallel(
+          fadeIn().withAttr({
+            duration: duration / 2 - duration / 3,
+            by,
+          }),
+          scale().withAttr({
+            from: [scaleV ?? 1.5, scaleV ?? 1.5],
             to: [1, 1],
-          })],
-          [duration / 2 + duration / 3, duration / 2 - duration / 6, scale.withAttr({
-            to: [scaleV, scaleV],
-            by: p => 1 - p,
-          })],
-        ))
-      }
+            duration: duration / 2 - duration / 3,
+            by,
+          }),
+        ),
+        delay(2 / 3 * duration),
+        parallel(
+          fadeOut().withAttr({
+            duration: duration / 2 - duration / 3,
+            by,
+          }),
+          scale().withAttr({
+            to: [scaleV ?? 1.5, scaleV ?? 1.5],
+            from: [1, 1],
+            duration: duration / 2 - duration / 3,
+            by,
+          }),
+        ),
+      ))
       circle.hide()
       widget.add(circle)
     },

@@ -4,5 +4,7 @@ import { changeProperty } from '@newcar/core'
 /**
  * Thw widget fades in
  */
-export const fadeIn = changeProperty<Widget>(w => w.style.transparency)
-  .withAttr({ from: 0, to: 1 })
+export function fadeIn() {
+  return changeProperty<Widget>(w => w.style.transparency)
+    .withAttr({ from: 0, to: 1 })
+}

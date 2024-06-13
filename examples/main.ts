@@ -48,13 +48,12 @@ export class Milestone {
   }
 }
 
-
 export const defaultScene = new nc.Scene(
-  new nc.Text('Hello world!', {
-    x: 100,
-    y: 100,
+  new nc.Circle(100, {
+    x: 200,
+    y: 200
   })
-  .animate(nc.rippleOut().withAttr({ duration: 3 }))
+  .animate(nc.focusOn().withAttr({ duration: 0.3 }))
 )
 
 const left = document.querySelector('.left') as HTMLDivElement

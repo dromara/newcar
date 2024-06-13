@@ -20,7 +20,7 @@ export const rippleOut = () => {
           transparency: transparency ?? 0.3,
         },
       }).animate(sequence(
-        scale.withAttr({
+        scale().withAttr({
           from: [1, 1],
           to: [0, 0],
           by: by ?? ((x: number) => x),
@@ -39,7 +39,7 @@ export const rippleOut = () => {
             transparency: transparency ?? 0.3,
           },
         }).animate(sequence(
-          scale.withAttr({
+          scale().withAttr({
             from: [0, 0],
             to: [1, 1],
             by: by ?? ((x: number) => x),

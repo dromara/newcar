@@ -6,5 +6,7 @@ import { changeProperty } from '@newcar/core'
  */
 
 // TODO
-export const create = changeProperty(w => w.progress)
-  .withAttr({ from: 0, to: 1 })
+export function create() {
+  return changeProperty(w => w.progress)
+    .withAttr({ from: 0, to: 1 })
+}

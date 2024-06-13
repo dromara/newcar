@@ -4,9 +4,11 @@ import type { Figure } from '../../widgets/figure'
 /**
  * Change the color.
  */
-export const discolorate = changeProperty<Figure>(w => [
-  bind(w.style.fillColor, 'red'),
-  bind(w.style.fillColor, 'green'),
-  bind(w.style.fillColor, 'blue'),
-  bind(w.style.fillColor, 'alpha'),
-])
+export function discolorate() {
+  return changeProperty<Figure>(w => [
+    bind(w.style.fillColor, 'red'),
+    bind(w.style.fillColor, 'green'),
+    bind(w.style.fillColor, 'blue'),
+    bind(w.style.fillColor, 'alpha'),
+  ])
+}

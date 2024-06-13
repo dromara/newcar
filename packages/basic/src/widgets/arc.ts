@@ -1,4 +1,4 @@
-import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
+import type { CanvasKit, RRect } from 'canvaskit-wasm'
 import type { Ref } from '@newcar/core'
 import { changed, ref } from '@newcar/core'
 import type { FigureOptions } from './figure'
@@ -9,7 +9,7 @@ export interface ArcOptions extends PathOptions {
   style?: ArcStyle
 }
 
-export interface ArcStyle extends PathStyle {}
+export interface ArcStyle extends PathStyle { }
 
 /**
  * Represents an arc figure, a subclass of the Figure class.
@@ -42,33 +42,11 @@ export class Arc extends Path {
   init(ck: CanvasKit): void {
     super.init(ck)
 
-    this.rect = ck.LTRBRect(
-      -this.radius.value,
-      -this.radius.value,
-      this.radius.value,
-      this.radius.value,
-    )
-
-    this.path.addArc(this.rect, this.from, this.to)
+    this.path.arc(0, 0, this.radius.value, this.from, this.to)
 
     changed(this.radius, (radius) => {
-      this.rect.set([
-        -radius.value,
-        -radius.value,
-        radius.value,
-        radius.value,
-      ])
+      this.path.rewind()
+      this.path.arc(0, 0, radius.value, this.from, this.to)
     })
-  }
-
-  /**
-   * Draws the arc figure on the canvas.
-   * @param canvas The canvas to draw on.
-   */
-  draw(canvas: Canvas): void {
-    this.path.rewind()
-    this.path.addArc(this.rect, this.from, this.to * this.progress.value)
-
-    super.draw(canvas)
   }
 }
