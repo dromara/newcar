@@ -16,7 +16,7 @@ export type WidgetRange = [number, number, number, number]
 // export type WidgetInstance<T extends Widget> = T
 export type SetupFunction<T extends Widget> = (widget: T) => Generator<number | ReturnType<AnimateFunction<T>>, void, unknown>
 export type Layout = 'row' | 'column' | 'absolute' | 'mix'
-export type Status = 'live' | 'dead' | 'unborn'
+export type Status = 'live' | 'dead'
 
 export interface WidgetOptions {
   style?: WidgetStyle
@@ -66,7 +66,7 @@ export class Widget {
     .slice(2)}`
 
   parent: Widget | null
-  status: Status = 'unborn'
+  status: Status = 'live'
   initialized: boolean = false
 
   registeredEvents: Map<string, Event<Widget>> = new Map()
@@ -136,18 +136,18 @@ export class Widget {
     ck: CanvasKit,
     canvas: Canvas,
   ) {
-    if (!this.initialized) {
-      this.init(ck)
-      this.initialized = true
-    }
-    this.runAnimation(elapsed, ck)
-
-    canvas.save()
-
-    canvas.translate(this.x.value, this.y.value)
-    canvas.rotate(this.style.rotation.value, this.centerX.value, this.centerY.value)
-    canvas.scale(this.style.scaleX.value, this.style.scaleY.value)
     if (this.status === 'live') {
+      if (!this.initialized) {
+        this.init(ck)
+        this.initialized = true
+      }
+      this.runAnimation(elapsed, ck)
+
+      canvas.save()
+
+      canvas.translate(this.x.value, this.y.value)
+      canvas.rotate(this.style.rotation.value, this.centerX.value, this.centerY.value)
+      canvas.scale(this.style.scaleX.value, this.style.scaleY.value)
       for (const plugin of this.plugins) {
         if (plugin.beforeDraw)
           plugin.beforeDraw(this, canvas)
@@ -158,12 +158,12 @@ export class Widget {
         if (plugin.onDraw)
           plugin.onDraw(this, canvas)
       }
-    }
-    for (const child of this.children) {
-      child.update(elapsed, ck, canvas)
-    }
+      for (const child of this.children) {
+        child.update(elapsed, ck, canvas)
+      }
 
-    canvas.restore()
+      canvas.restore()
+    }
   }
 
   /**
@@ -176,7 +176,7 @@ export class Widget {
       if (typeof child === 'function')
         child = child(this)
       child.parent = this
-      child.status = 'live'
+      // child.status = 'live'
       this.children.push(child)
     }
     return this

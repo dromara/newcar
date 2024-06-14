@@ -1,4 +1,4 @@
-import type { CanvasKit, RRect } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
 import type { Ref } from '@newcar/core'
 import { changed, ref } from '@newcar/core'
 import type { FigureOptions } from './figure'
@@ -17,6 +17,8 @@ export interface ArcStyle extends PathStyle { }
 export class Arc extends Path {
   private rect: RRect
   radius: Ref<number>
+  from: Ref<number>
+  to: Ref<number>
 
   /**
    * Constructs a new Arc instance.
@@ -27,12 +29,14 @@ export class Arc extends Path {
    */
   constructor(
     radius: number,
-    public from: number,
-    public to: number,
+    from: number,
+    to: number,
     options?: FigureOptions,
   ) {
     super(options)
     this.radius = ref(radius)
+    this.from = ref(from)
+    this.to = ref(to)
   }
 
   /**
@@ -42,11 +46,29 @@ export class Arc extends Path {
   init(ck: CanvasKit): void {
     super.init(ck)
 
-    this.path.arc(0, 0, this.radius.value, this.from, this.to)
+    this.rect = ck.LTRBRect(
+      -this.radius.value,
+      -this.radius.value,
+      this.radius.value,
+      this.radius.value,
+    )
 
-    changed(this.radius, (radius) => {
-      this.path.rewind()
-      this.path.arc(0, 0, radius.value, this.from, this.to)
+    this.path.addArc(this.rect, this.from.value, this.to.value)
+
+    changed(this.radius, (_) => {
+      this.rect = ck.LTRBRect(
+        -this.radius.value,
+        -this.radius.value,
+        this.radius.value,
+        this.radius.value,
+      )
     })
+  }
+
+  draw(canvas: Canvas): void {
+    this.path.rewind()
+    this.path.addArc(this.rect, this.from.value, this.to.value * this.progress.value)
+
+    super.draw(canvas)
   }
 }

@@ -97,8 +97,9 @@ export class Text extends Figure {
 
   backgroundPaint: Paint
   textStyle: ckTextStyle
+  text: Ref<string>
 
-  constructor(public text: string, options?: TextOptions) {
+  constructor(text: string, options?: TextOptions) {
     options ??= {}
     super({
       ...options,
@@ -126,6 +127,7 @@ export class Text extends Figure {
     this.style.locale = ref(options.style.locale)
     this.style.textBaseline = ref(options.style.textBaseline ?? 'alphabetic')
     this.style.wordSpacing = ref(options.style.wordSpacing)
+    this.text = ref(text)
   }
 
   init(ck: CanvasKit): void {
@@ -135,7 +137,7 @@ export class Text extends Figure {
     this.backgroundPaint.setColor(this.style.backgroundColor.toFloat4())
 
     this.manager = ck.FontMgr.FromData(...[this.style.fontFamily, ...$source.fonts])
-    this.textStyle = new ck.TextStyle(
+    this.textStyle = reactive(new ck.TextStyle(
       {
         backgroundColor: this.style.backgroundColor.toFloat4(),
         color: this.style.color.toFloat4(),
@@ -151,9 +153,8 @@ export class Text extends Figure {
         wordSpacing: this.style.wordSpacing.value,
         decoration: this.style.decoration.value,
         decorationThickness: this.style.decorationThickness.value,
-
       },
-    )
+    ))
 
     this.builder = ck.ParagraphBuilder.Make(
       new ck.ParagraphStyle({
@@ -165,34 +166,52 @@ export class Text extends Figure {
       this.manager,
     )
     this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
-    this.builder.addText(this.text.toString())
+    this.builder.addText(this.text.value)
     this.paragraph = this.builder.build()
     this.paragraph.layout(this.width.value)
 
     const rebuildText = () => {
       this.builder.reset()
       this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
-      this.builder.addText(this.text.toString())
+      this.builder.addText(this.text.value)
       this.paragraph = this.builder.build()
       this.paragraph.layout(this.width.value)
+      this.textStyle = new ck.TextStyle(
+        {
+          backgroundColor: this.style.backgroundColor.toFloat4(),
+          color: this.style.color.toFloat4(),
+          decorationColor: this.style.decorationColor.toFloat4(),
+          foregroundColor: this.style.foregroundColor.toFloat4(),
+          textBaseline: str2TextBaseline(ck, this.style.textBaseline.value),
+          fontSize: this.style.fontSize.value,
+          fontStyle: this.style.fontStyle,
+          heightMultiplier: this.style.heightMultiplier.value,
+          halfLeading: this.style.halfLeading.value,
+          letterSpacing: this.style.letterSpacing.value,
+          locale: this.style.locale.value,
+          wordSpacing: this.style.wordSpacing.value,
+          decoration: this.style.decoration.value,
+          decorationThickness: this.style.decorationThickness.value,
+        },
+      )
     }
-    changed(this.style.offset, (_) => {
-      this.rebuildText()
-    })
-    changed(this.style.interval, (_) => {
-      this.rebuildText()
-    })
-
+    changed(this.style.offset, rebuildText)
+    changed(this.style.interval, rebuildText)
     changed(this.style.border, rebuildText)
     changed(this.width, rebuildText)
-  }
-
-  rebuildText() {
-    this.builder.reset()
-    this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
-    this.builder.addText(this.text.toString())
-    this.paragraph = this.builder.build()
-    this.paragraph.layout(this.width.value)
+    changed(this.style.backgroundColor, rebuildText)
+    changed(this.style.color, rebuildText)
+    changed(this.style.decorationColor, rebuildText)
+    changed(this.style.decorationThickness, rebuildText)
+    changed(this.style.fontFamily, rebuildText)
+    changed(this.style.fontSize, rebuildText)
+    changed(this.style.fontStyle, rebuildText)
+    changed(this.style.heightMultiplier, rebuildText)
+    changed(this.style.halfLeading, rebuildText)
+    changed(this.style.letterSpacing, rebuildText)
+    changed(this.style.locale, rebuildText)
+    changed(this.style.transparency, rebuildText)
+    changed(this.text, rebuildText)
   }
 
   draw(canvas: Canvas): void {

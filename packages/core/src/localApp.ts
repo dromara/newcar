@@ -1,6 +1,5 @@
 import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import type { Scene } from './scene'
-import { initial } from './initial'
 import type { Widget } from './widget'
 import type { GlobalPlugin } from './plugin'
 import { type Config, defineConfig } from './config'

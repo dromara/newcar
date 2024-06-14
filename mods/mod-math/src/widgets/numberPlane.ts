@@ -47,7 +47,7 @@ export class NumberPlane extends Widget {
   lengthX: Reactive<[number, number]>
   lengthY: Reactive<[number, number]>
 
-  constructor(lengthX: [number, number], lengthY: [number, number], options?: NumberPlaneOptions) {
+  constructor(lengthX: [number, number], lengthY: [number, number], public options?: NumberPlaneOptions) {
     options ??= {}
     options.style ??= {}
     super(options)
@@ -73,8 +73,8 @@ export class NumberPlane extends Widget {
     this.style.grid = ref(options.style?.grid ?? true)
     this.style.gridColor = reactive(options.style?.gridColor ?? Color.WHITE)
     this.style.gridWidth = ref(options.style?.gridWidth ?? 1)
-    this.axisX = new Arrow([this.lengthX[0], 0], [this.lengthX[1], 0], { style: { color: this.style.colorX } })
-    this.axisY = new Arrow([0, this.lengthY[1]], [0, this.lengthY[0]], { style: { color: this.style.colorY } })
+    this.axisX = new Arrow([this.lengthX[0], 0], [this.lengthX[1], 0], { style: { color: options.style.colorX } })
+    this.axisY = new Arrow([0, this.lengthY[1]], [0, this.lengthY[0]], { style: { color: options.style.colorY } })
 
     this.createTicksAndTexts()
 
@@ -96,7 +96,7 @@ export class NumberPlane extends Widget {
   private createTicksAndTexts() {
     for (let x = this.lengthX[0] + (this.lengthX[1] - this.lengthX[0]) % this.divisionX.value; x <= this.lengthX[1]; x += this.divisionX.value) {
       if (this.style.ticksX.value) {
-        this.ticksX.push(new Line([x, -5], [x, 5], { style: { color: this.style.tickColorX } }))
+        this.ticksX.push(new Line([x, -5], [x, 5], { style: { color: this.options.style.tickColorX } }))
       }
       if (x !== 0 && this.style.textsX.value) {
         this.textsX.push(new Text(this.trendX.value(x).toString(), {
@@ -104,7 +104,7 @@ export class NumberPlane extends Widget {
           y: 10,
           style: {
             fontSize: this.style.textSizeX.value,
-            fillColor: this.style.textColorX,
+            fillColor: this.options.style.textColorX,
             rotation: -this.style.rotation.value,
           },
         }))
@@ -112,7 +112,7 @@ export class NumberPlane extends Widget {
       if (this.style.grid.value) {
         this.grid.push(new Line([x, this.lengthY[0]], [x, this.lengthY[1]], {
           style: {
-            color: this.style.gridColor,
+            color: this.options.style.gridColor,
             width: this.style.gridWidth.value,
           },
           progress: this.progress.value,
@@ -122,7 +122,7 @@ export class NumberPlane extends Widget {
 
     for (let y = this.lengthY[0] + (this.lengthY[1] - this.lengthY[0]) % this.divisionY.value; y <= this.lengthY[1]; y += this.divisionY.value) {
       if (this.style.ticksY.value) {
-        this.ticksY.push(new Line([-5, y], [5, y], { style: { color: this.style.tickColorY } }))
+        this.ticksY.push(new Line([-5, y], [5, y], { style: { color: this.options.style.tickColorY } }))
       }
       if (y !== 0 && this.style.textsY.value) {
         this.textsY.push(new Text(this.trendY.value(y).toString(), {
@@ -138,7 +138,7 @@ export class NumberPlane extends Widget {
       if (this.style.grid.value) {
         this.grid.push(new Line([this.lengthX[0], y], [this.lengthX[1], y], {
           style: {
-            color: this.style.gridColor,
+            color: this.options.style.gridColor,
             width: this.style.gridWidth.value,
           },
           progress: this.progress.value,

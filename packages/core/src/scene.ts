@@ -14,7 +14,7 @@ export class Scene {
   root: RootWidget = new RootWidget()
 
   constructor(root: Widget) {
-    this.root.status = 'live'
+    // this.root.status = 'live'
     this.root.add(root)
   }
 }

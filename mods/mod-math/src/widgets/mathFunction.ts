@@ -27,10 +27,12 @@ export class MathFunction extends Widget {
   numberRange: Ref<Range>
   divisionX: Ref<number>
   divisionY: Ref<number>
+  fn: Ref<(x: number) => number>
+  domain: Ref<Domain>
 
   constructor(
-    public fn: (x: number) => number,
-    public domain: Domain,
+    fn: (x: number) => number,
+    domain: Domain,
     options?: MathFunctionOptions,
   ) {
     options ??= {}
@@ -39,6 +41,8 @@ export class MathFunction extends Widget {
       Number.NEGATIVE_INFINITY,
       Number.POSITIVE_INFINITY,
     ])
+    this.fn = ref(fn)
+    this.domain = ref(domain)
     this.divisionX = ref(options.divisionX ?? 50)
     this.divisionY = ref(options.divisionY ?? 50)
     options.style ??= {}
@@ -54,26 +58,26 @@ export class MathFunction extends Widget {
     this.paint.setStyle(ck.PaintStyle.Stroke)
     this.paint.setStrokeWidth((this.style.width.value! / this.divisionX.value) * 2)
     this.path = new ck.Path()
-    this.path.moveTo(this.domain[0], this.fn(this.domain[0]))
+    this.path.moveTo(this.domain.value[0], this.fn.value(this.domain.value[0]))
     for (
-      let x = this.domain[0];
-      x <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress.value;
+      let x = this.domain.value[0];
+      x <= this.domain.value[0] + (this.domain.value[1] - this.domain.value[0]) * this.progress.value;
       x += 1 / this.divisionX.value
     ) {
-      const value = this.fn(x)
+      const value = this.fn.value(x)
       this.path.lineTo(x, value)
     }
 
     function reset(this: MathFunction) {
       this.path.reset()
-      this.path.moveTo(this.domain[0], this.fn(this.domain[0]))
+      this.path.moveTo(this.domain.value[0], this.fn.value(this.domain.value[0]))
       for (
-        let x = this.domain[0];
+        let x = this.domain.value[0];
         x
-        <= this.domain[0] + (this.domain[1] - this.domain[0]) * this.progress.value;
+        <= this.domain.value[0] + (this.domain.value[1] - this.domain.value[0]) * this.progress.value;
         x += 1 / this.divisionX.value
       ) {
-        const value = this.fn(x)
+        const value = this.fn.value(x)
         this.path.lineTo(x, value)
       }
     }
@@ -83,6 +87,7 @@ export class MathFunction extends Widget {
     changed(this.numberRange, reset.bind(this))
     changed(this.divisionX, reset.bind(this))
     changed(this.divisionY, reset.bind(this))
+    changed(this.progress, reset.bind(this))
     changed(this.style.color, () => {
       this.paint.setColor(this.style.color!.toFloat4())
     })
