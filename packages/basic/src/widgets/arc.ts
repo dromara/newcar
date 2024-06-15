@@ -62,13 +62,8 @@ export class Arc extends Path {
         this.radius.value,
         this.radius.value,
       )
+      this.path.rewind()
+      this.path.addArc(this.rect, this.from.value, this.to.value * this.progress.value)
     })
-  }
-
-  draw(canvas: Canvas): void {
-    this.path.rewind()
-    this.path.addArc(this.rect, this.from.value, this.to.value * this.progress.value)
-
-    super.draw(canvas)
   }
 }

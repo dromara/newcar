@@ -4,7 +4,6 @@ import type { Anim } from './animation'
 import type { Event, EventInstance } from './event'
 import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
-import type { AnimateFunction } from './apiAnimate'
 import type { ConvertToProp, Reactive, Ref } from './prop'
 import type { App } from './app'
 import { changed, reactive, ref } from './prop'
@@ -14,7 +13,7 @@ import { RootWidget } from './scene'
 
 export type WidgetRange = [number, number, number, number]
 // export type WidgetInstance<T extends Widget> = T
-export type SetupFunction<T extends Widget> = (widget: T) => Generator<number | ReturnType<AnimateFunction<T>>, void, unknown>
+export type SetupFunction<T extends Widget> = (widget: T) => Generator<number | Anim<T>, void, number | Anim<T>>
 export type Layout = 'row' | 'column' | 'absolute' | 'mix'
 export type Status = 'live' | 'dead'
 
@@ -60,7 +59,7 @@ export class Widget {
   animationInstances: Anim<Widget>[] = []
   eventInstances: EventInstance<Widget>[] = []
   updates: (<T extends this>(elapsed: number, widget: T) => void)[] = []
-  setups: Array<{ generator: Generator<number | ReturnType<AnimateFunction<any>>, void, unknown>, nextFrame: number }> = []
+  setups: Array<{ generator: ReturnType<SetupFunction<Widget>>, nextFrame: number }> = []
   key = `widget-${0}-${performance.now()}-${Math.random()
     .toString(16)
     .slice(2)}`
@@ -142,6 +141,7 @@ export class Widget {
         this.initialized = true
       }
       this.runAnimation(elapsed, ck)
+      this.processSetups(elapsed, ck)
 
       canvas.save()
 
@@ -259,7 +259,7 @@ export class Widget {
 
   setup<T extends this>(setupFunc: SetupFunction<T>): this {
     const generator = setupFunc(this as T)
-    this.setups.push({ generator, nextFrame: 0 })
+    this.setups.push({ generator: generator as any, nextFrame: 0 })
     return this
   }
 
@@ -278,12 +278,33 @@ export class Widget {
   // compared with the processing of `sync` animation.
   // When entered next update process, `runAnimation` will run multiple async animations that overlapped on the timeline,
   // For example, if we have a `move` animation from 1 to 60, and a `scale` animation from 30 to 90, then they will be played at the same time from 30 to 90
-  processSetups(elapsed: number) {
-    // TODO: Rebuild
+  processSetups(elapsed: number, ck: CanvasKit) {
+    this.setups.forEach((setup) => {
+      if (elapsed >= setup.nextFrame) {
+        // advance the setup
+        const result = setup.generator.next()
+        if (!result.done) {
+          if (typeof result.value === 'number') {
+            // simply put a delay as long as the value here
+            setup.nextFrame = elapsed + result.value
+          }
+          else if (!isUndefined((result.value as Anim<Widget>).build)) {
+            // (result.value as Anim<Widget>).build({
+            //   elapsed, ck, widget: this
+            // })()
+            this.animationInstances.push(result.value as Anim<Widget>)
+          }
+        }
+        else {
+          // Marked done
+          setup.nextFrame = Number.POSITIVE_INFINITY
+        }
+      }
+    })
 
     // Clean up Generator that has finished.
     this.setups = this.setups.filter(setup => setup.nextFrame !== Number.POSITIVE_INFINITY)
-    this.children.forEach(child => child.processSetups(elapsed))
+    this.children.forEach(child => child.processSetups(elapsed, ck))
   }
 
   use(...plugins: WidgetPlugin[]) {

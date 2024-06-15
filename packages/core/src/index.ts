@@ -6,8 +6,6 @@ export * from './scene'
 export * from './widget'
 export * from './asyncWidget'
 export * from './global'
-
-export * from './apiAnimate'
 export * from './apiUseFont'
 export * from './apiUseImage'
 
