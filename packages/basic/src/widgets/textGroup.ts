@@ -188,7 +188,7 @@ export class TextGroup extends Figure {
 
       paint.setColor(style.color)
       this.builder.pushPaintStyle(style, paint, bg)
-      this.builder.addText(text.text)
+      this.builder.addText(text.text.value)
       // TODO: Stroke and Fill
     }
 

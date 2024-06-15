@@ -27,13 +27,8 @@ export class Polygon extends Path {
     this.path.addPoly(this.points.flat(), true)
 
     changed(this.points, (points) => {
-      this.path.moveTo(0, 0)
-      for (const [index, point] of points.entries()) {
-        if (index === 0)
-          this.path.moveTo(...point)
-        else this.path.lineTo(...point)
-      }
-      this.path.close()
+      this.path.rewind()
+      this.path.addPoly(points.flat(), true)
     })
   }
 }

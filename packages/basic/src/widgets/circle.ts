@@ -3,7 +3,7 @@ import { Arc } from './arc'
 
 export class Circle extends Arc {
   /**
-   * Create a cirle
+   * Create a circle
    * extend from Arc
    * @param radius
    * @param options
