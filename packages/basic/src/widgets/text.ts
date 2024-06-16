@@ -165,14 +165,14 @@ export class Text extends Figure {
       }),
       this.manager,
     )
-    this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
+    this.builder.pushPaintStyle(this.textStyle, this.style.border.value ? this.strokePaint : this.fillPaint, this.backgroundPaint)
     this.builder.addText(this.text.value)
     this.paragraph = this.builder.build()
     this.paragraph.layout(this.width.value)
 
     const rebuildText = () => {
       this.builder.reset()
-      this.builder.pushPaintStyle(this.textStyle, this.style.border ? this.strokePaint : this.fillPaint, this.backgroundPaint)
+      this.builder.pushPaintStyle(this.textStyle, this.style.border.value ? this.strokePaint : this.fillPaint, this.backgroundPaint)
       this.builder.addText(this.text.value)
       this.paragraph = this.builder.build()
       this.paragraph.layout(this.width.value)

@@ -65,5 +65,13 @@ export class Arc extends Path {
       this.path.rewind()
       this.path.addArc(this.rect, this.from.value, this.to.value * this.progress.value)
     })
+    changed(this.from, (_) => {
+      this.path.rewind()
+      this.path.addArc(this.rect, this.from.value, this.to.value * this.progress.value)
+    })
+    changed(this.to, (_) => {
+      this.path.rewind()
+      this.path.addArc(this.rect, this.from.value, this.to.value * this.progress.value)
+    })
   }
 }

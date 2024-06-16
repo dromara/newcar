@@ -1,5 +1,6 @@
 import * as nc from 'newcar'
 import * as mt from '@newcar/mod-math'
+import * as gm from '@newcar/mod-geometry'
 
 // await nc.useFont('../Roboto-Regular.ttf')
 
@@ -155,12 +156,14 @@ import * as mt from '@newcar/mod-math'
 //     )
 // )
 
+await nc.useFont('./Roboto-Regular.ttf')
+
 export default nc.createScene(
-  new nc.Rect(500, 500)
-  .setup(function *() {
-    // yield 1
-    yield nc.move().withAttr({ duration: 1, to: [1000, 1000] })
+  new gm.Angle(0, 80, {
+    x: 100,
+    y: 100
   })
-  .animate(nc.delay(1))
-  
+  .animate(
+    nc.changeProperty<gm.Angle>(w => w.to).withAttr({ duration: 1, to: 30 })
+  )
 )
