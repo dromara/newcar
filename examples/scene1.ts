@@ -159,11 +159,8 @@ import * as gm from '@newcar/mod-geometry'
 await nc.useFont('./Roboto-Regular.ttf')
 
 export default nc.createScene(
-  new gm.Angle(0, 80, {
-    x: 100,
-    y: 100
+  new mt.PolarPlane(200, {
+    x: 300,
+    y: 300
   })
-  .animate(
-    nc.changeProperty<gm.Angle>(w => w.to).withAttr({ duration: 1, to: 30 })
-  )
 )
