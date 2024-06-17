@@ -126,8 +126,16 @@ export class NumberAxis extends Widget {
     })
     changed(this.style.ticks, (v) => {
       if (v.value) {
-        for (const tick of this.ticks)
-          tick.show()
+        for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division; x <= this.length[1]; x += this.division) {
+          this.ticks.push(
+            new Line([x, -5], [x, 5], {
+              style: {
+                color: this.style.tickColor,
+              },
+              progress: this.progress.value,
+            }),
+          )
+        }
       }
       else {
         for (const tick of this.ticks)
@@ -136,8 +144,18 @@ export class NumberAxis extends Widget {
     })
     changed(this.style.texts, (v) => {
       if (v.value) {
-        for (const text of this.texts)
-          text.show()
+        for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division; x <= this.length[1]; x += this.division) {
+          this.texts.push(new Text(this.trend(x).toString(), {
+            x: x - (this.style.textSize.value / 2),
+            y: 10,
+            style: {
+              fontSize: this.style.textSize.value,
+              fillColor: this.style.textColor,
+              // Note: the rotation is reversed because the canvas is flipped
+              rotation: -this.style.rotation.value,
+            },
+          }))
+        }
       }
       else {
         for (const text of this.texts)
