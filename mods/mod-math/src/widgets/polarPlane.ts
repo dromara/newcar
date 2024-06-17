@@ -84,8 +84,8 @@ export class PolarPlane extends Widget {
       if (this.style.textsOnCircle) {
         this.textsOnCircle.push(
           new Text(`${(i / 180).toFixed(2)}π`, {
-            x: this.radius.value * Math.sin(i * Math.PI / 180),
-            y: this.radius.value * Math.cos(i * Math.PI / 180),
+            x: this.radius.value * Math.cos(i * Math.PI / 180),
+            y: this.radius.value * Math.sin(i * Math.PI / 180),
             style: {
               fontSize: this.style.textSize.value,
             },
