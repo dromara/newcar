@@ -112,14 +112,14 @@ export class Arrow extends Figure {
       this.radian.value = calculateArrowRotationAngle(from, this.to)
 
       this.tip.style.rotation = this.radian
-      this.trim.from = from
+      this.trim.from.value = from
     })
 
     changed(this.to, (to) => {
       this.radian.value = calculateArrowRotationAngle(this.from, to)
 
       this.tip.style.rotation = this.radian
-      this.trim.to = to
+      this.trim.to.value = to
     })
 
     changed(this.progress, (progress) => {
