@@ -18,8 +18,8 @@
   ],
   "scripts": {
     "publish": "npm publish",
-    "build": "pkgroll --sourcemap --minify",
-    "dev": "pkgroll -w"
+    "build": "tsup",
+    "dev": "tsup --watch"
   },
   "publishConfig": {
     "access": "public"

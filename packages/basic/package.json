@@ -18,8 +18,8 @@
   ],
   "scripts": {
     "publish": "npm publish",
-    "build": "pkgroll --sourcemap",
-    "dev": "pkgroll -w"
+    "build": "tsup",
+    "dev": "tsup --watch"
   },
   "peerDependencies": {
     "canvaskit-wasm": ">=0.39.1"

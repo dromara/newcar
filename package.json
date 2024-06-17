@@ -25,13 +25,15 @@
     "dep:write": "taze -rw",
     "prepare": "simple-git-hooks"
   },
+  "dependencies": {
+    "tsup": "^8.1.0"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^2.16.1",
     "@changesets/cli": "^2.27.1",
     "@types/node": "^20.12.9",
     "eslint": "^9.2.0",
     "lint-staged": "^15.2.2",
-    "pkgroll": "^2.0.2",
     "pnpm": "^9.1.0",
     "rimraf": "^3.0.2",
     "simple-git-hooks": "^2.11.1",

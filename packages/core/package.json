@@ -21,8 +21,8 @@
   ],
   "scripts": {
     "publish": "npm publish",
-    "build": "pkgroll --sourcemap",
-    "dev": "pkgroll -w",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "test": "vitest"
   },
   "peerDependencies": {
