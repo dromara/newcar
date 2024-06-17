@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@newcar/mod-chart": "workspace:*",
-    "@newcar/mod-geometry": "workspace:1.0.0",
-    "@newcar/mod-markdown": "workspace:1.0.0",
+    "@newcar/mod-geometry": "workspace:*",
+    "@newcar/mod-markdown": "workspace:*",
     "@newcar/mod-math": "workspace:*",
     "@newcar/plugin-debug": "workspace:*",
     "@types/luxon": "^3.4.2",

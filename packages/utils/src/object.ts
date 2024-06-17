@@ -1,4 +1,4 @@
-import { deepEqual, isObject, isPrimitiveOrArray } from './index'
+import { deepEqual, isObject, isPrimitiveOrArray } from './judgements'
 
 export function deepClone(obj: object, map = new WeakMap()) {
   if (typeof obj !== 'object' || obj === null)

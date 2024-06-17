@@ -119,10 +119,10 @@ importers:
         specifier: workspace:*
         version: link:../mods/mod-chart
       '@newcar/mod-geometry':
-        specifier: workspace:1.0.0
+        specifier: workspace:*
         version: link:../mods/mod-geometry
       '@newcar/mod-markdown':
-        specifier: workspace:1.0.0
+        specifier: workspace:*
         version: link:../mods/mod-markdown
       '@newcar/mod-math':
         specifier: workspace:*
