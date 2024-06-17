@@ -1,5 +1,6 @@
 import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
 import type { WidgetRange } from '@newcar/core'
+import { type PathOp, str2PathOp } from '@newcar/utils'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
 
@@ -33,7 +34,7 @@ export class Path extends Figure {
           break
         }
         case 1: {
-          this.path.addPath(ck.Path.MakeFromOp(<ckPath> args[0], args[1], args[2]))
+          this.path.addPath(ck.Path.MakeFromOp(<ckPath> args[0], args[1], str2PathOp(ck, args[2])))
           break
         }
         case 2: {
@@ -50,7 +51,7 @@ export class Path extends Figure {
     return this
   }
 
-  addPathFromOptions(one: ckPath, two: ckPath, options: any) {
+  addPathFromOptions(one: ckPath, two: ckPath, options: PathOp) {
     this.pathData.push([1, one, two, options])
 
     return this
