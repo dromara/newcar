@@ -14,11 +14,11 @@ export default defineConfig({
       link: '/',
       ...enConfig,
     },
-    zh: {
-      label: '中文(简体)',
-      link: '/zh',
-      ...zhConfig,
-    },
+    // zh: {
+    //   label: '中文(简体)',
+    //   link: '/zh',
+    //   ...zhConfig,
+    // },
   },
 
   vite,

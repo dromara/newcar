@@ -33,3 +33,19 @@ Color name string parsing supports all color names supported by CSS.
 ```javascript
 Color.rgba(255, 255, 255, 0.5)
 ```
+
+## Transform
+
+You can transform the `Color` object as a variety of forms.
+
+### `toString()`
+
+You can use this function to transform a `Color` into css color string.
+
+### `toFloat4()`
+
+You can use this function to transform a `Color` into Skia color.
+
+## More
+
+You can visit [https://apis.newcarjs.org/classes/newcar.color](https://apis.newcarjs.org/classes/newcar.color) to get more API.
