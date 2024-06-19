@@ -129,6 +129,8 @@ export interface GlobalPlugin {
    * @param {number} elapsed - The elapsed time since the last update.
    */
   onUpdate?: (app: App | LocalApp, elapsed: number) => void
+
+  onPlay?: (app: App | LocalApp) => void
 }
 
 /**

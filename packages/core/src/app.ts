@@ -152,6 +152,8 @@ export class App {
     this.surface.requestAnimationFrame((canvas: Canvas) => {
       App.update(this, canvas)
     })
+    for (const plugin of this.plugins)
+      plugin.onPlay(this)
 
     return this
   }

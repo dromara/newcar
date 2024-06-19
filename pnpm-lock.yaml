@@ -131,6 +131,9 @@ importers:
       '@newcar/plugin-debug':
         specifier: workspace:*
         version: link:../plugins/plugin-debug
+      '@newcar/plugin-timeview':
+        specifier: workspace:*
+        version: link:../plugins/plugin-timeview
       '@types/luxon':
         specifier: ^3.4.2
         version: 3.4.2
@@ -348,6 +351,22 @@ importers:
         version: 2.0.21(typescript@5.4.5)
 
   plugins/plugin-debug:
+    dependencies:
+      '@newcar/basic':
+        specifier: workspace:*
+        version: link:../../packages/basic
+      '@newcar/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@newcar/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+    devDependencies:
+      canvaskit-wasm:
+        specifier: 0.39.1
+        version: 0.39.1
+
+  plugins/plugin-timeview:
     dependencies:
       '@newcar/basic':
         specifier: workspace:*

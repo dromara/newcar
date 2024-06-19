@@ -1,5 +1,6 @@
 {
   "name": "@newcar/core",
+  "type": "module",
   "version": "2.0.0-alpha.0",
   "description": "The core of newcar.",
   "author": "BugDuck Team",
@@ -11,7 +12,7 @@
     ".": {
       "dev": "./src/index.ts",
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },

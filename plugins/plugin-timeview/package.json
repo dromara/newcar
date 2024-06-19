@@ -1,6 +1,5 @@
 {
-  "name": "@newcar/mod-math",
-  "type": "module",
+  "name": "@newcar/plugin-timeview",
   "version": "2.0.0-alpha.0",
   "description": "",
   "author": "BugDuck Team",
@@ -9,7 +8,7 @@
     ".": {
       "dev": "./src/index.ts",
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     }
   },
@@ -28,10 +27,7 @@
   "dependencies": {
     "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
-    "@newcar/utils": "workspace:*",
-    "gl-matrix": "^3.4.3",
-    "svg-path": "^0.2.1",
-    "tex-to-svg": "^0.2.0"
+    "@newcar/utils": "workspace:*"
   },
   "devDependencies": {
     "canvaskit-wasm": "0.39.1"

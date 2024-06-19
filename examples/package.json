@@ -8,6 +8,7 @@
     "@newcar/mod-markdown": "workspace:*",
     "@newcar/mod-math": "workspace:*",
     "@newcar/plugin-debug": "workspace:*",
+    "@newcar/plugin-timeview": "workspace:*",
     "@types/luxon": "^3.4.2",
     "canvaskit-wasm": "0.39.1",
     "luxon": "^3.4.4",
