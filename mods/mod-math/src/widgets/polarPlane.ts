@@ -125,5 +125,16 @@ export class PolarPlane extends Widget {
         )
       }
     })
+
+    changed(this.progress, (v) => {
+      this.axisR.forEach((i) => {
+        i.progress.value = v.value
+      })
+      this.axisX.progress.value = v.value
+      this.axisY.progress.value = v.value
+      this.circles.forEach((c) => {
+        c.progress.value = v.value
+      })
+    })
   }
 }
