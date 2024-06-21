@@ -10,8 +10,6 @@ import { type Config, defineConfig } from './config'
 export class LocalApp {
   scene: Scene
   surface: Surface
-  private playing = false
-  private last: Widget
   updates: ((elapsed: number) => void)[] = []
   canvas: Canvas
   config: Config
@@ -46,16 +44,12 @@ export class LocalApp {
     for (const plugin of this.plugins) plugin.beforeCheckout(this, scene)
 
     this.scene = scene
-    this.last = this.scene.root
     for (const plugin of this.plugins) plugin.onCheckout(this, this.scene)
 
     return this
   }
 
   static update(app: LocalApp): void {
-    if (!app.playing)
-      return
-
     for (const plugin of app.plugins) {
       if (plugin.beforeUpdate)
         plugin.beforeUpdate(app, app.scene.elapsed)

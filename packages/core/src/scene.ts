@@ -19,6 +19,6 @@ export class Scene {
   }
 }
 
-export function createScene(root: Widget) {
+export function createScene<T extends Widget>(root: T) {
   return new Scene(root)
 }

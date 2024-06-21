@@ -39,7 +39,7 @@ export interface WidgetStyle {
   margin?: [number, number, number, number] | [number, number] | number
 }
 
-export class Widget {
+export abstract class Widget {
   plugins: WidgetPlugin[] = []
   pos: Ref<Position>
   x: Ref<number> // The vector x of the widget.
@@ -170,7 +170,7 @@ export class Widget {
    * Add children widgets for the widget.
    * @param children The added children.
    */
-  add(...children: Widget[] | ((parent: Widget) => Widget)[]): this {
+  add(...children: (Widget | ((parent: Widget) => Widget))[]): this {
     // let index = 0
     for (let child of children) {
       if (typeof child === 'function')
@@ -257,8 +257,8 @@ export class Widget {
     return this
   }
 
-  setup<T extends this>(setupFunc: SetupFunction<T>): this {
-    const generator = setupFunc(this as T)
+  setup(setupFunc: SetupFunction<this>): this {
+    const generator = setupFunc(this)
     this.setups.push({ generator: generator as any, nextFrame: 0 })
     return this
   }

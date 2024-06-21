@@ -36,27 +36,34 @@ async function resolveApp(path: string): Promise<App> {
   return app.default
 }
 
-async function exportFile(path: string, files: string[], fps: number) {
-  for (let i = 0; i < files.length; i++) {
-    await new Promise((resolve, reject) => {
-      ffmpeg()
-        .on('error', (err: Error) => {
-          console.error(`An error occurred: ${err.message}`)
-          reject(err)
-        })
-        .input(files[i])
-        .inputFPS(fps)
-        .output(path)
-        .outputFPS(30)
-        .addInput(resolve(`./temp_image_${i}.png`))
-        .addOption('-vf', `fps=${fps}`)
-        .on('end', () => {
-          console.log(`Frame ${i + 1} processed.`)
-          fs.unlinkSync(files[i])
-          resolve(null)
-        })
-        .run()
-    })
+async function exportFile(outputPath: string, inputFiles: string[], fps: number) {
+  // Create an array to store the promises returned by the FFmpeg process
+  const promises = []
+
+  // Iterate over the input files and push the FFmpeg promises to the array
+  for (let i = 0; i < inputFiles.length; i++) {
+    promises.push(
+      new Promise((resolve, reject) => {
+        ffmpeg(inputFiles[i])
+          .on('error', (err: Error) => {
+            console.error(`An error occurred: ${err.message}`)
+            reject(err)
+          })
+          .inputFPS(fps)
+          .output(outputPath) // Use the outputPath here
+          .outputFPS(fps)
+          .on('end', () => {
+            console.log(`Frame ${i + 1} processed.`)
+            fs.unlinkSync(inputFiles[i]) // Remove the original file
+            resolve(null)
+          })
+          .run()
+      }),
+    )
   }
+
+  // Wait for all FFmpeg processes to finish
+  await Promise.all(promises)
+
   console.log('Processing finished!')
 }

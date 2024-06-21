@@ -159,8 +159,8 @@ import * as gm from '@newcar/mod-geometry'
 await nc.useFont('./Roboto-Regular.ttf')
 
 export default nc.createScene(
-  new mt.PolarPlane(200, {
+  new mt.NumberAxis([-500, 500], {
     x: 300,
-    y: 300
-  }).animate(nc.create().withAttr({ duration: 1 }))
+    y: 200
+  })  
 )
