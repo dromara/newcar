@@ -162,5 +162,8 @@ export default nc.createScene(
   new mt.PolarPlane(200, {
     x: 300,
     y: 300
-  }).animate(nc.create().withAttr({ duration: 1 }))
+  })
+    .setup(function* (widget) {
+      yield 3
+    })
 )

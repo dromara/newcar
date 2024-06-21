@@ -39,7 +39,7 @@ export interface WidgetStyle {
   margin?: [number, number, number, number] | [number, number] | number
 }
 
-export class Widget {
+export abstract class Widget {
   plugins: WidgetPlugin[] = []
   pos: Ref<Position>
   x: Ref<number> // The vector x of the widget.
@@ -257,8 +257,8 @@ export class Widget {
     return this
   }
 
-  setup<T extends this>(setupFunc: SetupFunction<T>): this {
-    const generator = setupFunc(this as T)
+  setup(setupFunc: SetupFunction<this>): this {
+    const generator = setupFunc(this)
     this.setups.push({ generator: generator as any, nextFrame: 0 })
     return this
   }
