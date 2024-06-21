@@ -1,5 +1,5 @@
 import { Arrow, Line, Text } from '@newcar/basic'
-import type { ConvertToProp, Reactive, WidgetOptions, WidgetStyle } from '@newcar/core'
+import type { ConvertToProp, Reactive, Ref, WidgetOptions, WidgetStyle } from '@newcar/core'
 import { Widget, changed, reactive, ref } from '@newcar/core'
 import { Color } from '@newcar/utils'
 import type { CanvasKit } from 'canvaskit-wasm'
@@ -42,8 +42,8 @@ export interface NumberAxisStyle extends WidgetStyle {
 }
 
 export class NumberAxis extends Widget {
-  division: number
-  trend: Trend
+  division: Ref<number>
+  trend: Ref<Trend>
   declare style: ConvertToProp<NumberAxisStyle>
   ticks: Line[]
   texts: Text[]
@@ -57,8 +57,8 @@ export class NumberAxis extends Widget {
     options ??= {}
     super(options)
     this.length = reactive(length)
-    this.division = options.division ?? 50
-    this.trend = options.trend ?? (x => x / 50)
+    this.division = ref(options.division ?? 50)
+    this.trend = ref(options.trend ?? (x => x / 50))
     this.style ??= {}
     this.style.ticks = ref(options.style.ticks ?? true)
     this.style.tickColor = reactive(options.style.tickColor ?? Color.WHITE)
@@ -74,7 +74,7 @@ export class NumberAxis extends Widget {
     })
     this.ticks = []
     this.texts = []
-    for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division; x <= this.length[1]; x += this.division) {
+    for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division.value; x <= this.length[1]; x += this.division.value) {
       if (this.style.ticks) {
         this.ticks.push(
           new Line([x, -5], [x, 5], {
@@ -86,7 +86,7 @@ export class NumberAxis extends Widget {
         )
       }
       if (this.style.texts) {
-        this.texts.push(new Text(this.trend(x).toString(), {
+        this.texts.push(new Text(this.trend.value(x).toString(), {
           x: x - (this.style.textSize.value / 2),
           y: 10,
           style: {
@@ -126,7 +126,7 @@ export class NumberAxis extends Widget {
     })
     changed(this.style.ticks, (v) => {
       if (v.value) {
-        for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division; x <= this.length[1]; x += this.division) {
+        for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division.value; x <= this.length[1]; x += this.division.value) {
           this.ticks.push(
             new Line([x, -5], [x, 5], {
               style: {
@@ -144,8 +144,8 @@ export class NumberAxis extends Widget {
     })
     changed(this.style.texts, (v) => {
       if (v.value) {
-        for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division; x <= this.length[1]; x += this.division) {
-          this.texts.push(new Text(this.trend(x).toString(), {
+        for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division.value; x <= this.length[1]; x += this.division.value) {
+          this.texts.push(new Text(this.trend.value(x).toString(), {
             x: x - (this.style.textSize.value / 2),
             y: 10,
             style: {
@@ -166,9 +166,9 @@ export class NumberAxis extends Widget {
     function reset(this: NumberAxis) {
       this.texts = []
       this.ticks = []
-      for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division; x <= this.length[1]; x += this.division) {
+      for (let x = this.length[0] + (this.length[1] - this.length[0]) % this.division.value; x <= this.length[1]; x += this.division.value) {
         if (this.style.texts) {
-          this.texts.push(new Text(this.trend(x).toString(), {
+          this.texts.push(new Text(this.trend.value(x).toString(), {
             x: x - (this.style.textSize.value / 2),
             y: 10,
             style: {

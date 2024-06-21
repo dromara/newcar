@@ -170,7 +170,7 @@ export abstract class Widget {
    * Add children widgets for the widget.
    * @param children The added children.
    */
-  add(...children: Widget[] | ((parent: Widget) => Widget)[]): this {
+  add(...children: (Widget | ((parent: Widget) => Widget))[]): this {
     // let index = 0
     for (let child of children) {
       if (typeof child === 'function')

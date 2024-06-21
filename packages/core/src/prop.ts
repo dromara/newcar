@@ -9,10 +9,12 @@ export type Listener<T> = (newValue: Reactive<T>) => void
 
 export const REACTIVE_TAG = Symbol('reactive')
 function _reactive<T>(value: T, listener?: Listener<T>, reactType: number = 1) {
-  if (typeof value !== 'object')
-    return
   if (value === undefined)
     return
+  if (typeof value !== 'object')
+    return
+  if (REACTIVE_TAG in (value as any))
+    return value
   const postListeners: Listener<T>[] = listener ? [listener] : []
   const preListeners: Listener<T>[] = []
 
