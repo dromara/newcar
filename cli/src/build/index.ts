@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import fs from 'node:fs'
 import { Buffer } from 'node:buffer'
-import { resolve } from 'node:path'
+import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 // @ts-expect-error fluent-ffmpeg is not typed
@@ -22,48 +22,39 @@ export default async function build(input: string, duration: string | number, ta
   const tempFiles = imagesArray.map((content: Uint8Array | null, index) => {
     const fileName = `temp_image_${index}.png`
     if (content)
-      fs.writeFileSync(resolve(fileName), Buffer.from(content))
+      fs.writeFileSync(path.resolve(fileName), Buffer.from(content))
     return fileName
   })
 
-  exportFile(resolve(output), tempFiles, fps)
+  exportFile(path.resolve(output), tempFiles, fps)
 }
 
-async function resolveApp(path: string): Promise<App> {
-  const app = (await import(pathToFileURL(resolve(path)).href)) as {
+async function resolveApp(_path: string): Promise<App> {
+  const app = (await import(pathToFileURL(path.resolve(_path)).href)) as {
     default: App
   }
   return app.default
 }
 
 async function exportFile(outputPath: string, inputFiles: string[], fps: number) {
-  // Create an array to store the promises returned by the FFmpeg process
-  const promises = []
-
-  // Iterate over the input files and push the FFmpeg promises to the array
-  for (let i = 0; i < inputFiles.length; i++) {
-    promises.push(
-      new Promise((resolve, reject) => {
-        ffmpeg(inputFiles[i])
-          .on('error', (err: Error) => {
-            console.error(`An error occurred: ${err.message}`)
-            reject(err)
-          })
-          .inputFPS(fps)
-          .output(outputPath) // Use the outputPath here
-          .outputFPS(fps)
-          .on('end', () => {
-            console.log(`Frame ${i + 1} processed.`)
-            fs.unlinkSync(inputFiles[i]) // Remove the original file
-            resolve(null)
-          })
-          .run()
-      }),
-    )
-  }
-
-  // Wait for all FFmpeg processes to finish
-  await Promise.all(promises)
+  await new Promise((resolve, reject) => {
+    ffmpeg(path.join(path.dirname(inputFiles[0]), '/temp_image_%d.png'))
+      .on('error', (err: Error) => {
+        console.error(`An error occurred: ${err.message}`)
+        reject(err)
+      })
+      .inputFPS(fps)
+      .output(outputPath) // Use the outputPath here
+      .outputFPS(fps)
+      .on('end', () => {
+        console.log(`Video generated.`)
+        for (const file of inputFiles) {
+          fs.unlinkSync(file)
+        }
+        resolve(null)
+      })
+      .run()
+  })
 
   console.log('Processing finished!')
 }
