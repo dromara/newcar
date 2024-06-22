@@ -117,13 +117,18 @@ export function normalize(obj: any) {
   const keys = Object.keys(obj)
 
   for (const key of keys) {
-    if (getReactiveTag(obj[key]) === 2) {
+    if (typeof obj[key] !== 'object') {
+      normalized[key] = obj[key]
+    }
+    else if (getReactiveTag(obj[key]) === 2) {
       normalized[key] = obj[key].value
     }
     else {
       normalized[key] = obj[key]
     }
   }
+
+  return normalized
 }
 
 export function bind<T, K extends keyof T>(r: Reactive<T>, k: K): Ref<T[K]> {
