@@ -170,11 +170,9 @@ export abstract class Widget {
    * Add children widgets for the widget.
    * @param children The added children.
    */
-  add(...children: (Widget | ((parent: Widget) => Widget))[]): this {
+  add(...children: any[]): this {
     // let index = 0
-    for (let child of children) {
-      if (typeof child === 'function')
-        child = child(this)
+    for (const child of children) {
       child.parent = this
       // child.status = 'live'
       this.children.push(child)
@@ -257,7 +255,7 @@ export abstract class Widget {
     return this
   }
 
-  setup(setupFunc: SetupFunction<this>): this {
+  setup(setupFunc: SetupFunction<typeof this>): this {
     const generator = setupFunc(this)
     this.setups.push({ generator: generator as any, nextFrame: 0 })
     return this
