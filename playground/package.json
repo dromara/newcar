@@ -15,7 +15,7 @@
     "font-awesome": "^4.7.0",
     "lucide-vue-next": "^0.396.0",
     "monaco-editor": "^0.48.0",
-    "newcar": "alpha",
+    "newcar": "workspace:*",
     "radix-vue": "^1.8.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",

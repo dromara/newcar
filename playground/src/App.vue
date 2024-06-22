@@ -1,155 +1,114 @@
-<!-- eslint-disable no-eval -->
-<!-- eslint-disable no-new -->
 <script setup lang="ts">
+import { Download, Settings, Share2 } from 'lucide-vue-next'
+import { onMounted, ref } from 'vue'
 import * as monaco from 'monaco-editor'
-import type { Ref } from 'vue'
-import { onMounted, ref, watch } from 'vue'
-import * as nc from 'newcar'
-import writeText from 'clipboard-copy'
+import { cn } from './lib/utils'
+import { Button } from './components/ui/button'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from './components/ui/popover'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from './components/ui/command'
+import SettingDash from './components/SettingDash.vue'
+
+const versions = [
+  { value: 'latest', label: 'Latest' },
+]
+
+const open = ref(false)
+const value = ref('latest')
+
+const editorElement = ref<HTMLDivElement>()
+
+const codes
+  = `import { CarEngine, createScene, Circle } from 'newcar'
+`
 
 const width = ref(window.innerWidth / 2)
 const height = ref(width.value / 16 * 9)
 
-const isPause = ref(true)
-
-const settingsIsDisplay = ref(false)
-
-const paramsStr = window.location.search
-const params = new URLSearchParams(paramsStr)
-const codes = params.get('codes')
-
-const canvaskit = defineModel()
-canvaskit.value = 'https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm'
-const canvaskitFileIsChanged = ref(false)
-
-const errorMessage = ref('')
-
-const code = ref(
-`const root = new nc.Circle(100).animate(nc.move, 0, 30, {
-  to: [200, 300]
-})
-const scene = new nc.Scene(root)
-app.checkout(scene)
-return app
-`,
-)
-const defaultCodes
-= codes ?? code.value
-
-const canvas: Ref<HTMLCanvasElement | null> = ref(null)
-const share: Ref<HTMLElement | null> = ref(null)
-
-onMounted(async () => {
-  const editor = monaco.editor.create(document.getElementById('editor')!, {
-    value: defaultCodes,
+onMounted(() => {
+  const _editor = monaco.editor.create(editorElement.value, {
+    value: codes,
     language: 'javascript',
     automaticLayout: true,
-    theme: 'vs-dark',
     fontSize: 16,
   })
-  let engine = await new nc.CarEngine().init(canvaskit.value as string)
-  let app = engine.createApp(canvas.value!)
-  watch(isPause, (newvalue, _oldvalue) => {
-    if (!newvalue) {
-      // eslint-disable-next-line no-new-func
-      new Function('nc', 'app', editor.getValue())(nc, app)
-      app.play()
-    }
-    else {
-      app.pause()
-    }
-  })
-  watch(canvaskit, (newvalue, _oldvalue) => {
-    if (canvaskit.value !== newvalue)
-      canvaskitFileIsChanged.value = true
-  })
-  watch(canvaskitFileIsChanged, async (newvalue, _oldvalue) => {
-    if (newvalue) {
-      try {
-        engine = await new nc.CarEngine().init(canvaskit.value as string)
-      }
-      catch (error) {
-        errorMessage.value = error
-      }
-      app = engine.createApp(canvas.value!)
-      canvaskitFileIsChanged.value = false
-    }
-  })
-  editor.onDidChangeModelContent((_event) => {
-    isPause.value = true
-  })
-  share.value!.onclick = () => {
-    writeText(`https://playground.newcarjs.org/?codes=${encodeURI(editor.getValue())}`).then(() => {
-      // eslint-disable-next-line no-alert
-      window.alert('Shared link has been copied!')
-    })
-  }
 })
 </script>
 
 <template>
-  <div class="fixed w-full h-full bg-gray-600" />
-  <div class="sticky bg-gray-800 w-screen h-16">
-    <ul>
-      <li class="text-white m-3 text-center items-center text-3xl font-thin float-left select-none">
-        Newcar Playground
-      </li>
-      <li ref="share" class="text-white m-4 text-center items-center text-2xl font-thin float-right hover:text-sky-300 select-none">
-        Share <i class="fa fa-share" />
-      </li>
-      <li class="text-white m-4 text-center items-center text-2xl font-thin float-right hover:text-sky-300 select-none" @click="settingsIsDisplay = true">
-        Settings <i class="fa fa-cogs" />
-      </li>
-    </ul>
-  </div>
-  <div class="float-left">
-    <div id="editor" class="fixed w-[50%] h-full" />
-    <canvas
-      ref="canvas" class="fixed left-[50%] top-[4rem] bg-black" width="1600" height="900" :style="{
-        width: `${width}px`,
-        height: `${height}px`,
-      }"
-    />
-    <div id="canvas" class="w-[50%] fixed bottom-[25%] text-center left-[50%]">
-      <button class="scale-[2]">
-        <i class="fa fa-backward text-white m-5 hover:text-sky-300" />
-      </button>
-      <button v-if="isPause" class="scale-[2]">
-        <i class="fa fa-play text-white m-5 hover:text-sky-300" @click="isPause = false" />
-      </button>
-      <button v-else class="scale-[2]">
-        <i class="fa fa-pause text-white m-5 hover:text-sky-300" @click="isPause = true" />
-      </button>
-      <button class="scale-[2]">
-        <i class="fa fa-forward text-white m-5 hover:text-sky-300" />
-      </button>
-    </div>
-  </div>
-  <template v-if="settingsIsDisplay">
-    <div class="fixed top-[15%] w-[70%] h-[70%] left-[15%] bg-gray-600 border border-gray-300">
-      <div class="w-full bg-gray-800 h-8">
-        <div class="float-right py-[0.2] px-3 text-white text-2xl hover:text-sky-300 select-none" @click="settingsIsDisplay = false">
-          x
-        </div>
+  <div class="flex flex-col h-screen">
+    <div class="w-full h-12 border">
+      <div class="float-left">
+        <img class="w-12 h-12 p-2 float-left" src="./assets/newcar.webp">
+        <span class="float-left font-thin text-2xl p-2">Newcar Playground</span>
       </div>
-      <div class="text-center m-28">
-        <div class="py-6 text-red-600 text-center">
-          {{ errorMessage }}
-        </div>
-        <ul class="text-white px-[100px]">
-          <li class="py-6">
-            <div class="float-left">
-              File <span class="bg-gray-800 rounded-md"><span class="m-1">canvaskit.wasm</span></span> Path
-            </div>
-          </li>
-          <li class="pb-20">
-            <input v-model="canvaskit" class="float-left bg-gray-800 rounded-xl h-8 w-64">
-            <button class="float-right bg-sky-300 rounded-xl h-8 w-32" @click="canvaskitFileIsChanged = true">
-              Yes
-            </button>
-          </li>
-        </ul>
+      <div class="float-right p-3">
+        <SettingDash>
+          <Settings class="float-left w-6 h-6 mx-3 text-gray-500 hover:text-black" />
+        </SettingDash>
+        <Share2 class="float-left w-6 h-6 mx-3 text-gray-500 hover:text-black" />
+        <Download class="float-left w-6 h-6 mx-3 text-gray-500 hover:text-black" />
+        <Popover v-model:open="open">
+          <PopoverTrigger as-child>
+            <Button
+              variant="outline" role="combobox" :aria-expanded="open"
+              class="w-[200px] justify-between float-left mx-3 h-6"
+            >
+              {{ value
+                ? versions.find((version) => version.value === value)?.label
+                : "Select A Version" }}
+              <CaretSortIcon class="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent class="w-[200px] p-0">
+            <Command>
+              <CommandInput class="h-9" placeholder="Search version..." />
+              <CommandEmpty>No version found.</CommandEmpty>
+              <CommandList>
+                <CommandGroup>
+                  <CommandItem
+                    v-for="version in versions" :key="version.value" :value="version.value" @select="(ev) => {
+                      if (typeof ev.detail.value === 'string') {
+                        value = ev.detail.value
+                      }
+                      open = false
+                    }"
+                  >
+                    {{ version.label }}
+                    <CheckIcon
+                      :class="cn(
+                        'ml-auto h-4 w-4',
+                        value === version.value ? 'opacity-100' : 'opacity-0',
+                      )"
+                    />
+                  </CommandItem>
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
-  </template>
+    <div class="flex flex-row w-full h-full">
+      <div ref="editorElement" class="w-[50%] h-full" />
+      <div class="w-[50%] h-full">
+        <canvas
+          width="1600" height="900" class="bg-black" :style="{
+            width: `${width}px`,
+            height: `${height}px`,
+          }"
+        />
+      </div>
+    </div>
+  </div>
 </template>
