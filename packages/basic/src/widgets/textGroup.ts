@@ -173,7 +173,7 @@ export class TextGroup extends Figure {
       const paint = new ck.Paint()
       paint.setStyle(text.style.border ? ck.PaintStyle.Stroke : ck.PaintStyle.Fill)
       paint.setColor(text.style.borderColor.toFloat4())
-      paint.setShader(text.style.borderShader.toCanvasKitShader(ck) ?? null)
+      paint.setShader(text.style.borderShader?.toCanvasKitShader(ck) ?? null)
       paint.setStrokeWidth(text.style.borderWidth.value)
       paint.setAlphaf(text.style.transparency.value * this.style.borderColor.alpha)
       paint.setAntiAlias(text.style.antiAlias.value)

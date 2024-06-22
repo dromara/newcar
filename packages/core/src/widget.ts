@@ -39,7 +39,7 @@ export interface WidgetStyle {
   margin?: [number, number, number, number] | [number, number] | number
 }
 
-export abstract class Widget {
+export class Widget {
   plugins: WidgetPlugin[] = []
   pos: Ref<Position>
   x: Ref<number> // The vector x of the widget.
