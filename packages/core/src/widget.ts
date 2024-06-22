@@ -4,9 +4,8 @@ import type { Anim } from './animation'
 import type { Event, EventInstance } from './event'
 import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
-import type { ConvertToProp, Reactive, Ref } from './prop'
-import type { App } from './app'
-import { changed, reactive, ref } from './prop'
+import type { ConvertToProp, Ref } from './prop'
+import { changed, ref } from './prop'
 import type { Position } from './physical'
 import { rp } from './physical'
 import { RootWidget } from './scene'
@@ -39,7 +38,7 @@ export interface WidgetStyle {
   margin?: [number, number, number, number] | [number, number] | number
 }
 
-export abstract class Widget {
+export class Widget {
   plugins: WidgetPlugin[] = []
   pos: Ref<Position>
   x: Ref<number> // The vector x of the widget.
@@ -74,7 +73,10 @@ export abstract class Widget {
     options ??= {}
     this.x = ref(options.x ?? 0)
     this.y = ref(options.y ?? 0)
-    this.pos = ref(rp(this.x.value, this.y.value))
+    this.pos = ref(isUndefined(options.pos)
+      ? rp(this.x.value, this.y.value)
+      : (Array.isArray(options.pos) ? rp(...options.pos) : options.pos),
+    )
     this.centerX = ref(options.centerX ?? 0)
     this.centerY = ref(options.centerY ?? 0)
     this.progress = ref(options.progress ?? 1)
@@ -108,6 +110,15 @@ export abstract class Widget {
    * @param _ck The CanvasKit namespace
    */
   init(_ck: CanvasKit) {
+    if (this.parent instanceof RootWidget) {
+      const [x, y] = this.pos.value.resolve(...this.parent.canvasSize)
+      this.x.value = x
+      this.y.value = y
+    }
+    else {
+      [this.x.value, this.y.value] = this.pos.value.resolve(this.parent?.x.value ?? 0, this.parent?.y.value ?? 0)
+    }
+
     changed(this.pos, (pos) => {
       if (this.parent instanceof RootWidget) {
         [this.x.value, this.y.value] = pos.value.resolve(...this.parent.canvasSize)
