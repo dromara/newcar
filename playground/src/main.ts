@@ -1,6 +1,6 @@
 import { createApp, defineAsyncComponent } from 'vue'
-import './style.css'
 import 'font-awesome/css/font-awesome.css'
+import './assets/index.css'
 
 const App = defineAsyncComponent(() => import('./App.vue'))
 

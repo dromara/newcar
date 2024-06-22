@@ -1,5 +1,5 @@
 import { Widget, defineGlobalPlugin } from '@newcar/core'
-import { Line, Rect } from '@newcar/basic'
+import { Line } from '@newcar/basic'
 
 export interface TimeviewOptions {
   x?: number

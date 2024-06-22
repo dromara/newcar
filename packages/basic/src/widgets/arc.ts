@@ -1,4 +1,4 @@
-import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
+import type { CanvasKit, RRect } from 'canvaskit-wasm'
 import type { Ref } from '@newcar/core'
 import { changed, ref } from '@newcar/core'
 import type { FigureOptions } from './figure'

@@ -4,6 +4,7 @@
 export function svg2path(svgString: string): string {
   const path = []
 
+  // eslint-disable-next-line regexp/no-super-linear-backtracking
   const svgRegex = /<(rect|circle|ellipse|line|polyline|polygon|path|text|image|use|symbol|g|defs)\s+([^>]+)>/g
   let match
   while ((match = svgRegex.exec(svgString)) !== null) {
