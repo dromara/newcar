@@ -53,7 +53,7 @@ export class Arc extends Path {
       this.radius.value,
     )
 
-    this.path.addArc(this.rect, this.from.value, this.to.value)
+    this.path.addArc(this.rect, this.from.value, this.to.value * this.progress.value)
 
     changed(this.radius, (_) => {
       this.rect = ck.LTRBRect(
@@ -70,6 +70,10 @@ export class Arc extends Path {
       this.path.addArc(this.rect, this.from.value, this.to.value * this.progress.value)
     })
     changed(this.to, (_) => {
+      this.path.rewind()
+      this.path.addArc(this.rect, this.from.value, this.to.value * this.progress.value)
+    })
+    changed(this.progress, (_) => {
       this.path.rewind()
       this.path.addArc(this.rect, this.from.value, this.to.value * this.progress.value)
     })
