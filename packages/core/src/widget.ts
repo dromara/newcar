@@ -38,7 +38,7 @@ export interface WidgetStyle {
   margin?: [number, number, number, number] | [number, number] | number
 }
 
-export abstract class Widget {
+export class Widget {
   plugins: WidgetPlugin[] = []
   pos: Ref<Position>
   x: Ref<number> // The vector x of the widget.
@@ -73,7 +73,10 @@ export abstract class Widget {
     options ??= {}
     this.x = ref(options.x ?? 0)
     this.y = ref(options.y ?? 0)
-    this.pos = ref(rp(this.x.value, this.y.value))
+    this.pos = ref(isUndefined(options.pos)
+      ? rp(this.x.value, this.y.value)
+      : (Array.isArray(options.pos) ? rp(...options.pos) : options.pos),
+    )
     this.centerX = ref(options.centerX ?? 0)
     this.centerY = ref(options.centerY ?? 0)
     this.progress = ref(options.progress ?? 1)
@@ -107,6 +110,15 @@ export abstract class Widget {
    * @param _ck The CanvasKit namespace
    */
   init(_ck: CanvasKit) {
+    if (this.parent instanceof RootWidget) {
+      const [x, y] = this.pos.value.resolve(...this.parent.canvasSize)
+      this.x.value = x
+      this.y.value = y
+    }
+    else {
+      [this.x.value, this.y.value] = this.pos.value.resolve(this.parent?.x.value ?? 0, this.parent?.y.value ?? 0)
+    }
+
     changed(this.pos, (pos) => {
       if (this.parent instanceof RootWidget) {
         [this.x.value, this.y.value] = pos.value.resolve(...this.parent.canvasSize)
@@ -139,6 +151,8 @@ export abstract class Widget {
         this.init(ck)
         this.initialized = true
       }
+      for (const updateFunc of this.updates)
+        updateFunc(elapsed, this)
       this.runAnimation(elapsed, ck)
       this.processSetups(elapsed, ck)
 
@@ -169,11 +183,9 @@ export abstract class Widget {
    * Add children widgets for the widget.
    * @param children The added children.
    */
-  add(...children: (Widget | ((parent: Widget) => Widget))[]): this {
+  add(...children: any[]): this {
     // let index = 0
-    for (let child of children) {
-      if (typeof child === 'function')
-        child = child(this)
+    for (const child of children) {
       child.parent = this
       // child.status = 'live'
       this.children.push(child)
@@ -256,7 +268,7 @@ export abstract class Widget {
     return this
   }
 
-  setup(setupFunc: SetupFunction<this>): this {
+  setup(setupFunc: SetupFunction<typeof this>): this {
     const generator = setupFunc(this)
     this.setups.push({ generator: generator as any, nextFrame: 0 })
     return this
