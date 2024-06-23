@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Download, Settings, Share2 } from 'lucide-vue-next'
-import { onMounted, ref } from 'vue'
+import { Download, Pause, Play, Settings, Share2 } from 'lucide-vue-next'
+import { onMounted, ref, watch } from 'vue'
 import * as monaco from 'monaco-editor'
 import { cn } from './lib/utils'
 import { Button } from './components/ui/button'
@@ -18,6 +18,7 @@ import {
   CommandList,
 } from './components/ui/command'
 import SettingDash from './components/SettingDash.vue'
+import { init, process } from './process'
 
 const versions = [
   { value: 'latest', label: 'Latest' },
@@ -29,19 +30,37 @@ const value = ref('latest')
 const editorElement = ref<HTMLDivElement>()
 
 const codes
-  = `import { CarEngine, createScene, Circle } from 'newcar'
+  = `export default function (nc, app) {
+  const scene = nc.createScene(
+    new nc.Circle(100)
+      .animate(nc.create().withAttr({ duration: 1 }))
+  )
+}
 `
 
 const width = ref(window.innerWidth / 2)
 const height = ref(width.value / 16 * 9)
 
+const status = ref<'play' | 'pause'>('pause')
+
+const canvas = ref<HTMLCanvasElement>()
+
 onMounted(() => {
-  const _editor = monaco.editor.create(editorElement.value, {
+  const editor = monaco.editor.create(editorElement.value, {
     value: codes,
     language: 'javascript',
     automaticLayout: true,
     fontSize: 16,
   })
+
+  init('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm', canvas.value)
+    .then((app) => {
+      watch(status, (v) => {
+        if (v === 'play') {
+          process(editor.getValue(), app)
+        }
+      })
+    })
 })
 </script>
 
@@ -103,11 +122,17 @@ onMounted(() => {
       <div ref="editorElement" class="w-[50%] h-full" />
       <div class="w-[50%] h-full">
         <canvas
-          width="1600" height="900" class="bg-black" :style="{
+          ref="canvas" width="1600" height="900" class="bg-black" :style="{
             width: `${width}px`,
             height: `${height}px`,
           }"
         />
+        <div class="text-center pt-10">
+          <Button class="bg-white border hover:bg-gray-200">
+            <Play v-if="status === 'pause'" class="text-gray-500" @click="status = 'play'" />
+            <Pause v-else class="text-gray-500" @click="status = 'pause'" />
+          </Button>
+        </div>
       </div>
     </div>
   </div>
