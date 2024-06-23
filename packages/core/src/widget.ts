@@ -151,6 +151,8 @@ export class Widget {
         this.init(ck)
         this.initialized = true
       }
+      for (const updateFunc of this.updates)
+        updateFunc(elapsed, this)
       this.runAnimation(elapsed, ck)
       this.processSetups(elapsed, ck)
 
