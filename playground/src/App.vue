@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Download, Pause, Play, Settings, Share2 } from 'lucide-vue-next'
+import { Download, Pause, Play, Settings, Share2, StepBack, StepForward } from 'lucide-vue-next'
 import { onMounted, ref, watch } from 'vue'
 import * as monaco from 'monaco-editor'
 import { cn } from './lib/utils'
@@ -30,11 +30,17 @@ const value = ref('latest')
 const editorElement = ref<HTMLDivElement>()
 
 const codes
-  = `export default function (nc, app) {
+  = `// The default function needs getting two parameters
+// @param nc all the exports functions, classes, etc of newcar.
+// @param app the app instance
+// You don't need to init the engine and play the animation,
+// Newcar Playground will help you to do this work.
+export default function (nc, app) {
   const scene = nc.createScene(
     new nc.Circle(100)
       .animate(nc.create().withAttr({ duration: 1 }))
   )
+  app.checkout(scene)
 }
 `
 
@@ -44,6 +50,9 @@ const height = ref(width.value / 16 * 9)
 const status = ref<'play' | 'pause'>('pause')
 
 const canvas = ref<HTMLCanvasElement>()
+
+let back = () => {}
+let forward = () => {}
 
 onMounted(() => {
   const editor = monaco.editor.create(editorElement.value, {
@@ -60,6 +69,12 @@ onMounted(() => {
           process(editor.getValue(), app)
         }
       })
+      back = () => {
+        app.scene.elapsed -= 1
+      }
+      forward = () => {
+        app.scene.elapsed += 1
+      }
     })
 })
 </script>
@@ -128,9 +143,15 @@ onMounted(() => {
           }"
         />
         <div class="text-center pt-10">
+          <Button class="bg-white border hover:bg-gray-200" @click="back()">
+            <StepBack class="text-gray-500" />
+          </Button>
           <Button class="bg-white border hover:bg-gray-200">
             <Play v-if="status === 'pause'" class="text-gray-500" @click="status = 'play'" />
             <Pause v-else class="text-gray-500" @click="status = 'pause'" />
+          </Button>
+          <Button class="bg-white border hover:bg-gray-200" @click="forward()">
+            <StepForward class="text-gray-500" />
           </Button>
         </div>
       </div>
