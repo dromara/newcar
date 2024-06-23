@@ -17,6 +17,11 @@ import {
   CommandItem,
   CommandList,
 } from './components/ui/command'
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from './components/ui/resizable'
 import SettingDash from './components/SettingDash.vue'
 import { init, process } from './process'
 
@@ -47,12 +52,20 @@ export default function (nc, app) {
 const width = ref(window.innerWidth / 2)
 const height = ref(width.value / 16 * 9)
 
+const realWidth = ref(1600)
+const realHeight = ref(900)
+
 const status = ref<'play' | 'pause'>('pause')
 
 const canvas = ref<HTMLCanvasElement>()
 
-let back = () => {}
-let forward = () => {}
+let back = () => { }
+let forward = () => { }
+
+const fps = ref<number>()
+const elapsed = ref<number>()
+
+let set: (skia: string) => void
 
 onMounted(() => {
   const editor = monaco.editor.create(editorElement.value, {
@@ -62,20 +75,26 @@ onMounted(() => {
     fontSize: 16,
   })
 
-  init('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm', canvas.value)
-    .then((app) => {
-      watch(status, (v) => {
-        if (v === 'play') {
-          process(editor.getValue(), app)
+  function set(skia: string) {
+    init(skia, canvas.value)
+      .then((app) => {
+        watch(status, (v) => {
+          if (v === 'play') {
+            process(editor.getValue(), app)
+          }
+        })
+        back = () => {
+          app.scene.elapsed -= 1
         }
+        forward = () => {
+          app.scene.elapsed += 1
+        }
+        setInterval(() => fps.value = app.reactiveFramePerSecond, 1000)
+        setInterval(() => elapsed.value = app.scene.elapsed, 10)
       })
-      back = () => {
-        app.scene.elapsed -= 1
-      }
-      forward = () => {
-        app.scene.elapsed += 1
-      }
-    })
+  }
+
+  set('https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm')
 })
 </script>
 
@@ -87,7 +106,13 @@ onMounted(() => {
         <span class="float-left font-thin text-2xl p-2">Newcar Playground</span>
       </div>
       <div class="float-right p-3">
-        <SettingDash>
+        <SettingDash
+          skia="https://unpkg.com/canvaskit-wasm@latest/bin/canvaskit.wasm" :width="1600" :height="900" :action="(skia, width, height) => {
+            realWidth = width
+            realHeight = height
+            set(skia)
+          }"
+        >
           <Settings class="float-left w-6 h-6 mx-3 text-gray-500 hover:text-black" />
         </SettingDash>
         <Share2 class="float-left w-6 h-6 mx-3 text-gray-500 hover:text-black" />
@@ -137,12 +162,12 @@ onMounted(() => {
       <div ref="editorElement" class="w-[50%] h-full" />
       <div class="w-[50%] h-full">
         <canvas
-          ref="canvas" width="1600" height="900" class="bg-black" :style="{
+          ref="canvas" :width="realWidth" :height="realHeight" class="bg-black" :style="{
             width: `${width}px`,
             height: `${height}px`,
           }"
         />
-        <div class="text-center pt-10">
+        <div class="text-center pt-10 pb-5">
           <Button class="bg-white border hover:bg-gray-200" @click="back()">
             <StepBack class="text-gray-500" />
           </Button>
@@ -153,6 +178,27 @@ onMounted(() => {
           <Button class="bg-white border hover:bg-gray-200" @click="forward()">
             <StepForward class="text-gray-500" />
           </Button>
+        </div>
+        <div>
+          <ResizablePanelGroup direction="horizontal" class="h-full">
+            <ResizablePanel>
+              <div class="text-center">
+                Info
+              </div>
+              <hr>
+              <div class="float-left">
+                <p>FPS: {{ fps }}</p>
+                <p>ELAPSED: {{ elapsed }}</p>
+              </div>
+            </ResizablePanel>
+            <ResizableHandle with-handle />
+            <ResizablePanel>
+              <div class="text-center">
+                Options
+              </div>
+              <hr>
+            </ResizablePanel>
+          </ResizablePanelGroup>
         </div>
       </div>
     </div>
