@@ -8,6 +8,7 @@
     "play:preview": "vite preview"
   },
   "dependencies": {
+    "@vueuse/core": "^10.11.0",
     "ace": "^1.3.0",
     "class-variance-authority": "^0.7.0",
     "clipboard-copy": "^4.0.1",

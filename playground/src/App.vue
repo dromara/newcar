@@ -42,7 +42,10 @@ const codes
 // Newcar Playground will help you to do this work.
 export default function (nc, app) {
   const scene = nc.createScene(
-    new nc.Circle(100)
+    new nc.Circle(200, {
+      x: 800,
+      y: 450
+    })
       .animate(nc.create().withAttr({ duration: 1 }))
   )
   app.checkout(scene)

@@ -2,6 +2,7 @@
 import { defineProps, ref } from 'vue'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogTrigger,
 } from './ui/dialog'
@@ -17,10 +18,12 @@ const props = defineProps<{
 const skia = ref<string>(props.skia)
 const width = ref<string>(props.width.toString())
 const height = ref<string>(props.height.toString())
+
+const dialog = ref<HTMLElement>()
 </script>
 
 <template>
-  <Dialog>
+  <Dialog ref="dialog">
     <DialogTrigger as-child>
       <slot />
     </DialogTrigger>
@@ -37,9 +40,11 @@ const height = ref<string>(props.height.toString())
         </div>
       </div>
       <div class="text-center">
-        <Button @click="props.action(skia, Number(width), Number(height))">
-          Submit
-        </Button>
+        <DialogClose as-child>
+          <Button @click="props.action(skia, Number(width), Number(height)); dialog.removeAttribute('open')">
+            Submit
+          </Button>
+        </DialogClose>
       </div>
     </DialogContent>
   </Dialog>
