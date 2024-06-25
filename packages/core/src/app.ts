@@ -78,7 +78,6 @@ export class App {
     }
     this.scene = scene
     this.scene.root.canvasSize = [this.element.width, this.element.height]
-    this.scene.startTime = performance.now()
     for (const plugin of this.plugins) {
       if (plugin.onCheckout)
         plugin.onCheckout(this, this.scene)
@@ -147,6 +146,7 @@ export class App {
         `[Newcar Warn] Current scene is undefined, please checkout a usable scene.`,
       )
     }
+    this.scene.startTime = performance.now()
     this.scene.elapsed ??= frame
     this.playing = true
     this.surface.requestAnimationFrame((canvas: Canvas) => {
