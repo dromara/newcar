@@ -15,11 +15,13 @@ export * from './creation/destroy'
 export * from './creation/stroke'
 export * from './creation/write'
 
+export * from './indicate/flash'
 export * from './indicate/circleIndicate'
 export * from './indicate/focusOn'
 export * from './indicate/rippleOut'
 export * from './indicate/showCreationThenDestructionAround'
 export * from './indicate/showPassingFlashAround'
 export * from './indicate/showPassingCircleFlashAround'
+export * from './indicate/showCircleCreationThenDestructionAround'
 
 // export * from './transform/transform'

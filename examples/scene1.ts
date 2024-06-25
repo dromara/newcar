@@ -9,5 +9,5 @@ export default nc.createScene(
     x: 800,
     y: 450
   })
-  .animate(nc.showPassingCircleFlashAround().withAttr({ duration: 1 }))
+  .animate(nc.flash().withAttr({ duration: 1 }))
 )
