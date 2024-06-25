@@ -20,5 +20,6 @@ export * from './indicate/focusOn'
 export * from './indicate/rippleOut'
 export * from './indicate/showCreationThenDestructionAround'
 export * from './indicate/showPassingFlashAround'
+export * from './indicate/showPassingCircleFlashAround'
 
 // export * from './transform/transform'
