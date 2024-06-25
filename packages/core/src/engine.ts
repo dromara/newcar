@@ -1,7 +1,7 @@
 import type { CanvasKit } from 'canvaskit-wasm'
 import CanvasKitInit from 'canvaskit-wasm'
 import { App } from './app'
-import { LocalApp } from './localApp'
+import { LocalApp } from './local-app'
 import type { GlobalPlugin } from './plugin'
 
 // eslint-disable-next-line import/no-mutable-exports

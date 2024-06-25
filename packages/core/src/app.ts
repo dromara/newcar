@@ -13,6 +13,7 @@ export class App {
    */
   scene: Scene
   surface: Surface
+  audioContext: AudioContext = new AudioContext()
   reactiveFramePerSecond: number
   private playing = false
   private lastFrameTime = performance.now()

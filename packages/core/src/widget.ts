@@ -6,8 +6,8 @@ import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
 import type { ConvertToProp, Ref } from './prop'
 import { changed, ref } from './prop'
-import type { Position } from './physical'
-import { rp } from './physical'
+import type { Position } from './apis/physical'
+import { rp } from './apis/physical'
 import { RootWidget } from './scene'
 
 export type WidgetRange = [number, number, number, number]

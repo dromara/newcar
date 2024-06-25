@@ -1,7 +1,7 @@
 import type { Canvas, CanvasKit, Surface } from 'canvaskit-wasm'
 import type { Scene } from './scene'
 import type { App } from './app'
-import type { LocalApp } from './localApp'
+import type { LocalApp } from './local-app'
 import type { CarEngine } from './engine'
 import type { Widget } from './widget'
 

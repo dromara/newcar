@@ -1,4 +1,4 @@
-import type { App } from './app'
+import type { App } from '../app'
 
 export type LengthUnitType = 'raw' | 'percent'
 

@@ -1,15 +1,15 @@
-import { $source } from './global'
+import { $source } from '../global'
 
 /**
- * Preloading a font file.
- * @param src The font file's path.
- * @returns The Font with `ArrayBuffer` type.
+ * Preloading a image.
+ * @param src The path of this image.
+ * @returns The image that be with ArrayBuffer type.
  */
-export async function useFont(src: string) {
+export async function useImage(src: string) {
   if (typeof window !== 'undefined') {
     const response = await fetch(src)
     const array = await response.arrayBuffer()
-    $source.fonts.push(array)
+    $source.images.push(array)
     return array
   }
   else {
@@ -20,7 +20,7 @@ export async function useFont(src: string) {
       buffer.byteOffset,
       buffer.byteOffset + buffer.byteLength,
     )
-    $source.fonts.push(array)
+    $source.images.push(array)
     return array
   }
 }
