@@ -187,6 +187,7 @@ export class Widget {
     // let index = 0
     for (const child of children) {
       child.parent = this
+      child.isImplemented.value = true
       // child.status = 'live'
       this.children.push(child)
     }

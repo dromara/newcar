@@ -1,5 +1,6 @@
 import type { Canvas, CanvasKit, Path as ckPath } from 'canvaskit-wasm'
-import type { WidgetRange } from '@newcar/core'
+import { changed, ref } from '@newcar/core'
+import type { Ref, WidgetRange } from '@newcar/core'
 import { type PathOp, str2PathOp } from '@newcar/utils'
 import type { FigureOptions, FigureStyle } from './figure'
 import { Figure } from './figure'
@@ -12,11 +13,11 @@ export interface PathStyle extends FigureStyle {}
 
 export class Path extends Figure {
   path: ckPath
-  pathData: Array<
+  pathData: Ref<Array<
     [0, string] // SVG
     | [1, ckPath, ckPath, any] // PathOp
     | [2, ckPath, ckPath, number] // PathInterpolation
-  > = []
+  >> = ref([])
 
   constructor(options?: PathOptions) {
     options ??= {}
@@ -27,7 +28,15 @@ export class Path extends Figure {
     super.init(ck)
     this.path = new ck.Path()
 
-    this.pathData.forEach(([type, ...args]) => {
+    this.reprocess(ck)
+
+    changed(this.pathData, (_) => {
+      this.reprocess(ck)
+    })
+  }
+
+  private reprocess(ck: CanvasKit) {
+    this.pathData.value.forEach(([type, ...args]) => {
       switch (type) {
         case 0: {
           this.path.addPath(ck.Path.MakeFromSVGString(<string> args[0]))
@@ -46,19 +55,19 @@ export class Path extends Figure {
   }
 
   addPathFromSVGString(svg: string) {
-    this.pathData.push([0, svg])
+    this.pathData.value.push([0, svg])
 
     return this
   }
 
   addPathFromOptions(one: ckPath, two: ckPath, options: PathOp) {
-    this.pathData.push([1, one, two, options])
+    this.pathData.value.push([1, one, two, options])
 
     return this
   }
 
   addFromPathInterpolation(start: ckPath, end: ckPath, weight: number) {
-    this.pathData.push([2, start, end, weight])
+    this.pathData.value.push([2, start, end, weight])
 
     return this
   }

@@ -15,6 +15,7 @@ export class Scene {
 
   constructor(root: Widget) {
     // this.root.status = 'live'
+    root.isImplemented.value = true
     this.root.add(root)
   }
 }
