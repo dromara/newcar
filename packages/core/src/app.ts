@@ -5,7 +5,7 @@ import type { GlobalPlugin } from './plugin'
 import { type Config, defineConfig } from './config'
 
 /**
- * A object that control a single animatiopn canvas.
+ * A object that control a single animation canvas.
  */
 export class App {
   /**

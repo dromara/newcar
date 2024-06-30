@@ -1,11 +1,13 @@
 import type { Canvas, CanvasKit } from 'canvaskit-wasm'
 import { type BlendMode, deepClone, isUndefined } from '@newcar/utils'
+import type { ConvertToProp } from './apis/types'
 import type { Anim } from './animation'
 import type { Event, EventInstance } from './event'
 import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
-import type { ConvertToProp, Ref } from './prop'
-import { changed, ref } from './prop'
+import type { Ref } from './apis/ref'
+import { ref } from './apis/ref'
+import { changed } from './apis/changed'
 import type { Position } from './apis/physical'
 import { rp } from './apis/physical'
 import { RootWidget } from './scene'
@@ -119,7 +121,7 @@ export class Widget {
       [this.x.value, this.y.value] = this.pos.value.resolve(this.parent?.x.value ?? 0, this.parent?.y.value ?? 0)
     }
 
-    changed(this.pos, (pos) => {
+    changed(this.pos, (pos: Ref<Position>) => {
       if (this.parent instanceof RootWidget) {
         [this.x.value, this.y.value] = pos.value.resolve(...this.parent.canvasSize)
       }
@@ -139,6 +141,8 @@ export class Widget {
   /**
    * Update the object according to the style of the widget.
    * Called when the style is changed.
+   * @param elapsed The elapsed time.
+   * @param ck The CanvasKit-WASM Namespace.
    * @param canvas The canvas object of CanvasKit-WASM.
    */
   update(
