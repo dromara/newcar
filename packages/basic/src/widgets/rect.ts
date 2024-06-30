@@ -1,6 +1,7 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
 import type { ConvertToProp } from '@newcar/core'
 import { changed, ref } from '@newcar/core'
+import { deepMerge } from '@newcar/utils'
 import type { PathOptions, PathStyle } from './path.ts'
 import { Path } from './path.ts'
 
@@ -41,10 +42,10 @@ export class Rect extends Path {
     super.init(ck)
 
     this.rect = new Float32Array([
-      0,
-      0,
-      this.width * this.progress.value,
-      this.height * this.progress.value,
+      -this.width / 2,
+      -this.height / 2,
+      this.width * this.progress.value - this.width / 2,
+      this.height * this.progress.value - this.height / 2,
       ...this.radius,
     ])
 
@@ -69,6 +70,22 @@ export class Rect extends Path {
     this.path.addRRect(this.rect)
 
     super.draw(canvas)
+  }
+
+  static fromLTRB(l: number, t: number, r: number, b: number, options?: RectOptions) {
+    return new Rect(r - l, b - t, {
+      ...options,
+    })
+  }
+
+  static fromWH(w: number, h: number, options?: RectOptions) {
+    return new Rect(w, h, deepMerge(
+      options,
+      {
+        x: w / 2,
+        y: h / 2,
+      },
+    ))
   }
 
   mapRadius() {
