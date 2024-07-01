@@ -83,6 +83,7 @@ export class App {
       if (plugin.onCheckout)
         plugin.onCheckout(this, this.scene)
     }
+    this.scene.root.processEvents(this.element)
     // if (!scene.root.hasSet)
     return this
   }

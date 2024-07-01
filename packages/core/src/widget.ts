@@ -248,6 +248,12 @@ export class Widget {
     return this
   }
 
+  processEvents(element: HTMLCanvasElement) {
+    for (const instance of this.eventInstances)
+      instance.event.operation(this, instance.effect, element)
+    for (const child of this.children) child.processEvents(element)
+  }
+
   // Run an animation with respect to `elapsed`, which is maintained by `App` class
   runAnimation(elapsed: number, ck: CanvasKit) {
     if (this.animationInstances.length === 0)
