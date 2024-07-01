@@ -9,5 +9,5 @@ export default nc.createScene(
     x: 800,
     y: 450
   })
-  .animate(nc.flash().withAttr({ duration: 1 }))
+  .animate(nc.wiggle().withAttr({ duration: 1, count: 8, amplitude: 10, scale: 1.5 }))
 )

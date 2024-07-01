@@ -23,5 +23,6 @@ export * from './indicate/showCreationThenDestructionAround'
 export * from './indicate/showPassingFlashAround'
 export * from './indicate/showPassingCircleFlashAround'
 export * from './indicate/showCircleCreationThenDestructionAround'
+export * from './indicate/wiggle'
 
 // export * from './transform/transform'
