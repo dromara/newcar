@@ -41,7 +41,7 @@ new Widget({
 
 ## Animation
 
-How do we insert animations? We provide an API called `animate`, which is a function that can only be used within the setup function and does not require passing in the start time of the animation.
+How do we insert animations? Just yield what you want to animate
 
 ```ts
 import * as nc from 'newcar'
@@ -51,27 +51,8 @@ new Widget({
   y: 100
 }).setup(function* (widget) {
   yield 1
-  yield animate(nc.create, 10)
+  yield nc.create().withAttr({ duration: 1 })
 })
 ```
 
 This code will execute the `create` animation after 1 second.
-
-By default, animations are executed synchronously. You can also use a "pseudo-asynchronous" approach to execute multiple animations in the same time period, as shown in the following code.
-
-```ts
-import * as nc from 'newcar'
-
-new Widget({
-  x: 100,
-  y: 100
-}).setup(function* (widget) {
-  yield animate(nc.create, 10).setAsync()
-  yield animate(nc.move, 10, {
-    from: [0, 0],
-    to: [200, 200]
-  }).setAsync()
-})
-```
-
-This code will execute two animations simultaneously.

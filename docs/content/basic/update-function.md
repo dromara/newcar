@@ -11,7 +11,7 @@ Usage:
 ```javascript
 widget.setUpdate((elapsed, widget) => {
   if (elapsed === 100)
-    widget.radius += 100
+    widget.radius.value += 100
 })
 ```
 

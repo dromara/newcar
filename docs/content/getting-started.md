@@ -126,9 +126,20 @@ If you setup the project correctly, you will see a white circle on the screen.
 ## Adding Animation
 
 ```typescript
-root.animate(nc.create, 0, 30)
+root.animate(nc.create().withAttr({ duration: 1 }))
 ```
 
 This method will add an animation named `create` to this root widget and set the animation start at the first time unit.
 
 Congratulations! You have learned the basic usage of the Newcar animation engine. We will explain more deeply later. If you like our project, feel free to join us and contribute or give us a free Star on our [Repository](https://github.com/dromara/newcar).
+
+## Change the attributes
+
+In Newcar 1.0.0 and lower, you can set attributes with `.[key]`, but In Newcar 2.x, we imported the reactive system, some type of attributes is `Ref`, so we need use `.[key].value` to change the value of some attributes.
+
+For example, you defined a circle and you want to change its radius, you can code like followings.
+
+```ts
+const circle = new Circle(100)
+circle.radius.value = 200
+```
