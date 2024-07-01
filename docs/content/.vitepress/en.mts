@@ -119,31 +119,31 @@ export const enConfig = defineConfig({
             },
           ],
         },
-        {
-          text: 'Customization',
-          items: [
-            {
-              text: 'Basic Widget',
-              link: '/dev/basic-widget',
-            },
-            {
-              text: 'Composite Widget',
-              link: '/dev/composite-widget',
-            },
-            {
-              text: 'Advanced Animation',
-              link: '/dev/advanced-animation',
-            },
-            {
-              text: 'Common Event',
-              link: '/dev/common-event',
-            },
-            {
-              text: 'Widget Event',
-              link: '/dev/widget-event',
-            },
-          ],
-        },
+        // {
+        //   text: 'Customization',
+        //   items: [
+        //     {
+        //       text: 'Basic Widget',
+        //       link: '/dev/basic-widget',
+        //     },
+        //     {
+        //       text: 'Composite Widget',
+        //       link: '/dev/composite-widget',
+        //     },
+        //     {
+        //       text: 'Advanced Animation',
+        //       link: '/dev/advanced-animation',
+        //     },
+        //     {
+        //       text: 'Common Event',
+        //       link: '/dev/common-event',
+        //     },
+        //     {
+        //       text: 'Widget Event',
+        //       link: '/dev/widget-event',
+        //     },
+        //   ],
+        // },
       ],
       '/guide/basic': [
         {
