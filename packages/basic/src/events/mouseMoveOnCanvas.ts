@@ -8,6 +8,7 @@ export const mouseMoveOnCanvas = defineEvent({
       const absoluteY = event.clientY - rect.top
       const { x, y } = Widget.absoluteToRelative(widget, absoluteX, absoluteY)
       effect(widget, x, y)
+      event.preventDefault()
     })
   },
 })

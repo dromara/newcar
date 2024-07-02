@@ -11,6 +11,7 @@ export const drag = defineEvent({
       const isIn = widget.isIn(pX, pY)
       if (isIn)
         effect(widget, x, y)
+      event.preventDefault()
     })
   },
 })

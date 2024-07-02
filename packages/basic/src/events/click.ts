@@ -15,7 +15,7 @@ export const click = defineEvent({
       const isIn = widget.isIn(pX, pY)
       if (isIn)
         effect(widget, x, y)
-      // console.log('www!')
+      event.preventDefault()
     })
   },
 })

@@ -11,6 +11,7 @@ export const mouseOver = defineEvent({
       const isIn = widget.isIn(pX, pY)
       if (isIn)
         effect(widget, x, y)
+      event.preventDefault()
     })
   },
 })
