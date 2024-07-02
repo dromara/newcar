@@ -2,7 +2,7 @@ import { isUndefined } from '@newcar/utils'
 import { useAnimate } from '../animation'
 import type { MaybeArray } from '../utils'
 import type { Widget } from '../widget'
-import { normalize } from './normalize'
+import { normalize } from '../utils'
 import type { Ref } from './ref'
 
 export function changeProperty<T extends Widget>(
