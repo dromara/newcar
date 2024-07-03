@@ -10,4 +10,7 @@ export default nc.createScene(
     y: 450
   })
   .animate(nc.wiggle().withAttr({ duration: 1, count: 8, amplitude: 10, scale: 1.5 }))
+    .on(nc.keyDown, (_, __) => {
+      console.log('www')
+    })
 )

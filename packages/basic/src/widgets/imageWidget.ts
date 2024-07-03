@@ -1,6 +1,7 @@
 import type { WidgetOptions, WidgetRange } from '@newcar/core'
 import { Widget } from '@newcar/core'
 import type { Canvas, CanvasKit, Image, Paint } from 'canvaskit-wasm'
+import { str2BlendMode } from '@newcar/utils'
 
 export interface ImageWidgetOptions extends WidgetOptions {}
 
@@ -25,6 +26,7 @@ export class ImageWidget extends Widget {
     this.paint = new ck.Paint()
     this.paint.setAlphaf(this.style.transparency.value)
     this.paint.setAntiAlias(this.style.antiAlias.value)
+    this.paint.setBlendMode(str2BlendMode(ck, this.style.blendMode.value))
     try {
       this.image = ck.MakeImageFromEncoded(this.imageArray)
     }

@@ -187,7 +187,7 @@ export class Widget {
    * Add children widgets for the widget.
    * @param children The added children.
    */
-  add(...children: any[]): this {
+  add(...children: any[] | ((widget: any) => any)[]): this {
     // let index = 0
     for (const child of children) {
       child.parent = this
