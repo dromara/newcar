@@ -51,12 +51,6 @@ Newcar is a highly configurable and advanced universal engine designed for rapid
 - **High Degree of Customization** ⚙️: Features strong customizability, allowing you to create unique animation styles.
 - **Chain Syntax** ⛓️: Enables the use of chain syntax for a more efficient development process, eliminating the need to save objects into variables.
 
-## 🚗 Future plans
-
-1. From the mods directory under the project root directory, it can be seen that newcar has already released mathematical modules (including number axes, planar Cartesian coordinate systems, function images, etc.). Unpublished modules include: geometry module, markup module, dynamic chart module, UI module, physics module, mind map module, etc
-2. In the future, an event system will be launched to turn it into a two in one engine for animation games
-3. Some small things, such as animation trees
-
 ## 📖 Documentation
 
 - The tutorials is available at [newcarjs.org](https://newcarjs.org)
