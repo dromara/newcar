@@ -63,10 +63,10 @@ Newcar is a highly configurable and advanced universal engine designed for rapid
 - The API References is available at [apis.newcarjs.org](https://apis.newcarjs.org)
 - The Playground is deployed at [playground.newcarjs.org](https://playground.newcarjs.org)
 
-_Copyright (c) 2022-present, BugDuck Team & Dromara Community_
-
 **Note: Newcar is a open-source project which belong to Dromara Community and maintained by BugDuck Team. The members of BugDuck just join with a personal identity, BugDuck Team will always keep its independence**
 
 ## ✨ Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/dromara/newcar.svg?variant=adaptive)](https://starchart.cc/dromara/newcar)
+
+_Copyright (c) 2022-present, BugDuck Team & Dromara Community_
