@@ -13,4 +13,5 @@ export default nc.createScene(
     .on(nc.keyDown, (_, __) => {
       console.log('www')
     })
+    .animate(play(await useAudio('./xxx'))/.withAttr({ duration: 1, speed: 2 }))
 )
