@@ -1,4 +1,4 @@
-import type { Canvas, CanvasKit } from 'canvaskit-wasm'
+import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
 import { type BlendMode, deepClone, isUndefined } from '@newcar/utils'
 import type { ConvertToProp } from './apis/types'
 import type { Anim } from './animation'
@@ -27,6 +27,12 @@ export interface WidgetOptions {
   centerY?: number // The rotation center y of the widget.
   progress?: number
   children?: Widget[]
+
+  // Ability of widget
+  dragable?: boolean
+  resizable?: boolean
+  scalable?: boolean
+  rotatable?: boolean
 }
 
 export interface WidgetStyle {
@@ -71,6 +77,17 @@ export class Widget {
 
   registeredEvents: Map<string, Event<Widget>> = new Map()
 
+  dragable: Ref<boolean>
+  resizable: Ref<boolean>
+  scalable: Ref<boolean>
+  rotatable: Ref<boolean>
+
+  isDraging: boolean
+  isRotating: boolean
+  isScaling: boolean
+
+  private paint: Paint
+
   constructor(options?: WidgetOptions) {
     options ??= {}
     this.x = ref(options.x ?? 0)
@@ -82,6 +99,12 @@ export class Widget {
     this.centerX = ref(options.centerX ?? 0)
     this.centerY = ref(options.centerY ?? 0)
     this.progress = ref(options.progress ?? 1)
+
+    this.dragable = ref(options.dragable ?? false)
+    this.scalable = ref(options.scalable ?? false)
+    this.rotatable = ref(options.rotatable ?? false)
+    this.resizable = ref(options.resizable ?? false)
+
     this.children = options.children ?? []
     options.style ??= {}
     this.style.scaleX = ref(options.style.scaleX ?? 1)
@@ -111,7 +134,7 @@ export class Widget {
    * Called when the widget is registered.
    * @param _ck The CanvasKit namespace
    */
-  init(_ck: CanvasKit) {
+  init(ck: CanvasKit) {
     if (this.parent instanceof RootWidget) {
       const [x, y] = this.pos.value.resolve(...this.parent.canvasSize)
       this.x.value = x
@@ -120,6 +143,10 @@ export class Widget {
     else {
       [this.x.value, this.y.value] = this.pos.value.resolve(this.parent?.x.value ?? 0, this.parent?.y.value ?? 0)
     }
+
+    this.paint = new ck.Paint()
+    this.paint.setColor(ck.WHITE)
+    this.paint.setAntiAlias(true)
 
     changed(this.pos, (pos: Ref<Position>) => {
       if (this.parent instanceof RootWidget) {
@@ -136,7 +163,7 @@ export class Widget {
    * Called when the parameters are changed.
    * @param _canvas The canvas object of CanvasKit-WASM.
    */
-  draw(_canvas: Canvas) { }
+  draw(_canvas: Canvas) {}
 
   /**
    * Update the object according to the style of the widget.
@@ -171,6 +198,17 @@ export class Widget {
       }
       if (this.display.value)
         this.draw(canvas)
+
+      if (this.scalable.value) {
+        this.paint.setStyle(ck.PaintStyle.Fill)
+        canvas.drawCircle(-10, -10, 5, this.paint)
+        canvas.drawCircle(this.calculateRange()[2] + 10, -10, 5, this.paint)
+        canvas.drawCircle(-10, this.calculateRange()[3] + 10, 5, this.paint)
+        canvas.drawCircle(this.calculateRange()[2] + 10, this.calculateRange()[3] + 10, 5, this.paint)
+        this.paint.setStyle(ck.PaintStyle.Stroke)
+        canvas.drawRect4f(-10, -10, this.calculateRange()[2] + 10, this.calculateRange()[3] + 10, this.paint)
+      }
+
       for (const plugin of this.plugins) {
         if (plugin.onDraw)
           plugin.onDraw(this, canvas)
@@ -283,6 +321,58 @@ export class Widget {
     const generator = setupFunc(this)
     this.setups.push({ generator: generator as any, nextFrame: 0 })
     return this
+  }
+
+  setElement(element: HTMLCanvasElement) {
+    if (this.dragable.value) {
+      element.addEventListener('mousedown', (e) => {
+        if (this.isIn(e.x, e.y))
+          this.isDraging = true
+      })
+      element.addEventListener('mouseup', () => {
+        this.isDraging = false
+      })
+      element.addEventListener('mousemove', (e) => {
+        if (this.isDraging) {
+          this.x.value = e.x
+          this.y.value = e.y
+        }
+      })
+    }
+    if (this.scalable.value) {
+      element.addEventListener('mousedown', (e) => {
+        const [left, top, right, bottom] = this.calculateRange()
+        const { x, y } = this.coordinateParentToChild(e.x, e.y)
+        if (
+          this.isPointInCircle(x, y, left, top)
+          || this.isPointInCircle(x, y, right, top)
+          || this.isPointInCircle(x, y, left, bottom)
+          || this.isPointInCircle(x, y, right, bottom)
+        ) {
+          this.isScaling = true
+          console.log('Scaling!')
+        }
+        console.log('test')
+        // console.log(x, y)
+      })
+      element.addEventListener('mouseup', () => {
+        this.isScaling = false
+      })
+      element.addEventListener('mousemove', (e) => {
+        if (this.isScaling) {
+          this.style.scaleX.value = Math.max(0.1, Math.min(10, this.style.scaleX.value + e.movementX / 100))
+          this.style.scaleY.value = Math.max(0.1, Math.min(10, this.style.scaleY.value + e.movementY / 100))
+        }
+      })
+    }
+    for (const child of this.children) {
+      child.setElement(element)
+    }
+  }
+
+  private isPointInCircle(px: number, py: number, cx: number, cy: number, radius = 5): boolean {
+    console.log(Math.sqrt((px - cx) ** 2 + (py - cy) ** 2))
+    return Math.sqrt((px - cx) ** 2 + (py - cy) ** 2) < radius
   }
 
   // Process logic:

@@ -13,9 +13,8 @@ const engine = await new nc.CarEngine()
   .init('./node_modules/canvaskit-wasm/bin/canvaskit.wasm')
 const app = engine.createApp(document.querySelector('#milestone'))
 
-
+app.use(timeview(document.querySelector('#timeview')))
 app.checkout(scene1)
-
 app.play()
 
 export default app
