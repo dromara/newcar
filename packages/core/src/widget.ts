@@ -1,5 +1,6 @@
 import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
 import { type BlendMode, deepClone, isUndefined } from '@newcar/utils'
+import { scale } from '../../basic/src/animations'
 import type { ConvertToProp } from './apis/types'
 import type { Anim } from './animation'
 import type { Event, EventInstance } from './event'
@@ -27,6 +28,7 @@ export interface WidgetOptions {
   centerY?: number // The rotation center y of the widget.
   progress?: number
   children?: Widget[]
+  isControllerVisible?: boolean
 
   // Ability of widget
   dragable?: boolean
@@ -62,6 +64,7 @@ export class Widget {
   } // The style of the widget.
 
   display = ref(true)
+  isControllerVisible = ref(false)
   isImplemented = ref(false) // If the widget is implemented by App.impl
   animationInstances: Anim<Widget>[] = []
   eventInstances: EventInstance<Widget>[] = []
@@ -99,6 +102,8 @@ export class Widget {
     this.centerX = ref(options.centerX ?? 0)
     this.centerY = ref(options.centerY ?? 0)
     this.progress = ref(options.progress ?? 1)
+
+    this.isControllerVisible = ref(options.isControllerVisible ?? false)
 
     this.dragable = ref(options.dragable ?? false)
     this.scalable = ref(options.scalable ?? false)
@@ -189,6 +194,19 @@ export class Widget {
 
       canvas.save()
 
+      canvas.save()
+      canvas.translate(this.x.value, this.y.value)
+      if (this.isControllerVisible.value) {
+        this.paint.setStyle(ck.PaintStyle.Fill)
+        canvas.drawCircle(-10, -10, 5, this.paint)
+        canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, -10, 5, this.paint)
+        canvas.drawCircle(-10, this.calculateCorrectedRange()[3] + 10, 5, this.paint)
+        canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, 5, this.paint)
+        this.paint.setStyle(ck.PaintStyle.Stroke)
+        canvas.drawRect4f(-10, -10, this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, this.paint)
+      }
+      canvas.restore()
+
       canvas.translate(this.x.value, this.y.value)
       canvas.rotate(this.style.rotation.value, this.centerX.value, this.centerY.value)
       canvas.scale(this.style.scaleX.value, this.style.scaleY.value)
@@ -199,15 +217,15 @@ export class Widget {
       if (this.display.value)
         this.draw(canvas)
 
-      if (this.scalable.value) {
-        this.paint.setStyle(ck.PaintStyle.Fill)
-        canvas.drawCircle(-10, -10, 5, this.paint)
-        canvas.drawCircle(this.calculateRange()[2] + 10, -10, 5, this.paint)
-        canvas.drawCircle(-10, this.calculateRange()[3] + 10, 5, this.paint)
-        canvas.drawCircle(this.calculateRange()[2] + 10, this.calculateRange()[3] + 10, 5, this.paint)
-        this.paint.setStyle(ck.PaintStyle.Stroke)
-        canvas.drawRect4f(-10, -10, this.calculateRange()[2] + 10, this.calculateRange()[3] + 10, this.paint)
-      }
+      // if (this.scalable.value) {
+      // this.paint.setStyle(ck.PaintStyle.Fill)
+      // canvas.drawCircle(-10, -10, 5, this.paint)
+      // canvas.drawCircle(this.calculateRange()[2] + 10, -10, 5, this.paint)
+      // canvas.drawCircle(-10, this.calculateRange()[3] + 10, 5, this.paint)
+      // canvas.drawCircle(this.calculateRange()[2] + 10, this.calculateRange()[3] + 10, 5, this.paint)
+      // this.paint.setStyle(ck.PaintStyle.Stroke)
+      // canvas.drawRect4f(-10, -10, this.calculateRange()[2] + 10, this.calculateRange()[3] + 10, this.paint)
+      // }
 
       for (const plugin of this.plugins) {
         if (plugin.onDraw)
@@ -340,28 +358,45 @@ export class Widget {
       })
     }
     if (this.scalable.value) {
+      let scaleControlNeedMove = [false, false]
       element.addEventListener('mousedown', (e) => {
-        const [left, top, right, bottom] = this.calculateRange()
-        const { x, y } = this.coordinateParentToChild(e.x, e.y)
-        if (
-          this.isPointInCircle(x, y, left, top)
-          || this.isPointInCircle(x, y, right, top)
-          || this.isPointInCircle(x, y, left, bottom)
-          || this.isPointInCircle(x, y, right, bottom)
-        ) {
-          this.isScaling = true
-          console.log('Scaling!')
+        let [left, top, right, bottom] = this.calculateRange()
+        if (this.isControllerVisible) {
+          right += 20 / (this.style.scaleX?.value ?? 1)
+          bottom += 20 / (this.style.scaleY?.value ?? 1)
         }
-        console.log('test')
-        // console.log(x, y)
+        const { x, y } = this.coordinateParentToChild(e.x, e.y)
+
+        const [lt, rt, lb, rb] = [this.isPointInCircle(x, y, left, top), this.isPointInCircle(x, y, right, top), this.isPointInCircle(x, y, left, bottom), this.isPointInCircle(x, y, right, bottom)]
+        if (lt || rt || lb || rb) {
+          this.isScaling = true
+          if (lt) {
+            scaleControlNeedMove = [true, true]
+          }
+          if (rt) {
+            scaleControlNeedMove = [false, true]
+          }
+          if (lb) {
+            scaleControlNeedMove = [true, false]
+          }
+          if (rb) {
+            scaleControlNeedMove = [false, false]
+          }
+        }
       })
       element.addEventListener('mouseup', () => {
         this.isScaling = false
       })
       element.addEventListener('mousemove', (e) => {
         if (this.isScaling) {
-          this.style.scaleX.value = Math.max(0.1, Math.min(10, this.style.scaleX.value + e.movementX / 100))
-          this.style.scaleY.value = Math.max(0.1, Math.min(10, this.style.scaleY.value + e.movementY / 100))
+          this.style.scaleX.value = Math.max(0.1, Math.min(10, this.style.scaleX.value + (scaleControlNeedMove[0] ? -1 : 1) * e.movementX / 100))
+          this.style.scaleY.value = Math.max(0.1, Math.min(10, this.style.scaleY.value + (scaleControlNeedMove[1] ? -1 : 1) * e.movementY / 100))
+          if (scaleControlNeedMove[0]) {
+            this.x.value = e.x
+          }
+          if (scaleControlNeedMove[1]) {
+            this.y.value = e.y
+          }
         }
       })
     }
@@ -371,7 +406,6 @@ export class Widget {
   }
 
   private isPointInCircle(px: number, py: number, cx: number, cy: number, radius = 5): boolean {
-    console.log(Math.sqrt((px - cx) ** 2 + (py - cy) ** 2))
     return Math.sqrt((px - cx) ** 2 + (py - cy) ** 2) < radius
   }
 
@@ -470,6 +504,14 @@ export class Widget {
    */
   calculateRange(): WidgetRange {
     throw new Error('Method not implemented.')
+  }
+
+  /**
+   * Calculate the range of the widget using `calculateRange()`, and correct it according to the transformation applied on it.
+   */
+  calculateCorrectedRange(): WidgetRange {
+    const [left, top, right, bottom] = this.calculateRange()
+    return [left, top, right * (this.style.scaleX?.value ?? 1), bottom * (this.style.scaleY?.value ?? 1)]
   }
 
   /**
