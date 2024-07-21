@@ -88,7 +88,7 @@ export interface TextGroupStyle extends FigureStyle {
 
 export class TextGroup extends Figure {
   declare style: ConvertToProp<TextGroupStyle>
-  private builder: ParagraphBuilder
+  builder: ParagraphBuilder
   private manager: FontMgr
   private paragraph: Paragraph
   width: Ref<number>

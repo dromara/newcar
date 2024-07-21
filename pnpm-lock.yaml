@@ -128,6 +128,9 @@ importers:
       '@newcar/mod-math':
         specifier: workspace:*
         version: link:../mods/mod-math
+      '@newcar/mod-text-editor':
+        specifier: workspace:*
+        version: link:../mods/mod-text-editor
       '@newcar/plugin-debug':
         specifier: workspace:*
         version: link:../plugins/plugin-debug
@@ -233,6 +236,22 @@ importers:
         version: 0.39.1
 
   mods/mod-svg:
+    dependencies:
+      '@newcar/basic':
+        specifier: workspace:*
+        version: link:../../packages/basic
+      '@newcar/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@newcar/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+    devDependencies:
+      canvaskit-wasm:
+        specifier: 0.39.1
+        version: 0.39.1
+
+  mods/mod-text-editor:
     dependencies:
       '@newcar/basic':
         specifier: workspace:*

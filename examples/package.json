@@ -7,6 +7,7 @@
     "@newcar/mod-geometry": "workspace:*",
     "@newcar/mod-markdown": "workspace:*",
     "@newcar/mod-math": "workspace:*",
+    "@newcar/mod-text-editor": "workspace:*",
     "@newcar/plugin-debug": "workspace:*",
     "@newcar/plugin-timeview": "workspace:*",
     "@types/luxon": "^3.4.2",
