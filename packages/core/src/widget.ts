@@ -88,7 +88,7 @@ export class Widget {
   isRotating: boolean
   isScaling: boolean
 
-  private paint: Paint
+  private p: Paint
 
   constructor(options?: WidgetOptions) {
     options ??= {}
@@ -148,9 +148,9 @@ export class Widget {
       [this.x.value, this.y.value] = this.pos.value.resolve(this.parent?.x.value ?? 0, this.parent?.y.value ?? 0)
     }
 
-    this.paint = new ck.Paint()
-    this.paint.setColor(ck.WHITE)
-    this.paint.setAntiAlias(true)
+    this.p = new ck.Paint()
+    this.p.setColor(ck.WHITE)
+    this.p.setAntiAlias(true)
 
     changed(this.pos, (pos: Ref<Position>) => {
       if (this.parent instanceof RootWidget) {
@@ -196,13 +196,13 @@ export class Widget {
       canvas.save()
       canvas.translate(this.x.value, this.y.value)
       if (this.isControllerVisible.value) {
-        this.paint.setStyle(ck.PaintStyle.Fill)
-        canvas.drawCircle(-10, -10, 5, this.paint)
-        canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, -10, 5, this.paint)
-        canvas.drawCircle(-10, this.calculateCorrectedRange()[3] + 10, 5, this.paint)
-        canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, 5, this.paint)
-        this.paint.setStyle(ck.PaintStyle.Stroke)
-        canvas.drawRect4f(-10, -10, this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, this.paint)
+        this.p.setStyle(ck.PaintStyle.Fill)
+        canvas.drawCircle(-10, -10, 5, this.p)
+        canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, -10, 5, this.p)
+        canvas.drawCircle(-10, this.calculateCorrectedRange()[3] + 10, 5, this.p)
+        canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, 5, this.p)
+        this.p.setStyle(ck.PaintStyle.Stroke)
+        canvas.drawRect4f(-10, -10, this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, this.p)
       }
       canvas.restore()
 

@@ -1,7 +1,7 @@
 {
   "name": "@newcar/mod-math",
   "type": "module",
-  "version": "2.0.0-alpha.4",
+  "version": "2.0.0-beta.0",
   "description": "",
   "author": "BugDuck Team",
   "license": "Apache-2.0",

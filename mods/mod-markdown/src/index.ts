@@ -51,11 +51,6 @@ export class Markdown extends Widget {
     canvas.drawParagraph(this.paragraph, 0, 0)
   }
 
-  predraw(ck: CanvasKit, propertyChanged: string): void {
-    if (propertyChanged === 'text' || propertyChanged.match('textStyle.'))
-      this.init(ck)
-  }
-
   private parseMarkdown(
     text: string,
     builder: ParagraphBuilder,
