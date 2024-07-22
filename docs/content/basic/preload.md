@@ -15,7 +15,7 @@ await useFont(url)
 Here, `url` represents the location of the font file and returns an `ArrayBuffer` object. After that, you can use it in `Text`:
 
 ```javascript
-root.add(new Text(['Hello Newcar']))
+root.add(new Text('Hello Newcar'))
 ```
 
 Since CanvasKit-WASM does not support CSS fonts, you need to prepare the font files yourself.
