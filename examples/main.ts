@@ -1,5 +1,5 @@
 import * as nc from 'newcar'
-import scene1 from './scene1'
+import scene1 from './performance'
 import timeview from '@newcar/plugin-timeview'
 
 // const milestone = document.querySelector('#milestone') as HTMLCanvasElement

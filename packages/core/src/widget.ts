@@ -1,8 +1,7 @@
 import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
 import { type BlendMode, deepClone, isUndefined } from '@newcar/utils'
-import { scale } from '../../basic/src/animations'
 import type { ConvertToProp } from './apis/types'
-import type { Anim } from './animation'
+import type { Anim, WithDep } from './animation'
 import type { Event, EventInstance } from './event'
 import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
@@ -15,7 +14,7 @@ import { RootWidget } from './scene'
 
 export type WidgetRange = [number, number, number, number]
 // export type WidgetInstance<T extends Widget> = T
-export type SetupFunction<T extends Widget> = (widget: T) => Generator<number | Anim<T>, void, number | Anim<T>>
+export type SetupFunction<T extends Widget> = (widget: T) => Generator<number | WithDep<any, any> | Anim<T>, void, number | WithDep<any, any> | Anim<T>>
 export type Layout = 'row' | 'column' | 'absolute' | 'mix'
 export type Status = 'live' | 'dead'
 
