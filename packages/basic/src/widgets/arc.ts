@@ -1,4 +1,4 @@
-import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
+import type { CanvasKit, RRect } from 'canvaskit-wasm'
 import type { Ref } from '@newcar/core'
 import { changed, ref } from '@newcar/core'
 import type { FigureOptions } from './figure'
@@ -12,7 +12,7 @@ export interface ArcOptions extends PathOptions {
 export interface ArcStyle extends PathStyle { }
 
 /**
- * Represents an arc figure, a subclass of the Figure class.
+ * Represents an arc figure, a subclass of the Figure class.pnpm
  */
 export class Arc extends Path {
   private rect: RRect

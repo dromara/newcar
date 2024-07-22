@@ -197,12 +197,12 @@ export class Widget {
       canvas.translate(this.x.value, this.y.value)
       if (this.isControllerVisible.value) {
         this.p.setStyle(ck.PaintStyle.Fill)
-        canvas.drawCircle(-10, -10, 5, this.p)
-        canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, -10, 5, this.p)
-        canvas.drawCircle(-10, this.calculateCorrectedRange()[3] + 10, 5, this.p)
+        canvas.drawCircle(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[1] - 10, 5, this.p)
+        canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[1] - 10, 5, this.p)
+        canvas.drawCircle(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[3] + 10, 5, this.p)
         canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, 5, this.p)
         this.p.setStyle(ck.PaintStyle.Stroke)
-        canvas.drawRect4f(-10, -10, this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, this.p)
+        canvas.drawRect4f(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[1] - 10, this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, this.p)
       }
       canvas.restore()
 
