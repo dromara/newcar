@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import type { Canvas } from 'canvaskit-wasm'
+import type { ConvertToProp } from '@newcar/core'
 import type { BaseChartData, BaseChartDataSet, BaseChartOptions, BaseChartStyle } from './baseChart'
 import { BaseChart } from './baseChart'
 import type { ChartDataUnit } from './chartDataUnit'
@@ -54,7 +55,7 @@ export class BaseSimpleChart extends BaseChart {
    * @public
    * @type BaseSimpleChartStyle
    */
-  declare style: BaseSimpleChartStyle
+  declare style: ConvertToProp<BaseSimpleChartStyle>
 
   /**
    * Layout object for the chart.
