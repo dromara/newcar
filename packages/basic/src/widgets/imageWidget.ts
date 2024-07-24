@@ -30,7 +30,7 @@ export class ImageWidget extends Widget {
     try {
       this.image = ck.MakeImageFromEncoded(this.imageArray)
     }
-    catch (error) {}
+    catch {}
   }
 
   predraw(ck: CanvasKit, propertyChanged: string) {

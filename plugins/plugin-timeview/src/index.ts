@@ -27,7 +27,6 @@ function timeview(element: HTMLElement) {
           event.stopPropagation()
           for (const ele of childElement.children) {
             (ele as HTMLElement).hidden = !(ele as HTMLElement).hidden
-            console.log('ww')
           }
         })
         if (level !== 1)

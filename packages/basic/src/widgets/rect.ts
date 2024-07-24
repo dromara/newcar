@@ -1,5 +1,5 @@
 import type { Canvas, CanvasKit, RRect } from 'canvaskit-wasm'
-import type { ConvertToProp } from '@newcar/core'
+import type { ConvertToProp, Ref } from '@newcar/core'
 import { changed, ref } from '@newcar/core'
 import { deepMerge } from '@newcar/utils'
 import type { PathOptions, PathStyle } from './path.ts'
@@ -29,10 +29,14 @@ export class Rect extends Path {
   declare style: ConvertToProp<RectStyle>
   rect: RRect
   radius: [number, number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0, 0]
+  width: Ref<number>
+  height: Ref<number>
 
-  constructor(public width: number, public height: number, options?: RectOptions) {
+  constructor(width: number, height: number, options?: RectOptions) {
     options ??= {}
     super(options)
+    this.width = ref(width)
+    this.height = ref(height)
     this.style ??= {}
     this.style.radius = ref(options.style?.radius ?? 0)
     this.mapRadius()
@@ -41,31 +45,50 @@ export class Rect extends Path {
   init(ck: CanvasKit): void {
     super.init(ck)
 
-    this.rect = new Float32Array([
-      -this.width / 2,
-      -this.height / 2,
-      this.width * this.progress.value - this.width / 2,
-      this.height * this.progress.value - this.height / 2,
+    this.rect = this.rect = new Float32Array([
+      0,
+      0,
+      this.width.value * this.progress.value,
+      this.height.value * this.progress.value,
       ...this.radius,
     ])
 
     this.path.addRRect(this.rect)
 
+    changed(this.width, (newValue) => {
+      this.rect = new Float32Array([
+        0,
+        0,
+        newValue.value * this.progress.value,
+        this.height.value * this.progress.value,
+        ...this.radius,
+      ])
+    })
+    changed(this.width, (newValue) => {
+      this.rect = new Float32Array([
+        0,
+        0,
+        this.width.value * this.progress.value,
+        newValue.value * this.progress.value,
+        ...this.radius,
+      ])
+    })
     changed(this.style.radius, (_) => {
       this.mapRadius()
+    })
+    changed(this.progress, (newValue) => {
+      this.rect = new Float32Array([
+        0,
+        0,
+        this.width.value * newValue.value,
+        this.height.value * newValue.value,
+        ...this.radius,
+      ])
     })
   }
 
   draw(canvas: Canvas): void {
     this.path.rewind()
-
-    this.rect = new Float32Array([
-      0,
-      0,
-      this.width * this.progress.value,
-      this.height * this.progress.value,
-      ...this.radius,
-    ])
 
     this.path.addRRect(this.rect)
 

@@ -1,7 +1,7 @@
 import type { ConvertToProp, Ref, WidgetRange } from '@newcar/core'
 import { $source, changed, reactive, ref } from '@newcar/core'
 import type { TextAlign, TextBaseline } from '@newcar/utils'
-import { Color, str2TextAlign, str2TextBaseline } from '@newcar/utils'
+import { Color, isNull, str2TextAlign, str2TextBaseline } from '@newcar/utils'
 import type {
   Canvas,
   CanvasKit,
@@ -97,7 +97,7 @@ export class Text extends Figure {
 
   backgroundPaint: Paint
   textStyle: ckTextStyle
-  text: Ref<string>
+  text: Ref<string | null>
 
   constructor(text: string, options?: TextOptions) {
     options ??= {}
@@ -170,12 +170,28 @@ export class Text extends Figure {
     this.paragraph = this.builder.build()
     this.paragraph.layout(this.width.value)
 
-    const rebuildText = () => {
-      this.builder.reset()
-      this.builder.pushPaintStyle(this.textStyle, this.style.border.value ? this.strokePaint : this.fillPaint, this.backgroundPaint)
-      this.builder.addText(this.text.value)
-      this.paragraph = this.builder.build()
-      this.paragraph.layout(this.width.value)
+    changed(this.style.offset, () => this.rebuildText(ck))
+    changed(this.style.interval, () => this.rebuildText(ck))
+    changed(this.style.border, () => this.rebuildText(ck))
+    changed(this.width, () => this.rebuildText(ck))
+    changed(this.style.backgroundColor, () => this.rebuildText(ck))
+    changed(this.style.color, () => this.rebuildText(ck))
+    changed(this.style.decorationColor, () => this.rebuildText(ck))
+    changed(this.style.decorationThickness, () => this.rebuildText(ck))
+    changed(this.style.fontFamily, () => this.rebuildText(ck))
+    changed(this.style.fontSize, () => this.rebuildText(ck))
+    changed(this.style.fontStyle, () => this.rebuildText(ck))
+    changed(this.style.heightMultiplier, () => this.rebuildText(ck))
+    changed(this.style.halfLeading, () => this.rebuildText(ck))
+    changed(this.style.letterSpacing, () => this.rebuildText(ck))
+    changed(this.style.locale, () => this.rebuildText(ck))
+    changed(this.style.transparency, () => this.rebuildText(ck))
+    changed(this.text, () => this.rebuildText(ck))
+  }
+
+  rebuildText(ck: CanvasKit) {
+    this.builder.reset()
+    if (!isNull(this.text.value)) {
       this.textStyle = new ck.TextStyle(
         {
           backgroundColor: this.style.backgroundColor.toFloat4(),
@@ -194,24 +210,11 @@ export class Text extends Figure {
           decorationThickness: this.style.decorationThickness.value,
         },
       )
+      this.builder.pushPaintStyle(this.textStyle, this.style.border.value ? this.strokePaint : this.fillPaint, this.backgroundPaint)
+      this.builder.addText(this.text.value)
     }
-    changed(this.style.offset, rebuildText)
-    changed(this.style.interval, rebuildText)
-    changed(this.style.border, rebuildText)
-    changed(this.width, rebuildText)
-    changed(this.style.backgroundColor, rebuildText)
-    changed(this.style.color, rebuildText)
-    changed(this.style.decorationColor, rebuildText)
-    changed(this.style.decorationThickness, rebuildText)
-    changed(this.style.fontFamily, rebuildText)
-    changed(this.style.fontSize, rebuildText)
-    changed(this.style.fontStyle, rebuildText)
-    changed(this.style.heightMultiplier, rebuildText)
-    changed(this.style.halfLeading, rebuildText)
-    changed(this.style.letterSpacing, rebuildText)
-    changed(this.style.locale, rebuildText)
-    changed(this.style.transparency, rebuildText)
-    changed(this.text, rebuildText)
+    this.paragraph = this.builder.build()
+    this.paragraph.layout(this.width.value)
   }
 
   draw(canvas: Canvas): void {

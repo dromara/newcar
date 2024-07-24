@@ -1,5 +1,4 @@
 import { useAnimate } from '@newcar/core'
-import type { Path as ckPath } from 'canvaskit-wasm'
 import type { Path } from '../../widgets'
 
 export function transform() {

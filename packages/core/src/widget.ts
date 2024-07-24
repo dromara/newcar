@@ -44,7 +44,6 @@ export interface WidgetStyle {
   blendMode?: BlendMode
   antiAlias?: boolean
   layout?: Layout
-  margin?: [number, number, number, number] | [number, number] | number
 }
 
 export class Widget {
@@ -62,7 +61,7 @@ export class Widget {
     transparency: ref(0.5),
   } // The style of the widget.
 
-  display = ref(true)
+  display
   isControllerVisible = ref(false)
   isImplemented = ref(false) // If the widget is implemented by App.impl
   animationInstances: Anim<Widget>[] = []
@@ -101,6 +100,7 @@ export class Widget {
     this.centerX = ref(options.centerX ?? 0)
     this.centerY = ref(options.centerY ?? 0)
     this.progress = ref(options.progress ?? 1)
+    this.display = ref(true)
 
     this.isControllerVisible = ref(options.isControllerVisible ?? false)
 
@@ -118,13 +118,6 @@ export class Widget {
     this.style.blendMode = ref(options.style.blendMode ?? 'srcOver')
     this.style.antiAlias = ref(options.style.antiAlias ?? true)
     this.style.layout = ref(options.style.layout ?? 'absolute')
-    this.style.margin = ref(isUndefined(options.style.margin)
-      ? [0, 0, 0, 0]
-      : typeof options.style.margin === 'number'
-        ? [options.style.margin, options.style.margin, options.style.margin, options.style.margin]
-        : options.style.margin.length === 2
-          ? [options.style.margin[0], options.style.margin[0], options.style.margin[1], options.style.margin[1]]
-          : options.style.margin)
   }
 
   /**
@@ -136,7 +129,7 @@ export class Widget {
 
   /**
    * Called when the widget is registered.
-   * @param _ck The CanvasKit namespace
+   * @param ck The CanvasKit namespace
    */
   init(ck: CanvasKit) {
     if (this.parent instanceof RootWidget) {
@@ -181,61 +174,50 @@ export class Widget {
     ck: CanvasKit,
     canvas: Canvas,
   ) {
-    if (this.status === 'live') {
-      if (!this.initialized) {
-        this.init(ck)
-        this.initialized = true
-      }
-      for (const updateFunc of this.updates)
-        updateFunc(elapsed, this)
-      this.runAnimation(elapsed, ck)
-      this.processSetups(elapsed, ck)
-
-      canvas.save()
-
-      canvas.save()
-      canvas.translate(this.x.value, this.y.value)
-      if (this.isControllerVisible.value) {
-        this.p.setStyle(ck.PaintStyle.Fill)
-        canvas.drawCircle(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[1] - 10, 5, this.p)
-        canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[1] - 10, 5, this.p)
-        canvas.drawCircle(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[3] + 10, 5, this.p)
-        canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, 5, this.p)
-        this.p.setStyle(ck.PaintStyle.Stroke)
-        canvas.drawRect4f(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[1] - 10, this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, this.p)
-      }
-      canvas.restore()
-
-      canvas.translate(this.x.value, this.y.value)
-      canvas.rotate(this.style.rotation.value, this.centerX.value, this.centerY.value)
-      canvas.scale(this.style.scaleX.value, this.style.scaleY.value)
-      for (const plugin of this.plugins) {
-        if (plugin.beforeDraw)
-          plugin.beforeDraw(this, canvas)
-      }
-      if (this.display.value)
-        this.draw(canvas)
-
-      // if (this.scalable.value) {
-      // this.paint.setStyle(ck.PaintStyle.Fill)
-      // canvas.drawCircle(-10, -10, 5, this.paint)
-      // canvas.drawCircle(this.calculateRange()[2] + 10, -10, 5, this.paint)
-      // canvas.drawCircle(-10, this.calculateRange()[3] + 10, 5, this.paint)
-      // canvas.drawCircle(this.calculateRange()[2] + 10, this.calculateRange()[3] + 10, 5, this.paint)
-      // this.paint.setStyle(ck.PaintStyle.Stroke)
-      // canvas.drawRect4f(-10, -10, this.calculateRange()[2] + 10, this.calculateRange()[3] + 10, this.paint)
-      // }
-
-      for (const plugin of this.plugins) {
-        if (plugin.onDraw)
-          plugin.onDraw(this, canvas)
-      }
-      for (const child of this.children) {
-        child.update(elapsed, ck, canvas)
-      }
-
-      canvas.restore()
+    if (!this.initialized) {
+      this.init(ck)
+      this.initialized = true
     }
+    for (const updateFunc of this.updates)
+      updateFunc(elapsed, this)
+    this.runAnimation(elapsed, ck)
+    this.processSetups(elapsed, ck)
+
+    canvas.save()
+
+    canvas.save()
+    canvas.translate(this.x.value, this.y.value)
+    if (this.isControllerVisible.value) {
+      this.p.setStyle(ck.PaintStyle.Fill)
+      canvas.drawCircle(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[1] - 10, 5, this.p)
+      canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[1] - 10, 5, this.p)
+      canvas.drawCircle(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[3] + 10, 5, this.p)
+      canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, 5, this.p)
+      this.p.setStyle(ck.PaintStyle.Stroke)
+      canvas.drawRect4f(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[1] - 10, this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, this.p)
+    }
+    canvas.restore()
+
+    canvas.translate(this.x.value, this.y.value)
+    canvas.rotate(this.style.rotation.value, this.centerX.value, this.centerY.value)
+    canvas.scale(this.style.scaleX.value, this.style.scaleY.value)
+    for (const plugin of this.plugins) {
+      if (plugin.beforeDraw)
+        plugin.beforeDraw(this, canvas)
+    }
+    if (this.display.value) {
+      this.draw(canvas)
+    }
+
+    for (const plugin of this.plugins) {
+      if (plugin.onDraw)
+        plugin.onDraw(this, canvas)
+    }
+    for (const child of this.children) {
+      child.update(elapsed, ck, canvas)
+    }
+
+    canvas.restore()
   }
 
   /**

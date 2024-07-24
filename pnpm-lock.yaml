@@ -122,6 +122,9 @@ importers:
       '@newcar/mod-geometry':
         specifier: workspace:*
         version: link:../mods/mod-geometry
+      '@newcar/mod-layout':
+        specifier: workspace:*
+        version: link:../mods/mod-layout
       '@newcar/mod-markdown':
         specifier: workspace:*
         version: link:../mods/mod-markdown
@@ -176,6 +179,22 @@ importers:
         version: 0.39.1
 
   mods/mod-geometry:
+    dependencies:
+      '@newcar/basic':
+        specifier: workspace:*
+        version: link:../../packages/basic
+      '@newcar/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@newcar/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+    devDependencies:
+      canvaskit-wasm:
+        specifier: 0.39.1
+        version: 0.39.1
+
+  mods/mod-layout:
     dependencies:
       '@newcar/basic':
         specifier: workspace:*

@@ -1,5 +1,3 @@
-import type { App } from '../app'
-
 export type LengthUnitType = 'raw' | 'percent'
 
 export class Length {

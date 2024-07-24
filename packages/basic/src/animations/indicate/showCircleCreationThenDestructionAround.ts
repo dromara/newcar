@@ -1,7 +1,7 @@
 import { withHook } from '@newcar/core'
 import { Color } from '@newcar/utils'
 import type { Figure } from '../../widgets'
-import { Circle, Rect } from '../../widgets'
+import { Circle } from '../../widgets'
 
 /**
  * Create a rectangle that grows and shrinks around the center of the widget
