@@ -10,7 +10,7 @@ import timeview from '@newcar/plugin-timeview'
 // window.dispatchEvent(new Event('resize'))
 
 const engine = await new nc.CarEngine()
-  .init('./node_modules/canvaskit-wasm/bin/canvaskit.wasm')
+  .init('./node_modules/canvaskit-wasm/bin/full/canvaskit.wasm')
 const app = engine.createApp(document.querySelector('#milestone'))
 
 // app.use(timeview(document.querySelector('#timeview')))

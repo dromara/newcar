@@ -131,6 +131,9 @@ importers:
       '@newcar/mod-math':
         specifier: workspace:*
         version: link:../mods/mod-math
+      '@newcar/mod-skottie':
+        specifier: workspace:*
+        version: link:../mods/mod-skottie
       '@newcar/plugin-debug':
         specifier: workspace:*
         version: link:../plugins/plugin-debug
@@ -227,6 +230,31 @@ importers:
         version: 0.39.1
 
   mods/mod-math:
+    dependencies:
+      '@newcar/basic':
+        specifier: workspace:*
+        version: link:../../packages/basic
+      '@newcar/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@newcar/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+      gl-matrix:
+        specifier: ^3.4.3
+        version: 3.4.3
+      svg-path:
+        specifier: ^0.2.1
+        version: 0.2.1
+      tex-to-svg:
+        specifier: ^0.2.0
+        version: 0.2.0
+    devDependencies:
+      canvaskit-wasm:
+        specifier: 0.39.1
+        version: 0.39.1
+
+  mods/mod-skottie:
     dependencies:
       '@newcar/basic':
         specifier: workspace:*

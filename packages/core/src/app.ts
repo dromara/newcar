@@ -195,7 +195,6 @@ export class App {
    * @returns this
    */
   setBackgroundColor(color: Color | 'transparent'): this {
-    // eslint-disable-next-line ts/no-unused-expressions
     color !== 'transparent'
       ? (this.element.style.backgroundColor = color.toString())
       : (this.element.style.backgroundColor = '')

@@ -1,5 +1,5 @@
 import type { CanvasKit } from 'canvaskit-wasm'
-import CanvasKitInit from 'canvaskit-wasm'
+import CanvasKitInit from 'canvaskit-wasm/full'
 import { App } from './app'
 import { LocalApp } from './local-app'
 import type { GlobalPlugin } from './plugin'

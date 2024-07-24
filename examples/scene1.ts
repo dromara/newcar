@@ -1,31 +1,11 @@
-import {Circle, Color, createScene, move, Rect, Widget} from 'newcar'
-// import TextEditor from "@newcar/mod-text-editor";
-import * as nc from "newcar";
+import {Circle, Color, createScene, move, Rect, Widget, useFont} from 'newcar'
 import {Column, Row} from "@newcar/mod-layout";
+import {Skottie, useAnimationJson} from "@newcar/mod-skottie";
 
-await nc.useFont('./default.ttf')
+await useFont('./default.ttf')
+const skt = await useAnimationJson('./skottie-test.json')
 
 export default createScene(
-  new Row(Infinity)
-    .add(
-      new Rect(100, 100, {
-        style: {
-          fillColor: Color.parse('skyblue')
-        }
-      })
-    )
-    .add(
-      new Column(Infinity)
-        .add(
-          new Rect(200, 200)
-        )
-        .add(
-          new Rect(250, 600, {
-            style: {
-              fillColor: Color.parse('red')
-            }
-          })
-        )
-    )
-    
+  new Skottie(skt, 400, 400, {}).play()
+	// new Widget()
 )
