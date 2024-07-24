@@ -1,5 +1,4 @@
 import type { CanvasKit } from 'canvaskit-wasm'
-import CanvasKitInit from 'canvaskit-wasm/full'
 import { App } from './app'
 import { LocalApp } from './local-app'
 import type { GlobalPlugin } from './plugin'
@@ -20,7 +19,12 @@ export class CarEngine {
    * @param canvasKitWasmFile The path of `canvaskit.wasm`. In common, the file is under bin in npm package canvaskit-wasm
    * @returns the engine object.
    */
-  async init(canvasKitWasmFile: string) {
+  async init(canvasKitWasmFile: string, full: boolean = false) {
+    let CanvasKitInit
+    if (full)
+      CanvasKitInit = (await import('canvaskit-wasm/full')).default
+    else
+      CanvasKitInit = (await import('canvaskit-wasm')).default
     for (const plugin of this.plugins) {
       if (plugin.beforeCanvasKitLoaded)
         plugin.beforeCanvasKitLoaded(this)
