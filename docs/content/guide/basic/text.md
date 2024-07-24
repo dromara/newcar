@@ -2,6 +2,11 @@
 title: Text and TextGroup
 ---
 
+<script setup lang="ts">
+import { default as DemoText } from './demos/demo-text.vue'
+import { default as DemoTextGroup } from './demos/demo-text-group.vue'
+</script>
+
 # `Text` and `TextGroup`
 
 ## `Text`
@@ -22,7 +27,6 @@ widget.add(
     x: 100,
     y: 100,
     style: {
-      color: nc.Color.parse('skyblue'),
       fontSize: 50
     },
     width: 500
@@ -33,7 +37,7 @@ widget.add(
 
 ```
 
-![The demonstration of the Text component, the sky blue "Hello world!"](/basic/text-and-textgroup-01.png)
+<DemoText/>
 
 ## `TextGroup`
 
@@ -50,16 +54,18 @@ widget.add(
       x: 100,
       y: 100,
       style: {
-        color: nc.Color.parse('skyblue'),
-        fontSize: 50
+        fontSize: 50,
+        fill: false,
+        border: true,
       }
     }),
     new nc.Text(' world!', {
       x: 100,
       y: 150,
       style: {
-        color: nc.Color.parse('red'),
-        fontSize: 30
+        fontSize: 30,
+        fill: false,
+        border: true,
       }
     }),
       // ...
@@ -74,7 +80,7 @@ widget.add(
 
 ```
 
-![The demonstration of the TextGroup component, the sky blue "Hello" and the red " world!"](/basic/text-and-textgroup-02.png)
+<DemoTextGroup/>
 
 ## See Also:
 
