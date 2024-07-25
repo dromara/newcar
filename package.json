@@ -7,7 +7,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preversion": "pnpm clean && pnpm build",
-    "build": "pnpm run --filter=./packages/** build",
+    "build": "pnpm run --filter=* build",
     "dev": "pnpm run --parallel --filter=* dev",
     "test": "pnpm run --filter=* test",
     "serve": "vite ./examples/",
