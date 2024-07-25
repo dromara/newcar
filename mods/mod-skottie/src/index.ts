@@ -1,4 +1,4 @@
-import type { Ref, WidgetOptions, WidgetStyle } from '@newcar/core'
+import type { Ref, WidgetOptions, WidgetRange, WidgetStyle } from '@newcar/core'
 import { Widget, ref } from '@newcar/core'
 import type { Canvas, CanvasKit, SkottieAnimation } from 'canvaskit-wasm'
 
@@ -41,6 +41,18 @@ export class Skottie extends Widget {
     this.playing = true
 
     return this
+  }
+
+  calculateRange(): WidgetRange {
+    return [0, 0, this.width.value, this.height.value]
+  }
+
+  calculateIn(x: number, y: number): boolean {
+    const range = this.calculateRange()
+    return x >= range[0]
+      && x <= range[2]
+      && y >= range[1]
+      && y <= range[3]
   }
 }
 
