@@ -43,8 +43,8 @@ export class Column extends Widget {
     let width = 0
     let height = 0
     for (const child of this.children) {
-      width += child.calculateRange()[2] - child.calculateRange()[0]
-      height += child.calculateRange()[3] - child.calculateRange()[1]
+      width += child.calculateRange()[2] - child.calculateRange()[0] + child.x.value
+      height += child.calculateRange()[3] - child.calculateRange()[1] + child.y.value
     }
     return [0, 0, width, height]
   }

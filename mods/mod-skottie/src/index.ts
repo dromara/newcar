@@ -14,7 +14,7 @@ export class Skottie extends Widget {
   width: Ref<number>
   height: Ref<number>
   playing: boolean
-  frameCounter = 0
+  private frameCounter = 0
 
   constructor(json: string, width: number, height: number, options?: SkottieOptions) {
     super(options)
