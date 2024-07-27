@@ -20,7 +20,7 @@ export const enConfig = defineConfig({
     nav: [
       {
         text: 'Tutorials',
-        link: '/getting-started',
+        link: '/basic/getting-started',
       },
       {
         text: 'Guide',
@@ -75,7 +75,7 @@ export const enConfig = defineConfig({
           items: [
             {
               text: 'Getting Started',
-              link: '/getting-started',
+              link: '/basic/getting-started',
             },
             {
               text: 'Animation',
