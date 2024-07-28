@@ -1,18 +1,22 @@
-import { CarEngine, ImageWidget, Scene, Widget, move, useImage } from 'newcar'
+import * as nc from 'newcar'
 
-const logoLoaded = await useImage('./assets/newcar.webp')
-
-const engine = await new CarEngine().init('../../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
-const app = engine.createLocalApp(700, 700)
+const engine = await new nc.CarEngine().init('../../node_modules/canvaskit-wasm/bin/canvaskit.wasm')
+const app = engine.createLocalApp(1000, 300)
 app.config.unit = 'frame'
-const logo = new ImageWidget(logoLoaded, {
+
+const scene = nc.createScene(new nc.Rect(200, 200, {
+  x: 50,
+  y: 50,
+  centerX: 50,
+  centerY: 50,
   style: {
-    scaleX: 0.4,
-    scaleY: 0.4,
+    color: nc.Color.parse('green'),
   },
-}).animate(move().withAttr({ duration: 1, to: [400, 400] }))
-const root = new Widget().add(logo)
-const scene = new Scene(root)
+}).animate(
+  nc.create().withAttr({
+    duration: 1,
+  }),
+))
 app.checkout(scene)
 
 export default app

@@ -75,6 +75,13 @@ export class Rect extends Path {
     })
     changed(this.style.radius, (_) => {
       this.mapRadius()
+      this.rect = this.rect = new Float32Array([
+        0,
+        0,
+        this.width.value * this.progress.value,
+        this.height.value * this.progress.value,
+        ...this.radius,
+      ])
     })
     changed(this.progress, (newValue) => {
       this.rect = new Float32Array([
