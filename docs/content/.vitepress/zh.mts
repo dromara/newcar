@@ -20,7 +20,7 @@ export const zhConfig = defineConfig({
     nav: [
       {
         text: '文档',
-        link: '/zh/getting-started',
+        link: '/zh/basic/getting-started',
       },
       {
         text: '指南',
@@ -75,7 +75,7 @@ export const zhConfig = defineConfig({
           items: [
             {
               text: '快速开始',
-              link: '/zh/getting-started',
+              link: '/zh/basic/getting-started',
             },
             {
               text: '属性动画',

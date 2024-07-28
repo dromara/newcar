@@ -12,7 +12,7 @@ hero:
   actions:
     - theme: brand
       text: Getting Started
-      link: /getting-started
+      link: /basic/getting-started
     - theme: alt
       text: API Reference
       link: https://apis.newcarjs.org
