@@ -79,7 +79,7 @@ export const zhConfig = defineConfig({
             },
             {
               text: '属性动画',
-              link: '/zh/basic/property-animation',
+              link: '/zh/basic/animation',
             },
             {
               text: '父子组件',

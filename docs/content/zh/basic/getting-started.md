@@ -57,7 +57,7 @@ $ npm install
 
 ### Vite CLI
 
-我们推荐使用 [PNPM + Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) 来创建我们的项目。
+我们推荐使用 [PNPM + Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) 来创建你的项目。
 
 ```shell
 $ pnpm create vite my-newcar-project

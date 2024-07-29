@@ -21,9 +21,9 @@ How do you define an animation? We have previously learned about the built-in an
 
 In the followings, I'll take you getting into the animation system and have a deeper understanding.
 
-## Animating Step by Step
+## Animation Step by Step
 
-When you called the `Widget.animate` function, it will push your animation into a "Waiting Array", and it will run these animations that you animated step bu step
+When you called the `Widget.animate` function, it will push your animation into a `Waiting Array` , and it will run these animations that you animated step by step
 
 The most simple animation is `delay`, it's like its name - to do nothing in some time unit. For example, if you want to wait 3s and run `create` animation, you can code like followings:
 
@@ -33,11 +33,11 @@ new Circle(100)
   .animate(create().withAttr({ duration: 1 }))
 ```
 
-## Sync Animating
+## Sync Animation
 
 If you want to run two or more animations in same timeline, you can use `parallel()` to make it. The function allow you input two and more animations, and run them together.
 
-For instance, if you want to let a circle run `create` animation with discolorating, you can:
+For instance, if you want to let a circle run `create` animation with discoloring, you can:
 
 ```ts
 new Circle(100)
@@ -84,7 +84,7 @@ circle.animate(
 
 In Newcar, some functions is spelled with "ease" at the begin, it can control your animation's speed action, we called them `TimingFunction`
 
-you can use `by` parameter to receive a timing fuction:
+you can use `by` parameter to receive a timing function:
 
 ```ts
 circle.animate(
