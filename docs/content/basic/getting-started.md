@@ -3,8 +3,7 @@ title: Getting Started
 ---
 
 <script setup lang="ts">
-import { default as DemoText } from './demos/demo-text.vue'
-
+import { default as DemoCircle } from './demos/getting-started/circle.vue'
 </script>
 
 # Getting Started
@@ -126,7 +125,9 @@ Then, we created a `Scene` object and set the circle widget as the root widget o
 
 Finally, we used the `App.checkout` method to switch to this scene and the `App.play` method to play the animation.
 
-If you setup the project correctly, you will see a white circle on the screen.
+If you setup the project correctly, you will see a white circle on the screen, just like this.
+<DemoCircle/>
+<demo src="./demos/getting-started/circle.vue"/>
 
 ## Adding Animation
 
