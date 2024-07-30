@@ -2,6 +2,11 @@
 title: Getting Started
 ---
 
+<script setup lang="ts">
+import { default as DemoText } from './demos/demo-text.vue'
+
+</script>
+
 # Getting Started
 
 Welcome to the beginner's guide for the Newcar animation engine! With this guide, you can learn some of the fundamental concepts and knowledge about Newcar, including:
