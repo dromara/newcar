@@ -1,7 +1,7 @@
 import type { Canvas, CanvasKit, Paint } from 'canvaskit-wasm'
 import { type BlendMode, deepClone, isUndefined } from '@newcar/utils'
 import type { ConvertToProp } from './apis/types'
-import type { Anim } from './animation'
+import type { Anim, WithDep } from './animation'
 import type { Event, EventInstance } from './event'
 import { defineEvent } from './event'
 import type { WidgetPlugin } from './plugin'
@@ -14,7 +14,7 @@ import { RootWidget } from './scene'
 
 export type WidgetRange = [number, number, number, number]
 // export type WidgetInstance<T extends Widget> = T
-export type SetupFunction<T extends Widget> = (widget: T) => Generator<number | Anim<T>, void, number | Anim<T>>
+export type SetupFunction<T extends Widget> = (widget: T) => Generator<number | WithDep<any, any> | Anim<T>, void, number | WithDep<any, any> | Anim<T>>
 export type Layout = 'row' | 'column' | 'absolute' | 'mix'
 export type Status = 'live' | 'dead'
 
@@ -27,6 +27,7 @@ export interface WidgetOptions {
   centerY?: number // The rotation center y of the widget.
   progress?: number
   children?: Widget[]
+  isControllerVisible?: boolean
 
   // Ability of widget
   dragable?: boolean
@@ -43,7 +44,6 @@ export interface WidgetStyle {
   blendMode?: BlendMode
   antiAlias?: boolean
   layout?: Layout
-  margin?: [number, number, number, number] | [number, number] | number
 }
 
 export class Widget {
@@ -61,7 +61,8 @@ export class Widget {
     transparency: ref(0.5),
   } // The style of the widget.
 
-  display = ref(true)
+  display
+  isControllerVisible = ref(false)
   isImplemented = ref(false) // If the widget is implemented by App.impl
   animationInstances: Anim<Widget>[] = []
   eventInstances: EventInstance<Widget>[] = []
@@ -86,7 +87,7 @@ export class Widget {
   isRotating: boolean
   isScaling: boolean
 
-  private paint: Paint
+  private p: Paint
 
   constructor(options?: WidgetOptions) {
     options ??= {}
@@ -99,6 +100,9 @@ export class Widget {
     this.centerX = ref(options.centerX ?? 0)
     this.centerY = ref(options.centerY ?? 0)
     this.progress = ref(options.progress ?? 1)
+    this.display = ref(true)
+
+    this.isControllerVisible = ref(options.isControllerVisible ?? false)
 
     this.dragable = ref(options.dragable ?? false)
     this.scalable = ref(options.scalable ?? false)
@@ -114,13 +118,6 @@ export class Widget {
     this.style.blendMode = ref(options.style.blendMode ?? 'srcOver')
     this.style.antiAlias = ref(options.style.antiAlias ?? true)
     this.style.layout = ref(options.style.layout ?? 'absolute')
-    this.style.margin = ref(isUndefined(options.style.margin)
-      ? [0, 0, 0, 0]
-      : typeof options.style.margin === 'number'
-        ? [options.style.margin, options.style.margin, options.style.margin, options.style.margin]
-        : options.style.margin.length === 2
-          ? [options.style.margin[0], options.style.margin[0], options.style.margin[1], options.style.margin[1]]
-          : options.style.margin)
   }
 
   /**
@@ -132,7 +129,7 @@ export class Widget {
 
   /**
    * Called when the widget is registered.
-   * @param _ck The CanvasKit namespace
+   * @param ck The CanvasKit namespace
    */
   init(ck: CanvasKit) {
     if (this.parent instanceof RootWidget) {
@@ -144,9 +141,9 @@ export class Widget {
       [this.x.value, this.y.value] = this.pos.value.resolve(this.parent?.x.value ?? 0, this.parent?.y.value ?? 0)
     }
 
-    this.paint = new ck.Paint()
-    this.paint.setColor(ck.WHITE)
-    this.paint.setAntiAlias(true)
+    this.p = new ck.Paint()
+    this.p.setColor(ck.WHITE)
+    this.p.setAntiAlias(true)
 
     changed(this.pos, (pos: Ref<Position>) => {
       if (this.parent instanceof RootWidget) {
@@ -177,48 +174,50 @@ export class Widget {
     ck: CanvasKit,
     canvas: Canvas,
   ) {
-    if (this.status === 'live') {
-      if (!this.initialized) {
-        this.init(ck)
-        this.initialized = true
-      }
-      for (const updateFunc of this.updates)
-        updateFunc(elapsed, this)
-      this.runAnimation(elapsed, ck)
-      this.processSetups(elapsed, ck)
-
-      canvas.save()
-
-      canvas.translate(this.x.value, this.y.value)
-      canvas.rotate(this.style.rotation.value, this.centerX.value, this.centerY.value)
-      canvas.scale(this.style.scaleX.value, this.style.scaleY.value)
-      for (const plugin of this.plugins) {
-        if (plugin.beforeDraw)
-          plugin.beforeDraw(this, canvas)
-      }
-      if (this.display.value)
-        this.draw(canvas)
-
-      if (this.scalable.value) {
-        this.paint.setStyle(ck.PaintStyle.Fill)
-        canvas.drawCircle(-10, -10, 5, this.paint)
-        canvas.drawCircle(this.calculateRange()[2] + 10, -10, 5, this.paint)
-        canvas.drawCircle(-10, this.calculateRange()[3] + 10, 5, this.paint)
-        canvas.drawCircle(this.calculateRange()[2] + 10, this.calculateRange()[3] + 10, 5, this.paint)
-        this.paint.setStyle(ck.PaintStyle.Stroke)
-        canvas.drawRect4f(-10, -10, this.calculateRange()[2] + 10, this.calculateRange()[3] + 10, this.paint)
-      }
-
-      for (const plugin of this.plugins) {
-        if (plugin.onDraw)
-          plugin.onDraw(this, canvas)
-      }
-      for (const child of this.children) {
-        child.update(elapsed, ck, canvas)
-      }
-
-      canvas.restore()
+    if (!this.initialized) {
+      this.init(ck)
+      this.initialized = true
     }
+    for (const updateFunc of this.updates)
+      updateFunc(elapsed, this)
+    this.runAnimation(elapsed, ck)
+    this.processSetups(elapsed, ck)
+
+    canvas.save()
+
+    canvas.save()
+    canvas.translate(this.x.value, this.y.value)
+    if (this.isControllerVisible.value) {
+      this.p.setStyle(ck.PaintStyle.Fill)
+      canvas.drawCircle(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[1] - 10, 5, this.p)
+      canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[1] - 10, 5, this.p)
+      canvas.drawCircle(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[3] + 10, 5, this.p)
+      canvas.drawCircle(this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, 5, this.p)
+      this.p.setStyle(ck.PaintStyle.Stroke)
+      canvas.drawRect4f(this.calculateCorrectedRange()[0] - 10, this.calculateCorrectedRange()[1] - 10, this.calculateCorrectedRange()[2] + 10, this.calculateCorrectedRange()[3] + 10, this.p)
+    }
+    canvas.restore()
+
+    canvas.translate(this.x.value, this.y.value)
+    canvas.rotate(this.style.rotation.value, this.centerX.value, this.centerY.value)
+    canvas.scale(this.style.scaleX.value, this.style.scaleY.value)
+    for (const plugin of this.plugins) {
+      if (plugin.beforeDraw)
+        plugin.beforeDraw(this, canvas)
+    }
+    if (this.display.value) {
+      this.draw(canvas)
+    }
+
+    for (const plugin of this.plugins) {
+      if (plugin.onDraw)
+        plugin.onDraw(this, canvas)
+    }
+    for (const child of this.children) {
+      child.update(elapsed, ck, canvas)
+    }
+
+    canvas.restore()
   }
 
   /**
@@ -340,28 +339,45 @@ export class Widget {
       })
     }
     if (this.scalable.value) {
+      let scaleControlNeedMove = [false, false]
       element.addEventListener('mousedown', (e) => {
-        const [left, top, right, bottom] = this.calculateRange()
-        const { x, y } = this.coordinateParentToChild(e.x, e.y)
-        if (
-          this.isPointInCircle(x, y, left, top)
-          || this.isPointInCircle(x, y, right, top)
-          || this.isPointInCircle(x, y, left, bottom)
-          || this.isPointInCircle(x, y, right, bottom)
-        ) {
-          this.isScaling = true
-          console.log('Scaling!')
+        let [left, top, right, bottom] = this.calculateRange()
+        if (this.isControllerVisible) {
+          right += 20 / (this.style.scaleX?.value ?? 1)
+          bottom += 20 / (this.style.scaleY?.value ?? 1)
         }
-        console.log('test')
-        // console.log(x, y)
+        const { x, y } = this.coordinateParentToChild(e.x, e.y)
+
+        const [lt, rt, lb, rb] = [this.isPointInCircle(x, y, left, top), this.isPointInCircle(x, y, right, top), this.isPointInCircle(x, y, left, bottom), this.isPointInCircle(x, y, right, bottom)]
+        if (lt || rt || lb || rb) {
+          this.isScaling = true
+          if (lt) {
+            scaleControlNeedMove = [true, true]
+          }
+          if (rt) {
+            scaleControlNeedMove = [false, true]
+          }
+          if (lb) {
+            scaleControlNeedMove = [true, false]
+          }
+          if (rb) {
+            scaleControlNeedMove = [false, false]
+          }
+        }
       })
       element.addEventListener('mouseup', () => {
         this.isScaling = false
       })
       element.addEventListener('mousemove', (e) => {
         if (this.isScaling) {
-          this.style.scaleX.value = Math.max(0.1, Math.min(10, this.style.scaleX.value + e.movementX / 100))
-          this.style.scaleY.value = Math.max(0.1, Math.min(10, this.style.scaleY.value + e.movementY / 100))
+          this.style.scaleX.value = Math.max(0.1, Math.min(10, this.style.scaleX.value + (scaleControlNeedMove[0] ? -1 : 1) * e.movementX / 100))
+          this.style.scaleY.value = Math.max(0.1, Math.min(10, this.style.scaleY.value + (scaleControlNeedMove[1] ? -1 : 1) * e.movementY / 100))
+          if (scaleControlNeedMove[0]) {
+            this.x.value = e.x
+          }
+          if (scaleControlNeedMove[1]) {
+            this.y.value = e.y
+          }
         }
       })
     }
@@ -371,7 +387,6 @@ export class Widget {
   }
 
   private isPointInCircle(px: number, py: number, cx: number, cy: number, radius = 5): boolean {
-    console.log(Math.sqrt((px - cx) ** 2 + (py - cy) ** 2))
     return Math.sqrt((px - cx) ** 2 + (py - cy) ** 2) < radius
   }
 
@@ -470,6 +485,14 @@ export class Widget {
    */
   calculateRange(): WidgetRange {
     throw new Error('Method not implemented.')
+  }
+
+  /**
+   * Calculate the range of the widget using `calculateRange()`, and correct it according to the transformation applied on it.
+   */
+  calculateCorrectedRange(): WidgetRange {
+    const [left, top, right, bottom] = this.calculateRange()
+    return [left, top, right * (this.style.scaleX?.value ?? 1), bottom * (this.style.scaleY?.value ?? 1)]
   }
 
   /**

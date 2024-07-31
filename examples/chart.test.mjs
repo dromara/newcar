@@ -3,7 +3,7 @@ import { Color } from 'newcar'
 import * as nc from 'newcar'
 import { BarChart, BubbleChart, ChartDataUnit, ChartUtil, LineChart, MixedChart } from '@newcar/mod-chart'
 
-await nc.useFont('Roboto-Regular.ttf')
+await nc.useFont('default.ttf')
 
 const engine = await new nc.CarEngine().init(
   './node_modules/canvaskit-wasm/bin/canvaskit.wasm',

@@ -1,11 +1,12 @@
-import {Circle, createScene, Rect, Widget} from 'newcar'
+import {Circle, Color, createScene, move, Rect, Widget, useFont} from 'newcar'
 import TextEditor from "@newcar/mod-text-editor";
-import * as nc from "newcar";
 
-await nc.useFont('./Roboto-Regular.ttf')
+await useFont('./default.ttf')
 
 export default createScene(
-	new TextEditor('Text', {
-		dragable: true
-	})
+  new TextEditor('Hello', {
+    x: 100,
+    y: 100,
+  })
+	// new Widget()
 )

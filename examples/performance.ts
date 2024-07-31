@@ -2,7 +2,7 @@ import * as nc from 'newcar'
 import * as mt from '@newcar/mod-math'
 import * as gm from '@newcar/mod-geometry'
 
-await nc.useFont('./Roboto-Regular.ttf')
+await nc.useFont('./default.ttf')
 
 const wid = new nc.Widget()
 for (let i = 0; i< 1000; i++) {
