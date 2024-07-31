@@ -1,6 +1,9 @@
 ---
 title: 快速开始
 ---
+<script setup lang="ts">
+import { default as DemoCircle } from '../../basic/demos/getting-started/circle.vue'
+</script>
 
 # 快速开始
 
@@ -120,8 +123,8 @@ app.play()
 
 最后，我们使用 `App.checkout` 方法切换到这个场景，并使用 `App.play` 方法播放动画。
 
-如果您正确设置了项目，您将在屏幕上看到一个白色圆圈。
-
+如果您正确设置了项目，您将在屏幕上看到一个白色圆圈就像这样。
+<DemoCircle/>
 ## 添加动画
 
 ```typescript
