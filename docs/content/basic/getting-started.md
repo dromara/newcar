@@ -127,7 +127,6 @@ Finally, we used the `App.checkout` method to switch to this scene and the `App.
 
 If you setup the project correctly, you will see a white circle on the screen, just like this.
 <DemoCircle/>
-<demo src="./demos/getting-started/circle.vue"/>
 
 ## Adding Animation
 

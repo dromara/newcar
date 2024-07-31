@@ -4,7 +4,7 @@ title: 父子组件
 
 # 父子组件
 
-In `newcar`, objects can be nested using the `children` property. Here's how to add them:
+在 `newcar` ，可以使用 `children` 属性嵌套对象。添加方法如下：
 
 ```javascript
 const child = new $.Circle(200, {
@@ -21,22 +21,22 @@ const father = new $.Circle(300, {
 father.add(child)
 ```
 
-In this case, the coordinates `(200, 300)` of `child` are not relative to the top-left corner of the canvas, but rather to the position of its parent component.
+在本例中， `child` 的坐标 `（200， 300）` 不是相对于画布的左上角，而是相对于其父组件的位置。
 
 :::tip
-In addition, parent-child components follow the principle of **"child follows parent, parent does not follow child"**. This means that when the parent component moves, the child component moves with it. When the child component moves, the parent component remains still.
+此外，父子组件遵循 **“子跟随父，父不跟随子”** 的原则。这意味着，当父组件移动时，子组件也会随之移动。当子组件移动时，父组件将保持静止。
 
-With this feature, you can set up a background and make objects in the scene "child objects" of the background, so that when you manipulate the character's movement, the background moves backwards.
+使用此功能，您可以设置背景并使场景中的对象成为背景的 `“子对象”` ，这样当您操纵角色的移动时，背景会向后移动。
 :::
 
 :::info
-Besides coordinates, **rotation angle** and **scaling ratio** also follow the parent-child component principle.
+除了坐标外，**旋转角度** 和 **缩放比例** 也遵循父子继承原则。
 
-> The rotation angle here refers to the rotation angle of the entire coordinate system relative to the parent component, not the rotation angle value of each component.
+> 这里的旋转角度是指整个坐标系相对于父分量的旋转角度，而不是每个分量的旋转角度值。
 
 :::
 
-However, storing objects in variables is both cumbersome and inefficient, so after version 0.7.0, we recommend using chain syntax:
+但是，在变量中存储对象既麻烦又效率低下，因此在 0.7.0 版本之后，我们建议使用链式语法：
 
 ```javascript
 const root = new Widget().add(new Circle(200).setUpdate((elapsed, widget) => {}))
