@@ -89,7 +89,7 @@ export interface TextStyle extends FigureStyle {
 
 export class Text extends Figure {
   declare style: ConvertToProp<TextStyle>
-  private builder: ParagraphBuilder
+  builder: ParagraphBuilder
   private manager: FontMgr
   private paragraph: Paragraph
   width: Ref<number>

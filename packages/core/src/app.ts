@@ -115,6 +115,7 @@ export class App {
     }
 
     app.scene.root.canvasSize = [app.element.width, app.element.height]
+    canvas.clear(app.ck.BLACK)
     app.scene.root.update(
       app.scene.elapsed,
       app.ck,
@@ -195,9 +196,12 @@ export class App {
    * @returns this
    */
   setBackgroundColor(color: Color | 'transparent'): this {
-    color !== 'transparent'
-      ? (this.element.style.backgroundColor = color.toString())
-      : (this.element.style.backgroundColor = '')
+    if (color !== 'transparent') {
+      this.element.style.backgroundColor = color.toString()
+    }
+    else {
+      this.element.style.backgroundColor = ''
+    }
 
     return this
   }
