@@ -4,11 +4,11 @@ title: Setup 语法
 
 # Setup 语法
 
-你有没有觉得使用Newcar来创建动画太麻烦了?在1.0.0-beta版本之后,我们添加了Setup语法,为用户提供了更大的灵活性。 
+你有没有觉得使用Newcar来创建动画太麻烦了？ 在1.0.0-beta版本之后, 我们添加了Setup语法, 使用户可以更加灵活的创建组件。 
 
 ## 生成器函数
 
-首先, 我们需要调用 `Widget.setup()` 方法并传入一个 [生成器函数](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Iterators_and_Generators#generator_functions), 这将是逻辑代码的入口点。第一个参数是 `Widget` 实例.
+首先, 我们需要调用 `Widget.setup()` 方法并传入一个 [生成器函数](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Iterators_and_Generators#generator_functions), 这将是逻辑代码的入口点。第一个参数是 `组件` 实例.
 
 ```ts
 import * as nc from 'newcar'
@@ -24,7 +24,7 @@ new Widget({
 
 ## 暂停
 
-当我们想要将动画暂停几秒，几毫秒或几帧时，我们可以使用 `yield` 关键字来返回一个数字。
+当我们想要将动画暂停几秒、 几毫秒或几帧时， 我们可以使用 `yield` 关键字。
 
 ```ts
 import * as nc from 'newcar'
@@ -41,7 +41,7 @@ new Widget({
 
 ## 动画
 
-我们如何插入动画？只需产出你想要动画化的内容。
+我们如何插入动画？ 只需在 `yield` 关键字后面写上需要的动画。
 
 ```ts
 import * as nc from 'newcar'
