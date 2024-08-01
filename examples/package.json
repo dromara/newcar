@@ -9,6 +9,8 @@
     "@newcar/mod-math": "workspace:*",
     "@newcar/mod-layout": "workspace:*",
     "@newcar/mod-skottie": "workspace:*",
+    "@newcar/mod-text-editor": "workspace:*",
+    "@newcar/mod-table": "workspace:*",
     "@newcar/plugin-debug": "workspace:*",
     "@newcar/plugin-timeview": "workspace:*",
     "@types/luxon": "^3.4.2",

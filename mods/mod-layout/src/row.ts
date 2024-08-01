@@ -12,7 +12,8 @@ export class Row extends Widget {
   width: Ref<number>
 
   constructor(width: number, options?: RowOptions) {
-    super(options)
+    options.style ??= {}
+    super(options ?? {})
     this.width = ref(width)
   }
 

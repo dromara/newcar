@@ -13,7 +13,8 @@ export default class TextEditor extends Text {
   element: HTMLInputElement = document.createElement('input')
 
   constructor(originText: string, options?: TextEditorOptions) {
-    super(originText, options)
+    options.style ??= {}
+    super(originText, options ?? {})
   }
 
   init(ck: CanvasKit) {

@@ -12,7 +12,8 @@ export class Column extends Widget {
   height: Ref<number>
 
   constructor(height: number, options?: ColumnOptions) {
-    super(options)
+    options.style ??= {}
+    super(options ?? {})
     this.height = ref(height)
   }
 
