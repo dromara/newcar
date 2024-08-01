@@ -2,6 +2,10 @@
 title: Property Animation
 ---
 
+<script setup lang="ts">
+import { default as DemoDiscolorate } from './demos/animation/discolorate.vue'
+</script>
+
 # Animation
 
 The underlying principle of newcar animations is to continuously change an attribute of an object in each frame. In the quick start, you've already mastered the basic use of newcar animations. Now let's delve into more detail.
@@ -48,7 +52,7 @@ new Circle(100)
     )
   )
 ```
-
+<DemoDiscolorate/>
 In addition, if you want to insert step-by-step animation, you can use `sequence` to make it.
 
 ```ts
