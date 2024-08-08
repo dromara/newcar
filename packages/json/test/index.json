@@ -6,10 +6,35 @@
     "options": {
       "style": {
         "fill": false,
-        "border": true
+        "border": true,
+        "borderColor": "rgb(255,255,255)",
+        "fillColor": "skyblue",
+        "shader": {
+          "type": "gradient",
+          "color1": "rgb(255,255,255)",
+          "color2": "rgb(0,0,0)"
+        }
       },
       "x": 100,
       "y": 100
-    }
+    },
+    "animations": [
+      {
+        "custom": true,
+        "type": "changeProperty",
+        "var": "x",
+        "from": 100,
+        "to": 200,
+        "duration": 1000
+      }
+    ],
+    "actions": [
+      {
+        "type": "change",
+        "var": "x",
+        "value": 200,
+        "elapsed": 1
+      }
+    ]
   }
 }

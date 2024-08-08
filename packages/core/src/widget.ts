@@ -15,7 +15,7 @@ import { RootWidget } from './scene'
 export type WidgetRange = [number, number, number, number]
 // export type WidgetInstance<T extends Widget> = T
 export type SetupFunction<T extends Widget> = (widget: T) => Generator<number | WithDep<any, any> | Anim<T>, void, number | WithDep<any, any> | Anim<T>>
-export type Layout = 'row' | 'column' | 'absolute' | 'mix'
+// export type Layout = 'row' | 'column' | 'absolute' | 'mix'
 export type Status = 'live' | 'dead'
 
 export interface WidgetOptions {
@@ -43,7 +43,7 @@ export interface WidgetStyle {
   transparency?: number
   blendMode?: BlendMode
   antiAlias?: boolean
-  layout?: Layout
+  // layout?: Layout
 }
 
 export class Widget {
@@ -117,7 +117,7 @@ export class Widget {
     this.style.transparency = ref(options.style.transparency ?? 1)
     this.style.blendMode = ref(options.style.blendMode ?? 'srcOver')
     this.style.antiAlias = ref(options.style.antiAlias ?? true)
-    this.style.layout = ref(options.style.layout ?? 'absolute')
+    // this.style.layout = ref(options.style.layout ?? 'absolute')
   }
 
   /**
