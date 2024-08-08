@@ -93,13 +93,13 @@ importers:
     dependencies:
       '@newcar/mod-math':
         specifier: latest
-        version: 2.0.0-beta.3(canvaskit-wasm@0.39.1)
+        version: 2.0.0-beta.4(canvaskit-wasm@0.39.1)
       canvaskit-wasm:
         specifier: 0.39.1
         version: 0.39.1
       newcar:
         specifier: latest
-        version: 2.0.0-beta.3(canvaskit-wasm@0.39.1)
+        version: 2.0.0-beta.4(canvaskit-wasm@0.39.1)
       unplugin-vue-components:
         specifier: ^0.26.0
         version: 0.26.0(@babel/parser@7.25.0)(rollup@4.19.1)(vue@3.4.34(typescript@5.5.4))
@@ -362,6 +362,25 @@ importers:
         specifier: 0.39.1
         version: 0.39.1
 
+  packages/json:
+    dependencies:
+      '@newcar/core':
+        specifier: workspace:*
+        version: link:../core
+      '@newcar/utils':
+        specifier: workspace:*
+        version: link:../utils
+      mitt:
+        specifier: ^3.0.1
+        version: 3.0.1
+    devDependencies:
+      acorn:
+        specifier: 8.11.3
+        version: 8.11.3
+      canvaskit-wasm:
+        specifier: 0.39.1
+        version: 0.39.1
+
   packages/newcar:
     dependencies:
       '@newcar/basic':
@@ -370,6 +389,9 @@ importers:
       '@newcar/core':
         specifier: workspace:*
         version: link:../core
+      '@newcar/json':
+        specifier: workspace:*
+        version: link:../json
       '@newcar/recorder':
         specifier: workspace:*
         version: link:../recorder
@@ -1384,25 +1406,25 @@ packages:
   '@manypkg/get-packages@1.1.3':
     resolution: {integrity: sha512-fo+QhuU3qE/2TQMQmbVMqaQ6EWbMhi4ABWP+O4AM1NqPBuy0OrApV5LO6BrrgnhtAHS2NH6RrVk9OL181tTi8A==}
 
-  '@newcar/basic@2.0.0-beta.3':
+  '@newcar/basic@2.0.0-beta.4':
     resolution: {integrity: sha512-2jgSbFBMqZjk71EXuuCuXYUTm4k5VJJlNrC9vZqHv+6AgHJ35hntE6E9weQV1zmZvZL3BqYPpB+oVcAOe6X32Q==}
     peerDependencies:
       canvaskit-wasm: '>=0.39.1'
 
-  '@newcar/core@2.0.0-beta.3':
+  '@newcar/core@2.0.0-beta.4':
     resolution: {integrity: sha512-hPJibcKhnVaiMVmivetveeA862XgWoFSxiTBIYQ15d6I/MEEofZ8EN1dSjZb5VYY/rzrj983Wo23hgmG46cj9g==}
     peerDependencies:
       canvaskit-wasm: '>=0.39.1'
 
-  '@newcar/mod-math@2.0.0-beta.3':
+  '@newcar/mod-math@2.0.0-beta.4':
     resolution: {integrity: sha512-0IQm2yXD/ADvvNW5t2LbA8WojFMfhH5CXu/mrHZgkLQ3L2oglg62E03nYUN59SxCdToxVNQNZqj6tF8dwrSJVQ==}
     peerDependencies:
       canvaskit-wasm: '>=0.39.1'
 
-  '@newcar/recorder@2.0.0-beta.3':
+  '@newcar/recorder@2.0.0-beta.4':
     resolution: {integrity: sha512-fUOvr9hCcii2yE/DUalBK+gejUyEkSC6kf/CQKz1e5fxnUyNegU6nH4C+yOCKu23wmkxoWt6Qt+47nx/BG8zEg==}
 
-  '@newcar/utils@2.0.0-beta.3':
+  '@newcar/utils@2.0.0-beta.4':
     resolution: {integrity: sha512-nptmvWWX5qPDDWl90GWb/dDwHHSNTQQBEQywlZM78LStgXlEDXnf8tbRbK/gaIfwD37lfqSAWstAhZ9TEgOpeQ==}
     peerDependencies:
       canvaskit-wasm: '>=0.39.1'
@@ -3651,7 +3673,7 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  newcar@2.0.0-beta.3:
+  newcar@2.0.0-beta.4:
     resolution: {integrity: sha512-00y+6+AANLWdnmhiiwMQF8uZdEilB8eH2lmkzZtyVmTZuroFksIJpLjmnhl0H8/ltwJTEGcAQ4w8Yrp0frfKxw==}
     peerDependencies:
       canvaskit-wasm: '>=0.39.1'
@@ -5946,31 +5968,31 @@ snapshots:
       globby: 11.1.0
       read-yaml-file: 1.1.0
 
-  '@newcar/basic@2.0.0-beta.3(canvaskit-wasm@0.39.1)':
+  '@newcar/basic@2.0.0-beta.4(canvaskit-wasm@0.39.1)':
     dependencies:
-      '@newcar/core': 2.0.0-beta.3(canvaskit-wasm@0.39.1)
-      '@newcar/utils': 2.0.0-beta.3(canvaskit-wasm@0.39.1)
+      '@newcar/core': 2.0.0-beta.4(canvaskit-wasm@0.39.1)
+      '@newcar/utils': 2.0.0-beta.4(canvaskit-wasm@0.39.1)
       canvaskit-wasm: 0.39.1
 
-  '@newcar/core@2.0.0-beta.3(canvaskit-wasm@0.39.1)':
+  '@newcar/core@2.0.0-beta.4(canvaskit-wasm@0.39.1)':
     dependencies:
-      '@newcar/utils': 2.0.0-beta.3(canvaskit-wasm@0.39.1)
+      '@newcar/utils': 2.0.0-beta.4(canvaskit-wasm@0.39.1)
       canvaskit-wasm: 0.39.1
       mitt: 3.0.1
 
-  '@newcar/mod-math@2.0.0-beta.3(canvaskit-wasm@0.39.1)':
+  '@newcar/mod-math@2.0.0-beta.4(canvaskit-wasm@0.39.1)':
     dependencies:
-      '@newcar/basic': 2.0.0-beta.3(canvaskit-wasm@0.39.1)
-      '@newcar/core': 2.0.0-beta.3(canvaskit-wasm@0.39.1)
-      '@newcar/utils': 2.0.0-beta.3(canvaskit-wasm@0.39.1)
+      '@newcar/basic': 2.0.0-beta.4(canvaskit-wasm@0.39.1)
+      '@newcar/core': 2.0.0-beta.4(canvaskit-wasm@0.39.1)
+      '@newcar/utils': 2.0.0-beta.4(canvaskit-wasm@0.39.1)
       canvaskit-wasm: 0.39.1
       gl-matrix: 3.4.3
       svg-path: 0.2.1
       tex-to-svg: 0.2.0
 
-  '@newcar/recorder@2.0.0-beta.3': {}
+  '@newcar/recorder@2.0.0-beta.4': {}
 
-  '@newcar/utils@2.0.0-beta.3(canvaskit-wasm@0.39.1)':
+  '@newcar/utils@2.0.0-beta.4(canvaskit-wasm@0.39.1)':
     dependencies:
       canvaskit-wasm: 0.39.1
       colorparsley: 0.1.8
@@ -6696,13 +6718,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  acorn-jsx@5.3.2(acorn@8.11.3):
+    dependencies:
+      acorn: 8.11.3
+
   acorn-jsx@5.3.2(acorn@8.12.1):
     dependencies:
       acorn: 8.12.1
 
   acorn-walk@8.3.3:
     dependencies:
-      acorn: 8.12.1
+      acorn: 8.11.3
 
   acorn@8.11.3: {}
 
@@ -7715,8 +7741,8 @@ snapshots:
 
   espree@9.6.1:
     dependencies:
-      acorn: 8.12.1
-      acorn-jsx: 5.3.2(acorn@8.12.1)
+      acorn: 8.11.3
+      acorn-jsx: 5.3.2(acorn@8.11.3)
       eslint-visitor-keys: 3.4.3
 
   esprima@4.0.1: {}
@@ -8281,7 +8307,7 @@ snapshots:
 
   jsonc-eslint-parser@2.4.0:
     dependencies:
-      acorn: 8.12.1
+      acorn: 8.11.3
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
       semver: 7.6.3
@@ -8519,7 +8545,7 @@ snapshots:
 
   mlly@1.7.1:
     dependencies:
-      acorn: 8.12.1
+      acorn: 8.11.3
       pathe: 1.1.2
       pkg-types: 1.1.3
       ufo: 1.5.4
@@ -8554,12 +8580,12 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  newcar@2.0.0-beta.3(canvaskit-wasm@0.39.1):
+  newcar@2.0.0-beta.4(canvaskit-wasm@0.39.1):
     dependencies:
-      '@newcar/basic': 2.0.0-beta.3(canvaskit-wasm@0.39.1)
-      '@newcar/core': 2.0.0-beta.3(canvaskit-wasm@0.39.1)
-      '@newcar/recorder': 2.0.0-beta.3
-      '@newcar/utils': 2.0.0-beta.3(canvaskit-wasm@0.39.1)
+      '@newcar/basic': 2.0.0-beta.4(canvaskit-wasm@0.39.1)
+      '@newcar/core': 2.0.0-beta.4(canvaskit-wasm@0.39.1)
+      '@newcar/recorder': 2.0.0-beta.4
+      '@newcar/utils': 2.0.0-beta.4(canvaskit-wasm@0.39.1)
       canvaskit-wasm: 0.39.1
 
   node-fetch-native@1.6.4: {}

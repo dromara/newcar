@@ -8,6 +8,7 @@ export * from './async-widget'
 export * from './global'
 export * from './local-app'
 export * from './event'
+export * from './config'
 
 export * from './apis/physical'
 export * from './apis/use-font'

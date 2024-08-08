@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "root": {
+    "type": "Circle",
+    "arguments": [100],
+    "options": {
+      "style": {
+        "fill": false,
+        "border": true
+      },
+      "x": 100,
+      "y": 100
+    }
+  }
+}
