@@ -119,31 +119,31 @@ export const zhConfig = defineConfig({
             },
           ],
         },
-        {
-          text: '自定义',
-          items: [
-            {
-              text: '基本组件',
-              link: '/zh/dev/basic-widget',
-            },
-            {
-              text: '复合组件',
-              link: '/zh/dev/composite-widget',
-            },
-            {
-              text: '进阶动画',
-              link: '/zh/dev/advanced-animation',
-            },
-            {
-              text: '通用事件',
-              link: '/zh/dev/common-event',
-            },
-            {
-              text: '组件事件',
-              link: '/zh/dev/widget-event',
-            },
-          ],
-        },
+        // {
+        //   text: '自定义',
+        //   items: [
+        //     {
+        //       text: '基本组件',
+        //       link: '/zh/dev/basic-widget',
+        //     },
+        //     {
+        //       text: '复合组件',
+        //       link: '/zh/dev/composite-widget',
+        //     },
+        //     {
+        //       text: '进阶动画',
+        //       link: '/zh/dev/advanced-animation',
+        //     },
+        //     {
+        //       text: '通用事件',
+        //       link: '/zh/dev/common-event',
+        //     },
+        //     {
+        //       text: '组件事件',
+        //       link: '/zh/dev/widget-event',
+        //     },
+        //   ],
+        // },
       ],
       '/zh/guide/basic': [
         {
