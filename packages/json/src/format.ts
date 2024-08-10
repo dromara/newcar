@@ -6,6 +6,7 @@ export interface WidgetFormat {
   options: WidgetOptions
   children: WidgetFormat[]
   animations: AnimFormat[]
+  actions: ActionFormat[]
 }
 
 export interface SceneFormat {
@@ -15,4 +16,12 @@ export interface SceneFormat {
 export interface AnimFormat {
   type: string
   parameters: Record<string, unknown>
+}
+
+export interface ActionFormat {
+  type: 'change' | 'call'
+  to?: any
+  arguments?: unknown[]
+  elapsed: number
+  handle: string
 }

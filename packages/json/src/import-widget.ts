@@ -1,5 +1,6 @@
 import type { Widget } from '@newcar/core'
-import type { WidgetFormat } from './format.ts'
+import type { WidgetFormat } from './format'
+import { processAction } from './process-action'
 
 export function importWidget<T extends typeof Widget>(
   widgetData: WidgetFormat | string,
@@ -18,6 +19,16 @@ export function importWidget<T extends typeof Widget>(
   if (widgetData.animations) {
     widgetData.animations.forEach((animation) => {
       widget.animate(anims[animation.type]().withAttr(animation.parameters))
+    })
+  }
+  if (widgetData.actions) {
+    const tolerance = 0.1
+    widgetData.actions.forEach((action) => {
+      widget.setUpdate((e, w) => {
+        if (Math.abs(e - action.elapsed) <= tolerance) {
+          processAction(w, action)
+        }
+      })
     })
   }
 

@@ -32,6 +32,24 @@
               }
             }
           }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "handle": {
+                "type": "string"
+              },
+              "to": true,
+              "elapsed": {
+                "type": "number"
+              }
+            }
+          }
         }
       }
     }
