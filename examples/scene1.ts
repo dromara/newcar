@@ -7,7 +7,7 @@ import * as nc from 'newcar'
 await useFont('./default.ttf')
 
 export default importScene(
-  
+
   `{
   "root": {
     "type": "Circle",
@@ -15,7 +15,8 @@ export default importScene(
     "options": {
       "style": {
         "border": true,
-        "fill": false
+        "fill": false,
+        "borderColor": [144, 144, 144, 1]
       },
       "x": 800,
       "y": 450
@@ -40,3 +41,11 @@ export default importScene(
   nc as any,
   nc as any,
 )
+//
+// export default createScene(
+//   new Circle(100, {
+//     style: {
+//       color: Color.rgba(144, 144, 144, 1)
+//     }
+//   })
+// )

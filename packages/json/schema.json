@@ -47,6 +47,9 @@
               "to": true,
               "elapsed": {
                 "type": "number"
+              },
+              "arguments": {
+                "type": "array"
               }
             }
           }
