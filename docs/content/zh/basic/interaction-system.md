@@ -24,7 +24,7 @@ import * as nc from 'newcar'
 const root = new nc.Rect(100, 100,{x:100})
   .on(nc.click, (widget, x, y) => {
     console.log('Clicked!')
-    alert("Clicked!");
+    alert("Clicked!")
   })
 
 const scene = new nc.Scene(root)
@@ -67,6 +67,7 @@ import * as nc from 'newcar'
 const root = new nc.ComplexWidget([0, 0], [100, 100])
   .on('customEvent', (widget, x, y) => {
     console.log('Clicked!')
+    alert("Clicked!")
   })
 
 const scene = new nc.Scene(root)

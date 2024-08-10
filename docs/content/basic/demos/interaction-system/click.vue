@@ -14,7 +14,7 @@ onMounted(async () => {
   const root = new nc.Rect(100, 100,{x:100})
   .on(nc.click, (widget, x, y) => {
     console.log('Clicked!')
-    alert("Clicked!");
+    alert("Clicked!")
   })
   const scene = nc.createScene(root)
   app.checkout(scene)
