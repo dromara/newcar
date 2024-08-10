@@ -2,24 +2,40 @@
 title: 父子组件
 ---
 
+<script setup lang="ts">
+import { default as DemoChild } from '../../basic/demos/parent-child-widgets/parents-widget.vue'
+</script>
+
 # 父子组件
 
 在 `newcar` ，可以使用 `children` 属性嵌套组件。添加方法如下：
 
 ```javascript
-const child = new $.Circle(200, {
-  x: 200,
-  y: 300
-})
+const child = new nc.Circle(100, {
+  x: 103,
+  y: 103,
+  style:{
+    border:true,
+    borderColor:nc.Color.BLACK,
+    borderWidth:3
+  }
+  })
 
-const father = new $.Circle(300, {
-  x: 100,
-  y: 200
+const father = new nc.Circle(300, {
+  x: 303,
+  y: 303,
+  style:{
+    border:true,
+    borderColor:nc.Color.BLACK,
+    borderWidth:3
+  }
 })
 
 // Add child Widget
 father.add(child)
 ```
+
+<DemoChild/>
 
 在本例中， `child` 的坐标 `（200， 300）` 不是相对于画布的左上角，而是基于其父组件的相对位置。
 

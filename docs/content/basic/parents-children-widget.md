@@ -2,24 +2,38 @@
 title: Parent-Child Widgets
 ---
 
-# Parent-Child Widgets
+<script setup lang="ts">
+import { default as DemoChild } from './demos/parent-child-widgets/parents-widget.vue'
+</script>
 
 In `newcar`, objects can be nested using the `children` property. Here's how to add them:
 
 ```javascript
-const child = new $.Circle(200, {
-  x: 200,
-  y: 300
-})
+const child = new nc.Circle(100, {
+  x: 103,
+  y: 103,
+  style:{
+    border:true,
+    borderColor:nc.Color.BLACK,
+    borderWidth:3
+  }
+  })
 
-const father = new $.Circle(300, {
-  x: 100,
-  y: 200
+const father = new nc.Circle(300, {
+  x: 303,
+  y: 303,
+  style:{
+    border:true,
+    borderColor:nc.Color.BLACK,
+    borderWidth:3
+  }
 })
 
 // Add child Widget
 father.add(child)
 ```
+
+<DemoChild/>
 
 In this case, the coordinates `(200, 300)` of `child` are not relative to the top-left corner of the canvas, but rather to the position of its parent component.
 
