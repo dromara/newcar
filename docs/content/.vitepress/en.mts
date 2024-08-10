@@ -106,8 +106,8 @@ export const enConfig = defineConfig({
               link: '/basic/preload',
             },
             {
-              text: 'Event System',
-              link: '/basic/event-system',
+              text: 'Interaction System',
+              link: '/basic/interaction-system',
             },
             {
               text: 'Recorder',

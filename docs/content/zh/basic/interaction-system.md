@@ -1,35 +1,41 @@
 ---
-title: Interaction System
+title: 交互系统
 ---
 
-# Interaction System
+<script setup lang="ts">
+import { default as DemoClick } from '../../basic/demos/interaction-system/click.vue'
+</script>
 
-Have you ever thought about adding some more dynamic content to your Newcar animations?
-Like clicking a square to switch to the next scene, or having a shape enlarged when you hover the mouse over it?
-The interaction system can make all your fantasies about this come true.
+# 交互系统
 
-In version `1.0.0-alpha.0`, we officially released the interaction system.
-You can use it to make your animations feel like Flash.
+有没有想过在你的Newcar动画中添加一些更多的动态内容？
+例如单击一个正方形以切换到下一个场景，或者当您将鼠标悬停在组件上面时将其放大？
+交互系统可以使您做到这一切。
 
-Here is a simple example:
-When you click on this square, `Clicked!` will be printed in the console:
+在 `1.0.0-alpha.0` 版本中，我们正式发布了交互系统。
+使用它来您可以使您的动画更像 Flash。
+
+下面是一个简单的例子：
+当您单击方块时，将会显示弹窗，并且控制台中将打印出 `Clicked!!`
 
 ```typescript
 import * as nc from 'newcar'
 
-const root = new nc.Rect([0, 0], [100, 100])
+const root = new nc.Rect(100, 100,{x:100})
   .on(nc.click, (widget, x, y) => {
     console.log('Clicked!')
+    alert("Clicked!");
   })
 
 const scene = new nc.Scene(root)
 ```
+<DemoClick/>
 
-Try opening the console and clicking on it; you will see `Clicked!` printed in the console.
+尝试去打开控制台， 并且点击它吧！
 
-## Built-in Events
+## 内置事件
 
-In addition, Newcar has many different built-in events for you to choose from, such as:
+此外，Newcar 还有许多不同的内置事件供您选择，例如：
 
 - [`click`](https://apis.newcarjs.org/variables/_newcar_basic.click)
 - [`drag`](https://apis.newcarjs.org/variables/_newcar_basic.drag)
@@ -50,10 +56,10 @@ In addition, Newcar has many different built-in events for you to choose from, s
 - [`mouseUp`](https://apis.newcarjs.org/variables/_newcar_basic.mouseup)
 - ……more events are still in development. You can also customize events according to the methods in [Common Events](../dev/common-event). PRs are welcome!
 
-## Widget Events
+## Widget 事件
 
-In Newcar, some complex widgets may trigger their own custom events.
-You can also use the `on` method to listen for these events by passing in the event name string, such as:
+在 Newcar 中，一些复杂的小部件可能会触发它们自己的自定义事件。
+您可以使用 `on` 方法通过传入事件名称来侦听这些事件，例如：
 
 ```typescript
 import * as nc from 'newcar'

@@ -107,7 +107,7 @@ export const zhConfig = defineConfig({
             },
             {
               text: '交互系统',
-              link: '/zh/basic/event-system',
+              link: '/zh/basic/interaction-system',
             },
             {
               text: '录制器',
