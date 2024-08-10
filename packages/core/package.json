@@ -1,7 +1,7 @@
 {
   "name": "@newcar/core",
   "type": "module",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.5",
   "description": "The core of newcar.",
   "author": "BugDuck Team",
   "license": "Apache-2.0",

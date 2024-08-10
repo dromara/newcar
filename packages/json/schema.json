@@ -18,9 +18,25 @@
           "items": {
             "$ref": "#/properties/root"
           }
+        },
+        "animations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "parameters": {
+                "type": "object"
+              }
+            }
+          }
         }
       }
     }
   },
-  "required": ["root"]
+  "required": [
+    "root"
+  ]
 }

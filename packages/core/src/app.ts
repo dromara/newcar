@@ -16,7 +16,7 @@ export class App {
   audioContext: AudioContext = new AudioContext()
   reactiveFramePerSecond: number
   private playing = false
-  private lastFrameTime = performance.now()
+  private lastFrameTime: number
   /**
    * The App config.
    */
@@ -150,6 +150,7 @@ export class App {
         `[Newcar Warn] Current scene is undefined, please checkout a usable scene.`,
       )
     }
+    this.lastFrameTime = performance.now()
     this.scene.startTime = performance.now()
     this.scene.elapsed ??= frame
     this.playing = true

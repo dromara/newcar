@@ -9,28 +9,34 @@ await useFont('./default.ttf')
 export default importScene(
   
   `{
-  "$schema": "../schema.json",
   "root": {
     "type": "Circle",
-    "arguments": [100],
+    "arguments": [150],
     "options": {
       "style": {
-        "fill": false,
-        "border": true
+        "border": true,
+        "fill": false
       },
-      "x": 100,
-      "y": 100
+      "x": 800,
+      "y": 450
     },
     "animations": [
       {
-        "type": "create",
+        "type": "stroke",
         "parameters": {
-          "duration": 1
+          "duration": 4
+        }
+      },
+      {
+        "type": "destroy",
+        "parameters": {
+          "duration": 2
         }
       }
     ]
   }
-}`,
+}
+`,
   nc as any,
   nc as any,
 )
