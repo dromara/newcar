@@ -14,8 +14,13 @@ const app = create_app()
 
 onMounted(async () => {
   const root = new nc.Circle(100, {
-    x: 100,
-    y: 100
+    x: 103,
+    y: 103,
+    style:{
+      border:true,
+      borderColor:nc.Color.BLACK,
+      borderWidth:3
+    }
   })
     .animate(
       nc.parallel(
@@ -33,5 +38,5 @@ async function play() {
 
 <template>
   <button @click="play()">run</button>
-  <canvas ref="canvas" width="200" height="300"></canvas>
+  <canvas ref="canvas" width="208" height="208"></canvas>
 </template>

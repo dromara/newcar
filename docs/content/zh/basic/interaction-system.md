@@ -21,10 +21,15 @@ import { default as DemoClick } from '../../basic/demos/interaction-system/click
 ```typescript
 import * as nc from 'newcar'
 
-const root = new nc.Rect(100, 100,{x:100})
-  .on(nc.click, (widget, x, y) => {
-    console.log('Clicked!')
-    alert("Clicked!")
+const root = new nc.Rect(100, 100,
+  {
+    x:3,
+    y:3,
+    style:{
+      border:true,
+      borderColor:nc.Color.BLACK,
+      borderWidth:3
+    }
   })
 
 const scene = new nc.Scene(root)
@@ -64,7 +69,7 @@ const scene = new nc.Scene(root)
 ```typescript
 import * as nc from 'newcar'
 
-const root = new nc.ComplexWidget([0, 0], [100, 100])
+const root = new nc.ComplexWidget(......)
   .on('customEvent', (widget, x, y) => {
     console.log('Clicked!')
     alert("Clicked!")

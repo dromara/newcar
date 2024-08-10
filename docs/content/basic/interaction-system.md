@@ -21,10 +21,15 @@ When you click on this square, you will see a pop-up window will be displayed, `
 ```typescript
 import * as nc from 'newcar'
 
-const root = new nc.Rect(100, 100,{x:100})
-  .on(nc.click, (widget, x, y) => {
-    console.log('Clicked!')
-    alert("Clicked!");
+const root = new nc.Rect(100, 100,
+  {
+    x:3,
+    y:3,
+    style:{
+      border:true,
+      borderColor:nc.Color.BLACK,
+      borderWidth:3
+    }
   })
 
 const scene = new nc.Scene(root)
@@ -64,7 +69,7 @@ You can also use the `on` method to listen for these events by passing in the ev
 ```typescript
 import * as nc from 'newcar'
 
-const root = new nc.ComplexWidget([0, 0], [100, 100])
+const root = new nc.ComplexWidget(......)
   .on('customEvent', (widget, x, y) => {
     console.log('Clicked!')
     alert("Clicked!");
