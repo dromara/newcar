@@ -4,6 +4,7 @@ title: Property Animation
 
 <script setup lang="ts">
 import { default as DemoDiscolorate } from './demos/animation/discolorate.vue'
+import { default as DemoFadeIn} from './demos/animation/fadeIn.vue'
 </script>
 
 # Animation
@@ -67,6 +68,7 @@ new Circle(100)
     )
   )
 ```
+<DemoFadeIn/>
 
 ## change property
 

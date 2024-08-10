@@ -19,15 +19,18 @@ onMounted(async () => {
   })
     .animate(
       nc.parallel(
-        nc.create().withAttr({ duration: 1 }),
-        // nc.discolorate().withAttr({ duration: 1, to: nc.Color.fromName('skyblue') })
+        nc.sequence(
+          nc.create().withAttr({ duration: 0.5 }),
+          nc.fadeIn().withAttr({ duration: 0.5 })
+        ),
+        // nc.discolorate().withAttr({ duration: 1, to: nc.Color.parse('skyblue') })
       )
     )
   const scene = nc.createScene(root)
     ; (await app).checkout(scene)
 })
 async function play() {
-  (await app).play();
+  (await app).play()
 }
 </script>
 
