@@ -85,7 +85,7 @@ export function importWidget<T extends typeof Widget>(
     widgetData.animations.forEach((animation) => {
       widget.animate(anims[animation.type]().withAttr({
         ...animation.parameters,
-        by: easingFunctions[animation.parameters.easingFunctions as string],
+        by: easingFunctions[animation.parameters.by as string],
       }))
     })
   }
