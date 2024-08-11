@@ -35,7 +35,7 @@ father.add(child)
 
 <DemoChild/>
 
-In this case, the coordinates `(200, 300)` of `child` are not relative to the top-left corner of the canvas, but rather to the position of its parent component.
+In this case, the coordinates `(103, 103)` of `child` are not relative to the top-left corner of the canvas, but rather to the position of its parent component.
 
 :::tip
 In addition, parent-child components follow the principle of **"child follows parent, parent does not follow child"**. This means that when the parent component moves, the child component moves with it. When the child component moves, the parent component remains still.

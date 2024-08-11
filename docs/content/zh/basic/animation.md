@@ -2,6 +2,12 @@
 title: 属性动画
 ---
 
+<script setup lang="ts">
+import { default as DemoDiscolorate } from '../../basic/demos/animation/discolorate.vue'
+import { default as DemoFadeIn} from '../../basic/demos/animation/fadeIn.vue'
+</script>
+
+
 # 动画
 
 newcar 动画的基本原理是在每一帧中不断改变对象的属性。在快速入门中，您已经掌握了 newcar 动画的基本用法。现在让我们深入研究更多细节。
@@ -48,6 +54,7 @@ new Circle(100)
     )
   )
 ```
+<DemoDiscolorate/>
 
 如果您想插入逐步动画，可以使用 `sequence` 来制作。
 
@@ -63,6 +70,7 @@ new Circle(100)
     )
   )
 ```
+<DemoFadeIn/>
 
 ## 更改属性
 
