@@ -7,10 +7,11 @@ export function importScene<T extends typeof Widget>(
   sceneData: SceneFormat | string,
   widgets: Record<string, T>,
   anims: Record<string, () => any>,
+  easingFunctions: Record<string, (t: number) => number>,
 ) {
   if (typeof sceneData === 'string')
     sceneData = JSON.parse(sceneData) as SceneFormat
   return createScene(
-    importWidget(sceneData.root, widgets, anims),
+    importWidget(sceneData.root, widgets, anims, easingFunctions),
   )
 }
