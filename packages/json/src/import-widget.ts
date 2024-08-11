@@ -70,6 +70,7 @@ export function importWidget<T extends typeof Widget>(
   widgetData: WidgetFormat | string,
   widgets: Record<string, T>,
   anims: Record<string, () => any>,
+  easingFunctions: Record<string, (t: number) => number>,
 ) {
   if (typeof widgetData === 'string') {
     widgetData = JSON.parse(widgetData) as WidgetFormat
@@ -77,12 +78,15 @@ export function importWidget<T extends typeof Widget>(
   const widget = new widgets[widgetData.type](...processArguments(widgetData.arguments), processOptions(widgetData.options))
   if (widgetData.children) {
     widget.add(...widgetData.children.map((child) => {
-      return importWidget(child, widgets, anims)
+      return importWidget(child, widgets, anims, easingFunctions)
     }))
   }
   if (widgetData.animations) {
     widgetData.animations.forEach((animation) => {
-      widget.animate(anims[animation.type]().withAttr(animation.parameters))
+      widget.animate(anims[animation.type]().withAttr({
+        ...animation.parameters,
+        by: easingFunctions[animation.parameters.easingFunctions as string],
+      }))
     })
   }
   if (widgetData.actions) {
