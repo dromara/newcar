@@ -75,7 +75,7 @@ export function importWidget<T extends typeof Widget>(
   if (typeof widgetData === 'string') {
     widgetData = JSON.parse(widgetData) as WidgetFormat
   }
-  const widget = new widgets[widgetData.type](...processArguments(widgetData.arguments), processOptions(widgetData.options))
+  const widget = new widgets[widgetData.type](...processArguments(widgetData.arguments ?? []), processOptions(widgetData.options))
   if (widgetData.children) {
     widget.add(...widgetData.children.map((child) => {
       return importWidget(child, widgets, anims, easingFunctions)
