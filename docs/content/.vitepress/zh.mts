@@ -66,10 +66,10 @@ export const zhConfig = defineConfig({
     ],
     sidebar: {
       '/': [
-        {
-          text: '示例动画',
-          link: '/zh/examples',
-        },
+        // {
+        //   text: '示例动画',
+        //   link: '/zh/examples',
+        // },
         {
           text: '基础',
           items: [

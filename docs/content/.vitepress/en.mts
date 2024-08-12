@@ -66,10 +66,10 @@ export const enConfig = defineConfig({
     ],
     sidebar: {
       '/': [
-        {
-          text: 'Examples',
-          link: '/examples',
-        },
+        // {
+        //   text: 'Examples',
+        //   link: '/examples',
+        // },
         {
           text: 'Basic',
           items: [
