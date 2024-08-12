@@ -4,7 +4,7 @@ import type { WidgetFormat } from './format'
 import { processAction } from './process-action'
 import { processResource } from './process-resource'
 
-export function processColor(color: string | Array<number>) {
+export function processItem(color: string | Array<number>) {
   if (Array.isArray(color)) {
     return Color.rgba(color[0], color[1], color[2], color[3] ?? 1)
   }
@@ -13,6 +13,10 @@ export function processColor(color: string | Array<number>) {
   }
   else if (isString(color) && /shader\(.+\)/.test(color)) {
     return Shader.createColorShader(Color.WHITE)
+  }
+  else if (isString(color) && /fn\(.+\)/.test(color)) {
+    // eslint-disable-next-line no-new-func
+    return Function(`return ${color.replace(/fn\(/, '').replace(/\)$/, '')}`)()
   }
   else {
     return color
@@ -24,7 +28,7 @@ export function processOptions(options: WidgetOptions) {
     if (typeof (options as Record<string, any>)[key] === 'object')
       (options as Record<string, any>)[key] = processOptions((options as Record<string, any>)[key])
     const result1 = processResource((options as Record<string, any>)[key])
-    const result2 = processColor((options as Record<string, any>)[key])
+    const result2 = processItem((options as Record<string, any>)[key])
     if (isString(result2)) {
       if (isString(result1)) {
         (options as Record<string, any>)[key] = (options as Record<string, any>)[key]
@@ -45,7 +49,7 @@ export function processArguments(args: unknown[]) {
   for (const arg of args) {
     if (isString(arg)) {
       const result1 = processResource(arg as string)
-      const result2 = processColor(arg as string)
+      const result2 = processItem(arg as string)
       if (isString(result1)) {
         if (isString(result2)) {
           result.push(arg)
@@ -84,7 +88,7 @@ export function importWidget<T extends typeof Widget>(
   if (widgetData.animations) {
     widgetData.animations.forEach((animation) => {
       widget.animate(anims[animation.type]().withAttr({
-        ...animation.parameters,
+        ...processOptions(animation.parameters),
         by: easingFunctions[animation.parameters.by as string],
       }))
     })
