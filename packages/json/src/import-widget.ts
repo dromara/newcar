@@ -8,10 +8,10 @@ export function processColor(color: string | Array<number>) {
   if (Array.isArray(color)) {
     return Color.rgba(color[0], color[1], color[2], color[3] ?? 1)
   }
-  else if (isString(color) && /color\(.+\)/) {
+  else if (isString(color) && /color\(.+\)/.test(color)) {
     return Color.parse(color.replace(/color\(/, '').replace(/\)$/, ''))
   }
-  else if (isString(color) && /shader\(.+\)/) {
+  else if (isString(color) && /shader\(.+\)/.test(color)) {
     return Shader.createColorShader(Color.WHITE)
   }
   else {
