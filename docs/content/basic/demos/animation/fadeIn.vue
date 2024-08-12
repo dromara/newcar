@@ -36,6 +36,25 @@ onMounted(async () => {
 </script>
 
 <template>
-  <button class=button @click="play">run</button>
+  <button class="button" @click="play">run</button>
   <canvas ref="canvas" width="208" height="208"></canvas>
 </template>
+
+<style scoped>
+.button {
+  color: #ecf0f1;
+  font-size: 17px;
+  background-color: #e67e22;
+  border: 1px solid #f39c12;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0px 6px 0px #d35400;
+  transition: all 0.1s;
+}
+
+.button:active {
+  box-shadow: 0px 2px 0px #d35400;
+  position: relative;
+  top: 2px;
+}
+</style>
