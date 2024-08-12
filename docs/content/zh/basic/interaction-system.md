@@ -59,7 +59,7 @@ const scene = new nc.Scene(root)
 - [`mouseOut`](https://apis.newcarjs.org/variables/_newcar_basic.mouseout)
 - [`mouseOver`](https://apis.newcarjs.org/variables/_newcar_basic.mouseover)
 - [`mouseUp`](https://apis.newcarjs.org/variables/_newcar_basic.mouseup)
-- ……more events are still in development. You can also customize events according to the methods in [Common Events](../dev/common-event). PRs are welcome!
+- ……more events are still in development. You can also customize events according to the methods in Common Events. PRs are welcome!
 
 ## Widget 事件
 

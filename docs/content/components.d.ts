@@ -7,9 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Demo1: typeof import('./.vitepress/theme/components/Demo1.vue')['default']
-    Demo2: typeof import('./.vitepress/theme/components/Demo2.vue')['default']
-    Demo3: typeof import('./.vitepress/theme/components/Demo3.vue')['default']
     Status: typeof import('./.vitepress/theme/components/Status.vue')['default']
   }
 }
