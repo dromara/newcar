@@ -5,7 +5,7 @@ export interface WidgetFormat {
   arguments: unknown[]
   options: WidgetOptions
   children: WidgetFormat[]
-  animations: AnimFormat[]
+  animations: AnimFormat[] | AnimFormat[][]
   actions: ActionFormat[]
 }
 

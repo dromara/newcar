@@ -1,6 +1,7 @@
 import type { Widget, WidgetOptions } from '@newcar/core'
+import { parallel } from '@newcar/core'
 import { Color, Shader, isString } from '@newcar/utils'
-import type { WidgetFormat } from './format'
+import type { AnimFormat, WidgetFormat } from './format'
 import { processAction } from './process-action'
 import { processResource } from './process-resource'
 
@@ -87,9 +88,19 @@ export function importWidget<T extends typeof Widget>(
   }
   if (widgetData.animations) {
     widgetData.animations.forEach((animation) => {
-      widget.animate(anims[animation.type]().withAttr({
-        ...processOptions(animation.parameters),
-        by: easingFunctions[animation.parameters.by as string],
+      if (Array.isArray(animation)) {
+        widget.animate(
+          parallel(...animation.map((ani) => {
+            return anims[ani.type]().withAttr({
+              ...processOptions(ani.parameters),
+              by: easingFunctions[ani.parameters.by as string],
+            })
+          })),
+        )
+      }
+      widget.animate(anims[(animation as AnimFormat).type]().withAttr({
+        ...processOptions((animation as AnimFormat).parameters),
+        by: easingFunctions[(animation as AnimFormat).parameters.by as string],
       }))
     })
   }
