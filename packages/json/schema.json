@@ -29,6 +29,12 @@
               },
               "parameters": {
                 "type": "object"
+              },
+              "custom": {
+                "type": "string"
+              },
+              "target": {
+                "type": "string"
               }
             }
           }
