@@ -22,7 +22,7 @@
         "animations": {
           "type": "array",
           "items": {
-            "type": "object",
+            "type": ["object", "array"],
             "properties": {
               "type": {
                 "type": "string"
