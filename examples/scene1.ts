@@ -29,8 +29,11 @@ export default importScene(
         }
       },
       {
-        "type": "destroy",
+        "custom": "change-property",
+        "target": "radius",
         "parameters": {
+          "from": 1,
+          "to": 100,
           "duration": 2
         }
       }
@@ -38,6 +41,7 @@ export default importScene(
   }
 }
 `,
+  nc as any,
   nc as any,
   nc as any,
 )

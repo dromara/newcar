@@ -30,6 +30,7 @@
     "canvaskit-wasm": ">=0.39.1"
   },
   "dependencies": {
+    "@newcar/basic": "workspace:*",
     "@newcar/core": "workspace:*",
     "@newcar/utils": "workspace:*",
     "mitt": "^3.0.1"

@@ -16,6 +16,8 @@ export interface SceneFormat {
 export interface AnimFormat {
   type: string
   parameters: Record<string, unknown>
+  custom?: 'change-property'
+  target?: string
 }
 
 export interface ActionFormat {

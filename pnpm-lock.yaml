@@ -364,6 +364,9 @@ importers:
 
   packages/json:
     dependencies:
+      '@newcar/basic':
+        specifier: workspace:*
+        version: link:../basic
       '@newcar/core':
         specifier: workspace:*
         version: link:../core
