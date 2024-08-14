@@ -3,6 +3,7 @@ import TextEditor from "@newcar/mod-text-editor"
 import { Table } from "@newcar/mod-table";
 import {importScene} from "newcar";
 import * as nc from 'newcar'
+import * as mt from '@newcar/mod-math'
 
 await useFont('./default.ttf')
 
@@ -10,38 +11,16 @@ export default importScene(
 
   `{
   "root": {
-    "type": "Circle",
-    "arguments": [150],
+    "type": "MathFunction",
+    "arguments": ["fn((x) => Math.sin(x))", [-2, 2]],
     "options": {
-      "style": {
-        "border": true,
-        "fill": false,
-        "borderColor": [144, 144, 144, 1]
-      },
-      "x": 800,
-      "y": 450
-    },
-    "animations": [
-      {
-        "type": "stroke",
-        "parameters": {
-          "duration": 4
-        }
-      },
-      {
-        "custom": "change-property",
-        "target": "radius",
-        "parameters": {
-          "from": 1,
-          "to": 100,
-          "duration": 2
-        }
-      }
-    ]
+      "x": "calc(200)",
+      "y": 100
+    }
   }
 }
 `,
-  nc as any,
+  {...(nc as any), ...mt},
   nc as any,
   nc as any,
 )

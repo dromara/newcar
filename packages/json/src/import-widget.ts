@@ -1,10 +1,9 @@
 import type { Widget, WidgetOptions } from '@newcar/core'
-import { changeProperty, parallel } from '@newcar/core'
+import { changeProperty, parallel, useFont, useImage } from '@newcar/core'
 import { Color, Shader, isString } from '@newcar/utils'
 import { linear } from '@newcar/basic'
 import type { WidgetFormat } from './format'
 import { processAction } from './process-action'
-import { processResource } from './process-resource'
 
 export function processItem(color: string | Array<number>) {
   if (Array.isArray(color)) {
@@ -20,6 +19,16 @@ export function processItem(color: string | Array<number>) {
     // eslint-disable-next-line no-new-func
     return Function(`return ${color.replace(/fn\(/, '').replace(/\)$/, '')}`)()
   }
+  else if (isString(color) && /image\(.+\)/.test(color)) {
+    return useImage(color.replace(/image\(/, '').replace(/\)$/, ''))
+  }
+  else if (isString(color) && /font\(.+\)/.test(color)) {
+    return useFont(color.replace(/font\(/, '').replace(/\)$/, ''))
+  }
+  else if (isString(color) && /calc\(.+\)/.test(color)) {
+    // eslint-disable-next-line no-new-func
+    return Function(`return ${color.replace(/calc\(/, '').replace(/\)$/, '')}`)()
+  }
   else {
     return color
   }
@@ -27,21 +36,10 @@ export function processItem(color: string | Array<number>) {
 
 export function processOptions(options: WidgetOptions) {
   for (const key in options) {
-    if (typeof (options as Record<string, any>)[key] === 'object')
+    if (typeof (options as Record<string, any>)[key] === 'object') {
       (options as Record<string, any>)[key] = processOptions((options as Record<string, any>)[key])
-    const result1 = processResource((options as Record<string, any>)[key])
-    const result2 = processItem((options as Record<string, any>)[key])
-    if (isString(result2)) {
-      if (isString(result1)) {
-        (options as Record<string, any>)[key] = (options as Record<string, any>)[key]
-      }
-      else {
-        (options as Record<string, any>)[key] = result1
-      }
     }
-    else {
-      (options as Record<string, any>)[key] = result2
-    }
+    (options as Record<string, any>)[key] = processItem((options as Record<string, any>)[key])
   }
   return options
 }
@@ -50,19 +48,7 @@ export function processArguments(args: unknown[]) {
   const result = []
   for (const arg of args) {
     if (isString(arg)) {
-      const result1 = processResource(arg as string)
-      const result2 = processItem(arg as string)
-      if (isString(result1)) {
-        if (isString(result2)) {
-          result.push(arg)
-        }
-        else {
-          result.push(result2)
-        }
-      }
-      else {
-        result.push(result1)
-      }
+      result.push(processItem(arg as string))
     }
     else {
       result.push(arg)
