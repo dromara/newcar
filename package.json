@@ -23,7 +23,7 @@
     "api:generate": "pnpm typedoc",
     "dep": "taze -r",
     "dep:write": "taze -rw",
-    "prepare": "simple-git-hooks"
+    "prepare": "husky && husky install"
   },
   "dependencies": {
     "tsup": "^8.1.0"
@@ -33,6 +33,7 @@
     "@changesets/cli": "^2.27.1",
     "@types/node": "^20.12.9",
     "eslint": "^9.2.0",
+    "husky": "^8.0.0",
     "lint-staged": "^15.2.2",
     "pnpm": "^9.1.0",
     "rimraf": "^3.0.2",
