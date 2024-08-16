@@ -1,1 +1,1 @@
-npm
+pnpm exec lint-staged
