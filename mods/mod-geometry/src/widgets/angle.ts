@@ -4,6 +4,7 @@ import type { Shader } from '@newcar/utils'
 import { Color } from '@newcar/utils'
 import type { FigureOptions, FigureStyle } from '@newcar/basic'
 import { Arc, Line, Text } from '@newcar/basic'
+import type { Canvas } from 'canvaskit-wasm'
 
 export interface AngleOptions extends FigureOptions {
   style?: AngleStyle
@@ -153,5 +154,12 @@ export class Angle extends Widget {
     const midY = centerY + radius * Math.sin(midRad)
 
     return { x: midX, y: midY }
+  }
+
+  draw(canvas: Canvas): void {
+    canvas.save()
+    canvas.scale(1, -1)
+    super.draw(canvas)
+    canvas.restore()
   }
 }

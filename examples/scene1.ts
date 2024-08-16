@@ -11,12 +11,26 @@ export default importScene(
 
   `{
   "root": {
-    "type": "MathFunction",
-    "arguments": ["fn((x) => Math.sin(x))", [-2, 2]],
-    "options": {
-      "x": "calc(200)",
-      "y": 100
-    }
+    "type": "Widget",
+    "children": [
+      {
+        "type": "MathFunction",
+        "arguments": [
+          "fn((x) => Math.sin(x))",
+          [-3.14, 3.14]
+        ],
+        "options": {
+          "style": {
+            "color": [255, 0, 0, 1]
+          },
+          "lineWidth": 2,
+          "divisionY": 200,
+          "divisionX": 400,
+          "x": 100,
+          "y": 200
+        }
+      }
+    ]
   }
 }
 `,
