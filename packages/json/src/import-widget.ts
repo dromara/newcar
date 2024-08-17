@@ -42,6 +42,7 @@ export function processItem(
     // eslint-disable-next-line no-new-func
     return Function(`return ${(item as string).replace(/calc\(/, '').replace(/\)$/, '')}`)()
   }
+  return item
 }
 
 export function processOptions(
