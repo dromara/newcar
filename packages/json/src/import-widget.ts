@@ -16,8 +16,11 @@ export function processItem(
       return importWidget(item as WidgetFormat, widgets, anims, easingFunctions)
     }
   }
-  if (Array.isArray(item)) {
+  if (Array.isArray(item) && item.length === 4) {
     return Color.rgba(item[0], item[1], item[2], item[3] ?? 1)
+  }
+  else if (!isString(item)) {
+    return item
   }
   else if (isString(item as string) && /color\(.+\)/.test(item as string)) {
     return Color.parse((item as string).replace(/color\(/, '').replace(/\)$/, ''))
@@ -38,9 +41,6 @@ export function processItem(
   else if (isString(item as string) && /calc\(.+\)/.test(item as string)) {
     // eslint-disable-next-line no-new-func
     return Function(`return ${(item as string).replace(/calc\(/, '').replace(/\)$/, '')}`)()
-  }
-  else {
-    return item
   }
 }
 
@@ -88,12 +88,7 @@ export function importWidget<T extends typeof Widget>(
     widgetData = JSON.parse(widgetData) as WidgetFormat
   }
   const widget = new widgets[widgetData.type](...processArguments(widgetData.arguments ?? [], widgets, anims, easingFunctions), processOptions(widgetData.options, widgets, anims, easingFunctions))
-  if (widgetData.children) {
-    widget.add(...widgetData.children.map((child) => {
-      return importWidget(child, widgets, anims, easingFunctions)
-    }))
-  }
-  if (widgetData.animations) {
+  if (Array.isArray(widgetData.animations)) {
     widgetData.animations.forEach((animation) => {
       if (Array.isArray(animation)) {
         widget.animate(
@@ -114,7 +109,7 @@ export function importWidget<T extends typeof Widget>(
         )
       }
       else {
-        if (animation.custom) {
+        if (typeof animation.custom === 'string') {
           if (animation.custom === 'change-property') {
             widget.animate(changeProperty(() => (widget as Record<string, any>)[animation.target])
               .withAttr({
@@ -144,6 +139,12 @@ export function importWidget<T extends typeof Widget>(
         }
       })
     })
+  }
+
+  if (widgetData.children) {
+    widget.add(...widgetData.children.map((child) => {
+      return importWidget(child, widgets, anims, easingFunctions)
+    }))
   }
 
   return widget

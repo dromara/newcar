@@ -7,28 +7,47 @@ import * as mt from '@newcar/mod-math'
 
 await useFont('./default.ttf')
 
-export default importScene(
+const scene = importScene(
 
-  `{
+  `
+ {
   "root": {
     "type": "Widget",
+    "arguments": [],
     "children": [
       {
-        "type": "MathFunction",
-        "arguments": [
-          "fn((x) => Math.sin(x))",
-          [-3.14, 3.14]
-        ],
+        "type": "Rect",
+        "arguments": [400, 400],
         "options": {
           "style": {
-            "color": [255, 0, 0, 1]
+            "border": true,
+            "fill": false,
+            "borderColor": [255, 255, 255, 1]
           },
-          "lineWidth": 2,
-          "divisionY": 200,
-          "divisionX": 400,
-          "x": 100,
-          "y": 200
+          "x": 300,
+          "y": 150
         }
+      },
+      {
+        "type": "Circle",
+        "arguments": [10],
+        "options": {
+          "style": {
+            "fill": true,
+            "fillColor": [255, 255, 255, 1]
+          },
+          "x": 300,
+          "y": 150
+        },
+        "animations": [
+          {
+            "type": "move",
+            "parameters": {
+              "duration": 1,
+              "to": [400, 400]
+            }
+          }
+        ]
       }
     ]
   }
@@ -38,6 +57,10 @@ export default importScene(
   nc as any,
   nc as any,
 )
+
+console.log(scene)
+
+export default scene
 //
 // export default createScene(
 //   new Circle(100, {
