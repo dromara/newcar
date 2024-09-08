@@ -17,6 +17,10 @@
 
 ---
 
+## Announcement
+
+Newcar has been stopped of the maintain, please refer to our new product [VueMotion](https://github.com/Bug-Duck/vuemotion). Thanks for everyone who walk with BugDuck Open Source Team to there. Thanks!
+
 ## Examples Preview
 
 <table>
